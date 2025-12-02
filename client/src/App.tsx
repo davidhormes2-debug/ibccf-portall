@@ -4,12 +4,13 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
-import LetterPage from "@/pages/LetterPage";
+import SecurePortal from "@/pages/SecurePortal";
 
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={LetterPage} />
+      {/* Changed default route to the new Secure Portal */}
+      <Route path="/" component={SecurePortal} />
       <Route component={NotFound} />
     </Switch>
   );
