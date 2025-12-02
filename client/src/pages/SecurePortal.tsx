@@ -137,17 +137,24 @@ export default function SecurePortal() {
               <div className="mb-6 pb-6 border-b border-slate-100">
                  <h2 className="text-lg font-bold text-primary font-serif mb-1">INTERNATIONAL BLOCKCHAIN COMMUNITY (IBC)</h2>
                  <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Account Integrity & Security Operations Division (ISO-D)</p>
+                 <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Global Compliance Secretariat</p>
               </div>
 
-              <div className="prose prose-slate text-slate-700 max-w-none">
-                <p className="font-bold text-lg text-slate-900 font-serif mb-4">Dear Luzmila Chavez,</p>
+              <div className="prose prose-slate text-slate-700 max-w-none text-sm leading-relaxed">
+                <p className="font-bold text-base text-slate-900 font-serif mb-4">Dear Luzmila Chavez,</p>
                 
-                <p className="mb-4 leading-relaxed">
+                <p className="mb-4">
                   We acknowledge the successful completion of your re-authentication procedure. In accordance with IBC cross-border withdrawal regulations and AML/CTF operational standards, please review the finalised withdrawal options and the required Phrase Key structure necessary to activate your withdrawal schedule.
                 </p>
+
+                <div className="bg-slate-50 p-4 rounded border border-slate-100 my-6">
+                  <p className="font-bold text-xs uppercase text-slate-500 mb-2">Compliance Clearance Reference</p>
+                  <p className="font-mono font-bold text-primary text-base">IBC-AML-CC-774982</p>
+                  <p className="text-xs text-slate-500 mt-1">Your account will be fully cleared once the required Phrase Keys are activated.</p>
+                </div>
                 
-                <p className="mb-4 leading-relaxed">
-                  This communication is issued by the International Blockchain Community (IBC) under the authority of the Account Integrity & Security Operations Division (ISO-D). All information is confidential and intended solely for the verified account holder.
+                <p className="mb-4">
+                  <strong>NEXT ACTION REQUIRED:</strong> Please confirm your preferred withdrawal option below. Once your choice and the required deposit are received, we will immediately issue your Phrase Keys and finalise your release authorisation.
                 </p>
               </div>
             </div>
@@ -307,8 +314,13 @@ export default function SecurePortal() {
                 <p className="font-bold text-slate-700">International Blockchain Community (IBC)</p>
                 <p>Account Integrity & Security Operations Division (ISO-D)</p>
                 <p>
+                  This communication is issued by the IBC. All information is confidential and intended solely for the verified account holder.
+                </p>
+                <p>
                   Unauthorised sharing is prohibited under the International Digital Assets Law (IDC-47/2023).
                 </p>
+                <p className="mt-2 opacity-70">IBC adheres to AML/CTF guidelines, FATF standards, and international digital-asset compliance regulations.</p>
+                <p className="font-mono opacity-70">Verification Reference: IBC-AML-CC-774982</p>
               </div>
               <div className="flex gap-6 grayscale opacity-50">
                 <div className="flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider">
