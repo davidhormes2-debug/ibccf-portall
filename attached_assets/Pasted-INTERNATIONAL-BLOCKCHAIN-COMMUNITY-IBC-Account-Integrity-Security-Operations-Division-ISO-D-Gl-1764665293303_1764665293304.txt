@@ -1,0 +1,67 @@
+INTERNATIONAL BLOCKCHAIN COMMUNITY (IBC)
+Account Integrity & Security Operations Division (ISO-D)
+Global Compliance Secretariat
+
+Dear Luzmila Chavez,
+
+We acknowledge the successful completion of your re-authentication procedure. In accordance with IBC cross-border withdrawal regulations and AML/CTF operational standards, please review the finalised withdrawal options and the required Phrase Key structure necessary to activate your withdrawal schedule.
+
+WITHDRAWAL OPTIONS & EXECUTION SCHEDULE
+
+Option A – Accelerated Release Protocol
+• Scheduled withdrawal: 50,000 USDT every 12 hours
+• Total withdrawals: 10
+• Phrase Keys required: 1 per withdrawal
+• Cost per key: 260.996 USDT
+• Total Phrase Key Requirement: 2,609.96 USDT
+This option is recommended for users who require fast and uninterrupted clearance.
+
+Option B – Standard Release Protocol
+• Scheduled withdrawal: 25,000 USDT every 12 hours
+• Total withdrawals: 20
+• Phrase Keys required: 1 per withdrawal
+• Cost per key: 521.993 USDT
+• Total Phrase Key Requirement: 5,219.92 USDT
+This option is ideal for users who prefer smaller release amounts.
+
+SUMMARY TABLE
+
+Option A – 50,000 USDT every 12 hours
+• Keys Required: 10
+• Cost per Key: 260.996 USDT
+• Total Cost: 2,609.96 USDT
+
+Option B – 25,000 USDT every 12 hours
+• Keys Required: 20
+• Cost per Key: 521.993 USDT
+• Total Cost: 5,219.92 USDT
+
+MANDATORY PHRASE KEY REQUIREMENTS
+
+Phrase Keys are required to:
+• Authenticate each high-value withdrawal
+• Ensure uninterrupted cross-border access
+• Maintain AML/CTF compliance
+• Allow approval through the IBC Global Monitoring Network
+
+Withdrawals initiated without updated Phrase Keys may trigger a 48–96 hour AML review.
+
+Compliance Clearance Reference: IBC-AML-CC-774982
+Your account will be fully cleared once the required Phrase Keys are activated.
+
+NEXT ACTION REQUIRED
+
+Please confirm your preferred withdrawal option:
+
+• Option A – 50,000 USDT every 12 hours
+or
+• Option B – 25,000 USDT every 12 hours
+
+Once your choice and the required deposit are received, we will immediately issue your Phrase Keys and finalise your release authorisation.
+
+This communication is issued by the International Blockchain Community (IBC) under the authority of the Account Integrity & Security Operations Division (ISO-D).
+All information is confidential and intended solely for the verified account holder.
+Unauthorised sharing is prohibited under the International Digital Assets Law (IDC-47/2023).
+
+IBC adheres to AML/CTF guidelines, FATF standards, and international digital-asset compliance regulations.
+Verification Reference: IBC-AML-CC-774982
