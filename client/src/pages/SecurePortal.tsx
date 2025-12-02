@@ -2,17 +2,44 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ShieldCheck, Lock, ArrowRight, CheckCircle2, AlertCircle, Globe, FileText, Activity } from "lucide-react";
-import { motion } from "framer-motion";
+import { Input } from "@/components/ui/input";
+import { ShieldCheck, Lock, ArrowRight, CheckCircle2, AlertCircle, Globe, FileText, Activity, Key } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 
 export default function SecurePortal() {
+  // Auth State
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessCode, setAccessCode] = useState("");
+  const [authError, setAuthError] = useState(false);
+
+  // Form State
   const [selectedOption, setSelectedOption] = useState<"A" | "B" | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { toast } = useToast();
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (accessCode === "774982") {
+      setIsAuthenticated(true);
+      setAuthError(false);
+      toast({
+        title: "Identity Verified",
+        description: "Secure session established with ISO-D Compliance Server.",
+        className: "bg-green-50 border-green-200 text-green-900",
+      });
+    } else {
+      setAuthError(true);
+      toast({
+        variant: "destructive",
+        title: "Access Denied",
+        description: "Invalid clearance code provided.",
+      });
+    }
+  };
 
   const handleSelect = (option: "A" | "B") => {
     setSelectedOption(option);
@@ -49,6 +76,68 @@ export default function SecurePortal() {
     });
   };
 
+  // ------------------------------------------------------------------
+  // LOGIN SCREEN
+  // ------------------------------------------------------------------
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-md w-full"
+        >
+          <div className="text-center mb-8">
+            <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain mx-auto mb-4 opacity-90" />
+            <h1 className="text-xl font-bold text-white tracking-wider">SECURE GATEWAY ACCESS</h1>
+            <p className="text-slate-400 text-xs uppercase tracking-widest mt-1">Account Integrity Division</p>
+          </div>
+
+          <Card className="bg-slate-950 border-slate-800 shadow-2xl">
+            <CardHeader>
+              <CardTitle className="text-white text-center flex items-center justify-center gap-2">
+                <Lock className="w-4 h-4 text-blue-500" /> Verification Required
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-slate-400 uppercase">Compliance Clearance Reference</label>
+                  <div className="relative">
+                    <Key className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                    <Input 
+                      type="password" 
+                      placeholder="Enter Access Code" 
+                      className={`pl-9 bg-slate-900 border-slate-800 text-white placeholder:text-slate-600 focus:ring-blue-500 focus:border-blue-500 ${authError ? 'border-red-500 ring-1 ring-red-500/50' : ''}`}
+                      value={accessCode}
+                      onChange={(e) => setAccessCode(e.target.value)}
+                    />
+                  </div>
+                  {authError && <p className="text-xs text-red-400 mt-1">Error: Invalid access code.</p>}
+                </div>
+                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  Verify Identity
+                </Button>
+              </form>
+            </CardContent>
+            <CardFooter className="border-t border-slate-800 pt-4 pb-6 flex justify-center">
+              <div className="flex items-center gap-2 text-[10px] text-slate-500 uppercase tracking-wider">
+                 <ShieldCheck className="w-3 h-3" /> 256-bit SSL Encrypted
+              </div>
+            </CardFooter>
+          </Card>
+
+          <p className="text-center text-slate-600 text-xs mt-8 max-w-xs mx-auto">
+            This system is for authorised use only. All access attempts are monitored and logged under international compliance regulations.
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ------------------------------------------------------------------
+  // SUCCESS SCREEN
+  // ------------------------------------------------------------------
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
@@ -96,6 +185,9 @@ export default function SecurePortal() {
     );
   }
 
+  // ------------------------------------------------------------------
+  // MAIN SECURE PORTAL
+  // ------------------------------------------------------------------
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
       {/* Top Navigation Bar */}
