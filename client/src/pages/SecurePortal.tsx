@@ -24,6 +24,20 @@ export default function SecurePortal() {
     
     // Simulate network request
     await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // SIMULATION: Save to localStorage for the Admin Demo
+    const newSubmission = {
+      id: `IBC-${Math.floor(Math.random() * 1000000)}`,
+      user: "Luzmila Chavez",
+      option: selectedOption,
+      amount: selectedOption === 'A' ? "50,000 USDT" : "25,000 USDT",
+      cost: selectedOption === 'A' ? "2,609.96 USDT" : "5,219.92 USDT",
+      timestamp: new Date().toISOString(),
+      status: "Pending Activation"
+    };
+    
+    const existing = JSON.parse(localStorage.getItem('ibc_submissions') || '[]');
+    localStorage.setItem('ibc_submissions', JSON.stringify([newSubmission, ...existing]));
     
     setIsSubmitting(false);
     setIsConfirming(false);
