@@ -628,8 +628,8 @@ export default function SecurePortal() {
 
   const letter = letterContent || {
     headline: "Withdrawal Protocol Selection",
-    introduction: `Dear ${currentCase?.userName || "Client"},\n\nWe acknowledge the successful completion of your re-authentication procedure.`,
-    bodyContent: `In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account ${adminData?.username}.`,
+    introduction: `We acknowledge the successful completion of your re-authentication procedure.`,
+    bodyContent: `In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account.`,
     footerNote: "NEXT ACTION REQUIRED: Please confirm your preferred withdrawal option below.",
     optionATitle: "Accelerated Release",
     optionADescription: "Full withdrawal amount processed in accelerated batches.",
@@ -702,7 +702,7 @@ export default function SecurePortal() {
               <div className="prose prose-slate text-slate-700 max-w-none text-sm leading-relaxed">
                 <p className="font-bold text-base text-slate-900 font-serif mb-4">Dear {currentCase?.userName || "Client"},</p>
                 {letter.introduction && (
-                  <p className="mb-4 whitespace-pre-line">{letter.introduction}</p>
+                  <p className="mb-4 whitespace-pre-line">{letter.introduction.replace(/^Dear\s+[^,]+,?\s*/i, '')}</p>
                 )}
                 {letter.bodyContent && (
                   <p className="mb-4 whitespace-pre-line">{letter.bodyContent}</p>
@@ -757,7 +757,7 @@ export default function SecurePortal() {
                       </div>
                     )}
                     <div className="flex justify-between text-sm py-2 bg-blue-50 px-3 rounded text-blue-900">
-                      <span className="font-semibold">Fileloco ID</span>
+                      <span className="font-semibold">Withdrawal ID</span>
                       <span className="font-bold">{letterContent?.optionAFilelocoId || adminData?.physilocal0}</span>
                     </div>
                   </div>
@@ -803,7 +803,7 @@ export default function SecurePortal() {
                       </div>
                     )}
                     <div className="flex justify-between text-sm py-2 bg-slate-100 px-3 rounded text-slate-900">
-                      <span className="font-semibold">Fileloco ID</span>
+                      <span className="font-semibold">Withdrawal ID</span>
                       <span className="font-bold">{letterContent?.optionBFilelocoId || adminData?.physilocal0}</span>
                     </div>
                   </div>

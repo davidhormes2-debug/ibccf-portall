@@ -1098,7 +1098,7 @@ export default function AdminDashboard() {
                     />
                   </div>
                   <div>
-                    <Label className="text-slate-400">Fileloco ID</Label>
+                    <Label className="text-slate-400">Withdrawal ID</Label>
                     <Input 
                       value={letterData.optionAFilelocoId || ""}
                       onChange={(e) => setLetterData({...letterData, optionAFilelocoId: e.target.value})}
@@ -1154,7 +1154,7 @@ export default function AdminDashboard() {
                     />
                   </div>
                   <div>
-                    <Label className="text-slate-400">Fileloco ID</Label>
+                    <Label className="text-slate-400">Withdrawal ID</Label>
                     <Input 
                       value={letterData.optionBFilelocoId || ""}
                       onChange={(e) => setLetterData({...letterData, optionBFilelocoId: e.target.value})}
