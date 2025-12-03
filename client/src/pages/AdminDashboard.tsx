@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -15,9 +15,10 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key } from "lucide-react";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 interface AdminData {
   vipStatus: string;
@@ -67,6 +68,11 @@ interface Submission {
 }
 
 export default function AdminDashboard() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  
   const [cases, setCases] = useState<Case[]>([]);
   const [allSubmissions, setAllSubmissions] = useState<Submission[]>([]);
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
@@ -96,6 +102,40 @@ export default function AdminDashboard() {
   
   const { toast } = useToast();
 
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoggingIn(true);
+    
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: loginUsername,
+          password: loginPassword
+        })
+      });
+
+      if (response.ok) {
+        setIsLoggedIn(true);
+        toast({ title: "Access Granted", description: "Admin session established." });
+      } else {
+        toast({ variant: "destructive", title: "Access Denied", description: "Invalid credentials." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Connection Error", description: "Unable to authenticate." });
+    }
+    
+    setIsLoggingIn(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setLoginUsername("");
+    setLoginPassword("");
+    toast({ title: "Logged Out", description: "Admin session ended." });
+  };
+
   const loadData = async () => {
     try {
       const [casesRes, submissionsRes] = await Promise.all([
@@ -118,10 +158,12 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    loadData();
-    const interval = setInterval(loadData, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    if (isLoggedIn) {
+      loadData();
+      const interval = setInterval(loadData, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [isLoggedIn]);
 
   const clearData = async () => {
     if(confirm("Clear all simulated records?")) {
@@ -157,7 +199,8 @@ export default function AdminDashboard() {
         loadData();
         toast({ title: "Case Created", description: `Access Code: ${newCase.accessCode}` });
       } else {
-        toast({ variant: "destructive", title: "Error", description: "Failed to create case." });
+        const errorData = await response.json();
+        toast({ variant: "destructive", title: "Error", description: errorData.error || "Failed to create case." });
       }
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to create case." });
@@ -269,6 +312,74 @@ export default function AdminDashboard() {
     return allSubmissions.filter(s => s.caseId === caseId).length;
   };
 
+  // LOGIN PAGE
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full">
+          <div className="text-center mb-8">
+            <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain mx-auto mb-4 opacity-90" data-testid="img-admin-logo" />
+            <h1 className="text-xl font-bold text-white tracking-wider">ADMIN CONTROL PANEL</h1>
+            <p className="text-slate-400 text-xs uppercase tracking-widest mt-1">ISO-D Compliance Management</p>
+          </div>
+          <Card className="bg-slate-950 border-slate-800 shadow-2xl">
+            <CardHeader>
+              <CardTitle className="text-white text-center flex items-center justify-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-amber-500" /> Administrator Access
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-slate-400 uppercase">Username</label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                    <Input 
+                      type="text" 
+                      placeholder="Enter admin username" 
+                      className="pl-9 bg-slate-900 border-slate-800 text-white placeholder:text-slate-600"
+                      value={loginUsername}
+                      onChange={(e) => setLoginUsername(e.target.value)}
+                      data-testid="input-admin-username"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-slate-400 uppercase">Password</label>
+                  <div className="relative">
+                    <Key className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                    <Input 
+                      type="password" 
+                      placeholder="Enter password" 
+                      className="pl-9 bg-slate-900 border-slate-800 text-white placeholder:text-slate-600"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      data-testid="input-admin-password"
+                    />
+                  </div>
+                </div>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+                  disabled={isLoggingIn}
+                  data-testid="button-admin-login"
+                >
+                  {isLoggingIn ? "Authenticating..." : "Access Control Panel"}
+                </Button>
+              </form>
+            </CardContent>
+            <CardFooter className="border-t border-slate-800 pt-4 pb-6 flex justify-center">
+              <div className="flex items-center gap-2 text-[10px] text-slate-500 uppercase tracking-wider">
+                 <Lock className="w-3 h-3" /> Restricted Access • ISO-D Level 1
+              </div>
+            </CardFooter>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ADMIN DASHBOARD
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans">
       <header className="bg-slate-950 border-b border-slate-800 px-6 py-4 flex justify-between items-center">
@@ -287,9 +398,15 @@ export default function AdminDashboard() {
             <p className="text-xs text-slate-400">Admin Session</p>
             <p className="text-sm font-bold text-white">Compliance Officer</p>
           </div>
-          <div className="h-8 w-8 bg-slate-800 rounded-full flex items-center justify-center border border-slate-700">
-            <Lock className="w-4 h-4 text-slate-400" />
-          </div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-slate-400 hover:text-white"
+            onClick={handleLogout}
+            data-testid="button-logout"
+          >
+            <LogOut className="w-4 h-4 mr-2" /> Logout
+          </Button>
         </div>
       </header>
 

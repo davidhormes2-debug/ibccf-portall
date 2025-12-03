@@ -18,11 +18,28 @@ export async function registerRoutes(
       const newCase = await storage.createCase(data);
       res.json(newCase);
     } catch (error) {
+      console.error('Create case error:', error);
       if (error instanceof z.ZodError) {
         res.status(400).json({ error: error.errors });
+      } else if ((error as any)?.code === '23505') {
+        res.status(400).json({ error: "Access code already exists" });
       } else {
         res.status(500).json({ error: "Failed to create case" });
       }
+    }
+  });
+
+  // Admin login
+  app.post("/api/admin/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      if (username === "Admin2025" && password === "Admin123456789") {
+        res.json({ success: true, message: "Login successful" });
+      } else {
+        res.status(401).json({ error: "Invalid credentials" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Login failed" });
     }
   });
 
