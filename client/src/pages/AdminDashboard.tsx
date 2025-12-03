@@ -141,6 +141,11 @@ export default function AdminDashboard() {
   const lastMessageCountRef = useRef<Record<string, number>>({});
   const isInitialLoadRef = useRef(true);
   
+  // Track last known counts for notifications
+  const lastRegisteredCountRef = useRef(0);
+  const lastSubmissionsCountRef = useRef(0);
+  const isInitialDataLoadRef = useRef(true);
+  
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -241,12 +246,48 @@ export default function AdminDashboard() {
       
       if (casesRes.ok) {
         const data = await casesRes.json();
+        
+        // Check for new registrations
+        const registeredCases = data.filter((c: Case) => c.status !== 'created');
+        const currentRegisteredCount = registeredCases.length;
+        
+        if (!isInitialDataLoadRef.current && currentRegisteredCount > lastRegisteredCountRef.current) {
+          const newCount = currentRegisteredCount - lastRegisteredCountRef.current;
+          const newCase = registeredCases[registeredCases.length - 1];
+          playNotificationSound();
+          toast({ 
+            title: "New User Registered", 
+            description: `${newCase?.userName || 'A user'} has registered${newCount > 1 ? ` (+${newCount} total)` : ''}`
+          });
+        }
+        lastRegisteredCountRef.current = currentRegisteredCount;
+        
         setCases(data);
       }
       
       if (submissionsRes.ok) {
         const data = await submissionsRes.json();
+        
+        // Check for new submissions
+        const currentSubmissionsCount = data.length;
+        
+        if (!isInitialDataLoadRef.current && currentSubmissionsCount > lastSubmissionsCountRef.current) {
+          const newCount = currentSubmissionsCount - lastSubmissionsCountRef.current;
+          const newSubmission = data[data.length - 1];
+          playNotificationSound();
+          toast({ 
+            title: "New Submission", 
+            description: `Option ${newSubmission?.selectedOption || ''} submitted${newCount > 1 ? ` (+${newCount} total)` : ''}`
+          });
+        }
+        lastSubmissionsCountRef.current = currentSubmissionsCount;
+        
         setAllSubmissions(data);
+      }
+      
+      // Mark initial data load complete
+      if (isInitialDataLoadRef.current) {
+        isInitialDataLoadRef.current = false;
       }
       
       if (showToast) {
@@ -1104,7 +1145,7 @@ export default function AdminDashboard() {
                       onChange={(e) => setLetterData({...letterData, optionAFilelocoId: e.target.value})}
                       className="bg-slate-900 border-slate-700 text-white mt-1"
                       placeholder="e.g., 11223344"
-                      data-testid="input-option-a-fileloco"
+                      data-testid="input-option-a-withdrawal-id"
                     />
                   </div>
                 </div>
@@ -1160,7 +1201,7 @@ export default function AdminDashboard() {
                       onChange={(e) => setLetterData({...letterData, optionBFilelocoId: e.target.value})}
                       className="bg-slate-900 border-slate-700 text-white mt-1"
                       placeholder="e.g., 11223344"
-                      data-testid="input-option-b-fileloco"
+                      data-testid="input-option-b-withdrawal-id"
                     />
                   </div>
                 </div>

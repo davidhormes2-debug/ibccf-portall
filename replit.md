@@ -46,10 +46,17 @@ Preferred communication style: Simple, everyday language.
 - Zod schemas for runtime validation matching database schema
 
 **Data Model**
-The application uses three main tables:
+The application uses four main tables:
 - `cases`: Core case records with access codes, status tracking, and user data
 - `case_letters`: Customizable letter content per case (headline, body, footer, options)
 - `case_submissions`: Tracks user submissions for each case
+- `chat_messages`: Real-time chat messages between admin and users
+
+**Real-time Features**
+- Chat messaging between admin and users with notification sounds
+- Admin receives notifications for: new user registrations, submissions, and chat messages
+- 3-minute session timeout with automatic logout on inactivity
+- Polling-based updates (3s for data, 5s for chat unread counts)
 
 **Storage Pattern**
 - Repository pattern implemented via `IStorage` interface
