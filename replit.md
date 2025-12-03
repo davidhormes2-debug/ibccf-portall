@@ -46,15 +46,26 @@ Preferred communication style: Simple, everyday language.
 - Zod schemas for runtime validation matching database schema
 
 **Data Model**
-The application uses four main tables:
-- `cases`: Core case records with access codes, status tracking, and user data
+The application uses six main tables:
+- `cases`: Core case records with access codes, status tracking, user data, deposit addresses, and profile redirect URLs
 - `case_letters`: Customizable letter content per case (headline, body, footer, options)
 - `case_submissions`: Tracks user submissions for each case
 - `chat_messages`: Real-time chat messages between admin and users
+- `admin_messages`: Categorized admin notifications (urgent/processing/resolved) sent to users
+- `deposit_receipts`: User-uploaded deposit receipt images with approval workflow
+
+**User Portal Features**
+- Dashboard-centric experience after login with card-based navigation
+- Required Actions section with categorized admin messages (Urgent/Processing/Resolved)
+- Personalized withdrawal letter with submission flow and ticket ID
+- Deposit information display and receipt upload functionality
+- Submission history view
+- Real-time support chat with notification sounds
 
 **Real-time Features**
 - Chat messaging between admin and users with notification sounds
 - Admin receives notifications for: new user registrations, submissions, and chat messages
+- Categorized admin messages with blinking indicators for urgent items
 - 3-minute session timeout with automatic logout on inactivity
 - Polling-based updates (3s for data, 5s for chat unread counts)
 

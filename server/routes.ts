@@ -433,7 +433,30 @@ export async function registerRoutes(
     }
   });
 
-  // Update deposit receipt status
+  // Update deposit receipt status (new route matching frontend)
+  app.patch("/api/deposit-receipts/:id", async (req, res) => {
+    try {
+      const data = z.object({
+        status: z.enum(['pending', 'reviewed', 'approved', 'rejected']).optional(),
+        adminNotes: z.string().optional()
+      }).parse(req.body);
+
+      const updated = await storage.updateDepositReceipt(parseInt(req.params.id), data);
+      if (!updated) {
+        res.status(404).json({ error: "Receipt not found" });
+        return;
+      }
+      res.json(updated);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update receipt" });
+      }
+    }
+  });
+
+  // Legacy route for status updates
   app.patch("/api/deposit-receipts/:id/status", async (req, res) => {
     try {
       const { status } = z.object({

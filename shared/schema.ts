@@ -157,6 +157,7 @@ export const depositReceipts = pgTable("deposit_receipts", {
   fileName: text("file_name"),
   notes: text("notes"),
   status: text("status").default('pending'), // 'pending', 'reviewed', 'approved', 'rejected'
+  adminNotes: text("admin_notes"), // Admin feedback/notes on the receipt
   uploadedAt: timestamp("uploaded_at").notNull().default(sql`now()`),
 });
 

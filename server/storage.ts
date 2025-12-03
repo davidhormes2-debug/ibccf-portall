@@ -47,6 +47,7 @@ export interface IStorage {
   createDepositReceipt(data: InsertDepositReceipt): Promise<DepositReceipt>;
   getDepositReceiptsByCaseId(caseId: string): Promise<DepositReceipt[]>;
   updateDepositReceiptStatus(id: number, status: string): Promise<DepositReceipt | undefined>;
+  updateDepositReceipt(id: number, data: { status?: string; adminNotes?: string }): Promise<DepositReceipt | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -230,6 +231,19 @@ export class DatabaseStorage implements IStorage {
     const [updated] = await db
       .update(depositReceipts)
       .set({ status })
+      .where(eq(depositReceipts.id, id))
+      .returning();
+    return updated;
+  }
+
+  async updateDepositReceipt(id: number, data: { status?: string; adminNotes?: string }): Promise<DepositReceipt | undefined> {
+    const updateData: any = {};
+    if (data.status) updateData.status = data.status;
+    if (data.adminNotes !== undefined) updateData.adminNotes = data.adminNotes;
+    
+    const [updated] = await db
+      .update(depositReceipts)
+      .set(updateData)
       .where(eq(depositReceipts.id, id))
       .returning();
     return updated;
