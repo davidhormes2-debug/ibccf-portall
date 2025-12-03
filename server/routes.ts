@@ -1,7 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { type Server } from "http";
 import { storage } from "./storage";
-import { insertCaseSchema, updateCaseSchema, updateCaseLetterSchema, insertCaseSubmissionSchema } from "@shared/schema";
+import { insertCaseSchema, updateCaseSchema, updateCaseLetterSchema, insertCaseSubmissionSchema, insertChatMessageSchema } from "@shared/schema";
 import { z } from "zod";
 
 const ADMIN_TOKEN = "ibc-admin-session-2025";
@@ -231,6 +231,73 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: "Failed to delete submission" });
+    }
+  });
+
+  // ==================== CHAT ROUTES ====================
+  
+  // Get chat messages for a case
+  app.get("/api/cases/:id/messages", async (req, res) => {
+    try {
+      const messages = await storage.getChatMessagesByCaseId(req.params.id);
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch messages" });
+    }
+  });
+
+  // Send a chat message
+  app.post("/api/cases/:id/messages", async (req, res) => {
+    try {
+      const messageInput = z.object({
+        sender: z.enum(['admin', 'user']),
+        message: z.string().min(1)
+      }).parse(req.body);
+
+      const message = await storage.createChatMessage({
+        caseId: req.params.id,
+        sender: messageInput.sender,
+        message: messageInput.message,
+        isRead: 'false'
+      });
+      
+      res.json(message);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to send message" });
+      }
+    }
+  });
+
+  // Mark messages as read
+  app.post("/api/cases/:id/messages/read", async (req, res) => {
+    try {
+      const { sender } = req.body;
+      if (!sender || !['admin', 'user'].includes(sender)) {
+        res.status(400).json({ error: "Invalid sender" });
+        return;
+      }
+      await storage.markMessagesAsRead(req.params.id, sender);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to mark messages as read" });
+    }
+  });
+
+  // Get unread message count
+  app.get("/api/cases/:id/messages/unread", async (req, res) => {
+    try {
+      const { sender } = req.query;
+      if (!sender || !['admin', 'user'].includes(sender as string)) {
+        res.status(400).json({ error: "Invalid sender query parameter" });
+        return;
+      }
+      const count = await storage.getUnreadCount(req.params.id, sender as string);
+      res.json({ count });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get unread count" });
     }
   });
 

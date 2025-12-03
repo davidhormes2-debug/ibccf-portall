@@ -1,10 +1,11 @@
 import { 
   type Case, type InsertCase, type UpdateCase, cases,
   type CaseLetter, type InsertCaseLetter, type UpdateCaseLetter, caseLetters,
-  type CaseSubmission, type InsertCaseSubmission, caseSubmissions
+  type CaseSubmission, type InsertCaseSubmission, caseSubmissions,
+  type ChatMessage, type InsertChatMessage, chatMessages
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
   // Case operations
@@ -24,6 +25,12 @@ export interface IStorage {
   getSubmissionsByCaseId(caseId: string): Promise<CaseSubmission[]>;
   getAllSubmissions(): Promise<CaseSubmission[]>;
   deleteSubmission(id: number): Promise<void>;
+  
+  // Chat message operations
+  createChatMessage(data: InsertChatMessage): Promise<ChatMessage>;
+  getChatMessagesByCaseId(caseId: string): Promise<ChatMessage[]>;
+  markMessagesAsRead(caseId: string, sender: string): Promise<void>;
+  getUnreadCount(caseId: string, sender: string): Promise<number>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -110,6 +117,39 @@ export class DatabaseStorage implements IStorage {
 
   async deleteSubmission(id: number): Promise<void> {
     await db.delete(caseSubmissions).where(eq(caseSubmissions.id, id));
+  }
+
+  // Chat message operations
+  async createChatMessage(data: InsertChatMessage): Promise<ChatMessage> {
+    const [message] = await db.insert(chatMessages).values(data).returning();
+    return message;
+  }
+
+  async getChatMessagesByCaseId(caseId: string): Promise<ChatMessage[]> {
+    return await db
+      .select()
+      .from(chatMessages)
+      .where(eq(chatMessages.caseId, caseId))
+      .orderBy(chatMessages.createdAt);
+  }
+
+  async markMessagesAsRead(caseId: string, sender: string): Promise<void> {
+    await db
+      .update(chatMessages)
+      .set({ isRead: 'true' })
+      .where(and(eq(chatMessages.caseId, caseId), eq(chatMessages.sender, sender)));
+  }
+
+  async getUnreadCount(caseId: string, sender: string): Promise<number> {
+    const messages = await db
+      .select()
+      .from(chatMessages)
+      .where(and(
+        eq(chatMessages.caseId, caseId),
+        eq(chatMessages.sender, sender),
+        eq(chatMessages.isRead, 'false')
+      ));
+    return messages.length;
   }
 }
 
