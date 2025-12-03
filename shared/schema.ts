@@ -52,12 +52,16 @@ export const caseLetters = pgTable("case_letters", {
   optionADescription: text("option_a_description"),
   optionAAmount: text("option_a_amount"),
   optionABatches: text("option_a_batches"),
+  optionATotalAmount: text("option_a_total_amount"),
+  optionAFilelocoId: text("option_a_fileloco_id"),
   
   // Option B customization
   optionBTitle: text("option_b_title").default("Standard Release"),
   optionBDescription: text("option_b_description"),
   optionBAmount: text("option_b_amount"),
   optionBBatches: text("option_b_batches"),
+  optionBTotalAmount: text("option_b_total_amount"),
+  optionBFilelocoId: text("option_b_fileloco_id"),
   
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),

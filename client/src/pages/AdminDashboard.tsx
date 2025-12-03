@@ -887,6 +887,26 @@ export default function AdminDashboard() {
                       data-testid="input-option-a-batches"
                     />
                   </div>
+                  <div>
+                    <Label className="text-slate-400">Total Withdrawal Amount</Label>
+                    <Input 
+                      value={letterData.optionATotalAmount || ""}
+                      onChange={(e) => setLetterData({...letterData, optionATotalAmount: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white mt-1"
+                      placeholder="e.g., 75,000 USDT"
+                      data-testid="input-option-a-total-amount"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-slate-400">Fileloco ID</Label>
+                    <Input 
+                      value={letterData.optionAFilelocoId || ""}
+                      onChange={(e) => setLetterData({...letterData, optionAFilelocoId: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white mt-1"
+                      placeholder="e.g., 11223344"
+                      data-testid="input-option-a-fileloco"
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label className="text-slate-400">Option B Title</Label>
@@ -921,6 +941,26 @@ export default function AdminDashboard() {
                       className="bg-slate-900 border-slate-700 text-white mt-1 min-h-[60px]"
                       placeholder="e.g., 2000 per key. Total = 8keys (75,000 USDT) Every 12 hours"
                       data-testid="input-option-b-batches"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-slate-400">Total Withdrawal Amount</Label>
+                    <Input 
+                      value={letterData.optionBTotalAmount || ""}
+                      onChange={(e) => setLetterData({...letterData, optionBTotalAmount: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white mt-1"
+                      placeholder="e.g., 75,000 USDT"
+                      data-testid="input-option-b-total-amount"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-slate-400">Fileloco ID</Label>
+                    <Input 
+                      value={letterData.optionBFilelocoId || ""}
+                      onChange={(e) => setLetterData({...letterData, optionBFilelocoId: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white mt-1"
+                      placeholder="e.g., 11223344"
+                      data-testid="input-option-b-fileloco"
                     />
                   </div>
                 </div>

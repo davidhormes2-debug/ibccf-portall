@@ -600,9 +600,15 @@ export default function SecurePortal() {
                         <span className="font-semibold text-slate-900">{adminData?.withdrawalBatches} Transfers</span>
                       </div>
                     )}
+                    {letterContent?.optionATotalAmount && (
+                      <div className="flex justify-between text-sm py-2 border-b border-slate-100 font-semibold">
+                        <span className="text-slate-600">Total Withdrawal</span>
+                        <span className="text-slate-900">{letterContent.optionATotalAmount}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-sm py-2 bg-blue-50 px-3 rounded text-blue-900">
-                      <span className="font-semibold">Physilocal0</span>
-                      <span className="font-bold">{adminData?.physilocal0}</span>
+                      <span className="font-semibold">Fileloco ID</span>
+                      <span className="font-bold">{letterContent?.optionAFilelocoId || adminData?.physilocal0}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -640,9 +646,15 @@ export default function SecurePortal() {
                         <span className="font-semibold text-slate-900">{parseInt(adminData?.withdrawalBatches || "0") * 2} Transfers</span>
                       </div>
                     )}
+                    {letterContent?.optionBTotalAmount && (
+                      <div className="flex justify-between text-sm py-2 border-b border-slate-100 font-semibold">
+                        <span className="text-slate-600">Total Withdrawal</span>
+                        <span className="text-slate-900">{letterContent.optionBTotalAmount}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-sm py-2 bg-slate-100 px-3 rounded text-slate-900">
-                      <span className="font-semibold">Physilocal0</span>
-                      <span className="font-bold">{adminData?.physilocal0}</span>
+                      <span className="font-semibold">Fileloco ID</span>
+                      <span className="font-bold">{letterContent?.optionBFilelocoId || adminData?.physilocal0}</span>
                     </div>
                   </div>
                 </CardContent>
