@@ -145,6 +145,12 @@ export async function registerRoutes(
   // Create a new submission
   app.post("/api/cases/:id/submissions", async (req, res) => {
     try {
+      // Validate the required selectedOption field
+      const submissionInput = z.object({
+        selectedOption: z.enum(['A', 'B']),
+        notes: z.string().optional().nullable()
+      }).parse(req.body);
+
       const caseData = await storage.getCaseById(req.params.id);
       if (!caseData) {
         res.status(404).json({ error: "Case not found" });
@@ -153,8 +159,8 @@ export async function registerRoutes(
 
       const submissionData = {
         caseId: req.params.id,
-        selectedOption: req.body.selectedOption,
-        notes: req.body.notes || null,
+        selectedOption: submissionInput.selectedOption,
+        notes: submissionInput.notes || null,
         userName: caseData.userName,
         userEmail: caseData.userEmail,
         withdrawalAmount: caseData.withdrawalAmount,
@@ -168,7 +174,11 @@ export async function registerRoutes(
       
       res.json(submission);
     } catch (error) {
-      res.status(500).json({ error: "Failed to create submission" });
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create submission" });
+      }
     }
   });
 
