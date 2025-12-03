@@ -15,7 +15,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key, ExternalLink } from "lucide-react";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
@@ -423,6 +423,16 @@ export default function AdminDashboard() {
             <p className="text-xs text-slate-400">Admin Session</p>
             <p className="text-sm font-bold text-white">Compliance Officer</p>
           </div>
+          <a href="/" target="_blank" rel="noopener noreferrer">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-slate-700 bg-slate-800 text-slate-300 hover:text-white"
+              data-testid="button-user-portal"
+            >
+              <ExternalLink className="w-4 h-4 mr-2" /> User Portal
+            </Button>
+          </a>
           <Button 
             variant="ghost" 
             size="sm" 
