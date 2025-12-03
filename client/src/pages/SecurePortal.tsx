@@ -535,7 +535,7 @@ export default function SecurePortal() {
             <h1 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-2">
               {letter.headline}
             </h1>
-            <p className="text-sm text-slate-400 mb-6 font-mono">Reference: IBC-AML-CC-{currentCase?.accessCode} • Physilocal0: {adminData?.physilocal0}</p>
+            <p className="text-sm text-slate-400 mb-6 font-mono">Reference: IBC-AML-CC-{currentCase?.accessCode}</p>
           </div>
 
           {/* Letter Content */}
