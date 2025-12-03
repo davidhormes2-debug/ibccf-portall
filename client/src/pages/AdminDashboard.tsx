@@ -69,6 +69,7 @@ interface Submission {
 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authToken, setAuthToken] = useState<string | null>(null);
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -117,7 +118,10 @@ export default function AdminDashboard() {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        setAuthToken(data.token);
         setIsLoggedIn(true);
+        sessionStorage.setItem('adminToken', data.token);
         toast({ title: "Access Granted", description: "Admin session established." });
       } else {
         toast({ variant: "destructive", title: "Access Denied", description: "Invalid credentials." });
@@ -131,10 +135,31 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setAuthToken(null);
     setLoginUsername("");
     setLoginPassword("");
+    sessionStorage.removeItem('adminToken');
     toast({ title: "Logged Out", description: "Admin session ended." });
   };
+
+  // Check for existing session on mount
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem('adminToken');
+    if (storedToken) {
+      fetch('/api/admin/verify', {
+        headers: { 'Authorization': `Bearer ${storedToken}` }
+      }).then(res => {
+        if (res.ok) {
+          setAuthToken(storedToken);
+          setIsLoggedIn(true);
+        } else {
+          sessionStorage.removeItem('adminToken');
+        }
+      }).catch(() => {
+        sessionStorage.removeItem('adminToken');
+      });
+    }
+  }, []);
 
   const loadData = async () => {
     try {

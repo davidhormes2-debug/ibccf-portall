@@ -1,8 +1,19 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { type Server } from "http";
 import { storage } from "./storage";
 import { insertCaseSchema, updateCaseSchema, updateCaseLetterSchema, insertCaseSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
+
+const ADMIN_TOKEN = "ibc-admin-session-2025";
+
+function checkAdminAuth(req: Request, res: Response, next: NextFunction) {
+  const authHeader = req.headers.authorization;
+  if (authHeader === `Bearer ${ADMIN_TOKEN}`) {
+    next();
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+}
 
 export async function registerRoutes(
   httpServer: Server,
@@ -34,13 +45,18 @@ export async function registerRoutes(
     try {
       const { username, password } = req.body;
       if (username === "Admin2025" && password === "Admin123456789") {
-        res.json({ success: true, message: "Login successful" });
+        res.json({ success: true, token: ADMIN_TOKEN });
       } else {
         res.status(401).json({ error: "Invalid credentials" });
       }
     } catch (error) {
       res.status(500).json({ error: "Login failed" });
     }
+  });
+
+  // Verify admin token
+  app.get("/api/admin/verify", checkAdminAuth, (req, res) => {
+    res.json({ valid: true });
   });
 
   // Get all cases (Admin)
