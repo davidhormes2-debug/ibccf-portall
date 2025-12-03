@@ -467,6 +467,7 @@ export default function AdminDashboard() {
     setChatMessages([]);
   };
 
+  // Unified send chat message function (used by both popup and conversations tab)
   const sendChatMessage = async () => {
     if (!newMessage.trim() || !chatCase || isSendingMessage) return;
     
@@ -482,9 +483,11 @@ export default function AdminDashboard() {
         const msg = await res.json();
         setChatMessages(prev => [...prev, msg]);
         setNewMessage("");
+      } else {
+        toast({ variant: "destructive", title: "Error", description: "Failed to send message." });
       }
     } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to send message." });
+      toast({ variant: "destructive", title: "Error", description: "Failed to send message. Please try again." });
     }
     setIsSendingMessage(false);
   };
@@ -504,33 +507,12 @@ export default function AdminDashboard() {
         }).then(() => {
           setUnreadCounts(prev => ({ ...prev, [caseId]: 0 }));
         });
+      } else {
+        toast({ variant: "destructive", title: "Error", description: "Failed to load messages." });
       }
     } catch (error) {
-      console.error('Failed to load chat messages:', error);
+      toast({ variant: "destructive", title: "Error", description: "Failed to load messages." });
     }
-  };
-
-  // Send admin message in conversations tab
-  const sendAdminMessage = async () => {
-    if (!newMessage.trim() || !chatCase || isSendingMessage) return;
-    
-    setIsSendingMessage(true);
-    try {
-      const res = await fetch(`/api/cases/${chatCase.id}/messages`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sender: 'admin', message: newMessage.trim() })
-      });
-      
-      if (res.ok) {
-        const msg = await res.json();
-        setChatMessages(prev => [...prev, msg]);
-        setNewMessage("");
-      }
-    } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to send message." });
-    }
-    setIsSendingMessage(false);
   };
 
   const loadAdminMessages = async (caseId: string) => {
@@ -539,9 +521,11 @@ export default function AdminDashboard() {
       if (res.ok) {
         const data = await res.json();
         setAdminMessages(data);
+      } else {
+        toast({ variant: "destructive", title: "Error", description: "Failed to load admin messages." });
       }
     } catch (error) {
-      console.error('Failed to load admin messages:', error);
+      toast({ variant: "destructive", title: "Error", description: "Failed to load admin messages." });
     }
   };
 
@@ -551,9 +535,11 @@ export default function AdminDashboard() {
       if (res.ok) {
         const data = await res.json();
         setDepositReceipts(data);
+      } else {
+        toast({ variant: "destructive", title: "Error", description: "Failed to load receipts." });
       }
     } catch (error) {
-      console.error('Failed to load deposit receipts:', error);
+      toast({ variant: "destructive", title: "Error", description: "Failed to load receipts." });
     }
   };
 
@@ -1297,13 +1283,13 @@ export default function AdminDashboard() {
                           placeholder="Type your message..."
                           value={newMessage}
                           onChange={(e) => setNewMessage(e.target.value)}
-                          onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendAdminMessage()}
+                          onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendChatMessage()}
                           disabled={isSendingMessage}
                           className="flex-1 bg-slate-900 border-slate-700 text-white"
                           data-testid="input-admin-chat"
                         />
                         <Button
-                          onClick={sendAdminMessage}
+                          onClick={sendChatMessage}
                           disabled={!newMessage.trim() || isSendingMessage}
                           className="bg-blue-600 hover:bg-blue-700"
                           data-testid="button-send-admin-chat"
