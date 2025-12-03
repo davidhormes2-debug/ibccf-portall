@@ -138,6 +138,7 @@ export default function AdminDashboard() {
   
   const [cases, setCases] = useState<Case[]>([]);
   const [allSubmissions, setAllSubmissions] = useState<Submission[]>([]);
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [newAccessCode, setNewAccessCode] = useState("");
@@ -340,10 +341,11 @@ export default function AdminDashboard() {
         toast({ title: "Refreshed", description: "Data has been updated." });
       }
     } catch (error) {
-      console.error('Failed to load data:', error);
       if (showToast) {
         toast({ variant: "destructive", title: "Error", description: "Failed to refresh data." });
       }
+    } finally {
+      setIsDataLoading(false);
     }
   };
 
@@ -986,7 +988,18 @@ export default function AdminDashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {cases.length === 0 ? (
+                    {isDataLoading ? (
+                      [...Array(3)].map((_, i) => (
+                        <TableRow key={i} className="hover:bg-transparent border-slate-800 animate-pulse">
+                          <TableCell><div className="h-5 w-20 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-24 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-32 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-28 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-16 bg-slate-800 rounded mx-auto"></div></TableCell>
+                          <TableCell><div className="h-8 w-24 bg-slate-800 rounded mx-auto"></div></TableCell>
+                        </TableRow>
+                      ))
+                    ) : cases.length === 0 ? (
                       <TableRow className="hover:bg-transparent border-slate-800">
                         <TableCell colSpan={6} className="text-center py-12 text-slate-500">
                           No active cases. Create one to get started.
@@ -1131,7 +1144,19 @@ export default function AdminDashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {allSubmissions.length === 0 ? (
+                    {isDataLoading ? (
+                      [...Array(3)].map((_, i) => (
+                        <TableRow key={i} className="hover:bg-transparent border-slate-800 animate-pulse">
+                          <TableCell><div className="h-5 w-28 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-24 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-32 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-16 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-20 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-5 w-12 bg-slate-800 rounded"></div></TableCell>
+                          <TableCell><div className="h-8 w-8 bg-slate-800 rounded mx-auto"></div></TableCell>
+                        </TableRow>
+                      ))
+                    ) : allSubmissions.length === 0 ? (
                       <TableRow className="hover:bg-transparent border-slate-800">
                         <TableCell colSpan={7} className="text-center py-12 text-slate-500">
                           No submissions yet.
