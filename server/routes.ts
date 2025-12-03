@@ -1,13 +1,15 @@
 import type { Express } from "express";
 import { type Server } from "http";
 import { storage } from "./storage";
-import { insertCaseSchema, updateCaseSchema } from "@shared/schema";
+import { insertCaseSchema, updateCaseSchema, updateCaseLetterSchema, insertCaseSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  
+  // ==================== CASE ROUTES ====================
   
   // Create a new case (Admin)
   app.post("/api/cases", async (req, res) => {
@@ -48,6 +50,20 @@ export async function registerRoutes(
     }
   });
 
+  // Get case by ID
+  app.get("/api/cases/:id", async (req, res) => {
+    try {
+      const caseData = await storage.getCaseById(req.params.id);
+      if (!caseData) {
+        res.status(404).json({ error: "Case not found" });
+        return;
+      }
+      res.json(caseData);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch case" });
+    }
+  });
+
   // Update case (for registration, finalization, submission)
   app.patch("/api/cases/:id", async (req, res) => {
     try {
@@ -74,6 +90,85 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: "Failed to delete case" });
+    }
+  });
+
+  // ==================== CASE LETTER ROUTES ====================
+
+  // Get letter content for a case
+  app.get("/api/cases/:id/letter", async (req, res) => {
+    try {
+      const letter = await storage.getCaseLetterByCaseId(req.params.id);
+      res.json(letter || null);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch letter" });
+    }
+  });
+
+  // Create or update letter content for a case
+  app.put("/api/cases/:id/letter", async (req, res) => {
+    try {
+      const data = updateCaseLetterSchema.parse(req.body);
+      const letter = await storage.createOrUpdateCaseLetter(req.params.id, data);
+      res.json(letter);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update letter" });
+      }
+    }
+  });
+
+  // ==================== SUBMISSION ROUTES ====================
+
+  // Get all submissions (Admin)
+  app.get("/api/submissions", async (req, res) => {
+    try {
+      const submissions = await storage.getAllSubmissions();
+      res.json(submissions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch submissions" });
+    }
+  });
+
+  // Get submissions for a specific case
+  app.get("/api/cases/:id/submissions", async (req, res) => {
+    try {
+      const submissions = await storage.getSubmissionsByCaseId(req.params.id);
+      res.json(submissions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch submissions" });
+    }
+  });
+
+  // Create a new submission
+  app.post("/api/cases/:id/submissions", async (req, res) => {
+    try {
+      const caseData = await storage.getCaseById(req.params.id);
+      if (!caseData) {
+        res.status(404).json({ error: "Case not found" });
+        return;
+      }
+
+      const submissionData = {
+        caseId: req.params.id,
+        selectedOption: req.body.selectedOption,
+        notes: req.body.notes || null,
+        userName: caseData.userName,
+        userEmail: caseData.userEmail,
+        withdrawalAmount: caseData.withdrawalAmount,
+        withdrawalBatches: caseData.withdrawalBatches,
+      };
+
+      const submission = await storage.createSubmission(submissionData);
+      
+      // Update case status to reflect submission
+      await storage.updateCase(req.params.id, { status: 'completed' });
+      
+      res.json(submission);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create submission" });
     }
   });
 
