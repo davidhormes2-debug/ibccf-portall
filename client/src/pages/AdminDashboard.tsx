@@ -398,9 +398,10 @@ export default function AdminDashboard() {
     return () => clearInterval(interval);
   }, [isLoggedIn, cases, toast]);
 
-  // Poll messages for open chat
+  // Poll messages for open chat (both popup and conversations tab)
   useEffect(() => {
-    if (!isChatOpen || !chatCase) return;
+    if (!chatCase) return;
+    if (!isChatOpen) return; // Only poll when chatCase is selected
 
     const pollChatMessages = async () => {
       try {
@@ -418,6 +419,26 @@ export default function AdminDashboard() {
     const interval = setInterval(pollChatMessages, 2000);
     return () => clearInterval(interval);
   }, [isChatOpen, chatCase]);
+
+  // Poll messages for conversations tab (when chatCase is set but popup is not open)
+  useEffect(() => {
+    if (!chatCase || isChatOpen) return;
+
+    const pollConversationMessages = async () => {
+      try {
+        const res = await fetch(`/api/cases/${chatCase.id}/messages`);
+        if (res.ok) {
+          const messages = await res.json();
+          setChatMessages(messages);
+        }
+      } catch (error) {
+        console.error('Failed to poll conversation messages:', error);
+      }
+    };
+
+    const interval = setInterval(pollConversationMessages, 2000);
+    return () => clearInterval(interval);
+  }, [chatCase, isChatOpen]);
 
   // Scroll to bottom when chat opens or new message
   useEffect(() => {
