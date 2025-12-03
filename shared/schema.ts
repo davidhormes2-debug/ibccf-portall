@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, serial } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, serial, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -19,6 +19,11 @@ export const cases = pgTable("cases", {
   withdrawalAmount: text("withdrawal_amount"),
   withdrawalBatches: text("withdrawal_batches"),
   physilocal0: text("physilocal0"),
+  
+  // Per-user deposit and profile settings
+  depositAddress: text("deposit_address"),
+  profileRedirectUrl: text("profile_redirect_url"),
+  hasRequirements: boolean("has_requirements").default(false),
   
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
@@ -123,3 +128,42 @@ export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
 
 export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
 export type ChatMessage = typeof chatMessages.$inferSelect;
+
+// Admin messages with categories (Urgent/Processing/Resolved)
+export const adminMessages = pgTable("admin_messages", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  category: text("category").notNull().default('processing'), // 'urgent', 'processing', 'resolved'
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  isRead: boolean("is_read").default(false),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertAdminMessageSchema = createInsertSchema(adminMessages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertAdminMessage = z.infer<typeof insertAdminMessageSchema>;
+export type AdminMessage = typeof adminMessages.$inferSelect;
+
+// Deposit receipts uploaded by users
+export const depositReceipts = pgTable("deposit_receipts", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  submissionId: serial("submission_id"),
+  imageData: text("image_data"), // Base64 encoded image
+  fileName: text("file_name"),
+  notes: text("notes"),
+  status: text("status").default('pending'), // 'pending', 'reviewed', 'approved', 'rejected'
+  uploadedAt: timestamp("uploaded_at").notNull().default(sql`now()`),
+});
+
+export const insertDepositReceiptSchema = createInsertSchema(depositReceipts).omit({
+  id: true,
+  uploadedAt: true,
+});
+
+export type InsertDepositReceipt = z.infer<typeof insertDepositReceiptSchema>;
+export type DepositReceipt = typeof depositReceipts.$inferSelect;

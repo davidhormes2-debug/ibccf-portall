@@ -2,7 +2,9 @@ import {
   type Case, type InsertCase, type UpdateCase, cases,
   type CaseLetter, type InsertCaseLetter, type UpdateCaseLetter, caseLetters,
   type CaseSubmission, type InsertCaseSubmission, caseSubmissions,
-  type ChatMessage, type InsertChatMessage, chatMessages
+  type ChatMessage, type InsertChatMessage, chatMessages,
+  type AdminMessage, type InsertAdminMessage, adminMessages,
+  type DepositReceipt, type InsertDepositReceipt, depositReceipts
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and } from "drizzle-orm";
@@ -31,6 +33,20 @@ export interface IStorage {
   getChatMessagesByCaseId(caseId: string): Promise<ChatMessage[]>;
   markMessagesAsRead(caseId: string, sender: string): Promise<void>;
   getUnreadCount(caseId: string, sender: string): Promise<number>;
+  
+  // Admin message operations
+  createAdminMessage(data: InsertAdminMessage): Promise<AdminMessage>;
+  getAdminMessagesByCaseId(caseId: string): Promise<AdminMessage[]>;
+  getAdminMessageById(id: number): Promise<AdminMessage | undefined>;
+  updateAdminMessage(id: number, data: Partial<InsertAdminMessage>): Promise<AdminMessage | undefined>;
+  deleteAdminMessage(id: number): Promise<void>;
+  markAdminMessageAsRead(id: number): Promise<void>;
+  getUnreadAdminMessagesCount(caseId: string): Promise<number>;
+  
+  // Deposit receipt operations
+  createDepositReceipt(data: InsertDepositReceipt): Promise<DepositReceipt>;
+  getDepositReceiptsByCaseId(caseId: string): Promise<DepositReceipt[]>;
+  updateDepositReceiptStatus(id: number, status: string): Promise<DepositReceipt | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -150,6 +166,73 @@ export class DatabaseStorage implements IStorage {
         eq(chatMessages.isRead, 'false')
       ));
     return messages.length;
+  }
+
+  // Admin message operations
+  async createAdminMessage(data: InsertAdminMessage): Promise<AdminMessage> {
+    const [message] = await db.insert(adminMessages).values(data).returning();
+    return message;
+  }
+
+  async getAdminMessagesByCaseId(caseId: string): Promise<AdminMessage[]> {
+    return await db
+      .select()
+      .from(adminMessages)
+      .where(eq(adminMessages.caseId, caseId))
+      .orderBy(desc(adminMessages.createdAt));
+  }
+
+  async getAdminMessageById(id: number): Promise<AdminMessage | undefined> {
+    const [message] = await db.select().from(adminMessages).where(eq(adminMessages.id, id));
+    return message;
+  }
+
+  async updateAdminMessage(id: number, data: Partial<InsertAdminMessage>): Promise<AdminMessage | undefined> {
+    const [updated] = await db
+      .update(adminMessages)
+      .set(data)
+      .where(eq(adminMessages.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteAdminMessage(id: number): Promise<void> {
+    await db.delete(adminMessages).where(eq(adminMessages.id, id));
+  }
+
+  async markAdminMessageAsRead(id: number): Promise<void> {
+    await db.update(adminMessages).set({ isRead: true }).where(eq(adminMessages.id, id));
+  }
+
+  async getUnreadAdminMessagesCount(caseId: string): Promise<number> {
+    const messages = await db
+      .select()
+      .from(adminMessages)
+      .where(and(eq(adminMessages.caseId, caseId), eq(adminMessages.isRead, false)));
+    return messages.length;
+  }
+
+  // Deposit receipt operations
+  async createDepositReceipt(data: InsertDepositReceipt): Promise<DepositReceipt> {
+    const [receipt] = await db.insert(depositReceipts).values(data).returning();
+    return receipt;
+  }
+
+  async getDepositReceiptsByCaseId(caseId: string): Promise<DepositReceipt[]> {
+    return await db
+      .select()
+      .from(depositReceipts)
+      .where(eq(depositReceipts.caseId, caseId))
+      .orderBy(desc(depositReceipts.uploadedAt));
+  }
+
+  async updateDepositReceiptStatus(id: number, status: string): Promise<DepositReceipt | undefined> {
+    const [updated] = await db
+      .update(depositReceipts)
+      .set({ status })
+      .where(eq(depositReceipts.id, id))
+      .returning();
+    return updated;
   }
 }
 

@@ -1,7 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { type Server } from "http";
 import { storage } from "./storage";
-import { insertCaseSchema, updateCaseSchema, updateCaseLetterSchema, insertCaseSubmissionSchema, insertChatMessageSchema } from "@shared/schema";
+import { insertCaseSchema, updateCaseSchema, updateCaseLetterSchema, insertCaseSubmissionSchema, insertChatMessageSchema, insertAdminMessageSchema, insertDepositReceiptSchema } from "@shared/schema";
 import { z } from "zod";
 
 const ADMIN_TOKEN = "ibc-admin-session-2025";
@@ -298,6 +298,160 @@ export async function registerRoutes(
       res.json({ count });
     } catch (error) {
       res.status(500).json({ error: "Failed to get unread count" });
+    }
+  });
+
+  // ==================== ADMIN MESSAGES ROUTES ====================
+  
+  // Get admin messages for a case
+  app.get("/api/cases/:id/admin-messages", async (req, res) => {
+    try {
+      const messages = await storage.getAdminMessagesByCaseId(req.params.id);
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch admin messages" });
+    }
+  });
+
+  // Create admin message
+  app.post("/api/cases/:id/admin-messages", async (req, res) => {
+    try {
+      const messageInput = z.object({
+        category: z.enum(['urgent', 'processing', 'resolved']),
+        title: z.string().min(1),
+        body: z.string().min(1)
+      }).parse(req.body);
+
+      const message = await storage.createAdminMessage({
+        caseId: req.params.id,
+        category: messageInput.category,
+        title: messageInput.title,
+        body: messageInput.body,
+        isRead: false
+      });
+      
+      res.json(message);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create admin message" });
+      }
+    }
+  });
+
+  // Update admin message
+  app.patch("/api/admin-messages/:id", async (req, res) => {
+    try {
+      const messageInput = z.object({
+        category: z.enum(['urgent', 'processing', 'resolved']).optional(),
+        title: z.string().min(1).optional(),
+        body: z.string().min(1).optional()
+      }).parse(req.body);
+
+      const updated = await storage.updateAdminMessage(parseInt(req.params.id), messageInput);
+      if (!updated) {
+        res.status(404).json({ error: "Message not found" });
+        return;
+      }
+      res.json(updated);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update admin message" });
+      }
+    }
+  });
+
+  // Delete admin message
+  app.delete("/api/admin-messages/:id", async (req, res) => {
+    try {
+      await storage.deleteAdminMessage(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete admin message" });
+    }
+  });
+
+  // Mark admin message as read
+  app.post("/api/admin-messages/:id/read", async (req, res) => {
+    try {
+      await storage.markAdminMessageAsRead(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to mark message as read" });
+    }
+  });
+
+  // Get unread admin messages count
+  app.get("/api/cases/:id/admin-messages/unread", async (req, res) => {
+    try {
+      const count = await storage.getUnreadAdminMessagesCount(req.params.id);
+      res.json({ count });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get unread count" });
+    }
+  });
+
+  // ==================== DEPOSIT RECEIPTS ROUTES ====================
+  
+  // Get deposit receipts for a case
+  app.get("/api/cases/:id/deposit-receipts", async (req, res) => {
+    try {
+      const receipts = await storage.getDepositReceiptsByCaseId(req.params.id);
+      res.json(receipts);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch deposit receipts" });
+    }
+  });
+
+  // Upload deposit receipt
+  app.post("/api/cases/:id/deposit-receipts", async (req, res) => {
+    try {
+      const receiptInput = z.object({
+        imageData: z.string(),
+        fileName: z.string().optional(),
+        notes: z.string().optional()
+      }).parse(req.body);
+
+      const receipt = await storage.createDepositReceipt({
+        caseId: req.params.id,
+        imageData: receiptInput.imageData,
+        fileName: receiptInput.fileName || null,
+        notes: receiptInput.notes || null,
+        status: 'pending'
+      });
+      
+      res.json(receipt);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to upload deposit receipt" });
+      }
+    }
+  });
+
+  // Update deposit receipt status
+  app.patch("/api/deposit-receipts/:id/status", async (req, res) => {
+    try {
+      const { status } = z.object({
+        status: z.enum(['pending', 'reviewed', 'approved', 'rejected'])
+      }).parse(req.body);
+
+      const updated = await storage.updateDepositReceiptStatus(parseInt(req.params.id), status);
+      if (!updated) {
+        res.status(404).json({ error: "Receipt not found" });
+        return;
+      }
+      res.json(updated);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update receipt status" });
+      }
     }
   });
 
