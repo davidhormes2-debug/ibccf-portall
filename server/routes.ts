@@ -224,5 +224,15 @@ export async function registerRoutes(
     }
   });
 
+  // Delete a submission
+  app.delete("/api/submissions/:id", async (req, res) => {
+    try {
+      await storage.deleteSubmission(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete submission" });
+    }
+  });
+
   return httpServer;
 }

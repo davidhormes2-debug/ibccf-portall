@@ -15,7 +15,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key, ExternalLink } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key, ExternalLink, X } from "lucide-react";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
@@ -354,6 +354,25 @@ export default function AdminDashboard() {
     return allSubmissions.filter(s => s.caseId === caseId).length;
   };
 
+  const handleDeleteSubmission = async (submissionId: number) => {
+    if (confirm("Delete this submission? This action cannot be undone.")) {
+      try {
+        const response = await fetch(`/api/submissions/${submissionId}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          loadData(true);
+          toast({ title: "Submission Deleted", description: "The submission has been removed." });
+        } else {
+          toast({ variant: "destructive", title: "Error", description: "Failed to delete submission." });
+        }
+      } catch (error) {
+        toast({ variant: "destructive", title: "Error", description: "Failed to delete submission." });
+      }
+    }
+  };
+
   // LOGIN PAGE
   if (!isLoggedIn) {
     return (
@@ -628,12 +647,13 @@ export default function AdminDashboard() {
                       <TableHead className="text-slate-400">Option</TableHead>
                       <TableHead className="text-slate-400">Amount</TableHead>
                       <TableHead className="text-slate-400">Batches</TableHead>
+                      <TableHead className="text-slate-400 text-center">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {allSubmissions.length === 0 ? (
                       <TableRow className="hover:bg-transparent border-slate-800">
-                        <TableCell colSpan={6} className="text-center py-12 text-slate-500">
+                        <TableCell colSpan={7} className="text-center py-12 text-slate-500">
                           No submissions yet.
                         </TableCell>
                       </TableRow>
@@ -652,6 +672,17 @@ export default function AdminDashboard() {
                           </TableCell>
                           <TableCell className="text-green-400 font-medium">{s.withdrawalAmount || "-"}</TableCell>
                           <TableCell className="text-slate-300">{s.withdrawalBatches || "-"}</TableCell>
+                          <TableCell className="text-center">
+                            <Button 
+                              size="sm" 
+                              variant="ghost"
+                              className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                              onClick={() => handleDeleteSubmission(s.id)}
+                              data-testid={`button-delete-submission-${s.id}`}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </TableCell>
                         </TableRow>
                       ))
                     )}

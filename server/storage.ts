@@ -23,6 +23,7 @@ export interface IStorage {
   createSubmission(data: InsertCaseSubmission): Promise<CaseSubmission>;
   getSubmissionsByCaseId(caseId: string): Promise<CaseSubmission[]>;
   getAllSubmissions(): Promise<CaseSubmission[]>;
+  deleteSubmission(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -105,6 +106,10 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(caseSubmissions)
       .orderBy(desc(caseSubmissions.submittedAt));
+  }
+
+  async deleteSubmission(id: number): Promise<void> {
+    await db.delete(caseSubmissions).where(eq(caseSubmissions.id, id));
   }
 }
 
