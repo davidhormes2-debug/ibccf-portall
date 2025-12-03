@@ -573,7 +573,7 @@ export default function SecurePortal() {
                   <label className="text-xs font-medium text-slate-400 uppercase">Full Legal Name</label>
                   <div className="relative">
                     <User className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
-                    <Input required value={regName} onChange={e => setRegName(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="e.g. Luzmila Chavez" data-testid="input-name" />
+                    <Input required value={regName} onChange={e => setRegName(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="Your full legal name" data-testid="input-name" />
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -587,7 +587,7 @@ export default function SecurePortal() {
                   <label className="text-xs font-medium text-slate-400 uppercase">Mobile Number</label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
-                    <Input required type="tel" value={regMobile} onChange={e => setRegMobile(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="+1 (555) 000-0000" data-testid="input-mobile" />
+                    <Input required type="tel" value={regMobile} onChange={e => setRegMobile(e.target.value)} className="pl-9 bg-slate-900 border-slate-800 text-white" placeholder="Your contact number" data-testid="input-mobile" />
                   </div>
                 </div>
                 <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4" data-testid="button-register">
@@ -1201,75 +1201,174 @@ export default function SecurePortal() {
     );
   }
 
-  // SUCCESS VIEW
+  // SUCCESS VIEW - Redirects to deposit address chat
   if (viewState === 'success') {
     const ticketId = lastSubmission?.id ? `IBC-${String(lastSubmission.id).padStart(6, '0')}` : `IBC-${Date.now().toString().slice(-6)}`;
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden border-t-4 border-green-600">
-          <div className="p-8 text-center">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 className="w-10 h-10 text-green-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Submission Successful!</h2>
-            
-            {/* Ticket ID */}
-            <div className="my-6 p-4 bg-slate-50 rounded-lg border-2 border-dashed border-slate-200">
-              <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Ticket Reference</p>
-              <p className="text-2xl font-mono font-bold text-primary">{ticketId}</p>
-            </div>
-            
-            {/* Submission Details */}
-            <div className="text-left bg-green-50 p-4 rounded-lg mb-6">
-              <h3 className="font-semibold text-green-900 mb-2">Submission Receipt</h3>
-              <div className="space-y-1 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-green-700">Option Selected</span>
-                  <span className="font-semibold">Option {lastSubmission?.selectedOption || selectedOption}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-green-700">Date</span>
-                  <span className="font-semibold">{new Date().toLocaleDateString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-green-700">Status</span>
-                  <Badge className="bg-green-600">Confirmed</Badge>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-slate-600 mb-6 text-sm">
-              Your withdrawal option has been securely submitted. Please obtain your deposit address from your profile page and proceed with the deposit.
-            </p>
-            
-            <div className="space-y-3">
-              <Button 
-                className="w-full bg-primary" 
-                onClick={() => setViewState('deposit')}
-              >
-                <Wallet className="w-4 h-4 mr-2" />
-                Go to Deposit Page
-              </Button>
-              <Button 
-                variant="outline" 
-                className="w-full"
-                onClick={() => setIsChatOpen(true)}
-              >
-                <MessageCircle className="w-4 h-4 mr-2" />
-                Contact Support
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="w-full"
-                onClick={() => setViewState('dashboard')}
-              >
-                <Home className="w-4 h-4 mr-2" />
-                Back to Dashboard
-              </Button>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        {/* Header */}
+        <nav className="bg-primary text-white shadow-lg">
+          <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-4">
+            <img src={ibcLogo} alt="IBC" className="h-10 w-10 object-contain" />
+            <div>
+              <h1 className="font-bold">IBC SECURE GATEWAY</h1>
+              <p className="text-xs text-blue-200">Deposit Verification Required</p>
             </div>
           </div>
-        </motion.div>
+        </nav>
+
+        <main className="max-w-3xl mx-auto px-4 py-8">
+          {/* Success Banner */}
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }} 
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-green-50 border-2 border-green-200 rounded-lg p-6 mb-8"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 className="w-8 h-8 text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-green-900">Withdrawal Request Confirmed</h2>
+                <p className="text-green-700">Reference: <span className="font-mono font-bold">{ticketId}</span></p>
+                <p className="text-sm text-green-600 mt-1">Option {lastSubmission?.selectedOption || selectedOption} selected on {new Date().toLocaleDateString()}</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Deposit Address Section */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Card className="border-2 border-amber-200 bg-amber-50 mb-6">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-amber-900">
+                  <Wallet className="w-5 h-5" />
+                  USDT Deposit Address
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {currentCase?.depositAddress ? (
+                  <>
+                    <div className="bg-white p-4 rounded-lg border-2 border-dashed border-amber-300 mb-4">
+                      <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Your Assigned Deposit Address (TRC20)</p>
+                      <code className="text-lg font-mono font-bold text-slate-900 break-all block">
+                        {currentCase.depositAddress}
+                      </code>
+                    </div>
+                    <div className="bg-amber-100 p-4 rounded-lg">
+                      <p className="text-amber-900 font-semibold mb-2">Important Instructions:</p>
+                      <ul className="text-sm text-amber-800 space-y-1 list-disc list-inside">
+                        <li>Transfer the required amount to the address above</li>
+                        <li>Only send USDT (TRC20 network)</li>
+                        <li>Keep your transaction receipt for verification</li>
+                        <li>Contact support after completing the deposit</li>
+                      </ul>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-8">
+                    <AlertTriangle className="w-12 h-12 mx-auto text-amber-500 mb-4" />
+                    <p className="text-amber-900 font-semibold">Deposit Address Pending</p>
+                    <p className="text-amber-700 text-sm mt-2">Please contact support to receive your deposit address.</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Chat Section */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <Card className="border-2 border-blue-200">
+              <CardHeader className="bg-blue-50">
+                <CardTitle className="flex items-center gap-2 text-blue-900">
+                  <MessageCircle className="w-5 h-5" />
+                  Deposit Verification Support
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                {/* Embedded Chat */}
+                <div className="h-64 overflow-y-auto p-4 space-y-3 bg-slate-50">
+                  {chatMessages.length === 0 ? (
+                    <div className="text-center text-slate-500 mt-8">
+                      <MessageCircle className="h-12 w-12 mx-auto text-slate-300 mb-3" />
+                      <p className="text-sm">Start a conversation about your deposit.</p>
+                      <p className="text-xs text-slate-400 mt-1">Our team will verify your transaction.</p>
+                    </div>
+                  ) : (
+                    chatMessages.map((msg) => (
+                      <div
+                        key={msg.id}
+                        className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-[80%] px-4 py-2 rounded-2xl ${
+                            msg.sender === 'user'
+                              ? 'bg-blue-600 text-white rounded-br-md'
+                              : 'bg-white text-slate-800 border border-slate-200 rounded-bl-md'
+                          }`}
+                        >
+                          <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
+                          <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-400'}`}>
+                            {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+                <div className="p-3 border-t border-slate-200 bg-white">
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Ask about your deposit..."
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+                      disabled={isSendingMessage}
+                      className="flex-1"
+                      data-testid="input-deposit-chat"
+                    />
+                    <Button
+                      onClick={sendMessage}
+                      disabled={!newMessage.trim() || isSendingMessage}
+                      size="sm"
+                      className="bg-blue-600 hover:bg-blue-700"
+                      data-testid="button-send-deposit-chat"
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Navigation */}
+          <div className="mt-8 flex gap-4">
+            <Button 
+              variant="outline" 
+              className="flex-1"
+              onClick={() => setViewState('dashboard')}
+            >
+              <Home className="w-4 h-4 mr-2" />
+              Back to Dashboard
+            </Button>
+            <Button 
+              className="flex-1"
+              onClick={() => setViewState('deposit')}
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Receipt
+            </Button>
+          </div>
+        </main>
       </div>
     );
   }
