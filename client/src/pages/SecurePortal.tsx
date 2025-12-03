@@ -67,6 +67,39 @@ export default function SecurePortal() {
   
   const { toast } = useToast();
 
+  // Session timeout after 3 minutes of inactivity
+  useEffect(() => {
+    if (viewState === 'login' || viewState === 'register') return;
+
+    let timeoutId: NodeJS.Timeout;
+
+    const resetTimeout = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setViewState('login');
+        setCurrentCase(null);
+        setAccessCode("");
+        toast({ title: "Session Expired", description: "You have been logged out due to inactivity." });
+      }, 3 * 60 * 1000); // 3 minutes
+    };
+
+    const handleActivity = () => resetTimeout();
+
+    // Add activity listeners
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('keypress', handleActivity);
+    window.addEventListener('click', handleActivity);
+
+    resetTimeout();
+
+    return () => {
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('keypress', handleActivity);
+      window.removeEventListener('click', handleActivity);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [viewState, toast]);
+
   // Load letter content and submissions when case becomes active
   useEffect(() => {
     if (currentCase && (viewState === 'letter' || viewState === 'submissions')) {
