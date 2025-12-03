@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
   Table, 
   TableBody, 
@@ -15,10 +16,10 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key, ExternalLink, X } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell } from "lucide-react";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface AdminData {
   vipStatus: string;
@@ -67,6 +68,34 @@ interface Submission {
   submittedAt: string;
 }
 
+interface ChatMessage {
+  id: number;
+  caseId: string;
+  sender: 'admin' | 'user';
+  message: string;
+  isRead: string;
+  createdAt: string;
+}
+
+const playNotificationSound = () => {
+  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+  oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.1);
+  oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.2);
+  
+  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+  
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.3);
+};
+
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authToken, setAuthToken] = useState<string | null>(null);
@@ -100,6 +129,16 @@ export default function AdminDashboard() {
     withdrawalBatches: "10",
     physilocal0: "PHY-001"
   });
+  
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatCase, setChatCase] = useState<Case | null>(null);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
+  const [totalUnread, setTotalUnread] = useState(0);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
+  const lastMessageCountRef = useRef<Record<string, number>>({});
   
   const { toast } = useToast();
 
@@ -227,6 +266,113 @@ export default function AdminDashboard() {
       return () => clearInterval(interval);
     }
   }, [isLoggedIn]);
+
+  // Poll for chat messages from all cases
+  useEffect(() => {
+    if (!isLoggedIn || cases.length === 0) return;
+
+    const pollAllMessages = async () => {
+      const registeredCases = cases.filter(c => c.status !== 'created');
+      const counts: Record<string, number> = {};
+      let total = 0;
+
+      for (const c of registeredCases) {
+        try {
+          const res = await fetch(`/api/cases/${c.id}/messages/unread?sender=user`);
+          if (res.ok) {
+            const data = await res.json();
+            counts[c.id] = data.count;
+            total += data.count;
+            
+            if (data.count > (lastMessageCountRef.current[c.id] || 0)) {
+              playNotificationSound();
+              toast({ title: "New Message", description: `New message from ${c.userName || 'User'}` });
+            }
+            lastMessageCountRef.current[c.id] = data.count;
+          }
+        } catch (error) {
+          console.error('Failed to poll messages:', error);
+        }
+      }
+      
+      setUnreadCounts(counts);
+      setTotalUnread(total);
+    };
+
+    pollAllMessages();
+    const interval = setInterval(pollAllMessages, 5000);
+    return () => clearInterval(interval);
+  }, [isLoggedIn, cases, toast]);
+
+  // Poll messages for open chat
+  useEffect(() => {
+    if (!isChatOpen || !chatCase) return;
+
+    const pollChatMessages = async () => {
+      try {
+        const res = await fetch(`/api/cases/${chatCase.id}/messages`);
+        if (res.ok) {
+          const messages = await res.json();
+          setChatMessages(messages);
+        }
+      } catch (error) {
+        console.error('Failed to poll chat messages:', error);
+      }
+    };
+
+    pollChatMessages();
+    const interval = setInterval(pollChatMessages, 2000);
+    return () => clearInterval(interval);
+  }, [isChatOpen, chatCase]);
+
+  // Scroll to bottom when chat opens or new message
+  useEffect(() => {
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+    }
+  }, [chatMessages, isChatOpen]);
+
+  // Mark messages as read when chat opens
+  useEffect(() => {
+    if (isChatOpen && chatCase) {
+      fetch(`/api/cases/${chatCase.id}/messages/read`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: 'user' })
+      }).then(() => {
+        setUnreadCounts(prev => ({ ...prev, [chatCase.id]: 0 }));
+        setTotalUnread(prev => Math.max(0, prev - (unreadCounts[chatCase.id] || 0)));
+      });
+    }
+  }, [isChatOpen, chatCase]);
+
+  const openChat = (caseData: Case) => {
+    setChatCase(caseData);
+    setIsChatOpen(true);
+    setChatMessages([]);
+  };
+
+  const sendAdminMessage = async () => {
+    if (!newMessage.trim() || !chatCase || isSendingMessage) return;
+    
+    setIsSendingMessage(true);
+    try {
+      const res = await fetch(`/api/cases/${chatCase.id}/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: 'admin', message: newMessage.trim() })
+      });
+      
+      if (res.ok) {
+        const msg = await res.json();
+        setChatMessages(prev => [...prev, msg]);
+        setNewMessage("");
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to send message." });
+    }
+    setIsSendingMessage(false);
+  };
 
   const clearData = async () => {
     if(confirm("Clear all simulated records?")) {
@@ -650,6 +796,22 @@ export default function AdminDashboard() {
                                   <History className="w-4 h-4 mr-1" /> History
                                 </Button>
                               )}
+                              {c.status !== 'created' && (
+                                <Button 
+                                  size="sm" 
+                                  variant="outline"
+                                  className="border-blue-700 bg-blue-900/50 text-blue-400 hover:bg-blue-800 relative"
+                                  onClick={() => openChat(c)}
+                                  data-testid={`button-chat-${c.id}`}
+                                >
+                                  <MessageCircle className="w-4 h-4 mr-1" /> Chat
+                                  {unreadCounts[c.id] > 0 && (
+                                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-xs text-white flex items-center justify-center font-bold animate-pulse">
+                                      {unreadCounts[c.id]}
+                                    </span>
+                                  )}
+                                </Button>
+                              )}
                             </div>
                           </TableCell>
                         </TableRow>
@@ -1063,6 +1225,106 @@ export default function AdminDashboard() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Chat Panel */}
+      <AnimatePresence>
+        {isChatOpen && chatCase && (
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            className="fixed top-0 right-0 bottom-0 z-50 w-96 bg-slate-950 border-l border-slate-800 flex flex-col shadow-2xl"
+          >
+            <div className="bg-slate-900 text-white px-4 py-3 flex justify-between items-center border-b border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
+                  <User className="h-5 w-5" />
+                </div>
+                <div>
+                  <div className="font-semibold">{chatCase.userName || 'User'}</div>
+                  <div className="text-xs text-slate-400">Code: {chatCase.accessCode}</div>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 text-slate-400 hover:text-white hover:bg-slate-800"
+                onClick={() => setIsChatOpen(false)}
+                data-testid="button-close-admin-chat"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            <div ref={chatScrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-900/50">
+              {chatMessages.length === 0 ? (
+                <div className="text-center text-slate-500 mt-8">
+                  <MessageCircle className="h-12 w-12 mx-auto text-slate-700 mb-3" />
+                  <p className="text-sm">No messages yet.</p>
+                  <p className="text-xs text-slate-600 mt-1">Start a conversation with {chatCase.userName || 'this user'}.</p>
+                </div>
+              ) : (
+                chatMessages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex ${msg.sender === 'admin' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`max-w-[80%] px-4 py-2 rounded-2xl ${
+                        msg.sender === 'admin'
+                          ? 'bg-blue-600 text-white rounded-br-md'
+                          : 'bg-slate-800 text-slate-100 border border-slate-700 rounded-bl-md'
+                      }`}
+                    >
+                      <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
+                      <p className={`text-xs mt-1 ${msg.sender === 'admin' ? 'text-blue-200' : 'text-slate-500'}`}>
+                        {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+            
+            <div className="p-3 border-t border-slate-800 bg-slate-900">
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Type your message..."
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendAdminMessage()}
+                  disabled={isSendingMessage}
+                  className="flex-1 bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                  data-testid="input-admin-chat-message"
+                />
+                <Button
+                  onClick={sendAdminMessage}
+                  disabled={!newMessage.trim() || isSendingMessage}
+                  size="sm"
+                  className="bg-blue-600 hover:bg-blue-700"
+                  data-testid="button-send-admin-message"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Notification Bell for Total Unread */}
+      {isLoggedIn && totalUnread > 0 && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="fixed bottom-6 right-6 z-40"
+        >
+          <div className="bg-red-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-pulse">
+            <Bell className="h-4 w-4" />
+            <span className="font-semibold">{totalUnread} unread message{totalUnread > 1 ? 's' : ''}</span>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
