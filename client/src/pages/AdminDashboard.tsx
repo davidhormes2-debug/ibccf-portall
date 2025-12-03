@@ -867,6 +867,16 @@ export default function AdminDashboard() {
                     placeholder="Option A description..."
                     data-testid="input-option-a-desc"
                   />
+                  <div>
+                    <Label className="text-slate-400">Amount</Label>
+                    <Input 
+                      value={letterData.optionAAmount || ""}
+                      onChange={(e) => setLetterData({...letterData, optionAAmount: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white mt-1"
+                      placeholder="e.g., 15000"
+                      data-testid="input-option-a-amount"
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label className="text-slate-400">Option B Title</Label>
@@ -883,6 +893,16 @@ export default function AdminDashboard() {
                     placeholder="Option B description..."
                     data-testid="input-option-b-desc"
                   />
+                  <div>
+                    <Label className="text-slate-400">Amount</Label>
+                    <Input 
+                      value={letterData.optionBAmount || ""}
+                      onChange={(e) => setLetterData({...letterData, optionBAmount: e.target.value})}
+                      className="bg-slate-900 border-slate-700 text-white mt-1"
+                      placeholder="e.g., 7500"
+                      data-testid="input-option-b-amount"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

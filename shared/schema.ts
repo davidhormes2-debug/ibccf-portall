@@ -50,10 +50,12 @@ export const caseLetters = pgTable("case_letters", {
   // Option A customization
   optionATitle: text("option_a_title").default("Accelerated Release"),
   optionADescription: text("option_a_description"),
+  optionAAmount: text("option_a_amount"),
   
   // Option B customization
   optionBTitle: text("option_b_title").default("Standard Release"),
   optionBDescription: text("option_b_description"),
+  optionBAmount: text("option_b_amount"),
   
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),

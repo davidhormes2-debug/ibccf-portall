@@ -589,7 +589,7 @@ export default function SecurePortal() {
                     <p className="text-sm text-slate-600">{letter.optionADescription}</p>
                   )}
                   <div className="flex justify-between items-baseline">
-                    <span className="text-2xl font-bold text-primary">{adminData?.withdrawalAmount}</span>
+                    <span className="text-2xl font-bold text-primary">{letterContent?.optionAAmount || adminData?.withdrawalAmount}</span>
                   </div>
                   <div className="space-y-3 pt-2">
                     <div className="flex justify-between text-sm py-2 border-b border-slate-100">
@@ -625,7 +625,7 @@ export default function SecurePortal() {
                     <p className="text-sm text-slate-600">{letter.optionBDescription}</p>
                   )}
                   <div className="flex justify-between items-baseline">
-                    <span className="text-2xl font-bold text-slate-700">Half Allocation</span>
+                    <span className="text-2xl font-bold text-slate-700">{letterContent?.optionBAmount || `Half (${parseInt(adminData?.withdrawalAmount || "0") / 2})`}</span>
                   </div>
                   <div className="space-y-3 pt-2">
                     <div className="flex justify-between text-sm py-2 border-b border-slate-100">
