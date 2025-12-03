@@ -105,3 +105,21 @@ export const insertCaseSubmissionSchema = createInsertSchema(caseSubmissions).om
 
 export type InsertCaseSubmission = z.infer<typeof insertCaseSubmissionSchema>;
 export type CaseSubmission = typeof caseSubmissions.$inferSelect;
+
+// Chat messages between admin and user
+export const chatMessages = pgTable("chat_messages", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  sender: text("sender").notNull(), // 'admin' or 'user'
+  message: text("message").notNull(),
+  isRead: text("is_read").default('false'),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
+export type ChatMessage = typeof chatMessages.$inferSelect;
