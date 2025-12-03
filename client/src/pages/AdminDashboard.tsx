@@ -139,6 +139,7 @@ export default function AdminDashboard() {
   const [totalUnread, setTotalUnread] = useState(0);
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const lastMessageCountRef = useRef<Record<string, number>>({});
+  const isInitialLoadRef = useRef(true);
   
   const { toast } = useToast();
 
@@ -284,7 +285,8 @@ export default function AdminDashboard() {
             counts[c.id] = data.count;
             total += data.count;
             
-            if (data.count > (lastMessageCountRef.current[c.id] || 0)) {
+            // Only show notifications after initial load
+            if (!isInitialLoadRef.current && data.count > (lastMessageCountRef.current[c.id] || 0)) {
               playNotificationSound();
               toast({ title: "New Message", description: `New message from ${c.userName || 'User'}` });
             }
@@ -297,6 +299,11 @@ export default function AdminDashboard() {
       
       setUnreadCounts(counts);
       setTotalUnread(total);
+      
+      // Mark initial load complete after first poll
+      if (isInitialLoadRef.current) {
+        isInitialLoadRef.current = false;
+      }
     };
 
     pollAllMessages();

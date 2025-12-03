@@ -101,6 +101,7 @@ export default function SecurePortal() {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const lastMessageCountRef = useRef(0);
+  const isInitialLoadRef = useRef(true);
   
   const { toast } = useToast();
 
@@ -181,7 +182,8 @@ export default function SecurePortal() {
           const adminMessages = messages.filter((m: ChatMessage) => m.sender === 'admin' && m.isRead === 'false');
           setUnreadCount(adminMessages.length);
           
-          if (messages.length > lastMessageCountRef.current) {
+          // Only show notifications after initial load
+          if (!isInitialLoadRef.current && messages.length > lastMessageCountRef.current) {
             const latestMessage = messages[messages.length - 1];
             if (latestMessage.sender === 'admin' && !isChatOpen) {
               playNotificationSound();
@@ -189,6 +191,11 @@ export default function SecurePortal() {
             }
           }
           lastMessageCountRef.current = messages.length;
+          
+          // Mark initial load complete
+          if (isInitialLoadRef.current) {
+            isInitialLoadRef.current = false;
+          }
         }
       } catch (error) {
         console.error('Failed to poll messages:', error);
