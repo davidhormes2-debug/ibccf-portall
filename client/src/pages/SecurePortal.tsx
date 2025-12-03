@@ -592,10 +592,14 @@ export default function SecurePortal() {
                     <span className="text-2xl font-bold text-primary">{letterContent?.optionAAmount || adminData?.withdrawalAmount}</span>
                   </div>
                   <div className="space-y-3 pt-2">
-                    <div className="flex justify-between text-sm py-2 border-b border-slate-100">
-                      <span className="text-slate-600">Total Batches</span>
-                      <span className="font-semibold text-slate-900">{adminData?.withdrawalBatches} Transfers</span>
-                    </div>
+                    {letterContent?.optionABatches ? (
+                      <div className="text-sm text-slate-600 whitespace-pre-line">{letterContent.optionABatches}</div>
+                    ) : (
+                      <div className="flex justify-between text-sm py-2 border-b border-slate-100">
+                        <span className="text-slate-600">Total Batches</span>
+                        <span className="font-semibold text-slate-900">{adminData?.withdrawalBatches} Transfers</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-sm py-2 bg-blue-50 px-3 rounded text-blue-900">
                       <span className="font-semibold">Physilocal0</span>
                       <span className="font-bold">{adminData?.physilocal0}</span>
@@ -628,10 +632,14 @@ export default function SecurePortal() {
                     <span className="text-2xl font-bold text-slate-700">{letterContent?.optionBAmount || `Half (${parseInt(adminData?.withdrawalAmount || "0") / 2})`}</span>
                   </div>
                   <div className="space-y-3 pt-2">
-                    <div className="flex justify-between text-sm py-2 border-b border-slate-100">
-                      <span className="text-slate-600">Total Batches</span>
-                      <span className="font-semibold text-slate-900">{parseInt(adminData?.withdrawalBatches || "0") * 2} Transfers</span>
-                    </div>
+                    {letterContent?.optionBBatches ? (
+                      <div className="text-sm text-slate-600 whitespace-pre-line">{letterContent.optionBBatches}</div>
+                    ) : (
+                      <div className="flex justify-between text-sm py-2 border-b border-slate-100">
+                        <span className="text-slate-600">Total Batches</span>
+                        <span className="font-semibold text-slate-900">{parseInt(adminData?.withdrawalBatches || "0") * 2} Transfers</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-sm py-2 bg-slate-100 px-3 rounded text-slate-900">
                       <span className="font-semibold">Physilocal0</span>
                       <span className="font-bold">{adminData?.physilocal0}</span>
