@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft } from "lucide-react";
@@ -305,7 +305,7 @@ export default function SecurePortal() {
           <Card className="bg-slate-950 border-slate-800 shadow-2xl">
             <CardHeader>
               <CardTitle className="text-white">Identity Verification</CardTitle>
-              <DialogDescription className="text-slate-400">Please confirm your contact details for the secure ledger.</DialogDescription>
+              <p className="text-slate-400 text-sm mt-1">Please confirm your contact details for the secure ledger.</p>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleRegister} className="space-y-4">
