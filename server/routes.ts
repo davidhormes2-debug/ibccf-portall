@@ -25,17 +25,26 @@ export async function registerRoutes(
   // Create a new case (Admin)
   app.post("/api/cases", async (req, res) => {
     try {
-      const data = insertCaseSchema.parse(req.body);
-      const newCase = await storage.createCase(data);
+      console.log('Received create case request:', req.body);
+      
+      const { accessCode, status } = req.body;
+      if (!accessCode) {
+        res.status(400).json({ error: "Access code is required" });
+        return;
+      }
+      
+      const newCase = await storage.createCase({ 
+        accessCode, 
+        status: status || 'created' 
+      });
+      console.log('Case created:', newCase);
       res.json(newCase);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Create case error:', error);
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ error: error.errors });
-      } else if ((error as any)?.code === '23505') {
+      if (error?.code === '23505') {
         res.status(400).json({ error: "Access code already exists" });
       } else {
-        res.status(500).json({ error: "Failed to create case" });
+        res.status(500).json({ error: error?.message || "Failed to create case" });
       }
     }
   });
