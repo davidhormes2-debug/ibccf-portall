@@ -1210,7 +1210,7 @@ export default function AdminDashboard() {
                 <CardHeader className="border-b border-slate-800 py-3">
                   <CardTitle className="text-base text-white">Active Chats</CardTitle>
                 </CardHeader>
-                <ScrollArea className="h-[500px]">
+                <ScrollArea className="h-[300px] lg:h-[500px]">
                   <div className="p-2">
                     {cases.filter(c => c.userName).map((c) => (
                       <div
@@ -1274,7 +1274,7 @@ export default function AdminDashboard() {
                         </Badge>
                       </div>
                     </CardHeader>
-                    <div ref={chatScrollRef} className="h-[350px] overflow-y-auto p-4 space-y-3 bg-slate-900/30">
+                    <div ref={chatScrollRef} className="h-[250px] lg:h-[350px] overflow-y-auto p-4 space-y-3 bg-slate-900/30">
                       {chatMessages.length === 0 ? (
                         <div className="text-center text-slate-500 mt-12">
                           <MessageCircle className="h-12 w-12 mx-auto text-slate-700 mb-3" />
@@ -1325,7 +1325,7 @@ export default function AdminDashboard() {
                     </CardFooter>
                   </>
                 ) : (
-                  <div className="h-[500px] flex items-center justify-center text-slate-500">
+                  <div className="h-[300px] lg:h-[500px] flex items-center justify-center text-slate-500">
                     <div className="text-center">
                       <MessageCircle className="w-16 h-16 mx-auto mb-4 opacity-30" />
                       <p className="text-lg font-medium">Select a conversation</p>
