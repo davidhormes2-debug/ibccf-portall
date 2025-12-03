@@ -161,7 +161,7 @@ export default function AdminDashboard() {
     }
   }, []);
 
-  const loadData = async () => {
+  const loadData = async (showToast = false) => {
     try {
       const [casesRes, submissionsRes] = await Promise.all([
         fetch('/api/cases'),
@@ -177,8 +177,15 @@ export default function AdminDashboard() {
         const data = await submissionsRes.json();
         setAllSubmissions(data);
       }
+      
+      if (showToast) {
+        toast({ title: "Refreshed", description: "Data has been updated." });
+      }
     } catch (error) {
       console.error('Failed to load data:', error);
+      if (showToast) {
+        toast({ variant: "destructive", title: "Error", description: "Failed to refresh data." });
+      }
     }
   };
 
@@ -498,7 +505,7 @@ export default function AdminDashboard() {
               <CardHeader className="border-b border-slate-800 bg-slate-900/50 py-4">
                  <div className="flex justify-between items-center">
                    <CardTitle className="text-base font-medium text-white">Active Cases</CardTitle>
-                   <Button variant="outline" size="sm" className="border-slate-700 bg-slate-800 text-slate-300" onClick={loadData} data-testid="button-refresh">
+                   <Button variant="outline" size="sm" className="border-slate-700 bg-slate-800 text-slate-300" onClick={() => loadData(true)} data-testid="button-refresh">
                      <RefreshCw className="w-4 h-4 mr-2" /> Refresh
                    </Button>
                  </div>
