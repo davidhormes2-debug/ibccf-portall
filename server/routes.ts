@@ -731,6 +731,28 @@ export async function registerRoutes(
     }
   });
 
+  // ==================== ADMIN USERS ====================
+
+  // Get all admin users
+  app.get("/api/admin-users", checkAdminAuth, async (req, res) => {
+    try {
+      const adminUsers = [
+        {
+          id: 1,
+          username: 'Admin2025',
+          email: 'admin@ibc.com',
+          role: 'super_admin',
+          isActive: true,
+          lastLoginAt: new Date().toISOString(),
+          createdAt: '2024-01-01T00:00:00.000Z'
+        }
+      ];
+      res.json(adminUsers);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch admin users" });
+    }
+  });
+
   // ==================== ADMIN SESSIONS ====================
 
   // Get admin sessions by username
@@ -1053,6 +1075,16 @@ export async function registerRoutes(
   });
 
   // ==================== USER SESSIONS ====================
+
+  // Get all user sessions (admin view)
+  app.get("/api/user-sessions", checkAdminAuth, async (req, res) => {
+    try {
+      const allSessions = await storage.getAllUserSessions();
+      res.json(allSessions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch user sessions" });
+    }
+  });
 
   // Get user sessions for a case
   app.get("/api/cases/:id/sessions", checkAdminAuth, async (req, res) => {

@@ -16,7 +16,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings, Moon, Sun, BarChart3, TrendingUp, Activity, Save, LayoutDashboard, Eye, Zap, Pin, StickyNote, ChevronDown } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings, Moon, Sun, BarChart3, TrendingUp, Activity, Save, LayoutDashboard, Eye, Zap, Pin, StickyNote, ChevronDown, Globe, Languages } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
@@ -370,9 +370,13 @@ export default function AdminDashboard() {
   const [userSessions, setUserSessions] = useState<any[]>([]);
   const [userFeedback, setUserFeedback] = useState<UserFeedback[]>([]);
   const [documentRequests, setDocumentRequests] = useState<DocumentRequest[]>([]);
+  const [translations, setTranslations] = useState<{id: number; key: string; value: string; locale: string}[]>([]);
+  const [selectedLocale, setSelectedLocale] = useState('en');
+  const [newTranslationKey, setNewTranslationKey] = useState('');
+  const [newTranslationValue, setNewTranslationValue] = useState('');
   
   // Settings view state
-  const [settingsView, setSettingsView] = useState<'main' | 'audit' | 'sessions' | 'scheduled' | 'templates' | 'help' | 'feedback' | 'documents' | '2fa' | 'admin-users' | 'user-sessions'>('main');
+  const [settingsView, setSettingsView] = useState<'main' | 'audit' | 'sessions' | 'scheduled' | 'templates' | 'help' | 'feedback' | 'documents' | '2fa' | 'admin-users' | 'user-sessions' | 'translations'>('main');
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   
   // New scheduled message form
@@ -1066,6 +1070,70 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to end session" });
+    }
+  };
+
+  // Load translations for a locale
+  const loadTranslations = async (locale: string) => {
+    try {
+      const res = await fetch(`/api/translations/${locale}`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const translationMap = await res.json();
+        const translationsList = Object.entries(translationMap).map(([key, value], index) => ({
+          id: index,
+          key,
+          value: value as string,
+          locale
+        }));
+        setTranslations(translationsList);
+      }
+    } catch (error) {
+      console.error('Failed to load translations:', error);
+    }
+  };
+
+  // Create translation
+  const createTranslation = async () => {
+    if (!newTranslationKey || !newTranslationValue) return;
+    try {
+      const res = await fetch('/api/translations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({
+          key: newTranslationKey,
+          value: newTranslationValue,
+          locale: selectedLocale
+        })
+      });
+      if (res.ok) {
+        toast({ title: "Translation Created", description: `Added "${newTranslationKey}" for ${selectedLocale}` });
+        setNewTranslationKey('');
+        setNewTranslationValue('');
+        loadTranslations(selectedLocale);
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to create translation" });
+    }
+  };
+
+  // Delete translation
+  const deleteTranslation = async (id: number, key: string) => {
+    try {
+      const res = await fetch(`/api/translations/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        toast({ title: "Translation Deleted", description: `Removed "${key}"` });
+        loadTranslations(selectedLocale);
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to delete translation" });
     }
   };
 
@@ -2827,6 +2895,23 @@ export default function AdminDashboard() {
                       </CardContent>
                     </Card>
 
+                    {/* Translations Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('translations'); loadTranslations(selectedLocale); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <Globe className="h-5 w-5 text-cyan-400" />
+                          Translations
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Multi-language support</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-cyan-500/20 text-cyan-300">{translations.length} keys</Badge>
+                          <Languages className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
                     {/* Theme Settings Card */}
                     <Card className="bg-slate-900/50 border-slate-800">
                       <CardHeader className="pb-2">
@@ -3455,6 +3540,101 @@ export default function AdminDashboard() {
                       </div>
                     </CardContent>
                   </Card>
+                </>
+              ) : settingsView === 'translations' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Translation Manager</h2>
+                    <div className="ml-auto flex items-center gap-3">
+                      <Select value={selectedLocale} onValueChange={(val) => { setSelectedLocale(val); loadTranslations(val); }}>
+                        <SelectTrigger className="w-[150px] bg-slate-800 border-slate-700 text-white">
+                          <SelectValue placeholder="Language" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-slate-800 border-slate-700">
+                          <SelectItem value="en" className="text-white">English (en)</SelectItem>
+                          <SelectItem value="es" className="text-white">Spanish (es)</SelectItem>
+                          <SelectItem value="zh" className="text-white">Chinese (zh)</SelectItem>
+                          <SelectItem value="ja" className="text-white">Japanese (ja)</SelectItem>
+                          <SelectItem value="ko" className="text-white">Korean (ko)</SelectItem>
+                          <SelectItem value="de" className="text-white">German (de)</SelectItem>
+                          <SelectItem value="fr" className="text-white">French (fr)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Button variant="outline" size="sm" onClick={() => loadTranslations(selectedLocale)} className="border-slate-600">
+                        <RefreshCw className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base flex items-center gap-2">
+                          <Plus className="h-4 w-4 text-cyan-400" /> Add Translation
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div>
+                          <Label className="text-slate-400">Key</Label>
+                          <Input
+                            value={newTranslationKey}
+                            onChange={(e) => setNewTranslationKey(e.target.value)}
+                            placeholder="e.g., welcome.title"
+                            className="bg-slate-800 border-slate-700 text-white mt-1"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-slate-400">Value ({selectedLocale.toUpperCase()})</Label>
+                          <Textarea
+                            value={newTranslationValue}
+                            onChange={(e) => setNewTranslationValue(e.target.value)}
+                            placeholder="Translated text..."
+                            className="bg-slate-800 border-slate-700 text-white mt-1"
+                            rows={3}
+                          />
+                        </div>
+                        <Button onClick={createTranslation} className="w-full bg-cyan-600 hover:bg-cyan-700" disabled={!newTranslationKey || !newTranslationValue}>
+                          <Plus className="h-4 w-4 mr-2" /> Add Translation
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base flex items-center gap-2">
+                          <Languages className="h-4 w-4 text-cyan-400" /> Existing Translations ({selectedLocale.toUpperCase()})
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ScrollArea className="h-[300px]">
+                          {translations.length === 0 ? (
+                            <div className="text-center py-8 text-slate-500">
+                              <Globe className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                              <p>No translations for this language</p>
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              {translations.map((t) => (
+                                <div key={t.key} className="p-3 bg-slate-800/50 rounded-lg border border-slate-700 group">
+                                  <div className="flex items-start justify-between">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-cyan-400 font-mono text-sm truncate">{t.key}</p>
+                                      <p className="text-slate-300 text-sm mt-1">{t.value}</p>
+                                    </div>
+                                    <Button variant="ghost" size="sm" onClick={() => deleteTranslation(t.id, t.key)} className="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-300 hover:bg-red-500/20">
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </>
               ) : null}
             </motion.div>

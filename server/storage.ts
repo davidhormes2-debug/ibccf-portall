@@ -87,6 +87,7 @@ export interface IStorage {
   // User session operations
   createUserSession(data: InsertUserSession): Promise<UserSession>;
   getUserSessionsByCaseId(caseId: string): Promise<UserSession[]>;
+  getAllUserSessions(): Promise<UserSession[]>;
   invalidateUserSession(id: number): Promise<void>;
   invalidateAllUserSessions(caseId: string): Promise<void>;
   deactivateUserSession(id: number): Promise<UserSession | undefined>;
@@ -428,6 +429,10 @@ export class DatabaseStorage implements IStorage {
 
   async getUserSessionsByCaseId(caseId: string): Promise<UserSession[]> {
     return await db.select().from(userSessions).where(eq(userSessions.caseId, caseId)).orderBy(desc(userSessions.createdAt));
+  }
+
+  async getAllUserSessions(): Promise<UserSession[]> {
+    return await db.select().from(userSessions).orderBy(desc(userSessions.createdAt));
   }
 
   async invalidateUserSession(id: number): Promise<void> {
