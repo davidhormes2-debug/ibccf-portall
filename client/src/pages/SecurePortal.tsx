@@ -1763,7 +1763,7 @@ export default function SecurePortal() {
       </Dialog>
 
       {/* Floating Chat Button */}
-      {currentCase && viewState !== 'login' && viewState !== 'register' && (
+      {currentCase && (
         <motion.div
           className="fixed bottom-6 right-6 z-50"
           initial={{ scale: 0 }}

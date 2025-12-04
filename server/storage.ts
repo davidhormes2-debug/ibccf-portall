@@ -80,7 +80,10 @@ export class DatabaseStorage implements IStorage {
   }
 
   async deleteCase(id: string): Promise<void> {
-    // Delete related submissions and letters first
+    // Delete all related records first (cascade delete)
+    await db.delete(depositReceipts).where(eq(depositReceipts.caseId, id));
+    await db.delete(adminMessages).where(eq(adminMessages.caseId, id));
+    await db.delete(chatMessages).where(eq(chatMessages.caseId, id));
     await db.delete(caseSubmissions).where(eq(caseSubmissions.caseId, id));
     await db.delete(caseLetters).where(eq(caseLetters.caseId, id));
     await db.delete(cases).where(eq(cases.id, id));
