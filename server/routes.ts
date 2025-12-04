@@ -11,6 +11,14 @@ function checkAdminAuth(req: Request, res: Response, next: NextFunction) {
   if (authHeader === `Bearer ${ADMIN_TOKEN}`) {
     next();
   } else {
+    if (req.method === 'DELETE' && req.path.startsWith('/api/cases/')) {
+      const caseId = req.path.split('/').pop();
+      storage.createAuditLog({
+        action: 'delete_case_unauthorized',
+        details: `Unauthorized deletion attempt for case: ${caseId}`,
+        adminUsername: 'Unknown'
+      }).catch(() => {});
+    }
     res.status(401).json({ error: "Unauthorized" });
   }
 }
@@ -127,18 +135,34 @@ export async function registerRoutes(
 
   // Delete case (Admin only - with protection for verified accounts)
   app.delete("/api/cases/:id", checkAdminAuth, async (req, res) => {
+    const caseId = req.params.id;
+    const forceDelete = req.query.force === 'true';
+    
     try {
-      const caseData = await storage.getCaseById(req.params.id);
+      const caseData = await storage.getCaseById(caseId);
       if (!caseData) {
+        try {
+          await storage.createAuditLog({
+            action: 'delete_case_attempt',
+            details: `Attempted to delete non-existent case: ${caseId}`,
+            adminUsername: 'Admin'
+          });
+        } catch {}
         res.status(404).json({ error: "Case not found" });
         return;
       }
       
       const verifiedStatuses = ['registered', 'syncing', 'active', 'completed'];
       const isVerified = verifiedStatuses.includes(caseData.status || '');
-      const forceDelete = req.query.force === 'true';
       
       if (isVerified && !forceDelete) {
+        try {
+          await storage.createAuditLog({
+            action: 'delete_case_blocked',
+            details: `Blocked deletion of verified account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}) - Force confirmation required`,
+            adminUsername: 'Admin'
+          });
+        } catch {}
         res.status(403).json({ 
           error: "This is a verified account and cannot be deleted without explicit confirmation",
           requiresConfirmation: true,
@@ -147,12 +171,12 @@ export async function registerRoutes(
         return;
       }
       
-      await storage.deleteCase(req.params.id);
+      await storage.deleteCase(caseId);
       
       try {
         await storage.createAuditLog({
-          action: 'delete_case',
-          details: `Deleted account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}, Verified: ${isVerified}, Force: ${forceDelete})`,
+          action: 'delete_case_success',
+          details: `Successfully deleted account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}, Verified: ${isVerified}, Force: ${forceDelete})`,
           adminUsername: 'Admin'
         });
       } catch (auditError) {
@@ -161,6 +185,13 @@ export async function registerRoutes(
       
       res.json({ success: true });
     } catch (error) {
+      try {
+        await storage.createAuditLog({
+          action: 'delete_case_error',
+          details: `Error deleting case ${caseId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          adminUsername: 'Admin'
+        });
+      } catch {}
       res.status(500).json({ error: "Failed to delete case" });
     }
   });
