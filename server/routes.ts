@@ -15,8 +15,10 @@ function checkAdminAuth(req: Request, res: Response, next: NextFunction) {
       const caseId = req.path.split('/').pop();
       storage.createAuditLog({
         action: 'delete_case_unauthorized',
-        details: `Unauthorized deletion attempt for case: ${caseId}`,
-        adminUsername: 'Unknown'
+        newValue: `Unauthorized deletion attempt for case: ${caseId}`,
+        adminUsername: 'Unknown',
+        targetType: 'case',
+        targetId: caseId || undefined
       }).catch(() => {});
     }
     res.status(401).json({ error: "Unauthorized" });
@@ -144,8 +146,10 @@ export async function registerRoutes(
         try {
           await storage.createAuditLog({
             action: 'delete_case_attempt',
-            details: `Attempted to delete non-existent case: ${caseId}`,
-            adminUsername: 'Admin'
+            newValue: `Attempted to delete non-existent case: ${caseId}`,
+            adminUsername: 'Admin',
+            targetType: 'case',
+            targetId: caseId
           });
         } catch {}
         res.status(404).json({ error: "Case not found" });
@@ -159,8 +163,10 @@ export async function registerRoutes(
         try {
           await storage.createAuditLog({
             action: 'delete_case_blocked',
-            details: `Blocked deletion of verified account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}) - Force confirmation required`,
-            adminUsername: 'Admin'
+            newValue: `Blocked deletion of verified account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}) - Force confirmation required`,
+            adminUsername: 'Admin',
+            targetType: 'case',
+            targetId: caseId
           });
         } catch {}
         res.status(403).json({ 
@@ -176,8 +182,11 @@ export async function registerRoutes(
       try {
         await storage.createAuditLog({
           action: 'delete_case_success',
-          details: `Successfully deleted account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}, Verified: ${isVerified}, Force: ${forceDelete})`,
-          adminUsername: 'Admin'
+          previousValue: `Account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status})`,
+          newValue: `Successfully deleted (Verified: ${isVerified}, Force: ${forceDelete})`,
+          adminUsername: 'Admin',
+          targetType: 'case',
+          targetId: caseId
         });
       } catch (auditError) {
         console.error('Failed to create audit log:', auditError);
@@ -188,8 +197,10 @@ export async function registerRoutes(
       try {
         await storage.createAuditLog({
           action: 'delete_case_error',
-          details: `Error deleting case ${caseId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-          adminUsername: 'Admin'
+          newValue: `Error deleting case ${caseId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          adminUsername: 'Admin',
+          targetType: 'case',
+          targetId: caseId
         });
       } catch {}
       res.status(500).json({ error: "Failed to delete case" });
