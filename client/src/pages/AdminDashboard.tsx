@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,11 +16,13 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings, Moon, Sun, BarChart3, TrendingUp, Activity } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/App";
 
 interface AdminData {
   vipStatus: string;
@@ -224,7 +226,26 @@ export default function AdminDashboard() {
   const [depositAddressEdit, setDepositAddressEdit] = useState("");
   const [profileRedirectEdit, setProfileRedirectEdit] = useState("");
   
+  // Search and filter state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  
+  // Filtered cases based on search and status filter
+  const filteredCases = useMemo(() => {
+    return cases.filter(c => {
+      const matchesSearch = searchQuery === "" || 
+        c.accessCode?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        c.userName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        c.userEmail?.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesStatus = statusFilter === "all" || c.status === statusFilter;
+      
+      return matchesSearch && matchesStatus;
+    });
+  }, [cases, searchQuery, statusFilter]);
+  
   const { toast } = useToast();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1055,6 +1076,15 @@ export default function AdminDashboard() {
             <p className="text-xs text-slate-400">Admin Session</p>
             <p className="text-sm font-bold text-white">Compliance Officer</p>
           </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500"
+            onClick={toggleTheme}
+            data-testid="button-theme-toggle-admin"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </Button>
           <a href="/" target="_blank" rel="noopener noreferrer">
             <Button 
               variant="outline" 
@@ -1094,6 +1124,9 @@ export default function AdminDashboard() {
                 </span>
               )}
             </TabsTrigger>
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700" data-testid="tab-analytics">
+              <BarChart3 className="w-4 h-4 mr-2" /> Analytics
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="cases">
@@ -1105,6 +1138,45 @@ export default function AdminDashboard() {
               <div className="flex gap-2">
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white" data-testid="button-new-case">
                   <Plus className="w-4 h-4 mr-2" /> New Case
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="border-slate-700 bg-slate-800 text-slate-300 hover:text-white"
+                  onClick={() => {
+                    const escapeCSV = (val: string | null | undefined): string => {
+                      if (val == null) return '""';
+                      const str = String(val);
+                      const escaped = str.replace(/"/g, '""').replace(/\n/g, ' ').replace(/\r/g, '');
+                      return `"${escaped}"`;
+                    };
+                    
+                    const headers = ['Access Code', 'Status', 'User Name', 'Email', 'Mobile', 'VIP Status', 'Withdrawal Amount', 'Batches', 'Created At'];
+                    const csvContent = [
+                      headers.map(h => escapeCSV(h)).join(','),
+                      ...filteredCases.map(c => [
+                        escapeCSV(c.accessCode),
+                        escapeCSV(c.status),
+                        escapeCSV(c.userName),
+                        escapeCSV(c.userEmail),
+                        escapeCSV(c.userMobile),
+                        escapeCSV(c.vipStatus),
+                        escapeCSV(c.withdrawalAmount),
+                        escapeCSV(c.withdrawalBatches),
+                        escapeCSV(new Date(c.createdAt).toLocaleDateString())
+                      ].join(','))
+                    ].join('\n');
+                    
+                    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `cases-export-${new Date().toISOString().split('T')[0]}.csv`;
+                    link.click();
+                    toast({ title: "Export Complete", description: `Exported ${filteredCases.length} cases to CSV.` });
+                  }}
+                  data-testid="button-export-csv"
+                >
+                  <FileText className="w-4 h-4 mr-2" /> Export CSV
                 </Button>
                 <Button variant="destructive" size="sm" onClick={clearData} data-testid="button-clear">
                   <Trash2 className="w-4 h-4 mr-2" /> Clear Logs
@@ -1126,11 +1198,64 @@ export default function AdminDashboard() {
 
             <Card className="bg-slate-950 border-slate-800 overflow-hidden">
               <CardHeader className="border-b border-slate-800 bg-slate-900/50 py-4">
-                 <div className="flex justify-between items-center">
-                   <CardTitle className="text-base font-medium text-white">Active Cases</CardTitle>
-                   <Button variant="outline" size="sm" className="border-slate-700 bg-slate-800 text-slate-300" onClick={() => loadData(true)} data-testid="button-refresh">
-                     <RefreshCw className="w-4 h-4 mr-2" /> Refresh
-                   </Button>
+                 <div className="flex flex-col gap-4">
+                   <div className="flex justify-between items-center">
+                     <CardTitle className="text-base font-medium text-white">Active Cases</CardTitle>
+                     <Button variant="outline" size="sm" className="border-slate-700 bg-slate-800 text-slate-300" onClick={() => loadData(true)} data-testid="button-refresh">
+                       <RefreshCw className="w-4 h-4 mr-2" /> Refresh
+                     </Button>
+                   </div>
+                   
+                   {/* Search and Filter Row */}
+                   <div className="flex flex-col sm:flex-row gap-3">
+                     <div className="relative flex-1">
+                       <input
+                         type="text"
+                         placeholder="Search by code, name, or email..."
+                         value={searchQuery}
+                         onChange={(e) => setSearchQuery(e.target.value)}
+                         className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 pl-10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500"
+                         data-testid="input-search-cases"
+                       />
+                       <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                       </svg>
+                       {searchQuery && (
+                         <button
+                           onClick={() => setSearchQuery("")}
+                           className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                         >
+                           <X className="w-4 h-4" />
+                         </button>
+                       )}
+                     </div>
+                     
+                     <Select value={statusFilter} onValueChange={setStatusFilter}>
+                       <SelectTrigger className="w-full sm:w-[180px] bg-slate-900 border-slate-700 text-white" data-testid="select-status-filter">
+                         <SelectValue placeholder="Filter by status" />
+                       </SelectTrigger>
+                       <SelectContent className="bg-slate-900 border-slate-700">
+                         <SelectItem value="all" className="text-white hover:bg-slate-800">All Statuses</SelectItem>
+                         <SelectItem value="created" className="text-white hover:bg-slate-800">Created</SelectItem>
+                         <SelectItem value="syncing" className="text-white hover:bg-slate-800">Syncing</SelectItem>
+                         <SelectItem value="active" className="text-white hover:bg-slate-800">Active</SelectItem>
+                         <SelectItem value="completed" className="text-white hover:bg-slate-800">Completed</SelectItem>
+                       </SelectContent>
+                     </Select>
+                   </div>
+                   
+                   {/* Results count */}
+                   <div className="text-xs text-slate-500">
+                     Showing {filteredCases.length} of {cases.length} cases
+                     {(searchQuery || statusFilter !== 'all') && (
+                       <button 
+                         onClick={() => { setSearchQuery(""); setStatusFilter("all"); }}
+                         className="ml-2 text-blue-400 hover:text-blue-300"
+                       >
+                         Clear filters
+                       </button>
+                     )}
+                   </div>
                  </div>
               </CardHeader>
               <div className="overflow-x-auto">
@@ -1157,14 +1282,16 @@ export default function AdminDashboard() {
                           <TableCell><div className="h-8 w-24 bg-slate-800 rounded mx-auto"></div></TableCell>
                         </TableRow>
                       ))
-                    ) : cases.length === 0 ? (
+                    ) : filteredCases.length === 0 ? (
                       <TableRow className="hover:bg-transparent border-slate-800">
                         <TableCell colSpan={6} className="text-center py-12 text-slate-500">
-                          No active cases. Create one to get started.
+                          {cases.length === 0 
+                            ? "No active cases. Create one to get started."
+                            : "No cases match your search criteria."}
                         </TableCell>
                       </TableRow>
                     ) : (
-                      cases.map((c) => (
+                      filteredCases.map((c) => (
                         <TableRow key={c.id} className="hover:bg-slate-900/50 border-slate-800 group" data-testid={`row-case-${c.id}`}>
                           <TableCell>
                             <Badge variant="outline" className={`
@@ -1511,6 +1638,237 @@ export default function AdminDashboard() {
                 )}
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Analytics Tab */}
+          <TabsContent value="analytics">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-1">Analytics Dashboard</h2>
+              <p className="text-slate-400 text-sm">Monitor key metrics, trends, and performance indicators.</p>
+            </div>
+
+            {/* Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                <Card className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 border-blue-500/30">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-blue-200 text-sm">Total Cases</p>
+                        <p className="text-3xl font-bold text-white">{cases.length}</p>
+                      </div>
+                      <div className="h-12 w-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                        <FileText className="h-6 w-6 text-blue-400" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                <Card className="bg-gradient-to-br from-green-500/20 to-green-600/10 border-green-500/30">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-green-200 text-sm">Active Users</p>
+                        <p className="text-3xl font-bold text-white">{cases.filter(c => c.status === 'active' || c.status === 'completed').length}</p>
+                      </div>
+                      <div className="h-12 w-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                        <Users className="h-6 w-6 text-green-400" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                <Card className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 border-purple-500/30">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-purple-200 text-sm">Total Submissions</p>
+                        <p className="text-3xl font-bold text-white">{submissions.length}</p>
+                      </div>
+                      <div className="h-12 w-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <FolderOpen className="h-6 w-6 text-purple-400" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+                <Card className="bg-gradient-to-br from-amber-500/20 to-amber-600/10 border-amber-500/30">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-amber-200 text-sm">Pending Actions</p>
+                        <p className="text-3xl font-bold text-white">{cases.filter(c => c.status === 'syncing').length}</p>
+                      </div>
+                      <div className="h-12 w-12 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                        <Clock className="h-6 w-6 text-amber-400" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+
+            {/* Charts Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              {/* Case Status Distribution */}
+              <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>
+                <Card className="bg-slate-950 border-slate-800">
+                  <CardHeader>
+                    <CardTitle className="text-white flex items-center gap-2">
+                      <BarChart3 className="h-5 w-5 text-blue-400" />
+                      Case Status Distribution
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[300px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={[
+                              { name: 'Created', value: cases.filter(c => c.status === 'created').length, color: '#64748b' },
+                              { name: 'Syncing', value: cases.filter(c => c.status === 'syncing').length, color: '#f59e0b' },
+                              { name: 'Active', value: cases.filter(c => c.status === 'active').length, color: '#22c55e' },
+                              { name: 'Completed', value: cases.filter(c => c.status === 'completed').length, color: '#3b82f6' },
+                            ].filter(d => d.value > 0)}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                            outerRadius={100}
+                            fill="#8884d8"
+                            dataKey="value"
+                          >
+                            {[
+                              { name: 'Created', value: cases.filter(c => c.status === 'created').length, color: '#64748b' },
+                              { name: 'Syncing', value: cases.filter(c => c.status === 'syncing').length, color: '#f59e0b' },
+                              { name: 'Active', value: cases.filter(c => c.status === 'active').length, color: '#22c55e' },
+                              { name: 'Completed', value: cases.filter(c => c.status === 'completed').length, color: '#3b82f6' },
+                            ].filter(d => d.value > 0).map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                          <Tooltip 
+                            contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
+                            labelStyle={{ color: '#fff' }}
+                          />
+                          <Legend 
+                            wrapperStyle={{ color: '#94a3b8' }}
+                            formatter={(value) => <span style={{ color: '#94a3b8' }}>{value}</span>}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Submission Options Breakdown */}
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}>
+                <Card className="bg-slate-950 border-slate-800">
+                  <CardHeader>
+                    <CardTitle className="text-white flex items-center gap-2">
+                      <TrendingUp className="h-5 w-5 text-green-400" />
+                      Submission Options Breakdown
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[300px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                          data={[
+                            { name: 'Option A', count: submissions.filter(s => s.selectedOption === 'A').length, fill: '#3b82f6' },
+                            { name: 'Option B', count: submissions.filter(s => s.selectedOption === 'B').length, fill: '#8b5cf6' },
+                          ]}
+                          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                          <XAxis dataKey="name" stroke="#94a3b8" />
+                          <YAxis stroke="#94a3b8" />
+                          <Tooltip 
+                            contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
+                            labelStyle={{ color: '#fff' }}
+                          />
+                          <Bar dataKey="count" radius={[4, 4, 0, 0]}>
+                            {[
+                              { name: 'Option A', count: submissions.filter(s => s.selectedOption === 'A').length, fill: '#3b82f6' },
+                              { name: 'Option B', count: submissions.filter(s => s.selectedOption === 'B').length, fill: '#8b5cf6' },
+                            ].map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+
+            {/* Activity Timeline */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
+              <Card className="bg-slate-950 border-slate-800">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <Activity className="h-5 w-5 text-purple-400" />
+                    Recent Activity
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {cases.slice(0, 5).map((c, index) => (
+                      <motion.div 
+                        key={c.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 * index }}
+                        className="flex items-center gap-4 p-3 bg-slate-900/50 rounded-lg border border-slate-800"
+                      >
+                        <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
+                          c.status === 'completed' ? 'bg-blue-500/20' :
+                          c.status === 'active' ? 'bg-green-500/20' :
+                          c.status === 'syncing' ? 'bg-amber-500/20' : 'bg-slate-500/20'
+                        }`}>
+                          {c.status === 'completed' ? <CheckCircle className="h-5 w-5 text-blue-400" /> :
+                           c.status === 'active' ? <User className="h-5 w-5 text-green-400" /> :
+                           c.status === 'syncing' ? <Clock className="h-5 w-5 text-amber-400" /> :
+                           <FileText className="h-5 w-5 text-slate-400" />}
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-white font-medium">{c.userName || `Case ${c.accessCode}`}</p>
+                          <p className="text-slate-400 text-sm">
+                            Status: <span className={`font-medium ${
+                              c.status === 'completed' ? 'text-blue-400' :
+                              c.status === 'active' ? 'text-green-400' :
+                              c.status === 'syncing' ? 'text-amber-400' : 'text-slate-300'
+                            }`}>{c.status}</span>
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-slate-500 text-xs">
+                            {new Date(c.updatedAt || c.createdAt).toLocaleDateString()}
+                          </p>
+                          <p className="text-slate-600 text-xs">
+                            {new Date(c.updatedAt || c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        </div>
+                      </motion.div>
+                    ))}
+                    {cases.length === 0 && (
+                      <div className="text-center py-8 text-slate-500">
+                        <Activity className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                        <p>No recent activity</p>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </TabsContent>
         </Tabs>
       </main>

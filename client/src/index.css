@@ -136,3 +136,54 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+/* Print Styles for PDF Export */
+@media print {
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  .print\\:hidden {
+    display: none !important;
+  }
+  
+  .print\\:bg-white {
+    background: white !important;
+  }
+  
+  .print\\:shadow-none {
+    box-shadow: none !important;
+  }
+  
+  .print\\:border-none {
+    border: none !important;
+  }
+  
+  .print\\:max-w-none {
+    max-width: none !important;
+  }
+  
+  .print\\:px-8 {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+  
+  /* Ensure gradients print properly */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Hide chat button and confirmation modal */
+  [data-testid="button-chat-toggle"],
+  [data-testid="dialog-confirmation"] {
+    display: none !important;
+  }
+}

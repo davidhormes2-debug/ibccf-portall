@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home, Copy } from "lucide-react";
+import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home, Copy, Moon, Sun, Download, Printer } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/App";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 
@@ -161,6 +162,7 @@ export default function SecurePortal() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const { toast } = useToast();
+  const { theme, toggleTheme } = useTheme();
 
   // Session timeout after 3 minutes of inactivity
   useEffect(() => {
@@ -691,6 +693,15 @@ export default function SecurePortal() {
                     URGENT
                   </motion.div>
                 )}
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-white hover:bg-white/10 border border-white/20 hover:border-white/40 transition-all"
+                    onClick={toggleTheme}
+                    data-testid="button-theme-toggle"
+                  >
+                    {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                  </Button>
                 <Button 
                   variant="ghost" 
                   size="sm" 
@@ -964,8 +975,32 @@ export default function SecurePortal() {
               </Card>
             </motion.div>
 
-            {/* IBC Support Card */}
+            {/* Activity Timeline Card */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setViewState('timeline')} data-testid="card-timeline">
+                <CardHeader className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-t-lg">
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="w-5 h-5" />
+                    Activity Timeline
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <p className="text-slate-600 text-sm mb-4">
+                    View your complete account activity history.
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Recent Activities</span>
+                      <span className="font-semibold">{submissions.length + depositReceipts.length + adminMessages.length}</span>
+                    </div>
+                  </div>
+                  <Button className="w-full mt-6" variant="outline">View Timeline</Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* IBC Support Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
               <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setIsChatOpen(true)} data-testid="card-support">
                 <CardHeader className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-t-lg">
                   <div className="flex items-center justify-between">
@@ -1498,6 +1533,129 @@ export default function SecurePortal() {
     );
   }
 
+  // ACTIVITY TIMELINE VIEW
+  if (viewState === 'timeline') {
+    // Combine all activities into a single timeline
+    const activities = [
+      ...submissions.map(s => ({
+        id: `submission-${s.id}`,
+        type: 'submission' as const,
+        title: `Option ${s.selectedOption} Submission`,
+        description: `Submitted withdrawal option for ${s.withdrawalAmount}`,
+        timestamp: new Date(s.submittedAt),
+        icon: 'file',
+        color: 'blue'
+      })),
+      ...depositReceipts.map(r => ({
+        id: `receipt-${r.id}`,
+        type: 'receipt' as const,
+        title: `Deposit Receipt Uploaded`,
+        description: `Receipt ${r.status === 'approved' ? 'approved' : r.status === 'rejected' ? 'rejected' : 'pending review'}`,
+        timestamp: new Date(r.uploadedAt),
+        icon: 'upload',
+        color: r.status === 'approved' ? 'green' : r.status === 'rejected' ? 'red' : 'amber'
+      })),
+      ...adminMessages.map(m => ({
+        id: `message-${m.id}`,
+        type: 'message' as const,
+        title: m.title,
+        description: m.content.substring(0, 100) + (m.content.length > 100 ? '...' : ''),
+        timestamp: new Date(m.createdAt),
+        icon: 'bell',
+        color: m.category === 'urgent' ? 'red' : m.category === 'processing' ? 'amber' : 'green'
+      }))
+    ].sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+
+    return (
+      <div className="min-h-screen bg-slate-900 p-4 font-sans">
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
+            <img src={ibcLogo} alt="IBC Logo" className="h-10 w-10 object-contain opacity-80" />
+            <div>
+              <h1 className="text-xl font-bold text-white">Activity Timeline</h1>
+              <p className="text-slate-400 text-xs">Your complete account history</p>
+            </div>
+          </div>
+
+          <Card className="bg-slate-950 border-slate-800 mb-6">
+            <CardHeader className="border-b border-slate-800">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-indigo-500" />
+                  <CardTitle className="text-white text-lg">Recent Activity</CardTitle>
+                </div>
+                <Badge variant="outline" className="text-slate-400 border-slate-700">
+                  {activities.length} events
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-6">
+              {activities.length === 0 ? (
+                <div className="text-center py-12 text-slate-500">
+                  <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>No activity yet.</p>
+                  <p className="text-sm mt-2">Your account activities will appear here.</p>
+                </div>
+              ) : (
+                <div className="relative">
+                  {/* Timeline line */}
+                  <div className="absolute left-4 top-2 bottom-2 w-0.5 bg-slate-800" />
+                  
+                  <div className="space-y-6">
+                    {activities.map((activity, index) => (
+                      <motion.div 
+                        key={activity.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="relative pl-10"
+                        data-testid={`timeline-item-${activity.id}`}
+                      >
+                        {/* Timeline dot */}
+                        <div className={`absolute left-2.5 w-3 h-3 rounded-full ring-4 ring-slate-950 ${
+                          activity.color === 'blue' ? 'bg-blue-500' :
+                          activity.color === 'green' ? 'bg-green-500' :
+                          activity.color === 'red' ? 'bg-red-500' :
+                          activity.color === 'amber' ? 'bg-amber-500' : 'bg-slate-500'
+                        }`} />
+                        
+                        <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <div className={`p-1.5 rounded-md ${
+                                activity.color === 'blue' ? 'bg-blue-500/20 text-blue-400' :
+                                activity.color === 'green' ? 'bg-green-500/20 text-green-400' :
+                                activity.color === 'red' ? 'bg-red-500/20 text-red-400' :
+                                activity.color === 'amber' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-500/20 text-slate-400'
+                              }`}>
+                                {activity.icon === 'file' && <FileText className="w-4 h-4" />}
+                                {activity.icon === 'upload' && <Upload className="w-4 h-4" />}
+                                {activity.icon === 'bell' && <Bell className="w-4 h-4" />}
+                              </div>
+                              <span className="text-white font-medium text-sm">{activity.title}</span>
+                            </div>
+                            <span className="text-xs text-slate-500">
+                              {activity.timestamp.toLocaleDateString()} {activity.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                          <p className="text-slate-400 text-sm">{activity.description}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Button variant="outline" className="border-slate-700 text-slate-300" onClick={() => setViewState('dashboard')} data-testid="button-back-dashboard-timeline">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Dashboard
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   // SUBMISSIONS FOLDER VIEW
   if (viewState === 'submissions') {
     return (
@@ -1687,6 +1845,15 @@ export default function SecurePortal() {
                   <History className="w-4 h-4 mr-2" /> History ({submissions.length})
                 </Button>
               )}
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="border-slate-600 text-white hover:bg-slate-800"
+                onClick={() => window.print()}
+                data-testid="button-download-pdf"
+              >
+                <Download className="w-4 h-4 mr-2" /> Download PDF
+              </Button>
               <div className="flex items-center gap-2 text-xs text-slate-400">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                 Secure Connection
