@@ -1687,7 +1687,7 @@ export default function AdminDashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-purple-200 text-sm">Total Submissions</p>
-                        <p className="text-3xl font-bold text-white">{submissions.length}</p>
+                        <p className="text-3xl font-bold text-white">{allSubmissions.length}</p>
                       </div>
                       <div className="h-12 w-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
                         <FolderOpen className="h-6 w-6 text-purple-400" />
@@ -1782,8 +1782,8 @@ export default function AdminDashboard() {
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                           data={[
-                            { name: 'Option A', count: submissions.filter(s => s.selectedOption === 'A').length, fill: '#3b82f6' },
-                            { name: 'Option B', count: submissions.filter(s => s.selectedOption === 'B').length, fill: '#8b5cf6' },
+                            { name: 'Option A', count: allSubmissions.filter(s => s.selectedOption === 'A').length, fill: '#3b82f6' },
+                            { name: 'Option B', count: allSubmissions.filter(s => s.selectedOption === 'B').length, fill: '#8b5cf6' },
                           ]}
                           margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                         >
@@ -1796,8 +1796,8 @@ export default function AdminDashboard() {
                           />
                           <Bar dataKey="count" radius={[4, 4, 0, 0]}>
                             {[
-                              { name: 'Option A', count: submissions.filter(s => s.selectedOption === 'A').length, fill: '#3b82f6' },
-                              { name: 'Option B', count: submissions.filter(s => s.selectedOption === 'B').length, fill: '#8b5cf6' },
+                              { name: 'Option A', count: allSubmissions.filter(s => s.selectedOption === 'A').length, fill: '#3b82f6' },
+                              { name: 'Option B', count: allSubmissions.filter(s => s.selectedOption === 'B').length, fill: '#8b5cf6' },
                             ].map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={entry.fill} />
                             ))}
