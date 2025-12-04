@@ -959,7 +959,7 @@ export default function SecurePortal() {
                       onClick={() => window.open(currentCase.profileRedirectUrl, '_blank')}
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Open Profile Link
+                      Access my profile account
                     </Button>
                   )}
                 </CardContent>
