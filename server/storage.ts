@@ -4,10 +4,19 @@ import {
   type CaseSubmission, type InsertCaseSubmission, caseSubmissions,
   type ChatMessage, type InsertChatMessage, chatMessages,
   type AdminMessage, type InsertAdminMessage, adminMessages,
-  type DepositReceipt, type InsertDepositReceipt, depositReceipts
+  type DepositReceipt, type InsertDepositReceipt, depositReceipts,
+  type ActivityLog, type InsertActivityLog, activityLogs,
+  type AuditLog, type InsertAuditLog, auditLogs,
+  type MessageTemplate, type InsertMessageTemplate, messageTemplates,
+  type DocumentRequest, type InsertDocumentRequest, documentRequests,
+  type UserSession, type InsertUserSession, userSessions,
+  type ScheduledMessage, type InsertScheduledMessage, scheduledMessages,
+  type HelpArticle, type InsertHelpArticle, helpArticles,
+  type Notification, type InsertNotification, notifications,
+  type UserFeedback, type InsertUserFeedback, userFeedback
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, lt, isNull } from "drizzle-orm";
 
 export interface IStorage {
   // Case operations
@@ -48,6 +57,55 @@ export interface IStorage {
   getDepositReceiptsByCaseId(caseId: string): Promise<DepositReceipt[]>;
   updateDepositReceiptStatus(id: number, status: string): Promise<DepositReceipt | undefined>;
   updateDepositReceipt(id: number, data: { status?: string; adminNotes?: string }): Promise<DepositReceipt | undefined>;
+  
+  // Activity log operations
+  createActivityLog(data: InsertActivityLog): Promise<ActivityLog>;
+  getActivityLogsByCaseId(caseId: string): Promise<ActivityLog[]>;
+  getAllActivityLogs(): Promise<ActivityLog[]>;
+  
+  // Audit log operations
+  createAuditLog(data: InsertAuditLog): Promise<AuditLog>;
+  getAllAuditLogs(): Promise<AuditLog[]>;
+  
+  // Message template operations
+  createMessageTemplate(data: InsertMessageTemplate): Promise<MessageTemplate>;
+  getAllMessageTemplates(): Promise<MessageTemplate[]>;
+  updateMessageTemplate(id: number, data: Partial<InsertMessageTemplate>): Promise<MessageTemplate | undefined>;
+  deleteMessageTemplate(id: number): Promise<void>;
+  
+  // Document request operations
+  createDocumentRequest(data: InsertDocumentRequest): Promise<DocumentRequest>;
+  getDocumentRequestsByCaseId(caseId: string): Promise<DocumentRequest[]>;
+  updateDocumentRequest(id: number, data: Partial<InsertDocumentRequest>): Promise<DocumentRequest | undefined>;
+  
+  // User session operations
+  createUserSession(data: InsertUserSession): Promise<UserSession>;
+  getUserSessionsByCaseId(caseId: string): Promise<UserSession[]>;
+  invalidateUserSession(id: number): Promise<void>;
+  invalidateAllUserSessions(caseId: string): Promise<void>;
+  
+  // Scheduled message operations
+  createScheduledMessage(data: InsertScheduledMessage): Promise<ScheduledMessage>;
+  getScheduledMessagesByCaseId(caseId: string): Promise<ScheduledMessage[]>;
+  getPendingScheduledMessages(): Promise<ScheduledMessage[]>;
+  updateScheduledMessage(id: number, data: Partial<InsertScheduledMessage>): Promise<ScheduledMessage | undefined>;
+  
+  // Help article operations
+  createHelpArticle(data: InsertHelpArticle): Promise<HelpArticle>;
+  getAllHelpArticles(): Promise<HelpArticle[]>;
+  updateHelpArticle(id: number, data: Partial<InsertHelpArticle>): Promise<HelpArticle | undefined>;
+  deleteHelpArticle(id: number): Promise<void>;
+  
+  // Notification operations
+  createNotification(data: InsertNotification): Promise<Notification>;
+  getNotificationsByRecipient(recipientType: string, recipientId: string): Promise<Notification[]>;
+  markNotificationAsRead(id: number): Promise<void>;
+  markAllNotificationsAsRead(recipientType: string, recipientId: string): Promise<void>;
+  
+  // User feedback operations
+  createUserFeedback(data: InsertUserFeedback): Promise<UserFeedback>;
+  getUserFeedbackByCaseId(caseId: string): Promise<UserFeedback[]>;
+  getAllUserFeedback(): Promise<UserFeedback[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -250,6 +308,157 @@ export class DatabaseStorage implements IStorage {
       .where(eq(depositReceipts.id, id))
       .returning();
     return updated;
+  }
+
+  // Activity log operations
+  async createActivityLog(data: InsertActivityLog): Promise<ActivityLog> {
+    const [log] = await db.insert(activityLogs).values(data).returning();
+    return log;
+  }
+
+  async getActivityLogsByCaseId(caseId: string): Promise<ActivityLog[]> {
+    return await db.select().from(activityLogs).where(eq(activityLogs.caseId, caseId)).orderBy(desc(activityLogs.createdAt));
+  }
+
+  async getAllActivityLogs(): Promise<ActivityLog[]> {
+    return await db.select().from(activityLogs).orderBy(desc(activityLogs.createdAt));
+  }
+
+  // Audit log operations
+  async createAuditLog(data: InsertAuditLog): Promise<AuditLog> {
+    const [log] = await db.insert(auditLogs).values(data).returning();
+    return log;
+  }
+
+  async getAllAuditLogs(): Promise<AuditLog[]> {
+    return await db.select().from(auditLogs).orderBy(desc(auditLogs.createdAt));
+  }
+
+  // Message template operations
+  async createMessageTemplate(data: InsertMessageTemplate): Promise<MessageTemplate> {
+    const [template] = await db.insert(messageTemplates).values(data).returning();
+    return template;
+  }
+
+  async getAllMessageTemplates(): Promise<MessageTemplate[]> {
+    return await db.select().from(messageTemplates).orderBy(desc(messageTemplates.createdAt));
+  }
+
+  async updateMessageTemplate(id: number, data: Partial<InsertMessageTemplate>): Promise<MessageTemplate | undefined> {
+    const [updated] = await db.update(messageTemplates).set({ ...data, updatedAt: new Date() }).where(eq(messageTemplates.id, id)).returning();
+    return updated;
+  }
+
+  async deleteMessageTemplate(id: number): Promise<void> {
+    await db.delete(messageTemplates).where(eq(messageTemplates.id, id));
+  }
+
+  // Document request operations
+  async createDocumentRequest(data: InsertDocumentRequest): Promise<DocumentRequest> {
+    const [request] = await db.insert(documentRequests).values(data).returning();
+    return request;
+  }
+
+  async getDocumentRequestsByCaseId(caseId: string): Promise<DocumentRequest[]> {
+    return await db.select().from(documentRequests).where(eq(documentRequests.caseId, caseId)).orderBy(desc(documentRequests.createdAt));
+  }
+
+  async updateDocumentRequest(id: number, data: Partial<InsertDocumentRequest>): Promise<DocumentRequest | undefined> {
+    const [updated] = await db.update(documentRequests).set(data).where(eq(documentRequests.id, id)).returning();
+    return updated;
+  }
+
+  // User session operations
+  async createUserSession(data: InsertUserSession): Promise<UserSession> {
+    const [session] = await db.insert(userSessions).values(data).returning();
+    return session;
+  }
+
+  async getUserSessionsByCaseId(caseId: string): Promise<UserSession[]> {
+    return await db.select().from(userSessions).where(eq(userSessions.caseId, caseId)).orderBy(desc(userSessions.createdAt));
+  }
+
+  async invalidateUserSession(id: number): Promise<void> {
+    await db.update(userSessions).set({ isActive: false }).where(eq(userSessions.id, id));
+  }
+
+  async invalidateAllUserSessions(caseId: string): Promise<void> {
+    await db.update(userSessions).set({ isActive: false }).where(eq(userSessions.caseId, caseId));
+  }
+
+  // Scheduled message operations
+  async createScheduledMessage(data: InsertScheduledMessage): Promise<ScheduledMessage> {
+    const [message] = await db.insert(scheduledMessages).values(data).returning();
+    return message;
+  }
+
+  async getScheduledMessagesByCaseId(caseId: string): Promise<ScheduledMessage[]> {
+    return await db.select().from(scheduledMessages).where(eq(scheduledMessages.caseId, caseId)).orderBy(desc(scheduledMessages.scheduledFor));
+  }
+
+  async getPendingScheduledMessages(): Promise<ScheduledMessage[]> {
+    return await db.select().from(scheduledMessages)
+      .where(and(eq(scheduledMessages.status, 'pending'), lt(scheduledMessages.scheduledFor, new Date())))
+      .orderBy(scheduledMessages.scheduledFor);
+  }
+
+  async updateScheduledMessage(id: number, data: Partial<InsertScheduledMessage>): Promise<ScheduledMessage | undefined> {
+    const [updated] = await db.update(scheduledMessages).set(data).where(eq(scheduledMessages.id, id)).returning();
+    return updated;
+  }
+
+  // Help article operations
+  async createHelpArticle(data: InsertHelpArticle): Promise<HelpArticle> {
+    const [article] = await db.insert(helpArticles).values(data).returning();
+    return article;
+  }
+
+  async getAllHelpArticles(): Promise<HelpArticle[]> {
+    return await db.select().from(helpArticles).where(eq(helpArticles.isPublished, true)).orderBy(helpArticles.order);
+  }
+
+  async updateHelpArticle(id: number, data: Partial<InsertHelpArticle>): Promise<HelpArticle | undefined> {
+    const [updated] = await db.update(helpArticles).set({ ...data, updatedAt: new Date() }).where(eq(helpArticles.id, id)).returning();
+    return updated;
+  }
+
+  async deleteHelpArticle(id: number): Promise<void> {
+    await db.delete(helpArticles).where(eq(helpArticles.id, id));
+  }
+
+  // Notification operations
+  async createNotification(data: InsertNotification): Promise<Notification> {
+    const [notification] = await db.insert(notifications).values(data).returning();
+    return notification;
+  }
+
+  async getNotificationsByRecipient(recipientType: string, recipientId: string): Promise<Notification[]> {
+    return await db.select().from(notifications)
+      .where(and(eq(notifications.recipientType, recipientType), eq(notifications.recipientId, recipientId)))
+      .orderBy(desc(notifications.createdAt));
+  }
+
+  async markNotificationAsRead(id: number): Promise<void> {
+    await db.update(notifications).set({ isRead: true }).where(eq(notifications.id, id));
+  }
+
+  async markAllNotificationsAsRead(recipientType: string, recipientId: string): Promise<void> {
+    await db.update(notifications).set({ isRead: true })
+      .where(and(eq(notifications.recipientType, recipientType), eq(notifications.recipientId, recipientId)));
+  }
+
+  // User feedback operations
+  async createUserFeedback(data: InsertUserFeedback): Promise<UserFeedback> {
+    const [feedback] = await db.insert(userFeedback).values(data).returning();
+    return feedback;
+  }
+
+  async getUserFeedbackByCaseId(caseId: string): Promise<UserFeedback[]> {
+    return await db.select().from(userFeedback).where(eq(userFeedback.caseId, caseId)).orderBy(desc(userFeedback.createdAt));
+  }
+
+  async getAllUserFeedback(): Promise<UserFeedback[]> {
+    return await db.select().from(userFeedback).orderBy(desc(userFeedback.createdAt));
   }
 }
 
