@@ -122,7 +122,7 @@ const playNotificationSound = () => {
 };
 
 export default function SecurePortal() {
-  const [viewState, setViewState] = useState<'login' | 'register' | 'sync' | 'dashboard' | 'letter' | 'messages' | 'submissions' | 'success' | 'deposit'>('login');
+  const [viewState, setViewState] = useState<'login' | 'register' | 'sync' | 'dashboard' | 'letter' | 'messages' | 'submissions' | 'success' | 'deposit' | 'timeline'>('login');
   
   const [currentCase, setCurrentCase] = useState<Case | null>(null);
   const [letterContent, setLetterContent] = useState<CaseLetter | null>(null);
@@ -1044,7 +1044,96 @@ export default function SecurePortal() {
           )}
         </motion.button>
 
-        {/* Chat Dialog - will be rendered at the end */}
+        {/* Chat Dialog */}
+        <AnimatePresence>
+          {isChatOpen && currentCase && (
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 100 }}
+              className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-slate-200 flex flex-col overflow-hidden"
+              data-testid="chat-panel"
+            >
+              <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <MessageCircle className="h-5 w-5" />
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full border border-blue-600"></span>
+                  </div>
+                  <div>
+                    <span className="font-semibold block">IBC Support</span>
+                    <span className="text-xs text-blue-200">Online • Typically replies in minutes</span>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-white hover:bg-blue-700"
+                  onClick={() => setIsChatOpen(false)}
+                  data-testid="button-close-chat"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              <div ref={chatScrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
+                {chatMessages.length === 0 ? (
+                  <div className="text-center text-slate-500 mt-8">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center mb-4">
+                      <MessageCircle className="h-8 w-8 text-blue-500" />
+                    </div>
+                    <p className="font-medium text-slate-700 mb-1">Welcome to IBC Support</p>
+                    <p className="text-sm text-slate-500">How can we help you today?</p>
+                  </div>
+                ) : (
+                  chatMessages.map((msg) => (
+                    <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      {msg.sender === 'admin' && (
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                          <span className="text-blue-600 font-bold text-xs">IBC</span>
+                        </div>
+                      )}
+                      <div
+                        className={`max-w-[75%] px-4 py-2.5 rounded-2xl shadow-sm ${
+                          msg.sender === 'user'
+                            ? 'bg-blue-600 text-white rounded-br-md'
+                            : 'bg-white text-slate-800 border border-slate-100 rounded-bl-md'
+                        }`}
+                      >
+                        <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.message}</p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+              
+              <div className="p-3 border-t border-slate-200 bg-white">
+                <div className="flex gap-2 items-end">
+                  <div className="flex-1">
+                    <Input
+                      placeholder="Type your message..."
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+                      disabled={isSendingMessage}
+                      className="bg-slate-50 border-slate-200 focus:border-blue-500"
+                      data-testid="input-chat-message"
+                    />
+                  </div>
+                  <Button
+                    onClick={sendMessage}
+                    disabled={!newMessage.trim() || isSendingMessage}
+                    size="sm"
+                    className="h-10 w-10 p-0 bg-blue-600 hover:bg-blue-700 rounded-full"
+                    data-testid="button-send-message"
+                  >
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     );
   }
@@ -1559,7 +1648,7 @@ export default function SecurePortal() {
         id: `message-${m.id}`,
         type: 'message' as const,
         title: m.title,
-        description: m.content.substring(0, 100) + (m.content.length > 100 ? '...' : ''),
+        description: m.body.substring(0, 100) + (m.body.length > 100 ? '...' : ''),
         timestamp: new Date(m.createdAt),
         icon: 'bell',
         color: m.category === 'urgent' ? 'red' : m.category === 'processing' ? 'amber' : 'green'
@@ -2224,164 +2313,6 @@ export default function SecurePortal() {
         </DialogContent>
       </Dialog>
 
-      {/* Floating Chat Button */}
-      {currentCase && (
-        <motion.div
-          className="fixed bottom-6 right-6 z-50"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        >
-          <Button
-            onClick={() => setIsChatOpen(true)}
-            className="h-14 w-14 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 relative"
-            data-testid="button-open-chat"
-          >
-            <MessageCircle className="h-6 w-6" />
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-xs text-white flex items-center justify-center font-bold animate-pulse">
-                {unreadCount}
-              </span>
-            )}
-          </Button>
-        </motion.div>
-      )}
-
-      {/* Chat Box */}
-      <AnimatePresence>
-        {isChatOpen && currentCase && (
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-slate-200 flex flex-col overflow-hidden"
-            data-testid="chat-panel"
-          >
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 flex justify-between items-center">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <MessageCircle className="h-5 w-5" />
-                  <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full border border-blue-600"></span>
-                </div>
-                <div>
-                  <span className="font-semibold block">IBC Support</span>
-                  <span className="text-xs text-blue-200">Online • Typically replies in minutes</span>
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0 text-white hover:bg-blue-700"
-                onClick={() => setIsChatOpen(false)}
-                data-testid="button-close-chat"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            
-            <div ref={chatScrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
-              {chatMessages.length === 0 ? (
-                <div className="text-center text-slate-500 mt-8">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center mb-4">
-                    <MessageCircle className="h-8 w-8 text-blue-500" />
-                  </div>
-                  <p className="font-medium text-slate-700 mb-1">Welcome to IBC Support</p>
-                  <p className="text-sm text-slate-500">How can we help you today?</p>
-                </div>
-              ) : (
-                chatMessages.map((msg, index) => {
-                  const msgDate = new Date(msg.createdAt);
-                  const now = new Date();
-                  const diffMs = now.getTime() - msgDate.getTime();
-                  const diffMins = Math.floor(diffMs / 60000);
-                  const diffHours = Math.floor(diffMs / 3600000);
-                  
-                  let timeDisplay = '';
-                  if (diffMins < 1) timeDisplay = 'Just now';
-                  else if (diffMins < 60) timeDisplay = `${diffMins}m ago`;
-                  else if (diffHours < 24) timeDisplay = `${diffHours}h ago`;
-                  else timeDisplay = msgDate.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' • ' + msgDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                  
-                  const showDateDivider = index === 0 || 
-                    new Date(chatMessages[index - 1].createdAt).toDateString() !== msgDate.toDateString();
-                  
-                  return (
-                    <div key={msg.id}>
-                      {showDateDivider && (
-                        <div className="flex items-center gap-3 my-4">
-                          <div className="flex-1 h-px bg-slate-200"></div>
-                          <span className="text-xs text-slate-400 font-medium">
-                            {msgDate.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })}
-                          </span>
-                          <div className="flex-1 h-px bg-slate-200"></div>
-                        </div>
-                      )}
-                      <div className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        {msg.sender === 'admin' && (
-                          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
-                            <span className="text-blue-600 font-bold text-xs">IBC</span>
-                          </div>
-                        )}
-                        <div
-                          className={`max-w-[75%] px-4 py-2.5 rounded-2xl shadow-sm ${
-                            msg.sender === 'user'
-                              ? 'bg-blue-600 text-white rounded-br-md'
-                              : 'bg-white text-slate-800 border border-slate-100 rounded-bl-md'
-                          }`}
-                        >
-                          <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.message}</p>
-                          <div className={`flex items-center justify-end gap-1.5 mt-1.5 ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-400'}`}>
-                            <span className="text-[10px]">{timeDisplay}</span>
-                            {msg.sender === 'user' && (
-                              <span className="text-[10px] flex items-center">
-                                {msg.isRead === 'true' || msg.isRead === true ? (
-                                  <span className="text-blue-200" title="Read">✓✓</span>
-                                ) : (
-                                  <span className="text-blue-300" title="Sent">✓</span>
-                                )}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-            
-            <div className="p-3 border-t border-slate-200 bg-white space-y-2">
-              <div className="flex gap-2 items-end">
-                <div className="flex-1 relative">
-                  <Input
-                    placeholder="Type your message..."
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-                    disabled={isSendingMessage}
-                    className="pr-10 bg-slate-50 border-slate-200 focus:border-blue-500"
-                    data-testid="input-chat-message"
-                  />
-                </div>
-                <Button
-                  onClick={sendMessage}
-                  disabled={!newMessage.trim() || isSendingMessage}
-                  size="sm"
-                  className="h-10 w-10 p-0 bg-blue-600 hover:bg-blue-700 rounded-full"
-                  data-testid="button-send-message"
-                >
-                  {isSendingMessage ? (
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  ) : (
-                    <Send className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-              <p className="text-[10px] text-slate-400 text-center">Press Enter to send • Support available 24/7</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
