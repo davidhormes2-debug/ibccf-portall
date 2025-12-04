@@ -434,3 +434,112 @@ export const insertNotificationSchema = createInsertSchema(notifications).omit({
 
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 export type Notification = typeof notifications.$inferSelect;
+
+// Admin sessions for session management and 2FA
+export const adminSessions = pgTable("admin_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  adminUsername: text("admin_username").notNull(),
+  token: text("token").notNull().unique(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  location: text("location"),
+  isActive: boolean("is_active").default(true),
+  lastActivityAt: timestamp("last_activity_at").notNull().default(sql`now()`),
+  expiresAt: timestamp("expires_at").notNull(),
+  revokedAt: timestamp("revoked_at"),
+  revokedReason: text("revoked_reason"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertAdminSessionSchema = createInsertSchema(adminSessions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertAdminSession = z.infer<typeof insertAdminSessionSchema>;
+export type AdminSession = typeof adminSessions.$inferSelect;
+
+// Admin 2FA settings
+export const adminTwoFactor = pgTable("admin_two_factor", {
+  id: serial("id").primaryKey(),
+  adminUsername: text("admin_username").notNull().unique(),
+  secret: text("secret").notNull(),
+  backupCodes: text("backup_codes"), // JSON array of hashed backup codes
+  isEnabled: boolean("is_enabled").default(false),
+  lastVerifiedAt: timestamp("last_verified_at"),
+  enabledAt: timestamp("enabled_at"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertAdminTwoFactorSchema = createInsertSchema(adminTwoFactor).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertAdminTwoFactor = z.infer<typeof insertAdminTwoFactorSchema>;
+export type AdminTwoFactor = typeof adminTwoFactor.$inferSelect;
+
+// Chat templates for quick responses
+export const chatTemplates = pgTable("chat_templates", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  content: text("content").notNull(),
+  category: text("category").default('general'), // 'general', 'support', 'verification', 'deposits'
+  shortcut: text("shortcut"), // Quick keyboard shortcut like /greeting
+  isActive: boolean("is_active").default(true),
+  usageCount: text("usage_count").default('0'),
+  createdBy: text("created_by"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertChatTemplateSchema = createInsertSchema(chatTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertChatTemplate = z.infer<typeof insertChatTemplateSchema>;
+export type ChatTemplate = typeof chatTemplates.$inferSelect;
+
+// Case notes (admin-only comments)
+export const caseNotes = pgTable("case_notes", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  adminUsername: text("admin_username").notNull(),
+  content: text("content").notNull(),
+  isPinned: boolean("is_pinned").default(false),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertCaseNoteSchema = createInsertSchema(caseNotes).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertCaseNote = z.infer<typeof insertCaseNoteSchema>;
+export type CaseNote = typeof caseNotes.$inferSelect;
+
+// Localization/translations
+export const translations = pgTable("translations", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull(),
+  locale: text("locale").notNull(), // 'en', 'es', 'zh', etc.
+  value: text("value").notNull(),
+  context: text("context"), // Where this translation is used
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertTranslationSchema = createInsertSchema(translations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertTranslation = z.infer<typeof insertTranslationSchema>;
+export type Translation = typeof translations.$inferSelect;

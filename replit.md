@@ -46,13 +46,27 @@ Preferred communication style: Simple, everyday language.
 - Zod schemas for runtime validation matching database schema
 
 **Data Model**
-The application uses six main tables:
+The application uses the following main tables:
+
+*Core Tables:*
 - `cases`: Core case records with access codes, status tracking, user data, deposit addresses, and profile redirect URLs
 - `case_letters`: Customizable letter content per case (headline, body, footer, options)
 - `case_submissions`: Tracks user submissions for each case
 - `chat_messages`: Real-time chat messages between admin and users
 - `admin_messages`: Categorized admin notifications (urgent/processing/resolved) sent to users
 - `deposit_receipts`: User-uploaded deposit receipt images with approval workflow
+
+*Enterprise Security Tables:*
+- `admin_sessions`: Secure session management for admin users with device tracking and geolocation
+- `admin_two_factor`: TOTP-based 2FA configuration for admin accounts with backup codes
+- `audit_logs`: Complete audit trail of all admin actions for compliance
+
+*Productivity Tables:*
+- `chat_templates`: Quick response templates organized by category for chat replies
+- `case_notes`: Internal admin notes attached to cases with pinning support
+- `translations`: Multi-language support with key-value translations per locale
+- `message_templates`: Reusable message templates for admin communications
+- `scheduled_messages`: Time-delayed message delivery system
 
 **User Portal Features**
 - Dashboard-centric experience after login with card-based navigation

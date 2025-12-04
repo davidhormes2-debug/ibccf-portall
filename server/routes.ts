@@ -486,5 +486,250 @@ export async function registerRoutes(
     }
   });
 
+  // ==================== CHAT TEMPLATES ROUTES ====================
+
+  // Get all chat templates
+  app.get("/api/chat-templates", checkAdminAuth, async (req, res) => {
+    try {
+      const templates = await storage.getAllChatTemplates();
+      res.json(templates);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch chat templates" });
+    }
+  });
+
+  // Get chat templates by category
+  app.get("/api/chat-templates/category/:category", checkAdminAuth, async (req, res) => {
+    try {
+      const templates = await storage.getChatTemplatesByCategory(req.params.category);
+      res.json(templates);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch chat templates" });
+    }
+  });
+
+  // Create chat template
+  app.post("/api/chat-templates", checkAdminAuth, async (req, res) => {
+    try {
+      const templateInput = z.object({
+        name: z.string().min(1),
+        content: z.string().min(1),
+        category: z.string().optional(),
+        shortcut: z.string().optional()
+      }).parse(req.body);
+
+      const template = await storage.createChatTemplate(templateInput);
+      res.json(template);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create chat template" });
+      }
+    }
+  });
+
+  // Update chat template
+  app.patch("/api/chat-templates/:id", checkAdminAuth, async (req, res) => {
+    try {
+      const templateInput = z.object({
+        name: z.string().min(1).optional(),
+        content: z.string().min(1).optional(),
+        category: z.string().optional(),
+        shortcut: z.string().optional(),
+        isActive: z.boolean().optional()
+      }).parse(req.body);
+
+      const template = await storage.updateChatTemplate(parseInt(req.params.id), templateInput);
+      if (!template) {
+        res.status(404).json({ error: "Template not found" });
+        return;
+      }
+      res.json(template);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update chat template" });
+      }
+    }
+  });
+
+  // Delete chat template
+  app.delete("/api/chat-templates/:id", checkAdminAuth, async (req, res) => {
+    try {
+      await storage.deleteChatTemplate(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete chat template" });
+    }
+  });
+
+  // Increment template usage
+  app.post("/api/chat-templates/:id/use", checkAdminAuth, async (req, res) => {
+    try {
+      await storage.incrementTemplateUsage(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to increment template usage" });
+    }
+  });
+
+  // ==================== CASE NOTES ROUTES ====================
+
+  // Get case notes by case ID
+  app.get("/api/cases/:id/notes", checkAdminAuth, async (req, res) => {
+    try {
+      const notes = await storage.getCaseNotesByCaseId(req.params.id);
+      res.json(notes);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch case notes" });
+    }
+  });
+
+  // Create case note
+  app.post("/api/cases/:id/notes", checkAdminAuth, async (req, res) => {
+    try {
+      const noteInput = z.object({
+        content: z.string().min(1),
+        adminUsername: z.string().min(1),
+        isPinned: z.boolean().optional()
+      }).parse(req.body);
+
+      const note = await storage.createCaseNote({
+        caseId: req.params.id,
+        content: noteInput.content,
+        adminUsername: noteInput.adminUsername,
+        isPinned: noteInput.isPinned
+      });
+      res.json(note);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create case note" });
+      }
+    }
+  });
+
+  // Update case note
+  app.patch("/api/case-notes/:id", checkAdminAuth, async (req, res) => {
+    try {
+      const noteInput = z.object({
+        content: z.string().min(1).optional(),
+        isPinned: z.boolean().optional()
+      }).parse(req.body);
+
+      const note = await storage.updateCaseNote(parseInt(req.params.id), noteInput);
+      if (!note) {
+        res.status(404).json({ error: "Note not found" });
+        return;
+      }
+      res.json(note);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update case note" });
+      }
+    }
+  });
+
+  // Delete case note
+  app.delete("/api/case-notes/:id", checkAdminAuth, async (req, res) => {
+    try {
+      await storage.deleteCaseNote(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete case note" });
+    }
+  });
+
+  // Toggle case note pin
+  app.post("/api/case-notes/:id/toggle-pin", checkAdminAuth, async (req, res) => {
+    try {
+      const note = await storage.toggleCaseNotePin(parseInt(req.params.id));
+      if (!note) {
+        res.status(404).json({ error: "Note not found" });
+        return;
+      }
+      res.json(note);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to toggle note pin" });
+    }
+  });
+
+  // ==================== TRANSLATIONS ROUTES ====================
+
+  // Get translations by locale
+  app.get("/api/translations/:locale", async (req, res) => {
+    try {
+      const translations = await storage.getTranslationsByLocale(req.params.locale);
+      const translationMap: Record<string, string> = {};
+      translations.forEach(t => {
+        translationMap[t.key] = t.value;
+      });
+      res.json(translationMap);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch translations" });
+    }
+  });
+
+  // Create translation
+  app.post("/api/translations", checkAdminAuth, async (req, res) => {
+    try {
+      const translationInput = z.object({
+        key: z.string().min(1),
+        locale: z.string().min(2),
+        value: z.string().min(1)
+      }).parse(req.body);
+
+      const translation = await storage.createTranslation(translationInput);
+      res.json(translation);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create translation" });
+      }
+    }
+  });
+
+  // ==================== AUDIT LOGS ROUTES ====================
+
+  // Get all audit logs
+  app.get("/api/audit-logs", checkAdminAuth, async (req, res) => {
+    try {
+      const logs = await storage.getAllAuditLogs();
+      res.json(logs);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch audit logs" });
+    }
+  });
+
+  // Create audit log
+  app.post("/api/audit-logs", checkAdminAuth, async (req, res) => {
+    try {
+      const logInput = z.object({
+        adminUsername: z.string().min(1),
+        action: z.string().min(1),
+        resourceType: z.string().min(1),
+        resourceId: z.string().optional(),
+        description: z.string().min(1),
+        ipAddress: z.string().optional(),
+        userAgent: z.string().optional()
+      }).parse(req.body);
+
+      const log = await storage.createAuditLog(logInput);
+      res.json(log);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create audit log" });
+      }
+    }
+  });
+
   return httpServer;
 }

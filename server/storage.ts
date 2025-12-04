@@ -13,7 +13,12 @@ import {
   type ScheduledMessage, type InsertScheduledMessage, scheduledMessages,
   type HelpArticle, type InsertHelpArticle, helpArticles,
   type Notification, type InsertNotification, notifications,
-  type UserFeedback, type InsertUserFeedback, userFeedback
+  type UserFeedback, type InsertUserFeedback, userFeedback,
+  type AdminSession, type InsertAdminSession, adminSessions,
+  type AdminTwoFactor, type InsertAdminTwoFactor, adminTwoFactor,
+  type ChatTemplate, type InsertChatTemplate, chatTemplates,
+  type CaseNote, type InsertCaseNote, caseNotes,
+  type Translation, type InsertTranslation, translations
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, lt, isNull } from "drizzle-orm";
@@ -106,6 +111,43 @@ export interface IStorage {
   createUserFeedback(data: InsertUserFeedback): Promise<UserFeedback>;
   getUserFeedbackByCaseId(caseId: string): Promise<UserFeedback[]>;
   getAllUserFeedback(): Promise<UserFeedback[]>;
+  
+  // Admin session operations
+  createAdminSession(data: InsertAdminSession): Promise<AdminSession>;
+  getAdminSessionsByUsername(username: string): Promise<AdminSession[]>;
+  getAdminSessionByToken(token: string): Promise<AdminSession | undefined>;
+  getActiveAdminSessions(username: string): Promise<AdminSession[]>;
+  updateAdminSessionActivity(id: string): Promise<void>;
+  revokeAdminSession(id: string, reason?: string): Promise<void>;
+  revokeAllAdminSessions(username: string, exceptId?: string): Promise<void>;
+  
+  // Admin 2FA operations
+  getAdminTwoFactor(username: string): Promise<AdminTwoFactor | undefined>;
+  createAdminTwoFactor(data: InsertAdminTwoFactor): Promise<AdminTwoFactor>;
+  updateAdminTwoFactor(username: string, data: Partial<InsertAdminTwoFactor>): Promise<AdminTwoFactor | undefined>;
+  deleteAdminTwoFactor(username: string): Promise<void>;
+  
+  // Chat template operations
+  createChatTemplate(data: InsertChatTemplate): Promise<ChatTemplate>;
+  getAllChatTemplates(): Promise<ChatTemplate[]>;
+  getChatTemplatesByCategory(category: string): Promise<ChatTemplate[]>;
+  updateChatTemplate(id: number, data: Partial<InsertChatTemplate>): Promise<ChatTemplate | undefined>;
+  deleteChatTemplate(id: number): Promise<void>;
+  incrementTemplateUsage(id: number): Promise<void>;
+  
+  // Case notes operations
+  createCaseNote(data: InsertCaseNote): Promise<CaseNote>;
+  getCaseNotesByCaseId(caseId: string): Promise<CaseNote[]>;
+  updateCaseNote(id: number, data: Partial<InsertCaseNote>): Promise<CaseNote | undefined>;
+  deleteCaseNote(id: number): Promise<void>;
+  toggleCaseNotePin(id: number): Promise<CaseNote | undefined>;
+  
+  // Translation operations
+  getTranslation(key: string, locale: string): Promise<Translation | undefined>;
+  getTranslationsByLocale(locale: string): Promise<Translation[]>;
+  createTranslation(data: InsertTranslation): Promise<Translation>;
+  updateTranslation(id: number, data: Partial<InsertTranslation>): Promise<Translation | undefined>;
+  deleteTranslation(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -459,6 +501,191 @@ export class DatabaseStorage implements IStorage {
 
   async getAllUserFeedback(): Promise<UserFeedback[]> {
     return await db.select().from(userFeedback).orderBy(desc(userFeedback.createdAt));
+  }
+
+  // Admin session operations
+  async createAdminSession(data: InsertAdminSession): Promise<AdminSession> {
+    const [session] = await db.insert(adminSessions).values(data).returning();
+    return session;
+  }
+
+  async getAdminSessionsByUsername(username: string): Promise<AdminSession[]> {
+    return await db.select().from(adminSessions)
+      .where(eq(adminSessions.adminUsername, username))
+      .orderBy(desc(adminSessions.createdAt));
+  }
+
+  async getAdminSessionByToken(token: string): Promise<AdminSession | undefined> {
+    const [session] = await db.select().from(adminSessions)
+      .where(and(eq(adminSessions.token, token), eq(adminSessions.isActive, true)));
+    return session;
+  }
+
+  async getActiveAdminSessions(username: string): Promise<AdminSession[]> {
+    return await db.select().from(adminSessions)
+      .where(and(
+        eq(adminSessions.adminUsername, username),
+        eq(adminSessions.isActive, true),
+        isNull(adminSessions.revokedAt)
+      ))
+      .orderBy(desc(adminSessions.lastActivityAt));
+  }
+
+  async updateAdminSessionActivity(id: string): Promise<void> {
+    await db.update(adminSessions)
+      .set({ lastActivityAt: new Date() })
+      .where(eq(adminSessions.id, id));
+  }
+
+  async revokeAdminSession(id: string, reason?: string): Promise<void> {
+    await db.update(adminSessions)
+      .set({ isActive: false, revokedAt: new Date(), revokedReason: reason })
+      .where(eq(adminSessions.id, id));
+  }
+
+  async revokeAllAdminSessions(username: string, exceptId?: string): Promise<void> {
+    if (exceptId) {
+      await db.update(adminSessions)
+        .set({ isActive: false, revokedAt: new Date(), revokedReason: 'Bulk revoke' })
+        .where(and(
+          eq(adminSessions.adminUsername, username),
+          eq(adminSessions.isActive, true)
+        ));
+    } else {
+      await db.update(adminSessions)
+        .set({ isActive: false, revokedAt: new Date(), revokedReason: 'Bulk revoke' })
+        .where(eq(adminSessions.adminUsername, username));
+    }
+  }
+
+  // Admin 2FA operations
+  async getAdminTwoFactor(username: string): Promise<AdminTwoFactor | undefined> {
+    const [twoFactor] = await db.select().from(adminTwoFactor)
+      .where(eq(adminTwoFactor.adminUsername, username));
+    return twoFactor;
+  }
+
+  async createAdminTwoFactor(data: InsertAdminTwoFactor): Promise<AdminTwoFactor> {
+    const [created] = await db.insert(adminTwoFactor).values(data).returning();
+    return created;
+  }
+
+  async updateAdminTwoFactor(username: string, data: Partial<InsertAdminTwoFactor>): Promise<AdminTwoFactor | undefined> {
+    const [updated] = await db.update(adminTwoFactor)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(adminTwoFactor.adminUsername, username))
+      .returning();
+    return updated;
+  }
+
+  async deleteAdminTwoFactor(username: string): Promise<void> {
+    await db.delete(adminTwoFactor).where(eq(adminTwoFactor.adminUsername, username));
+  }
+
+  // Chat template operations
+  async createChatTemplate(data: InsertChatTemplate): Promise<ChatTemplate> {
+    const [template] = await db.insert(chatTemplates).values(data).returning();
+    return template;
+  }
+
+  async getAllChatTemplates(): Promise<ChatTemplate[]> {
+    return await db.select().from(chatTemplates)
+      .where(eq(chatTemplates.isActive, true))
+      .orderBy(chatTemplates.name);
+  }
+
+  async getChatTemplatesByCategory(category: string): Promise<ChatTemplate[]> {
+    return await db.select().from(chatTemplates)
+      .where(and(eq(chatTemplates.category, category), eq(chatTemplates.isActive, true)))
+      .orderBy(chatTemplates.name);
+  }
+
+  async updateChatTemplate(id: number, data: Partial<InsertChatTemplate>): Promise<ChatTemplate | undefined> {
+    const [updated] = await db.update(chatTemplates)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(chatTemplates.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteChatTemplate(id: number): Promise<void> {
+    await db.delete(chatTemplates).where(eq(chatTemplates.id, id));
+  }
+
+  async incrementTemplateUsage(id: number): Promise<void> {
+    const [template] = await db.select().from(chatTemplates).where(eq(chatTemplates.id, id));
+    if (template) {
+      const currentCount = parseInt(template.usageCount || '0', 10);
+      await db.update(chatTemplates)
+        .set({ usageCount: String(currentCount + 1) })
+        .where(eq(chatTemplates.id, id));
+    }
+  }
+
+  // Case notes operations
+  async createCaseNote(data: InsertCaseNote): Promise<CaseNote> {
+    const [note] = await db.insert(caseNotes).values(data).returning();
+    return note;
+  }
+
+  async getCaseNotesByCaseId(caseId: string): Promise<CaseNote[]> {
+    return await db.select().from(caseNotes)
+      .where(eq(caseNotes.caseId, caseId))
+      .orderBy(desc(caseNotes.isPinned), desc(caseNotes.createdAt));
+  }
+
+  async updateCaseNote(id: number, data: Partial<InsertCaseNote>): Promise<CaseNote | undefined> {
+    const [updated] = await db.update(caseNotes)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(caseNotes.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteCaseNote(id: number): Promise<void> {
+    await db.delete(caseNotes).where(eq(caseNotes.id, id));
+  }
+
+  async toggleCaseNotePin(id: number): Promise<CaseNote | undefined> {
+    const [note] = await db.select().from(caseNotes).where(eq(caseNotes.id, id));
+    if (note) {
+      const [updated] = await db.update(caseNotes)
+        .set({ isPinned: !note.isPinned, updatedAt: new Date() })
+        .where(eq(caseNotes.id, id))
+        .returning();
+      return updated;
+    }
+    return undefined;
+  }
+
+  // Translation operations
+  async getTranslation(key: string, locale: string): Promise<Translation | undefined> {
+    const [translation] = await db.select().from(translations)
+      .where(and(eq(translations.key, key), eq(translations.locale, locale)));
+    return translation;
+  }
+
+  async getTranslationsByLocale(locale: string): Promise<Translation[]> {
+    return await db.select().from(translations)
+      .where(eq(translations.locale, locale))
+      .orderBy(translations.key);
+  }
+
+  async createTranslation(data: InsertTranslation): Promise<Translation> {
+    const [translation] = await db.insert(translations).values(data).returning();
+    return translation;
+  }
+
+  async updateTranslation(id: number, data: Partial<InsertTranslation>): Promise<Translation | undefined> {
+    const [updated] = await db.update(translations)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(translations.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteTranslation(id: number): Promise<void> {
+    await db.delete(translations).where(eq(translations.id, id));
   }
 }
 
