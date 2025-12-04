@@ -1,6 +1,11 @@
 # Overview
 
-This is a case management application for handling correspondence workflows. The system allows administrators to create and manage cases with unique access codes, while users can access their specific cases using these codes. Each case can have customized letter content and track user submissions. The application is built as a full-stack TypeScript application with a React frontend and Express backend, using PostgreSQL for data persistence.
+This is an enterprise-grade secure customer portal for the International Blockchain Community (IBC) with comprehensive case management and correspondence workflows. The system allows administrators to create and manage cases with unique access codes, while users can access their specific cases using these codes. Each case features customized letter content, three-stage required actions (Urgent→Processing→Resolved), and 40+ premium enterprise features. The application is built as a full-stack TypeScript application with a React frontend and Express backend, using PostgreSQL for data persistence.
+
+## Admin Access
+- **Username:** Admin2025
+- **Password:** Admin123456789
+- **Demo User Code:** 774982
 
 # User Preferences
 
@@ -67,6 +72,34 @@ The application uses the following main tables:
 - `translations`: Multi-language support with key-value translations per locale
 - `message_templates`: Reusable message templates for admin communications
 - `scheduled_messages`: Time-delayed message delivery system
+- `help_articles`: Knowledge base articles for user self-service
+- `notifications`: System notifications for admin and users
+- `user_feedback`: User satisfaction ratings and comments
+- `document_requests`: Document request and upload tracking
+- `user_sessions`: User portal session tracking with device info
+
+## Enterprise Features
+
+**Security & Access Control**
+1. Two-Factor Authentication (2FA) - TOTP-based authentication with backup codes
+2. Admin Session Management - Track and revoke active admin sessions
+3. User Session Viewer - Monitor and terminate user portal sessions
+4. Audit Logs - Complete trail of admin actions for compliance
+
+**Communication & Messaging**
+5. Notification Center - Bell icon with real-time alerts and unread counts
+6. Scheduled Messages - Time-delayed message delivery system
+7. Message Templates - Reusable admin message templates
+8. Chat Templates - Quick response templates for support chat
+
+**Content & Localization**
+9. Translation Manager - Multi-language support (EN, ES, ZH, JA, KO, DE, FR)
+10. Help Center - Knowledge base articles organized by category
+
+**User Management**
+11. Admin Users - Role-based access control (super_admin, admin, agent, viewer)
+12. User Feedback - Star ratings (1-5) with comments from users
+13. Document Requests - Request and track document uploads from users
 
 **User Portal Features**
 - Dashboard-centric experience after login with card-based navigation
