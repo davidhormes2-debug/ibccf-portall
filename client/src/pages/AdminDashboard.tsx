@@ -1507,17 +1507,62 @@ export default function AdminDashboard() {
     }
   };
 
-  const clearData = async () => {
-    if(confirm("Clear all simulated records?")) {
+  const clearLogs = async () => {
+    if(confirm("Clear all activity logs and chat history? This will NOT delete any verified user accounts.")) {
       try {
-        await Promise.all(cases.map(c => 
-          fetch(`/api/cases/${c.id}`, { method: 'DELETE' })
-        ));
-        loadData();
-        toast({ title: "All cases cleared", description: "Database has been reset." });
+        const res = await fetch('/api/admin/clear-logs', { 
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (res.ok) {
+          loadData();
+          toast({ title: "Logs Cleared", description: "Activity logs and chat history have been cleared. User accounts are preserved." });
+        } else {
+          toast({ variant: "destructive", title: "Error", description: "Failed to clear logs." });
+        }
       } catch (error) {
-        toast({ variant: "destructive", title: "Error", description: "Failed to clear cases." });
+        toast({ variant: "destructive", title: "Error", description: "Failed to clear logs." });
       }
+    }
+  };
+
+  const deleteCase = async (caseId: string, caseName: string) => {
+    const caseToDelete = cases.find(c => c.id === caseId);
+    const isVerifiedAccount = caseToDelete && ['registered', 'syncing', 'active', 'completed'].includes(caseToDelete.status);
+    
+    if (isVerifiedAccount) {
+      if (!confirm(`WARNING: This is a verified account (${caseName || caseId}). Are you absolutely sure you want to permanently delete this account and all associated data? This action cannot be undone.`)) {
+        return;
+      }
+      if (!confirm(`FINAL CONFIRMATION: This will permanently delete account "${caseName || caseId}" and all associated data. Click OK to confirm.`)) {
+        return;
+      }
+    } else {
+      if (!confirm(`Delete account ${caseName || caseId}? This action cannot be undone.`)) {
+        return;
+      }
+    }
+    
+    try {
+      const url = isVerifiedAccount 
+        ? `/api/cases/${caseId}?force=true` 
+        : `/api/cases/${caseId}`;
+      
+      const res = await fetch(url, { 
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        setIsAdminMessageOpen(false);
+        setSelectedCase(null);
+        loadData();
+        toast({ title: "Account Deleted", description: `Account ${caseName || caseId} has been permanently deleted.` });
+      } else {
+        const error = await res.json();
+        toast({ variant: "destructive", title: "Error", description: error.error || "Failed to delete account." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to delete account." });
     }
   };
 
@@ -1998,7 +2043,7 @@ export default function AdminDashboard() {
                 >
                   <FileText className="w-4 h-4 mr-2" /> Export CSV
                 </Button>
-                <Button variant="destructive" size="sm" onClick={clearData} data-testid="button-clear">
+                <Button variant="destructive" size="sm" onClick={clearLogs} data-testid="button-clear-logs">
                   <Trash2 className="w-4 h-4 mr-2" /> Clear Logs
                 </Button>
               </div>
@@ -4556,7 +4601,42 @@ export default function AdminDashboard() {
               )}
             </div>
 
-            {/* SECTION 4: Message History */}
+            {/* SECTION 4: Danger Zone - Delete Account */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="h-6 w-6 rounded bg-red-500/20 flex items-center justify-center">
+                    <Trash2 className="h-3.5 w-3.5 text-red-400" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-red-400 uppercase tracking-wide">Danger Zone</h3>
+                </div>
+                <span className="text-[10px] text-red-600 bg-red-950 px-2 py-0.5 rounded">PERMANENT</span>
+              </div>
+              
+              <div className="p-4 bg-red-500/5 rounded-xl border border-red-500/20">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-red-300">Delete this account</p>
+                    <p className="text-xs text-red-400/70 mt-1">
+                      {selectedCase && ['registered', 'syncing', 'active', 'completed'].includes(selectedCase.status) 
+                        ? 'This is a verified account. Deletion requires double confirmation.'
+                        : 'This will permanently remove the account and all associated data.'}
+                    </p>
+                  </div>
+                  <Button 
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => selectedCase && deleteCase(selectedCase.id, selectedCase.userName || selectedCase.accessCode)}
+                    className="bg-red-600 hover:bg-red-700"
+                    data-testid="button-delete-account"
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" /> Delete Account
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 5: Message History */}
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-2">
                 <div className="flex items-center gap-2">

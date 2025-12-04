@@ -72,6 +72,9 @@ export interface IStorage {
   createAuditLog(data: InsertAuditLog): Promise<AuditLog>;
   getAllAuditLogs(): Promise<AuditLog[]>;
   
+  // Clear logs (preserves accounts)
+  clearAllLogs(): Promise<void>;
+  
   // Message template operations
   createMessageTemplate(data: InsertMessageTemplate): Promise<MessageTemplate>;
   getAllMessageTemplates(): Promise<MessageTemplate[]>;
@@ -381,6 +384,11 @@ export class DatabaseStorage implements IStorage {
 
   async getAllAuditLogs(): Promise<AuditLog[]> {
     return await db.select().from(auditLogs).orderBy(desc(auditLogs.createdAt));
+  }
+
+  async clearAllLogs(): Promise<void> {
+    await db.delete(activityLogs);
+    await db.delete(chatMessages);
   }
 
   // Message template operations

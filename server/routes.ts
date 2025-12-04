@@ -125,10 +125,40 @@ export async function registerRoutes(
     }
   });
 
-  // Delete case (Admin)
-  app.delete("/api/cases/:id", async (req, res) => {
+  // Delete case (Admin only - with protection for verified accounts)
+  app.delete("/api/cases/:id", checkAdminAuth, async (req, res) => {
     try {
+      const caseData = await storage.getCaseById(req.params.id);
+      if (!caseData) {
+        res.status(404).json({ error: "Case not found" });
+        return;
+      }
+      
+      const verifiedStatuses = ['registered', 'syncing', 'active', 'completed'];
+      const isVerified = verifiedStatuses.includes(caseData.status || '');
+      const forceDelete = req.query.force === 'true';
+      
+      if (isVerified && !forceDelete) {
+        res.status(403).json({ 
+          error: "This is a verified account and cannot be deleted without explicit confirmation",
+          requiresConfirmation: true,
+          status: caseData.status
+        });
+        return;
+      }
+      
       await storage.deleteCase(req.params.id);
+      
+      try {
+        await storage.createAuditLog({
+          action: 'delete_case',
+          details: `Deleted account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}, Verified: ${isVerified}, Force: ${forceDelete})`,
+          adminUsername: 'Admin'
+        });
+      } catch (auditError) {
+        console.error('Failed to create audit log:', auditError);
+      }
+      
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: "Failed to delete case" });
@@ -731,6 +761,18 @@ export async function registerRoutes(
     }
   });
 
+  // ==================== ADMIN CLEAR LOGS ====================
+
+  // Clear logs (activity logs, audit logs, chat messages) - preserves user accounts
+  app.post("/api/admin/clear-logs", checkAdminAuth, async (req, res) => {
+    try {
+      await storage.clearAllLogs();
+      res.json({ success: true, message: "Logs cleared successfully. User accounts preserved." });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to clear logs" });
+    }
+  });
+
   // ==================== ADMIN USERS ====================
 
   // Get all admin users
@@ -795,12 +837,8 @@ export async function registerRoutes(
   app.post("/api/admin-sessions/:id/revoke", checkAdminAuth, async (req, res) => {
     try {
       const { reason } = req.body;
-      const session = await storage.revokeAdminSession(req.params.id, reason || 'Manual revocation');
-      if (!session) {
-        res.status(404).json({ error: "Session not found" });
-        return;
-      }
-      res.json(session);
+      await storage.revokeAdminSession(req.params.id, reason || 'Manual revocation');
+      res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: "Failed to revoke session" });
     }
