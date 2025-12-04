@@ -16,7 +16,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings, Moon, Sun, BarChart3, TrendingUp, Activity, Save, LayoutDashboard, Eye } from "lucide-react";
+import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings, Moon, Sun, BarChart3, TrendingUp, Activity, Save, LayoutDashboard, Eye, Zap, Pin, StickyNote, ChevronDown } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
@@ -131,6 +131,26 @@ interface ChatMessage {
   createdAt: string;
 }
 
+interface ChatTemplate {
+  id: number;
+  name: string;
+  content: string;
+  category?: string;
+  shortcut?: string;
+  usageCount?: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+interface CaseNote {
+  id: number;
+  caseId: string;
+  content: string;
+  adminUsername: string;
+  isPinned: boolean;
+  createdAt: string;
+}
+
 const playNotificationSound = () => {
   const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   const oscillator = audioContext.createOscillator();
@@ -231,6 +251,17 @@ export default function AdminDashboard() {
   // Search and filter state
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  
+  // Chat templates state
+  const [chatTemplates, setChatTemplates] = useState<ChatTemplate[]>([]);
+  const [isTemplateManagerOpen, setIsTemplateManagerOpen] = useState(false);
+  const [newTemplate, setNewTemplate] = useState({ name: '', content: '', category: '' });
+  const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
+  
+  // Case notes state
+  const [caseNotes, setCaseNotes] = useState<CaseNote[]>([]);
+  const [newNoteContent, setNewNoteContent] = useState("");
+  const [isAddingNote, setIsAddingNote] = useState(false);
   
   // Filtered cases based on search and status filter
   const filteredCases = useMemo(() => {
@@ -406,10 +437,150 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (isLoggedIn) {
       loadData();
+      loadChatTemplates();
       const interval = setInterval(loadData, 3000);
       return () => clearInterval(interval);
     }
   }, [isLoggedIn]);
+
+  // Load chat templates
+  const loadChatTemplates = async () => {
+    try {
+      const res = await fetch('/api/chat-templates', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const templates = await res.json();
+        setChatTemplates(templates);
+      }
+    } catch (error) {
+      console.error('Failed to load chat templates:', error);
+    }
+  };
+
+  // Create chat template
+  const createChatTemplate = async () => {
+    if (!newTemplate.name.trim() || !newTemplate.content.trim()) {
+      toast({ variant: "destructive", title: "Error", description: "Name and content are required" });
+      return;
+    }
+    try {
+      const res = await fetch('/api/chat-templates', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify(newTemplate)
+      });
+      if (res.ok) {
+        toast({ title: "Template Created", description: "New chat template added." });
+        setNewTemplate({ name: '', content: '', category: '' });
+        loadChatTemplates();
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to create template" });
+    }
+  };
+
+  // Delete chat template
+  const deleteChatTemplate = async (id: number) => {
+    try {
+      await fetch(`/api/chat-templates/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      toast({ title: "Deleted", description: "Template removed." });
+      loadChatTemplates();
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to delete template" });
+    }
+  };
+
+  // Use template (insert into message)
+  const useTemplate = async (template: ChatTemplate) => {
+    setNewMessage(template.content);
+    setShowTemplateDropdown(false);
+    // Increment usage count
+    try {
+      await fetch(`/api/chat-templates/${template.id}/use`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+    } catch (error) {
+      console.error('Failed to increment template usage:', error);
+    }
+  };
+
+  // Load case notes
+  const loadCaseNotes = async (caseId: string) => {
+    try {
+      const res = await fetch(`/api/cases/${caseId}/notes`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const notes = await res.json();
+        setCaseNotes(notes);
+      }
+    } catch (error) {
+      console.error('Failed to load case notes:', error);
+    }
+  };
+
+  // Create case note
+  const createCaseNote = async (caseId: string) => {
+    if (!newNoteContent.trim()) return;
+    setIsAddingNote(true);
+    try {
+      const res = await fetch(`/api/cases/${caseId}/notes`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({
+          content: newNoteContent,
+          adminUsername: 'Admin2025'
+        })
+      });
+      if (res.ok) {
+        toast({ title: "Note Added", description: "Case note created." });
+        setNewNoteContent('');
+        loadCaseNotes(caseId);
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to add note" });
+    } finally {
+      setIsAddingNote(false);
+    }
+  };
+
+  // Delete case note
+  const deleteCaseNote = async (noteId: number, caseId: string) => {
+    try {
+      await fetch(`/api/case-notes/${noteId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      toast({ title: "Deleted", description: "Note removed." });
+      loadCaseNotes(caseId);
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to delete note" });
+    }
+  };
+
+  // Toggle note pin
+  const toggleNotePin = async (noteId: number, caseId: string) => {
+    try {
+      await fetch(`/api/case-notes/${noteId}/toggle-pin`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      loadCaseNotes(caseId);
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to toggle pin" });
+    }
+  };
 
   // Poll for chat messages from all cases
   useEffect(() => {
@@ -1128,6 +1299,9 @@ export default function AdminDashboard() {
             </TabsTrigger>
             <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700" data-testid="tab-analytics">
               <BarChart3 className="w-4 h-4 mr-2" /> Analytics
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="data-[state=active]:bg-slate-700" data-testid="tab-settings">
+              <Settings className="w-4 h-4 mr-2" /> Settings
             </TabsTrigger>
           </TabsList>
 
@@ -1872,6 +2046,176 @@ export default function AdminDashboard() {
               </Card>
             </motion.div>
           </TabsContent>
+
+          {/* Settings Tab */}
+          <TabsContent value="settings">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-1">Admin Settings</h2>
+                <p className="text-slate-400 text-sm">Configure chat templates, system preferences, and admin tools.</p>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2">
+                {/* Chat Templates Card */}
+                <Card className="bg-slate-900/50 border-slate-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <Zap className="h-5 w-5 text-amber-400" />
+                      Chat Templates
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-slate-400">
+                      Create quick response templates for faster customer support. Templates appear in the chat panel.
+                    </p>
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
+                        <div>
+                          <p className="text-sm font-medium text-white">Total Templates</p>
+                          <p className="text-2xl font-bold text-amber-400">{chatTemplates.length}</p>
+                        </div>
+                        <Zap className="h-8 w-8 text-amber-400/30" />
+                      </div>
+                      
+                      <Button 
+                        onClick={() => setIsTemplateManagerOpen(true)}
+                        className="w-full bg-amber-600 hover:bg-amber-700"
+                      >
+                        <Settings className="h-4 w-4 mr-2" /> Manage Templates
+                      </Button>
+                    </div>
+                    
+                    {/* Quick Add Template */}
+                    <div className="border-t border-slate-700 pt-4">
+                      <h4 className="text-sm font-medium text-slate-300 mb-3">Quick Add Template</h4>
+                      <div className="space-y-2">
+                        <Input
+                          placeholder="Template name..."
+                          value={newTemplate.name}
+                          onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value })}
+                          className="bg-slate-800 border-slate-700"
+                        />
+                        <Textarea
+                          placeholder="Template content..."
+                          value={newTemplate.content}
+                          onChange={(e) => setNewTemplate({ ...newTemplate, content: e.target.value })}
+                          className="bg-slate-800 border-slate-700 min-h-[60px]"
+                        />
+                        <Button 
+                          onClick={createChatTemplate} 
+                          size="sm" 
+                          className="w-full bg-blue-600 hover:bg-blue-700"
+                          disabled={!newTemplate.name.trim() || !newTemplate.content.trim()}
+                        >
+                          <Plus className="h-4 w-4 mr-1" /> Add Template
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Case Notes Info Card */}
+                <Card className="bg-slate-900/50 border-slate-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <StickyNote className="h-5 w-5 text-indigo-400" />
+                      Case Notes
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-slate-400">
+                      Add private notes to cases that are only visible to admins. Perfect for tracking internal case details.
+                    </p>
+                    
+                    <div className="bg-slate-800/50 rounded-lg p-4 space-y-3">
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <CheckCircle className="h-4 w-4 text-green-400" />
+                        <span className="text-sm">Notes are private and admin-only</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Pin className="h-4 w-4 text-amber-400" />
+                        <span className="text-sm">Pin important notes for visibility</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Clock className="h-4 w-4 text-blue-400" />
+                        <span className="text-sm">Timestamps on all notes</span>
+                      </div>
+                    </div>
+                    
+                    <div className="text-xs text-slate-500 mt-2 p-3 bg-slate-800/30 rounded-lg">
+                      Access case notes from the "Manage User" dialog when viewing any case. Notes are automatically saved and synced.
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Audit Logs Card */}
+                <Card className="bg-slate-900/50 border-slate-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <History className="h-5 w-5 text-purple-400" />
+                      Audit Logs
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-slate-400">
+                      All admin actions are automatically logged for compliance and security tracking.
+                    </p>
+                    
+                    <div className="bg-slate-800/50 rounded-lg p-4 space-y-2">
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <CheckCircle className="h-4 w-4 text-green-400" />
+                        <span className="text-sm">Login/logout events</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <CheckCircle className="h-4 w-4 text-green-400" />
+                        <span className="text-sm">Case modifications</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <CheckCircle className="h-4 w-4 text-green-400" />
+                        <span className="text-sm">Message sending</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Theme Settings Card */}
+                <Card className="bg-slate-900/50 border-slate-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      {theme === 'dark' ? <Moon className="h-5 w-5 text-blue-400" /> : <Sun className="h-5 w-5 text-amber-400" />}
+                      Theme Settings
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-slate-400">
+                      Customize the appearance of the admin dashboard.
+                    </p>
+                    
+                    <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
+                      <div>
+                        <p className="text-sm font-medium text-white">Current Theme</p>
+                        <p className="text-sm text-slate-400 capitalize">{theme} Mode</p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={toggleTheme}
+                        className="border-slate-600"
+                      >
+                        {theme === 'dark' ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
+                        Switch Theme
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </motion.div>
+          </TabsContent>
         </Tabs>
       </main>
 
@@ -2374,6 +2718,35 @@ export default function AdminDashboard() {
             </div>
             
             <div className="p-3 border-t border-slate-800 bg-slate-900">
+              {/* Template Selector */}
+              {chatTemplates.length > 0 && (
+                <div className="mb-2 relative">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowTemplateDropdown(!showTemplateDropdown)}
+                    className="text-xs text-slate-400 hover:text-white gap-1 h-7 px-2"
+                  >
+                    <Zap className="h-3 w-3" />
+                    Quick Replies
+                    <ChevronDown className={`h-3 w-3 transition-transform ${showTemplateDropdown ? 'rotate-180' : ''}`} />
+                  </Button>
+                  {showTemplateDropdown && (
+                    <div className="absolute bottom-full left-0 mb-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl w-64 max-h-48 overflow-y-auto z-10">
+                      {chatTemplates.map(template => (
+                        <button
+                          key={template.id}
+                          onClick={() => useTemplate(template)}
+                          className="w-full text-left px-3 py-2 text-sm text-slate-200 hover:bg-slate-700 border-b border-slate-700 last:border-0"
+                        >
+                          <div className="font-medium">{template.name}</div>
+                          <div className="text-xs text-slate-400 truncate">{template.content}</div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="flex gap-2">
                 <Input
                   placeholder="Type your message..."
@@ -2398,6 +2771,84 @@ export default function AdminDashboard() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Chat Templates Manager Dialog */}
+      <Dialog open={isTemplateManagerOpen} onOpenChange={setIsTemplateManagerOpen}>
+        <DialogContent className="max-w-2xl bg-slate-950 border-slate-800 text-white">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Zap className="h-5 w-5 text-amber-400" />
+              Chat Templates Manager
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              Create quick response templates for faster customer support
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            {/* New Template Form */}
+            <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-800 space-y-3">
+              <h4 className="text-sm font-medium text-slate-300">Create New Template</h4>
+              <div className="grid gap-3">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Template name..."
+                    value={newTemplate.name}
+                    onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value })}
+                    className="flex-1 bg-slate-800 border-slate-700"
+                  />
+                  <Input
+                    placeholder="Category (optional)"
+                    value={newTemplate.category}
+                    onChange={(e) => setNewTemplate({ ...newTemplate, category: e.target.value })}
+                    className="w-32 bg-slate-800 border-slate-700"
+                  />
+                </div>
+                <Textarea
+                  placeholder="Template content..."
+                  value={newTemplate.content}
+                  onChange={(e) => setNewTemplate({ ...newTemplate, content: e.target.value })}
+                  className="bg-slate-800 border-slate-700 min-h-[80px]"
+                />
+                <Button onClick={createChatTemplate} size="sm" className="w-fit bg-blue-600 hover:bg-blue-700">
+                  <Plus className="h-4 w-4 mr-1" /> Add Template
+                </Button>
+              </div>
+            </div>
+            
+            {/* Existing Templates */}
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {chatTemplates.length === 0 ? (
+                <p className="text-center text-slate-500 py-6">No templates yet. Create your first one above!</p>
+              ) : (
+                chatTemplates.map(template => (
+                  <div key={template.id} className="flex items-start gap-3 p-3 bg-slate-900/30 rounded-lg border border-slate-800">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-sm">{template.name}</span>
+                        {template.category && (
+                          <Badge variant="secondary" className="text-[10px] bg-slate-700 text-slate-300">
+                            {template.category}
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="text-xs text-slate-400 mt-1 line-clamp-2">{template.content}</p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => deleteChatTemplate(template.id)}
+                      className="h-8 w-8 p-0 text-slate-500 hover:text-red-400 hover:bg-red-950/30"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Admin Message Dialog - Redesigned with Clear Sections */}
       <Dialog open={isAdminMessageOpen} onOpenChange={setIsAdminMessageOpen}>
@@ -2605,7 +3056,84 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* SECTION 3: Message History */}
+            {/* SECTION 3: Case Notes (Admin Only) */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="h-6 w-6 rounded bg-indigo-500/20 flex items-center justify-center">
+                    <StickyNote className="h-3.5 w-3.5 text-indigo-400" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-wide">Case Notes (Admin Only)</h3>
+                </div>
+                <span className="text-[10px] text-slate-600 bg-slate-800 px-2 py-0.5 rounded">PRIVATE</span>
+              </div>
+              
+              {/* Add Note Input */}
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Add a private note..."
+                  value={newNoteContent}
+                  onChange={(e) => setNewNoteContent(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && selectedCase && createCaseNote(selectedCase.id)}
+                  className="flex-1 bg-slate-800/50 border-slate-700"
+                />
+                <Button
+                  onClick={() => selectedCase && createCaseNote(selectedCase.id)}
+                  disabled={!newNoteContent.trim() || isAddingNote}
+                  size="sm"
+                  className="bg-indigo-600 hover:bg-indigo-700"
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              {/* Notes List */}
+              {caseNotes.length === 0 ? (
+                <div className="text-center py-4 bg-slate-900/30 rounded-lg border border-slate-800/50">
+                  <StickyNote className="h-8 w-8 mx-auto text-slate-700 mb-2" />
+                  <p className="text-sm text-slate-500">No notes yet</p>
+                  <p className="text-xs text-slate-600">Add private notes for internal tracking</p>
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-40 overflow-y-auto">
+                  {caseNotes.map(note => (
+                    <div 
+                      key={note.id} 
+                      className={`p-3 rounded-lg border ${note.isPinned ? 'bg-amber-500/5 border-amber-500/30' : 'bg-slate-900/30 border-slate-800/50'}`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1">
+                          <p className="text-sm text-slate-200">{note.content}</p>
+                          <p className="text-xs text-slate-500 mt-1">
+                            {note.adminUsername} • {new Date(note.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => selectedCase && toggleNotePin(note.id, selectedCase.id)}
+                            className={`h-7 w-7 p-0 ${note.isPinned ? 'text-amber-400' : 'text-slate-500 hover:text-amber-400'}`}
+                          >
+                            <Pin className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => selectedCase && deleteCaseNote(note.id, selectedCase.id)}
+                            className="h-7 w-7 p-0 text-slate-500 hover:text-red-400"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* SECTION 4: Message History */}
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-2">
                 <div className="flex items-center gap-2">
