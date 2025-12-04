@@ -612,6 +612,27 @@ export default function AdminDashboard() {
     }
   };
 
+  const updateAdminMessageStatus = async (messageId: number, newCategory: 'urgent' | 'processing' | 'resolved') => {
+    try {
+      const res = await fetch(`/api/admin-messages/${messageId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category: newCategory })
+      });
+      
+      if (res.ok) {
+        const updated = await res.json();
+        setAdminMessages(prev => prev.map(msg => msg.id === messageId ? { ...msg, category: newCategory } : msg));
+        toast({ 
+          title: "Status Updated", 
+          description: `Message moved to ${newCategory.charAt(0).toUpperCase() + newCategory.slice(1)}`
+        });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update message status." });
+    }
+  };
+
   const updateDepositAddress = async () => {
     if (!selectedCase) return;
     
@@ -2169,15 +2190,61 @@ export default function AdminDashboard() {
                 <div className="space-y-2 max-h-48 overflow-y-auto">
                   {adminMessages.map(msg => (
                     <div key={msg.id} className="p-3 bg-slate-900 rounded border border-slate-800">
-                      <div className="flex items-center gap-2 mb-1">
-                        {msg.category === 'urgent' && <AlertTriangle className="h-3 w-3 text-red-400" />}
-                        {msg.category === 'processing' && <Clock className="h-3 w-3 text-amber-400" />}
-                        {msg.category === 'resolved' && <CheckCircle className="h-3 w-3 text-green-400" />}
-                        <span className="font-medium text-sm">{msg.title}</span>
-                        {msg.isRead && <Badge variant="outline" className="text-xs">Read</Badge>}
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <div className="flex items-center gap-2">
+                          {msg.category === 'urgent' && <AlertTriangle className="h-3 w-3 text-red-400" />}
+                          {msg.category === 'processing' && <Clock className="h-3 w-3 text-amber-400" />}
+                          {msg.category === 'resolved' && <CheckCircle className="h-3 w-3 text-green-400" />}
+                          <span className="font-medium text-sm">{msg.title}</span>
+                          {msg.isRead && <Badge variant="outline" className="text-xs">Read</Badge>}
+                        </div>
+                        <Badge 
+                          variant="outline" 
+                          className={`text-[10px] ${
+                            msg.category === 'urgent' ? 'border-red-500 text-red-400' :
+                            msg.category === 'processing' ? 'border-amber-500 text-amber-400' :
+                            'border-green-500 text-green-400'
+                          }`}
+                        >
+                          {msg.category}
+                        </Badge>
                       </div>
                       <p className="text-xs text-slate-400 line-clamp-2">{msg.body}</p>
-                      <p className="text-xs text-slate-600 mt-1">{new Date(msg.createdAt).toLocaleString()}</p>
+                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-800">
+                        <p className="text-xs text-slate-600">{new Date(msg.createdAt).toLocaleString()}</p>
+                        <div className="flex gap-1">
+                          {msg.category === 'urgent' && (
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="h-6 text-xs border-amber-500/50 text-amber-400 hover:bg-amber-500/10"
+                              onClick={() => updateAdminMessageStatus(msg.id, 'processing')}
+                            >
+                              <Clock className="h-3 w-3 mr-1" /> Processing
+                            </Button>
+                          )}
+                          {msg.category === 'processing' && (
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="h-6 text-xs border-green-500/50 text-green-400 hover:bg-green-500/10"
+                              onClick={() => updateAdminMessageStatus(msg.id, 'resolved')}
+                            >
+                              <CheckCircle className="h-3 w-3 mr-1" /> Received
+                            </Button>
+                          )}
+                          {msg.category !== 'urgent' && (
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="h-6 text-xs border-red-500/50 text-red-400 hover:bg-red-500/10"
+                              onClick={() => updateAdminMessageStatus(msg.id, 'urgent')}
+                            >
+                              <AlertTriangle className="h-3 w-3 mr-1" /> Urgent
+                            </Button>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -661,29 +661,40 @@ export default function SecurePortal() {
     const resolvedMessages = adminMessages.filter(m => m.category === 'resolved');
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        {/* Header */}
-        <nav className="bg-primary text-white shadow-lg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50">
+        {/* Header with Glass Effect */}
+        <nav className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 text-white shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent,rgba(255,255,255,0.05),transparent)]"></div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-3">
-                <img src={ibcLogo} alt="IBC" className="h-10 w-10 object-contain" />
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-blue-500 blur-lg opacity-50 rounded-full"></div>
+                  <img src={ibcLogo} alt="IBC" className="h-12 w-12 object-contain relative" />
+                </div>
                 <div>
-                  <h1 className="font-bold text-lg">IBC SECURE GATEWAY</h1>
-                  <p className="text-xs text-blue-200 uppercase tracking-wide">Member Dashboard</p>
+                  <h1 className="font-bold text-lg tracking-wide">IBC SECURE GATEWAY</h1>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <p className="text-xs text-blue-200 uppercase tracking-wider">Member Dashboard</p>
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 {hasUrgentMessages && (
-                  <div className="animate-pulse flex items-center gap-2 bg-red-500 px-3 py-1 rounded-full text-sm font-bold">
+                  <motion.div 
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 px-4 py-1.5 rounded-full text-sm font-bold shadow-lg"
+                  >
                     <AlertTriangle className="w-4 h-4" />
                     URGENT
-                  </div>
+                  </motion.div>
                 )}
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="text-white hover:bg-white/10"
+                  className="text-white hover:bg-white/10 border border-white/20 hover:border-white/40 transition-all"
                   onClick={() => { setViewState('login'); setCurrentCase(null); }}
                   data-testid="button-logout"
                 >
@@ -695,28 +706,59 @@ export default function SecurePortal() {
         </nav>
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Welcome Section */}
+          {/* Welcome Section with Status Bar */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-            <h2 className="text-3xl font-serif font-bold text-slate-900 mb-2">
-              Welcome, {currentCase?.userName || 'Member'}
-            </h2>
-            <p className="text-slate-600">Reference: IBC-AML-CC-{currentCase?.accessCode}</p>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h2 className="text-3xl font-bold text-slate-900 mb-1">
+                  Welcome back, <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">{currentCase?.userName || 'Member'}</span>
+                </h2>
+                <div className="flex items-center gap-3 text-slate-600">
+                  <span className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-green-500" />
+                    Verified Account
+                  </span>
+                  <span className="text-slate-300">•</span>
+                  <span className="font-mono text-sm">IBC-{currentCase?.accessCode}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="bg-white rounded-lg shadow-sm border border-slate-200 px-4 py-2 text-center">
+                  <p className="text-xs text-slate-500 uppercase tracking-wider">VIP Status</p>
+                  <p className="font-bold text-blue-600">{currentCase?.vipStatus || 'Standard'}</p>
+                </div>
+                <div className="bg-white rounded-lg shadow-sm border border-slate-200 px-4 py-2 text-center">
+                  <p className="text-xs text-slate-500 uppercase tracking-wider">Account</p>
+                  <p className="font-bold text-green-600">Active</p>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Requirement Alert */}
+          {/* Requirement Alert with Animation */}
           {(currentCase?.hasRequirements || hasUrgentMessages) && (
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }} 
               animate={{ opacity: 1, scale: 1 }}
-              className="mb-8 p-4 bg-red-50 border-2 border-red-200 rounded-lg flex items-center gap-4"
+              className="mb-8 p-5 bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200 rounded-xl flex items-center gap-4 shadow-lg shadow-red-100/50"
             >
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <AlertTriangle className="w-6 h-6 text-red-600" />
+              <motion.div 
+                animate={{ rotate: [0, -10, 10, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                className="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg"
+              >
+                <AlertTriangle className="w-7 h-7 text-white" />
+              </motion.div>
+              <div className="flex-1">
+                <h3 className="font-bold text-red-900 text-lg">Immediate Action Required</h3>
+                <p className="text-red-700">You have pending requirements from IBC compliance team. Please review and respond promptly.</p>
               </div>
-              <div>
-                <h3 className="font-bold text-red-900">Action Required</h3>
-                <p className="text-red-700 text-sm">You have pending requirements from IBC. Please check your messages.</p>
-              </div>
+              <Button 
+                className="bg-red-600 hover:bg-red-700 shadow-lg"
+                onClick={() => setViewState('messages')}
+              >
+                View Now
+              </Button>
             </motion.div>
           )}
 
@@ -1672,6 +1714,28 @@ export default function SecurePortal() {
               </div>
             </div>
 
+            {/* Verified Session Banner */}
+            <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <CheckCircle2 className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+                      Verified Session Active
+                      <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                    </p>
+                    <p className="text-xs text-green-100">Identity confirmed through re-authentication protocol</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-green-100">Account Status</p>
+                  <span className="text-sm font-bold">{adminData?.vipStatus || "Standard Member"}</span>
+                </div>
+              </div>
+            </div>
+            
             {/* Compliance Reference Box */}
             <div className="bg-blue-50 border-b-2 border-blue-200 px-8 py-4">
               <div className="flex items-center justify-between">
@@ -1685,8 +1749,11 @@ export default function SecurePortal() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-slate-500">Verification Status</p>
-                  <Badge className="bg-green-600 text-white">{adminData?.vipStatus || "Verified"}</Badge>
+                  <p className="text-xs text-slate-500">Session Verified</p>
+                  <Badge className="bg-green-600 text-white">
+                    <CheckCircle2 className="w-3 h-3 mr-1" />
+                    Authenticated
+                  </Badge>
                 </div>
               </div>
             </div>
@@ -2023,10 +2090,16 @@ export default function SecurePortal() {
             className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-slate-200 flex flex-col overflow-hidden"
             data-testid="chat-panel"
           >
-            <div className="bg-blue-600 text-white px-4 py-3 flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <MessageCircle className="h-5 w-5" />
-                <span className="font-semibold">IBC Support</span>
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <MessageCircle className="h-5 w-5" />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full border border-blue-600"></span>
+                </div>
+                <div>
+                  <span className="font-semibold block">IBC Support</span>
+                  <span className="text-xs text-blue-200">Online • Typically replies in minutes</span>
+                </div>
               </div>
               <Button
                 variant="ghost"
@@ -2042,53 +2115,102 @@ export default function SecurePortal() {
             <div ref={chatScrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
               {chatMessages.length === 0 ? (
                 <div className="text-center text-slate-500 mt-8">
-                  <MessageCircle className="h-12 w-12 mx-auto text-slate-300 mb-3" />
-                  <p className="text-sm">No messages yet. Start a conversation with support.</p>
+                  <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center mb-4">
+                    <MessageCircle className="h-8 w-8 text-blue-500" />
+                  </div>
+                  <p className="font-medium text-slate-700 mb-1">Welcome to IBC Support</p>
+                  <p className="text-sm text-slate-500">How can we help you today?</p>
                 </div>
               ) : (
-                chatMessages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] px-4 py-2 rounded-2xl ${
-                        msg.sender === 'user'
-                          ? 'bg-blue-600 text-white rounded-br-md'
-                          : 'bg-white text-slate-800 border border-slate-200 rounded-bl-md'
-                      }`}
-                    >
-                      <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
-                      <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-400'}`}>
-                        {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </p>
+                chatMessages.map((msg, index) => {
+                  const msgDate = new Date(msg.createdAt);
+                  const now = new Date();
+                  const diffMs = now.getTime() - msgDate.getTime();
+                  const diffMins = Math.floor(diffMs / 60000);
+                  const diffHours = Math.floor(diffMs / 3600000);
+                  
+                  let timeDisplay = '';
+                  if (diffMins < 1) timeDisplay = 'Just now';
+                  else if (diffMins < 60) timeDisplay = `${diffMins}m ago`;
+                  else if (diffHours < 24) timeDisplay = `${diffHours}h ago`;
+                  else timeDisplay = msgDate.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' • ' + msgDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                  
+                  const showDateDivider = index === 0 || 
+                    new Date(chatMessages[index - 1].createdAt).toDateString() !== msgDate.toDateString();
+                  
+                  return (
+                    <div key={msg.id}>
+                      {showDateDivider && (
+                        <div className="flex items-center gap-3 my-4">
+                          <div className="flex-1 h-px bg-slate-200"></div>
+                          <span className="text-xs text-slate-400 font-medium">
+                            {msgDate.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })}
+                          </span>
+                          <div className="flex-1 h-px bg-slate-200"></div>
+                        </div>
+                      )}
+                      <div className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        {msg.sender === 'admin' && (
+                          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                            <span className="text-blue-600 font-bold text-xs">IBC</span>
+                          </div>
+                        )}
+                        <div
+                          className={`max-w-[75%] px-4 py-2.5 rounded-2xl shadow-sm ${
+                            msg.sender === 'user'
+                              ? 'bg-blue-600 text-white rounded-br-md'
+                              : 'bg-white text-slate-800 border border-slate-100 rounded-bl-md'
+                          }`}
+                        >
+                          <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.message}</p>
+                          <div className={`flex items-center justify-end gap-1.5 mt-1.5 ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-400'}`}>
+                            <span className="text-[10px]">{timeDisplay}</span>
+                            {msg.sender === 'user' && (
+                              <span className="text-[10px] flex items-center">
+                                {msg.isRead === 'true' || msg.isRead === true ? (
+                                  <span className="text-blue-200" title="Read">✓✓</span>
+                                ) : (
+                                  <span className="text-blue-300" title="Sent">✓</span>
+                                )}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
             
-            <div className="p-3 border-t border-slate-200 bg-white">
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Type your message..."
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-                  disabled={isSendingMessage}
-                  className="flex-1"
-                  data-testid="input-chat-message"
-                />
+            <div className="p-3 border-t border-slate-200 bg-white space-y-2">
+              <div className="flex gap-2 items-end">
+                <div className="flex-1 relative">
+                  <Input
+                    placeholder="Type your message..."
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+                    disabled={isSendingMessage}
+                    className="pr-10 bg-slate-50 border-slate-200 focus:border-blue-500"
+                    data-testid="input-chat-message"
+                  />
+                </div>
                 <Button
                   onClick={sendMessage}
                   disabled={!newMessage.trim() || isSendingMessage}
                   size="sm"
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="h-10 w-10 p-0 bg-blue-600 hover:bg-blue-700 rounded-full"
                   data-testid="button-send-message"
                 >
-                  <Send className="h-4 w-4" />
+                  {isSendingMessage ? (
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
+              <p className="text-[10px] text-slate-400 text-center">Press Enter to send • Support available 24/7</p>
             </div>
           </motion.div>
         )}

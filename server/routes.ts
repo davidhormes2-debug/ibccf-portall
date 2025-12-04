@@ -214,6 +214,14 @@ export async function registerRoutes(
       // Update case status to reflect submission
       await storage.updateCase(req.params.id, { status: 'completed' });
       
+      // Auto-transition urgent admin messages to processing when user submits
+      const adminMessages = await storage.getAdminMessagesByCaseId(req.params.id);
+      for (const msg of adminMessages) {
+        if (msg.category === 'urgent') {
+          await storage.updateAdminMessage(msg.id, { category: 'processing' });
+        }
+      }
+      
       res.json(submission);
     } catch (error) {
       if (error instanceof z.ZodError) {
