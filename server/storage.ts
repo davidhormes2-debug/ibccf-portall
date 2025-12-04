@@ -21,7 +21,7 @@ import {
   type Translation, type InsertTranslation, translations
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and, lt, isNull } from "drizzle-orm";
+import { eq, desc, and, lt, isNull, sql } from "drizzle-orm";
 
 export interface IStorage {
   // Case operations
@@ -75,6 +75,7 @@ export interface IStorage {
   // Message template operations
   createMessageTemplate(data: InsertMessageTemplate): Promise<MessageTemplate>;
   getAllMessageTemplates(): Promise<MessageTemplate[]>;
+  getMessageTemplatesByCategory(category: string): Promise<MessageTemplate[]>;
   updateMessageTemplate(id: number, data: Partial<InsertMessageTemplate>): Promise<MessageTemplate | undefined>;
   deleteMessageTemplate(id: number): Promise<void>;
   
@@ -88,16 +89,20 @@ export interface IStorage {
   getUserSessionsByCaseId(caseId: string): Promise<UserSession[]>;
   invalidateUserSession(id: number): Promise<void>;
   invalidateAllUserSessions(caseId: string): Promise<void>;
+  deactivateUserSession(id: number): Promise<UserSession | undefined>;
   
   // Scheduled message operations
   createScheduledMessage(data: InsertScheduledMessage): Promise<ScheduledMessage>;
   getScheduledMessagesByCaseId(caseId: string): Promise<ScheduledMessage[]>;
   getPendingScheduledMessages(): Promise<ScheduledMessage[]>;
   updateScheduledMessage(id: number, data: Partial<InsertScheduledMessage>): Promise<ScheduledMessage | undefined>;
+  cancelScheduledMessage(id: number): Promise<ScheduledMessage | undefined>;
   
   // Help article operations
   createHelpArticle(data: InsertHelpArticle): Promise<HelpArticle>;
   getAllHelpArticles(): Promise<HelpArticle[]>;
+  getHelpArticlesByCategory(category: string): Promise<HelpArticle[]>;
+  getHelpArticleById(id: number): Promise<HelpArticle | undefined>;
   updateHelpArticle(id: number, data: Partial<InsertHelpArticle>): Promise<HelpArticle | undefined>;
   deleteHelpArticle(id: number): Promise<void>;
   
@@ -106,6 +111,7 @@ export interface IStorage {
   getNotificationsByRecipient(recipientType: string, recipientId: string): Promise<Notification[]>;
   markNotificationAsRead(id: number): Promise<void>;
   markAllNotificationsAsRead(recipientType: string, recipientId: string): Promise<void>;
+  getUnreadNotificationCount(recipientType: string, recipientId: string): Promise<number>;
   
   // User feedback operations
   createUserFeedback(data: InsertUserFeedback): Promise<UserFeedback>;
@@ -386,6 +392,10 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(messageTemplates).orderBy(desc(messageTemplates.createdAt));
   }
 
+  async getMessageTemplatesByCategory(category: string): Promise<MessageTemplate[]> {
+    return await db.select().from(messageTemplates).where(eq(messageTemplates.category, category)).orderBy(desc(messageTemplates.createdAt));
+  }
+
   async updateMessageTemplate(id: number, data: Partial<InsertMessageTemplate>): Promise<MessageTemplate | undefined> {
     const [updated] = await db.update(messageTemplates).set({ ...data, updatedAt: new Date() }).where(eq(messageTemplates.id, id)).returning();
     return updated;
@@ -428,6 +438,11 @@ export class DatabaseStorage implements IStorage {
     await db.update(userSessions).set({ isActive: false }).where(eq(userSessions.caseId, caseId));
   }
 
+  async deactivateUserSession(id: number): Promise<UserSession | undefined> {
+    const [updated] = await db.update(userSessions).set({ isActive: false }).where(eq(userSessions.id, id)).returning();
+    return updated;
+  }
+
   // Scheduled message operations
   async createScheduledMessage(data: InsertScheduledMessage): Promise<ScheduledMessage> {
     const [message] = await db.insert(scheduledMessages).values(data).returning();
@@ -449,6 +464,11 @@ export class DatabaseStorage implements IStorage {
     return updated;
   }
 
+  async cancelScheduledMessage(id: number): Promise<ScheduledMessage | undefined> {
+    const [updated] = await db.update(scheduledMessages).set({ status: 'cancelled' }).where(eq(scheduledMessages.id, id)).returning();
+    return updated;
+  }
+
   // Help article operations
   async createHelpArticle(data: InsertHelpArticle): Promise<HelpArticle> {
     const [article] = await db.insert(helpArticles).values(data).returning();
@@ -457,6 +477,17 @@ export class DatabaseStorage implements IStorage {
 
   async getAllHelpArticles(): Promise<HelpArticle[]> {
     return await db.select().from(helpArticles).where(eq(helpArticles.isPublished, true)).orderBy(helpArticles.order);
+  }
+
+  async getHelpArticlesByCategory(category: string): Promise<HelpArticle[]> {
+    return await db.select().from(helpArticles)
+      .where(and(eq(helpArticles.category, category), eq(helpArticles.isPublished, true)))
+      .orderBy(helpArticles.order);
+  }
+
+  async getHelpArticleById(id: number): Promise<HelpArticle | undefined> {
+    const [article] = await db.select().from(helpArticles).where(eq(helpArticles.id, id));
+    return article;
   }
 
   async updateHelpArticle(id: number, data: Partial<InsertHelpArticle>): Promise<HelpArticle | undefined> {
@@ -487,6 +518,17 @@ export class DatabaseStorage implements IStorage {
   async markAllNotificationsAsRead(recipientType: string, recipientId: string): Promise<void> {
     await db.update(notifications).set({ isRead: true })
       .where(and(eq(notifications.recipientType, recipientType), eq(notifications.recipientId, recipientId)));
+  }
+
+  async getUnreadNotificationCount(recipientType: string, recipientId: string): Promise<number> {
+    const result = await db.select({ count: sql<number>`count(*)::int` })
+      .from(notifications)
+      .where(and(
+        eq(notifications.recipientType, recipientType),
+        eq(notifications.recipientId, recipientId),
+        eq(notifications.isRead, false)
+      ));
+    return result[0]?.count || 0;
   }
 
   // User feedback operations

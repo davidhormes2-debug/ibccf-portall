@@ -161,6 +161,13 @@ export default function SecurePortal() {
   const [receiptNotes, setReceiptNotes] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   
+  // User feedback state
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [feedbackRating, setFeedbackRating] = useState(0);
+  const [feedbackComment, setFeedbackComment] = useState("");
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+  const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
+  
   const { toast } = useToast();
   const { theme, toggleTheme } = useTheme();
 
@@ -318,6 +325,42 @@ export default function SecurePortal() {
       toast({ variant: "destructive", title: "Error", description: "Failed to send message." });
     }
     setIsSendingMessage(false);
+  };
+
+  // Submit user feedback
+  const submitFeedback = async () => {
+    if (!currentCase || feedbackRating === 0) return;
+    
+    setIsSubmittingFeedback(true);
+    try {
+      const res = await fetch('/api/user-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          caseId: currentCase.id,
+          rating: feedbackRating,
+          comment: feedbackComment.trim() || null,
+          category: 'general'
+        })
+      });
+      
+      if (res.ok) {
+        setHasSubmittedFeedback(true);
+        setIsFeedbackOpen(false);
+        setFeedbackRating(0);
+        setFeedbackComment("");
+        toast({
+          title: "Feedback Submitted",
+          description: "Thank you for your feedback!",
+          className: "bg-green-50 border-green-200 text-green-900",
+        });
+      } else {
+        throw new Error('Failed to submit feedback');
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to submit feedback." });
+    }
+    setIsSubmittingFeedback(false);
   };
 
   // Polling for sync status
@@ -1024,6 +1067,35 @@ export default function SecurePortal() {
                 </CardContent>
               </Card>
             </motion.div>
+
+            {/* Feedback Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
+              <Card className={`h-full transition-shadow border-2 border-transparent ${hasSubmittedFeedback ? 'opacity-75' : 'hover:shadow-lg cursor-pointer hover:border-primary/20'}`} onClick={() => !hasSubmittedFeedback && setIsFeedbackOpen(true)} data-testid="card-feedback">
+                <CardHeader className="bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-t-lg">
+                  <CardTitle className="flex items-center gap-2">
+                    <span className="text-xl">⭐</span>
+                    Feedback
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  {hasSubmittedFeedback ? (
+                    <div className="text-center text-green-600">
+                      <CheckCircle className="w-8 h-8 mx-auto mb-2" />
+                      <p className="text-sm font-medium">Thank you for your feedback!</p>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-slate-600 text-sm mb-4">
+                        Help us improve by sharing your experience.
+                      </p>
+                      <Button className="w-full mt-6" variant="outline">
+                        Leave Feedback
+                      </Button>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </main>
 
@@ -1134,6 +1206,75 @@ export default function SecurePortal() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Feedback Dialog */}
+        <Dialog open={isFeedbackOpen} onOpenChange={setIsFeedbackOpen}>
+          <DialogContent className="sm:max-w-md" data-testid="dialog-feedback">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <span className="text-2xl">⭐</span>
+                Share Your Feedback
+              </DialogTitle>
+              <DialogDescription>
+                Help us improve your experience by rating our service and leaving comments.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="py-4 space-y-6">
+              {/* Star Rating */}
+              <div>
+                <label className="text-sm font-medium mb-3 block">How would you rate your experience?</label>
+                <div className="flex gap-2 justify-center">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      className={`text-4xl transition-transform hover:scale-110 ${
+                        feedbackRating >= star ? 'text-yellow-400' : 'text-slate-300'
+                      }`}
+                      onClick={() => setFeedbackRating(star)}
+                      data-testid={`button-star-${star}`}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+                {feedbackRating > 0 && (
+                  <p className="text-center text-sm text-slate-500 mt-2">
+                    {feedbackRating === 1 && "Poor"}
+                    {feedbackRating === 2 && "Fair"}
+                    {feedbackRating === 3 && "Good"}
+                    {feedbackRating === 4 && "Very Good"}
+                    {feedbackRating === 5 && "Excellent"}
+                  </p>
+                )}
+              </div>
+              
+              {/* Comment */}
+              <div>
+                <label className="text-sm font-medium mb-2 block">Additional comments (optional)</label>
+                <Textarea
+                  placeholder="Tell us more about your experience..."
+                  value={feedbackComment}
+                  onChange={(e) => setFeedbackComment(e.target.value)}
+                  rows={4}
+                  className="resize-none"
+                  data-testid="input-feedback-comment"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsFeedbackOpen(false)}>Cancel</Button>
+              <Button 
+                onClick={submitFeedback} 
+                disabled={feedbackRating === 0 || isSubmittingFeedback}
+                className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600"
+                data-testid="button-submit-feedback"
+              >
+                {isSubmittingFeedback ? "Submitting..." : "Submit Feedback"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }

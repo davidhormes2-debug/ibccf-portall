@@ -151,6 +151,101 @@ interface CaseNote {
   createdAt: string;
 }
 
+interface AuditLog {
+  id: number;
+  adminUsername: string;
+  action: string;
+  resourceType: string;
+  resourceId?: string;
+  description: string;
+  ipAddress?: string;
+  userAgent?: string;
+  createdAt: string;
+}
+
+interface AdminSession {
+  id: string;
+  adminUsername: string;
+  token: string;
+  ipAddress?: string;
+  userAgent?: string;
+  location?: string;
+  isActive: boolean;
+  lastActivityAt: string;
+  createdAt: string;
+  expiresAt: string;
+  revokedAt?: string;
+  revokedReason?: string;
+}
+
+interface Notification {
+  id: number;
+  recipientType: string;
+  recipientId?: string;
+  type: string;
+  title: string;
+  body?: string;
+  link?: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+interface ScheduledMessage {
+  id: number;
+  caseId?: string;
+  messageType: string;
+  category?: string;
+  title?: string;
+  content: string;
+  status: string;
+  scheduledFor: string;
+  createdBy?: string;
+  createdAt: string;
+}
+
+interface MessageTemplate {
+  id: number;
+  name: string;
+  content: string;
+  category?: string;
+  isActive: boolean;
+  usageCount?: string;
+  createdBy?: string;
+  createdAt: string;
+}
+
+interface HelpArticle {
+  id: number;
+  title: string;
+  content: string;
+  category?: string;
+  order?: string;
+  isPublished: boolean;
+  createdAt: string;
+}
+
+interface UserFeedback {
+  id: number;
+  caseId: string;
+  rating: string;
+  comment?: string;
+  feedbackType?: string;
+  createdAt: string;
+}
+
+interface DocumentRequest {
+  id: number;
+  caseId: string;
+  documentType: string;
+  description?: string;
+  status: string;
+  deadline?: string;
+  submittedFileData?: string;
+  submittedFileName?: string;
+  adminNotes?: string;
+  createdAt: string;
+}
+
 const playNotificationSound = () => {
   const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   const oscillator = audioContext.createOscillator();
@@ -262,6 +357,56 @@ export default function AdminDashboard() {
   const [caseNotes, setCaseNotes] = useState<CaseNote[]>([]);
   const [newNoteContent, setNewNoteContent] = useState("");
   const [isAddingNote, setIsAddingNote] = useState(false);
+  
+  // Enterprise features state
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+  const [adminSessions, setAdminSessions] = useState<AdminSession[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [scheduledMessages, setScheduledMessages] = useState<ScheduledMessage[]>([]);
+  const [messageTemplates, setMessageTemplates] = useState<MessageTemplate[]>([]);
+  const [helpArticles, setHelpArticles] = useState<HelpArticle[]>([]);
+  const [adminUsers, setAdminUsers] = useState<any[]>([]);
+  const [userSessions, setUserSessions] = useState<any[]>([]);
+  const [userFeedback, setUserFeedback] = useState<UserFeedback[]>([]);
+  const [documentRequests, setDocumentRequests] = useState<DocumentRequest[]>([]);
+  
+  // Settings view state
+  const [settingsView, setSettingsView] = useState<'main' | 'audit' | 'sessions' | 'scheduled' | 'templates' | 'help' | 'feedback' | 'documents' | '2fa' | 'admin-users' | 'user-sessions'>('main');
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  
+  // New scheduled message form
+  const [newScheduledMessage, setNewScheduledMessage] = useState({
+    caseId: '',
+    messageType: 'admin_message' as 'chat' | 'admin_message' | 'letter',
+    category: 'processing',
+    title: '',
+    content: '',
+    scheduledFor: ''
+  });
+  
+  // New message template form
+  const [newMessageTemplate, setNewMessageTemplate] = useState({
+    name: '',
+    content: '',
+    category: 'general'
+  });
+  
+  // New help article form
+  const [newHelpArticle, setNewHelpArticle] = useState({
+    title: '',
+    content: '',
+    category: 'general',
+    isPublished: false
+  });
+  
+  // New document request form
+  const [newDocumentRequest, setNewDocumentRequest] = useState({
+    caseId: '',
+    documentType: '',
+    description: '',
+    deadline: ''
+  });
   
   // Filtered cases based on search and status filter
   const filteredCases = useMemo(() => {
@@ -579,6 +724,377 @@ export default function AdminDashboard() {
       loadCaseNotes(caseId);
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to toggle pin" });
+    }
+  };
+
+  // ==================== ENTERPRISE FEATURES API FUNCTIONS ====================
+
+  // Load audit logs
+  const loadAuditLogs = async () => {
+    try {
+      const res = await fetch('/api/audit-logs', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const logs = await res.json();
+        setAuditLogs(logs);
+      }
+    } catch (error) {
+      console.error('Failed to load audit logs:', error);
+    }
+  };
+
+  // Load admin sessions
+  const loadAdminSessions = async () => {
+    try {
+      const res = await fetch('/api/admin-sessions/Admin2025', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const sessions = await res.json();
+        setAdminSessions(sessions);
+      }
+    } catch (error) {
+      console.error('Failed to load admin sessions:', error);
+    }
+  };
+
+  // Revoke admin session
+  const revokeAdminSession = async (sessionId: string) => {
+    try {
+      await fetch(`/api/admin-sessions/${sessionId}/revoke`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}` 
+        },
+        body: JSON.stringify({ reason: 'Manual revocation by admin' })
+      });
+      toast({ title: "Session Revoked", description: "Admin session has been terminated." });
+      loadAdminSessions();
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to revoke session" });
+    }
+  };
+
+  // Load notifications
+  const loadNotifications = async () => {
+    try {
+      const res = await fetch('/api/notifications/admin', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data);
+      }
+      
+      const countRes = await fetch('/api/notifications/admin/unread', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (countRes.ok) {
+        const { count } = await countRes.json();
+        setUnreadNotifications(count);
+      }
+    } catch (error) {
+      console.error('Failed to load notifications:', error);
+    }
+  };
+
+  // Mark notification as read
+  const markNotificationRead = async (notificationId: number) => {
+    try {
+      await fetch(`/api/notifications/${notificationId}/read`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      loadNotifications();
+    } catch (error) {
+      console.error('Failed to mark notification as read:', error);
+    }
+  };
+
+  // Load scheduled messages
+  const loadScheduledMessages = async () => {
+    try {
+      const res = await fetch('/api/scheduled-messages/pending', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const messages = await res.json();
+        setScheduledMessages(messages);
+      }
+    } catch (error) {
+      console.error('Failed to load scheduled messages:', error);
+    }
+  };
+
+  // Create scheduled message
+  const createScheduledMessage = async () => {
+    if (!newScheduledMessage.content.trim() || !newScheduledMessage.scheduledFor) {
+      toast({ variant: "destructive", title: "Error", description: "Content and scheduled time are required" });
+      return;
+    }
+    try {
+      const res = await fetch('/api/scheduled-messages', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}` 
+        },
+        body: JSON.stringify({
+          ...newScheduledMessage,
+          caseId: newScheduledMessage.caseId || undefined,
+          createdBy: 'Admin2025'
+        })
+      });
+      if (res.ok) {
+        toast({ title: "Scheduled", description: "Message scheduled for delivery." });
+        setNewScheduledMessage({
+          caseId: '',
+          messageType: 'admin_message',
+          category: 'processing',
+          title: '',
+          content: '',
+          scheduledFor: ''
+        });
+        loadScheduledMessages();
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to schedule message" });
+    }
+  };
+
+  // Cancel scheduled message
+  const cancelScheduledMessage = async (messageId: number) => {
+    try {
+      await fetch(`/api/scheduled-messages/${messageId}/cancel`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      toast({ title: "Cancelled", description: "Scheduled message cancelled." });
+      loadScheduledMessages();
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to cancel message" });
+    }
+  };
+
+  // Load message templates
+  const loadMessageTemplates = async () => {
+    try {
+      const res = await fetch('/api/message-templates', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const templates = await res.json();
+        setMessageTemplates(templates);
+      }
+    } catch (error) {
+      console.error('Failed to load message templates:', error);
+    }
+  };
+
+  // Create message template
+  const createMessageTemplate = async () => {
+    if (!newMessageTemplate.name.trim() || !newMessageTemplate.content.trim()) {
+      toast({ variant: "destructive", title: "Error", description: "Name and content are required" });
+      return;
+    }
+    try {
+      const res = await fetch('/api/message-templates', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}` 
+        },
+        body: JSON.stringify({
+          ...newMessageTemplate,
+          createdBy: 'Admin2025'
+        })
+      });
+      if (res.ok) {
+        toast({ title: "Created", description: "Message template added." });
+        setNewMessageTemplate({ name: '', content: '', category: 'general' });
+        loadMessageTemplates();
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to create template" });
+    }
+  };
+
+  // Delete message template
+  const deleteMessageTemplate = async (templateId: number) => {
+    try {
+      await fetch(`/api/message-templates/${templateId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      toast({ title: "Deleted", description: "Message template removed." });
+      loadMessageTemplates();
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to delete template" });
+    }
+  };
+
+  // Load help articles
+  const loadHelpArticles = async () => {
+    try {
+      const res = await fetch('/api/help-articles', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const articles = await res.json();
+        setHelpArticles(articles);
+      }
+    } catch (error) {
+      console.error('Failed to load help articles:', error);
+    }
+  };
+
+  // Create help article
+  const createHelpArticle = async () => {
+    if (!newHelpArticle.title.trim() || !newHelpArticle.content.trim()) {
+      toast({ variant: "destructive", title: "Error", description: "Title and content are required" });
+      return;
+    }
+    try {
+      const res = await fetch('/api/help-articles', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}` 
+        },
+        body: JSON.stringify(newHelpArticle)
+      });
+      if (res.ok) {
+        toast({ title: "Created", description: "Help article added." });
+        setNewHelpArticle({ title: '', content: '', category: 'general', isPublished: false });
+        loadHelpArticles();
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to create article" });
+    }
+  };
+
+  // Delete help article
+  const deleteHelpArticle = async (articleId: number) => {
+    try {
+      await fetch(`/api/help-articles/${articleId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      toast({ title: "Deleted", description: "Help article removed." });
+      loadHelpArticles();
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to delete article" });
+    }
+  };
+
+  // Load user feedback
+  const loadUserFeedback = async () => {
+    try {
+      const res = await fetch('/api/user-feedback', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const feedback = await res.json();
+        setUserFeedback(feedback);
+      }
+    } catch (error) {
+      console.error('Failed to load user feedback:', error);
+    }
+  };
+
+  // Load document requests
+  const loadDocumentRequests = async () => {
+    try {
+      const allRequests: DocumentRequest[] = [];
+      for (const c of cases) {
+        const res = await fetch(`/api/cases/${c.id}/document-requests`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (res.ok) {
+          const requests = await res.json();
+          allRequests.push(...requests);
+        }
+      }
+      setDocumentRequests(allRequests);
+    } catch (error) {
+      console.error('Failed to load document requests:', error);
+    }
+  };
+
+  // Load admin users
+  const loadAdminUsers = async () => {
+    try {
+      const res = await fetch('/api/admin-users', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const users = await res.json();
+        setAdminUsers(users);
+      }
+    } catch (error) {
+      console.error('Failed to load admin users:', error);
+    }
+  };
+
+  // Load user sessions
+  const loadUserSessions = async () => {
+    try {
+      const res = await fetch('/api/user-sessions', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const sessions = await res.json();
+        setUserSessions(sessions);
+      }
+    } catch (error) {
+      console.error('Failed to load user sessions:', error);
+    }
+  };
+
+  // Deactivate user session
+  const deactivateUserSession = async (sessionId: number) => {
+    try {
+      const res = await fetch(`/api/user-sessions/${sessionId}/deactivate`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        toast({ title: "Session Ended", description: "User session has been terminated." });
+        loadUserSessions();
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to end session" });
+    }
+  };
+
+  // Create document request
+  const createDocumentRequest = async () => {
+    if (!newDocumentRequest.caseId || !newDocumentRequest.documentType.trim()) {
+      toast({ variant: "destructive", title: "Error", description: "Case and document type are required" });
+      return;
+    }
+    try {
+      const res = await fetch(`/api/cases/${newDocumentRequest.caseId}/document-requests`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}` 
+        },
+        body: JSON.stringify({
+          documentType: newDocumentRequest.documentType,
+          description: newDocumentRequest.description || undefined,
+          deadline: newDocumentRequest.deadline || undefined
+        })
+      });
+      if (res.ok) {
+        toast({ title: "Created", description: "Document request sent to user." });
+        setNewDocumentRequest({ caseId: '', documentType: '', description: '', deadline: '' });
+        loadDocumentRequests();
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to create request" });
     }
   };
 
@@ -1258,6 +1774,66 @@ export default function AdminDashboard() {
           >
             {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
+          
+          {/* Notification Bell */}
+          <div className="relative">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 relative"
+              onClick={() => { setIsNotificationsOpen(!isNotificationsOpen); loadNotifications(); }}
+              data-testid="button-notifications"
+            >
+              <Bell className="w-4 h-4" />
+              {unreadNotifications > 0 && (
+                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-[10px] text-white flex items-center justify-center font-bold animate-pulse">
+                  {unreadNotifications}
+                </span>
+              )}
+            </Button>
+            
+            {/* Notifications Dropdown */}
+            {isNotificationsOpen && (
+              <div className="absolute right-0 top-10 w-80 bg-slate-950 border border-slate-800 rounded-lg shadow-xl z-50">
+                <div className="p-3 border-b border-slate-800 flex items-center justify-between">
+                  <h3 className="text-white font-medium">Notifications</h3>
+                  <Button variant="ghost" size="sm" onClick={() => setIsNotificationsOpen(false)} className="text-slate-400 h-6 w-6 p-0">
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+                <ScrollArea className="max-h-80">
+                  {notifications.length === 0 ? (
+                    <div className="p-6 text-center text-slate-500">
+                      <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">No notifications</p>
+                    </div>
+                  ) : (
+                    <div className="p-2 space-y-2">
+                      {notifications.slice(0, 10).map((notification) => (
+                        <div 
+                          key={notification.id} 
+                          className={`p-3 rounded-lg cursor-pointer transition-colors ${notification.isRead ? 'bg-slate-900/50' : 'bg-blue-900/20 border border-blue-800/50'}`}
+                          onClick={() => markNotificationRead(notification.id)}
+                        >
+                          <div className="flex items-start gap-2">
+                            <div className={`mt-1 w-2 h-2 rounded-full ${notification.isRead ? 'bg-slate-600' : 'bg-blue-500'}`}></div>
+                            <div className="flex-1">
+                              <p className="text-white text-sm font-medium">{notification.title}</p>
+                              {notification.body && <p className="text-slate-400 text-xs mt-1">{notification.body}</p>}
+                              <p className="text-slate-500 text-xs mt-1">
+                                {new Date(notification.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </ScrollArea>
+              </div>
+            )}
+          </div>
+          
           <a href="/" target="_blank" rel="noopener noreferrer">
             <Button 
               variant="outline" 
@@ -2054,166 +2630,833 @@ export default function AdminDashboard() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-6"
             >
-              <div>
-                <h2 className="text-2xl font-bold text-white mb-1">Admin Settings</h2>
-                <p className="text-slate-400 text-sm">Configure chat templates, system preferences, and admin tools.</p>
-              </div>
+              {settingsView === 'main' ? (
+                <>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-2xl font-bold text-white mb-1">Admin Settings</h2>
+                      <p className="text-slate-400 text-sm">Configure templates, security, and admin tools.</p>
+                    </div>
+                  </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
-                {/* Chat Templates Card */}
-                <Card className="bg-slate-900/50 border-slate-800">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-white">
-                      <Zap className="h-5 w-5 text-amber-400" />
-                      Chat Templates
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-slate-400">
-                      Create quick response templates for faster customer support. Templates appear in the chat panel.
-                    </p>
-                    
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                        <div>
-                          <p className="text-sm font-medium text-white">Total Templates</p>
-                          <p className="text-2xl font-bold text-amber-400">{chatTemplates.length}</p>
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {/* Chat Templates Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => setIsTemplateManagerOpen(true)}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <Zap className="h-5 w-5 text-amber-400" />
+                          Chat Templates
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Quick response templates for support</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-amber-500/20 text-amber-300">{chatTemplates.length} templates</Badge>
+                          <Settings className="h-4 w-4 text-slate-500" />
                         </div>
-                        <Zap className="h-8 w-8 text-amber-400/30" />
-                      </div>
-                      
-                      <Button 
-                        onClick={() => setIsTemplateManagerOpen(true)}
-                        className="w-full bg-amber-600 hover:bg-amber-700"
-                      >
-                        <Settings className="h-4 w-4 mr-2" /> Manage Templates
-                      </Button>
-                    </div>
-                    
-                    {/* Quick Add Template */}
-                    <div className="border-t border-slate-700 pt-4">
-                      <h4 className="text-sm font-medium text-slate-300 mb-3">Quick Add Template</h4>
-                      <div className="space-y-2">
-                        <Input
-                          placeholder="Template name..."
-                          value={newTemplate.name}
-                          onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value })}
-                          className="bg-slate-800 border-slate-700"
-                        />
-                        <Textarea
-                          placeholder="Template content..."
-                          value={newTemplate.content}
-                          onChange={(e) => setNewTemplate({ ...newTemplate, content: e.target.value })}
-                          className="bg-slate-800 border-slate-700 min-h-[60px]"
-                        />
-                        <Button 
-                          onClick={createChatTemplate} 
-                          size="sm" 
-                          className="w-full bg-blue-600 hover:bg-blue-700"
-                          disabled={!newTemplate.name.trim() || !newTemplate.content.trim()}
-                        >
-                          <Plus className="h-4 w-4 mr-1" /> Add Template
+                      </CardContent>
+                    </Card>
+
+                    {/* Audit Logs Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('audit'); loadAuditLogs(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <History className="h-5 w-5 text-purple-400" />
+                          Audit Logs
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">View all admin activity logs</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-purple-500/20 text-purple-300">Compliance</Badge>
+                          <Eye className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Session Management Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('sessions'); loadAdminSessions(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <ShieldCheck className="h-5 w-5 text-green-400" />
+                          Active Sessions
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Manage admin login sessions</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-green-500/20 text-green-300">Security</Badge>
+                          <Lock className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Scheduled Messages Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('scheduled'); loadScheduledMessages(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <Clock className="h-5 w-5 text-blue-400" />
+                          Scheduled Messages
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Schedule messages for future delivery</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-blue-500/20 text-blue-300">{scheduledMessages.length} pending</Badge>
+                          <Send className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Message Templates Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('templates'); loadMessageTemplates(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <Mail className="h-5 w-5 text-cyan-400" />
+                          Message Templates
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Reusable admin message templates</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-cyan-500/20 text-cyan-300">{messageTemplates.length} templates</Badge>
+                          <FileText className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Help Center Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('help'); loadHelpArticles(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <ExternalLink className="h-5 w-5 text-indigo-400" />
+                          Help Center
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Manage knowledge base articles</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-indigo-500/20 text-indigo-300">{helpArticles.length} articles</Badge>
+                          <Edit3 className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* User Feedback Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('feedback'); loadUserFeedback(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <BarChart3 className="h-5 w-5 text-pink-400" />
+                          User Feedback
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">View user ratings and comments</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-pink-500/20 text-pink-300">{userFeedback.length} responses</Badge>
+                          <TrendingUp className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Document Requests Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('documents'); loadDocumentRequests(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <Upload className="h-5 w-5 text-orange-400" />
+                          Document Requests
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Request documents from users</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-orange-500/20 text-orange-300">{documentRequests.filter(d => d.status === 'pending').length} pending</Badge>
+                          <FolderOpen className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* 2FA Security Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => setSettingsView('2fa')}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <Key className="h-5 w-5 text-red-400" />
+                          Two-Factor Auth
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Set up 2FA for enhanced security</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-red-500/20 text-red-300">Security</Badge>
+                          <ShieldCheck className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Admin Users Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('admin-users'); loadAdminUsers(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <Users className="h-5 w-5 text-emerald-400" />
+                          Admin Users
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Manage admin accounts and roles</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-emerald-500/20 text-emerald-300">{adminUsers.length} admins</Badge>
+                          <User className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* User Sessions Card */}
+                    <Card className="bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer" onClick={() => { setSettingsView('user-sessions'); loadUserSessions(); }}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          <Activity className="h-5 w-5 text-teal-400" />
+                          User Sessions
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">View active user portal sessions</p>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-teal-500/20 text-teal-300">{userSessions.length} active</Badge>
+                          <Eye className="h-4 w-4 text-slate-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Theme Settings Card */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-white text-base">
+                          {theme === 'dark' ? <Moon className="h-5 w-5 text-blue-400" /> : <Sun className="h-5 w-5 text-amber-400" />}
+                          Theme
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-slate-400 mb-3">Dashboard appearance</p>
+                        <Button variant="outline" size="sm" onClick={toggleTheme} className="w-full border-slate-600">
+                          {theme === 'dark' ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
+                          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                         </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              ) : settingsView === 'audit' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Audit Logs</h2>
+                    <Button variant="outline" size="sm" onClick={loadAuditLogs} className="ml-auto border-slate-600">
+                      <RefreshCw className="h-4 w-4 mr-2" /> Refresh
+                    </Button>
+                  </div>
+                  <Card className="bg-slate-900/50 border-slate-800">
+                    <CardContent className="p-0">
+                      <div className="max-h-[500px] overflow-y-auto">
+                        <Table>
+                          <TableHeader>
+                            <TableRow className="border-slate-700">
+                              <TableHead className="text-slate-300">Timestamp</TableHead>
+                              <TableHead className="text-slate-300">Admin</TableHead>
+                              <TableHead className="text-slate-300">Action</TableHead>
+                              <TableHead className="text-slate-300">Resource</TableHead>
+                              <TableHead className="text-slate-300">Description</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {auditLogs.length === 0 ? (
+                              <TableRow>
+                                <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+                                  <History className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                                  <p>No audit logs recorded yet</p>
+                                </TableCell>
+                              </TableRow>
+                            ) : (
+                              auditLogs.map((log) => (
+                                <TableRow key={log.id} className="border-slate-800">
+                                  <TableCell className="text-slate-400 text-sm">
+                                    {new Date(log.createdAt).toLocaleString()}
+                                  </TableCell>
+                                  <TableCell className="text-white">{log.adminUsername}</TableCell>
+                                  <TableCell>
+                                    <Badge className={
+                                      log.action.includes('delete') ? 'bg-red-500/20 text-red-300' :
+                                      log.action.includes('create') ? 'bg-green-500/20 text-green-300' :
+                                      'bg-blue-500/20 text-blue-300'
+                                    }>{log.action}</Badge>
+                                  </TableCell>
+                                  <TableCell className="text-slate-300">{log.resourceType}</TableCell>
+                                  <TableCell className="text-slate-400 text-sm max-w-[200px] truncate">{log.description}</TableCell>
+                                </TableRow>
+                              ))
+                            )}
+                          </TableBody>
+                        </Table>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : settingsView === 'sessions' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Active Sessions</h2>
+                    <Button variant="outline" size="sm" onClick={loadAdminSessions} className="ml-auto border-slate-600">
+                      <RefreshCw className="h-4 w-4 mr-2" /> Refresh
+                    </Button>
+                  </div>
+                  <Card className="bg-slate-900/50 border-slate-800">
+                    <CardContent className="p-4">
+                      <div className="space-y-3">
+                        {adminSessions.length === 0 ? (
+                          <div className="text-center py-8 text-slate-500">
+                            <ShieldCheck className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                            <p>No active sessions found</p>
+                          </div>
+                        ) : (
+                          adminSessions.map((session) => (
+                            <div key={session.id} className={`p-4 rounded-lg border ${session.isActive ? 'bg-slate-800/50 border-slate-700' : 'bg-slate-900/50 border-slate-800 opacity-60'}`}>
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${session.isActive ? 'bg-green-500/20' : 'bg-slate-700'}`}>
+                                    <ShieldCheck className={`h-5 w-5 ${session.isActive ? 'text-green-400' : 'text-slate-500'}`} />
+                                  </div>
+                                  <div>
+                                    <p className="text-white font-medium">{session.adminUsername}</p>
+                                    <p className="text-slate-400 text-sm">{session.ipAddress || 'Unknown IP'} {session.location && `• ${session.location}`}</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <div className="text-right">
+                                    <p className="text-slate-400 text-xs">Last active</p>
+                                    <p className="text-slate-300 text-sm">{new Date(session.lastActivityAt).toLocaleString()}</p>
+                                  </div>
+                                  {session.isActive && (
+                                    <Button variant="destructive" size="sm" onClick={() => revokeAdminSession(session.id)}>
+                                      Revoke
+                                    </Button>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="mt-2 text-xs text-slate-500">
+                                {session.userAgent && <span className="truncate block max-w-md">{session.userAgent}</span>}
+                                {session.revokedAt && <span className="text-red-400">Revoked: {session.revokedReason}</span>}
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : settingsView === 'scheduled' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Scheduled Messages</h2>
+                  </div>
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    {/* Create Scheduled Message */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base">Schedule New Message</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <Select value={newScheduledMessage.caseId} onValueChange={(v) => setNewScheduledMessage({ ...newScheduledMessage, caseId: v })}>
+                          <SelectTrigger className="bg-slate-800 border-slate-700">
+                            <SelectValue placeholder="Select case (optional)" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {cases.filter(c => c.userName).map(c => (
+                              <SelectItem key={c.id} value={c.id}>{c.userName} ({c.accessCode})</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Select value={newScheduledMessage.messageType} onValueChange={(v: 'chat' | 'admin_message' | 'letter') => setNewScheduledMessage({ ...newScheduledMessage, messageType: v })}>
+                          <SelectTrigger className="bg-slate-800 border-slate-700">
+                            <SelectValue placeholder="Message type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="chat">Chat Message</SelectItem>
+                            <SelectItem value="admin_message">Admin Message</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Input placeholder="Title (optional)" value={newScheduledMessage.title} onChange={(e) => setNewScheduledMessage({ ...newScheduledMessage, title: e.target.value })} className="bg-slate-800 border-slate-700" />
+                        <Textarea placeholder="Message content..." value={newScheduledMessage.content} onChange={(e) => setNewScheduledMessage({ ...newScheduledMessage, content: e.target.value })} className="bg-slate-800 border-slate-700 min-h-[80px]" />
+                        <Input type="datetime-local" value={newScheduledMessage.scheduledFor} onChange={(e) => setNewScheduledMessage({ ...newScheduledMessage, scheduledFor: e.target.value })} className="bg-slate-800 border-slate-700" />
+                        <Button onClick={createScheduledMessage} className="w-full bg-blue-600 hover:bg-blue-700" disabled={!newScheduledMessage.content.trim() || !newScheduledMessage.scheduledFor}>
+                          <Clock className="h-4 w-4 mr-2" /> Schedule Message
+                        </Button>
+                      </CardContent>
+                    </Card>
 
-                {/* Case Notes Info Card */}
-                <Card className="bg-slate-900/50 border-slate-800">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-white">
-                      <StickyNote className="h-5 w-5 text-indigo-400" />
-                      Case Notes
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-slate-400">
-                      Add private notes to cases that are only visible to admins. Perfect for tracking internal case details.
-                    </p>
-                    
-                    <div className="bg-slate-800/50 rounded-lg p-4 space-y-3">
-                      <div className="flex items-center gap-2 text-slate-300">
-                        <CheckCircle className="h-4 w-4 text-green-400" />
-                        <span className="text-sm">Notes are private and admin-only</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-slate-300">
-                        <Pin className="h-4 w-4 text-amber-400" />
-                        <span className="text-sm">Pin important notes for visibility</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-slate-300">
-                        <Clock className="h-4 w-4 text-blue-400" />
-                        <span className="text-sm">Timestamps on all notes</span>
-                      </div>
-                    </div>
-                    
-                    <div className="text-xs text-slate-500 mt-2 p-3 bg-slate-800/30 rounded-lg">
-                      Access case notes from the "Manage User" dialog when viewing any case. Notes are automatically saved and synced.
-                    </div>
-                  </CardContent>
-                </Card>
+                    {/* Pending Messages */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base">Pending Messages</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ScrollArea className="h-[300px]">
+                          {scheduledMessages.length === 0 ? (
+                            <div className="text-center py-8 text-slate-500">
+                              <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                              <p>No scheduled messages</p>
+                            </div>
+                          ) : (
+                            <div className="space-y-3">
+                              {scheduledMessages.map((msg) => (
+                                <div key={msg.id} className="p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                                  <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <Badge className="bg-blue-500/20 text-blue-300 text-xs">{msg.messageType}</Badge>
+                                        {msg.title && <span className="text-white text-sm font-medium">{msg.title}</span>}
+                                      </div>
+                                      <p className="text-slate-400 text-sm line-clamp-2">{msg.content}</p>
+                                      <p className="text-slate-500 text-xs mt-1">
+                                        <Clock className="h-3 w-3 inline mr-1" />
+                                        {new Date(msg.scheduledFor).toLocaleString()}
+                                      </p>
+                                    </div>
+                                    <Button variant="ghost" size="sm" onClick={() => cancelScheduledMessage(msg.id)} className="text-red-400 hover:text-red-300">
+                                      <X className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              ) : settingsView === 'templates' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Message Templates</h2>
+                  </div>
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    {/* Create Template */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base">Create Template</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <Input placeholder="Template name..." value={newMessageTemplate.name} onChange={(e) => setNewMessageTemplate({ ...newMessageTemplate, name: e.target.value })} className="bg-slate-800 border-slate-700" />
+                        <Select value={newMessageTemplate.category} onValueChange={(v) => setNewMessageTemplate({ ...newMessageTemplate, category: v })}>
+                          <SelectTrigger className="bg-slate-800 border-slate-700">
+                            <SelectValue placeholder="Category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="general">General</SelectItem>
+                            <SelectItem value="urgent">Urgent</SelectItem>
+                            <SelectItem value="processing">Processing</SelectItem>
+                            <SelectItem value="resolved">Resolved</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Textarea placeholder="Template content..." value={newMessageTemplate.content} onChange={(e) => setNewMessageTemplate({ ...newMessageTemplate, content: e.target.value })} className="bg-slate-800 border-slate-700 min-h-[100px]" />
+                        <Button onClick={createMessageTemplate} className="w-full bg-cyan-600 hover:bg-cyan-700" disabled={!newMessageTemplate.name.trim() || !newMessageTemplate.content.trim()}>
+                          <Plus className="h-4 w-4 mr-2" /> Create Template
+                        </Button>
+                      </CardContent>
+                    </Card>
 
-                {/* Audit Logs Card */}
-                <Card className="bg-slate-900/50 border-slate-800">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-white">
-                      <History className="h-5 w-5 text-purple-400" />
-                      Audit Logs
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-slate-400">
-                      All admin actions are automatically logged for compliance and security tracking.
-                    </p>
-                    
-                    <div className="bg-slate-800/50 rounded-lg p-4 space-y-2">
-                      <div className="flex items-center gap-2 text-slate-300">
-                        <CheckCircle className="h-4 w-4 text-green-400" />
-                        <span className="text-sm">Login/logout events</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-slate-300">
-                        <CheckCircle className="h-4 w-4 text-green-400" />
-                        <span className="text-sm">Case modifications</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-slate-300">
-                        <CheckCircle className="h-4 w-4 text-green-400" />
-                        <span className="text-sm">Message sending</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    {/* Templates List */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base">Saved Templates</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ScrollArea className="h-[300px]">
+                          {messageTemplates.length === 0 ? (
+                            <div className="text-center py-8 text-slate-500">
+                              <Mail className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                              <p>No templates created yet</p>
+                            </div>
+                          ) : (
+                            <div className="space-y-3">
+                              {messageTemplates.map((template) => (
+                                <div key={template.id} className="p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                                  <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-white font-medium">{template.name}</span>
+                                        {template.category && <Badge className="bg-slate-600 text-slate-300 text-xs">{template.category}</Badge>}
+                                      </div>
+                                      <p className="text-slate-400 text-sm line-clamp-2">{template.content}</p>
+                                    </div>
+                                    <Button variant="ghost" size="sm" onClick={() => deleteMessageTemplate(template.id)} className="text-red-400 hover:text-red-300">
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              ) : settingsView === 'help' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Help Center</h2>
+                  </div>
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    {/* Create Article */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base">Create Help Article</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <Input placeholder="Article title..." value={newHelpArticle.title} onChange={(e) => setNewHelpArticle({ ...newHelpArticle, title: e.target.value })} className="bg-slate-800 border-slate-700" />
+                        <Select value={newHelpArticle.category} onValueChange={(v) => setNewHelpArticle({ ...newHelpArticle, category: v })}>
+                          <SelectTrigger className="bg-slate-800 border-slate-700">
+                            <SelectValue placeholder="Category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="general">General</SelectItem>
+                            <SelectItem value="account">Account</SelectItem>
+                            <SelectItem value="withdrawal">Withdrawal</SelectItem>
+                            <SelectItem value="deposits">Deposits</SelectItem>
+                            <SelectItem value="security">Security</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Textarea placeholder="Article content..." value={newHelpArticle.content} onChange={(e) => setNewHelpArticle({ ...newHelpArticle, content: e.target.value })} className="bg-slate-800 border-slate-700 min-h-[100px]" />
+                        <div className="flex items-center gap-2">
+                          <input type="checkbox" id="publish" checked={newHelpArticle.isPublished} onChange={(e) => setNewHelpArticle({ ...newHelpArticle, isPublished: e.target.checked })} className="rounded border-slate-600" />
+                          <Label htmlFor="publish" className="text-slate-300 text-sm">Publish immediately</Label>
+                        </div>
+                        <Button onClick={createHelpArticle} className="w-full bg-indigo-600 hover:bg-indigo-700" disabled={!newHelpArticle.title.trim() || !newHelpArticle.content.trim()}>
+                          <Plus className="h-4 w-4 mr-2" /> Create Article
+                        </Button>
+                      </CardContent>
+                    </Card>
 
-                {/* Theme Settings Card */}
-                <Card className="bg-slate-900/50 border-slate-800">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-white">
-                      {theme === 'dark' ? <Moon className="h-5 w-5 text-blue-400" /> : <Sun className="h-5 w-5 text-amber-400" />}
-                      Theme Settings
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-slate-400">
-                      Customize the appearance of the admin dashboard.
-                    </p>
-                    
-                    <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                      <div>
-                        <p className="text-sm font-medium text-white">Current Theme</p>
-                        <p className="text-sm text-slate-400 capitalize">{theme} Mode</p>
+                    {/* Articles List */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base">Published Articles</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ScrollArea className="h-[300px]">
+                          {helpArticles.length === 0 ? (
+                            <div className="text-center py-8 text-slate-500">
+                              <ExternalLink className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                              <p>No help articles yet</p>
+                            </div>
+                          ) : (
+                            <div className="space-y-3">
+                              {helpArticles.map((article) => (
+                                <div key={article.id} className="p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                                  <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-white font-medium">{article.title}</span>
+                                        {article.category && <Badge className="bg-indigo-500/20 text-indigo-300 text-xs">{article.category}</Badge>}
+                                      </div>
+                                      <p className="text-slate-400 text-sm line-clamp-2">{article.content}</p>
+                                    </div>
+                                    <Button variant="ghost" size="sm" onClick={() => deleteHelpArticle(article.id)} className="text-red-400 hover:text-red-300">
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              ) : settingsView === 'feedback' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">User Feedback</h2>
+                    <Button variant="outline" size="sm" onClick={loadUserFeedback} className="ml-auto border-slate-600">
+                      <RefreshCw className="h-4 w-4 mr-2" /> Refresh
+                    </Button>
+                  </div>
+                  <Card className="bg-slate-900/50 border-slate-800">
+                    <CardContent className="p-4">
+                      {userFeedback.length === 0 ? (
+                        <div className="text-center py-8 text-slate-500">
+                          <BarChart3 className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                          <p>No feedback received yet</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {userFeedback.map((fb) => (
+                            <div key={fb.id} className="p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <Badge className="bg-pink-500/20 text-pink-300">{fb.feedbackType || 'General'}</Badge>
+                                  <span className="text-slate-400 text-sm">Case: {fb.caseId}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <span key={star} className={parseInt(fb.rating) >= star ? 'text-amber-400' : 'text-slate-600'}>★</span>
+                                  ))}
+                                </div>
+                              </div>
+                              {fb.comment && <p className="text-slate-300 text-sm">{fb.comment}</p>}
+                              <p className="text-slate-500 text-xs mt-2">{new Date(fb.createdAt).toLocaleString()}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </>
+              ) : settingsView === 'documents' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Document Requests</h2>
+                  </div>
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    {/* Create Document Request */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base">Request Document</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <Select value={newDocumentRequest.caseId} onValueChange={(v) => setNewDocumentRequest({ ...newDocumentRequest, caseId: v })}>
+                          <SelectTrigger className="bg-slate-800 border-slate-700">
+                            <SelectValue placeholder="Select case" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {cases.filter(c => c.userName).map(c => (
+                              <SelectItem key={c.id} value={c.id}>{c.userName} ({c.accessCode})</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Input placeholder="Document type (e.g., ID, Proof of Address)..." value={newDocumentRequest.documentType} onChange={(e) => setNewDocumentRequest({ ...newDocumentRequest, documentType: e.target.value })} className="bg-slate-800 border-slate-700" />
+                        <Textarea placeholder="Description or instructions..." value={newDocumentRequest.description} onChange={(e) => setNewDocumentRequest({ ...newDocumentRequest, description: e.target.value })} className="bg-slate-800 border-slate-700 min-h-[60px]" />
+                        <Input type="date" value={newDocumentRequest.deadline} onChange={(e) => setNewDocumentRequest({ ...newDocumentRequest, deadline: e.target.value })} className="bg-slate-800 border-slate-700" placeholder="Deadline (optional)" />
+                        <Button onClick={createDocumentRequest} className="w-full bg-orange-600 hover:bg-orange-700" disabled={!newDocumentRequest.caseId || !newDocumentRequest.documentType.trim()}>
+                          <Upload className="h-4 w-4 mr-2" /> Send Request
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    {/* Pending Requests */}
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white text-base">Pending Requests</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ScrollArea className="h-[300px]">
+                          {documentRequests.length === 0 ? (
+                            <div className="text-center py-8 text-slate-500">
+                              <FolderOpen className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                              <p>No document requests</p>
+                            </div>
+                          ) : (
+                            <div className="space-y-3">
+                              {documentRequests.map((req) => (
+                                <div key={req.id} className="p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                                  <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-white font-medium">{req.documentType}</span>
+                                        <Badge className={
+                                          req.status === 'pending' ? 'bg-amber-500/20 text-amber-300' :
+                                          req.status === 'submitted' ? 'bg-blue-500/20 text-blue-300' :
+                                          req.status === 'approved' ? 'bg-green-500/20 text-green-300' :
+                                          'bg-red-500/20 text-red-300'
+                                        }>{req.status}</Badge>
+                                      </div>
+                                      <p className="text-slate-400 text-sm">{req.description}</p>
+                                      {req.deadline && <p className="text-slate-500 text-xs mt-1">Due: {new Date(req.deadline).toLocaleDateString()}</p>}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              ) : settingsView === '2fa' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Two-Factor Authentication</h2>
+                  </div>
+                  <div className="max-w-md mx-auto">
+                    <Card className="bg-slate-900/50 border-slate-800">
+                      <CardHeader>
+                        <CardTitle className="text-white flex items-center gap-2">
+                          <Key className="h-5 w-5 text-red-400" />
+                          Secure Your Account
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-6">
+                        <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-slate-700">
+                          <ShieldCheck className="h-12 w-12 mx-auto mb-3 text-green-400" />
+                          <h3 className="text-white font-medium mb-2">Enhanced Security</h3>
+                          <p className="text-slate-400 text-sm">
+                            Two-factor authentication adds an extra layer of security to your account by requiring a verification code in addition to your password.
+                          </p>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                            <div>
+                              <p className="text-white font-medium">Authenticator App</p>
+                              <p className="text-slate-400 text-sm">Use Google Authenticator or similar</p>
+                            </div>
+                            <Badge className="bg-slate-600 text-slate-300">Not Set Up</Badge>
+                          </div>
+                          
+                          <Button className="w-full bg-red-600 hover:bg-red-700" disabled>
+                            <Key className="h-4 w-4 mr-2" /> Enable 2FA
+                          </Button>
+                          
+                          <p className="text-slate-500 text-xs text-center">
+                            2FA enrollment requires administrator approval and is currently in preview.
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              ) : settingsView === 'admin-users' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">Admin Users</h2>
+                    <Button variant="outline" size="sm" onClick={loadAdminUsers} className="ml-auto border-slate-600">
+                      <RefreshCw className="h-4 w-4 mr-2" /> Refresh
+                    </Button>
+                  </div>
+                  <Card className="bg-slate-900/50 border-slate-800">
+                    <CardContent className="p-4">
+                      <div className="space-y-3">
+                        {adminUsers.length === 0 ? (
+                          <div className="text-center py-8 text-slate-500">
+                            <Users className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                            <p>No admin users configured</p>
+                          </div>
+                        ) : (
+                          adminUsers.map((user) => (
+                            <div key={user.id} className="p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                                    <User className="h-5 w-5 text-emerald-400" />
+                                  </div>
+                                  <div>
+                                    <p className="text-white font-medium">{user.username}</p>
+                                    <p className="text-slate-400 text-sm">{user.email || 'No email'}</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <Badge className={
+                                    user.role === 'super_admin' ? 'bg-red-500/20 text-red-300' :
+                                    user.role === 'admin' ? 'bg-purple-500/20 text-purple-300' :
+                                    user.role === 'agent' ? 'bg-blue-500/20 text-blue-300' :
+                                    'bg-slate-600 text-slate-300'
+                                  }>{user.role || 'admin'}</Badge>
+                                  {user.isActive && <span className="w-2 h-2 rounded-full bg-green-500"></span>}
+                                </div>
+                              </div>
+                              <div className="mt-2 text-xs text-slate-500">
+                                Last login: {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString() : 'Never'}
+                              </div>
+                            </div>
+                          ))
+                        )}
                       </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={toggleTheme}
-                        className="border-slate-600"
-                      >
-                        {theme === 'dark' ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
-                        Switch Theme
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : settingsView === 'user-sessions' ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Button variant="ghost" onClick={() => setSettingsView('main')} className="text-slate-400">
+                      <X className="h-4 w-4 mr-2" /> Back
+                    </Button>
+                    <h2 className="text-xl font-bold text-white">User Portal Sessions</h2>
+                    <Button variant="outline" size="sm" onClick={loadUserSessions} className="ml-auto border-slate-600">
+                      <RefreshCw className="h-4 w-4 mr-2" /> Refresh
+                    </Button>
+                  </div>
+                  <Card className="bg-slate-900/50 border-slate-800">
+                    <CardContent className="p-4">
+                      <div className="space-y-3">
+                        {userSessions.length === 0 ? (
+                          <div className="text-center py-8 text-slate-500">
+                            <Activity className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                            <p>No active user sessions</p>
+                          </div>
+                        ) : (
+                          userSessions.map((session) => (
+                            <div key={session.id} className={`p-4 rounded-lg border ${session.isActive ? 'bg-slate-800/50 border-slate-700' : 'bg-slate-900/50 border-slate-800 opacity-60'}`}>
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${session.isActive ? 'bg-teal-500/20' : 'bg-slate-700'}`}>
+                                    <User className={`h-5 w-5 ${session.isActive ? 'text-teal-400' : 'text-slate-500'}`} />
+                                  </div>
+                                  <div>
+                                    <p className="text-white font-medium">Case: {session.caseId.substring(0, 8)}...</p>
+                                    <p className="text-slate-400 text-sm">{session.ipAddress || 'Unknown IP'} {session.location && `• ${session.location}`}</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <div className="text-right">
+                                    <p className="text-slate-400 text-xs">Last active</p>
+                                    <p className="text-slate-300 text-sm">{new Date(session.lastActivityAt).toLocaleString()}</p>
+                                  </div>
+                                  {session.isActive && (
+                                    <Button variant="destructive" size="sm" onClick={() => deactivateUserSession(session.id)}>
+                                      End
+                                    </Button>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="mt-2 text-xs text-slate-500">
+                                {session.deviceInfo && <span className="truncate block max-w-md">{session.deviceInfo}</span>}
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : null}
             </motion.div>
           </TabsContent>
         </Tabs>

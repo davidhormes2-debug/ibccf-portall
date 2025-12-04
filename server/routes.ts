@@ -731,5 +731,517 @@ export async function registerRoutes(
     }
   });
 
+  // ==================== ADMIN SESSIONS ====================
+
+  // Get admin sessions by username
+  app.get("/api/admin-sessions/:username", checkAdminAuth, async (req, res) => {
+    try {
+      const sessions = await storage.getAdminSessionsByUsername(req.params.username);
+      res.json(sessions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch admin sessions" });
+    }
+  });
+
+  // Create admin session
+  app.post("/api/admin-sessions", checkAdminAuth, async (req, res) => {
+    try {
+      const sessionInput = z.object({
+        adminUsername: z.string().min(1),
+        token: z.string().min(1),
+        ipAddress: z.string().optional(),
+        userAgent: z.string().optional(),
+        location: z.string().optional(),
+        expiresAt: z.string()
+      }).parse(req.body);
+
+      const session = await storage.createAdminSession({
+        ...sessionInput,
+        expiresAt: new Date(sessionInput.expiresAt)
+      });
+      res.json(session);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create admin session" });
+      }
+    }
+  });
+
+  // Revoke admin session
+  app.post("/api/admin-sessions/:id/revoke", checkAdminAuth, async (req, res) => {
+    try {
+      const { reason } = req.body;
+      const session = await storage.revokeAdminSession(req.params.id, reason || 'Manual revocation');
+      if (!session) {
+        res.status(404).json({ error: "Session not found" });
+        return;
+      }
+      res.json(session);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to revoke session" });
+    }
+  });
+
+  // ==================== NOTIFICATIONS ====================
+
+  // Get notifications for admin
+  app.get("/api/notifications/admin", checkAdminAuth, async (req, res) => {
+    try {
+      const notifications = await storage.getNotificationsByRecipient('admin', 'admin');
+      res.json(notifications);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch notifications" });
+    }
+  });
+
+  // Get notifications for a case/user
+  app.get("/api/notifications/case/:caseId", async (req, res) => {
+    try {
+      const notifications = await storage.getNotificationsByRecipient('user', req.params.caseId);
+      res.json(notifications);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch notifications" });
+    }
+  });
+
+  // Create notification
+  app.post("/api/notifications", checkAdminAuth, async (req, res) => {
+    try {
+      const notificationInput = z.object({
+        recipientType: z.enum(['admin', 'user']),
+        recipientId: z.string().optional(),
+        type: z.string().min(1),
+        title: z.string().min(1),
+        body: z.string().optional(),
+        link: z.string().optional(),
+        metadata: z.string().optional()
+      }).parse(req.body);
+
+      const notification = await storage.createNotification(notificationInput);
+      res.json(notification);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create notification" });
+      }
+    }
+  });
+
+  // Mark notification as read
+  app.post("/api/notifications/:id/read", async (req, res) => {
+    try {
+      await storage.markNotificationAsRead(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to mark notification as read" });
+    }
+  });
+
+  // Get unread notification count
+  app.get("/api/notifications/admin/unread", checkAdminAuth, async (req, res) => {
+    try {
+      const count = await storage.getUnreadNotificationCount('admin', 'admin');
+      res.json({ count });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get unread count" });
+    }
+  });
+
+  // ==================== SCHEDULED MESSAGES ====================
+
+  // Get scheduled messages for a case
+  app.get("/api/cases/:id/scheduled-messages", checkAdminAuth, async (req, res) => {
+    try {
+      const messages = await storage.getScheduledMessagesByCaseId(req.params.id);
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch scheduled messages" });
+    }
+  });
+
+  // Get all pending scheduled messages
+  app.get("/api/scheduled-messages/pending", checkAdminAuth, async (req, res) => {
+    try {
+      const messages = await storage.getPendingScheduledMessages();
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch pending scheduled messages" });
+    }
+  });
+
+  // Create scheduled message
+  app.post("/api/scheduled-messages", checkAdminAuth, async (req, res) => {
+    try {
+      const messageInput = z.object({
+        caseId: z.string().optional(),
+        messageType: z.enum(['chat', 'admin_message', 'letter']),
+        category: z.string().optional(),
+        title: z.string().optional(),
+        content: z.string().min(1),
+        scheduledFor: z.string(),
+        createdBy: z.string().optional()
+      }).parse(req.body);
+
+      const message = await storage.createScheduledMessage({
+        ...messageInput,
+        scheduledFor: new Date(messageInput.scheduledFor)
+      });
+      res.json(message);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create scheduled message" });
+      }
+    }
+  });
+
+  // Cancel scheduled message
+  app.post("/api/scheduled-messages/:id/cancel", checkAdminAuth, async (req, res) => {
+    try {
+      const message = await storage.cancelScheduledMessage(parseInt(req.params.id));
+      if (!message) {
+        res.status(404).json({ error: "Scheduled message not found" });
+        return;
+      }
+      res.json(message);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to cancel scheduled message" });
+    }
+  });
+
+  // ==================== MESSAGE TEMPLATES ====================
+
+  // Get all message templates
+  app.get("/api/message-templates", checkAdminAuth, async (req, res) => {
+    try {
+      const templates = await storage.getAllMessageTemplates();
+      res.json(templates);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch message templates" });
+    }
+  });
+
+  // Get message templates by category
+  app.get("/api/message-templates/category/:category", checkAdminAuth, async (req, res) => {
+    try {
+      const templates = await storage.getMessageTemplatesByCategory(req.params.category);
+      res.json(templates);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch message templates" });
+    }
+  });
+
+  // Create message template
+  app.post("/api/message-templates", checkAdminAuth, async (req, res) => {
+    try {
+      const templateInput = z.object({
+        name: z.string().min(1),
+        content: z.string().min(1),
+        category: z.string().optional(),
+        createdBy: z.string().optional()
+      }).parse(req.body);
+
+      const template = await storage.createMessageTemplate(templateInput);
+      res.json(template);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create message template" });
+      }
+    }
+  });
+
+  // Update message template
+  app.patch("/api/message-templates/:id", checkAdminAuth, async (req, res) => {
+    try {
+      const templateInput = z.object({
+        name: z.string().min(1).optional(),
+        content: z.string().min(1).optional(),
+        category: z.string().optional(),
+        isActive: z.boolean().optional()
+      }).parse(req.body);
+
+      const template = await storage.updateMessageTemplate(parseInt(req.params.id), templateInput);
+      if (!template) {
+        res.status(404).json({ error: "Template not found" });
+        return;
+      }
+      res.json(template);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update message template" });
+      }
+    }
+  });
+
+  // Delete message template
+  app.delete("/api/message-templates/:id", checkAdminAuth, async (req, res) => {
+    try {
+      await storage.deleteMessageTemplate(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete message template" });
+    }
+  });
+
+  // ==================== DOCUMENT REQUESTS ====================
+
+  // Get document requests for a case
+  app.get("/api/cases/:id/document-requests", async (req, res) => {
+    try {
+      const requests = await storage.getDocumentRequestsByCaseId(req.params.id);
+      res.json(requests);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch document requests" });
+    }
+  });
+
+  // Create document request
+  app.post("/api/cases/:id/document-requests", checkAdminAuth, async (req, res) => {
+    try {
+      const requestInput = z.object({
+        documentType: z.string().min(1),
+        description: z.string().optional(),
+        deadline: z.string().optional()
+      }).parse(req.body);
+
+      const request = await storage.createDocumentRequest({
+        caseId: req.params.id,
+        ...requestInput,
+        deadline: requestInput.deadline ? new Date(requestInput.deadline) : undefined
+      });
+      res.json(request);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create document request" });
+      }
+    }
+  });
+
+  // Update document request status
+  app.patch("/api/document-requests/:id", async (req, res) => {
+    try {
+      const requestInput = z.object({
+        status: z.enum(['pending', 'submitted', 'approved', 'rejected']).optional(),
+        adminNotes: z.string().optional(),
+        submittedFileData: z.string().optional(),
+        submittedFileName: z.string().optional()
+      }).parse(req.body);
+
+      const request = await storage.updateDocumentRequest(parseInt(req.params.id), requestInput);
+      if (!request) {
+        res.status(404).json({ error: "Document request not found" });
+        return;
+      }
+      res.json(request);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update document request" });
+      }
+    }
+  });
+
+  // ==================== USER SESSIONS ====================
+
+  // Get user sessions for a case
+  app.get("/api/cases/:id/sessions", checkAdminAuth, async (req, res) => {
+    try {
+      const sessions = await storage.getUserSessionsByCaseId(req.params.id);
+      res.json(sessions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch user sessions" });
+    }
+  });
+
+  // Create user session
+  app.post("/api/cases/:id/sessions", async (req, res) => {
+    try {
+      const sessionInput = z.object({
+        sessionToken: z.string().min(1),
+        ipAddress: z.string().optional(),
+        userAgent: z.string().optional(),
+        location: z.string().optional(),
+        expiresAt: z.string().optional()
+      }).parse(req.body);
+
+      const session = await storage.createUserSession({
+        caseId: req.params.id,
+        ...sessionInput,
+        expiresAt: sessionInput.expiresAt ? new Date(sessionInput.expiresAt) : undefined
+      });
+      res.json(session);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create user session" });
+      }
+    }
+  });
+
+  // Deactivate user session
+  app.post("/api/user-sessions/:id/deactivate", checkAdminAuth, async (req, res) => {
+    try {
+      const session = await storage.deactivateUserSession(parseInt(req.params.id));
+      if (!session) {
+        res.status(404).json({ error: "Session not found" });
+        return;
+      }
+      res.json(session);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to deactivate session" });
+    }
+  });
+
+  // ==================== HELP ARTICLES ====================
+
+  // Get all help articles (public)
+  app.get("/api/help-articles", async (req, res) => {
+    try {
+      const articles = await storage.getAllHelpArticles();
+      res.json(articles);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch help articles" });
+    }
+  });
+
+  // Get help articles by category
+  app.get("/api/help-articles/category/:category", async (req, res) => {
+    try {
+      const articles = await storage.getHelpArticlesByCategory(req.params.category);
+      res.json(articles);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch help articles" });
+    }
+  });
+
+  // Get single help article
+  app.get("/api/help-articles/:id", async (req, res) => {
+    try {
+      const article = await storage.getHelpArticleById(parseInt(req.params.id));
+      if (!article) {
+        res.status(404).json({ error: "Article not found" });
+        return;
+      }
+      res.json(article);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch help article" });
+    }
+  });
+
+  // Create help article
+  app.post("/api/help-articles", checkAdminAuth, async (req, res) => {
+    try {
+      const articleInput = z.object({
+        title: z.string().min(1),
+        content: z.string().min(1),
+        category: z.string().optional(),
+        order: z.string().optional(),
+        isPublished: z.boolean().optional()
+      }).parse(req.body);
+
+      const article = await storage.createHelpArticle(articleInput);
+      res.json(article);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create help article" });
+      }
+    }
+  });
+
+  // Update help article
+  app.patch("/api/help-articles/:id", checkAdminAuth, async (req, res) => {
+    try {
+      const articleInput = z.object({
+        title: z.string().min(1).optional(),
+        content: z.string().min(1).optional(),
+        category: z.string().optional(),
+        order: z.string().optional(),
+        isPublished: z.boolean().optional()
+      }).parse(req.body);
+
+      const article = await storage.updateHelpArticle(parseInt(req.params.id), articleInput);
+      if (!article) {
+        res.status(404).json({ error: "Article not found" });
+        return;
+      }
+      res.json(article);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update help article" });
+      }
+    }
+  });
+
+  // Delete help article
+  app.delete("/api/help-articles/:id", checkAdminAuth, async (req, res) => {
+    try {
+      await storage.deleteHelpArticle(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete help article" });
+    }
+  });
+
+  // ==================== USER FEEDBACK ====================
+
+  // Get all user feedback
+  app.get("/api/user-feedback", checkAdminAuth, async (req, res) => {
+    try {
+      const feedback = await storage.getAllUserFeedback();
+      res.json(feedback);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch user feedback" });
+    }
+  });
+
+  // Get feedback for a case
+  app.get("/api/cases/:id/feedback", async (req, res) => {
+    try {
+      const feedback = await storage.getUserFeedbackByCaseId(req.params.id);
+      res.json(feedback);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch user feedback" });
+    }
+  });
+
+  // Create user feedback
+  app.post("/api/cases/:id/feedback", async (req, res) => {
+    try {
+      const feedbackInput = z.object({
+        rating: z.string().min(1),
+        comment: z.string().optional(),
+        feedbackType: z.string().optional()
+      }).parse(req.body);
+
+      const feedback = await storage.createUserFeedback({
+        caseId: req.params.id,
+        ...feedbackInput
+      });
+      res.json(feedback);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create user feedback" });
+      }
+    }
+  });
+
   return httpServer;
 }
