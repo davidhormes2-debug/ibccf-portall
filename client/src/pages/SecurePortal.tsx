@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home, Copy, Moon, Sun, Download, Printer } from "lucide-react";
+import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home, Copy, Moon, Sun, Download, Printer, TrendingUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/App";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
@@ -29,6 +29,9 @@ interface Case {
   hasRequirements?: boolean;
   letterSent?: boolean;
   landingPage?: string;
+  showWithdrawalProgress?: boolean;
+  withdrawalStage?: string;
+  activityDepositAmount?: string;
 }
 
 interface CaseLetter {
@@ -788,6 +791,138 @@ export default function SecurePortal() {
               </div>
             </div>
           </motion.div>
+
+          {/* Withdrawal Progress Tracker - Only shown when admin enables it */}
+          {currentCase?.showWithdrawalProgress && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8"
+            >
+              <Card className="border-2 border-blue-200 shadow-lg overflow-hidden">
+                <CardHeader className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white">
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-lg font-bold">Withdrawal Progress</span>
+                      <p className="text-blue-200 text-sm font-normal">Real-time status of your withdrawal request</p>
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6 pb-8">
+                  {(() => {
+                    const stages = [
+                      { id: 0, label: "Withdrawal Process Initiated", icon: "🚀" },
+                      { id: 1, label: "First Stage Verification Completed", icon: "✅" },
+                      { id: 2, label: "Financial Department Verification Stage", icon: "🏦" },
+                      { id: 3, label: "Miners Department", icon: "⛏️" },
+                      { id: 4, label: "Money Laundry Related Funds Check Verification", icon: "🔍" },
+                      { id: 5, label: "Final Withdrawal Processing", icon: "⚙️" },
+                      { id: 6, label: "Withdrawal Now Released", icon: "🎉" },
+                    ];
+                    const currentStage = parseInt(currentCase?.withdrawalStage || '0');
+                    
+                    return (
+                      <div className="space-y-6">
+                        {/* Progress Bar */}
+                        <div className="relative">
+                          <div className="flex justify-between mb-2">
+                            <span className="text-sm font-medium text-slate-600">Progress</span>
+                            <span className="text-sm font-bold text-blue-600">{Math.round((currentStage / 6) * 100)}%</span>
+                          </div>
+                          <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
+                            <motion.div 
+                              className="h-full bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 rounded-full"
+                              initial={{ width: 0 }}
+                              animate={{ width: `${(currentStage / 6) * 100}%` }}
+                              transition={{ duration: 1, ease: "easeOut" }}
+                            />
+                          </div>
+                        </div>
+                        
+                        {/* Stages List */}
+                        <div className="space-y-3">
+                          {stages.map((stage, index) => {
+                            const isCompleted = currentStage > stage.id;
+                            const isCurrent = currentStage === stage.id;
+                            const isPending = currentStage < stage.id;
+                            
+                            return (
+                              <motion.div
+                                key={stage.id}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className={`flex items-center gap-4 p-3 rounded-lg transition-all ${
+                                  isCompleted ? 'bg-green-50 border border-green-200' :
+                                  isCurrent ? 'bg-blue-50 border-2 border-blue-400 shadow-md' :
+                                  'bg-slate-50 border border-slate-200 opacity-60'
+                                }`}
+                              >
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0 ${
+                                  isCompleted ? 'bg-green-500 text-white' :
+                                  isCurrent ? 'bg-blue-500 text-white animate-pulse' :
+                                  'bg-slate-300 text-slate-500'
+                                }`}>
+                                  {isCompleted ? <CheckCircle className="w-5 h-5" /> : stage.icon}
+                                </div>
+                                <div className="flex-1">
+                                  <p className={`font-medium ${
+                                    isCompleted ? 'text-green-700' :
+                                    isCurrent ? 'text-blue-700' :
+                                    'text-slate-500'
+                                  }`}>
+                                    {stage.label}
+                                  </p>
+                                  {isCurrent && (
+                                    <p className="text-xs text-blue-500 mt-0.5">Currently processing...</p>
+                                  )}
+                                </div>
+                                <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                  isCompleted ? 'bg-green-500 text-white' :
+                                  isCurrent ? 'bg-blue-500 text-white' :
+                                  'bg-slate-200 text-slate-500'
+                                }`}>
+                                  {isCompleted ? 'Completed' : isCurrent ? 'In Progress' : 'Pending'}
+                                </div>
+                              </motion.div>
+                            );
+                          })}
+                        </div>
+                        
+                        {/* Activity Deposit Notice */}
+                        {currentCase?.activityDepositAmount && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="mt-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-xl"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                <Wallet className="w-6 h-6 text-white" />
+                              </div>
+                              <div>
+                                <h4 className="font-bold text-amber-800 text-lg">Activity Deposit Required</h4>
+                                <p className="text-amber-700 text-sm mt-1">
+                                  Please keep an activity deposit in your withdrawal wallet address to ensure smooth processing.
+                                </p>
+                                <div className="mt-3 p-3 bg-white rounded-lg border border-amber-200">
+                                  <p className="text-sm text-slate-600">Required Amount:</p>
+                                  <p className="text-2xl font-bold text-amber-600">{currentCase.activityDepositAmount}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+                    );
+                  })()}
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
 
           {/* Requirement Alert with Animation */}
           {(currentCase?.hasRequirements || hasUrgentMessages) && (
