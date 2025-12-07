@@ -49,6 +49,11 @@ export const cases = pgTable("cases", {
   // Progress tracking
   completionPercentage: text("completion_percentage").default('0'),
   
+  // Withdrawal progress tracking (admin-controlled visibility)
+  showWithdrawalProgress: boolean("show_withdrawal_progress").default(false),
+  withdrawalStage: text("withdrawal_stage").default('0'), // 0-6 stages
+  activityDepositAmount: text("activity_deposit_amount"), // Amount user needs to keep in wallet
+  
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 });
