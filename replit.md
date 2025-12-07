@@ -108,6 +108,14 @@ The application uses the following main tables:
 - Deposit information display and receipt upload functionality
 - Submission history view
 - Real-time support chat with notification sounds
+- **Withdrawal Progress Tracker** - Admin-controlled 7-stage progress display with activity deposit messaging:
+  - Stage 1: Withdrawal Process Initiated
+  - Stage 2: First Stage Verification Completed
+  - Stage 3: Financial Department Verification
+  - Stage 4: Miners Department
+  - Stage 5: Money Laundry Funds Check
+  - Stage 6: Final Withdrawal Processing
+  - Stage 7: Withdrawal Now Released
 
 **Real-time Features**
 - Chat messaging between admin and users with notification sounds
