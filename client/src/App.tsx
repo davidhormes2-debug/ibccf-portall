@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import NotFound from "@/pages/not-found";
+import LandingPage from "@/pages/LandingPage";
+import VerifyPlatform from "@/pages/VerifyPlatform";
 import SecurePortal from "@/pages/SecurePortal";
 import AdminDashboard from "@/pages/AdminDashboard";
 
@@ -60,7 +62,9 @@ function ThemeProvider({ children }: { children: ReactNode }) {
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={SecurePortal} />
+      <Route path="/" component={LandingPage} />
+      <Route path="/verify" component={VerifyPlatform} />
+      <Route path="/dashboard" component={SecurePortal} />
       <Route path="/admin" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
