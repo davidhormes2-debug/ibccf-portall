@@ -28,7 +28,7 @@ export default function VerifyPlatform() {
       if (res.ok) {
         const data = await res.json();
         sessionStorage.setItem("caseAccessCode", accessCode);
-        sessionStorage.setItem("caseId", data.case.id);
+        sessionStorage.setItem("caseId", data.id);
         setLocation("/dashboard");
       } else {
         toast({
