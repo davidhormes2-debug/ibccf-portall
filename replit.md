@@ -1,6 +1,17 @@
 # Overview
 
-This is an enterprise-grade secure customer portal for the International Blockchain Community (IBC) with comprehensive case management and correspondence workflows. The system allows administrators to create and manage cases with unique access codes, while users can access their specific cases using these codes. Each case features customized letter content, three-stage required actions (Urgent→Processing→Resolved), and 40+ premium enterprise features. The application is built as a full-stack TypeScript application with a React frontend and Express backend, using PostgreSQL for data persistence.
+This is an enterprise-grade secure customer portal for the **International Blockchain Community Complaints Forum (IBCCF)** with comprehensive case management and correspondence workflows. The system allows administrators to create and manage cases with unique access codes, while users can access their specific cases using these codes. Each case features customized letter content, three-stage required actions (Urgent→Processing→Resolved), and 40+ premium enterprise features. The application is built as a full-stack TypeScript application with a React frontend and Express backend, using PostgreSQL for data persistence.
+
+## Routing Structure
+- **/** - Public landing page with IBCCF branding, hero section, 3-step fraud reporting process, privacy section
+- **/verify** - Secure verification portal for access code entry
+- **/dashboard** - User portal (requires valid access code)
+- **/admin** - Admin control panel
+
+## Branding
+- **Color Scheme:** Primary #004182, Accent #004AB3
+- **Icons:** Shield icons from lucide-react (no external logo images)
+- **Fonts:** Public Sans (body), Merriweather (headings)
 
 ## Admin Access
 - **Username:** Admin2025
