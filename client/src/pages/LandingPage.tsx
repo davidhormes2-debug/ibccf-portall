@@ -15,8 +15,8 @@ export default function LandingPage() {
             </div>
             <nav className="hidden md:flex items-center gap-8">
               <Link href="/" className="text-slate-700 hover:text-[#004182] font-medium" data-testid="link-home">Home</Link>
-              <Link href="/file-complaint" className="text-slate-700 hover:text-[#004182] font-medium" data-testid="link-file-complaint">File Complaint</Link>
-              <Link href="/safety-guide" className="text-slate-700 hover:text-[#004182] font-medium" data-testid="link-safety-guide">Safety Guide</Link>
+              <Link href="/verify" className="text-slate-700 hover:text-[#004182] font-medium" data-testid="link-file-complaint">File Complaint</Link>
+              <Link href="/verify" className="text-slate-700 hover:text-[#004182] font-medium" data-testid="link-safety-guide">Case Status</Link>
             </nav>
             <div className="flex items-center gap-2 text-sm text-slate-600">
               <Lock className="h-4 w-4" />
@@ -43,7 +43,7 @@ export default function LandingPage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/file-complaint">
+            <Link href="/verify">
               <Button size="lg" className="bg-[#004AB3] hover:bg-[#003d99] text-white font-semibold px-8 py-6 text-lg shadow-lg" data-testid="button-start-report">
                 Start New Report <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -123,9 +123,9 @@ export default function LandingPage() {
             <div>
               <h4 className="font-bold mb-4">Resources</h4>
               <ul className="space-y-3 text-slate-400">
-                <li><Link href="/safety-guide" className="hover:text-white transition-colors">Fraud Prevention</Link></li>
+                <li><Link href="/verify" className="hover:text-white transition-colors">Fraud Prevention</Link></li>
                 <li><Link href="/verify" className="hover:text-white transition-colors">Verify a Platform</Link></li>
-                <li><Link href="/file-complaint" className="hover:text-white transition-colors">Consumer Rights</Link></li>
+                <li><Link href="/verify" className="hover:text-white transition-colors">Consumer Rights</Link></li>
               </ul>
             </div>
             

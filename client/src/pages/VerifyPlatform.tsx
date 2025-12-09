@@ -127,7 +127,7 @@ export default function VerifyPlatform() {
               <div className="flex items-start gap-3 text-sm text-slate-600">
                 <Lock className="h-4 w-4 mt-0.5 text-[#004182]" />
                 <p>
-                  Your verification code was provided by an authorized IBCCF representative. If you don't have a code, please <Link href="/file-complaint" className="text-[#004AB3] hover:underline">file a new complaint</Link>.
+                  Your verification code was provided by an authorized IBCCF representative. If you don't have a code, please contact your assigned representative.
                 </p>
               </div>
             </div>
