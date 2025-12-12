@@ -173,6 +173,31 @@ export default function SecurePortal() {
   const { toast } = useToast();
   const { theme, toggleTheme } = useTheme();
 
+  // Auto-login from sessionStorage (when redirected from /verify)
+  useEffect(() => {
+    const storedAccessCode = sessionStorage.getItem("caseAccessCode");
+    if (storedAccessCode && viewState === 'login') {
+      (async () => {
+        try {
+          const response = await fetch(`/api/cases/access/${storedAccessCode}`);
+          if (response.ok) {
+            const foundCase = await response.json();
+            setCurrentCase(foundCase);
+            setAccessCode(storedAccessCode);
+            
+            const landingPage = foundCase.landingPage || 'dashboard';
+            if (foundCase.status === 'active') setViewState(landingPage as any);
+            else if (foundCase.status === 'syncing') setViewState('sync');
+            else if (foundCase.status === 'completed') setViewState(landingPage as any);
+            else setViewState('register');
+          }
+        } catch (error) {
+          console.error('Failed to auto-login:', error);
+        }
+      })();
+    }
+  }, []);
+
   // Session timeout after 3 minutes of inactivity
   useEffect(() => {
     if (viewState === 'login' || viewState === 'register') return;
