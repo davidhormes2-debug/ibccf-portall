@@ -31,6 +31,10 @@ interface Case {
   showWithdrawalProgress?: boolean;
   withdrawalStage?: string;
   activityDepositAmount?: string;
+  phraseKeyDepositAmount?: string;
+  phraseKeyMergeDeposit?: string;
+  activityWalletRequirement?: string;
+  phraseKeyCertificateSent?: boolean;
 }
 
 interface CaseLetter {
@@ -842,15 +846,25 @@ export default function SecurePortal() {
                 <CardContent className="pt-6 pb-8">
                   {(() => {
                     const stages = [
-                      { id: 0, label: "Withdrawal Process Initiated", icon: "🚀" },
-                      { id: 1, label: "First Stage Verification Completed", icon: "✅" },
-                      { id: 2, label: "Financial Department Verification Stage", icon: "🏦" },
-                      { id: 3, label: "Miners Department", icon: "⛏️" },
-                      { id: 4, label: "Money Laundry Related Funds Check Verification", icon: "🔍" },
-                      { id: 5, label: "Final Withdrawal Processing", icon: "⚙️" },
-                      { id: 6, label: "Withdrawal Now Released", icon: "🎉" },
+                      { id: 1, label: "Phrase Key Deposit Received", icon: "💰", description: "Your phrase key deposit has been received" },
+                      { id: 2, label: "Phrase Key Generated and Processing", icon: "⚙️", description: "Generating your secure phrase key" },
+                      { id: 3, label: "Phrase Key Approved and Generated", icon: "🔐", description: "Certificate available in secure messages" },
+                      { id: 4, label: "Withdrawal Process Initiated", icon: "🚀", description: "Your withdrawal request is now active" },
+                      { id: 5, label: "First Stage Deposit Verification", icon: "✅", description: "Verifying initial deposit records" },
+                      { id: 6, label: "Phrase Key Verification", icon: "🔑", description: "Confirming phrase key authenticity" },
+                      { id: 7, label: "Phrase Key Merge Deposit Required", icon: "📊", description: currentCase?.phraseKeyMergeDeposit ? `Required: ${currentCase.phraseKeyMergeDeposit} USDT (30% merge fee)` : "Pending merge deposit calculation" },
+                      { id: 8, label: "Financial Department Verification", icon: "🏦", description: "Institutional compliance review" },
+                      { id: 9, label: "Mining Your Withdrawal for Final Clearance", icon: "⛏️", description: "Blockchain confirmation in progress" },
+                      { id: 10, label: "Blockchain Activity Verification", icon: "🔗", description: currentCase?.activityWalletRequirement ? `Keep ${currentCase.activityWalletRequirement} USDT in receiving wallet` : "Wallet activity verification" },
+                      { id: 11, label: "IRS/International AML Service Verification", icon: "🏛️", description: "Anti-money laundering compliance check" },
+                      { id: 12, label: "Final Withdrawal Processing", icon: "📋", description: "Processing final withdrawal request" },
+                      { id: 13, label: "Withdrawal Finally Released", icon: "🎉", description: "Funds have been released" },
+                      { id: 14, label: "Time Stamp Deposit for Final Delivery", icon: "⏰", description: "Final delivery to designated wallet" },
                     ];
-                    const currentStage = parseInt(currentCase?.withdrawalStage || '0');
+                    const currentStage = parseInt(currentCase?.withdrawalStage || '1');
+                    const totalStages = 14;
+                    const completedStages = Math.max(0, currentStage - 1);
+                    const progressPercent = Math.round((completedStages / totalStages) * 100);
                     
                     return (
                       <div className="space-y-6">
@@ -858,57 +872,60 @@ export default function SecurePortal() {
                         <div className="relative">
                           <div className="flex justify-between mb-2">
                             <span className="text-sm font-medium text-slate-600">Progress</span>
-                            <span className="text-sm font-bold text-blue-600">{Math.round((currentStage / 6) * 100)}%</span>
+                            <span className="text-sm font-bold text-blue-600">{progressPercent}%</span>
                           </div>
                           <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
                             <motion.div 
                               className="h-full bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 rounded-full"
                               initial={{ width: 0 }}
-                              animate={{ width: `${(currentStage / 6) * 100}%` }}
+                              animate={{ width: `${progressPercent}%` }}
                               transition={{ duration: 1, ease: "easeOut" }}
                             />
                           </div>
                         </div>
                         
-                        {/* Stages List */}
+                        {/* Stages List - Stacked Cards */}
                         <div className="space-y-3">
                           {stages.map((stage, index) => {
                             const isCompleted = currentStage > stage.id;
                             const isCurrent = currentStage === stage.id;
-                            const isPending = currentStage < stage.id;
                             
                             return (
                               <motion.div
                                 key={stage.id}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                                className={`flex items-center gap-4 p-3 rounded-lg transition-all ${
-                                  isCompleted ? 'bg-green-50 border border-green-200' :
-                                  isCurrent ? 'bg-blue-50 border-2 border-blue-400 shadow-md' :
-                                  'bg-slate-50 border border-slate-200 opacity-60'
+                                transition={{ delay: index * 0.05 }}
+                                className={`flex items-center gap-4 p-4 rounded-xl transition-all ${
+                                  isCompleted ? 'bg-green-50 border-2 border-green-300 shadow-sm' :
+                                  isCurrent ? 'bg-blue-50 border-2 border-blue-400 shadow-lg' :
+                                  'bg-slate-50 border border-slate-200'
                                 }`}
                               >
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0 ${
-                                  isCompleted ? 'bg-green-500 text-white' :
-                                  isCurrent ? 'bg-blue-500 text-white animate-pulse' :
-                                  'bg-slate-300 text-slate-500'
+                                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl flex-shrink-0 ${
+                                  isCompleted ? 'bg-green-500 text-white shadow-md' :
+                                  isCurrent ? 'bg-blue-500 text-white shadow-md animate-pulse' :
+                                  'bg-slate-200 text-slate-400'
                                 }`}>
-                                  {isCompleted ? <CheckCircle className="w-5 h-5" /> : stage.icon}
+                                  {isCompleted ? <CheckCircle className="w-6 h-6" /> : stage.icon}
                                 </div>
-                                <div className="flex-1">
-                                  <p className={`font-medium ${
+                                <div className="flex-1 min-w-0">
+                                  <p className={`font-semibold ${
                                     isCompleted ? 'text-green-700' :
                                     isCurrent ? 'text-blue-700' :
-                                    'text-slate-500'
+                                    'text-slate-400'
                                   }`}>
                                     {stage.label}
                                   </p>
-                                  {isCurrent && (
-                                    <p className="text-xs text-blue-500 mt-0.5">Currently processing...</p>
-                                  )}
+                                  <p className={`text-xs mt-0.5 ${
+                                    isCompleted ? 'text-green-600' :
+                                    isCurrent ? 'text-blue-500' :
+                                    'text-slate-400'
+                                  }`}>
+                                    {isCurrent ? 'Currently processing...' : stage.description}
+                                  </p>
                                 </div>
-                                <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                <div className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${
                                   isCompleted ? 'bg-green-500 text-white' :
                                   isCurrent ? 'bg-blue-500 text-white' :
                                   'bg-slate-200 text-slate-500'
@@ -920,8 +937,33 @@ export default function SecurePortal() {
                           })}
                         </div>
                         
-                        {/* Activity Deposit Notice */}
-                        {currentCase?.activityDepositAmount && (
+                        {/* Phrase Key Merge Deposit Notice */}
+                        {currentStage === 7 && currentCase?.phraseKeyMergeDeposit && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 rounded-xl"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                <Key className="w-6 h-6 text-white" />
+                              </div>
+                              <div>
+                                <h4 className="font-bold text-purple-800 text-lg">Phrase Key Merge Deposit Required</h4>
+                                <p className="text-purple-700 text-sm mt-1">
+                                  A 30% merge deposit is required to complete the phrase key verification process.
+                                </p>
+                                <div className="mt-3 p-3 bg-white rounded-lg border border-purple-200">
+                                  <p className="text-sm text-slate-600">Required Amount:</p>
+                                  <p className="text-2xl font-bold text-purple-600">{currentCase.phraseKeyMergeDeposit} USDT</p>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                        
+                        {/* Blockchain Activity Verification Notice */}
+                        {currentStage === 10 && currentCase?.activityWalletRequirement && (
                           <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -932,13 +974,13 @@ export default function SecurePortal() {
                                 <Wallet className="w-6 h-6 text-white" />
                               </div>
                               <div>
-                                <h4 className="font-bold text-amber-800 text-lg">Activity Deposit Required</h4>
+                                <h4 className="font-bold text-amber-800 text-lg">Blockchain Activity Verification</h4>
                                 <p className="text-amber-700 text-sm mt-1">
-                                  Please keep an activity deposit in your withdrawal wallet address to ensure smooth processing.
+                                  Please maintain the required USDT balance in your receiving wallet address for activity verification.
                                 </p>
                                 <div className="mt-3 p-3 bg-white rounded-lg border border-amber-200">
-                                  <p className="text-sm text-slate-600">Required Amount:</p>
-                                  <p className="text-2xl font-bold text-amber-600">{currentCase.activityDepositAmount}</p>
+                                  <p className="text-sm text-slate-600">Required Wallet Balance:</p>
+                                  <p className="text-2xl font-bold text-amber-600">{currentCase.activityWalletRequirement} USDT</p>
                                 </div>
                               </div>
                             </div>

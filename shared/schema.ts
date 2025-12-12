@@ -51,8 +51,14 @@ export const cases = pgTable("cases", {
   
   // Withdrawal progress tracking (admin-controlled visibility)
   showWithdrawalProgress: boolean("show_withdrawal_progress").default(false),
-  withdrawalStage: text("withdrawal_stage").default('0'), // 0-6 stages
+  withdrawalStage: text("withdrawal_stage").default('1'), // 1-14 stages
   activityDepositAmount: text("activity_deposit_amount"), // Amount user needs to keep in wallet
+  
+  // Phrase Key tracking
+  phraseKeyDepositAmount: text("phrase_key_deposit_amount"), // Admin-set deposit amount for phrase key
+  phraseKeyMergeDeposit: text("phrase_key_merge_deposit"), // Calculated 30% of phraseKeyDepositAmount
+  activityWalletRequirement: text("activity_wallet_requirement"), // USDT amount for activity verification
+  phraseKeyCertificateSent: boolean("phrase_key_certificate_sent").default(false), // Flag for auto-message
   
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
