@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { storage } from "../storage";
+import { caseService } from "../services";
 import { updateCaseSchema, updateCaseLetterSchema } from "@shared/schema";
 import { z } from "zod";
 import { checkAdminAuth } from "./middleware";
@@ -14,7 +15,7 @@ casesRouter.post("/", async (req, res) => {
       return;
     }
     
-    const newCase = await storage.createCase({ 
+    const newCase = await caseService.createCase({ 
       accessCode, 
       status: status || 'created' 
     });
@@ -30,7 +31,7 @@ casesRouter.post("/", async (req, res) => {
 
 casesRouter.get("/", async (req, res) => {
   try {
-    const allCases = await storage.getAllCases();
+    const allCases = await caseService.getAllCases();
     res.json(allCases);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch cases" });
@@ -39,7 +40,7 @@ casesRouter.get("/", async (req, res) => {
 
 casesRouter.get("/access/:code", async (req, res) => {
   try {
-    const caseData = await storage.getCaseByAccessCode(req.params.code);
+    const caseData = await caseService.getCaseByAccessCode(req.params.code);
     if (!caseData) {
       res.status(404).json({ error: "Case not found" });
       return;
@@ -52,7 +53,7 @@ casesRouter.get("/access/:code", async (req, res) => {
 
 casesRouter.get("/:id", async (req, res) => {
   try {
-    const caseData = await storage.getCaseById(req.params.id);
+    const caseData = await caseService.getCaseById(req.params.id);
     if (!caseData) {
       res.status(404).json({ error: "Case not found" });
       return;
@@ -66,98 +67,11 @@ casesRouter.get("/:id", async (req, res) => {
 casesRouter.patch("/:id", async (req, res) => {
   try {
     const data = updateCaseSchema.parse(req.body);
-    
-    if (data.phraseKeyDepositAmount) {
-      const numericMatch = data.phraseKeyDepositAmount.match(/[\d,.]+/);
-      const currencyMatch = data.phraseKeyDepositAmount.match(/[A-Za-z]+$/);
-      const currencySuffix = currencyMatch ? ' ' + currencyMatch[0] : '';
-      
-      if (numericMatch) {
-        const depositAmount = parseFloat(numericMatch[0].replace(/,/g, ''));
-        if (!isNaN(depositAmount)) {
-          const mergeDeposit = depositAmount * 0.30;
-          data.phraseKeyMergeDeposit = mergeDeposit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + currencySuffix;
-        }
-      }
-    }
-    
-    const currentCase = await storage.getCaseById(req.params.id);
-    const previousStage = currentCase?.withdrawalStage;
-    
-    const updated = await storage.updateCase(req.params.id, data);
+    const updated = await caseService.updateCase(req.params.id, data);
     if (!updated) {
       res.status(404).json({ error: "Case not found" });
       return;
     }
-    
-    const newStage = data.withdrawalStage;
-    if (newStage && previousStage !== newStage) {
-      const stageMessages: Record<string, { category: 'urgent' | 'processing' | 'resolved'; title: string; body: string }> = {
-        '1': {
-          category: 'processing',
-          title: 'Phrase Key Deposit Received',
-          body: 'Your phrase key deposit has been successfully received and confirmed on the blockchain ledger. Your account is now queued for phrase key generation. Please allow 24-48 hours for the secure encryption process to complete.'
-        },
-        '3': {
-          category: 'resolved',
-          title: 'Phrase Key Certificate Approved',
-          body: 'Your Phrase Key has been successfully verified and approved. Your unique encryption certificate has been generated and is now active for withdrawal processing. This certificate is required for all future withdrawal transactions and ensures the security of your funds. Please proceed to the next verification stage.'
-        },
-        '4': {
-          category: 'processing',
-          title: 'Withdrawal Process Initiated',
-          body: 'Your withdrawal request has been officially initiated. Our compliance team is now processing your request through our secure verification protocols. You will receive updates at each stage of the process.'
-        },
-        '7': {
-          category: 'urgent',
-          title: 'Phrase Key Merge Deposit Required',
-          body: 'A 30% merge deposit is required to complete the phrase key verification process. This deposit is necessary to merge your phrase key with the network security protocol. Please deposit the required amount to proceed with your withdrawal.'
-        },
-        '8': {
-          category: 'processing',
-          title: 'Financial Department Verification',
-          body: 'Your withdrawal request has advanced to the Financial Department for compliance verification. Our team is conducting thorough checks to ensure regulatory compliance and fund security.'
-        },
-        '10': {
-          category: 'urgent',
-          title: 'Blockchain Activity Verification Required',
-          body: 'Blockchain activity verification is now required. Please ensure your receiving wallet maintains the required USDT balance for verification purposes. This step confirms wallet ownership and activity status.'
-        },
-        '11': {
-          category: 'processing',
-          title: 'IRS / International AML Verification',
-          body: 'Your withdrawal is undergoing international anti-money laundering (AML) verification and IRS compliance checks. This is a standard regulatory requirement for large fund transfers.'
-        },
-        '13': {
-          category: 'resolved',
-          title: 'Withdrawal Successfully Released',
-          body: 'Congratulations! Your withdrawal has been successfully processed and released to your designated wallet address. Funds should arrive within 24-72 hours depending on network congestion. Thank you for your patience throughout this process.'
-        }
-      };
-
-      const stageMessage = stageMessages[newStage];
-      if (stageMessage) {
-        if (newStage === '3' && currentCase?.phraseKeyCertificateSent) {
-        } else {
-          try {
-            await storage.createAdminMessage({
-              caseId: req.params.id,
-              category: stageMessage.category,
-              title: stageMessage.title,
-              body: stageMessage.body,
-              isRead: false
-            });
-            
-            if (newStage === '3') {
-              await storage.updateCase(req.params.id, { phraseKeyCertificateSent: true });
-            }
-          } catch (msgError) {
-            console.error('Failed to send stage message:', msgError);
-          }
-        }
-      }
-    }
-    
     res.json(updated);
   } catch (error) {
     if (error instanceof z.ZodError) {
