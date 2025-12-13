@@ -1,0 +1,93 @@
+Phrase Key Stage
+
+Phrase Key Deposit Received
+Status: Completed
+Condition: Phrase key deposit successfully confirmed on ledger.
+
+Generating Secure Phrase Key
+Status: In Progress
+Condition: Phrase key creation underway.
+
+Phrase Key Approved & Available
+Status: Completed
+Condition: Phrase key approved and delivered to Secure Message Center.
+
+Withdrawal Initiation Stage
+
+Withdrawal Process Initiated
+Status: In Progress
+Condition: User has passed phrase key stage and withdrawal flow is activated.
+
+Verification Stages
+
+Initial Deposit Verification
+Status: Pending → In Progress → Completed
+Condition:
+
+Pending: Awaiting review
+
+In Progress: Verification underway
+
+Completed: Deposit verified
+
+Phrase Key Verification
+Status: Pending → In Progress → Completed
+Condition:
+
+Pending: Awaiting validation
+
+In Progress: Phrase key being validated
+
+Completed: Phrase key verified
+
+Merge Deposit Stage
+
+Phrase Key Merge Deposit Required
+Status: Pending
+Condition: System calculates 30% merge deposit and awaits payment.
+
+Status updates to Completed once merge deposit is received and confirmed.
+
+Financial & Blockchain Stages
+
+Financial Department Verification
+Status: Pending → In Progress → Completed
+Condition: Compliance and financial review.
+
+Mining Withdrawal for Final Clearance
+Status: Pending → In Progress → Completed
+Condition: Blockchain confirmation and internal clearance.
+
+Blockchain Activity Verification
+Status: Pending → In Progress → Completed
+Condition: Required USDT balance confirmed in receiving wallet.
+
+IRS / International AML Verification
+Status: Pending → In Progress → Completed
+Condition: Regulatory compliance checks completed.
+
+Final Processing & Release
+
+Final Withdrawal Processing
+Status: In Progress
+Condition: Preparing funds for release.
+
+Withdrawal Successfully Released
+Status: Completed
+Condition: Funds released to designated wallet.
+
+Time-Stamp Deposit for Final Delivery
+Status: In Progress → Completed
+Condition:
+
+In Progress: Time-stamp confirmation underway
+
+Completed: Final delivery confirmed
+
+Status Badge Logic (Simple Rule for Dev)
+
+Pending → Waiting for user action or system trigger
+
+In Progress → Actively being processed
+
+Completed → Step successfully finalized

@@ -846,20 +846,20 @@ export default function SecurePortal() {
                 <CardContent className="pt-6 pb-8">
                   {(() => {
                     const stages = [
-                      { id: 1, label: "Phrase Key Deposit Received", icon: "💰", description: "Your phrase key deposit has been received" },
-                      { id: 2, label: "Phrase Key Generated and Processing", icon: "⚙️", description: "Generating your secure phrase key" },
-                      { id: 3, label: "Phrase Key Approved and Generated", icon: "🔐", description: "Certificate available in secure messages" },
-                      { id: 4, label: "Withdrawal Process Initiated", icon: "🚀", description: "Your withdrawal request is now active" },
-                      { id: 5, label: "First Stage Deposit Verification", icon: "✅", description: "Verifying initial deposit records" },
-                      { id: 6, label: "Phrase Key Verification", icon: "🔑", description: "Confirming phrase key authenticity" },
-                      { id: 7, label: "Phrase Key Merge Deposit Required", icon: "📊", description: currentCase?.phraseKeyMergeDeposit ? `Required: ${currentCase.phraseKeyMergeDeposit} USDT (30% merge fee)` : "Pending merge deposit calculation" },
-                      { id: 8, label: "Financial Department Verification", icon: "🏦", description: "Institutional compliance review" },
-                      { id: 9, label: "Mining Your Withdrawal for Final Clearance", icon: "⛏️", description: "Blockchain confirmation in progress" },
-                      { id: 10, label: "Blockchain Activity Verification", icon: "🔗", description: currentCase?.activityWalletRequirement ? `Keep ${currentCase.activityWalletRequirement} USDT in receiving wallet` : "Wallet activity verification" },
-                      { id: 11, label: "IRS/International AML Service Verification", icon: "🏛️", description: "Anti-money laundering compliance check" },
-                      { id: 12, label: "Final Withdrawal Processing", icon: "📋", description: "Processing final withdrawal request" },
-                      { id: 13, label: "Withdrawal Finally Released", icon: "🎉", description: "Funds have been released" },
-                      { id: 14, label: "Time Stamp Deposit for Final Delivery", icon: "⏰", description: "Final delivery to designated wallet" },
+                      { id: 1, label: "Phrase Key Deposit Received", icon: "💰", description: "Phrase key deposit successfully confirmed on ledger" },
+                      { id: 2, label: "Generating Secure Phrase Key", icon: "⚙️", description: "Phrase key creation underway" },
+                      { id: 3, label: "Phrase Key Approved & Available", icon: "🔐", description: "Phrase key approved and delivered to Secure Message Center" },
+                      { id: 4, label: "Withdrawal Process Initiated", icon: "🚀", description: "Withdrawal flow activated" },
+                      { id: 5, label: "Initial Deposit Verification", icon: "✅", description: "Deposit verification in progress" },
+                      { id: 6, label: "Phrase Key Verification", icon: "🔑", description: "Phrase key validation in progress" },
+                      { id: 7, label: "Phrase Key Merge Deposit Required", icon: "📊", description: currentCase?.phraseKeyMergeDeposit ? `Required: ${currentCase.phraseKeyMergeDeposit} (30% merge deposit)` : "Awaiting merge deposit calculation" },
+                      { id: 8, label: "Financial Department Verification", icon: "🏦", description: "Compliance and financial review" },
+                      { id: 9, label: "Mining Withdrawal for Final Clearance", icon: "⛏️", description: "Blockchain confirmation and internal clearance" },
+                      { id: 10, label: "Blockchain Activity Verification", icon: "🔗", description: currentCase?.activityWalletRequirement ? `Required: ${currentCase.activityWalletRequirement} balance in receiving wallet` : "Wallet activity verification in progress" },
+                      { id: 11, label: "IRS / International AML Verification", icon: "🏛️", description: "Regulatory compliance checks in progress" },
+                      { id: 12, label: "Final Withdrawal Processing", icon: "📋", description: "Preparing funds for release" },
+                      { id: 13, label: "Withdrawal Successfully Released", icon: "🎉", description: "Funds released to designated wallet" },
+                      { id: 14, label: "Time-Stamp Deposit for Final Delivery", icon: "⏰", description: "Final delivery confirmation" },
                     ];
                     const currentStage = parseInt(currentCase?.withdrawalStage || '1');
                     const totalStages = 14;

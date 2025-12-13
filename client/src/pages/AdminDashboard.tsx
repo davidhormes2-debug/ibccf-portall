@@ -4525,46 +4525,46 @@ export default function AdminDashboard() {
                     </SelectTrigger>
                     <SelectContent className="max-h-80">
                       <SelectItem value="1">
-                        <span className="flex items-center gap-2">🔑 Stage 1: Phrase Key Deposit Received</span>
+                        <span className="flex items-center gap-2">💰 Stage 1: Phrase Key Deposit Received</span>
                       </SelectItem>
                       <SelectItem value="2">
-                        <span className="flex items-center gap-2">⚙️ Stage 2: Phrase Key Generated and Processing</span>
+                        <span className="flex items-center gap-2">⚙️ Stage 2: Generating Secure Phrase Key</span>
                       </SelectItem>
                       <SelectItem value="3">
-                        <span className="flex items-center gap-2">✅ Stage 3: Phrase Key Approved and Generated</span>
+                        <span className="flex items-center gap-2">🔐 Stage 3: Phrase Key Approved & Available</span>
                       </SelectItem>
                       <SelectItem value="4">
                         <span className="flex items-center gap-2">🚀 Stage 4: Withdrawal Process Initiated</span>
                       </SelectItem>
                       <SelectItem value="5">
-                        <span className="flex items-center gap-2">📋 Stage 5: First Stage Deposit Verification</span>
+                        <span className="flex items-center gap-2">✅ Stage 5: Initial Deposit Verification</span>
                       </SelectItem>
                       <SelectItem value="6">
-                        <span className="flex items-center gap-2">🔐 Stage 6: Phrase Key Verification</span>
+                        <span className="flex items-center gap-2">🔑 Stage 6: Phrase Key Verification</span>
                       </SelectItem>
                       <SelectItem value="7">
-                        <span className="flex items-center gap-2">💰 Stage 7: Phrase Key Merge Deposit Required</span>
+                        <span className="flex items-center gap-2">📊 Stage 7: Phrase Key Merge Deposit Required</span>
                       </SelectItem>
                       <SelectItem value="8">
                         <span className="flex items-center gap-2">🏦 Stage 8: Financial Department Verification</span>
                       </SelectItem>
                       <SelectItem value="9">
-                        <span className="flex items-center gap-2">⛏️ Stage 9: Mining Your Withdrawal for Final Clearance</span>
+                        <span className="flex items-center gap-2">⛏️ Stage 9: Mining Withdrawal for Final Clearance</span>
                       </SelectItem>
                       <SelectItem value="10">
-                        <span className="flex items-center gap-2">📊 Stage 10: Blockchain Activity Verification</span>
+                        <span className="flex items-center gap-2">🔗 Stage 10: Blockchain Activity Verification</span>
                       </SelectItem>
                       <SelectItem value="11">
-                        <span className="flex items-center gap-2">🔍 Stage 11: IRS/International AML Service Verification</span>
+                        <span className="flex items-center gap-2">🏛️ Stage 11: IRS / International AML Verification</span>
                       </SelectItem>
                       <SelectItem value="12">
-                        <span className="flex items-center gap-2">⚙️ Stage 12: Final Withdrawal Processing</span>
+                        <span className="flex items-center gap-2">📋 Stage 12: Final Withdrawal Processing</span>
                       </SelectItem>
                       <SelectItem value="13">
-                        <span className="flex items-center gap-2">🎉 Stage 13: Withdrawal Finally Released</span>
+                        <span className="flex items-center gap-2">🎉 Stage 13: Withdrawal Successfully Released</span>
                       </SelectItem>
                       <SelectItem value="14">
-                        <span className="flex items-center gap-2">⏰ Stage 14: Time Stamp Deposit for Final Delivery</span>
+                        <span className="flex items-center gap-2">⏰ Stage 14: Time-Stamp Deposit for Final Delivery</span>
                       </SelectItem>
                     </SelectContent>
                   </Select>
