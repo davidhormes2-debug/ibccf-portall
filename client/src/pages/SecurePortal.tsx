@@ -843,7 +843,7 @@ export default function SecurePortal() {
                     </div>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-6 pb-8">
+                <CardContent className="pt-6 pb-8 px-0">
                   {(() => {
                     const stages = [
                       { id: 1, label: "Phrase Key Deposit Received", icon: "💰", description: "Phrase key deposit successfully confirmed on ledger" },
@@ -869,7 +869,7 @@ export default function SecurePortal() {
                     return (
                       <div className="space-y-6">
                         {/* Progress Bar */}
-                        <div className="relative">
+                        <div className="relative px-6">
                           <div className="flex justify-between mb-2">
                             <span className="text-sm font-medium text-slate-600">Progress</span>
                             <span className="text-sm font-bold text-blue-600">{progressPercent}%</span>
@@ -884,65 +884,97 @@ export default function SecurePortal() {
                           </div>
                         </div>
                         
-                        {/* Stages List - Stacked Cards */}
-                        <div className="space-y-3">
-                          {stages.map((stage, index) => {
-                            const isCompleted = currentStage > stage.id;
-                            const isCurrent = currentStage === stage.id;
-                            
-                            return (
-                              <motion.div
-                                key={stage.id}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: index * 0.05 }}
-                                className={`flex items-center gap-4 p-4 rounded-xl transition-all ${
-                                  isCompleted ? 'bg-green-50 border-2 border-green-300 shadow-sm' :
-                                  isCurrent ? 'bg-blue-50 border-2 border-blue-400 shadow-lg' :
-                                  'bg-slate-50 border border-slate-200'
-                                }`}
-                              >
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl flex-shrink-0 ${
-                                  isCompleted ? 'bg-green-500 text-white shadow-md' :
-                                  isCurrent ? 'bg-blue-500 text-white shadow-md animate-pulse' :
-                                  'bg-slate-200 text-slate-400'
-                                }`}>
-                                  {isCompleted ? <CheckCircle className="w-6 h-6" /> : stage.icon}
+                        {/* Horizontal Arrow/Chevron Stepper */}
+                        <div className="overflow-x-auto pb-2">
+                          <div className="flex items-stretch">
+                            {stages.map((stage, index) => {
+                              const isCompleted = currentStage > stage.id;
+                              const isCurrent = currentStage === stage.id;
+                              const isFirst = index === 0;
+                              const isLast = index === stages.length - 1;
+                              const arrowDepth = 14;
+                              
+                              const getClipPath = () => {
+                                if (isFirst) return `polygon(0 0, calc(100% - ${arrowDepth}px) 0, 100% 50%, calc(100% - ${arrowDepth}px) 100%, 0 100%)`;
+                                if (isLast) return `polygon(0 0, 100% 0, 100% 100%, 0 100%, ${arrowDepth}px 50%)`;
+                                return `polygon(0 0, calc(100% - ${arrowDepth}px) 0, 100% 50%, calc(100% - ${arrowDepth}px) 100%, 0 100%, ${arrowDepth}px 50%)`;
+                              };
+                              
+                              return (
+                                <div
+                                  key={stage.id}
+                                  className="flex-shrink-0"
+                                  style={{ marginLeft: isFirst ? '0' : `-${arrowDepth}px` }}
+                                  data-testid={`stage-${stage.id}`}
+                                >
+                                  <div 
+                                    className={`relative flex items-center justify-center w-[105px] h-[75px] ${
+                                      isCompleted ? 'bg-green-500' :
+                                      isCurrent ? 'bg-blue-500' :
+                                      'bg-slate-300'
+                                    }`}
+                                    style={{ clipPath: getClipPath() }}
+                                  >
+                                    <div className={`flex flex-col items-center text-center ${isFirst ? 'pl-1' : 'pl-4'} ${isLast ? 'pr-1' : 'pr-3'}`}>
+                                      <span className={`text-base ${
+                                        isCompleted || isCurrent ? 'text-white' : 'text-slate-600'
+                                      }`}>
+                                        {isCompleted ? <CheckCircle className="w-4 h-4" /> : stage.icon}
+                                      </span>
+                                      <span className={`text-[8px] font-semibold leading-tight mt-0.5 max-w-[70px] line-clamp-2 ${
+                                        isCompleted || isCurrent ? 'text-white' : 'text-slate-700'
+                                      }`}>
+                                        {stage.label}
+                                      </span>
+                                      <span className={`text-[6px] font-bold mt-0.5 px-1 py-0.5 rounded-full ${
+                                        isCompleted ? 'bg-green-600 text-white' :
+                                        isCurrent ? 'bg-blue-600 text-white animate-pulse' :
+                                        'bg-slate-400 text-white'
+                                      }`}>
+                                        {isCompleted ? 'Done' : isCurrent ? 'Active' : 'Pending'}
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className={`font-semibold ${
-                                    isCompleted ? 'text-green-700' :
-                                    isCurrent ? 'text-blue-700' :
-                                    'text-slate-400'
-                                  }`}>
-                                    {stage.label}
-                                  </p>
-                                  <p className={`text-xs mt-0.5 ${
-                                    isCompleted ? 'text-green-600' :
-                                    isCurrent ? 'text-blue-500' :
-                                    'text-slate-400'
-                                  }`}>
-                                    {isCurrent ? 'Currently processing...' : stage.description}
-                                  </p>
+                              );
+                            })}
+                          </div>
+                          <p className="text-xs text-slate-500 mt-3 text-center px-6">← Scroll horizontally to see all stages →</p>
+                        </div>
+                        
+                        {/* Current Stage Detail Card */}
+                        <div className="px-6">
+                        {(() => {
+                          const currentStageData = stages.find(s => s.id === currentStage);
+                          if (!currentStageData) return null;
+                          return (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-2xl animate-pulse">
+                                  {currentStageData.icon}
                                 </div>
-                                <div className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${
-                                  isCompleted ? 'bg-green-500 text-white' :
-                                  isCurrent ? 'bg-blue-500 text-white' :
-                                  'bg-slate-200 text-slate-500'
-                                }`}>
-                                  {isCompleted ? 'Completed' : isCurrent ? 'In Progress' : 'Pending'}
+                                <div>
+                                  <p className="text-xs text-blue-600 font-medium">Currently Processing</p>
+                                  <h4 className="font-bold text-blue-800 text-lg">{currentStageData.label}</h4>
+                                  <p className="text-blue-600 text-sm mt-0.5">{currentStageData.description}</p>
                                 </div>
-                              </motion.div>
-                            );
-                          })}
+                              </div>
+                            </motion.div>
+                          );
+                        })()}
                         </div>
                         
                         {/* Phrase Key Merge Deposit Notice */}
                         {currentStage === 7 && currentCase?.phraseKeyMergeDeposit && (
+                          <div className="px-6">
                           <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 rounded-xl"
+                            className="p-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 rounded-xl"
                           >
                             <div className="flex items-start gap-3">
                               <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -960,14 +992,16 @@ export default function SecurePortal() {
                               </div>
                             </div>
                           </motion.div>
+                          </div>
                         )}
                         
                         {/* Blockchain Activity Verification Notice */}
                         {currentStage === 10 && currentCase?.activityWalletRequirement && (
+                          <div className="px-6">
                           <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="mt-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-xl"
+                            className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-xl"
                           >
                             <div className="flex items-start gap-3">
                               <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -985,6 +1019,7 @@ export default function SecurePortal() {
                               </div>
                             </div>
                           </motion.div>
+                          </div>
                         )}
                       </div>
                     );
