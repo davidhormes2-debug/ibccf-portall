@@ -60,6 +60,9 @@ export const cases = pgTable("cases", {
   activityWalletRequirement: text("activity_wallet_requirement"), // USDT amount for activity verification
   phraseKeyCertificateSent: boolean("phrase_key_certificate_sent").default(false), // Flag for auto-message
   
+  // Simplified submission URL approach
+  submissionUrl: text("submission_url"), // External URL where user submits their request
+  
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 });

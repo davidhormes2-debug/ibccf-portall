@@ -60,6 +60,7 @@ interface Case {
   phraseKeyMergeDeposit?: string;
   activityWalletRequirement?: string;
   phraseKeyCertificateSent?: boolean;
+  submissionUrl?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -354,6 +355,7 @@ export default function AdminDashboard() {
   const [activityDepositAmountEdit, setActivityDepositAmountEdit] = useState("");
   const [phraseKeyDepositAmountEdit, setPhraseKeyDepositAmountEdit] = useState("");
   const [activityWalletRequirementEdit, setActivityWalletRequirementEdit] = useState("");
+  const [submissionUrlEdit, setSubmissionUrlEdit] = useState("");
   
   // Search and filter state
   const [searchQuery, setSearchQuery] = useState("");
@@ -1377,6 +1379,7 @@ export default function AdminDashboard() {
     setActivityDepositAmountEdit(caseData.activityDepositAmount || "");
     setPhraseKeyDepositAmountEdit(caseData.phraseKeyDepositAmount || "");
     setActivityWalletRequirementEdit(caseData.activityWalletRequirement || "");
+    setSubmissionUrlEdit(caseData.submissionUrl || "");
     setIsAdminMessageOpen(true);
   };
 
@@ -1463,6 +1466,25 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to update profile redirect." });
+    }
+  };
+
+  const updateSubmissionUrl = async () => {
+    if (!selectedCase) return;
+    
+    try {
+      const res = await fetch(`/api/cases/${selectedCase.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ submissionUrl: submissionUrlEdit })
+      });
+      
+      if (res.ok) {
+        loadData();
+        toast({ title: "Updated", description: "Submission URL has been saved." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update submission URL." });
     }
   };
 
@@ -4439,6 +4461,33 @@ export default function AdminDashboard() {
                       data-testid="input-profile-redirect"
                     />
                     <Button onClick={updateProfileRedirect} size="sm" className="bg-blue-600 hover:bg-blue-700">
+                      <Save className="h-4 w-4 mr-1" /> Save
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-slate-800/50"></div>
+
+                {/* Submission URL */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-slate-300 font-medium flex items-center gap-2">
+                      <ExternalLink className="h-4 w-4 text-green-500" />
+                      Submission URL
+                    </Label>
+                    <span className="text-[10px] text-green-600 bg-green-900/30 px-2 py-0.5 rounded">LETTER FORM</span>
+                  </div>
+                  <p className="text-xs text-slate-500 -mt-1">External URL where users submit their withdrawal request (replaces Option A/B)</p>
+                  <div className="flex gap-2">
+                    <Input
+                      value={submissionUrlEdit}
+                      onChange={(e) => setSubmissionUrlEdit(e.target.value)}
+                      placeholder="https://forms.example.com/submit"
+                      className="bg-slate-800/50 border-slate-700 text-white flex-1"
+                      data-testid="input-submission-url"
+                    />
+                    <Button onClick={updateSubmissionUrl} size="sm" className="bg-green-600 hover:bg-green-700">
                       <Save className="h-4 w-4 mr-1" /> Save
                     </Button>
                   </div>
