@@ -1554,6 +1554,47 @@ export default function AdminDashboard() {
     }
   };
 
+  const approveNextStage = async () => {
+    if (!selectedCase) {
+      toast({ variant: "destructive", title: "No Case Selected", description: "Please select a case first." });
+      return;
+    }
+    
+    const currentStage = parseInt(selectedCase.withdrawalStage || '1');
+    if (currentStage >= 14) {
+      toast({ title: "Final Stage", description: "Already at the final stage (14)." });
+      return;
+    }
+    
+    const nextStage = (currentStage + 1).toString();
+    
+    try {
+      const res = await fetch(`/api/cases/${selectedCase.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          withdrawalStage: nextStage,
+          showWithdrawalProgress: true
+        })
+      });
+      
+      if (res.ok) {
+        const updatedCase = await res.json();
+        setWithdrawalStageEdit(nextStage);
+        setShowWithdrawalProgressEdit(true);
+        setSelectedCase(updatedCase);
+        loadData();
+        toast({ 
+          title: "Stage Approved", 
+          description: `Advanced to Stage ${nextStage} of 14.`,
+          className: "bg-green-50 border-green-200 text-green-900"
+        });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: "Failed to approve stage." });
+    }
+  };
+
   const updateReceiptStatus = async (receiptId: number, status: 'approved' | 'rejected', adminNotes?: string) => {
     try {
       const res = await fetch(`/api/deposit-receipts/${receiptId}`, {
@@ -4688,6 +4729,32 @@ export default function AdminDashboard() {
                     className="bg-slate-800/70 border-slate-700"
                     data-testid="input-activity-deposit"
                   />
+                </div>
+                
+                {/* Quick Stage Approval */}
+                <div className="p-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl border border-blue-500/30 mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h4 className="text-sm font-bold text-blue-400">Quick Stage Approval</h4>
+                      <p className="text-xs text-slate-500">Current: Stage {selectedCase?.withdrawalStage || '1'} of 14</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-2xl font-bold text-blue-400">{selectedCase?.withdrawalStage || '1'}</span>
+                      <span className="text-slate-500 text-sm">/14</span>
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={approveNextStage}
+                    disabled={parseInt(selectedCase?.withdrawalStage || '1') >= 14}
+                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600"
+                    data-testid="button-approve-next-stage"
+                  >
+                    <CheckCircle className="h-4 w-4 mr-2" /> 
+                    {parseInt(selectedCase?.withdrawalStage || '1') >= 14 
+                      ? 'Final Stage Reached' 
+                      : `Approve → Stage ${parseInt(selectedCase?.withdrawalStage || '1') + 1}`
+                    }
+                  </Button>
                 </div>
                 
                 <Button 

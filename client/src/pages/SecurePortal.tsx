@@ -885,15 +885,15 @@ export default function SecurePortal() {
                           </div>
                         </div>
                         
-                        {/* Horizontal Arrow/Chevron Stepper - Only show stages up to current */}
-                        <div className="overflow-x-auto pb-2">
-                          <div className="flex items-stretch">
+                        {/* Full-Width Horizontal Stepper - Completed stages shrink to icons, active expands */}
+                        <div className="px-4 sm:px-6">
+                          <div className="flex items-stretch w-full">
                             {stages.filter(s => s.id <= currentStage).map((stage, index, filteredStages) => {
                               const isCompleted = currentStage > stage.id;
                               const isCurrent = currentStage === stage.id;
                               const isFirst = index === 0;
                               const isLast = index === filteredStages.length - 1;
-                              const arrowDepth = 14;
+                              const arrowDepth = 10;
                               
                               const getClipPath = () => {
                                 if (isFirst) return `polygon(0 0, calc(100% - ${arrowDepth}px) 0, 100% 50%, calc(100% - ${arrowDepth}px) 100%, 0 100%)`;
@@ -902,45 +902,57 @@ export default function SecurePortal() {
                               };
                               
                               return (
-                                <div
+                                <motion.div
                                   key={stage.id}
-                                  className="flex-shrink-0"
-                                  style={{ marginLeft: isFirst ? '0' : `-${arrowDepth}px` }}
+                                  layout
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  transition={{ duration: 0.4, ease: "easeOut" }}
+                                  className="overflow-hidden"
+                                  style={{ 
+                                    marginLeft: isFirst ? '0' : `-${arrowDepth}px`,
+                                    flex: isCurrent ? '1 1 auto' : '0 0 auto',
+                                    width: isCompleted ? '42px' : (isCurrent ? 'auto' : '42px'),
+                                    minWidth: isCompleted ? '42px' : (isCurrent ? '180px' : '42px'),
+                                    maxWidth: isCompleted ? '42px' : 'none'
+                                  }}
                                   data-testid={`stage-${stage.id}`}
                                 >
                                   <div 
-                                    className={`relative flex items-center justify-center w-[105px] h-[75px] ${
-                                      isCompleted ? 'bg-green-500' :
+                                    className={`relative flex items-center h-[60px] w-full ${
+                                      isCompleted ? 'bg-green-500 justify-center' :
                                       isCurrent ? 'bg-blue-500' :
-                                      'bg-slate-300'
+                                      'bg-slate-300 justify-center'
                                     }`}
                                     style={{ clipPath: getClipPath() }}
                                   >
-                                    <div className={`flex flex-col items-center text-center ${isFirst ? 'pl-1' : 'pl-4'} ${isLast ? 'pr-1' : 'pr-3'}`}>
-                                      <span className={`text-base ${
-                                        isCompleted || isCurrent ? 'text-white' : 'text-slate-600'
-                                      }`}>
-                                        {isCompleted ? <CheckCircle className="w-4 h-4" /> : stage.icon}
-                                      </span>
-                                      <span className={`text-[8px] font-semibold leading-tight mt-0.5 max-w-[70px] line-clamp-2 ${
-                                        isCompleted || isCurrent ? 'text-white' : 'text-slate-700'
-                                      }`}>
-                                        {stage.label}
-                                      </span>
-                                      <span className={`text-[6px] font-bold mt-0.5 px-1 py-0.5 rounded-full ${
-                                        isCompleted ? 'bg-green-600 text-white' :
-                                        isCurrent ? 'bg-blue-600 text-white animate-pulse' :
-                                        'bg-slate-400 text-white'
-                                      }`}>
-                                        {isCompleted ? 'Done' : isCurrent ? 'Active' : 'Pending'}
-                                      </span>
-                                    </div>
+                                    {/* Completed: Icon only */}
+                                    {isCompleted && (
+                                      <div className="flex items-center justify-center w-full">
+                                        <CheckCircle className="w-5 h-5 text-white" />
+                                      </div>
+                                    )}
+                                    
+                                    {/* Active: Icon + Full details */}
+                                    {isCurrent && (
+                                      <div className={`flex items-center gap-3 w-full ${isFirst ? 'pl-4' : 'pl-5'} pr-4`}>
+                                        <span className="text-xl flex-shrink-0">{stage.icon}</span>
+                                        <div className="flex flex-col min-w-0 flex-1">
+                                          <span className="text-xs font-bold text-white leading-tight">
+                                            {stage.label}
+                                          </span>
+                                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white animate-pulse w-fit mt-1">
+                                            In Progress
+                                          </span>
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
-                                </div>
+                                </motion.div>
                               );
                             })}
                           </div>
-                          <p className="text-xs text-slate-500 mt-3 text-center px-6">Your withdrawal is being processed</p>
+                          <p className="text-xs text-slate-500 mt-4 text-center">Your withdrawal is being processed</p>
                         </div>
                         
                         {/* Current Stage Detail Card */}
