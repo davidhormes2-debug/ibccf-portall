@@ -885,14 +885,14 @@ export default function SecurePortal() {
                           </div>
                         </div>
                         
-                        {/* Horizontal Arrow/Chevron Stepper */}
+                        {/* Horizontal Arrow/Chevron Stepper - Only show stages up to current */}
                         <div className="overflow-x-auto pb-2">
                           <div className="flex items-stretch">
-                            {stages.map((stage, index) => {
+                            {stages.filter(s => s.id <= currentStage).map((stage, index, filteredStages) => {
                               const isCompleted = currentStage > stage.id;
                               const isCurrent = currentStage === stage.id;
                               const isFirst = index === 0;
-                              const isLast = index === stages.length - 1;
+                              const isLast = index === filteredStages.length - 1;
                               const arrowDepth = 14;
                               
                               const getClipPath = () => {
@@ -940,7 +940,7 @@ export default function SecurePortal() {
                               );
                             })}
                           </div>
-                          <p className="text-xs text-slate-500 mt-3 text-center px-6">← Scroll horizontally to see all stages →</p>
+                          <p className="text-xs text-slate-500 mt-3 text-center px-6">Stage {currentStage} of {totalStages}</p>
                         </div>
                         
                         {/* Current Stage Detail Card */}
