@@ -141,8 +141,47 @@ The application uses the following main tables:
 - All database operations return strongly-typed objects
 - Transaction support through Drizzle ORM
 
+**Modular Architecture (Refactored)**
+
+*Frontend Structure:*
+- `client/src/lib/api/` - Typed API layer with React Query hooks
+- `client/src/hooks/` - Custom hooks (useSessionTimeout, useNotificationSound, usePolling, etc.)
+- `client/src/components/portal/` - Reusable portal components (ChatWidget, MessageCard, ProgressStepper, etc.)
+- `client/src/pages/portal/` - Split portal pages (LoginPage, DashboardPage, MessagesPortal, etc.)
+- `client/src/lib/constants.ts` - Stage definitions, API endpoints, messages
+- `client/src/lib/validation.ts` - Centralized Zod validation schemas
+
+*Backend Structure:*
+- `server/routes/` - Feature-based routers (casesRouter, messagesRouter, adminRouter, depositsRouter)
+- `server/services/` - Business logic layer (CaseService, MessageService, NotificationService)
+- `server/middleware/` - Security middleware (rate limiting, CORS, security headers, input sanitization)
+
+*Shared Structure:*
+- `shared/schema.ts` - Drizzle schema definitions with Zod insert schemas
+- `shared/types.ts` - Centralized TypeScript interfaces for all data models
+
+**Security Features**
+- Rate limiting with configurable windows and limits
+- Security headers (X-Content-Type-Options, X-Frame-Options, CSP, etc.)
+- Input sanitization for XSS prevention
+- CORS configuration with allowed origins
+- 3-minute session timeout with automatic logout
+
+**Accessibility**
+- ARIA labels on all interactive elements
+- Role attributes for semantic structure (dialog, progressbar, list, feed)
+- aria-live regions for dynamic content updates
+- Keyboard navigation support
+- Screen reader compatibility
+
+**Error Handling**
+- ErrorBoundary components for graceful error recovery
+- Centralized error handling utilities
+- Loading states with skeleton components
+- Toast notifications for user feedback
+
 **API Structure**
-- Route registration in `server/routes.ts`
+- Route registration in `server/routes.ts` with modular routers
 - CRUD operations for cases and submissions
 - Access code-based authentication for user access
 - Admin vs. user endpoint separation

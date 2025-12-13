@@ -1,4 +1,12 @@
-export * from './schema';
+import type {
+  Case,
+  CaseLetter,
+  CaseSubmission,
+  ChatMessage,
+  AdminMessage,
+  DepositReceipt,
+  CaseNote,
+} from './schema';
 
 export type CaseStatus = 'created' | 'registered' | 'syncing' | 'active' | 'completed';
 export type MessageCategory = 'urgent' | 'processing' | 'resolved';
@@ -39,16 +47,6 @@ export type AdminSettingsView =
   | 'admin-users' 
   | 'user-sessions' 
   | 'translations';
-
-export const WITHDRAWAL_STAGES = [
-  { stage: '1', label: 'Withdrawal Process Initiated', description: 'Your withdrawal request has been received and is being processed.' },
-  { stage: '2', label: 'First Stage Verification Completed', description: 'Initial verification of your account and withdrawal details is complete.' },
-  { stage: '3', label: 'Financial Department Verification', description: 'The financial department is reviewing your withdrawal request.' },
-  { stage: '4', label: 'Miners Department', description: 'Transaction is being prepared for blockchain processing.' },
-  { stage: '5', label: 'Money Laundry Funds Check', description: 'Compliance verification is in progress.' },
-  { stage: '6', label: 'Final Withdrawal Processing', description: 'Your withdrawal is in the final processing stage.' },
-  { stage: '7', label: 'Withdrawal Now Released', description: 'Congratulations! Your withdrawal has been released.' },
-] as const;
 
 export const LOCALES = ['en', 'es', 'zh', 'ja', 'ko', 'de', 'fr'] as const;
 export type Locale = typeof LOCALES[number];
@@ -168,13 +166,13 @@ export interface UnreadCounts {
 }
 
 export interface CaseWithDetails {
-  case: import('./schema').Case;
-  letter?: import('./schema').CaseLetter;
-  submissions: import('./schema').CaseSubmission[];
-  messages: import('./schema').ChatMessage[];
-  adminMessages: import('./schema').AdminMessage[];
-  receipts: import('./schema').DepositReceipt[];
-  notes?: import('./schema').CaseNote[];
+  case: Case;
+  letter?: CaseLetter;
+  submissions: CaseSubmission[];
+  messages: ChatMessage[];
+  adminMessages: AdminMessage[];
+  receipts: DepositReceipt[];
+  notes?: CaseNote[];
 }
 
 export interface DashboardStats {
