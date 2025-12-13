@@ -2,6 +2,12 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import {
+  securityHeaders,
+  corsMiddleware,
+  rateLimiter,
+  inputSanitizer,
+} from "./middleware";
 
 const app = express();
 const httpServer = createServer(app);
@@ -12,6 +18,9 @@ declare module "http" {
   }
 }
 
+app.use(securityHeaders());
+app.use(corsMiddleware());
+
 app.use(
   express.json({
     verify: (req, _res, buf) => {
@@ -21,6 +30,13 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/api", rateLimiter());
+app.use("/api", inputSanitizer());
+
+import { authRateLimiter } from "./middleware";
+app.use("/api/admin/login", authRateLimiter());
+app.use("/api/cases/verify", authRateLimiter());
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {

@@ -17,8 +17,8 @@ const sizeClasses = {
 
 export function LoadingSpinner({ size = 'md', className = '', text }: LoadingSpinnerProps) {
   return (
-    <div className={`flex items-center justify-center gap-2 ${className}`} data-testid="loading-spinner">
-      <Loader2 className={`${sizeClasses[size]} animate-spin text-blue-600`} />
+    <div className={`flex items-center justify-center gap-2 ${className}`} data-testid="loading-spinner" role="status" aria-label={text || "Loading"}>
+      <Loader2 className={`${sizeClasses[size]} animate-spin text-blue-600`} aria-hidden="true" />
       {text && <span className="text-sm text-slate-600">{text}</span>}
     </div>
   );
@@ -31,18 +31,18 @@ interface FullPageLoaderProps {
 
 export function FullPageLoader({ text = 'Loading...', showLogo = true }: FullPageLoaderProps) {
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center z-50" data-testid="full-page-loader">
+    <div className="fixed inset-0 bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center z-50" data-testid="full-page-loader" role="status" aria-live="polite" aria-label={text}>
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         className="flex flex-col items-center gap-4"
       >
         {showLogo && (
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full flex items-center justify-center" aria-hidden="true">
             <ShieldCheck className="w-8 h-8 text-white" />
           </div>
         )}
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" aria-hidden="true" />
         <p className="text-slate-600 font-medium">{text}</p>
       </motion.div>
     </div>
@@ -166,8 +166,9 @@ export function RefreshButton({ isRefreshing, onRefresh, className = '' }: Refre
       disabled={isRefreshing}
       className={`p-2 rounded-lg hover:bg-slate-100 transition-colors disabled:opacity-50 ${className}`}
       data-testid="refresh-button"
+      aria-label={isRefreshing ? "Refreshing..." : "Refresh"}
     >
-      <RefreshCw className={`w-5 h-5 text-slate-600 ${isRefreshing ? 'animate-spin' : ''}`} />
+      <RefreshCw className={`w-5 h-5 text-slate-600 ${isRefreshing ? 'animate-spin' : ''}`} aria-hidden="true" />
     </button>
   );
 }
@@ -178,8 +179,8 @@ interface InlineLoaderProps {
 
 export function InlineLoader({ text = 'Loading...' }: InlineLoaderProps) {
   return (
-    <div className="flex items-center gap-2 text-sm text-slate-500" data-testid="inline-loader">
-      <Loader2 className="w-4 h-4 animate-spin" />
+    <div className="flex items-center gap-2 text-sm text-slate-500" data-testid="inline-loader" role="status" aria-label={text}>
+      <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
       <span>{text}</span>
     </div>
   );

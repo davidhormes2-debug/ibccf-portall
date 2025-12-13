@@ -81,16 +81,18 @@ export function MessageCard({
         animate={{ opacity: 1, x: 0 }}
         className={`p-3 rounded-lg border ${config.borderClass} ${config.bgClass} ${isUnread ? 'ring-2 ring-offset-1 ring-blue-400' : ''}`}
         data-testid={`message-card-${message.id}`}
+        role="article"
+        aria-label={`${config.label}: ${message.title}${isUnread ? ' (unread)' : ''}`}
       >
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0 flex-1">
-            <div className={`w-8 h-8 ${config.iconBgClass} rounded-full flex items-center justify-center flex-shrink-0`}>
+            <div className={`w-8 h-8 ${config.iconBgClass} rounded-full flex items-center justify-center flex-shrink-0`} aria-hidden="true">
               <Icon className="w-4 h-4 text-white" />
             </div>
             <div className="min-w-0 flex-1">
               <h4 className={`font-semibold ${config.titleClass} text-sm truncate`}>{message.title}</h4>
               {formattedDate && (
-                <p className="text-xs text-slate-500">{formattedDate}</p>
+                <p className="text-xs text-slate-500"><time dateTime={message.createdAt?.toString()}>{formattedDate}</time></p>
               )}
             </div>
           </div>
@@ -100,8 +102,9 @@ export function MessageCard({
               variant="ghost" 
               onClick={() => onView(message)}
               data-testid={`view-message-${message.id}`}
+              aria-label={`View message: ${message.title}`}
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4" aria-hidden="true" />
             </Button>
           )}
         </div>
@@ -114,12 +117,14 @@ export function MessageCard({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       data-testid={`message-card-${message.id}`}
+      role="article"
+      aria-label={`${config.label}: ${message.title}${isUnread ? ' (unread)' : ''}`}
     >
       <Card className={`${config.borderClass} border-2 shadow-md overflow-hidden ${isUnread ? 'ring-2 ring-offset-2 ring-blue-400' : ''}`}>
         <CardHeader className={`${config.bgClass} py-3`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 ${config.iconBgClass} rounded-full flex items-center justify-center`}>
+              <div className={`w-10 h-10 ${config.iconBgClass} rounded-full flex items-center justify-center`} aria-hidden="true">
                 <Icon className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -129,7 +134,7 @@ export function MessageCard({
                     {config.label}
                   </Badge>
                   {formattedDate && (
-                    <span className="text-xs text-slate-500">{formattedDate}</span>
+                    <time className="text-xs text-slate-500" dateTime={message.createdAt?.toString()}>{formattedDate}</time>
                   )}
                 </div>
               </div>
@@ -141,15 +146,16 @@ export function MessageCard({
                 onClick={() => onMarkRead(message.id)}
                 className="flex items-center gap-1"
                 data-testid={`mark-read-${message.id}`}
+                aria-label={isUnread ? `Mark message as read: ${message.title}` : `Message already read: ${message.title}`}
               >
                 {isUnread ? (
                   <>
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-4 h-4" aria-hidden="true" />
                     <span className="text-xs">Mark Read</span>
                   </>
                 ) : (
                   <>
-                    <EyeOff className="w-4 h-4" />
+                    <EyeOff className="w-4 h-4" aria-hidden="true" />
                     <span className="text-xs">Read</span>
                   </>
                 )}
@@ -205,14 +211,14 @@ export function MessageList({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3" role="feed" aria-label={title || "Messages"}>
       {title && (
         <div className="flex items-center gap-2">
           <h3 className="font-semibold text-slate-800">{title}</h3>
           {showBlink && hasUnread && config && (
-            <span className={`w-2.5 h-2.5 ${config.iconBgClass} rounded-full animate-pulse`} />
+            <span className={`w-2.5 h-2.5 ${config.iconBgClass} rounded-full animate-pulse`} aria-label="Has unread messages" />
           )}
-          <Badge variant="outline" className="ml-auto">
+          <Badge variant="outline" className="ml-auto" aria-label={`${filteredMessages.length} messages`}>
             {filteredMessages.length}
           </Badge>
         </div>

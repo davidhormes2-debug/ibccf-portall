@@ -100,10 +100,17 @@ function ProgressBar({ progressPercent }: { progressPercent: number }) {
   return (
     <div className="relative px-6">
       <div className="flex justify-between mb-2">
-        <span className="text-sm font-medium text-slate-600">Progress</span>
-        <span className="text-sm font-bold text-blue-600" data-testid="progress-percent">{progressPercent}%</span>
+        <span className="text-sm font-medium text-slate-600" id="progress-label">Progress</span>
+        <span className="text-sm font-bold text-blue-600" data-testid="progress-percent" aria-live="polite">{progressPercent}%</span>
       </div>
-      <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
+      <div 
+        className="h-3 bg-slate-200 rounded-full overflow-hidden"
+        role="progressbar"
+        aria-valuenow={progressPercent}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-labelledby="progress-label"
+      >
         <motion.div 
           className="h-full bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 rounded-full"
           initial={{ width: 0 }}
@@ -125,8 +132,8 @@ function StagesStepper({ stages, currentStage }: { stages: WithdrawalStage[]; cu
   };
 
   return (
-    <div className="px-4 sm:px-6">
-      <div className="flex items-stretch w-full">
+    <div className="px-4 sm:px-6" role="region" aria-label="Withdrawal stages">
+      <div className="flex items-stretch w-full" role="list" aria-label={`Withdrawal progress: Step ${currentStage} of ${stages.length}`}>
         {stages.filter(s => s.id <= currentStage).map((stage, index, filteredStages) => {
           const isCompleted = currentStage > stage.id;
           const isCurrent = currentStage === stage.id;
@@ -149,6 +156,9 @@ function StagesStepper({ stages, currentStage }: { stages: WithdrawalStage[]; cu
                 maxWidth: isCompleted ? '42px' : 'none'
               }}
               data-testid={`stage-${stage.id}`}
+              role="listitem"
+              aria-label={`Stage ${stage.id}: ${stage.label}${isCompleted ? ' (completed)' : isCurrent ? ' (in progress)' : ''}`}
+              aria-current={isCurrent ? 'step' : undefined}
             >
               <div 
                 className={`relative flex items-center h-[60px] w-full ${
@@ -194,9 +204,12 @@ function CurrentStageCard({ stage }: { stage: WithdrawalStage }) {
         animate={{ opacity: 1, y: 0 }}
         className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl"
         data-testid="current-stage-card"
+        role="status"
+        aria-live="polite"
+        aria-label={`Current stage: ${stage.label}`}
       >
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-2xl animate-pulse">
+          <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-2xl animate-pulse" aria-hidden="true">
             {stage.icon}
           </div>
           <div>

@@ -94,6 +94,8 @@ export function ReceiptUploader({
             onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
             onDragLeave={() => setDragActive(false)}
             onDrop={handleDrop}
+            role="region"
+            aria-label="File upload area"
           >
             <input
               ref={fileInputRef}
@@ -103,11 +105,12 @@ export function ReceiptUploader({
               className="hidden"
               id="receipt-upload"
               data-testid="input-file-receipt"
+              aria-label="Choose file to upload"
             />
             
             {isUploading ? (
-              <div className="flex flex-col items-center gap-2">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+              <div className="flex flex-col items-center gap-2" role="status" aria-label="Uploading file">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-600" aria-hidden="true" />
                 <p className="text-slate-600">Uploading...</p>
               </div>
             ) : (
@@ -271,8 +274,8 @@ function ReceiptCard({ receipt, onView, showAdminNotes }: ReceiptCardProps) {
           )}
         </div>
         
-        <Button variant="ghost" size="sm" onClick={onView} data-testid={`view-receipt-${receipt.id}`}>
-          <Eye className="w-4 h-4" />
+        <Button variant="ghost" size="sm" onClick={onView} data-testid={`view-receipt-${receipt.id}`} aria-label={`View receipt ${receipt.fileName}`}>
+          <Eye className="w-4 h-4" aria-hidden="true" />
         </Button>
       </div>
     </motion.div>

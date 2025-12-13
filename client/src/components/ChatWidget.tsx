@@ -80,6 +80,9 @@ export function ChatWidget({
             exit={{ opacity: 0, y: 100 }}
             className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-slate-200 flex flex-col overflow-hidden"
             data-testid="chat-panel"
+            role="dialog"
+            aria-label="Support chat window"
+            aria-modal="true"
           >
             <ChatHeader 
               title={title} 
@@ -124,10 +127,15 @@ function ChatButton({ onClick, unreadCount, isOpen }: ChatButtonProps) {
       className="fixed bottom-6 right-6 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-50"
       onClick={onClick}
       data-testid="button-chat-float"
+      aria-label={unreadCount > 0 ? `Open support chat. ${unreadCount} unread messages` : "Open support chat"}
+      aria-haspopup="dialog"
     >
-      <MessageCircle className="w-7 h-7" />
+      <MessageCircle className="w-7 h-7" aria-hidden="true" />
       {unreadCount > 0 && (
-        <span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full text-xs flex items-center justify-center font-bold">
+        <span 
+          className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full text-xs flex items-center justify-center font-bold"
+          aria-label={`${unreadCount} unread messages`}
+        >
           {unreadCount}
         </span>
       )}
@@ -160,8 +168,9 @@ function ChatHeader({ title, subtitle, onClose }: ChatHeaderProps) {
         className="h-8 w-8 p-0 text-white hover:bg-blue-700"
         onClick={onClose}
         data-testid="button-close-chat"
+        aria-label="Close chat"
       >
-        <X className="h-4 w-4" />
+        <X className="h-4 w-4" aria-hidden="true" />
       </Button>
     </div>
   );
@@ -175,10 +184,16 @@ interface ChatMessagesProps {
 const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
   ({ messages, isLoading }, ref) => {
     return (
-      <div ref={ref} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
+      <div 
+        ref={ref} 
+        className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50"
+        role="log"
+        aria-label="Chat messages"
+        aria-live="polite"
+      >
         {isLoading ? (
-          <div className="flex items-center justify-center h-full">
-            <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
+          <div className="flex items-center justify-center h-full" role="status" aria-label="Loading messages">
+            <Loader2 className="w-6 h-6 animate-spin text-blue-600" aria-hidden="true" />
           </div>
         ) : messages.length === 0 ? (
           <EmptyChat />
@@ -248,7 +263,7 @@ interface ChatInputProps {
 function ChatInput({ value, onChange, onSend, onKeyPress, isSending }: ChatInputProps) {
   return (
     <div className="p-3 bg-white border-t border-slate-200">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2" role="group" aria-label="Message input">
         <Input
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -257,17 +272,19 @@ function ChatInput({ value, onChange, onSend, onKeyPress, isSending }: ChatInput
           className="flex-1"
           disabled={isSending}
           data-testid="input-chat-message"
+          aria-label="Message text"
         />
         <Button 
           onClick={onSend} 
           size="icon" 
           disabled={!value.trim() || isSending}
           data-testid="button-send-message"
+          aria-label={isSending ? "Sending message" : "Send message"}
         >
           {isSending ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
           ) : (
-            <Send className="h-4 w-4" />
+            <Send className="h-4 w-4" aria-hidden="true" />
           )}
         </Button>
       </div>
