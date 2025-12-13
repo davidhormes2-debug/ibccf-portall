@@ -940,7 +940,7 @@ export default function SecurePortal() {
                               );
                             })}
                           </div>
-                          <p className="text-xs text-slate-500 mt-3 text-center px-6">Stage {currentStage} of {totalStages}</p>
+                          <p className="text-xs text-slate-500 mt-3 text-center px-6">Your withdrawal is being processed</p>
                         </div>
                         
                         {/* Current Stage Detail Card */}
