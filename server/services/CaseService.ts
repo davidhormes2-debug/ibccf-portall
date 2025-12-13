@@ -1,4 +1,4 @@
-import { storage } from "../storage";
+import { caseRepository, messageRepository } from "../repositories";
 import type { Case, InsertCase, UpdateCase, CaseLetter, UpdateCaseLetter } from "@shared/schema";
 
 const STAGE_MESSAGES: Record<string, { category: 'urgent' | 'processing' | 'resolved'; title: string; body: string }> = {
@@ -56,19 +56,19 @@ const STAGE_MESSAGES: Record<string, { category: 'urgent' | 'processing' | 'reso
 
 export class CaseService {
   async createCase(data: InsertCase): Promise<Case> {
-    return storage.createCase(data);
+    return caseRepository.create(data);
   }
 
   async getCaseById(id: string): Promise<Case | undefined> {
-    return storage.getCaseById(id);
+    return caseRepository.findById(id);
   }
 
   async getCaseByAccessCode(code: string): Promise<Case | undefined> {
-    return storage.getCaseByAccessCode(code);
+    return caseRepository.findByAccessCode(code);
   }
 
   async getAllCases(): Promise<Case[]> {
-    return storage.getAllCases();
+    return caseRepository.findAll();
   }
 
   async updateCase(id: string, data: UpdateCase): Promise<Case | undefined> {
@@ -86,7 +86,7 @@ export class CaseService {
       }
     }
 
-    const currentCase = await storage.getCaseById(id);
+    const currentCase = await caseRepository.findById(id);
     const previousStage = currentCase?.withdrawalStage;
     const newStage = data.withdrawalStage;
 
@@ -94,14 +94,14 @@ export class CaseService {
       data.phraseKeyCertificateSent = true;
     }
     
-    const updated = await storage.updateCase(id, data);
+    const updated = await caseRepository.update(id, data);
     if (!updated) return undefined;
 
     if (newStage && previousStage !== newStage && STAGE_MESSAGES[newStage]) {
       if (newStage === '3' && currentCase?.phraseKeyCertificateSent) {
       } else {
         const msg = STAGE_MESSAGES[newStage];
-        await storage.createAdminMessage({
+        await messageRepository.createAdminMessage({
           caseId: id,
           category: msg.category,
           title: msg.title,
@@ -115,15 +115,15 @@ export class CaseService {
   }
 
   async deleteCase(id: string): Promise<void> {
-    return storage.deleteCase(id);
+    return caseRepository.delete(id);
   }
 
   async getCaseLetter(caseId: string): Promise<CaseLetter | undefined> {
-    return storage.getCaseLetterByCaseId(caseId);
+    return caseRepository.getLetter(caseId);
   }
 
   async updateCaseLetter(caseId: string, data: UpdateCaseLetter): Promise<CaseLetter> {
-    return storage.createOrUpdateCaseLetter(caseId, data);
+    return caseRepository.createOrUpdateLetter(caseId, data);
   }
 }
 
