@@ -151,7 +151,7 @@ function StatCounter({ value, label, suffix = "" }: { value: number; label: stri
 }
 
 function ScamAlertsTicker() {
-  const { data: alerts = [] } = useQuery({
+  const { data: alerts = [] } = useQuery<any[]>({
     queryKey: ['/api/public/scam-alerts'],
     refetchInterval: 30000
   });
@@ -315,15 +315,15 @@ export default function LandingPage() {
   const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
   const { toast } = useToast();
 
-  const { data: testimonials = [] } = useQuery({
+  const { data: testimonials = [] } = useQuery<any[]>({
     queryKey: ['/api/public/testimonials']
   });
 
-  const { data: faqs = [] } = useQuery({
+  const { data: faqs = [] } = useQuery<any[]>({
     queryKey: ['/api/public/faq']
   });
 
-  const { data: stats = [] } = useQuery({
+  const { data: stats = [] } = useQuery<any[]>({
     queryKey: ['/api/public/statistics']
   });
 
