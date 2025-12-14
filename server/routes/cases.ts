@@ -4,10 +4,16 @@ import { caseService } from "../services";
 import { updateCaseSchema, updateCaseLetterSchema } from "@shared/schema";
 import { z } from "zod";
 import { checkAdminAuth } from "./middleware";
-import { createHash } from "crypto";
+import bcrypt from "bcryptjs";
 
-function hashPin(pin: string): string {
-  return createHash('sha256').update(pin + 'IBCCF_PIN_SALT').digest('hex');
+const BCRYPT_ROUNDS = 10;
+
+async function hashPin(pin: string): Promise<string> {
+  return bcrypt.hash(pin, BCRYPT_ROUNDS);
+}
+
+async function verifyPin(pin: string, hashedPin: string): Promise<boolean> {
+  return bcrypt.compare(pin, hashedPin);
 }
 
 const pinLoginAttempts = new Map<string, { count: number; lastAttempt: number; lockedUntil?: number }>();
@@ -59,7 +65,7 @@ function recordPinAttempt(ip: string, success: boolean) {
 
 export const casesRouter = Router();
 
-casesRouter.post("/", async (req, res) => {
+casesRouter.post("/", checkAdminAuth, async (req, res) => {
   try {
     const { accessCode, status } = req.body;
     if (!accessCode) {
@@ -81,7 +87,7 @@ casesRouter.post("/", async (req, res) => {
   }
 });
 
-casesRouter.get("/", async (req, res) => {
+casesRouter.get("/", checkAdminAuth, async (req, res) => {
   try {
     const allCases = await caseService.getAllCases();
     res.json(allCases);
@@ -116,7 +122,7 @@ casesRouter.get("/:id", async (req, res) => {
   }
 });
 
-casesRouter.patch("/:id", async (req, res) => {
+casesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
   try {
     const data = updateCaseSchema.parse(req.body);
     const updated = await caseService.updateCase(req.params.id, data);
@@ -214,7 +220,7 @@ casesRouter.get("/:id/letter", async (req, res) => {
   }
 });
 
-casesRouter.put("/:id/letter", async (req, res) => {
+casesRouter.put("/:id/letter", checkAdminAuth, async (req, res) => {
   try {
     const data = updateCaseLetterSchema.parse(req.body);
     const letter = await storage.createOrUpdateCaseLetter(req.params.id, data);
@@ -336,7 +342,7 @@ casesRouter.post("/set-pin", async (req, res) => {
       return;
     }
     
-    const hashedPin = hashPin(pin);
+    const hashedPin = await hashPin(pin);
     const updated = await caseService.updateCase(caseData.id, { userPin: hashedPin });
     
     if (!updated) {
@@ -385,8 +391,8 @@ casesRouter.post("/login-pin", async (req, res) => {
       return;
     }
     
-    const hashedPin = hashPin(pin);
-    if (caseData.userPin !== hashedPin) {
+    const pinValid = await verifyPin(pin, caseData.userPin);
+    if (!pinValid) {
       recordPinAttempt(clientIp, false);
       res.status(401).json({ error: "Invalid credentials" });
       return;

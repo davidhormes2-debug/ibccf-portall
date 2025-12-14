@@ -5,7 +5,7 @@ import { checkAdminAuth } from "./middleware";
 
 export const messagesRouter = Router();
 
-messagesRouter.patch("/:id", async (req, res) => {
+messagesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
   try {
     const messageInput = z.object({
       category: z.enum(['urgent', 'processing', 'resolved']).optional(),
@@ -28,7 +28,7 @@ messagesRouter.patch("/:id", async (req, res) => {
   }
 });
 
-messagesRouter.delete("/:id", async (req, res) => {
+messagesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
   try {
     await storage.deleteAdminMessage(parseInt(req.params.id));
     res.json({ success: true });
@@ -117,7 +117,7 @@ export function registerCaseMessageRoutes(router: Router) {
     }
   });
 
-  router.post("/:id/admin-messages", async (req, res) => {
+  router.post("/:id/admin-messages", checkAdminAuth, async (req, res) => {
     try {
       const messageInput = z.object({
         category: z.enum(['urgent', 'processing', 'resolved']),
