@@ -25,7 +25,9 @@ import {
   documentRequestsRouter,
   registerCaseDocumentRoutes,
   userFeedbackRouter,
-  registerCaseFeedbackRoutes
+  registerCaseFeedbackRoutes,
+  publicRouter,
+  adminPublicContentRouter
 } from "./routes/index";
 
 export async function registerRoutes(
@@ -50,6 +52,8 @@ export async function registerRoutes(
   app.use("/api/translations", translationsRouter);
   app.use("/api/document-requests", documentRequestsRouter);
   app.use("/api/user-feedback", userFeedbackRouter);
+  app.use("/api/public", publicRouter);
+  app.use("/api/admin/content", adminPublicContentRouter);
 
   registerCaseSubmissionRoutes(casesRouter);
   registerCaseDepositRoutes(casesRouter);

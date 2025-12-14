@@ -557,3 +557,118 @@ export const insertTranslationSchema = createInsertSchema(translations).omit({
 
 export type InsertTranslation = z.infer<typeof insertTranslationSchema>;
 export type Translation = typeof translations.$inferSelect;
+
+// Newsletter subscribers
+export const newsletterSubscribers = pgTable("newsletter_subscribers", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  isActive: boolean("is_active").default(true),
+  subscribedAt: timestamp("subscribed_at").notNull().default(sql`now()`),
+  unsubscribedAt: timestamp("unsubscribed_at"),
+});
+
+export const insertNewsletterSubscriberSchema = createInsertSchema(newsletterSubscribers).omit({
+  id: true,
+  subscribedAt: true,
+});
+
+export type InsertNewsletterSubscriber = z.infer<typeof insertNewsletterSubscriberSchema>;
+export type NewsletterSubscriber = typeof newsletterSubscribers.$inferSelect;
+
+// Scam alerts for ticker
+export const scamAlerts = pgTable("scam_alerts", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  severity: text("severity").default('medium'), // 'low', 'medium', 'high', 'critical'
+  platformName: text("platform_name"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertScamAlertSchema = createInsertSchema(scamAlerts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertScamAlert = z.infer<typeof insertScamAlertSchema>;
+export type ScamAlert = typeof scamAlerts.$inferSelect;
+
+// Testimonials
+export const testimonials = pgTable("testimonials", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  location: text("location"),
+  avatar: text("avatar"), // URL or base64
+  rating: text("rating").notNull().default('5'), // 1-5
+  content: text("content").notNull(),
+  isApproved: boolean("is_approved").default(false),
+  isFeatured: boolean("is_featured").default(false),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertTestimonialSchema = createInsertSchema(testimonials).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
+export type Testimonial = typeof testimonials.$inferSelect;
+
+// Site statistics
+export const siteStatistics = pgTable("site_statistics", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull().unique(), // 'cases_reviewed', 'users_protected', 'response_time', 'resolution_rate'
+  value: text("value").notNull(),
+  label: text("label").notNull(),
+  icon: text("icon"),
+  displayOrder: text("display_order").default('0'),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertSiteStatisticSchema = createInsertSchema(siteStatistics).omit({
+  id: true,
+  updatedAt: true,
+});
+
+export type InsertSiteStatistic = z.infer<typeof insertSiteStatisticSchema>;
+export type SiteStatistic = typeof siteStatistics.$inferSelect;
+
+// Contact form submissions
+export const contactSubmissions = pgTable("contact_submissions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  subject: text("subject"),
+  message: text("message").notNull(),
+  status: text("status").default('new'), // 'new', 'read', 'replied', 'archived'
+  adminNotes: text("admin_notes"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
+export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+
+// FAQ items
+export const faqItems = pgTable("faq_items", {
+  id: serial("id").primaryKey(),
+  question: text("question").notNull(),
+  answer: text("answer").notNull(),
+  category: text("category").default('general'),
+  displayOrder: text("display_order").default('0'),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertFaqItemSchema = createInsertSchema(faqItems).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertFaqItem = z.infer<typeof insertFaqItemSchema>;
+export type FaqItem = typeof faqItems.$inferSelect;

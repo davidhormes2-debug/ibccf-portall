@@ -18,7 +18,13 @@ import {
   type AdminTwoFactor, type InsertAdminTwoFactor, adminTwoFactor,
   type ChatTemplate, type InsertChatTemplate, chatTemplates,
   type CaseNote, type InsertCaseNote, caseNotes,
-  type Translation, type InsertTranslation, translations
+  type Translation, type InsertTranslation, translations,
+  type NewsletterSubscriber, type InsertNewsletterSubscriber, newsletterSubscribers,
+  type ScamAlert, type InsertScamAlert, scamAlerts,
+  type Testimonial, type InsertTestimonial, testimonials,
+  type SiteStatistic, type InsertSiteStatistic, siteStatistics,
+  type ContactSubmission, type InsertContactSubmission, contactSubmissions,
+  type FaqItem, type InsertFaqItem, faqItems
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, lt, isNull, sql } from "drizzle-orm";
@@ -158,6 +164,43 @@ export interface IStorage {
   createTranslation(data: InsertTranslation): Promise<Translation>;
   updateTranslation(id: number, data: Partial<InsertTranslation>): Promise<Translation | undefined>;
   deleteTranslation(id: number): Promise<void>;
+  
+  // Newsletter subscriber operations
+  createNewsletterSubscriber(data: InsertNewsletterSubscriber): Promise<NewsletterSubscriber>;
+  getAllNewsletterSubscribers(): Promise<NewsletterSubscriber[]>;
+  unsubscribeNewsletter(email: string): Promise<void>;
+  
+  // Scam alert operations
+  createScamAlert(data: InsertScamAlert): Promise<ScamAlert>;
+  getActiveScamAlerts(): Promise<ScamAlert[]>;
+  getAllScamAlerts(): Promise<ScamAlert[]>;
+  updateScamAlert(id: number, data: Partial<InsertScamAlert>): Promise<ScamAlert | undefined>;
+  deleteScamAlert(id: number): Promise<void>;
+  
+  // Testimonial operations
+  createTestimonial(data: InsertTestimonial): Promise<Testimonial>;
+  getApprovedTestimonials(): Promise<Testimonial[]>;
+  getAllTestimonials(): Promise<Testimonial[]>;
+  updateTestimonial(id: number, data: Partial<InsertTestimonial>): Promise<Testimonial | undefined>;
+  deleteTestimonial(id: number): Promise<void>;
+  
+  // Site statistics operations
+  getSiteStatistics(): Promise<SiteStatistic[]>;
+  getSiteStatisticByKey(key: string): Promise<SiteStatistic | undefined>;
+  createSiteStatistic(data: InsertSiteStatistic): Promise<SiteStatistic>;
+  updateSiteStatistic(id: number, data: Partial<InsertSiteStatistic>): Promise<SiteStatistic | undefined>;
+  
+  // Contact submission operations
+  createContactSubmission(data: InsertContactSubmission): Promise<ContactSubmission>;
+  getAllContactSubmissions(): Promise<ContactSubmission[]>;
+  updateContactSubmission(id: number, data: Partial<InsertContactSubmission>): Promise<ContactSubmission | undefined>;
+  
+  // FAQ operations
+  createFaqItem(data: InsertFaqItem): Promise<FaqItem>;
+  getActiveFaqItems(): Promise<FaqItem[]>;
+  getAllFaqItems(): Promise<FaqItem[]>;
+  updateFaqItem(id: number, data: Partial<InsertFaqItem>): Promise<FaqItem | undefined>;
+  deleteFaqItem(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -741,6 +784,132 @@ export class DatabaseStorage implements IStorage {
 
   async deleteTranslation(id: number): Promise<void> {
     await db.delete(translations).where(eq(translations.id, id));
+  }
+
+  // Newsletter subscriber operations
+  async createNewsletterSubscriber(data: InsertNewsletterSubscriber): Promise<NewsletterSubscriber> {
+    const [subscriber] = await db.insert(newsletterSubscribers).values(data).returning();
+    return subscriber;
+  }
+
+  async getAllNewsletterSubscribers(): Promise<NewsletterSubscriber[]> {
+    return await db.select().from(newsletterSubscribers).orderBy(desc(newsletterSubscribers.subscribedAt));
+  }
+
+  async unsubscribeNewsletter(email: string): Promise<void> {
+    await db.update(newsletterSubscribers)
+      .set({ isActive: false, unsubscribedAt: new Date() })
+      .where(eq(newsletterSubscribers.email, email));
+  }
+
+  // Scam alert operations
+  async createScamAlert(data: InsertScamAlert): Promise<ScamAlert> {
+    const [alert] = await db.insert(scamAlerts).values(data).returning();
+    return alert;
+  }
+
+  async getActiveScamAlerts(): Promise<ScamAlert[]> {
+    return await db.select().from(scamAlerts)
+      .where(eq(scamAlerts.isActive, true))
+      .orderBy(desc(scamAlerts.createdAt));
+  }
+
+  async getAllScamAlerts(): Promise<ScamAlert[]> {
+    return await db.select().from(scamAlerts).orderBy(desc(scamAlerts.createdAt));
+  }
+
+  async updateScamAlert(id: number, data: Partial<InsertScamAlert>): Promise<ScamAlert | undefined> {
+    const [updated] = await db.update(scamAlerts).set(data).where(eq(scamAlerts.id, id)).returning();
+    return updated;
+  }
+
+  async deleteScamAlert(id: number): Promise<void> {
+    await db.delete(scamAlerts).where(eq(scamAlerts.id, id));
+  }
+
+  // Testimonial operations
+  async createTestimonial(data: InsertTestimonial): Promise<Testimonial> {
+    const [testimonial] = await db.insert(testimonials).values(data).returning();
+    return testimonial;
+  }
+
+  async getApprovedTestimonials(): Promise<Testimonial[]> {
+    return await db.select().from(testimonials)
+      .where(eq(testimonials.isApproved, true))
+      .orderBy(desc(testimonials.createdAt));
+  }
+
+  async getAllTestimonials(): Promise<Testimonial[]> {
+    return await db.select().from(testimonials).orderBy(desc(testimonials.createdAt));
+  }
+
+  async updateTestimonial(id: number, data: Partial<InsertTestimonial>): Promise<Testimonial | undefined> {
+    const [updated] = await db.update(testimonials).set(data).where(eq(testimonials.id, id)).returning();
+    return updated;
+  }
+
+  async deleteTestimonial(id: number): Promise<void> {
+    await db.delete(testimonials).where(eq(testimonials.id, id));
+  }
+
+  // Site statistics operations
+  async getSiteStatistics(): Promise<SiteStatistic[]> {
+    return await db.select().from(siteStatistics).orderBy(siteStatistics.displayOrder);
+  }
+
+  async getSiteStatisticByKey(key: string): Promise<SiteStatistic | undefined> {
+    const [stat] = await db.select().from(siteStatistics).where(eq(siteStatistics.key, key));
+    return stat;
+  }
+
+  async createSiteStatistic(data: InsertSiteStatistic): Promise<SiteStatistic> {
+    const [stat] = await db.insert(siteStatistics).values(data).returning();
+    return stat;
+  }
+
+  async updateSiteStatistic(id: number, data: Partial<InsertSiteStatistic>): Promise<SiteStatistic | undefined> {
+    const [updated] = await db.update(siteStatistics).set({ ...data, updatedAt: new Date() }).where(eq(siteStatistics.id, id)).returning();
+    return updated;
+  }
+
+  // Contact submission operations
+  async createContactSubmission(data: InsertContactSubmission): Promise<ContactSubmission> {
+    const [submission] = await db.insert(contactSubmissions).values(data).returning();
+    return submission;
+  }
+
+  async getAllContactSubmissions(): Promise<ContactSubmission[]> {
+    return await db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt));
+  }
+
+  async updateContactSubmission(id: number, data: Partial<InsertContactSubmission>): Promise<ContactSubmission | undefined> {
+    const [updated] = await db.update(contactSubmissions).set(data).where(eq(contactSubmissions.id, id)).returning();
+    return updated;
+  }
+
+  // FAQ operations
+  async createFaqItem(data: InsertFaqItem): Promise<FaqItem> {
+    const [item] = await db.insert(faqItems).values(data).returning();
+    return item;
+  }
+
+  async getActiveFaqItems(): Promise<FaqItem[]> {
+    return await db.select().from(faqItems)
+      .where(eq(faqItems.isActive, true))
+      .orderBy(faqItems.displayOrder);
+  }
+
+  async getAllFaqItems(): Promise<FaqItem[]> {
+    return await db.select().from(faqItems).orderBy(faqItems.displayOrder);
+  }
+
+  async updateFaqItem(id: number, data: Partial<InsertFaqItem>): Promise<FaqItem | undefined> {
+    const [updated] = await db.update(faqItems).set(data).where(eq(faqItems.id, id)).returning();
+    return updated;
+  }
+
+  async deleteFaqItem(id: number): Promise<void> {
+    await db.delete(faqItems).where(eq(faqItems.id, id));
   }
 }
 
