@@ -458,8 +458,8 @@ export default function LandingPage() {
 
   const displayFaqs = faqs.length > 0 ? faqs : defaultFaqs;
   const displayStats = stats.length > 0 ? stats : [
-    { key: 'cases_resolved', label: 'Cases Resolved', value: '15000' },
-    { key: 'response_time', label: 'Avg Response Time', value: '24', suffix: 'hrs' },
+    { key: 'cases_resolved', label: 'Cases Resolved', value: '15847', suffix: '+' },
+    { key: 'response_time', label: 'Avg Response Time', value: '24', suffix: 'h' },
     { key: 'recovery_rate', label: 'Recovery Rate', value: '89', suffix: '%' },
     { key: 'countries', label: 'Countries Served', value: '120', suffix: '+' }
   ];
