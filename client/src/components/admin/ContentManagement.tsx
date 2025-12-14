@@ -90,26 +90,32 @@ export function ContentManagement() {
 
   const { data: alerts = [], isLoading: alertsLoading } = useQuery<ScamAlert[]>({
     queryKey: ["/api/admin/content/scam-alerts"],
+    queryFn: () => apiRequest("/api/admin/content/scam-alerts"),
   });
 
   const { data: testimonials = [], isLoading: testimonialsLoading } = useQuery<Testimonial[]>({
     queryKey: ["/api/admin/content/testimonials"],
+    queryFn: () => apiRequest("/api/admin/content/testimonials"),
   });
 
   const { data: faqs = [], isLoading: faqsLoading } = useQuery<FaqItem[]>({
     queryKey: ["/api/admin/content/faq"],
+    queryFn: () => apiRequest("/api/admin/content/faq"),
   });
 
   const { data: stats = [], isLoading: statsLoading } = useQuery<SiteStatistic[]>({
     queryKey: ["/api/admin/content/statistics"],
+    queryFn: () => apiRequest("/api/admin/content/statistics"),
   });
 
   const { data: subscribers = [], isLoading: subscribersLoading } = useQuery<NewsletterSubscriber[]>({
     queryKey: ["/api/admin/content/newsletter"],
+    queryFn: () => apiRequest("/api/admin/content/newsletter"),
   });
 
   const { data: contacts = [], isLoading: contactsLoading } = useQuery<ContactSubmission[]>({
     queryKey: ["/api/admin/content/contact-submissions"],
+    queryFn: () => apiRequest("/api/admin/content/contact-submissions"),
   });
 
   const alertMutation = useMutation({
