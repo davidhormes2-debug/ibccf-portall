@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Shield, FileText, AlertTriangle, CheckCircle, Lock, ArrowRight, Search, MessageCircle, HelpCircle, ChevronRight, Phone, Mail, Clock, Users } from "lucide-react";
+import { Shield, FileText, AlertTriangle, CheckCircle, Lock, Search, MessageCircle, ChevronRight, Phone, Mail, Clock, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ThemeToggle";
