@@ -320,7 +320,7 @@ export default function LandingPage() {
               <ul className="space-y-3 text-slate-400 text-sm">
                 <li className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  <span>support@ibccf.org</span>
+                  <span>support@[your-domain]</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />
