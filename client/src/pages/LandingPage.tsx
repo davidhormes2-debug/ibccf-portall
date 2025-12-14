@@ -1,26 +1,30 @@
 import { Link } from "wouter";
 import { Shield, FileText, AlertTriangle, CheckCircle, Lock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] font-['Public_Sans',sans-serif]">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-900 font-['Public_Sans',sans-serif]">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200">
+      <header className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <Shield className="h-6 w-6 text-[#004182]" />
-              <span className="text-xl font-bold text-[#004182] font-['Merriweather',serif]">IBCCF</span>
+              <Shield className="h-6 w-6 text-[#004182] dark:text-blue-400" />
+              <span className="text-xl font-bold text-[#004182] dark:text-blue-400 font-['Merriweather',serif]">IBCCF</span>
             </div>
             <nav className="hidden md:flex items-center gap-8">
-              <Link href="/" className="text-slate-700 hover:text-[#004182] font-medium" data-testid="link-home">Home</Link>
-              <Link href="/verify" className="text-slate-700 hover:text-[#004182] font-medium" data-testid="link-file-complaint">File Complaint</Link>
-              <Link href="/verify" className="text-slate-700 hover:text-[#004182] font-medium" data-testid="link-safety-guide">Case Status</Link>
+              <Link href="/" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium" data-testid="link-home">Home</Link>
+              <Link href="/verify" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium" data-testid="link-file-complaint">File Complaint</Link>
+              <Link href="/verify" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium" data-testid="link-safety-guide">Case Status</Link>
             </nav>
-            <div className="flex items-center gap-2 text-sm text-slate-600">
-              <Lock className="h-4 w-4" />
-              <span>Secure & Anonymous</span>
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                <Lock className="h-4 w-4" />
+                <span className="hidden sm:inline">Secure & Anonymous</span>
+              </div>
             </div>
           </div>
         </div>

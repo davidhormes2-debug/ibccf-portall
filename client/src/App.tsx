@@ -4,12 +4,14 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import NotFound from "@/pages/not-found";
-import LandingPage from "@/pages/LandingPage";
-import VerifyPlatform from "@/pages/VerifyPlatform";
-import SecurePortal from "@/pages/SecurePortal";
-import AdminDashboard from "@/pages/AdminDashboard";
+import { createContext, useContext, useState, useEffect, ReactNode, lazy, Suspense } from "react";
+import { Loader2 } from "lucide-react";
+
+const LandingPage = lazy(() => import("@/pages/LandingPage"));
+const VerifyPlatform = lazy(() => import("@/pages/VerifyPlatform"));
+const SecurePortal = lazy(() => import("@/pages/SecurePortal"));
+const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
+const NotFound = lazy(() => import("@/pages/not-found"));
 
 type Theme = 'light' | 'dark';
 
@@ -60,15 +62,28 @@ function ThemeProvider({ children }: { children: ReactNode }) {
   );
 }
 
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+      <div className="flex flex-col items-center gap-3">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600 dark:text-blue-400" />
+        <p className="text-slate-600 dark:text-slate-300 text-sm">Loading...</p>
+      </div>
+    </div>
+  );
+}
+
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={LandingPage} />
-      <Route path="/verify" component={VerifyPlatform} />
-      <Route path="/dashboard" component={SecurePortal} />
-      <Route path="/admin" component={AdminDashboard} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<PageLoader />}>
+      <Switch>
+        <Route path="/" component={LandingPage} />
+        <Route path="/verify" component={VerifyPlatform} />
+        <Route path="/dashboard" component={SecurePortal} />
+        <Route path="/admin" component={AdminDashboard} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 

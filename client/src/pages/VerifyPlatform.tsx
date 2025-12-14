@@ -4,6 +4,7 @@ import { Shield, Lock, ArrowLeft, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function VerifyPlatform() {
   const [accessCode, setAccessCode] = useState("");
@@ -62,6 +63,7 @@ export default function VerifyPlatform() {
               <Shield className="h-6 w-6 text-white" />
               <span className="text-xl font-bold text-white font-['Merriweather',serif]">IBCCF</span>
             </div>
+            <ThemeToggle className="text-white" />
             <div className="flex items-center gap-2 text-sm text-white/80">
               <Lock className="h-4 w-4" />
               <span>Secure Access</span>
