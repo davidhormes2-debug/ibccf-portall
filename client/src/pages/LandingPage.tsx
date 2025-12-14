@@ -617,14 +617,18 @@ export default function LandingPage() {
           <div className="max-w-7xl mx-auto">
             <h2 id="stats-heading" className="sr-only">Our Statistics</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {displayStats.map((stat: any) => (
-                <StatCounter
-                  key={stat.key}
-                  value={parseInt(stat.value) || 0}
-                  label={stat.label}
-                  suffix={stat.suffix || ""}
-                />
-              ))}
+              {displayStats.map((stat: any) => {
+                const numericValue = parseInt(stat.value) || 0;
+                const suffix = stat.suffix || stat.value.toString().replace(/[\d,]/g, '').trim() || "";
+                return (
+                  <StatCounter
+                    key={`${stat.key}-${numericValue}`}
+                    value={numericValue}
+                    label={stat.label}
+                    suffix={suffix}
+                  />
+                );
+              })}
             </div>
           </div>
         </section>
