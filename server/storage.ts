@@ -34,6 +34,7 @@ export interface IStorage {
   createCase(data: InsertCase): Promise<Case>;
   getCaseById(id: string): Promise<Case | undefined>;
   getCaseByAccessCode(accessCode: string): Promise<Case | undefined>;
+  getCaseByPin(hashedPin: string): Promise<Case | undefined>;
   getAllCases(): Promise<Case[]>;
   updateCase(id: string, data: UpdateCase): Promise<Case | undefined>;
   deleteCase(id: string): Promise<void>;
@@ -216,6 +217,11 @@ export class DatabaseStorage implements IStorage {
 
   async getCaseByAccessCode(accessCode: string): Promise<Case | undefined> {
     const [caseData] = await db.select().from(cases).where(eq(cases.accessCode, accessCode));
+    return caseData;
+  }
+
+  async getCaseByPin(hashedPin: string): Promise<Case | undefined> {
+    const [caseData] = await db.select().from(cases).where(eq(cases.userPin, hashedPin));
     return caseData;
   }
 

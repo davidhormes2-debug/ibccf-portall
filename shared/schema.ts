@@ -63,6 +63,9 @@ export const cases = pgTable("cases", {
   // Simplified submission URL approach
   submissionUrl: text("submission_url"), // External URL where user submits their request
   
+  // User's personal 6-digit PIN (set by user after verifying admin-provided access code)
+  userPin: text("user_pin"), // 6-digit PIN for future logins
+  
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 });

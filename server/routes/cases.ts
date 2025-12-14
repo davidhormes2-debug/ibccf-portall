@@ -4,6 +4,11 @@ import { caseService } from "../services";
 import { updateCaseSchema, updateCaseLetterSchema } from "@shared/schema";
 import { z } from "zod";
 import { checkAdminAuth } from "./middleware";
+import { createHash } from "crypto";
+
+function hashPin(pin: string): string {
+  return createHash('sha256').update(pin + 'IBCCF_PIN_SALT').digest('hex');
+}
 
 export const casesRouter = Router();
 
@@ -236,5 +241,101 @@ casesRouter.delete("/:caseId/notes/:noteId", checkAdminAuth, async (req, res) =>
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete note" });
+  }
+});
+
+// Verify access code and check if PIN is already set
+casesRouter.post("/verify-access-code", async (req, res) => {
+  try {
+    const { accessCode } = z.object({ accessCode: z.string().min(1) }).parse(req.body);
+    
+    const caseData = await caseService.getCaseByAccessCode(accessCode);
+    if (!caseData) {
+      res.status(404).json({ error: "Invalid access code" });
+      return;
+    }
+    
+    res.json({
+      valid: true,
+      caseId: caseData.id,
+      hasPinSet: !!caseData.userPin,
+      userName: caseData.userName
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: "Access code is required" });
+    } else {
+      res.status(500).json({ error: "Failed to verify access code" });
+    }
+  }
+});
+
+// Set user's 6-digit PIN after verifying access code
+casesRouter.post("/set-pin", async (req, res) => {
+  try {
+    const { accessCode, pin } = z.object({
+      accessCode: z.string().min(1),
+      pin: z.string().length(6).regex(/^\d{6}$/, "PIN must be 6 digits")
+    }).parse(req.body);
+    
+    const caseData = await caseService.getCaseByAccessCode(accessCode);
+    if (!caseData) {
+      res.status(404).json({ error: "Invalid access code" });
+      return;
+    }
+    
+    if (caseData.userPin) {
+      res.status(400).json({ error: "PIN already set for this case" });
+      return;
+    }
+    
+    const hashedPin = hashPin(pin);
+    const updated = await caseService.updateCase(caseData.id, { userPin: hashedPin });
+    
+    if (!updated) {
+      res.status(500).json({ error: "Failed to set PIN" });
+      return;
+    }
+    
+    res.json({
+      success: true,
+      message: "PIN set successfully",
+      caseId: caseData.id
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: error.errors[0]?.message || "Invalid input" });
+    } else {
+      res.status(500).json({ error: "Failed to set PIN" });
+    }
+  }
+});
+
+// Login with 6-digit PIN
+casesRouter.post("/login-pin", async (req, res) => {
+  try {
+    const { pin } = z.object({
+      pin: z.string().length(6).regex(/^\d{6}$/, "PIN must be 6 digits")
+    }).parse(req.body);
+    
+    const hashedPin = hashPin(pin);
+    const caseData = await storage.getCaseByPin(hashedPin);
+    
+    if (!caseData) {
+      res.status(401).json({ error: "Invalid PIN" });
+      return;
+    }
+    
+    res.json({
+      success: true,
+      id: caseData.id,
+      accessCode: caseData.accessCode
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: "PIN must be 6 digits" });
+    } else {
+      res.status(500).json({ error: "Failed to login" });
+    }
   }
 });
