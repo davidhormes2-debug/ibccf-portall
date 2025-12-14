@@ -36,3 +36,7 @@ waitForPort = 5000
 
 [agent]
 mockupState = "FULLSTACK"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
