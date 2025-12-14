@@ -1,13 +1,14 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Shield, FileText, AlertTriangle, CheckCircle, Lock, Search, MessageCircle, ChevronRight, Phone, Mail, Clock, Users, Menu, X, ChevronUp, Star, ShieldCheck, Award, Zap, Globe, ArrowRight, Quote, Send, Plus, Minus, TrendingUp, Eye, Bell } from "lucide-react";
+import { Shield, FileText, AlertTriangle, CheckCircle, Lock, Search, MessageCircle, ChevronRight, Phone, Mail, Clock, Users, Menu, X, ChevronUp, Star, ShieldCheck, Award, Zap, Globe, ArrowRight, Quote, Send, Plus, Minus, TrendingUp, Eye, Bell, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -314,6 +315,90 @@ export default function LandingPage() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
+  
+  // Generate Key dialog state
+  const [generateKeyOpen, setGenerateKeyOpen] = useState(false);
+  const [keyStep, setKeyStep] = useState<'verify' | 'setPin'>('verify');
+  const [accessCodeInput, setAccessCodeInput] = useState("");
+  const [pinInput, setPinInput] = useState("");
+  const [confirmPinInput, setConfirmPinInput] = useState("");
+  const [verifiedCaseId, setVerifiedCaseId] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [isSettingPin, setIsSettingPin] = useState(false);
+
+  const handleVerifyAccessCode = async () => {
+    if (!accessCodeInput.trim()) {
+      toast({ title: "Error", description: "Please enter your access code", variant: "destructive" });
+      return;
+    }
+    setIsVerifying(true);
+    try {
+      const res = await fetch('/api/cases/verify-access-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessCode: accessCodeInput })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Invalid Code", description: data.error || "The access code is not valid", variant: "destructive" });
+        return;
+      }
+      if (data.hasPinSet) {
+        toast({ title: "PIN Already Set", description: "You have already set your PIN. Please use it to login.", variant: "destructive" });
+        setGenerateKeyOpen(false);
+        setLocation('/verify');
+        return;
+      }
+      setVerifiedCaseId(data.caseId);
+      setKeyStep('setPin');
+      toast({ title: "Verified", description: "Please set your 6-digit PIN" });
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to verify access code", variant: "destructive" });
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleSetPin = async () => {
+    if (pinInput.length !== 6 || !/^\d{6}$/.test(pinInput)) {
+      toast({ title: "Error", description: "PIN must be exactly 6 digits", variant: "destructive" });
+      return;
+    }
+    if (pinInput !== confirmPinInput) {
+      toast({ title: "Error", description: "PINs do not match", variant: "destructive" });
+      return;
+    }
+    setIsSettingPin(true);
+    try {
+      const res = await fetch('/api/cases/set-pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessCode: accessCodeInput, pin: pinInput })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Error", description: data.error || "Failed to set PIN", variant: "destructive" });
+        return;
+      }
+      toast({ title: "Success", description: "Your 6-digit PIN has been set! Use it to login." });
+      setGenerateKeyOpen(false);
+      resetGenerateKeyDialog();
+      setLocation('/verify');
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to set PIN", variant: "destructive" });
+    } finally {
+      setIsSettingPin(false);
+    }
+  };
+
+  const resetGenerateKeyDialog = () => {
+    setKeyStep('verify');
+    setAccessCodeInput("");
+    setPinInput("");
+    setConfirmPinInput("");
+    setVerifiedCaseId("");
+  };
 
   const { data: testimonials = [] } = useQuery<any[]>({
     queryKey: ['/api/public/testimonials']
@@ -483,6 +568,30 @@ export default function LandingPage() {
               <p className="text-base text-white/60 mb-12 max-w-2xl mx-auto">
                 Select a service below to get started with your request.
               </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap justify-center gap-4 mb-8">
+                <Button 
+                  size="lg" 
+                  onClick={() => { setGenerateKeyOpen(true); resetGenerateKeyDialog(); }}
+                  className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold px-8 py-3 shadow-lg"
+                  data-testid="button-generate-key"
+                >
+                  <Key className="w-5 h-5 mr-2" />
+                  Generate Key
+                </Button>
+                <Link href="/verify">
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    className="bg-white/10 border-white/30 text-white hover:bg-white/20 font-semibold px-8 py-3"
+                    data-testid="button-access-portal-hero"
+                  >
+                    <Lock className="w-5 h-5 mr-2" />
+                    Access Portal
+                  </Button>
+                </Link>
+              </div>
 
               {/* Trust Badges */}
               <div className="flex flex-wrap justify-center gap-6 mb-8">
@@ -1018,6 +1127,94 @@ export default function LandingPage() {
       <LiveActivityIndicator />
       <BackToTop />
       <CookieConsent />
+
+      {/* Generate Key Dialog */}
+      <Dialog open={generateKeyOpen} onOpenChange={(open) => { setGenerateKeyOpen(open); if (!open) resetGenerateKeyDialog(); }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-[#004182]">
+              <Key className="w-5 h-5" />
+              {keyStep === 'verify' ? 'Generate Your Key' : 'Set Your PIN'}
+            </DialogTitle>
+            <DialogDescription>
+              {keyStep === 'verify' 
+                ? 'Enter the access code provided by admin to verify your account.' 
+                : 'Create a 6-digit PIN that you will use to login in the future.'}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {keyStep === 'verify' ? (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  Access Code
+                </label>
+                <Input
+                  type="text"
+                  value={accessCodeInput}
+                  onChange={(e) => setAccessCodeInput(e.target.value)}
+                  placeholder="Enter your access code"
+                  className="text-center text-lg tracking-widest font-mono"
+                  maxLength={10}
+                  data-testid="input-access-code-verify"
+                />
+              </div>
+              <Button 
+                onClick={handleVerifyAccessCode} 
+                disabled={isVerifying}
+                className="w-full bg-[#004182] hover:bg-[#003366]"
+                data-testid="button-verify-access-code"
+              >
+                {isVerifying ? 'Verifying...' : 'Verify Code'}
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  Create 6-Digit PIN
+                </label>
+                <Input
+                  type="password"
+                  inputMode="numeric"
+                  value={pinInput}
+                  onChange={(e) => setPinInput(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  placeholder="Enter 6-digit PIN"
+                  className="text-center text-2xl tracking-[0.5em] font-mono"
+                  maxLength={6}
+                  data-testid="input-pin"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  Confirm PIN
+                </label>
+                <Input
+                  type="password"
+                  inputMode="numeric"
+                  value={confirmPinInput}
+                  onChange={(e) => setConfirmPinInput(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  placeholder="Confirm 6-digit PIN"
+                  className="text-center text-2xl tracking-[0.5em] font-mono"
+                  maxLength={6}
+                  data-testid="input-pin-confirm"
+                />
+              </div>
+              <p className="text-xs text-slate-500 text-center">
+                This PIN will be your permanent login credential. Keep it safe!
+              </p>
+              <Button 
+                onClick={handleSetPin} 
+                disabled={isSettingPin || pinInput.length !== 6}
+                className="w-full bg-emerald-500 hover:bg-emerald-600"
+                data-testid="button-set-pin"
+              >
+                {isSettingPin ? 'Setting PIN...' : 'Set My PIN'}
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

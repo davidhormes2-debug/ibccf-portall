@@ -10,6 +10,53 @@ function hashPin(pin: string): string {
   return createHash('sha256').update(pin + 'IBCCF_PIN_SALT').digest('hex');
 }
 
+const pinLoginAttempts = new Map<string, { count: number; lastAttempt: number; lockedUntil?: number }>();
+const MAX_PIN_ATTEMPTS = 5;
+const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes
+const ATTEMPT_WINDOW = 10 * 60 * 1000; // 10 minutes
+
+function checkPinRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
+  const now = Date.now();
+  const attempts = pinLoginAttempts.get(ip);
+  
+  if (!attempts) {
+    return { allowed: true };
+  }
+  
+  if (attempts.lockedUntil && now < attempts.lockedUntil) {
+    return { allowed: false, retryAfter: Math.ceil((attempts.lockedUntil - now) / 1000) };
+  }
+  
+  if (now - attempts.lastAttempt > ATTEMPT_WINDOW) {
+    pinLoginAttempts.delete(ip);
+    return { allowed: true };
+  }
+  
+  if (attempts.count >= MAX_PIN_ATTEMPTS) {
+    attempts.lockedUntil = now + LOCKOUT_DURATION;
+    return { allowed: false, retryAfter: Math.ceil(LOCKOUT_DURATION / 1000) };
+  }
+  
+  return { allowed: true };
+}
+
+function recordPinAttempt(ip: string, success: boolean) {
+  if (success) {
+    pinLoginAttempts.delete(ip);
+    return;
+  }
+  
+  const now = Date.now();
+  const attempts = pinLoginAttempts.get(ip);
+  
+  if (!attempts || now - attempts.lastAttempt > ATTEMPT_WINDOW) {
+    pinLoginAttempts.set(ip, { count: 1, lastAttempt: now });
+  } else {
+    attempts.count++;
+    attempts.lastAttempt = now;
+  }
+}
+
 export const casesRouter = Router();
 
 casesRouter.post("/", async (req, res) => {
@@ -311,21 +358,41 @@ casesRouter.post("/set-pin", async (req, res) => {
   }
 });
 
-// Login with 6-digit PIN
+// Login with access code + 6-digit PIN (rate limited, two-factor)
 casesRouter.post("/login-pin", async (req, res) => {
+  const clientIp = req.ip || req.socket.remoteAddress || 'unknown';
+  
+  const rateCheck = checkPinRateLimit(clientIp);
+  if (!rateCheck.allowed) {
+    res.status(429).json({ 
+      error: "Too many failed attempts. Please try again later.",
+      retryAfter: rateCheck.retryAfter
+    });
+    return;
+  }
+  
   try {
-    const { pin } = z.object({
+    const { accessCode, pin } = z.object({
+      accessCode: z.string().min(1, "Access code is required"),
       pin: z.string().length(6).regex(/^\d{6}$/, "PIN must be 6 digits")
     }).parse(req.body);
     
-    const hashedPin = hashPin(pin);
-    const caseData = await storage.getCaseByPin(hashedPin);
+    const caseData = await caseService.getCaseByAccessCode(accessCode);
     
-    if (!caseData) {
-      res.status(401).json({ error: "Invalid PIN" });
+    if (!caseData || !caseData.userPin) {
+      recordPinAttempt(clientIp, false);
+      res.status(401).json({ error: "Invalid credentials" });
       return;
     }
     
+    const hashedPin = hashPin(pin);
+    if (caseData.userPin !== hashedPin) {
+      recordPinAttempt(clientIp, false);
+      res.status(401).json({ error: "Invalid credentials" });
+      return;
+    }
+    
+    recordPinAttempt(clientIp, true);
     res.json({
       success: true,
       id: caseData.id,
@@ -333,7 +400,7 @@ casesRouter.post("/login-pin", async (req, res) => {
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: "PIN must be 6 digits" });
+      res.status(400).json({ error: "Access code and PIN are required" });
     } else {
       res.status(500).json({ error: "Failed to login" });
     }

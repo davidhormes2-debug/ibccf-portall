@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, Link } from "wouter";
-import { Shield, Lock, ArrowLeft, CheckCircle } from "lucide-react";
+import { Shield, Lock, ArrowLeft, CheckCircle, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -8,45 +8,106 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function VerifyPlatform() {
   const [accessCode, setAccessCode] = useState("");
+  const [pinAccessCode, setPinAccessCode] = useState("");
+  const [pin, setPin] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [loginMode, setLoginMode] = useState<"code" | "pin">("code");
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!accessCode.trim()) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please enter your verification code.",
-      });
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const res = await fetch(`/api/cases/access/${accessCode}`);
-      if (res.ok) {
-        const data = await res.json();
-        sessionStorage.setItem("caseAccessCode", accessCode);
-        sessionStorage.setItem("caseId", data.id);
-        setLocation("/dashboard");
-      } else {
+    
+    if (loginMode === "code") {
+      if (!accessCode.trim()) {
         toast({
           variant: "destructive",
-          title: "Invalid Code",
-          description: "The verification code entered is not valid. Please check and try again.",
+          title: "Error",
+          description: "Please enter your verification code.",
         });
+        return;
       }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Connection Error",
-        description: "Unable to verify at this time. Please try again later.",
-      });
-    } finally {
-      setIsLoading(false);
+
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/cases/access/${accessCode}`);
+        if (res.ok) {
+          const data = await res.json();
+          sessionStorage.setItem("caseAccessCode", accessCode);
+          sessionStorage.setItem("caseId", data.id);
+          setLocation("/dashboard");
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Invalid Code",
+            description: "The verification code entered is not valid. Please check and try again.",
+          });
+        }
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Connection Error",
+          description: "Unable to verify at this time. Please try again later.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      if (!pinAccessCode.trim()) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please enter your access code.",
+        });
+        return;
+      }
+      if (!pin.trim() || pin.length !== 6) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please enter your 6-digit PIN.",
+        });
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const res = await fetch("/api/cases/login-pin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ accessCode: pinAccessCode, pin }),
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          sessionStorage.setItem("caseAccessCode", data.accessCode);
+          sessionStorage.setItem("caseId", data.id);
+          setLocation("/dashboard");
+        } else {
+          const errorData = await res.json();
+          toast({
+            variant: "destructive",
+            title: "Invalid PIN",
+            description: errorData.error || "The PIN entered is not valid. Please check and try again.",
+          });
+        }
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Connection Error",
+          description: "Unable to verify at this time. Please try again later.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
+  };
+
+  const toggleLoginMode = () => {
+    setLoginMode(prev => prev === "code" ? "pin" : "code");
+    setAccessCode("");
+    setPinAccessCode("");
+    setPin("");
   };
 
   return (
@@ -78,32 +139,77 @@ export default function VerifyPlatform() {
           <div className="bg-white rounded-2xl shadow-2xl p-8">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-[#004182]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-8 w-8 text-[#004182]" />
+                {loginMode === "code" ? (
+                  <Shield className="h-8 w-8 text-[#004182]" />
+                ) : (
+                  <Key className="h-8 w-8 text-[#004182]" />
+                )}
               </div>
               <h1 className="text-2xl font-bold text-[#0F172B] font-['Merriweather',serif] mb-2">
                 Secure Verification Portal
               </h1>
               <p className="text-slate-600">
-                Enter your unique verification code to access your case dashboard and official documentation.
+                {loginMode === "code" 
+                  ? "Enter your unique verification code to access your case dashboard and official documentation."
+                  : "Enter your 6-digit PIN to securely access your case dashboard."
+                }
               </p>
             </div>
 
             <form onSubmit={handleVerify} className="space-y-6">
-              <div>
-                <label htmlFor="accessCode" className="block text-sm font-medium text-slate-700 mb-2">
-                  Verification Code
-                </label>
-                <Input
-                  id="accessCode"
-                  type="text"
-                  value={accessCode}
-                  onChange={(e) => setAccessCode(e.target.value)}
-                  placeholder="Enter your 6-digit code"
-                  className="w-full h-12 text-center text-lg tracking-widest font-mono border-slate-300 focus:border-[#004182] focus:ring-[#004182]"
-                  maxLength={10}
-                  data-testid="input-access-code"
-                />
-              </div>
+              {loginMode === "code" ? (
+                <div>
+                  <label htmlFor="accessCode" className="block text-sm font-medium text-slate-700 mb-2">
+                    Verification Code
+                  </label>
+                  <Input
+                    id="accessCode"
+                    type="text"
+                    value={accessCode}
+                    onChange={(e) => setAccessCode(e.target.value)}
+                    placeholder="Enter your 6-digit code"
+                    className="w-full h-12 text-center text-lg tracking-widest font-mono border-slate-300 focus:border-[#004182] focus:ring-[#004182]"
+                    maxLength={10}
+                    data-testid="input-access-code"
+                  />
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="pinAccessCode" className="block text-sm font-medium text-slate-700 mb-2">
+                      Access Code
+                    </label>
+                    <Input
+                      id="pinAccessCode"
+                      type="text"
+                      value={pinAccessCode}
+                      onChange={(e) => setPinAccessCode(e.target.value)}
+                      placeholder="Enter your access code"
+                      className="w-full h-12 text-center text-lg tracking-widest font-mono border-slate-300 focus:border-[#004182] focus:ring-[#004182]"
+                      maxLength={10}
+                      data-testid="input-pin-access-code"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="pin" className="block text-sm font-medium text-slate-700 mb-2">
+                      6-Digit PIN
+                    </label>
+                    <Input
+                      id="pin"
+                      type="password"
+                      value={pin}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                        setPin(value);
+                      }}
+                      placeholder="••••••"
+                      className="w-full h-12 text-center text-lg tracking-widest font-mono border-slate-300 focus:border-[#004182] focus:ring-[#004182]"
+                      maxLength={6}
+                      data-testid="input-pin-login"
+                    />
+                  </div>
+                </div>
+              )}
 
               <Button
                 type="submit"
@@ -125,11 +231,28 @@ export default function VerifyPlatform() {
               </Button>
             </form>
 
+            <div className="mt-6 text-center">
+              <button
+                type="button"
+                onClick={toggleLoginMode}
+                className="text-sm text-[#004AB3] hover:text-[#003d99] hover:underline font-medium"
+                data-testid="button-toggle-login-mode"
+              >
+                {loginMode === "code" 
+                  ? "Login with PIN instead" 
+                  : "Login with Verification Code instead"
+                }
+              </button>
+            </div>
+
             <div className="mt-8 pt-6 border-t border-slate-200">
               <div className="flex items-start gap-3 text-sm text-slate-600">
                 <Lock className="h-4 w-4 mt-0.5 text-[#004182]" />
                 <p>
-                  Your verification code was provided by an authorized IBCCF representative. If you don't have a code, please contact your assigned representative.
+                  {loginMode === "code"
+                    ? "Your verification code was provided by an authorized IBCCF representative. If you don't have a code, please contact your assigned representative."
+                    : "Your PIN was created when you generated your access key. If you've forgotten your PIN, please contact your assigned representative."
+                  }
                 </p>
               </div>
             </div>
