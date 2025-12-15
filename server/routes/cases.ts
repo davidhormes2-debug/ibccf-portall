@@ -150,7 +150,7 @@ casesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
       try {
         await storage.createAuditLog({
           action: 'delete_case_attempt',
-          newValue: 'Attempted to delete non-existent case',
+          newValue: `Attempted to delete non-existent case: ${caseId}`,
           adminUsername: 'Admin',
           targetType: 'case',
           targetId: caseId
@@ -167,8 +167,7 @@ casesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
       try {
         await storage.createAuditLog({
           action: 'delete_case_blocked',
-          newValue: 'Blocked deletion of verified account - Force confirmation required',
-          previousValue: JSON.stringify({ userName: caseData.userName, accessCode: caseData.accessCode, status: caseData.status }),
+          newValue: `Blocked deletion of verified account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}) - Force confirmation required`,
           adminUsername: 'Admin',
           targetType: 'case',
           targetId: caseId
@@ -187,8 +186,8 @@ casesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
     try {
       await storage.createAuditLog({
         action: 'delete_case_success',
-        previousValue: JSON.stringify({ userName: caseData.userName, accessCode: caseData.accessCode, status: caseData.status }),
-        newValue: JSON.stringify({ deleted: true, wasVerified: isVerified, forceUsed: forceDelete }),
+        previousValue: `Account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status})`,
+        newValue: `Successfully deleted (Verified: ${isVerified}, Force: ${forceDelete})`,
         adminUsername: 'Admin',
         targetType: 'case',
         targetId: caseId
@@ -202,7 +201,7 @@ casesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
     try {
       await storage.createAuditLog({
         action: 'delete_case_error',
-        newValue: JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+        newValue: `Error deleting case ${caseId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
         adminUsername: 'Admin',
         targetType: 'case',
         targetId: caseId

@@ -535,13 +535,9 @@ export default function AdminDashboard() {
 
   const loadData = async (showToast = false) => {
     try {
-      const headers: Record<string, string> = {};
-      if (authToken) {
-        headers['Authorization'] = `Bearer ${authToken}`;
-      }
       const [casesRes, submissionsRes] = await Promise.all([
-        fetch('/api/cases', { headers }),
-        fetch('/api/submissions', { headers })
+        fetch('/api/cases'),
+        fetch('/api/submissions')
       ]);
       
       if (casesRes.ok) {
@@ -1683,10 +1679,7 @@ export default function AdminDashboard() {
       console.log('Creating case with access code:', newAccessCode);
       const response = await fetch('/api/cases', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           accessCode: newAccessCode,
           status: 'created'

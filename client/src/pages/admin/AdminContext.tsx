@@ -406,13 +406,9 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
 
   const loadData = useCallback(async (showToast = false) => {
     try {
-      const headers: Record<string, string> = {};
-      if (authToken) {
-        headers['Authorization'] = `Bearer ${authToken}`;
-      }
       const [casesRes, submissionsRes] = await Promise.all([
-        fetch('/api/cases', { headers }),
-        fetch('/api/submissions', { headers })
+        fetch('/api/cases'),
+        fetch('/api/submissions')
       ]);
       
       if (casesRes.ok) {
@@ -464,7 +460,7 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
     } finally {
       setIsDataLoading(false);
     }
-  }, [toast, authToken]);
+  }, [toast]);
 
   const loadChatTemplates = useCallback(async () => {
     try {
