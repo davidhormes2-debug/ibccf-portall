@@ -150,7 +150,7 @@ casesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
       try {
         await storage.createAuditLog({
           action: 'delete_case_attempt',
-          newValue: `Attempted to delete non-existent case: ${caseId}`,
+          newValue: 'Attempted to delete non-existent case',
           adminUsername: 'Admin',
           targetType: 'case',
           targetId: caseId
@@ -167,7 +167,8 @@ casesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
       try {
         await storage.createAuditLog({
           action: 'delete_case_blocked',
-          newValue: `Blocked deletion of verified account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status}) - Force confirmation required`,
+          newValue: 'Blocked deletion of verified account - Force confirmation required',
+          previousValue: JSON.stringify({ userName: caseData.userName, accessCode: caseData.accessCode, status: caseData.status }),
           adminUsername: 'Admin',
           targetType: 'case',
           targetId: caseId
@@ -186,8 +187,8 @@ casesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
     try {
       await storage.createAuditLog({
         action: 'delete_case_success',
-        previousValue: `Account: ${caseData.userName || caseData.accessCode} (Status: ${caseData.status})`,
-        newValue: `Successfully deleted (Verified: ${isVerified}, Force: ${forceDelete})`,
+        previousValue: JSON.stringify({ userName: caseData.userName, accessCode: caseData.accessCode, status: caseData.status }),
+        newValue: JSON.stringify({ deleted: true, wasVerified: isVerified, forceUsed: forceDelete }),
         adminUsername: 'Admin',
         targetType: 'case',
         targetId: caseId
@@ -201,7 +202,7 @@ casesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
     try {
       await storage.createAuditLog({
         action: 'delete_case_error',
-        newValue: `Error deleting case ${caseId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        newValue: JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
         adminUsername: 'Admin',
         targetType: 'case',
         targetId: caseId
