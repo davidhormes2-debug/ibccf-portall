@@ -1679,7 +1679,10 @@ export default function AdminDashboard() {
       console.log('Creating case with access code:', newAccessCode);
       const response = await fetch('/api/cases', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
         body: JSON.stringify({
           accessCode: newAccessCode,
           status: 'created'

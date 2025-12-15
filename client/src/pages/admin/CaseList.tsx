@@ -48,7 +48,10 @@ export function CaseList({ onSelectCase, onOpenChat, onViewSubmissions, loadData
     try {
       const response = await fetch('/api/cases', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
         body: JSON.stringify({ accessCode: newAccessCode.trim() })
       });
 
