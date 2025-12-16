@@ -5,6 +5,7 @@ This is an enterprise-grade secure customer portal for the **International Block
 ## Routing Structure
 - **/** - Public landing page with IBCCF branding, hero section, 3-step fraud reporting process, privacy section
 - **/verify** - Secure verification portal for access code entry
+- **/request-access** - Access key request and status check page
 - **/dashboard** - User portal (requires valid access code)
 - **/admin** - Admin control panel
 
@@ -71,6 +72,7 @@ The application uses the following main tables:
 - `chat_messages`: Real-time chat messages between admin and users
 - `admin_messages`: Categorized admin notifications (urgent/processing/resolved) sent to users
 - `deposit_receipts`: User-uploaded deposit receipt images with approval workflow
+- `access_key_requests`: User requests for access keys with admin messaging, approval workflow, and 7-day auto-expiration
 
 *Enterprise Security Tables:*
 - `admin_sessions`: Secure session management for admin users with device tracking and geolocation
