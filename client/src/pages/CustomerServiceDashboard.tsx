@@ -8,6 +8,7 @@ import {
   Star, TrendingUp, AlertCircle, CheckCircle2, Zap, Bot, Volume2, VolumeX
 } from "lucide-react";
 import { useNotificationSound } from "@/hooks/useNotificationSound";
+import { useKeyboardShortcuts, KEYBOARD_SHORTCUTS } from "@/hooks/useKeyboardShortcuts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -79,9 +80,31 @@ export default function CustomerServiceDashboard() {
   const [isUserTyping, setIsUserTyping] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
+  const [showShortcutsDialog, setShowShortcutsDialog] = useState(false);
   const prevUnreadCountRef = useRef<number>(0);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { playNewMessage } = useNotificationSound();
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts([
+    { key: '1', action: () => setActiveTab('dashboard'), description: 'Go to Dashboard' },
+    { key: '2', action: () => setActiveTab('conversations'), description: 'Go to Conversations' },
+    { key: '3', action: () => setActiveTab('visitors'), description: 'Go to Visitors' },
+    { key: '4', action: () => setActiveTab('statistics'), description: 'Go to Statistics' },
+    { key: '5', action: () => setActiveTab('settings'), description: 'Go to Settings' },
+    { key: 'Escape', action: () => { setSelectedCase(null); setShowShortcutsDialog(false); }, description: 'Close chat / dialog' },
+    { key: 'a', action: () => setIsAvailable(prev => !prev), description: 'Toggle availability' },
+    { key: 'n', action: () => {
+      if (notificationPermission === 'granted') {
+        setNotificationsEnabled(prev => !prev);
+      } else {
+        requestNotificationPermission();
+      }
+    }, description: 'Toggle notifications' },
+    { key: 's', action: () => setSoundEnabled(prev => !prev), description: 'Toggle sound' },
+    { key: 'r', action: () => refetchCases(), description: 'Refresh data' },
+    { key: '?', shift: true, action: () => setShowShortcutsDialog(true), description: 'Show shortcuts' },
+  ], isLoggedIn);
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('adminToken');
@@ -1048,6 +1071,53 @@ export default function CustomerServiceDashboard() {
             >
               <Send className="h-4 w-4 mr-2" />
               Send Message
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Keyboard Shortcuts Dialog */}
+      <Dialog open={showShortcutsDialog} onOpenChange={setShowShortcutsDialog}>
+        <DialogContent className="bg-slate-800 border-slate-700 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle>Keyboard Shortcuts</DialogTitle>
+            <DialogDescription className="text-slate-400">
+              Quick actions for power users
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-2 mt-4">
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div className="text-slate-400">Navigation</div>
+              <div></div>
+              {KEYBOARD_SHORTCUTS.slice(0, 5).map((shortcut) => (
+                <>
+                  <kbd className="px-2 py-1 bg-slate-700 rounded text-xs font-mono">
+                    {shortcut.key}
+                  </kbd>
+                  <span className="text-slate-300">{shortcut.description}</span>
+                </>
+              ))}
+              
+              <div className="text-slate-400 mt-4">Actions</div>
+              <div></div>
+              {KEYBOARD_SHORTCUTS.slice(5).map((shortcut) => (
+                <>
+                  <kbd className="px-2 py-1 bg-slate-700 rounded text-xs font-mono">
+                    {shortcut.key === '?' ? 'Shift + ?' : shortcut.key.toUpperCase()}
+                  </kbd>
+                  <span className="text-slate-300">{shortcut.description}</span>
+                </>
+              ))}
+            </div>
+          </div>
+          
+          <DialogFooter className="mt-6">
+            <Button 
+              onClick={() => setShowShortcutsDialog(false)}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              Got it
             </Button>
           </DialogFooter>
         </DialogContent>
