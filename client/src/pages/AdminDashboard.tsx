@@ -460,9 +460,10 @@ export default function AdminDashboard() {
 
       if (response.ok) {
         const data = await response.json();
+        // Store token in sessionStorage FIRST before state updates
+        sessionStorage.setItem('adminToken', data.token);
         setAuthToken(data.token);
         setIsLoggedIn(true);
-        sessionStorage.setItem('adminToken', data.token);
         toast({ title: "Access Granted", description: "Admin session established." });
       } else {
         toast({ variant: "destructive", title: "Access Denied", description: "Invalid credentials." });
@@ -612,8 +613,9 @@ export default function AdminDashboard() {
   // Load chat templates
   const loadChatTemplates = async () => {
     try {
+      const token = authToken || sessionStorage.getItem('adminToken');
       const res = await fetch('/api/chat-templates', {
-        headers: { 'Authorization': `Bearer ${authToken}` }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
         const templates = await res.json();
