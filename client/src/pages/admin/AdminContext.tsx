@@ -406,9 +406,10 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
 
   const loadData = useCallback(async (showToast = false) => {
     try {
+      const headers = { 'Authorization': `Bearer ${authToken}` };
       const [casesRes, submissionsRes] = await Promise.all([
-        fetch('/api/cases'),
-        fetch('/api/submissions')
+        fetch('/api/cases', { headers }),
+        fetch('/api/submissions', { headers })
       ]);
       
       if (casesRes.ok) {
@@ -460,7 +461,7 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
     } finally {
       setIsDataLoading(false);
     }
-  }, [toast]);
+  }, [toast, authToken]);
 
   const loadChatTemplates = useCallback(async () => {
     try {
@@ -478,7 +479,9 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
 
   const loadChatMessages = useCallback(async (caseId: string) => {
     try {
-      const res = await fetch(`/api/cases/${caseId}/chat`);
+      const res = await fetch(`/api/cases/${caseId}/chat`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
       if (res.ok) {
         const messages = await res.json();
         setChatMessages(messages);
@@ -505,13 +508,13 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
     } catch (error) {
       console.error('Failed to load chat messages:', error);
     }
-  }, [toast]);
+  }, [toast, authToken]);
 
   const sendChatMessage = useCallback(async (caseId: string, message: string) => {
     try {
       const res = await fetch(`/api/cases/${caseId}/chat`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
         body: JSON.stringify({ sender: 'admin', message })
       });
       if (res.ok) {
@@ -520,7 +523,7 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to send message" });
     }
-  }, [loadChatMessages, toast]);
+  }, [loadChatMessages, toast, authToken]);
 
   const loadCaseNotes = useCallback(async (caseId: string) => {
     try {

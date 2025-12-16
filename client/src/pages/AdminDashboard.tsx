@@ -535,9 +535,10 @@ export default function AdminDashboard() {
 
   const loadData = async (showToast = false) => {
     try {
+      const headers = { 'Authorization': `Bearer ${authToken}` };
       const [casesRes, submissionsRes] = await Promise.all([
-        fetch('/api/cases'),
-        fetch('/api/submissions')
+        fetch('/api/cases', { headers }),
+        fetch('/api/submissions', { headers })
       ]);
       
       if (casesRes.ok) {
@@ -1192,7 +1193,9 @@ export default function AdminDashboard() {
 
       for (const c of registeredCases) {
         try {
-          const res = await fetch(`/api/cases/${c.id}/messages/unread?sender=user`);
+          const res = await fetch(`/api/cases/${c.id}/messages/unread?sender=user`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+          });
           if (res.ok) {
             const data = await res.json();
             counts[c.id] = data.count;
@@ -1231,7 +1234,9 @@ export default function AdminDashboard() {
 
     const pollChatMessages = async () => {
       try {
-        const res = await fetch(`/api/cases/${chatCase.id}/messages`);
+        const res = await fetch(`/api/cases/${chatCase.id}/messages`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
         if (res.ok) {
           const messages = await res.json();
           setChatMessages(messages);
@@ -1244,7 +1249,7 @@ export default function AdminDashboard() {
     pollChatMessages();
     const interval = setInterval(pollChatMessages, 2000);
     return () => clearInterval(interval);
-  }, [isChatOpen, chatCase]);
+  }, [isChatOpen, chatCase, authToken]);
 
   // Poll messages for conversations tab (when chatCase is set but popup is not open)
   useEffect(() => {
@@ -1252,7 +1257,9 @@ export default function AdminDashboard() {
 
     const pollConversationMessages = async () => {
       try {
-        const res = await fetch(`/api/cases/${chatCase.id}/messages`);
+        const res = await fetch(`/api/cases/${chatCase.id}/messages`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
         if (res.ok) {
           const messages = await res.json();
           setChatMessages(messages);
@@ -1301,7 +1308,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`/api/cases/${chatCase.id}/messages`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
         body: JSON.stringify({ sender: 'admin', message: newMessage.trim() })
       });
       
@@ -1321,14 +1328,16 @@ export default function AdminDashboard() {
   // Load chat messages for conversations tab
   const loadChatMessages = async (caseId: string) => {
     try {
-      const res = await fetch(`/api/cases/${caseId}/messages`);
+      const res = await fetch(`/api/cases/${caseId}/messages`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
       if (res.ok) {
         const messages = await res.json();
         setChatMessages(messages);
         // Mark messages as read
         fetch(`/api/cases/${caseId}/messages/read`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
           body: JSON.stringify({ sender: 'user' })
         }).then(() => {
           setUnreadCounts(prev => ({ ...prev, [caseId]: 0 }));
@@ -1343,7 +1352,9 @@ export default function AdminDashboard() {
 
   const loadAdminMessages = async (caseId: string) => {
     try {
-      const res = await fetch(`/api/cases/${caseId}/admin-messages`);
+      const res = await fetch(`/api/cases/${caseId}/admin-messages`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
       if (res.ok) {
         const data = await res.json();
         setAdminMessages(data);
@@ -1357,7 +1368,9 @@ export default function AdminDashboard() {
 
   const loadDepositReceipts = async (caseId: string) => {
     try {
-      const res = await fetch(`/api/cases/${caseId}/deposit-receipts`);
+      const res = await fetch(`/api/cases/${caseId}/deposit-receipts`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
       if (res.ok) {
         const data = await res.json();
         setDepositReceipts(data);
@@ -1396,7 +1409,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`/api/cases/${selectedCase.id}/admin-messages`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
         body: JSON.stringify(newAdminMessage)
       });
       
@@ -1722,7 +1735,9 @@ export default function AdminDashboard() {
     
     // Also load letter data for editing
     try {
-      const response = await fetch(`/api/cases/${c.id}/letter`);
+      const response = await fetch(`/api/cases/${c.id}/letter`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
       if (response.ok) {
         const data = await response.json();
         if (data) {
@@ -1763,7 +1778,9 @@ export default function AdminDashboard() {
   const openLetterEditor = async (c: Case) => {
     setSelectedCase(c);
     try {
-      const response = await fetch(`/api/cases/${c.id}/letter`);
+      const response = await fetch(`/api/cases/${c.id}/letter`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
       if (response.ok) {
         const data = await response.json();
         if (data) {
@@ -1803,7 +1820,9 @@ export default function AdminDashboard() {
   const openSubmissionsModal = async (c: Case) => {
     setSelectedCase(c);
     try {
-      const response = await fetch(`/api/cases/${c.id}/submissions`);
+      const response = await fetch(`/api/cases/${c.id}/submissions`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
       if (response.ok) {
         const data = await response.json();
         setCaseSubmissions(data);
@@ -1820,7 +1839,7 @@ export default function AdminDashboard() {
     try {
       const response = await fetch(`/api/cases/${selectedCase.id}/letter`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
         body: JSON.stringify(letterData)
       });
 
@@ -1842,7 +1861,7 @@ export default function AdminDashboard() {
       // Save the letter first
       const letterResponse = await fetch(`/api/cases/${selectedCase.id}/letter`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
         body: JSON.stringify(letterData)
       });
 
@@ -1854,7 +1873,7 @@ export default function AdminDashboard() {
       // Then finalize the case
       const response = await fetch(`/api/cases/${selectedCase.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
         body: JSON.stringify({
           status: 'active',
           vipStatus: finalizeData.vipStatus,
@@ -1886,7 +1905,8 @@ export default function AdminDashboard() {
     if (confirm("Delete this submission? This action cannot be undone.")) {
       try {
         const response = await fetch(`/api/submissions/${submissionId}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${authToken}` }
         });
 
         if (response.ok) {
