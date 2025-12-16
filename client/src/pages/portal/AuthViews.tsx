@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Lock, Key, User, Mail, Phone, Shield, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -387,6 +387,26 @@ interface SyncViewProps {
 }
 
 export function SyncView({ syncProgress = 75, syncStatusText = "Establishing secure connection..." }: SyncViewProps) {
+  const { setViewState, currentCase, setCurrentCase } = usePortal();
+  
+  // Auto-redirect to dashboard after 5 seconds if stuck on sync screen
+  React.useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (currentCase) {
+        try {
+          await fetch(`/api/cases/${currentCase.id}/register`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'active' })
+          });
+          setCurrentCase({ ...currentCase, status: 'active' });
+        } catch {}
+      }
+      setViewState('dashboard');
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [currentCase, setViewState, setCurrentCase]);
+
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-md w-full text-center">
