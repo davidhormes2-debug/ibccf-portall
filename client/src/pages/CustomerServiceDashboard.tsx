@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -86,8 +86,8 @@ export default function CustomerServiceDashboard() {
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { playNewMessage } = useNotificationSound();
 
-  // Keyboard shortcuts
-  useKeyboardShortcuts([
+  // Memoized keyboard shortcuts to prevent re-registration on each render
+  const keyboardShortcuts = useMemo(() => [
     { key: '1', action: () => setActiveTab('dashboard'), description: 'Go to Dashboard' },
     { key: '2', action: () => setActiveTab('conversations'), description: 'Go to Conversations' },
     { key: '3', action: () => setActiveTab('visitors'), description: 'Go to Visitors' },
@@ -95,17 +95,11 @@ export default function CustomerServiceDashboard() {
     { key: '5', action: () => setActiveTab('settings'), description: 'Go to Settings' },
     { key: 'Escape', action: () => { setSelectedCase(null); setShowShortcutsDialog(false); }, description: 'Close chat / dialog' },
     { key: 'a', action: () => setIsAvailable(prev => !prev), description: 'Toggle availability' },
-    { key: 'n', action: () => {
-      if (notificationPermission === 'granted') {
-        setNotificationsEnabled(prev => !prev);
-      } else {
-        requestNotificationPermission();
-      }
-    }, description: 'Toggle notifications' },
     { key: 's', action: () => setSoundEnabled(prev => !prev), description: 'Toggle sound' },
-    { key: 'r', action: () => refetchCases(), description: 'Refresh data' },
     { key: '?', shift: true, action: () => setShowShortcutsDialog(true), description: 'Show shortcuts' },
-  ], isLoggedIn);
+  ], []);
+
+  useKeyboardShortcuts(keyboardShortcuts, isLoggedIn);
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('adminToken');
@@ -131,9 +125,9 @@ export default function CustomerServiceDashboard() {
     }
   };
 
-  // Show desktop notification
+  // Show desktop notification (only when authenticated)
   const showDesktopNotification = useCallback((title: string, body: string) => {
-    if (notificationsEnabled && notificationPermission === 'granted' && 'Notification' in window) {
+    if (isLoggedIn && authToken && notificationsEnabled && notificationPermission === 'granted' && 'Notification' in window) {
       new Notification(title, {
         body,
         icon: '/favicon.ico',
@@ -141,21 +135,7 @@ export default function CustomerServiceDashboard() {
         tag: 'ibccf-notification',
       });
     }
-  }, [notificationsEnabled, notificationPermission]);
-
-  // Play sound and show notification on new unread messages
-  useEffect(() => {
-    const currentTotal = Object.values(unreadCounts).reduce((a, b) => a + b, 0);
-    if (currentTotal > prevUnreadCountRef.current && isLoggedIn) {
-      if (soundEnabled) {
-        playNewMessage();
-      }
-      if (notificationsEnabled) {
-        showDesktopNotification('New Message', 'You have a new message from a visitor');
-      }
-    }
-    prevUnreadCountRef.current = currentTotal;
-  }, [unreadCounts, isLoggedIn, soundEnabled, notificationsEnabled, playNewMessage, showDesktopNotification]);
+  }, [isLoggedIn, authToken, notificationsEnabled, notificationPermission]);
 
   const getAuthHeaders = (): Record<string, string> => {
     const token = authToken || sessionStorage.getItem('adminToken');
@@ -295,6 +275,20 @@ export default function CustomerServiceDashboard() {
     const interval = setInterval(checkTyping, 2000);
     return () => clearInterval(interval);
   }, [selectedCase]);
+
+  // Play sound and show notification on new unread messages
+  useEffect(() => {
+    const currentTotal = Object.values(unreadCounts).reduce((a, b) => a + b, 0);
+    if (currentTotal > prevUnreadCountRef.current && isLoggedIn) {
+      if (soundEnabled) {
+        playNewMessage();
+      }
+      if (notificationsEnabled) {
+        showDesktopNotification('New Message', 'You have a new message from a visitor');
+      }
+    }
+    prevUnreadCountRef.current = currentTotal;
+  }, [unreadCounts, isLoggedIn, soundEnabled, notificationsEnabled, playNewMessage, showDesktopNotification]);
 
   // Send typing indicator when admin types
   const handleAdminTyping = async (isTyping: boolean) => {
@@ -1125,24 +1119,24 @@ export default function CustomerServiceDashboard() {
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div className="text-slate-400">Navigation</div>
               <div></div>
-              {KEYBOARD_SHORTCUTS.slice(0, 5).map((shortcut) => (
-                <>
+              {KEYBOARD_SHORTCUTS.slice(0, 5).map((shortcut, idx) => (
+                <div key={`nav-${idx}`} className="contents">
                   <kbd className="px-2 py-1 bg-slate-700 rounded text-xs font-mono">
                     {shortcut.key}
                   </kbd>
                   <span className="text-slate-300">{shortcut.description}</span>
-                </>
+                </div>
               ))}
               
               <div className="text-slate-400 mt-4">Actions</div>
               <div></div>
-              {KEYBOARD_SHORTCUTS.slice(5).map((shortcut) => (
-                <>
+              {KEYBOARD_SHORTCUTS.slice(5).map((shortcut, idx) => (
+                <div key={`action-${idx}`} className="contents">
                   <kbd className="px-2 py-1 bg-slate-700 rounded text-xs font-mono">
                     {shortcut.key === '?' ? 'Shift + ?' : shortcut.key.toUpperCase()}
                   </kbd>
                   <span className="text-slate-300">{shortcut.description}</span>
-                </>
+                </div>
               ))}
             </div>
           </div>
