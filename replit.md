@@ -8,6 +8,7 @@ This is an enterprise-grade secure customer portal for the **International Block
 - **/request-access** - Access key request and status check page
 - **/dashboard** - User portal (requires valid access code)
 - **/admin** - Admin control panel
+- **/admin/support** - Customer Service Dashboard with real-time chat management, visitor tracking, AI suggestions
 
 ## Branding
 - **Color Scheme:** Primary #004182, Accent #004AB3
@@ -136,6 +137,19 @@ The application uses the following main tables:
 - Categorized admin messages with blinking indicators for urgent items
 - 3-minute session timeout with automatic logout on inactivity
 - Polling-based updates (3s for data, 5s for chat unread counts)
+
+**Customer Service Dashboard (/admin/support)**
+- **Dashboard Tab**: Live stats (active visitors, pending chats, satisfaction score), activity feed, quick actions
+- **Conversations Tab**: All chats with search, unread indicators, real-time messaging, AI smart reply suggestions
+- **Visitors Tab**: Real-time visitor tracking with device type, location, current page, session duration, proactive chat
+- **Statistics Tab**: Chat volume metrics, response times, satisfaction trends, peak hours analysis
+- **Settings Tab**: Availability toggle, AI assistant toggle, notification preferences, working hours
+- **Typing Indicators**: Bidirectional typing status (admin and user) with visual feedback
+- **Desktop Notifications**: Browser notification support with permission handling and sound alerts
+- **Keyboard Shortcuts**: Quick navigation (1-5 for tabs), toggle availability (A), toggle sound (S), show shortcuts (Shift+?)
+- **Transcript Export**: Download chat history as text file for compliance and record keeping
+- **Offline Messaging**: Collect visitor messages when agents are unavailable
+- **Satisfaction Surveys**: Post-chat star ratings and feedback collection
 
 **Storage Pattern**
 - Repository pattern implemented via `IStorage` interface
