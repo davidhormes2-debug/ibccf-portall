@@ -961,3 +961,41 @@ export const insertPendingBotResponseSchema = createInsertSchema(pendingBotRespo
 
 export type InsertPendingBotResponse = z.infer<typeof insertPendingBotResponseSchema>;
 export type PendingBotResponse = typeof pendingBotResponses.$inferSelect;
+
+// Access key requests - self-service key generation with admin approval
+export const accessKeyRequests = pgTable("access_key_requests", {
+  id: serial("id").primaryKey(),
+  requestId: text("request_id").notNull().unique(), // Public ID for users to check status (e.g., "REQ-XXXXXX")
+  generatedKey: text("generated_key").notNull(), // The access key (shown to user after approval)
+  status: text("status").notNull().default('pending'), // 'pending', 'approved', 'rejected', 'expired'
+  
+  // User info from request
+  userName: text("user_name"),
+  userEmail: text("user_email"),
+  userPhone: text("user_phone"),
+  requestReason: text("request_reason"), // Why they need access
+  
+  // Admin messaging
+  adminMessages: text("admin_messages"), // JSON array of admin messages to user
+  adminUsername: text("admin_username"), // Admin who processed the request
+  
+  // Linked case (created after approval)
+  caseId: varchar("case_id").references(() => cases.id),
+  
+  // Timestamps
+  expiresAt: timestamp("expires_at").notNull(), // Auto-expire after 7 days
+  approvedAt: timestamp("approved_at"),
+  rejectedAt: timestamp("rejected_at"),
+  keyViewedAt: timestamp("key_viewed_at"), // When user first viewed their approved key
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertAccessKeyRequestSchema = createInsertSchema(accessKeyRequests).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertAccessKeyRequest = z.infer<typeof insertAccessKeyRequestSchema>;
+export type AccessKeyRequest = typeof accessKeyRequests.$inferSelect;

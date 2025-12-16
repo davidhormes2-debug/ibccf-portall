@@ -9,6 +9,7 @@ import {
   inputSanitizer,
 } from "./middleware";
 import { startBotResponseProcessor } from "./services/bot-response-generator";
+import { expirePendingRequests } from "./routes/access-key-requests";
 
 const app = express();
 const httpServer = createServer(app);
@@ -111,6 +112,11 @@ app.use((req, res, next) => {
     () => {
       log(`serving on port ${port}`);
       startBotResponseProcessor();
+      
+      setInterval(async () => {
+        await expirePendingRequests();
+      }, 60000);
+      log("Access key expiration checker started (checking every minute)");
     },
   );
 })();

@@ -8,3 +8,4 @@ export { publicRouter, adminPublicContentRouter } from "./public";
 export { checkAdminAuth, ADMIN_TOKEN } from "./middleware";
 export { departmentsRouter } from "./departments";
 export { communityRouter } from "./community";
+export { accessKeyRequestsRouter, expirePendingRequests } from "./access-key-requests";
