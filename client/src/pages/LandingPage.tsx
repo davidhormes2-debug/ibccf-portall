@@ -573,15 +573,16 @@ export default function LandingPage() {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap justify-center gap-4 mb-8">
-                <Button 
-                  size="lg" 
-                  onClick={() => { setGenerateKeyOpen(true); resetGenerateKeyDialog(); }}
-                  className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold px-8 py-3 shadow-lg"
-                  data-testid="button-generate-key"
-                >
-                  <Key className="w-5 h-5 mr-2" />
-                  Generate Key
-                </Button>
+                <Link href="/request-access">
+                  <Button 
+                    size="lg" 
+                    className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold px-8 py-3 shadow-lg"
+                    data-testid="button-generate-key"
+                  >
+                    <Key className="w-5 h-5 mr-2" />
+                    Generate Key
+                  </Button>
+                </Link>
                 <Link href="/verify">
                   <Button 
                     size="lg" 
