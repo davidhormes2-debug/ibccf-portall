@@ -106,7 +106,7 @@ export function RegisterView() {
   const [syncProgress, setSyncProgress] = useState(0);
   const { toast } = useToast();
 
-  const startSyncSimulation = () => {
+  const startSyncSimulation = async (caseData: { id: string; userName: string; userEmail: string; userMobile: string }) => {
     const steps = [
       { progress: 15, text: "Initializing secure handshake..." },
       { progress: 30, text: "Verifying identity certificates..." },
@@ -114,17 +114,32 @@ export function RegisterView() {
       { progress: 60, text: "Validating account integrity..." },
       { progress: 75, text: "Establishing secure session..." },
       { progress: 90, text: "Finalizing synchronization..." },
+      { progress: 100, text: "Complete!" },
     ];
     
     let index = 0;
-    const interval = setInterval(() => {
+    const interval = setInterval(async () => {
       if (index < steps.length) {
         setSyncProgress(steps[index].progress);
         index++;
       } else {
         clearInterval(interval);
+        // Complete sync - update case status and transition to dashboard
+        try {
+          await fetch(`/api/cases/${caseData.id}/register`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              userName: caseData.userName,
+              userEmail: caseData.userEmail,
+              userMobile: caseData.userMobile,
+              status: 'active' 
+            })
+          });
+        } catch {}
+        setViewState('dashboard');
       }
-    }, 1500);
+    }, 1200);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -132,7 +147,7 @@ export function RegisterView() {
     if (!currentCase) return;
 
     try {
-      const response = await fetch(`/api/cases/${currentCase.id}`, {
+      const response = await fetch(`/api/cases/${currentCase.id}/register`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

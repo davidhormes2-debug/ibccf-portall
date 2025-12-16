@@ -122,6 +122,38 @@ casesRouter.get("/:id", async (req, res) => {
   }
 });
 
+// Public endpoint for user registration (no admin auth required)
+casesRouter.patch("/:id/register", async (req, res) => {
+  try {
+    const registerSchema = z.object({
+      userName: z.string().min(1),
+      userEmail: z.string().email(),
+      userMobile: z.string().min(1),
+      status: z.string().optional()
+    });
+    
+    const data = registerSchema.parse(req.body);
+    const updated = await caseService.updateCase(req.params.id, {
+      userName: data.userName,
+      userEmail: data.userEmail,
+      userMobile: data.userMobile,
+      status: data.status || 'registered'
+    });
+    
+    if (!updated) {
+      res.status(404).json({ error: "Case not found" });
+      return;
+    }
+    res.json(updated);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: error.errors });
+    } else {
+      res.status(500).json({ error: "Failed to register user" });
+    }
+  }
+});
+
 casesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
   try {
     const data = updateCaseSchema.parse(req.body);

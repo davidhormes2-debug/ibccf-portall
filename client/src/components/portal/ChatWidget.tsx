@@ -1,9 +1,15 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, MoreVertical, Minimize2, Download, Shield, Smile, Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export interface ChatMessage {
   id: number;
@@ -37,6 +43,7 @@ export function ChatWidget({
 }: ChatWidgetProps) {
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const chatScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,6 +71,22 @@ export function ChatWidget({
     }
   };
 
+  const downloadTranscript = () => {
+    const transcript = messages.map(msg => {
+      const time = msg.createdAt ? format(new Date(msg.createdAt), 'yyyy-MM-dd HH:mm') : '';
+      const sender = msg.sender === 'admin' ? 'IBCCF Support' : 'You';
+      return `[${time}] ${sender}: ${msg.message}`;
+    }).join('\n\n');
+    
+    const blob = new Blob([transcript], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ibccf-chat-transcript-${format(new Date(), 'yyyy-MM-dd')}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <>
       <ChatButton 
@@ -75,10 +98,11 @@ export function ChatWidget({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-slate-200 flex flex-col overflow-hidden"
+            initial={{ opacity: 0, y: 100, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 100, scale: 0.95 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className={`fixed bottom-6 right-6 z-50 w-[380px] ${isMinimized ? 'h-16' : 'h-[520px]'} bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden transition-all duration-300`}
             data-testid="chat-panel"
             role="dialog"
             aria-label="Support chat window"
@@ -87,22 +111,31 @@ export function ChatWidget({
             <ChatHeader 
               title={title} 
               subtitle={subtitle} 
-              onClose={onToggle} 
+              onClose={onToggle}
+              onMinimize={() => setIsMinimized(!isMinimized)}
+              onDownload={downloadTranscript}
+              isMinimized={isMinimized}
             />
             
-            <ChatMessages 
-              ref={chatScrollRef}
-              messages={messages} 
-              isLoading={isLoading}
-            />
-            
-            <ChatInput
-              value={newMessage}
-              onChange={setNewMessage}
-              onSend={handleSend}
-              onKeyPress={handleKeyPress}
-              isSending={isSending}
-            />
+            {!isMinimized && (
+              <>
+                <ChatMessages 
+                  ref={chatScrollRef}
+                  messages={messages} 
+                  isLoading={isLoading}
+                />
+                
+                <ChatInput
+                  value={newMessage}
+                  onChange={setNewMessage}
+                  onSend={handleSend}
+                  onKeyPress={handleKeyPress}
+                  isSending={isSending}
+                />
+                
+                <ChatFooter />
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -123,8 +156,9 @@ function ChatButton({ onClick, unreadCount, isOpen }: ChatButtonProps) {
     <motion.button
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
-      whileHover={{ scale: 1.1 }}
-      className="fixed bottom-6 right-6 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-50"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:shadow-orange-500/30 hover:shadow-xl transition-shadow"
       onClick={onClick}
       data-testid="button-chat-float"
       aria-label={unreadCount > 0 ? `Open support chat. ${unreadCount} unread messages` : "Open support chat"}
@@ -132,12 +166,14 @@ function ChatButton({ onClick, unreadCount, isOpen }: ChatButtonProps) {
     >
       <MessageCircle className="w-7 h-7" aria-hidden="true" />
       {unreadCount > 0 && (
-        <span 
-          className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full text-xs flex items-center justify-center font-bold"
+        <motion.span 
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full text-xs flex items-center justify-center font-bold border-2 border-white"
           aria-label={`${unreadCount} unread messages`}
         >
           {unreadCount}
-        </span>
+        </motion.span>
       )}
     </motion.button>
   );
@@ -147,31 +183,62 @@ interface ChatHeaderProps {
   title: string;
   subtitle: string;
   onClose: () => void;
+  onMinimize: () => void;
+  onDownload: () => void;
+  isMinimized: boolean;
 }
 
-function ChatHeader({ title, subtitle, onClose }: ChatHeaderProps) {
+function ChatHeader({ title, subtitle, onClose, onMinimize, onDownload, isMinimized }: ChatHeaderProps) {
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 flex justify-between items-center">
+    <div className="bg-white border-b border-slate-200 px-4 py-3 flex justify-between items-center">
       <div className="flex items-center gap-3">
-        <div className="relative">
-          <MessageCircle className="h-5 w-5" />
-          <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full border border-blue-600"></span>
+        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-md">
+          <Shield className="h-5 w-5 text-white" />
         </div>
         <div>
-          <span className="font-semibold block">{title}</span>
-          <span className="text-xs text-blue-200">{subtitle}</span>
+          <span className="font-semibold text-slate-900 block">{title}</span>
+          {!isMinimized && (
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="text-xs text-slate-500">{subtitle}</span>
+            </div>
+          )}
         </div>
       </div>
-      <Button
-        variant="ghost"
-        size="sm"
-        className="h-8 w-8 p-0 text-white hover:bg-blue-700"
-        onClick={onClose}
-        data-testid="button-close-chat"
-        aria-label="Close chat"
-      >
-        <X className="h-4 w-4" aria-hidden="true" />
-      </Button>
+      <div className="flex items-center gap-1">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 text-slate-500 hover:text-slate-700 hover:bg-slate-100"
+              aria-label="More options"
+            >
+              <MoreVertical className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={onMinimize} className="cursor-pointer">
+              <Minimize2 className="h-4 w-4 mr-2" />
+              {isMinimized ? 'Expand window' : 'Collapse window'}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onDownload} className="cursor-pointer">
+              <Download className="h-4 w-4 mr-2" />
+              Download transcript
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 w-8 p-0 text-slate-500 hover:text-slate-700 hover:bg-slate-100"
+          onClick={onClose}
+          data-testid="button-close-chat"
+          aria-label="Close chat"
+        >
+          <X className="h-4 w-4" aria-hidden="true" />
+        </Button>
+      </div>
     </div>
   );
 }
@@ -186,21 +253,24 @@ const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
     return (
       <div 
         ref={ref} 
-        className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50"
+        className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50"
         role="log"
         aria-label="Chat messages"
         aria-live="polite"
       >
         {isLoading ? (
           <div className="flex items-center justify-center h-full" role="status" aria-label="Loading messages">
-            <Loader2 className="w-6 h-6 animate-spin text-blue-600" aria-hidden="true" />
+            <Loader2 className="w-6 h-6 animate-spin text-orange-500" aria-hidden="true" />
           </div>
         ) : messages.length === 0 ? (
-          <EmptyChat />
+          <WelcomeMessage />
         ) : (
-          messages.map((msg) => (
-            <MessageBubble key={msg.id} message={msg} />
-          ))
+          <>
+            <WelcomeMessage showIntro />
+            {messages.map((msg) => (
+              <MessageBubble key={msg.id} message={msg} />
+            ))}
+          </>
         )}
       </div>
     );
@@ -208,14 +278,38 @@ const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
 );
 ChatMessages.displayName = 'ChatMessages';
 
-function EmptyChat() {
+function WelcomeMessage({ showIntro = false }: { showIntro?: boolean }) {
+  if (showIntro) return null;
+  
   return (
-    <div className="text-center text-slate-500 mt-8">
-      <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center mb-4">
-        <MessageCircle className="h-8 w-8 text-blue-500" />
+    <div className="space-y-4">
+      <div className="flex items-start gap-3">
+        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+          <Shield className="h-5 w-5 text-white" />
+        </div>
+        <div className="flex-1 space-y-3">
+          <div className="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm border border-slate-100">
+            <p className="text-2xl mb-2">Hi there! 👋</p>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Welcome to IBCCF Support. Our team is here to assist you with your case.
+            </p>
+          </div>
+          
+          <div className="bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
+            <p className="text-slate-700 text-sm font-medium mb-2">Our Customer Care team can assist with:</p>
+            <ul className="text-slate-600 text-sm space-y-1">
+              <li>• Case inquiries & status updates</li>
+              <li>• Withdrawal processing</li>
+              <li>• Deposit verification</li>
+              <li>• Technical support</li>
+            </ul>
+          </div>
+          
+          <div className="bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
+            <p className="text-slate-700 text-sm">So what brings you here today?</p>
+          </div>
+        </div>
       </div>
-      <p className="font-medium text-slate-700 mb-1">Welcome to IBCCF Support</p>
-      <p className="text-sm text-slate-500">How can we help you today?</p>
     </div>
   );
 }
@@ -227,23 +321,25 @@ function MessageBubble({ message }: { message: ChatMessage }) {
     : '';
 
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} items-end gap-2`}>
       {!isUser && (
-        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
-          <span className="text-blue-600 font-bold text-xs">IBCCF</span>
+        <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+          <Shield className="h-4 w-4 text-white" />
         </div>
       )}
-      <div
-        className={`max-w-[75%] rounded-lg px-3 py-2 ${
-          isUser 
-            ? 'bg-blue-600 text-white rounded-br-none' 
-            : 'bg-white border border-slate-200 text-slate-800 rounded-bl-none shadow-sm'
-        }`}
-        data-testid={`chat-message-${message.id}`}
-      >
-        <p className="text-sm whitespace-pre-wrap">{message.message}</p>
+      <div className="flex flex-col gap-1">
+        <div
+          className={`max-w-[260px] rounded-2xl px-4 py-2.5 ${
+            isUser 
+              ? 'bg-slate-800 text-white rounded-br-md' 
+              : 'bg-white border border-slate-200 text-slate-800 rounded-bl-md shadow-sm'
+          }`}
+          data-testid={`chat-message-${message.id}`}
+        >
+          <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.message}</p>
+        </div>
         {formattedTime && (
-          <p className={`text-[10px] mt-1 ${isUser ? 'text-blue-200' : 'text-slate-400'}`}>
+          <p className={`text-[10px] px-1 ${isUser ? 'text-right text-slate-400' : 'text-slate-400'}`}>
             {formattedTime}
           </p>
         )}
@@ -263,21 +359,41 @@ interface ChatInputProps {
 function ChatInput({ value, onChange, onSend, onKeyPress, isSending }: ChatInputProps) {
   return (
     <div className="p-3 bg-white border-t border-slate-200">
-      <div className="flex items-center gap-2" role="group" aria-label="Message input">
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onKeyPress={onKeyPress}
-          placeholder="Type your message..."
-          className="flex-1"
-          disabled={isSending}
-          data-testid="input-chat-message"
-          aria-label="Message text"
-        />
+      <div className="flex items-end gap-2" role="group" aria-label="Message input">
+        <div className="flex-1 relative">
+          <Textarea
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={onKeyPress}
+            placeholder="Message..."
+            className="min-h-[44px] max-h-[120px] resize-none pr-20 rounded-xl border-slate-200 focus:border-orange-300 focus:ring-orange-200"
+            disabled={isSending}
+            data-testid="input-chat-message"
+            aria-label="Message text"
+            rows={1}
+          />
+          <div className="absolute right-2 bottom-2 flex items-center gap-1">
+            <button 
+              className="p-1.5 text-slate-400 hover:text-slate-600 transition-colors"
+              aria-label="Add attachment"
+              type="button"
+            >
+              <Paperclip className="h-4 w-4" />
+            </button>
+            <button 
+              className="p-1.5 text-slate-400 hover:text-slate-600 transition-colors"
+              aria-label="Add emoji"
+              type="button"
+            >
+              <Smile className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
         <Button 
           onClick={onSend} 
           size="icon" 
           disabled={!value.trim() || isSending}
+          className="h-11 w-11 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-md"
           data-testid="button-send-message"
           aria-label={isSending ? "Sending message" : "Send message"}
         >
@@ -288,6 +404,19 @@ function ChatInput({ value, onChange, onSend, onKeyPress, isSending }: ChatInput
           )}
         </Button>
       </div>
+    </div>
+  );
+}
+
+function ChatFooter() {
+  return (
+    <div className="px-4 py-2 bg-slate-50 border-t border-slate-100">
+      <p className="text-[10px] text-slate-400 text-center">
+        This chat is managed by IBCCF Support. Your information is processed following our{' '}
+        <a href="#" className="text-orange-500 hover:underline">Terms of Use</a>
+        {' '}and{' '}
+        <a href="#" className="text-orange-500 hover:underline">Privacy Policy</a>.
+      </p>
     </div>
   );
 }
