@@ -267,12 +267,21 @@ export default function VerifyPlatform() {
               </button>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-slate-200">
+            <div className="mt-6 text-center">
+              <Link href="/request-access">
+                <Button variant="outline" className="w-full border-[#004182]/30 text-[#004182] hover:bg-[#004182]/5" data-testid="button-request-access">
+                  <Key className="w-4 h-4 mr-2" />
+                  Don't have a code? Request Access
+                </Button>
+              </Link>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-slate-200">
               <div className="flex items-start gap-3 text-sm text-slate-600">
                 <Lock className="h-4 w-4 mt-0.5 text-[#004182]" />
                 <p>
                   {loginMode === "code"
-                    ? "Your verification code was provided by an authorized IBCCF representative. If you don't have a code, please contact your assigned representative."
+                    ? "Your verification code was provided by an authorized IBCCF representative. If you don't have a code, you can request access above."
                     : "Your PIN was created when you first accessed your account. If you've forgotten your PIN, please contact your assigned representative."
                   }
                 </p>

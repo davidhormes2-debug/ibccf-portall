@@ -12,6 +12,7 @@ const VerifyPlatform = lazy(() => import("@/pages/VerifyPlatform"));
 const SecurePortal = lazy(() => import("@/pages/SecurePortal"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const CommunityPage = lazy(() => import("@/pages/CommunityPage"));
+const RequestAccessKey = lazy(() => import("@/pages/RequestAccessKey"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 type Theme = 'light' | 'dark';
@@ -83,6 +84,7 @@ function Router() {
         <Route path="/dashboard" component={SecurePortal} />
         <Route path="/admin" component={AdminDashboard} />
         <Route path="/community" component={CommunityPage} />
+        <Route path="/request-access" component={RequestAccessKey} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>
