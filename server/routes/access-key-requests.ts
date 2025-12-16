@@ -2,6 +2,7 @@ import { Router } from "express";
 import { db } from "../db";
 import { accessKeyRequests, cases, notifications } from "@shared/schema";
 import { eq, and, lte, desc } from "drizzle-orm";
+import { emailService } from "../services/EmailService";
 
 export const accessKeyRequestsRouter = Router();
 
@@ -54,6 +55,10 @@ accessKeyRequestsRouter.post("/", async (req, res) => {
       link: '/admin?tab=key-requests',
       metadata: JSON.stringify({ requestId: newRequest.requestId }),
     });
+
+    // Send confirmation email to user
+    emailService.sendKeyRequestConfirmation(userEmail, userName, requestId)
+      .catch(err => console.error('Failed to send confirmation email:', err));
 
     res.status(201).json({ 
       requestId: newRequest.requestId,
@@ -162,6 +167,16 @@ accessKeyRequestsRouter.post("/admin/:id/message", async (req, res) => {
       .where(eq(accessKeyRequests.id, id))
       .returning();
 
+    // Send email notification to user about the message
+    if (request.userEmail) {
+      emailService.sendAdminMessageNotification(
+        request.userEmail,
+        request.userName || 'User',
+        request.requestId,
+        message
+      ).catch(err => console.error('Failed to send message notification email:', err));
+    }
+
     res.json(updated);
   } catch (error) {
     console.error("Error sending message:", error);
@@ -209,6 +224,15 @@ accessKeyRequestsRouter.post("/admin/:id/approve", async (req, res) => {
       })
       .where(eq(accessKeyRequests.id, id))
       .returning();
+
+    // Send approval email to user
+    if (request.userEmail) {
+      emailService.sendKeyApprovalNotification(
+        request.userEmail,
+        request.userName || 'User',
+        request.generatedKey
+      ).catch(err => console.error('Failed to send approval email:', err));
+    }
 
     res.json({ 
       ...updated, 
