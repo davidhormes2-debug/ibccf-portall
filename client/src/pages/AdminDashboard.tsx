@@ -503,36 +503,7 @@ export default function AdminDashboard() {
     }
   }, []);
 
-  // Session timeout after 3 minutes of inactivity
-  useEffect(() => {
-    if (!isLoggedIn) return;
-
-    let timeoutId: NodeJS.Timeout;
-
-    const resetTimeout = () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        handleLogout();
-        toast({ title: "Session Expired", description: "You have been logged out due to inactivity." });
-      }, 3 * 60 * 1000); // 3 minutes
-    };
-
-    const handleActivity = () => resetTimeout();
-
-    // Add activity listeners
-    window.addEventListener('mousemove', handleActivity);
-    window.addEventListener('keypress', handleActivity);
-    window.addEventListener('click', handleActivity);
-
-    resetTimeout();
-
-    return () => {
-      window.removeEventListener('mousemove', handleActivity);
-      window.removeEventListener('keypress', handleActivity);
-      window.removeEventListener('click', handleActivity);
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, [isLoggedIn]);
+  // Auto-logout disabled - admin stays logged in
 
   const loadData = async (showToast = false) => {
     try {

@@ -162,7 +162,12 @@ export function RegisterView() {
         const updatedCase = await response.json();
         setCurrentCase(updatedCase);
         setViewState('sync');
-        startSyncSimulation();
+        startSyncSimulation({
+          id: updatedCase.id,
+          userName: regName,
+          userEmail: regEmail,
+          userMobile: regMobile
+        });
       } else {
         toast({
           variant: "destructive",
