@@ -98,12 +98,39 @@ casesRouter.get("/", checkAdminAuth, async (req, res) => {
 
 casesRouter.get("/access/:code", async (req, res) => {
   try {
+    // Rate limit access code lookups
+    const ip = req.ip || req.socket.remoteAddress || 'unknown';
+    const rateCheck = checkPinRateLimit(ip);
+    if (!rateCheck.allowed) {
+      res.status(429).json({ 
+        error: "Too many attempts. Please try again later.",
+        retryAfter: rateCheck.retryAfter 
+      });
+      return;
+    }
+    
     const caseData = await caseService.getCaseByAccessCode(req.params.code);
     if (!caseData) {
+      recordPinAttempt(ip, false);
       res.status(404).json({ error: "Case not found" });
       return;
     }
-    res.json(caseData);
+    
+    recordPinAttempt(ip, true);
+    
+    // Return only user-facing fields, not internal admin data
+    const userFacingData = {
+      id: caseData.id,
+      accessCode: caseData.accessCode,
+      status: caseData.status,
+      userName: caseData.userName,
+      userEmail: caseData.userEmail,
+      userMobile: caseData.userMobile,
+      withdrawalStage: caseData.withdrawalStage,
+      depositAddress: caseData.depositAddress,
+      profileRedirectUrl: caseData.profileRedirectUrl
+    };
+    res.json(userFacingData);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch case" });
   }
