@@ -11,6 +11,7 @@ const LandingPage = lazy(() => import("@/pages/LandingPage"));
 const VerifyPlatform = lazy(() => import("@/pages/VerifyPlatform"));
 const SecurePortal = lazy(() => import("@/pages/SecurePortal"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
+const CommunityPage = lazy(() => import("@/pages/CommunityPage"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 type Theme = 'light' | 'dark';
@@ -81,6 +82,7 @@ function Router() {
         <Route path="/verify" component={VerifyPlatform} />
         <Route path="/dashboard" component={SecurePortal} />
         <Route path="/admin" component={AdminDashboard} />
+        <Route path="/community" component={CommunityPage} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>

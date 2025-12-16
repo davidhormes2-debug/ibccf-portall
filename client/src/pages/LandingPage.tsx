@@ -490,6 +490,7 @@ export default function LandingPage() {
               <Link href="/" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium text-sm" data-testid="link-home">Home</Link>
               <a href="#services" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium text-sm" data-testid="link-services">Services</a>
               <a href="#how-it-works" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium text-sm" data-testid="link-how-it-works">How It Works</a>
+              <Link href="/community" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium text-sm" data-testid="link-community">Community</Link>
               <a href="#faq" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium text-sm" data-testid="link-faq">FAQ</a>
               <a href="#contact" className="text-slate-700 dark:text-slate-200 hover:text-[#004182] dark:hover:text-blue-400 font-medium text-sm" data-testid="link-contact">Contact</a>
             </nav>
@@ -527,6 +528,7 @@ export default function LandingPage() {
                 <Link href="/" className="block text-slate-700 dark:text-slate-200 hover:text-[#004182] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>Home</Link>
                 <a href="#services" className="block text-slate-700 dark:text-slate-200 hover:text-[#004182] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>Services</a>
                 <a href="#how-it-works" className="block text-slate-700 dark:text-slate-200 hover:text-[#004182] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>How It Works</a>
+                <Link href="/community" className="block text-slate-700 dark:text-slate-200 hover:text-[#004182] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>Community</Link>
                 <a href="#faq" className="block text-slate-700 dark:text-slate-200 hover:text-[#004182] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
                 <a href="#contact" className="block text-slate-700 dark:text-slate-200 hover:text-[#004182] font-medium py-2" onClick={() => setMobileMenuOpen(false)}>Contact</a>
                 <Link href="/verify" onClick={() => setMobileMenuOpen(false)}>
@@ -589,6 +591,17 @@ export default function LandingPage() {
                   >
                     <Lock className="w-5 h-5 mr-2" />
                     Access Portal
+                  </Button>
+                </Link>
+                <Link href="/community">
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    className="bg-white/10 border-white/30 text-white hover:bg-white/20 font-semibold px-8 py-3"
+                    data-testid="button-community-hero"
+                  >
+                    <Users className="w-5 h-5 mr-2" />
+                    Community Forum
                   </Button>
                 </Link>
               </div>
