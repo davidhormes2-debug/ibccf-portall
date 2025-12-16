@@ -69,6 +69,9 @@ export default function CustomerServiceDashboard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [authToken, setAuthToken] = useState<string | null>(null);
+  const [smartSuggestions, setSmartSuggestions] = useState<string[]>([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [aiEnabled, setAiEnabled] = useState(true);
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('adminToken');
@@ -140,9 +143,39 @@ export default function CustomerServiceDashboard() {
     },
     onSuccess: () => {
       setMessageInput("");
+      setSmartSuggestions([]);
       refetchMessages();
     },
   });
+
+  const fetchSmartSuggestions = async (userMessage: string) => {
+    if (!aiEnabled || !selectedCase) return;
+    setLoadingSuggestions(true);
+    try {
+      const res = await fetch("/api/ai/suggestions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        body: JSON.stringify({ message: userMessage, caseId: selectedCase.id }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSmartSuggestions(data.suggestions || []);
+      }
+    } catch (error) {
+      console.error("Failed to fetch suggestions:", error);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      const lastUserMessage = [...messages].reverse().find(m => m.sender === 'user');
+      if (lastUserMessage && aiEnabled) {
+        fetchSmartSuggestions(lastUserMessage.message);
+      }
+    }
+  }, [messages, selectedCase, aiEnabled]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -481,6 +514,34 @@ export default function CustomerServiceDashboard() {
                         </div>
                         
                         <div className="p-4 border-t border-slate-700">
+                          {aiEnabled && smartSuggestions.length > 0 && (
+                            <div className="mb-3">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Bot className="h-4 w-4 text-blue-400" />
+                                <span className="text-xs text-slate-400">AI Suggestions</span>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                {smartSuggestions.map((suggestion, idx) => (
+                                  <Button
+                                    key={idx}
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-xs text-slate-300 border-slate-600 hover:bg-slate-700 hover:text-white"
+                                    onClick={() => setMessageInput(suggestion)}
+                                    data-testid={`suggestion-${idx}`}
+                                  >
+                                    {suggestion.slice(0, 50)}{suggestion.length > 50 ? '...' : ''}
+                                  </Button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {loadingSuggestions && (
+                            <div className="flex items-center gap-2 mb-3 text-xs text-slate-400">
+                              <Bot className="h-4 w-4 animate-pulse" />
+                              <span>Generating suggestions...</span>
+                            </div>
+                          )}
                           <div className="flex gap-2">
                             <Input
                               placeholder="Type a message..."
@@ -689,7 +750,7 @@ export default function CustomerServiceDashboard() {
                           <p className="text-white">Smart Reply Suggestions</p>
                           <p className="text-sm text-slate-400">Get AI-powered response suggestions</p>
                         </div>
-                        <Switch defaultChecked />
+                        <Switch checked={aiEnabled} onCheckedChange={setAiEnabled} />
                       </div>
                     </CardContent>
                   </Card>

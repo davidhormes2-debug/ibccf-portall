@@ -10,3 +10,4 @@ export { departmentsRouter } from "./departments";
 export { communityRouter } from "./community";
 export { accessKeyRequestsRouter, expirePendingRequests } from "./access-key-requests";
 export { default as visitorsRouter } from "./visitors";
+export { aiRouter } from "./ai";

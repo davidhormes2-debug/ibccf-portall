@@ -31,7 +31,8 @@ import {
   departmentsRouter,
   communityRouter,
   accessKeyRequestsRouter,
-  visitorsRouter
+  visitorsRouter,
+  aiRouter
 } from "./routes/index";
 
 export async function registerRoutes(
@@ -62,6 +63,7 @@ export async function registerRoutes(
   app.use("/api/community", communityRouter);
   app.use("/api/access-key-requests", accessKeyRequestsRouter);
   app.use("/api/visitors", visitorsRouter);
+  app.use("/api/ai", aiRouter);
 
   registerCaseSubmissionRoutes(casesRouter);
   registerCaseDepositRoutes(casesRouter);
