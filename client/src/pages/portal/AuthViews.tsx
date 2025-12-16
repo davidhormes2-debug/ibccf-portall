@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ShieldCheck, Lock, Key, User, Mail, Phone, Shield } from "lucide-react";
+import { ShieldCheck, Lock, Key, User, Mail, Phone, Shield, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -99,12 +99,30 @@ export function LoginView() {
 }
 
 export function RegisterView() {
-  const { currentCase, setCurrentCase, setViewState } = usePortal();
+  const { currentCase, setCurrentCase, setViewState, accessCode: contextAccessCode } = usePortal();
   const [regName, setRegName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regMobile, setRegMobile] = useState("");
+  const [newPin, setNewPin] = useState("");
+  const [confirmPin, setConfirmPin] = useState("");
   const [syncProgress, setSyncProgress] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  
+  // Use context accessCode or fall back to sessionStorage
+  const accessCode = contextAccessCode || sessionStorage.getItem("caseAccessCode") || "";
+  
+  // Show loading state while waiting for case data
+  if (!currentCase) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full border-4 border-blue-500/30 border-t-blue-500 animate-spin"></div>
+          <p className="text-slate-400 text-sm">Loading your profile...</p>
+        </motion.div>
+      </div>
+    );
+  }
 
   const startSyncSimulation = async (caseData: { id: string; userName: string; userEmail: string; userMobile: string }) => {
     const steps = [
@@ -144,9 +162,64 @@ export function RegisterView() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!currentCase) return;
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    // Validate access code is available
+    if (!accessCode) {
+      toast({
+        variant: "destructive",
+        title: "Session Error",
+        description: "Please start over from the verification page.",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Validate PIN
+    if (!newPin || newPin.length !== 6 || !/^\d{6}$/.test(newPin)) {
+      toast({
+        variant: "destructive",
+        title: "Invalid PIN",
+        description: "Please enter a 6-digit numeric PIN.",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (newPin !== confirmPin) {
+      toast({
+        variant: "destructive",
+        title: "PIN Mismatch",
+        description: "The PINs you entered do not match. Please try again.",
+      });
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
+      // First, set the PIN
+      const pinResponse = await fetch('/api/cases/set-pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          accessCode: accessCode,
+          pin: newPin
+        })
+      });
+
+      if (!pinResponse.ok) {
+        const pinError = await pinResponse.json();
+        toast({
+          variant: "destructive",
+          title: "PIN Setup Failed",
+          description: pinError.error || "Unable to set your PIN.",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Then register the user details
       const response = await fetch(`/api/cases/${currentCase.id}/register`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -174,6 +247,7 @@ export function RegisterView() {
           title: "Registration Failed",
           description: "Unable to complete registration.",
         });
+        setIsSubmitting(false);
       }
     } catch {
       toast({
@@ -181,6 +255,7 @@ export function RegisterView() {
         title: "Connection Error",
         description: "Unable to save registration.",
       });
+      setIsSubmitting(false);
     }
   };
 
@@ -238,8 +313,65 @@ export function RegisterView() {
                   />
                 </div>
               </div>
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4" data-testid="button-register">
-                Proceed to Secure Synchronization
+              
+              <div className="pt-4 border-t border-slate-800">
+                <p className="text-xs text-slate-400 mb-4">Create a secure 6-digit PIN for future logins</p>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-slate-400 uppercase">Create 6-Digit PIN</label>
+                    <div className="relative">
+                      <KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                      <Input 
+                        required 
+                        type="password" 
+                        value={newPin} 
+                        onChange={e => {
+                          const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                          setNewPin(value);
+                        }} 
+                        className="pl-9 bg-slate-900 border-slate-800 text-white text-center tracking-widest font-mono" 
+                        placeholder="••••••" 
+                        maxLength={6}
+                        data-testid="input-new-pin" 
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-slate-400 uppercase">Confirm PIN</label>
+                    <div className="relative">
+                      <KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                      <Input 
+                        required 
+                        type="password" 
+                        value={confirmPin} 
+                        onChange={e => {
+                          const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                          setConfirmPin(value);
+                        }} 
+                        className="pl-9 bg-slate-900 border-slate-800 text-white text-center tracking-widest font-mono" 
+                        placeholder="••••••" 
+                        maxLength={6}
+                        data-testid="input-confirm-pin" 
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <Button 
+                type="submit" 
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4" 
+                data-testid="button-register"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Processing...
+                  </span>
+                ) : (
+                  "Proceed to Secure Synchronization"
+                )}
               </Button>
             </form>
           </CardContent>
