@@ -154,25 +154,25 @@ export default function RequestAccessKey() {
     <div className="min-h-screen bg-gradient-to-b from-[#004182] to-[#002d5a] font-['Public_Sans',sans-serif]">
       <header className="bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/verify" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
-              <ArrowLeft className="h-5 w-5" />
-              <span className="font-medium">Back to Verify</span>
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            <Link href="/verify" className="flex items-center gap-1 sm:gap-2 text-white hover:opacity-80 transition-opacity">
+              <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="font-medium text-sm sm:text-base">Back</span>
             </Link>
             <div className="flex items-center gap-2">
-              <Shield className="h-6 w-6 text-white" />
-              <span className="text-xl font-bold text-white font-['Merriweather',serif]">IBCCF</span>
+              <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+              <span className="text-lg sm:text-xl font-bold text-white font-['Merriweather',serif]">IBCCF</span>
             </div>
             <ThemeToggle className="text-white" />
           </div>
         </div>
       </header>
 
-      <main className="flex items-center justify-center px-4 py-12">
+      <main className="flex items-center justify-center px-4 py-8 sm:py-12">
         <div className="w-full max-w-lg">
           {submittedRequestId ? (
             <Card className="bg-white rounded-2xl shadow-2xl">
-              <CardContent className="p-8">
+              <CardContent className="p-5 sm:p-8">
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="h-8 w-8 text-green-600" />

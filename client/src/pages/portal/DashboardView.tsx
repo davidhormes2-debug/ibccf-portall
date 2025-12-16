@@ -12,7 +12,7 @@ import { usePortal } from "./PortalContext";
 import { 
   Shield, ShieldCheck, Lock, CheckCircle, CheckCircle2, AlertTriangle, Clock, 
   Bell, FileText, MessageCircle, Send, X, Wallet, ExternalLink, User, History,
-  Moon, Sun, TrendingUp, Key, Users
+  Moon, Sun, TrendingUp, Key, Users, LogOut
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -102,36 +102,36 @@ export function DashboardView() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent,rgba(255,255,255,0.05),transparent)]"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500 blur-lg opacity-50 rounded-full"></div>
-                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center relative">
-                  <Shield className="h-7 w-7 text-white" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 flex items-center justify-center relative">
+                  <Shield className="h-5 w-5 sm:h-7 sm:w-7 text-white" />
                 </div>
               </div>
               <div>
-                <h1 className="font-bold text-lg tracking-wide">IBCCF SECURE PORTAL</h1>
+                <h1 className="font-bold text-sm sm:text-lg tracking-wide">IBCCF PORTAL</h1>
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                  <p className="text-xs text-blue-200 uppercase tracking-wider">Member Dashboard</p>
+                  <p className="text-[10px] sm:text-xs text-blue-200 uppercase tracking-wider hidden sm:block">Member Dashboard</p>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               {hasUrgentMessages && (
                 <motion.div 
                   animate={{ scale: [1, 1.05, 1] }}
                   transition={{ repeat: Infinity, duration: 2 }}
-                  className="flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 px-4 py-1.5 rounded-full text-sm font-bold shadow-lg"
+                  className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-red-500 to-red-600 px-2 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-lg"
                 >
-                  <AlertTriangle className="w-4 h-4" />
-                  URGENT
+                  <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">URGENT</span>
                 </motion.div>
               )}
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-white hover:bg-white/10 border border-white/20 hover:border-white/40 transition-all"
+                className="text-white hover:bg-white/10 border border-white/20 hover:border-white/40 transition-all p-2 sm:p-2"
                 onClick={toggleTheme}
                 data-testid="button-theme-toggle"
               >
@@ -140,11 +140,12 @@ export function DashboardView() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-white hover:bg-white/10 border border-white/20 hover:border-white/40 transition-all"
+                className="text-white hover:bg-white/10 border border-white/20 hover:border-white/40 transition-all text-xs sm:text-sm px-2 sm:px-3"
                 onClick={logout}
                 data-testid="button-logout"
               >
-                Sign Out
+                <span className="hidden sm:inline">Sign Out</span>
+                <LogOut className="w-4 h-4 sm:hidden" />
               </Button>
             </div>
           </div>
@@ -152,29 +153,29 @@ export function DashboardView() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6 sm:mb-8">
+          <div className="flex flex-col gap-4">
             <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-1">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 mb-1">
                 Welcome back, <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">{currentCase?.userName || 'Member'}</span>
               </h2>
-              <div className="flex items-center gap-3 text-slate-600">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-slate-600 text-sm">
                 <span className="flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-green-500" />
-                  Verified Account
+                  Verified
                 </span>
-                <span className="text-slate-300">•</span>
-                <span className="font-mono text-sm">IBCCF-{currentCase?.accessCode}</span>
+                <span className="text-slate-300 hidden sm:inline">•</span>
+                <span className="font-mono text-xs sm:text-sm">IBCCF-{currentCase?.accessCode}</span>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="bg-white rounded-lg shadow-sm border border-slate-200 px-4 py-2 text-center">
-                <p className="text-xs text-slate-500 uppercase tracking-wider">VIP Status</p>
-                <p className="font-bold text-blue-600">{currentCase?.vipStatus || 'Standard'}</p>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="bg-white rounded-lg shadow-sm border border-slate-200 px-3 sm:px-4 py-2 text-center flex-1 sm:flex-none">
+                <p className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider">VIP Status</p>
+                <p className="font-bold text-blue-600 text-sm sm:text-base">{currentCase?.vipStatus || 'Standard'}</p>
               </div>
-              <div className="bg-white rounded-lg shadow-sm border border-slate-200 px-4 py-2 text-center">
-                <p className="text-xs text-slate-500 uppercase tracking-wider">Account</p>
-                <p className="font-bold text-green-600">Active</p>
+              <div className="bg-white rounded-lg shadow-sm border border-slate-200 px-3 sm:px-4 py-2 text-center flex-1 sm:flex-none">
+                <p className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider">Account</p>
+                <p className="font-bold text-green-600 text-sm sm:text-base">Active</p>
               </div>
             </div>
           </div>
@@ -188,26 +189,26 @@ export function DashboardView() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }} 
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-8 p-5 bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200 rounded-xl flex items-center gap-4 shadow-lg shadow-red-100/50"
+            className="mb-6 sm:mb-8 p-3 sm:p-5 bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 shadow-lg shadow-red-100/50"
           >
             <motion.div 
               animate={{ rotate: [0, -10, 10, -10, 0] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              className="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg"
+              className="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg"
             >
-              <AlertTriangle className="w-7 h-7 text-white" />
+              <AlertTriangle className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </motion.div>
             <div className="flex-1">
-              <h3 className="font-bold text-red-900 text-lg">Immediate Action Required</h3>
-              <p className="text-red-700">You have pending requirements from IBCCF compliance team. Please review and respond promptly.</p>
+              <h3 className="font-bold text-red-900 text-base sm:text-lg">Immediate Action Required</h3>
+              <p className="text-red-700 text-sm sm:text-base">You have pending requirements from IBCCF compliance team.</p>
             </div>
-            <Button className="bg-red-600 hover:bg-red-700 shadow-lg" onClick={() => setViewState('messages')}>
+            <Button className="bg-red-600 hover:bg-red-700 shadow-lg w-full sm:w-auto" size="sm" onClick={() => setViewState('messages')}>
               View Now
             </Button>
           </motion.div>
         )}
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" onClick={() => setViewState('messages')} data-testid="card-required-actions">
               <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-t-lg">

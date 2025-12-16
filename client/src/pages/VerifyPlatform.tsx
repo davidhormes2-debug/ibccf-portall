@@ -137,28 +137,31 @@ export default function VerifyPlatform() {
       {/* Header */}
       <header className="bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
-              <ArrowLeft className="h-5 w-5" />
-              <span className="font-medium">Back to Home</span>
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            <Link href="/" className="flex items-center gap-1 sm:gap-2 text-white hover:opacity-80 transition-opacity">
+              <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="font-medium text-sm sm:text-base hidden sm:inline">Back to Home</span>
+              <span className="font-medium text-sm sm:hidden">Back</span>
             </Link>
             <div className="flex items-center gap-2">
-              <Shield className="h-6 w-6 text-white" />
-              <span className="text-xl font-bold text-white font-['Merriweather',serif]">IBCCF</span>
+              <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+              <span className="text-lg sm:text-xl font-bold text-white font-['Merriweather',serif]">IBCCF</span>
             </div>
-            <ThemeToggle className="text-white" />
-            <div className="flex items-center gap-2 text-sm text-white/80">
-              <Lock className="h-4 w-4" />
-              <span>Secure Access</span>
+            <div className="flex items-center gap-2">
+              <ThemeToggle className="text-white" />
+              <div className="hidden sm:flex items-center gap-2 text-sm text-white/80">
+                <Lock className="h-4 w-4" />
+                <span>Secure Access</span>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex items-center justify-center px-4 py-20">
+      <main className="flex items-center justify-center px-4 py-10 sm:py-20">
         <div className="w-full max-w-md">
-          <div className="bg-white rounded-2xl shadow-2xl p-8">
+          <div className="bg-white rounded-2xl shadow-2xl p-5 sm:p-8">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-[#004182]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 {loginMode === "code" ? (
