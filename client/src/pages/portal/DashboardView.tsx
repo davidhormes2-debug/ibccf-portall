@@ -12,8 +12,9 @@ import { usePortal } from "./PortalContext";
 import { 
   Shield, ShieldCheck, Lock, CheckCircle, CheckCircle2, AlertTriangle, Clock, 
   Bell, FileText, MessageCircle, Send, X, Wallet, ExternalLink, User, History,
-  Moon, Sun, TrendingUp, Key
+  Moon, Sun, TrendingUp, Key, Users
 } from "lucide-react";
+import { Link } from "wouter";
 
 export function DashboardView() {
   const { 
@@ -408,6 +409,30 @@ export function DashboardView() {
                 )}
               </CardContent>
             </Card>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
+            <Link href="/community">
+              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary/20" data-testid="card-community">
+                <CardHeader className="bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-t-lg">
+                  <CardTitle className="flex items-center gap-2"><Users className="w-5 h-5" />Community Forum</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <p className="text-slate-600 text-sm mb-4">Connect with other community members, share experiences, and get support.</p>
+                  <div className="space-y-2 text-sm mb-4">
+                    <div className="flex items-center gap-2 text-slate-500">
+                      <Users className="w-4 h-4" />
+                      <span>650+ Active Members</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-slate-500">
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Department Discussions</span>
+                    </div>
+                  </div>
+                  <Button className="w-full" variant="outline"><Users className="w-4 h-4 mr-2" />Join Community</Button>
+                </CardContent>
+              </Card>
+            </Link>
           </motion.div>
         </div>
       </main>
