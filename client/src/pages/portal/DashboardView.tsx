@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { useTheme } from "@/App";
 import { useToast } from "@/hooks/use-toast";
 import { usePortal } from "./PortalContext";
+import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 import { 
   Shield, ShieldCheck, Lock, CheckCircle, CheckCircle2, AlertTriangle, Clock, 
   Bell, FileText, MessageCircle, Send, X, Wallet, ExternalLink, User, History,
@@ -22,6 +23,8 @@ export function DashboardView() {
     chatMessages, unreadCount, unreadAdminMessages, isChatOpen, setIsChatOpen,
     sendMessage, setViewState, logout, hasUrgentMessages
   } = usePortal();
+  
+  useVisitorTracking({ caseId: currentCase?.id, enabled: true });
   
   const [newMessage, setNewMessage] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
