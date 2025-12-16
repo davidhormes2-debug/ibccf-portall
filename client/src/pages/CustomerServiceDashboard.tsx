@@ -5,8 +5,9 @@ import {
   MessageCircle, Users, Send, Bell, BellOff, RefreshCw, Search, Clock, User,
   LayoutDashboard, Settings, BarChart3, Eye, LogOut, Shield, Menu, X, 
   Globe, Monitor, Smartphone, Tablet, MapPin, Circle, Play, MessageSquare,
-  Star, TrendingUp, AlertCircle, CheckCircle2, Zap, Bot
+  Star, TrendingUp, AlertCircle, CheckCircle2, Zap, Bot, Volume2, VolumeX
 } from "lucide-react";
+import { useNotificationSound } from "@/hooks/useNotificationSound";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -76,7 +77,11 @@ export default function CustomerServiceDashboard() {
   const [proactiveChatVisitor, setProactiveChatVisitor] = useState<ActiveVisitor | null>(null);
   const [proactiveChatMessage, setProactiveChatMessage] = useState("");
   const [isUserTyping, setIsUserTyping] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
+  const prevUnreadCountRef = useRef<number>(0);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { playNewMessage } = useNotificationSound();
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('adminToken');
@@ -85,6 +90,48 @@ export default function CustomerServiceDashboard() {
       setIsLoggedIn(true);
     }
   }, []);
+
+  // Check notification permission on mount
+  useEffect(() => {
+    if ('Notification' in window) {
+      setNotificationPermission(Notification.permission);
+    }
+  }, []);
+
+  // Request notification permission
+  const requestNotificationPermission = async () => {
+    if ('Notification' in window) {
+      const permission = await Notification.requestPermission();
+      setNotificationPermission(permission);
+      setNotificationsEnabled(permission === 'granted');
+    }
+  };
+
+  // Show desktop notification
+  const showDesktopNotification = useCallback((title: string, body: string) => {
+    if (notificationsEnabled && notificationPermission === 'granted' && 'Notification' in window) {
+      new Notification(title, {
+        body,
+        icon: '/favicon.ico',
+        badge: '/favicon.ico',
+        tag: 'ibccf-notification',
+      });
+    }
+  }, [notificationsEnabled, notificationPermission]);
+
+  // Play sound and show notification on new unread messages
+  useEffect(() => {
+    const currentTotal = Object.values(unreadCounts).reduce((a, b) => a + b, 0);
+    if (currentTotal > prevUnreadCountRef.current && isLoggedIn) {
+      if (soundEnabled) {
+        playNewMessage();
+      }
+      if (notificationsEnabled) {
+        showDesktopNotification('New Message', 'You have a new message from a visitor');
+      }
+    }
+    prevUnreadCountRef.current = currentTotal;
+  }, [unreadCounts, isLoggedIn, soundEnabled, notificationsEnabled, playNewMessage, showDesktopNotification]);
 
   const getAuthHeaders = (): Record<string, string> => {
     const token = authToken || sessionStorage.getItem('adminToken');
@@ -356,8 +403,30 @@ export default function CustomerServiceDashboard() {
             </Badge>
           </div>
           
-          <Button variant="ghost" size="icon" onClick={() => setNotificationsEnabled(!notificationsEnabled)} className="text-slate-400">
-            {notificationsEnabled ? <Bell className="h-5 w-5" /> : <BellOff className="h-5 w-5" />}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setSoundEnabled(!soundEnabled)} 
+            className="text-slate-400"
+            title={soundEnabled ? "Mute sounds" : "Enable sounds"}
+          >
+            {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
+          </Button>
+          
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => {
+              if (notificationPermission !== 'granted') {
+                requestNotificationPermission();
+              } else {
+                setNotificationsEnabled(!notificationsEnabled);
+              }
+            }} 
+            className="text-slate-400"
+            title={notificationPermission !== 'granted' ? 'Enable notifications' : (notificationsEnabled ? 'Disable notifications' : 'Enable notifications')}
+          >
+            {notificationsEnabled && notificationPermission === 'granted' ? <Bell className="h-5 w-5" /> : <BellOff className="h-5 w-5" />}
           </Button>
           
           <Button variant="ghost" size="icon" onClick={() => refetchCases()} className="text-slate-400">
@@ -816,10 +885,35 @@ export default function CustomerServiceDashboard() {
                       
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-white">Desktop Notifications</p>
-                          <p className="text-sm text-slate-400">Receive alerts for new messages</p>
+                          <p className="text-white">Sound Alerts</p>
+                          <p className="text-sm text-slate-400">Play sounds for new messages</p>
                         </div>
-                        <Switch checked={notificationsEnabled} onCheckedChange={setNotificationsEnabled} />
+                        <Switch checked={soundEnabled} onCheckedChange={setSoundEnabled} />
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-white">Desktop Notifications</p>
+                          <p className="text-sm text-slate-400">
+                            {notificationPermission === 'granted' 
+                              ? 'Receive alerts for new messages'
+                              : notificationPermission === 'denied'
+                              ? 'Notifications blocked by browser'
+                              : 'Click to enable notifications'}
+                          </p>
+                        </div>
+                        {notificationPermission === 'granted' ? (
+                          <Switch checked={notificationsEnabled} onCheckedChange={setNotificationsEnabled} />
+                        ) : (
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={requestNotificationPermission}
+                            disabled={notificationPermission === 'denied'}
+                          >
+                            {notificationPermission === 'denied' ? 'Blocked' : 'Enable'}
+                          </Button>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
