@@ -8,6 +8,7 @@ import {
   rateLimiter,
   inputSanitizer,
 } from "./middleware";
+import { startBotResponseProcessor } from "./services/bot-response-generator";
 
 const app = express();
 const httpServer = createServer(app);
@@ -109,6 +110,7 @@ app.use((req, res, next) => {
     },
     () => {
       log(`serving on port ${port}`);
+      startBotResponseProcessor();
     },
   );
 })();

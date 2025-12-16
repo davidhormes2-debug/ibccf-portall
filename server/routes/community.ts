@@ -9,6 +9,7 @@ import {
   departments
 } from "@shared/schema";
 import { eq, desc, asc, and, sql } from "drizzle-orm";
+import { scheduleResponsesForThread } from "../services/bot-response-generator";
 
 export const communityRouter = Router();
 
@@ -144,6 +145,11 @@ communityRouter.post("/threads", async (req, res) => {
       .set({ postCount: String(parseInt(participant.postCount || '0') + 1) })
       .where(eq(communityParticipants.id, participantId));
 
+    // Schedule AI-generated bot responses for real user posts (delayed delivery)
+    scheduleResponsesForThread(newThread.id).catch(err => 
+      console.error("Error scheduling bot responses:", err)
+    );
+
     res.status(201).json(newThread);
   } catch (error) {
     console.error("Error creating thread:", error);
@@ -205,6 +211,11 @@ communityRouter.post("/threads/:id/posts", async (req, res) => {
       .update(communityParticipants)
       .set({ postCount: String(parseInt(participant.postCount || '0') + 1) })
       .where(eq(communityParticipants.id, participantId));
+
+    // Schedule AI-generated bot responses for real user replies (delayed delivery)
+    scheduleResponsesForThread(threadId, newPost.id).catch(err => 
+      console.error("Error scheduling bot responses:", err)
+    );
 
     res.status(201).json(newPost);
   } catch (error) {

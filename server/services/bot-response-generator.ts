@@ -9,7 +9,10 @@ import {
 } from "@shared/schema";
 import { eq, and, lte, sql, desc } from "drizzle-orm";
 
-const openai = new OpenAI();
+const openai = new OpenAI({
+  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
 
 function getRandomDelay(): number {
   const minMinutes = 2;
