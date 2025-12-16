@@ -57,7 +57,7 @@ export default function MobileAdminChat() {
     }
   }, []);
 
-  const getAuthHeaders = () => {
+  const getAuthHeaders = (): Record<string, string> => {
     const token = authToken || sessionStorage.getItem('adminToken');
     return token ? { "Authorization": `Bearer ${token}` } : {};
   };
