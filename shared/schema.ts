@@ -938,3 +938,26 @@ export const insertUserDocumentSchema = createInsertSchema(userDocuments).omit({
 
 export type InsertUserDocument = z.infer<typeof insertUserDocumentSchema>;
 export type UserDocument = typeof userDocuments.$inferSelect;
+
+// Pending bot responses - AI-generated responses scheduled for delayed delivery
+export const pendingBotResponses = pgTable("pending_bot_responses", {
+  id: serial("id").primaryKey(),
+  threadId: integer("thread_id").references(() => communityThreads.id),
+  triggerPostId: integer("trigger_post_id").references(() => communityPosts.id), // The user post that triggered this response
+  botId: integer("bot_id").references(() => botProfiles.id),
+  content: text("content").notNull(),
+  scheduledFor: timestamp("scheduled_for").notNull(), // When to deliver the response
+  status: text("status").default('pending'), // 'pending', 'delivered', 'cancelled', 'failed'
+  deliveredAt: timestamp("delivered_at"),
+  resultPostId: integer("result_post_id"), // The actual post created when delivered
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertPendingBotResponseSchema = createInsertSchema(pendingBotResponses).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertPendingBotResponse = z.infer<typeof insertPendingBotResponseSchema>;
+export type PendingBotResponse = typeof pendingBotResponses.$inferSelect;
