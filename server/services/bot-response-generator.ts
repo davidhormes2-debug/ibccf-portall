@@ -156,6 +156,20 @@ export async function processPendingResponses() {
       .limit(10);
 
     for (const response of pendingResponses) {
+      const [claimed] = await db
+        .update(pendingBotResponses)
+        .set({ status: 'processing' })
+        .where(
+          and(
+            eq(pendingBotResponses.id, response.id),
+            eq(pendingBotResponses.status, 'pending')
+          )
+        )
+        .returning();
+      
+      if (!claimed) {
+        continue;
+      }
       try {
         const [bot] = await db
           .select()
@@ -237,6 +251,7 @@ export async function processPendingResponses() {
 }
 
 let processingInterval: NodeJS.Timeout | null = null;
+let isProcessing = false;
 
 export function startBotResponseProcessor() {
   if (processingInterval) {
@@ -244,7 +259,17 @@ export function startBotResponseProcessor() {
   }
   
   processingInterval = setInterval(async () => {
-    await processPendingResponses();
+    if (isProcessing) {
+      console.log("Skipping bot response processing - already in progress");
+      return;
+    }
+    
+    isProcessing = true;
+    try {
+      await processPendingResponses();
+    } finally {
+      isProcessing = false;
+    }
   }, 30000);
   
   console.log("Bot response processor started (checking every 30 seconds)");
