@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { storage } from "../storage";
-import { insertActiveVisitorSchema, insertVisitorHistorySchema, insertBlockedVisitorSchema } from "@shared/schema";
+import { insertActiveVisitorSchema, insertVisitorHistorySchema, insertBlockedVisitorSchema, insertOfflineMessageSchema } from "@shared/schema";
 import { checkAdminAuth } from "./middleware";
 
 const router = Router();
@@ -339,6 +339,123 @@ router.post("/:visitorId/notes", checkAdminAuth, async (req, res) => {
   } catch (error) {
     console.error("Add note error:", error);
     res.status(500).json({ error: "Failed to add note" });
+  }
+});
+
+// ==================== OFFLINE MESSAGES ====================
+
+// Submit offline message (when no agents available)
+router.post("/offline-messages", async (req, res) => {
+  try {
+    const parseResult = insertOfflineMessageSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      return res.status(400).json({ error: "Invalid request data", details: parseResult.error.errors });
+    }
+
+    const message = await storage.createOfflineMessage(parseResult.data);
+    res.status(201).json(message);
+  } catch (error) {
+    console.error("Create offline message error:", error);
+    res.status(500).json({ error: "Failed to create offline message" });
+  }
+});
+
+// Get all offline messages (admin only)
+router.get("/offline-messages", checkAdminAuth, async (req, res) => {
+  try {
+    const messages = await storage.getAllOfflineMessages();
+    res.json(messages);
+  } catch (error) {
+    console.error("Get offline messages error:", error);
+    res.status(500).json({ error: "Failed to get offline messages" });
+  }
+});
+
+// Get offline messages count (admin only)
+router.get("/offline-messages/count", checkAdminAuth, async (req, res) => {
+  try {
+    const count = await storage.getUnreadOfflineMessagesCount();
+    res.json({ count });
+  } catch (error) {
+    console.error("Get offline messages count error:", error);
+    res.status(500).json({ error: "Failed to get offline messages count" });
+  }
+});
+
+// Get single offline message (admin only)
+router.get("/offline-messages/:id", checkAdminAuth, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    const message = await storage.getOfflineMessageById(id);
+    if (!message) {
+      return res.status(404).json({ error: "Message not found" });
+    }
+
+    res.json(message);
+  } catch (error) {
+    console.error("Get offline message error:", error);
+    res.status(500).json({ error: "Failed to get offline message" });
+  }
+});
+
+// Update offline message status (admin only)
+router.patch("/offline-messages/:id", checkAdminAuth, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    const { status, repliedBy } = req.body;
+    const updateData: any = { status };
+    
+    if (status === 'replied' && repliedBy) {
+      updateData.repliedBy = repliedBy;
+      updateData.repliedAt = new Date();
+    }
+
+    const message = await storage.updateOfflineMessage(id, updateData);
+    if (!message) {
+      return res.status(404).json({ error: "Message not found" });
+    }
+
+    res.json(message);
+  } catch (error) {
+    console.error("Update offline message error:", error);
+    res.status(500).json({ error: "Failed to update offline message" });
+  }
+});
+
+// Delete offline message (admin only)
+router.delete("/offline-messages/:id", checkAdminAuth, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    await storage.deleteOfflineMessage(id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Delete offline message error:", error);
+    res.status(500).json({ error: "Failed to delete offline message" });
+  }
+});
+
+// Check agent availability (for frontend to show offline form)
+router.get("/agent-status", async (req, res) => {
+  try {
+    // Check if any admin is online
+    const availability = await storage.getAdminAvailability('Admin2025');
+    const isOnline = availability?.isOnline || false;
+    res.json({ isOnline, status: availability?.status || 'offline' });
+  } catch (error) {
+    console.error("Check agent status error:", error);
+    res.status(500).json({ error: "Failed to check agent status" });
   }
 });
 

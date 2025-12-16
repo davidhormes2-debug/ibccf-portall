@@ -29,6 +29,7 @@ import {
   type VisitorHistory, type InsertVisitorHistory, visitorHistory,
   type BlockedVisitor, type InsertBlockedVisitor, blockedVisitors,
   type AdminAvailability, type InsertAdminAvailability, adminAvailability,
+  type OfflineMessage, type InsertOfflineMessage, offlineMessages,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, lt, isNull, sql } from "drizzle-orm";
@@ -230,6 +231,14 @@ export interface IStorage {
   // Admin availability operations
   getAdminAvailability(username: string): Promise<AdminAvailability | undefined>;
   updateAdminAvailability(username: string, data: Partial<InsertAdminAvailability>): Promise<AdminAvailability>;
+  
+  // Offline message operations
+  createOfflineMessage(data: InsertOfflineMessage): Promise<OfflineMessage>;
+  getAllOfflineMessages(): Promise<OfflineMessage[]>;
+  getOfflineMessageById(id: number): Promise<OfflineMessage | undefined>;
+  updateOfflineMessage(id: number, data: Partial<InsertOfflineMessage>): Promise<OfflineMessage | undefined>;
+  deleteOfflineMessage(id: number): Promise<void>;
+  getUnreadOfflineMessagesCount(): Promise<number>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1074,6 +1083,40 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return created;
     }
+  }
+
+  // Offline message operations
+  async createOfflineMessage(data: InsertOfflineMessage): Promise<OfflineMessage> {
+    const [message] = await db.insert(offlineMessages).values(data).returning();
+    return message;
+  }
+
+  async getAllOfflineMessages(): Promise<OfflineMessage[]> {
+    return await db.select().from(offlineMessages).orderBy(desc(offlineMessages.createdAt));
+  }
+
+  async getOfflineMessageById(id: number): Promise<OfflineMessage | undefined> {
+    const [message] = await db.select().from(offlineMessages).where(eq(offlineMessages.id, id));
+    return message;
+  }
+
+  async updateOfflineMessage(id: number, data: Partial<InsertOfflineMessage>): Promise<OfflineMessage | undefined> {
+    const [updated] = await db.update(offlineMessages)
+      .set(data)
+      .where(eq(offlineMessages.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteOfflineMessage(id: number): Promise<void> {
+    await db.delete(offlineMessages).where(eq(offlineMessages.id, id));
+  }
+
+  async getUnreadOfflineMessagesCount(): Promise<number> {
+    const result = await db.select({ count: sql<number>`count(*)` })
+      .from(offlineMessages)
+      .where(eq(offlineMessages.status, 'new'));
+    return Number(result[0]?.count || 0);
   }
 }
 

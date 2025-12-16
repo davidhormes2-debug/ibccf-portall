@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Loader2, MoreVertical, Minimize2, Download, Shield, Smile, Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import {
   DropdownMenu,
@@ -29,6 +30,9 @@ interface ChatWidgetProps {
   title?: string;
   subtitle?: string;
   isLoading?: boolean;
+  isAgentOnline?: boolean;
+  visitorId?: string;
+  onOfflineMessageSent?: () => void;
 }
 
 export function ChatWidget({
@@ -40,10 +44,17 @@ export function ChatWidget({
   title = "IBCCF Support",
   subtitle = "Online • Typically replies in minutes",
   isLoading = false,
+  isAgentOnline = true,
+  visitorId,
+  onOfflineMessageSent,
 }: ChatWidgetProps) {
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [showOfflineForm, setShowOfflineForm] = useState(false);
+  const [offlineFormData, setOfflineFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
+  const [offlineFormSubmitting, setOfflineFormSubmitting] = useState(false);
+  const [offlineFormSuccess, setOfflineFormSuccess] = useState(false);
   const chatScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -87,6 +98,40 @@ export function ChatWidget({
     URL.revokeObjectURL(url);
   };
 
+  const handleOfflineFormSubmit = async () => {
+    if (!offlineFormData.message.trim()) return;
+    setOfflineFormSubmitting(true);
+    try {
+      const response = await fetch('/api/visitors/offline-messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          visitorId,
+          name: offlineFormData.name || null,
+          email: offlineFormData.email || null,
+          phone: offlineFormData.phone || null,
+          subject: offlineFormData.subject || null,
+          message: offlineFormData.message,
+        }),
+      });
+      if (response.ok) {
+        setOfflineFormSuccess(true);
+        setOfflineFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+        onOfflineMessageSent?.();
+      }
+    } catch (error) {
+      console.error('Failed to submit offline message:', error);
+    } finally {
+      setOfflineFormSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!isAgentOnline && messages.length === 0) {
+      setShowOfflineForm(true);
+    }
+  }, [isAgentOnline, messages.length]);
+
   return (
     <>
       <ChatButton 
@@ -119,19 +164,46 @@ export function ChatWidget({
             
             {!isMinimized && (
               <>
-                <ChatMessages 
-                  ref={chatScrollRef}
-                  messages={messages} 
-                  isLoading={isLoading}
-                />
-                
-                <ChatInput
-                  value={newMessage}
-                  onChange={setNewMessage}
-                  onSend={handleSend}
-                  onKeyPress={handleKeyPress}
-                  isSending={isSending}
-                />
+                {showOfflineForm && !isAgentOnline ? (
+                  <OfflineMessageForm
+                    formData={offlineFormData}
+                    onChange={setOfflineFormData}
+                    onSubmit={handleOfflineFormSubmit}
+                    isSubmitting={offlineFormSubmitting}
+                    isSuccess={offlineFormSuccess}
+                    onBack={() => setShowOfflineForm(false)}
+                  />
+                ) : (
+                  <>
+                    <ChatMessages 
+                      ref={chatScrollRef}
+                      messages={messages} 
+                      isLoading={isLoading}
+                    />
+                    
+                    {!isAgentOnline && (
+                      <div className="px-4 py-2 bg-amber-50 border-t border-amber-100">
+                        <p className="text-xs text-amber-700 text-center">
+                          Our agents are currently offline. 
+                          <button 
+                            className="ml-1 underline font-medium hover:text-amber-900"
+                            onClick={() => setShowOfflineForm(true)}
+                          >
+                            Leave a message
+                          </button>
+                        </p>
+                      </div>
+                    )}
+                    
+                    <ChatInput
+                      value={newMessage}
+                      onChange={setNewMessage}
+                      onSend={handleSend}
+                      onKeyPress={handleKeyPress}
+                      isSending={isSending}
+                    />
+                  </>
+                )}
                 
                 <ChatFooter />
               </>
@@ -402,6 +474,120 @@ function ChatInput({ value, onChange, onSend, onKeyPress, isSending }: ChatInput
           ) : (
             <Send className="h-4 w-4" aria-hidden="true" />
           )}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+interface OfflineMessageFormProps {
+  formData: { name: string; email: string; phone: string; subject: string; message: string };
+  onChange: (data: { name: string; email: string; phone: string; subject: string; message: string }) => void;
+  onSubmit: () => void;
+  isSubmitting: boolean;
+  isSuccess: boolean;
+  onBack: () => void;
+}
+
+function OfflineMessageForm({ formData, onChange, onSubmit, isSubmitting, isSuccess, onBack }: OfflineMessageFormProps) {
+  if (isSuccess) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h3 className="text-lg font-semibold text-slate-800 mb-2">Message Sent!</h3>
+        <p className="text-sm text-slate-600 mb-4">
+          Thank you for reaching out. Our team will review your message and respond as soon as possible.
+        </p>
+        <Button variant="outline" onClick={onBack} className="mt-2" data-testid="button-back-to-chat">
+          Back to Chat
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div className="text-center mb-4">
+        <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-2">
+          <MessageCircle className="w-6 h-6 text-amber-600" />
+        </div>
+        <h3 className="text-base font-semibold text-slate-800">Leave us a message</h3>
+        <p className="text-xs text-slate-500">We're currently offline. Leave your message and we'll get back to you.</p>
+      </div>
+      
+      <div className="space-y-3">
+        <div>
+          <label className="text-xs font-medium text-slate-600 block mb-1">Name</label>
+          <Input
+            value={formData.name}
+            onChange={(e) => onChange({ ...formData, name: e.target.value })}
+            placeholder="Your name"
+            className="h-9 text-sm"
+            data-testid="input-offline-name"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-slate-600 block mb-1">Email *</label>
+          <Input
+            type="email"
+            value={formData.email}
+            onChange={(e) => onChange({ ...formData, email: e.target.value })}
+            placeholder="your.email@example.com"
+            className="h-9 text-sm"
+            required
+            data-testid="input-offline-email"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-slate-600 block mb-1">Phone (optional)</label>
+          <Input
+            type="tel"
+            value={formData.phone}
+            onChange={(e) => onChange({ ...formData, phone: e.target.value })}
+            placeholder="+1 (555) 000-0000"
+            className="h-9 text-sm"
+            data-testid="input-offline-phone"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-slate-600 block mb-1">Subject</label>
+          <Input
+            value={formData.subject}
+            onChange={(e) => onChange({ ...formData, subject: e.target.value })}
+            placeholder="How can we help?"
+            className="h-9 text-sm"
+            data-testid="input-offline-subject"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-slate-600 block mb-1">Message *</label>
+          <Textarea
+            value={formData.message}
+            onChange={(e) => onChange({ ...formData, message: e.target.value })}
+            placeholder="Describe your issue or question..."
+            className="min-h-[80px] text-sm resize-none"
+            required
+            data-testid="input-offline-message"
+          />
+        </div>
+      </div>
+      
+      <div className="flex gap-2 pt-2">
+        <Button variant="outline" onClick={onBack} className="flex-1" data-testid="button-cancel-offline">
+          Cancel
+        </Button>
+        <Button 
+          onClick={onSubmit} 
+          disabled={isSubmitting || !formData.message.trim()}
+          className="flex-1 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+          data-testid="button-submit-offline"
+        >
+          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Send className="h-4 w-4 mr-2" />}
+          Send Message
         </Button>
       </div>
     </div>
