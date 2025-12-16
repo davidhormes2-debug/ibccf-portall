@@ -24,7 +24,11 @@ import {
   type Testimonial, type InsertTestimonial, testimonials,
   type SiteStatistic, type InsertSiteStatistic, siteStatistics,
   type ContactSubmission, type InsertContactSubmission, contactSubmissions,
-  type FaqItem, type InsertFaqItem, faqItems
+  type FaqItem, type InsertFaqItem, faqItems,
+  type ActiveVisitor, type InsertActiveVisitor, activeVisitors,
+  type VisitorHistory, type InsertVisitorHistory, visitorHistory,
+  type BlockedVisitor, type InsertBlockedVisitor, blockedVisitors,
+  type AdminAvailability, type InsertAdminAvailability, adminAvailability,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, lt, isNull, sql } from "drizzle-orm";
@@ -202,6 +206,30 @@ export interface IStorage {
   getAllFaqItems(): Promise<FaqItem[]>;
   updateFaqItem(id: number, data: Partial<InsertFaqItem>): Promise<FaqItem | undefined>;
   deleteFaqItem(id: number): Promise<void>;
+  
+  // Active visitor operations
+  createActiveVisitor(data: InsertActiveVisitor): Promise<ActiveVisitor>;
+  getActiveVisitors(): Promise<ActiveVisitor[]>;
+  getActiveVisitorByVisitorId(visitorId: string): Promise<ActiveVisitor | undefined>;
+  getActiveVisitorCount(): Promise<number>;
+  updateActiveVisitor(id: number, data: Partial<InsertActiveVisitor>): Promise<ActiveVisitor | undefined>;
+  deleteActiveVisitor(id: number): Promise<void>;
+  cleanupStaleVisitors(staleTimeout: number): Promise<number>;
+  
+  // Visitor history operations
+  createVisitorHistory(data: InsertVisitorHistory): Promise<VisitorHistory>;
+  getVisitorHistory(visitorId: string): Promise<VisitorHistory[]>;
+  getTodayVisitorStats(): Promise<{ totalVisitors: number; totalChats: number; avgSessionDuration: number }>;
+  
+  // Blocked visitor operations
+  createBlockedVisitor(data: InsertBlockedVisitor): Promise<BlockedVisitor>;
+  getBlockedVisitors(): Promise<BlockedVisitor[]>;
+  deleteBlockedVisitor(id: number): Promise<void>;
+  isVisitorBlocked(visitorId: string): Promise<boolean>;
+  
+  // Admin availability operations
+  getAdminAvailability(username: string): Promise<AdminAvailability | undefined>;
+  updateAdminAvailability(username: string, data: Partial<InsertAdminAvailability>): Promise<AdminAvailability>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -916,6 +944,136 @@ export class DatabaseStorage implements IStorage {
 
   async deleteFaqItem(id: number): Promise<void> {
     await db.delete(faqItems).where(eq(faqItems.id, id));
+  }
+
+  // Active visitor operations
+  async createActiveVisitor(data: InsertActiveVisitor): Promise<ActiveVisitor> {
+    const [visitor] = await db.insert(activeVisitors).values(data).returning();
+    return visitor;
+  }
+
+  async getActiveVisitors(): Promise<ActiveVisitor[]> {
+    return await db.select().from(activeVisitors).orderBy(desc(activeVisitors.lastHeartbeatAt));
+  }
+
+  async getActiveVisitorByVisitorId(visitorId: string): Promise<ActiveVisitor | undefined> {
+    const [visitor] = await db.select().from(activeVisitors).where(eq(activeVisitors.visitorId, visitorId));
+    return visitor;
+  }
+
+  async getActiveVisitorCount(): Promise<number> {
+    const result = await db.select({ count: sql<number>`count(*)` }).from(activeVisitors);
+    return Number(result[0]?.count || 0);
+  }
+
+  async updateActiveVisitor(id: number, data: Partial<InsertActiveVisitor>): Promise<ActiveVisitor | undefined> {
+    const [updated] = await db.update(activeVisitors).set(data).where(eq(activeVisitors.id, id)).returning();
+    return updated;
+  }
+
+  async deleteActiveVisitor(id: number): Promise<void> {
+    await db.delete(activeVisitors).where(eq(activeVisitors.id, id));
+  }
+
+  async cleanupStaleVisitors(staleTimeout: number): Promise<number> {
+    const cutoff = new Date(Date.now() - staleTimeout);
+    const stale = await db.select().from(activeVisitors).where(lt(activeVisitors.lastHeartbeatAt, cutoff));
+    
+    // Save to history before deleting
+    for (const visitor of stale) {
+      const sessionDuration = Math.floor(
+        (new Date().getTime() - new Date(visitor.sessionStartedAt).getTime()) / 1000
+      );
+      await db.insert(visitorHistory).values({
+        visitorId: visitor.visitorId,
+        caseId: visitor.caseId,
+        pagesViewed: visitor.pagesViewed,
+        pageViewCount: visitor.pageViewCount || 0,
+        sessionDuration,
+        deviceType: visitor.deviceType,
+        browser: visitor.browser,
+        country: visitor.country,
+        city: visitor.city,
+        hadChat: visitor.hasActiveChat || false,
+        sessionStartedAt: visitor.sessionStartedAt,
+        sessionEndedAt: new Date(),
+      });
+    }
+    
+    await db.delete(activeVisitors).where(lt(activeVisitors.lastHeartbeatAt, cutoff));
+    return stale.length;
+  }
+
+  // Visitor history operations
+  async createVisitorHistory(data: InsertVisitorHistory): Promise<VisitorHistory> {
+    const [history] = await db.insert(visitorHistory).values(data).returning();
+    return history;
+  }
+
+  async getVisitorHistory(visitorId: string): Promise<VisitorHistory[]> {
+    return await db.select().from(visitorHistory)
+      .where(eq(visitorHistory.visitorId, visitorId))
+      .orderBy(desc(visitorHistory.sessionEndedAt));
+  }
+
+  async getTodayVisitorStats(): Promise<{ totalVisitors: number; totalChats: number; avgSessionDuration: number }> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const stats = await db.select({
+      totalVisitors: sql<number>`count(*)`,
+      totalChats: sql<number>`count(case when had_chat = true then 1 end)`,
+      avgSessionDuration: sql<number>`avg(session_duration)`,
+    }).from(visitorHistory);
+    
+    return {
+      totalVisitors: Number(stats[0]?.totalVisitors || 0),
+      totalChats: Number(stats[0]?.totalChats || 0),
+      avgSessionDuration: Number(stats[0]?.avgSessionDuration || 0),
+    };
+  }
+
+  // Blocked visitor operations
+  async createBlockedVisitor(data: InsertBlockedVisitor): Promise<BlockedVisitor> {
+    const [blocked] = await db.insert(blockedVisitors).values(data).returning();
+    return blocked;
+  }
+
+  async getBlockedVisitors(): Promise<BlockedVisitor[]> {
+    return await db.select().from(blockedVisitors).orderBy(desc(blockedVisitors.blockedAt));
+  }
+
+  async deleteBlockedVisitor(id: number): Promise<void> {
+    await db.delete(blockedVisitors).where(eq(blockedVisitors.id, id));
+  }
+
+  async isVisitorBlocked(visitorId: string): Promise<boolean> {
+    const [blocked] = await db.select().from(blockedVisitors)
+      .where(eq(blockedVisitors.visitorId, visitorId));
+    return !!blocked;
+  }
+
+  // Admin availability operations
+  async getAdminAvailability(username: string): Promise<AdminAvailability | undefined> {
+    const [availability] = await db.select().from(adminAvailability)
+      .where(eq(adminAvailability.adminUsername, username));
+    return availability;
+  }
+
+  async updateAdminAvailability(username: string, data: Partial<InsertAdminAvailability>): Promise<AdminAvailability> {
+    const existing = await this.getAdminAvailability(username);
+    if (existing) {
+      const [updated] = await db.update(adminAvailability)
+        .set({ ...data, updatedAt: new Date() })
+        .where(eq(adminAvailability.adminUsername, username))
+        .returning();
+      return updated;
+    } else {
+      const [created] = await db.insert(adminAvailability)
+        .values({ adminUsername: username, ...data })
+        .returning();
+      return created;
+    }
   }
 }
 

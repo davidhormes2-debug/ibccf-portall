@@ -999,3 +999,373 @@ export const insertAccessKeyRequestSchema = createInsertSchema(accessKeyRequests
 
 export type InsertAccessKeyRequest = z.infer<typeof insertAccessKeyRequestSchema>;
 export type AccessKeyRequest = typeof accessKeyRequests.$inferSelect;
+
+// ============================================
+// CUSTOMER SERVICE PLATFORM TABLES
+// ============================================
+
+// Active visitors - real-time tracking of users on the site
+export const activeVisitors = pgTable("active_visitors", {
+  id: serial("id").primaryKey(),
+  visitorId: text("visitor_id").notNull().unique(), // Unique browser fingerprint/session ID
+  caseId: varchar("case_id").references(() => cases.id), // If logged in user
+  
+  // Visitor info
+  currentPage: text("current_page"),
+  pageTitle: text("page_title"),
+  referrer: text("referrer"),
+  
+  // Device & browser
+  deviceType: text("device_type"), // 'desktop', 'mobile', 'tablet'
+  browser: text("browser"),
+  os: text("os"),
+  screenResolution: text("screen_resolution"),
+  
+  // Location (from IP)
+  ipAddress: text("ip_address"),
+  country: text("country"),
+  city: text("city"),
+  
+  // Session tracking
+  pagesViewed: text("pages_viewed"), // JSON array of pages visited
+  pageViewCount: integer("page_view_count").default(1),
+  isIdle: boolean("is_idle").default(false),
+  idleSince: timestamp("idle_since"),
+  
+  // Engagement scoring
+  engagementScore: integer("engagement_score").default(0), // 0-100
+  
+  // Chat status
+  hasActiveChat: boolean("has_active_chat").default(false),
+  chatStartedAt: timestamp("chat_started_at"),
+  
+  // Timestamps
+  sessionStartedAt: timestamp("session_started_at").notNull().default(sql`now()`),
+  lastHeartbeatAt: timestamp("last_heartbeat_at").notNull().default(sql`now()`),
+});
+
+export const insertActiveVisitorSchema = createInsertSchema(activeVisitors).omit({
+  id: true,
+});
+
+export type InsertActiveVisitor = z.infer<typeof insertActiveVisitorSchema>;
+export type ActiveVisitor = typeof activeVisitors.$inferSelect;
+
+// Visitor history - track returning visitors
+export const visitorHistory = pgTable("visitor_history", {
+  id: serial("id").primaryKey(),
+  visitorId: text("visitor_id").notNull(),
+  caseId: varchar("case_id").references(() => cases.id),
+  
+  // Session summary
+  pagesViewed: text("pages_viewed"), // JSON array
+  pageViewCount: integer("page_view_count").default(0),
+  sessionDuration: integer("session_duration"), // seconds
+  
+  // Device info
+  deviceType: text("device_type"),
+  browser: text("browser"),
+  
+  // Location
+  country: text("country"),
+  city: text("city"),
+  
+  // Chat info
+  hadChat: boolean("had_chat").default(false),
+  chatId: integer("chat_id"),
+  
+  sessionStartedAt: timestamp("session_started_at").notNull(),
+  sessionEndedAt: timestamp("session_ended_at").notNull().default(sql`now()`),
+});
+
+export const insertVisitorHistorySchema = createInsertSchema(visitorHistory).omit({
+  id: true,
+});
+
+export type InsertVisitorHistory = z.infer<typeof insertVisitorHistorySchema>;
+export type VisitorHistory = typeof visitorHistory.$inferSelect;
+
+// Blocked visitors
+export const blockedVisitors = pgTable("blocked_visitors", {
+  id: serial("id").primaryKey(),
+  visitorId: text("visitor_id"),
+  ipAddress: text("ip_address"),
+  reason: text("reason"),
+  blockedBy: text("blocked_by"), // admin username
+  blockedAt: timestamp("blocked_at").notNull().default(sql`now()`),
+  expiresAt: timestamp("expires_at"), // null = permanent
+});
+
+export const insertBlockedVisitorSchema = createInsertSchema(blockedVisitors).omit({
+  id: true,
+});
+
+export type InsertBlockedVisitor = z.infer<typeof insertBlockedVisitorSchema>;
+export type BlockedVisitor = typeof blockedVisitors.$inferSelect;
+
+// Auto-greetings - triggered messages based on conditions
+export const autoGreetings = pgTable("auto_greetings", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  message: text("message").notNull(),
+  
+  // Trigger conditions
+  triggerType: text("trigger_type").notNull(), // 'page_visit', 'time_on_page', 'returning_visitor', 'exit_intent'
+  triggerPage: text("trigger_page"), // URL pattern to match
+  triggerDelay: integer("trigger_delay").default(0), // seconds
+  
+  // Target audience
+  targetNewVisitors: boolean("target_new_visitors").default(true),
+  targetReturningVisitors: boolean("target_returning_visitors").default(true),
+  targetLoggedIn: boolean("target_logged_in").default(true),
+  targetAnonymous: boolean("target_anonymous").default(true),
+  
+  // Settings
+  isActive: boolean("is_active").default(true),
+  priority: integer("priority").default(0),
+  showOncePerSession: boolean("show_once_per_session").default(true),
+  
+  createdBy: text("created_by"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertAutoGreetingSchema = createInsertSchema(autoGreetings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertAutoGreeting = z.infer<typeof insertAutoGreetingSchema>;
+export type AutoGreeting = typeof autoGreetings.$inferSelect;
+
+// Admin availability status
+export const adminAvailability = pgTable("admin_availability", {
+  id: serial("id").primaryKey(),
+  adminUsername: text("admin_username").notNull().unique(),
+  status: text("status").notNull().default('offline'), // 'online', 'away', 'busy', 'offline'
+  statusMessage: text("status_message"),
+  autoAwayAfter: integer("auto_away_after").default(300), // seconds of inactivity
+  
+  // Notification preferences
+  soundEnabled: boolean("sound_enabled").default(true),
+  desktopNotifications: boolean("desktop_notifications").default(true),
+  emailNotifications: boolean("email_notifications").default(false),
+  
+  lastActivityAt: timestamp("last_activity_at").default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertAdminAvailabilitySchema = createInsertSchema(adminAvailability).omit({
+  id: true,
+  updatedAt: true,
+});
+
+export type InsertAdminAvailability = z.infer<typeof insertAdminAvailabilitySchema>;
+export type AdminAvailability = typeof adminAvailability.$inferSelect;
+
+// Working hours configuration
+export const workingHours = pgTable("working_hours", {
+  id: serial("id").primaryKey(),
+  dayOfWeek: integer("day_of_week").notNull(), // 0=Sunday, 6=Saturday
+  startTime: text("start_time"), // "09:00"
+  endTime: text("end_time"), // "17:00"
+  isEnabled: boolean("is_enabled").default(true),
+  timezone: text("timezone").default('UTC'),
+});
+
+export const insertWorkingHoursSchema = createInsertSchema(workingHours).omit({
+  id: true,
+});
+
+export type InsertWorkingHours = z.infer<typeof insertWorkingHoursSchema>;
+export type WorkingHours = typeof workingHours.$inferSelect;
+
+// Offline messages - when no agents available
+export const offlineMessages = pgTable("offline_messages", {
+  id: serial("id").primaryKey(),
+  visitorId: text("visitor_id"),
+  caseId: varchar("case_id").references(() => cases.id),
+  
+  // Contact info
+  name: text("name"),
+  email: text("email"),
+  phone: text("phone"),
+  
+  // Message
+  subject: text("subject"),
+  message: text("message").notNull(),
+  
+  // Status
+  status: text("status").default('new'), // 'new', 'read', 'replied', 'resolved'
+  repliedBy: text("replied_by"),
+  repliedAt: timestamp("replied_at"),
+  
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertOfflineMessageSchema = createInsertSchema(offlineMessages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertOfflineMessage = z.infer<typeof insertOfflineMessageSchema>;
+export type OfflineMessage = typeof offlineMessages.$inferSelect;
+
+// Chat tags for conversation organization
+export const chatTags = pgTable("chat_tags", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  color: text("color").default('#004182'),
+  description: text("description"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertChatTagSchema = createInsertSchema(chatTags).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertChatTag = z.infer<typeof insertChatTagSchema>;
+export type ChatTag = typeof chatTags.$inferSelect;
+
+// Conversation tags (many-to-many)
+export const conversationTags = pgTable("conversation_tags", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  tagId: integer("tag_id").notNull().references(() => chatTags.id),
+  addedBy: text("added_by"),
+  addedAt: timestamp("added_at").notNull().default(sql`now()`),
+});
+
+export const insertConversationTagSchema = createInsertSchema(conversationTags).omit({
+  id: true,
+  addedAt: true,
+});
+
+export type InsertConversationTag = z.infer<typeof insertConversationTagSchema>;
+export type ConversationTag = typeof conversationTags.$inferSelect;
+
+// Conversation internal notes (agent-only)
+export const conversationNotes = pgTable("conversation_notes", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  adminUsername: text("admin_username").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertConversationNoteSchema = createInsertSchema(conversationNotes).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertConversationNote = z.infer<typeof insertConversationNoteSchema>;
+export type ConversationNote = typeof conversationNotes.$inferSelect;
+
+// Chat satisfaction ratings (post-chat survey)
+export const chatSatisfactionRatings = pgTable("chat_satisfaction_ratings", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  visitorId: text("visitor_id"),
+  
+  rating: integer("rating").notNull(), // 1-5 stars
+  feedback: text("feedback"),
+  
+  // What was rated
+  agentHelpfulness: integer("agent_helpfulness"), // 1-5
+  responseSpeed: integer("response_speed"), // 1-5
+  issueResolved: boolean("issue_resolved"),
+  
+  adminUsername: text("admin_username"), // Agent who handled chat
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertChatSatisfactionRatingSchema = createInsertSchema(chatSatisfactionRatings).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertChatSatisfactionRating = z.infer<typeof insertChatSatisfactionRatingSchema>;
+export type ChatSatisfactionRating = typeof chatSatisfactionRatings.$inferSelect;
+
+// Proactive chats - admin-initiated conversations
+export const proactiveChats = pgTable("proactive_chats", {
+  id: serial("id").primaryKey(),
+  visitorId: text("visitor_id").notNull(),
+  caseId: varchar("case_id").references(() => cases.id),
+  adminUsername: text("admin_username").notNull(),
+  
+  initialMessage: text("initial_message").notNull(),
+  status: text("status").default('sent'), // 'sent', 'opened', 'replied', 'ignored'
+  
+  openedAt: timestamp("opened_at"),
+  repliedAt: timestamp("replied_at"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertProactiveChatSchema = createInsertSchema(proactiveChats).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertProactiveChat = z.infer<typeof insertProactiveChatSchema>;
+export type ProactiveChat = typeof proactiveChats.$inferSelect;
+
+// Typing indicators (real-time)
+export const typingIndicators = pgTable("typing_indicators", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  sender: text("sender").notNull(), // 'admin' or 'user'
+  senderName: text("sender_name"),
+  isTyping: boolean("is_typing").default(true),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertTypingIndicatorSchema = createInsertSchema(typingIndicators).omit({
+  id: true,
+  updatedAt: true,
+});
+
+export type InsertTypingIndicator = z.infer<typeof insertTypingIndicatorSchema>;
+export type TypingIndicator = typeof typingIndicators.$inferSelect;
+
+// Chat statistics (aggregated daily)
+export const chatStatistics = pgTable("chat_statistics", {
+  id: serial("id").primaryKey(),
+  date: timestamp("date").notNull(),
+  
+  // Volume
+  totalVisitors: integer("total_visitors").default(0),
+  uniqueVisitors: integer("unique_visitors").default(0),
+  totalChats: integer("total_chats").default(0),
+  proactiveChats: integer("proactive_chats").default(0),
+  
+  // Response metrics
+  avgResponseTime: integer("avg_response_time"), // seconds
+  avgChatDuration: integer("avg_chat_duration"), // seconds
+  
+  // Satisfaction
+  avgRating: text("avg_rating"), // decimal stored as text
+  totalRatings: integer("total_ratings").default(0),
+  
+  // Agent metrics (JSON)
+  agentMetrics: text("agent_metrics"), // JSON per-agent stats
+  
+  // Peak hours (JSON array of hour -> count)
+  peakHours: text("peak_hours"),
+  
+  // Top pages (JSON)
+  topPages: text("top_pages"),
+  
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertChatStatisticsSchema = createInsertSchema(chatStatistics).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertChatStatistics = z.infer<typeof insertChatStatisticsSchema>;
+export type ChatStatistics = typeof chatStatistics.$inferSelect;
