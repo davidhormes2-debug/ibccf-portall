@@ -337,6 +337,7 @@ export default function AdminDashboard() {
   // Track last known counts for notifications
   const lastRegisteredCountRef = useRef(0);
   const lastSubmissionsCountRef = useRef(0);
+  const lastSyncingCountRef = useRef(0);
   const isInitialDataLoadRef = useRef(true);
   
   // Admin messages and deposit receipts
@@ -516,6 +517,21 @@ export default function AdminDashboard() {
       
       if (casesRes.ok) {
         const data = await casesRes.json();
+        
+        // Check for accounts needing authorization (syncing status)
+        const syncingCases = data.filter((c: Case) => c.status === 'syncing');
+        const currentSyncingCount = syncingCases.length;
+        
+        if (!isInitialDataLoadRef.current && currentSyncingCount > lastSyncingCountRef.current) {
+          const newCount = currentSyncingCount - lastSyncingCountRef.current;
+          const newCase = syncingCases[syncingCases.length - 1];
+          playNotificationSound();
+          toast({ 
+            title: "Account Needs Authorization", 
+            description: `${newCase?.userName || 'A user'} is waiting for account finalization${newCount > 1 ? ` (+${newCount} total)` : ''}`
+          });
+        }
+        lastSyncingCountRef.current = currentSyncingCount;
         
         // Check for new registrations
         const registeredCases = data.filter((c: Case) => c.status !== 'created');
