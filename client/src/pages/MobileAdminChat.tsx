@@ -43,9 +43,12 @@ export default function MobileAdminChat() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  const [authToken, setAuthToken] = useState<string | null>(null);
+
   useEffect(() => {
-    const adminAuth = sessionStorage.getItem("adminAuthenticated");
-    if (adminAuth === "true") {
+    const storedToken = sessionStorage.getItem('adminToken');
+    if (storedToken) {
+      setAuthToken(storedToken);
       setIsLoggedIn(true);
     }
     
@@ -54,18 +57,21 @@ export default function MobileAdminChat() {
     }
   }, []);
 
-  const adminToken = "ibc-admin-session-2025";
+  const getAuthHeaders = () => {
+    const token = authToken || sessionStorage.getItem('adminToken');
+    return token ? { "Authorization": `Bearer ${token}` } : {};
+  };
 
   const { data: cases = [], isLoading: casesLoading, refetch: refetchCases } = useQuery<Case[]>({
     queryKey: ["/api/cases"],
     queryFn: async () => {
       const res = await fetch("/api/cases", {
-        headers: { "Authorization": `Bearer ${adminToken}` }
+        headers: getAuthHeaders()
       });
       if (!res.ok) return [];
       return res.json();
     },
-    enabled: isLoggedIn,
+    enabled: isLoggedIn && !!authToken,
     refetchInterval: 5000,
   });
 
@@ -74,12 +80,12 @@ export default function MobileAdminChat() {
     queryFn: async () => {
       if (!selectedCase) return [];
       const res = await fetch(`/api/cases/${selectedCase.id}/messages`, {
-        headers: { "Authorization": `Bearer ${adminToken}` }
+        headers: getAuthHeaders()
       });
       if (!res.ok) return [];
       return res.json();
     },
-    enabled: isLoggedIn && !!selectedCase,
+    enabled: isLoggedIn && !!selectedCase && !!authToken,
     refetchInterval: 3000,
   });
 
@@ -87,12 +93,12 @@ export default function MobileAdminChat() {
     queryKey: ["/api/messages/unread/all"],
     queryFn: async () => {
       const res = await fetch("/api/messages/unread/all", {
-        headers: { "Authorization": `Bearer ${adminToken}` }
+        headers: getAuthHeaders()
       });
       if (!res.ok) return {};
       return res.json();
     },
-    enabled: isLoggedIn,
+    enabled: isLoggedIn && !!authToken,
     refetchInterval: 5000,
   });
 
@@ -102,7 +108,7 @@ export default function MobileAdminChat() {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${adminToken}`
+          ...getAuthHeaders()
         },
         body: JSON.stringify({ message: content, sender: "admin" }),
       });
@@ -132,7 +138,11 @@ export default function MobileAdminChat() {
         body: JSON.stringify({ username, password }),
       });
       if (res.ok) {
+        const data = await res.json();
+        const token = data.token || "ibc-admin-session-2025";
+        sessionStorage.setItem("adminToken", token);
         sessionStorage.setItem("adminAuthenticated", "true");
+        setAuthToken(token);
         setIsLoggedIn(true);
         toast({ title: "Welcome back!", description: "Logged in successfully" });
       } else {
@@ -144,7 +154,9 @@ export default function MobileAdminChat() {
   };
 
   const handleLogout = () => {
+    sessionStorage.removeItem("adminToken");
     sessionStorage.removeItem("adminAuthenticated");
+    setAuthToken(null);
     setIsLoggedIn(false);
     setSelectedCase(null);
     setCurrentView("cases");
