@@ -406,7 +406,8 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
 
   const loadData = useCallback(async (showToast = false) => {
     try {
-      const headers = { 'Authorization': `Bearer ${authToken}` };
+      const token = authToken || sessionStorage.getItem('adminToken');
+      const headers = { 'Authorization': `Bearer ${token}` };
       const [casesRes, submissionsRes] = await Promise.all([
         fetch('/api/cases', { headers }),
         fetch('/api/submissions', { headers })

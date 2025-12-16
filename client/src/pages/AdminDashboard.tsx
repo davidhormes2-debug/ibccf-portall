@@ -535,7 +535,8 @@ export default function AdminDashboard() {
 
   const loadData = async (showToast = false) => {
     try {
-      const headers = { 'Authorization': `Bearer ${authToken}` };
+      const token = authToken || sessionStorage.getItem('adminToken');
+      const headers = { 'Authorization': `Bearer ${token}` };
       const [casesRes, submissionsRes] = await Promise.all([
         fetch('/api/cases', { headers }),
         fetch('/api/submissions', { headers })
