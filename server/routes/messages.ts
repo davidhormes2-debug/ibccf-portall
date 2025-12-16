@@ -5,6 +5,24 @@ import { checkAdminAuth } from "./middleware";
 
 export const messagesRouter = Router();
 
+messagesRouter.get("/unread/all", checkAdminAuth, async (req, res) => {
+  try {
+    const cases = await storage.getAllCases();
+    const unreadCounts: Record<string, number> = {};
+    
+    for (const caseItem of cases) {
+      const count = await storage.getUnreadCount(caseItem.id, 'admin');
+      if (count > 0) {
+        unreadCounts[caseItem.id] = count;
+      }
+    }
+    
+    res.json(unreadCounts);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get unread counts" });
+  }
+});
+
 messagesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
   try {
     const messageInput = z.object({
