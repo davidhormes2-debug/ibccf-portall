@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, serial, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, serial, boolean, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -65,6 +65,10 @@ export const cases = pgTable("cases", {
   
   // User's personal 6-digit PIN (set by user after verifying admin-provided access code)
   userPin: text("user_pin"), // 6-digit PIN for future logins
+  
+  // Department assignment
+  departmentId: integer("department_id"), // References department for case categorization
+  currentStageId: integer("current_stage_id"), // Current workflow stage
   
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
@@ -675,3 +679,262 @@ export const insertFaqItemSchema = createInsertSchema(faqItems).omit({
 
 export type InsertFaqItem = z.infer<typeof insertFaqItemSchema>;
 export type FaqItem = typeof faqItems.$inferSelect;
+
+// ============================================
+// DEPARTMENTS & COMMUNITY SYSTEM
+// ============================================
+
+// Departments - 5 main departments for case categorization
+export const departments = pgTable("departments", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull().unique(), // 'submission', 'request', 'complaint', 'compliance', 'recovery'
+  name: text("name").notNull(),
+  description: text("description"),
+  icon: text("icon"), // lucide icon name
+  color: text("color").default('#004182'), // brand color
+  displayOrder: text("display_order").default('0'),
+  isActive: boolean("is_active").default(true),
+  workflowConfig: text("workflow_config"), // JSON workflow settings
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertDepartmentSchema = createInsertSchema(departments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertDepartment = z.infer<typeof insertDepartmentSchema>;
+export type Department = typeof departments.$inferSelect;
+
+// Department stages - workflow stages for each department
+export const departmentStages = pgTable("department_stages", {
+  id: serial("id").primaryKey(),
+  departmentId: integer("department_id").references(() => departments.id),
+  name: text("name").notNull(),
+  description: text("description"),
+  stageOrder: text("stage_order").notNull().default('1'),
+  slaDays: text("sla_days"), // expected days to complete
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertDepartmentStageSchema = createInsertSchema(departmentStages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertDepartmentStage = z.infer<typeof insertDepartmentStageSchema>;
+export type DepartmentStage = typeof departmentStages.$inferSelect;
+
+// Community threads - discussion topics organized by department
+export const communityThreads = pgTable("community_threads", {
+  id: serial("id").primaryKey(),
+  departmentId: integer("department_id").references(() => departments.id),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  authorType: text("author_type").notNull().default('bot'), // 'user', 'bot', 'admin'
+  authorHandle: text("author_handle").notNull(), // anonymous display name
+  authorBotId: integer("author_bot_id"), // references bot profile if bot
+  isPinned: boolean("is_pinned").default(false),
+  isLocked: boolean("is_locked").default(false),
+  viewCount: text("view_count").default('0'),
+  replyCount: text("reply_count").default('0'),
+  lastActivityAt: timestamp("last_activity_at").notNull().default(sql`now()`),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertCommunityThreadSchema = createInsertSchema(communityThreads).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertCommunityThread = z.infer<typeof insertCommunityThreadSchema>;
+export type CommunityThread = typeof communityThreads.$inferSelect;
+
+// Community posts - replies within threads
+export const communityPosts = pgTable("community_posts", {
+  id: serial("id").primaryKey(),
+  threadId: integer("thread_id").references(() => communityThreads.id),
+  content: text("content").notNull(),
+  authorType: text("author_type").notNull().default('bot'), // 'user', 'bot', 'admin'
+  authorHandle: text("author_handle").notNull(), // anonymous display name
+  authorBotId: integer("author_bot_id"), // references bot profile if bot
+  isHidden: boolean("is_hidden").default(false),
+  likeCount: text("like_count").default('0'),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertCommunityPostSchema = createInsertSchema(communityPosts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertCommunityPost = z.infer<typeof insertCommunityPostSchema>;
+export type CommunityPost = typeof communityPosts.$inferSelect;
+
+// Community participants - maps real users to anonymous handles
+export const communityParticipants = pgTable("community_participants", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").references(() => cases.id),
+  anonymousHandle: text("anonymous_handle").notNull().unique(),
+  departmentId: integer("department_id").references(() => departments.id),
+  joinedAt: timestamp("joined_at").notNull().default(sql`now()`),
+  postCount: text("post_count").default('0'),
+  reputation: text("reputation").default('0'),
+  badgeLevel: text("badge_level").default('newcomer'), // 'newcomer', 'member', 'trusted', 'veteran'
+});
+
+export const insertCommunityParticipantSchema = createInsertSchema(communityParticipants).omit({
+  id: true,
+  joinedAt: true,
+});
+
+export type InsertCommunityParticipant = z.infer<typeof insertCommunityParticipantSchema>;
+export type CommunityParticipant = typeof communityParticipants.$inferSelect;
+
+// Community reactions - likes/helpful marks on posts
+export const communityReactions = pgTable("community_reactions", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").references(() => communityPosts.id),
+  participantId: integer("participant_id").references(() => communityParticipants.id),
+  reactionType: text("reaction_type").notNull().default('like'), // 'like', 'helpful', 'thanks'
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertCommunityReactionSchema = createInsertSchema(communityReactions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertCommunityReaction = z.infer<typeof insertCommunityReactionSchema>;
+export type CommunityReaction = typeof communityReactions.$inferSelect;
+
+// Bot profiles - 600+ simulated community members
+export const botProfiles = pgTable("bot_profiles", {
+  id: serial("id").primaryKey(),
+  handle: text("handle").notNull().unique(),
+  displayName: text("display_name").notNull(),
+  avatarInitials: text("avatar_initials").notNull(), // 2 letter initials for avatar
+  departmentId: integer("department_id").references(() => departments.id),
+  caseStage: text("case_stage").default('active'), // simulated case progress
+  personality: text("personality"), // JSON personality traits for content generation
+  joinedDate: timestamp("joined_date").notNull().default(sql`now()`),
+  postCount: text("post_count").default('0'),
+  reputation: text("reputation").default('0'),
+  badgeLevel: text("badge_level").default('member'),
+  isActive: boolean("is_active").default(true),
+  lastPostAt: timestamp("last_post_at"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertBotProfileSchema = createInsertSchema(botProfiles).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertBotProfile = z.infer<typeof insertBotProfileSchema>;
+export type BotProfile = typeof botProfiles.$inferSelect;
+
+// Bot scheduled posts - pre-planned bot activity
+export const botScheduledPosts = pgTable("bot_scheduled_posts", {
+  id: serial("id").primaryKey(),
+  botId: integer("bot_id").references(() => botProfiles.id),
+  threadId: integer("thread_id").references(() => communityThreads.id),
+  postType: text("post_type").notNull().default('reply'), // 'thread', 'reply'
+  content: text("content").notNull(),
+  scheduledFor: timestamp("scheduled_for").notNull(),
+  status: text("status").default('pending'), // 'pending', 'posted', 'cancelled'
+  postedAt: timestamp("posted_at"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertBotScheduledPostSchema = createInsertSchema(botScheduledPosts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertBotScheduledPost = z.infer<typeof insertBotScheduledPostSchema>;
+export type BotScheduledPost = typeof botScheduledPosts.$inferSelect;
+
+// Community moderation log
+export const communityModerationLogs = pgTable("community_moderation_logs", {
+  id: serial("id").primaryKey(),
+  adminUsername: text("admin_username").notNull(),
+  action: text("action").notNull(), // 'hide_post', 'lock_thread', 'pin_thread', 'ban_participant'
+  targetType: text("target_type").notNull(), // 'thread', 'post', 'participant'
+  targetId: text("target_id").notNull(),
+  reason: text("reason"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertCommunityModerationLogSchema = createInsertSchema(communityModerationLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertCommunityModerationLog = z.infer<typeof insertCommunityModerationLogSchema>;
+export type CommunityModerationLog = typeof communityModerationLogs.$inferSelect;
+
+// User badges/achievements
+export const userBadges = pgTable("user_badges", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  description: text("description"),
+  icon: text("icon"), // emoji or icon name
+  color: text("color").default('#004182'),
+  requirement: text("requirement"), // JSON criteria to earn badge
+  displayOrder: text("display_order").default('0'),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const insertUserBadgeSchema = createInsertSchema(userBadges).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertUserBadge = z.infer<typeof insertUserBadgeSchema>;
+export type UserBadge = typeof userBadges.$inferSelect;
+
+// User earned badges
+export const earnedBadges = pgTable("earned_badges", {
+  id: serial("id").primaryKey(),
+  participantId: integer("participant_id").references(() => communityParticipants.id),
+  badgeId: integer("badge_id").references(() => userBadges.id),
+  earnedAt: timestamp("earned_at").notNull().default(sql`now()`),
+});
+
+export const insertEarnedBadgeSchema = createInsertSchema(earnedBadges).omit({
+  id: true,
+  earnedAt: true,
+});
+
+export type InsertEarnedBadge = z.infer<typeof insertEarnedBadgeSchema>;
+export type EarnedBadge = typeof earnedBadges.$inferSelect;
+
+// User documents uploaded
+export const userDocuments = pgTable("user_documents", {
+  id: serial("id").primaryKey(),
+  caseId: varchar("case_id").notNull().references(() => cases.id),
+  fileName: text("file_name").notNull(),
+  fileType: text("file_type").notNull(), // 'pdf', 'image', 'doc'
+  fileData: text("file_data"), // base64 encoded
+  fileSize: text("file_size"),
+  category: text("category").default('general'), // 'id_proof', 'transaction', 'evidence', 'general'
+  description: text("description"),
+  status: text("status").default('uploaded'), // 'uploaded', 'reviewed', 'approved', 'rejected'
+  adminNotes: text("admin_notes"),
+  uploadedAt: timestamp("uploaded_at").notNull().default(sql`now()`),
+});
+
+export const insertUserDocumentSchema = createInsertSchema(userDocuments).omit({
+  id: true,
+  uploadedAt: true,
+});
+
+export type InsertUserDocument = z.infer<typeof insertUserDocumentSchema>;
+export type UserDocument = typeof userDocuments.$inferSelect;
