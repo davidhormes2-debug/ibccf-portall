@@ -5,6 +5,19 @@ import { checkAdminAuth } from "./middleware";
 
 const router = Router();
 
+// In-memory typing indicators (cleared after 3 seconds of inactivity)
+const typingIndicators: Map<string, { caseId: string; sender: 'user' | 'admin'; timestamp: number }> = new Map();
+
+// Clean up stale typing indicators every 3 seconds
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, value] of typingIndicators.entries()) {
+    if (now - value.timestamp > 3000) {
+      typingIndicators.delete(key);
+    }
+  }
+}, 3000);
+
 // Heartbeat - update visitor activity
 router.post("/heartbeat", async (req, res) => {
   try {
@@ -508,6 +521,55 @@ router.get("/satisfaction/stats", checkAdminAuth, async (req, res) => {
   } catch (error) {
     console.error("Get satisfaction stats error:", error);
     res.status(500).json({ error: "Failed to get satisfaction stats" });
+  }
+});
+
+// Typing indicator - set typing status
+router.post("/typing", async (req, res) => {
+  try {
+    const { caseId, sender, isTyping } = req.body;
+
+    if (!caseId || !sender) {
+      return res.status(400).json({ error: "caseId and sender are required" });
+    }
+
+    const key = `${caseId}_${sender}`;
+    
+    if (isTyping) {
+      typingIndicators.set(key, {
+        caseId,
+        sender,
+        timestamp: Date.now(),
+      });
+    } else {
+      typingIndicators.delete(key);
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Typing indicator error:", error);
+    res.status(500).json({ error: "Failed to update typing indicator" });
+  }
+});
+
+// Get typing status for a case
+router.get("/typing/:caseId", async (req, res) => {
+  try {
+    const { caseId } = req.params;
+    const now = Date.now();
+    
+    const typingUsers: { sender: 'user' | 'admin' }[] = [];
+    
+    for (const [key, value] of typingIndicators.entries()) {
+      if (value.caseId === caseId && now - value.timestamp < 3000) {
+        typingUsers.push({ sender: value.sender });
+      }
+    }
+
+    res.json({ typing: typingUsers });
+  } catch (error) {
+    console.error("Get typing status error:", error);
+    res.status(500).json({ error: "Failed to get typing status" });
   }
 });
 

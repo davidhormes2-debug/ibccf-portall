@@ -75,6 +75,8 @@ export default function CustomerServiceDashboard() {
   const [aiEnabled, setAiEnabled] = useState(true);
   const [proactiveChatVisitor, setProactiveChatVisitor] = useState<ActiveVisitor | null>(null);
   const [proactiveChatMessage, setProactiveChatMessage] = useState("");
+  const [isUserTyping, setIsUserTyping] = useState(false);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('adminToken');
@@ -200,6 +202,53 @@ export default function CustomerServiceDashboard() {
       }
     }
   }, [messages, selectedCase, aiEnabled]);
+
+  // Poll for typing indicators when a case is selected
+  useEffect(() => {
+    if (!selectedCase) return;
+
+    const checkTyping = async () => {
+      try {
+        const res = await fetch(`/api/visitors/typing/${selectedCase.id}`);
+        if (res.ok) {
+          const data = await res.json();
+          const userTyping = data.typing?.some((t: { sender: string }) => t.sender === 'user');
+          setIsUserTyping(userTyping || false);
+        }
+      } catch (error) {
+        // Silently fail
+      }
+    };
+
+    checkTyping();
+    const interval = setInterval(checkTyping, 2000);
+    return () => clearInterval(interval);
+  }, [selectedCase]);
+
+  // Send typing indicator when admin types
+  const handleAdminTyping = async (isTyping: boolean) => {
+    if (!selectedCase) return;
+    
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    try {
+      await fetch('/api/visitors/typing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ caseId: selectedCase.id, sender: 'admin', isTyping }),
+      });
+    } catch (error) {
+      // Silently fail
+    }
+
+    if (isTyping) {
+      typingTimeoutRef.current = setTimeout(() => {
+        handleAdminTyping(false);
+      }, 3000);
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -566,11 +615,24 @@ export default function CustomerServiceDashboard() {
                               <span>Generating suggestions...</span>
                             </div>
                           )}
+                          {isUserTyping && (
+                            <div className="flex items-center gap-2 mb-3 text-xs text-blue-400">
+                              <div className="flex gap-1">
+                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                              </div>
+                              <span>User is typing...</span>
+                            </div>
+                          )}
                           <div className="flex gap-2">
                             <Input
                               placeholder="Type a message..."
                               value={messageInput}
-                              onChange={(e) => setMessageInput(e.target.value)}
+                              onChange={(e) => {
+                                setMessageInput(e.target.value);
+                                handleAdminTyping(e.target.value.length > 0);
+                              }}
                               onKeyPress={(e) => e.key === 'Enter' && sendMessageMutation.mutate(messageInput)}
                               className="bg-slate-900 border-slate-700 text-white"
                               data-testid="input-message"

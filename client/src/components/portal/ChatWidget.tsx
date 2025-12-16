@@ -64,6 +64,8 @@ export function ChatWidget({
   const [surveyFeedback, setSurveyFeedback] = useState('');
   const [surveySubmitting, setSurveySubmitting] = useState(false);
   const [surveySubmitted, setSurveySubmitted] = useState(false);
+  const [isAdminTyping, setIsAdminTyping] = useState(false);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,6 +73,53 @@ export function ChatWidget({
       chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // Poll for typing indicators
+  useEffect(() => {
+    if (!caseId || !isOpen) return;
+
+    const checkTyping = async () => {
+      try {
+        const response = await fetch(`/api/visitors/typing/${caseId}`);
+        if (response.ok) {
+          const data = await response.json();
+          const adminTyping = data.typing?.some((t: { sender: string }) => t.sender === 'admin');
+          setIsAdminTyping(adminTyping || false);
+        }
+      } catch (error) {
+        // Silently fail
+      }
+    };
+
+    checkTyping();
+    const interval = setInterval(checkTyping, 2000);
+    return () => clearInterval(interval);
+  }, [caseId, isOpen]);
+
+  // Send typing indicator when user types
+  const handleTyping = async (isTyping: boolean) => {
+    if (!caseId) return;
+    
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    try {
+      await fetch('/api/visitors/typing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ caseId, sender: 'user', isTyping }),
+      });
+    } catch (error) {
+      // Silently fail
+    }
+
+    if (isTyping) {
+      typingTimeoutRef.current = setTimeout(() => {
+        handleTyping(false);
+      }, 3000);
+    }
+  };
 
   const handleSend = async () => {
     if (!newMessage.trim() || isSending) return;
@@ -226,6 +275,7 @@ export function ChatWidget({
                       ref={chatScrollRef}
                       messages={messages} 
                       isLoading={isLoading}
+                      isAdminTyping={isAdminTyping}
                     />
                     
                     {!isAgentOnline && (
@@ -248,6 +298,7 @@ export function ChatWidget({
                       onSend={handleSend}
                       onKeyPress={handleKeyPress}
                       isSending={isSending}
+                      onTyping={handleTyping}
                     />
                     
                     {/* Rate experience button */}
@@ -376,13 +427,31 @@ function ChatHeader({ title, subtitle, onClose, onMinimize, onDownload, isMinimi
   );
 }
 
+function TypingIndicator() {
+  return (
+    <div className="flex items-end gap-2 justify-start">
+      <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+        <Shield className="h-4 w-4 text-white" />
+      </div>
+      <div className="bg-white border border-slate-200 rounded-2xl rounded-bl-md px-4 py-2.5 shadow-sm">
+        <div className="flex gap-1">
+          <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+          <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+          <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface ChatMessagesProps {
   messages: ChatMessage[];
   isLoading?: boolean;
+  isAdminTyping?: boolean;
 }
 
 const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
-  ({ messages, isLoading }, ref) => {
+  ({ messages, isLoading, isAdminTyping }, ref) => {
     return (
       <div 
         ref={ref} 
@@ -403,6 +472,7 @@ const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
             {messages.map((msg) => (
               <MessageBubble key={msg.id} message={msg} />
             ))}
+            {isAdminTyping && <TypingIndicator />}
           </>
         )}
       </div>
@@ -487,16 +557,24 @@ interface ChatInputProps {
   onSend: () => void;
   onKeyPress: (e: React.KeyboardEvent) => void;
   isSending: boolean;
+  onTyping?: (isTyping: boolean) => void;
 }
 
-function ChatInput({ value, onChange, onSend, onKeyPress, isSending }: ChatInputProps) {
+function ChatInput({ value, onChange, onSend, onKeyPress, isSending, onTyping }: ChatInputProps) {
+  const handleChange = (newValue: string) => {
+    onChange(newValue);
+    if (onTyping) {
+      onTyping(newValue.length > 0);
+    }
+  };
+
   return (
     <div className="p-3 bg-white border-t border-slate-200">
       <div className="flex items-end gap-2" role="group" aria-label="Message input">
         <div className="flex-1 relative">
           <Textarea
             value={value}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => handleChange(e.target.value)}
             onKeyDown={onKeyPress}
             placeholder="Message..."
             className="min-h-[44px] max-h-[120px] resize-none pr-20 rounded-xl border-slate-200 focus:border-orange-300 focus:ring-orange-200"
