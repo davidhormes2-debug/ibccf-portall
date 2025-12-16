@@ -37,7 +37,7 @@ export const adminSessionsRouter = Router();
 
 adminSessionsRouter.get("/", checkAdminAuth, async (req, res) => {
   try {
-    const sessions = await storage.getActiveAdminSessions();
+    const sessions = await storage.getActiveAdminSessions('Admin2025');
     res.json(sessions);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch admin sessions" });
@@ -48,7 +48,7 @@ adminSessionsRouter.post("/", async (req, res) => {
   try {
     const sessionInput = z.object({
       adminUsername: z.string().min(1),
-      sessionToken: z.string().min(1),
+      token: z.string().min(1),
       ipAddress: z.string().optional(),
       userAgent: z.string().optional(),
       location: z.string().optional(),
@@ -216,7 +216,7 @@ twoFactorRouter.post("/", checkAdminAuth, async (req, res) => {
     const configInput = z.object({
       adminUsername: z.string().min(1),
       secret: z.string().min(1),
-      backupCodes: z.array(z.string()).optional()
+      backupCodes: z.string().optional()
     }).parse(req.body);
 
     const config = await storage.createAdminTwoFactor(configInput);
@@ -234,7 +234,7 @@ twoFactorRouter.patch("/", checkAdminAuth, async (req, res) => {
   try {
     const configInput = z.object({
       isEnabled: z.boolean().optional(),
-      backupCodes: z.array(z.string()).optional()
+      backupCodes: z.string().optional()
     }).parse(req.body);
 
     const config = await storage.updateAdminTwoFactor('Admin2025', configInput);

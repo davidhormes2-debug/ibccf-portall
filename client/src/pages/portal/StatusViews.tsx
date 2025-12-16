@@ -9,11 +9,11 @@ import {
 import { usePortal, Submission } from "./PortalContext";
 
 interface SuccessViewProps {
-  lastSubmission: Submission | null;
-  selectedOption: "A" | "B" | null;
+  lastSubmission?: Submission | null;
+  selectedOption?: "A" | "B" | null;
 }
 
-export function SuccessView({ lastSubmission, selectedOption }: SuccessViewProps) {
+export function SuccessView({ lastSubmission = null, selectedOption = null }: SuccessViewProps) {
   const { currentCase, setViewState, setIsChatOpen } = usePortal();
   
   const ticketId = lastSubmission?.id 

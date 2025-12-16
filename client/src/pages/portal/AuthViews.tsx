@@ -230,11 +230,11 @@ export function RegisterView() {
 }
 
 interface SyncViewProps {
-  syncProgress: number;
-  syncStatusText: string;
+  syncProgress?: number;
+  syncStatusText?: string;
 }
 
-export function SyncView({ syncProgress, syncStatusText }: SyncViewProps) {
+export function SyncView({ syncProgress = 75, syncStatusText = "Establishing secure connection..." }: SyncViewProps) {
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-md w-full text-center">
