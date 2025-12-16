@@ -1692,7 +1692,6 @@ export default function AdminDashboard() {
     if (!newAccessCode) return;
     
     try {
-      console.log('Creating case with access code:', newAccessCode);
       const response = await fetch('/api/cases', {
         method: 'POST',
         headers: { 
@@ -1704,8 +1703,6 @@ export default function AdminDashboard() {
           status: 'created'
         })
       });
-
-      console.log('Response status:', response.status);
       
       if (response.ok) {
         const newCase = await response.json();
@@ -1715,7 +1712,6 @@ export default function AdminDashboard() {
         toast({ title: "Case Created", description: `Access Code: ${newCase.accessCode}` });
       } else {
         const errorText = await response.text();
-        console.error('Error response:', errorText);
         try {
           const errorData = JSON.parse(errorText);
           toast({ variant: "destructive", title: "Error", description: errorData.error || "Failed to create case." });
@@ -1724,8 +1720,7 @@ export default function AdminDashboard() {
         }
       }
     } catch (error) {
-      console.error('Fetch error:', error);
-      toast({ variant: "destructive", title: "Error", description: "Failed to create case. Check console for details." });
+      toast({ variant: "destructive", title: "Error", description: "Failed to create case." });
     }
   };
 
