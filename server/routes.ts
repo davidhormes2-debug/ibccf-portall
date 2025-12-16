@@ -27,7 +27,9 @@ import {
   userFeedbackRouter,
   registerCaseFeedbackRoutes,
   publicRouter,
-  adminPublicContentRouter
+  adminPublicContentRouter,
+  departmentsRouter,
+  communityRouter
 } from "./routes/index";
 
 export async function registerRoutes(
@@ -54,6 +56,8 @@ export async function registerRoutes(
   app.use("/api/user-feedback", userFeedbackRouter);
   app.use("/api/public", publicRouter);
   app.use("/api/admin/content", adminPublicContentRouter);
+  app.use("/api/departments", departmentsRouter);
+  app.use("/api/community", communityRouter);
 
   registerCaseSubmissionRoutes(casesRouter);
   registerCaseDepositRoutes(casesRouter);

@@ -251,3 +251,14 @@ twoFactorRouter.patch("/", checkAdminAuth, async (req, res) => {
     }
   }
 });
+
+adminRouter.post("/seed-community", checkAdminAuth, async (req, res) => {
+  try {
+    const { seedCommunityData } = await import("../seed-community");
+    const result = await seedCommunityData();
+    res.json(result);
+  } catch (error) {
+    console.error("Seed error:", error);
+    res.status(500).json({ error: "Failed to seed community data" });
+  }
+});

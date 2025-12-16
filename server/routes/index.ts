@@ -6,3 +6,5 @@ export { adminRouter, auditLogsRouter, adminSessionsRouter, notificationsRouter,
 export { helpArticlesRouter, translationsRouter, documentRequestsRouter, registerCaseDocumentRoutes, userFeedbackRouter, registerCaseFeedbackRoutes } from "./content";
 export { publicRouter, adminPublicContentRouter } from "./public";
 export { checkAdminAuth, ADMIN_TOKEN } from "./middleware";
+export { departmentsRouter } from "./departments";
+export { communityRouter } from "./community";
