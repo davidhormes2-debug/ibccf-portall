@@ -157,6 +157,27 @@ communityRouter.post("/threads", async (req, res) => {
   }
 });
 
+// Get posts for a thread
+communityRouter.get("/threads/:id/posts", async (req, res) => {
+  try {
+    const threadId = parseInt(req.params.id);
+    
+    const posts = await db
+      .select()
+      .from(communityPosts)
+      .where(and(
+        eq(communityPosts.threadId, threadId),
+        eq(communityPosts.isHidden, false)
+      ))
+      .orderBy(asc(communityPosts.createdAt));
+
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "Failed to fetch posts" });
+  }
+});
+
 // Create reply to thread
 communityRouter.post("/threads/:id/posts", async (req, res) => {
   try {
