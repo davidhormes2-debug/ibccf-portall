@@ -25,6 +25,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/App";
 import { ContentManagement } from "@/components/admin/ContentManagement";
 import { CommunityManagement } from "@/components/admin/CommunityManagement";
+import { KeyRequestsManagement } from "@/components/admin/KeyRequestsManagement";
 
 interface AdminData {
   vipStatus: string;
@@ -2117,6 +2118,9 @@ export default function AdminDashboard() {
             <TabsTrigger value="community" className="data-[state=active]:bg-slate-700" data-testid="tab-community">
               <Users className="w-4 h-4 mr-2" /> Community
             </TabsTrigger>
+            <TabsTrigger value="key-requests" className="data-[state=active]:bg-slate-700" data-testid="tab-key-requests">
+              <Key className="w-4 h-4 mr-2" /> Key Requests
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="cases">
@@ -3816,6 +3820,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="community">
             <CommunityManagement />
+          </TabsContent>
+
+          <TabsContent value="key-requests">
+            <KeyRequestsManagement />
           </TabsContent>
         </Tabs>
       </main>
