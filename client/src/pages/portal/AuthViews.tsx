@@ -10,36 +10,94 @@ import { usePortal, Case, ViewState } from "./PortalContext";
 export function LoginView() {
   const { setCurrentCase, setAccessCode, setViewState } = usePortal();
   const [localAccessCode, setLocalAccessCode] = useState("");
+  const [pin, setPin] = useState("");
+  const [step, setStep] = useState<"code" | "pin">("code");
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
     try {
-      const response = await fetch(`/api/cases/access/${localAccessCode}`);
-      
-      if (response.ok) {
-        const foundCase: Case = await response.json();
-        setCurrentCase(foundCase);
-        setAccessCode(localAccessCode);
-        
-        const landingPage = (foundCase.landingPage || 'dashboard') as ViewState;
-        if (foundCase.status === 'active') setViewState(landingPage);
-        else if (foundCase.status === 'syncing') setViewState('sync');
-        else if (foundCase.status === 'completed') setViewState(landingPage);
-        else setViewState('register');
-        
-        toast({
-          title: "Identity Verified",
-          description: "Secure session established.",
-          className: "bg-green-50 border-green-200 text-green-900",
+      if (step === "code") {
+        // First verify the access code and check if PIN is required
+        const verifyRes = await fetch("/api/cases/verify-access-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ accessCode: localAccessCode }),
         });
+        
+        if (verifyRes.ok) {
+          const verifyData = await verifyRes.json();
+          
+          if (!verifyData.hasPinSet) {
+            // No PIN set - they need to register first
+            sessionStorage.setItem("caseAccessCode", localAccessCode);
+            sessionStorage.setItem("caseId", verifyData.caseId);
+            sessionStorage.setItem("requiresPinSetup", "true");
+            
+            const response = await fetch(`/api/cases/access/${localAccessCode}`);
+            if (response.ok) {
+              const foundCase = await response.json();
+              setCurrentCase(foundCase);
+              setAccessCode(localAccessCode);
+              setViewState('register');
+            }
+          } else {
+            // PIN is set - ask for it
+            setStep("pin");
+            toast({
+              title: "PIN Required",
+              description: "Please enter your 6-digit PIN to continue.",
+            });
+          }
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Access Denied",
+            description: "Invalid clearance code provided.",
+          });
+        }
       } else {
-        toast({
-          variant: "destructive",
-          title: "Access Denied",
-          description: "Invalid clearance code provided.",
+        // Verify PIN
+        const res = await fetch("/api/cases/login-pin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ accessCode: localAccessCode, pin }),
         });
+        
+        if (res.ok) {
+          const data = await res.json();
+          sessionStorage.setItem("caseAccessCode", data.accessCode);
+          sessionStorage.setItem("caseId", data.id);
+          sessionStorage.setItem("pinVerified", "true");
+          
+          const response = await fetch(`/api/cases/access/${localAccessCode}`);
+          if (response.ok) {
+            const foundCase: Case = await response.json();
+            setCurrentCase(foundCase);
+            setAccessCode(localAccessCode);
+            
+            const landingPage = (foundCase.landingPage || 'dashboard') as ViewState;
+            if (foundCase.status === 'active') setViewState(landingPage);
+            else if (foundCase.status === 'syncing') setViewState('sync');
+            else if (foundCase.status === 'completed') setViewState(landingPage);
+            else setViewState('register');
+            
+            toast({
+              title: "Identity Verified",
+              description: "Secure session established.",
+              className: "bg-green-50 border-green-200 text-green-900",
+            });
+          }
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Invalid PIN",
+            description: "The PIN entered is incorrect. Please try again.",
+          });
+        }
       }
     } catch {
       toast({
@@ -47,6 +105,8 @@ export function LoginView() {
         title: "Connection Error",
         description: "Unable to verify credentials.",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,7 +129,9 @@ export function LoginView() {
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
-                <label className="text-xs font-medium text-slate-400 uppercase">Compliance Clearance Reference</label>
+                <label className="text-xs font-medium text-slate-400 uppercase">
+                  {step === "code" ? "Compliance Clearance Reference" : "Access Code"}
+                </label>
                 <div className="relative">
                   <Key className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
                   <Input 
@@ -78,13 +140,50 @@ export function LoginView() {
                     className="pl-9 bg-slate-900 border-slate-800 text-white placeholder:text-slate-600 focus:ring-blue-500"
                     value={localAccessCode}
                     onChange={(e) => setLocalAccessCode(e.target.value)}
+                    disabled={step === "pin"}
                     data-testid="input-access-code"
                   />
                 </div>
               </div>
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" data-testid="button-login">
-                Verify Identity
+              
+              {step === "pin" && (
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-slate-400 uppercase">Security PIN</label>
+                  <div className="relative">
+                    <KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                    <Input 
+                      type="password" 
+                      placeholder="Enter 6-digit PIN" 
+                      maxLength={6}
+                      className="pl-9 bg-slate-900 border-slate-800 text-white placeholder:text-slate-600 focus:ring-blue-500"
+                      value={pin}
+                      onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                      autoFocus
+                      data-testid="input-pin"
+                    />
+                  </div>
+                </div>
+              )}
+              
+              <Button 
+                type="submit" 
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
+                disabled={isLoading}
+                data-testid="button-login"
+              >
+                {isLoading ? "Verifying..." : step === "code" ? "Continue" : "Verify Identity"}
               </Button>
+              
+              {step === "pin" && (
+                <Button 
+                  type="button" 
+                  variant="ghost"
+                  className="w-full text-slate-400 hover:text-white"
+                  onClick={() => { setStep("code"); setPin(""); }}
+                >
+                  Use different access code
+                </Button>
+              )}
             </form>
           </CardContent>
           <CardFooter className="border-t border-slate-800 pt-4 pb-6 flex justify-center">
@@ -218,6 +317,10 @@ export function RegisterView() {
         setIsSubmitting(false);
         return;
       }
+
+      // PIN successfully set - mark session as verified
+      sessionStorage.setItem("pinVerified", "true");
+      sessionStorage.removeItem("requiresPinSetup");
 
       // Then register the user details
       const response = await fetch(`/api/cases/${currentCase.id}/register`, {

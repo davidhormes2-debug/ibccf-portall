@@ -172,7 +172,11 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
     setUnreadCount(0);
     setUnreadAdminMessages(0);
     setIsChatOpen(false);
+    // Clear all session data for security
     sessionStorage.removeItem("caseAccessCode");
+    sessionStorage.removeItem("caseId");
+    sessionStorage.removeItem("pinVerified");
+    sessionStorage.removeItem("requiresPinSetup");
   }, []);
 
   const loadAllData = useCallback(async () => {
@@ -214,7 +218,11 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const storedAccessCode = sessionStorage.getItem("caseAccessCode");
-    if (storedAccessCode && viewState === 'login') {
+    const pinVerified = sessionStorage.getItem("pinVerified");
+    const requiresPinSetup = sessionStorage.getItem("requiresPinSetup");
+    
+    // Only auto-login if PIN was verified OR if this is a new account requiring PIN setup
+    if (storedAccessCode && viewState === 'login' && (pinVerified === 'true' || requiresPinSetup === 'true')) {
       (async () => {
         try {
           const response = await fetch(`/api/cases/access/${storedAccessCode}`);
@@ -223,16 +231,31 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
             setCurrentCase(foundCase);
             setAccessCode(storedAccessCode);
             
+            // If requires PIN setup, go to register view
+            if (requiresPinSetup === 'true') {
+              setViewState('register');
+              return;
+            }
+            
             const landingPage = foundCase.landingPage || 'dashboard';
             if (foundCase.status === 'active') setViewState(landingPage as ViewState);
             else if (foundCase.status === 'syncing') setViewState('sync');
             else if (foundCase.status === 'completed') setViewState(landingPage as ViewState);
             else setViewState('register');
+          } else {
+            // Invalid session - clear storage
+            sessionStorage.removeItem("caseAccessCode");
+            sessionStorage.removeItem("pinVerified");
+            sessionStorage.removeItem("requiresPinSetup");
           }
         } catch (error) {
           console.error('Failed to auto-login:', error);
         }
       })();
+    } else if (storedAccessCode && !pinVerified && !requiresPinSetup) {
+      // Has access code but no PIN verification - clear it for security
+      sessionStorage.removeItem("caseAccessCode");
+      sessionStorage.removeItem("caseId");
     }
   }, []);
 

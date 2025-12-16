@@ -44,9 +44,11 @@ export default function VerifyPlatform() {
             // PIN not set - redirect to dashboard for registration (which includes PIN setup)
             sessionStorage.setItem("caseAccessCode", accessCode);
             sessionStorage.setItem("caseId", verifyData.caseId);
+            sessionStorage.setItem("requiresPinSetup", "true");
+            // Do NOT set pinVerified - they must set up PIN first
             toast({
               title: "Verification Successful",
-              description: "Please complete your profile setup to continue.",
+              description: "Please set up your security PIN to continue.",
             });
             setLocation("/dashboard");
           } else {
@@ -104,6 +106,9 @@ export default function VerifyPlatform() {
           const data = await res.json();
           sessionStorage.setItem("caseAccessCode", data.accessCode);
           sessionStorage.setItem("caseId", data.id);
+          sessionStorage.setItem("pinVerified", "true");
+          // Clear any pending PIN setup flag
+          sessionStorage.removeItem("requiresPinSetup");
           setLocation("/dashboard");
         } else {
           const errorData = await res.json();
