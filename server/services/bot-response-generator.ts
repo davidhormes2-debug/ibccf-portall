@@ -167,10 +167,13 @@ function getUniqueFallbackResponse(existingPosts: string[]): string {
     const normalized = response.toLowerCase().trim();
     let isDuplicate = false;
     
-    // Check if any existing post is too similar
+    // Check if any existing post is identical or very similar
     for (let i = 0; i < existingList.length; i++) {
       const existing = existingList[i];
-      if (existing.includes(normalized.slice(0, 50)) || normalized.includes(existing.slice(0, 50))) {
+      // Check for exact match or high similarity (starts the same way)
+      if (existing === normalized || 
+          existing.startsWith(normalized.slice(0, 30)) || 
+          normalized.startsWith(existing.slice(0, 30))) {
         isDuplicate = true;
         break;
       }
@@ -181,10 +184,34 @@ function getUniqueFallbackResponse(existingPosts: string[]): string {
     }
   }
   
-  // If all are used, return a random one with slight modification
-  const randomResponse = FALLBACK_RESPONSES[Math.floor(Math.random() * FALLBACK_RESPONSES.length)];
-  const prefixes = ["Actually, ", "Yeah, ", "So true - ", "Agree! ", "This - ", "Honestly, "];
-  return prefixes[Math.floor(Math.random() * prefixes.length)] + randomResponse.toLowerCase();
+  // If all are used, generate a unique response with random elements
+  const amounts = ['$4,200', '$7,800', '$11,500', '$16,300', '$9,400', '$5,600', '$13,200', '$8,900'];
+  const weeks = ['3', '4', '5', '6', '7', '8'];
+  const stages = ['3', '4', '5', '6'];
+  
+  const templates = [
+    `My ${amounts[Math.floor(Math.random() * amounts.length)]} case took ${weeks[Math.floor(Math.random() * weeks.length)]} weeks. The wait was worth it!`,
+    `Just reached stage ${stages[Math.floor(Math.random() * stages.length)]} with my ${amounts[Math.floor(Math.random() * amounts.length)]} case. Progress feels good!`,
+    `Been following this thread - great to see others succeeding. My ${amounts[Math.floor(Math.random() * amounts.length)]} case is at stage ${stages[Math.floor(Math.random() * stages.length)]} now.`,
+    `Totally understand the stress. My case was ${amounts[Math.floor(Math.random() * amounts.length)]} and the ${weeks[Math.floor(Math.random() * weeks.length)]}-week wait felt endless, but it worked out.`,
+  ];
+  
+  return templates[Math.floor(Math.random() * templates.length)];
+}
+
+// Check if a response is too similar to existing posts
+function isDuplicateContent(content: string, existingPosts: string[]): boolean {
+  const normalized = content.toLowerCase().trim();
+  
+  for (let i = 0; i < existingPosts.length; i++) {
+    const existing = existingPosts[i].toLowerCase().trim();
+    if (existing === normalized || 
+        existing.startsWith(normalized.slice(0, 30)) || 
+        normalized.startsWith(existing.slice(0, 30))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 async function getRandomActiveBot() {
@@ -213,24 +240,36 @@ export async function scheduleResponsesForThread(threadId: number, triggerPostId
       .where(eq(communityPosts.threadId, threadId))
       .orderBy(communityPosts.createdAt);
 
+    // Track all posts including newly scheduled ones to prevent duplicates in batch
     const postContents = existingPosts.map(p => p.content);
     const triggerContent = triggerPostId 
       ? existingPosts.find(p => p.id === triggerPostId)?.content || thread.content
       : thread.content;
 
     const numberOfResponses = Math.floor(Math.random() * 3) + 1;
+    let scheduledCount = 0;
 
     for (let i = 0; i < numberOfResponses; i++) {
       const bot = await getRandomActiveBot();
       if (!bot) continue;
 
-      const aiContent = await generateAIResponse(
+      let aiContent = await generateAIResponse(
         thread.title,
         thread.content,
-        postContents,
+        postContents, // Pass updated list including previously scheduled responses
         triggerContent,
         bot.personality || undefined
       );
+
+      // Double-check for duplicates before scheduling
+      let attempts = 0;
+      while (isDuplicateContent(aiContent, postContents) && attempts < 3) {
+        aiContent = getUniqueFallbackResponse(postContents);
+        attempts++;
+      }
+
+      // Add this response to tracked posts to prevent duplicates in next iteration
+      postContents.push(aiContent);
 
       const scheduledFor = getHumanLikeDelay();
       scheduledFor.setMinutes(scheduledFor.getMinutes() + (i * Math.floor(Math.random() * 15)));
@@ -243,9 +282,10 @@ export async function scheduleResponsesForThread(threadId: number, triggerPostId
         scheduledFor,
         status: 'pending',
       });
+      scheduledCount++;
     }
 
-    console.log(`Scheduled ${numberOfResponses} bot response(s) for thread ${threadId}`);
+    console.log(`Scheduled ${scheduledCount} bot response(s) for thread ${threadId}`);
   } catch (error) {
     console.error("Error scheduling bot responses:", error);
   }
