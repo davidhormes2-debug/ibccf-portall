@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { storage } from "../storage";
-import { insertActiveVisitorSchema, insertVisitorHistorySchema, insertBlockedVisitorSchema, insertOfflineMessageSchema } from "@shared/schema";
+import { insertActiveVisitorSchema, insertVisitorHistorySchema, insertBlockedVisitorSchema, insertOfflineMessageSchema, insertChatSatisfactionRatingSchema } from "@shared/schema";
 import { checkAdminAuth } from "./middleware";
 
 const router = Router();
@@ -456,6 +456,58 @@ router.get("/agent-status", async (req, res) => {
   } catch (error) {
     console.error("Check agent status error:", error);
     res.status(500).json({ error: "Failed to check agent status" });
+  }
+});
+
+// ==================== SATISFACTION RATINGS ====================
+
+// Submit satisfaction rating (user after chat)
+router.post("/satisfaction", async (req, res) => {
+  try {
+    const parseResult = insertChatSatisfactionRatingSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      return res.status(400).json({ error: "Invalid request data", details: parseResult.error.errors });
+    }
+
+    const rating = await storage.createChatSatisfactionRating(parseResult.data);
+    res.status(201).json(rating);
+  } catch (error) {
+    console.error("Create satisfaction rating error:", error);
+    res.status(500).json({ error: "Failed to create satisfaction rating" });
+  }
+});
+
+// Get all satisfaction ratings (admin only)
+router.get("/satisfaction", checkAdminAuth, async (req, res) => {
+  try {
+    const ratings = await storage.getAllChatSatisfactionRatings();
+    res.json(ratings);
+  } catch (error) {
+    console.error("Get satisfaction ratings error:", error);
+    res.status(500).json({ error: "Failed to get satisfaction ratings" });
+  }
+});
+
+// Get satisfaction ratings for a case
+router.get("/satisfaction/case/:caseId", checkAdminAuth, async (req, res) => {
+  try {
+    const { caseId } = req.params;
+    const ratings = await storage.getChatSatisfactionRatingsByCaseId(caseId);
+    res.json(ratings);
+  } catch (error) {
+    console.error("Get case satisfaction ratings error:", error);
+    res.status(500).json({ error: "Failed to get satisfaction ratings" });
+  }
+});
+
+// Get average satisfaction rating (admin only)
+router.get("/satisfaction/stats", checkAdminAuth, async (req, res) => {
+  try {
+    const stats = await storage.getAverageSatisfactionRating();
+    res.json(stats);
+  } catch (error) {
+    console.error("Get satisfaction stats error:", error);
+    res.status(500).json({ error: "Failed to get satisfaction stats" });
   }
 });
 

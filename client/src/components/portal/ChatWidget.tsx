@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Loader2, MoreVertical, Minimize2, Download, Shield, Smile, Paperclip } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, MoreVertical, Minimize2, Download, Shield, Smile, Paperclip, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,9 @@ interface ChatWidgetProps {
   isLoading?: boolean;
   isAgentOnline?: boolean;
   visitorId?: string;
+  caseId?: string;
   onOfflineMessageSent?: () => void;
+  onSurveyComplete?: () => void;
 }
 
 export function ChatWidget({
@@ -46,7 +48,9 @@ export function ChatWidget({
   isLoading = false,
   isAgentOnline = true,
   visitorId,
+  caseId,
   onOfflineMessageSent,
+  onSurveyComplete,
 }: ChatWidgetProps) {
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -55,6 +59,11 @@ export function ChatWidget({
   const [offlineFormData, setOfflineFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [offlineFormSubmitting, setOfflineFormSubmitting] = useState(false);
   const [offlineFormSuccess, setOfflineFormSuccess] = useState(false);
+  const [showSurvey, setShowSurvey] = useState(false);
+  const [surveyRating, setSurveyRating] = useState(0);
+  const [surveyFeedback, setSurveyFeedback] = useState('');
+  const [surveySubmitting, setSurveySubmitting] = useState(false);
+  const [surveySubmitted, setSurveySubmitted] = useState(false);
   const chatScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -132,6 +141,30 @@ export function ChatWidget({
     }
   }, [isAgentOnline, messages.length]);
 
+  const handleSurveySubmit = async (caseId: string) => {
+    if (surveyRating === 0) return;
+    setSurveySubmitting(true);
+    try {
+      const response = await fetch('/api/visitors/satisfaction', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          caseId,
+          visitorId,
+          rating: surveyRating,
+          feedback: surveyFeedback || null,
+        }),
+      });
+      if (response.ok) {
+        setSurveySubmitted(true);
+      }
+    } catch (error) {
+      console.error('Failed to submit satisfaction rating:', error);
+    } finally {
+      setSurveySubmitting(false);
+    }
+  };
+
   return (
     <>
       <ChatButton 
@@ -164,7 +197,21 @@ export function ChatWidget({
             
             {!isMinimized && (
               <>
-                {showOfflineForm && !isAgentOnline ? (
+                {showSurvey ? (
+                  <SatisfactionSurvey
+                    rating={surveyRating}
+                    onRatingChange={setSurveyRating}
+                    feedback={surveyFeedback}
+                    onFeedbackChange={setSurveyFeedback}
+                    onSubmit={() => caseId && handleSurveySubmit(caseId)}
+                    onSkip={() => {
+                      setShowSurvey(false);
+                      onSurveyComplete?.();
+                    }}
+                    isSubmitting={surveySubmitting}
+                    isSubmitted={surveySubmitted}
+                  />
+                ) : showOfflineForm && !isAgentOnline ? (
                   <OfflineMessageForm
                     formData={offlineFormData}
                     onChange={setOfflineFormData}
@@ -202,6 +249,20 @@ export function ChatWidget({
                       onKeyPress={handleKeyPress}
                       isSending={isSending}
                     />
+                    
+                    {/* Rate experience button */}
+                    {messages.length > 0 && caseId && (
+                      <div className="px-4 py-2 bg-blue-50 border-t border-blue-100">
+                        <button 
+                          className="text-xs text-blue-600 hover:text-blue-800 w-full text-center"
+                          onClick={() => setShowSurvey(true)}
+                          data-testid="button-rate-experience"
+                        >
+                          <Star className="w-3 h-3 inline mr-1" />
+                          Rate your experience
+                        </button>
+                      </div>
+                    )}
                   </>
                 )}
                 
@@ -474,6 +535,85 @@ function ChatInput({ value, onChange, onSend, onKeyPress, isSending }: ChatInput
           ) : (
             <Send className="h-4 w-4" aria-hidden="true" />
           )}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+interface SatisfactionSurveyProps {
+  rating: number;
+  onRatingChange: (rating: number) => void;
+  feedback: string;
+  onFeedbackChange: (feedback: string) => void;
+  onSubmit: () => void;
+  onSkip: () => void;
+  isSubmitting: boolean;
+  isSubmitted: boolean;
+}
+
+function SatisfactionSurvey({ rating, onRatingChange, feedback, onFeedbackChange, onSubmit, onSkip, isSubmitting, isSubmitted }: SatisfactionSurveyProps) {
+  if (isSubmitted) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h3 className="text-lg font-semibold text-slate-800 mb-2">Thank you!</h3>
+        <p className="text-sm text-slate-600">
+          Your feedback helps us improve our service.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex-1 flex flex-col items-center justify-center p-6">
+      <div className="text-center mb-6">
+        <h3 className="text-base font-semibold text-slate-800 mb-1">How was your experience?</h3>
+        <p className="text-xs text-slate-500">We'd love to hear your feedback</p>
+      </div>
+      
+      <div className="flex gap-2 mb-6">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            onClick={() => onRatingChange(star)}
+            className="p-1 transition-transform hover:scale-110"
+            data-testid={`star-${star}`}
+          >
+            <Star 
+              className={`w-8 h-8 ${star <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-300'}`}
+            />
+          </button>
+        ))}
+      </div>
+      
+      <div className="w-full mb-4">
+        <Textarea
+          value={feedback}
+          onChange={(e) => onFeedbackChange(e.target.value)}
+          placeholder="Tell us more about your experience (optional)"
+          className="resize-none text-sm"
+          rows={3}
+          data-testid="input-survey-feedback"
+        />
+      </div>
+      
+      <div className="flex gap-2 w-full">
+        <Button variant="outline" onClick={onSkip} className="flex-1" data-testid="button-skip-survey">
+          Skip
+        </Button>
+        <Button 
+          onClick={onSubmit}
+          disabled={rating === 0 || isSubmitting}
+          className="flex-1 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+          data-testid="button-submit-survey"
+        >
+          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+          Submit
         </Button>
       </div>
     </div>

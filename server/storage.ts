@@ -30,6 +30,7 @@ import {
   type BlockedVisitor, type InsertBlockedVisitor, blockedVisitors,
   type AdminAvailability, type InsertAdminAvailability, adminAvailability,
   type OfflineMessage, type InsertOfflineMessage, offlineMessages,
+  type ChatSatisfactionRating, type InsertChatSatisfactionRating, chatSatisfactionRatings,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, lt, isNull, sql } from "drizzle-orm";
@@ -239,6 +240,12 @@ export interface IStorage {
   updateOfflineMessage(id: number, data: Partial<InsertOfflineMessage>): Promise<OfflineMessage | undefined>;
   deleteOfflineMessage(id: number): Promise<void>;
   getUnreadOfflineMessagesCount(): Promise<number>;
+  
+  // Chat satisfaction rating operations
+  createChatSatisfactionRating(data: InsertChatSatisfactionRating): Promise<ChatSatisfactionRating>;
+  getChatSatisfactionRatingsByCaseId(caseId: string): Promise<ChatSatisfactionRating[]>;
+  getAllChatSatisfactionRatings(): Promise<ChatSatisfactionRating[]>;
+  getAverageSatisfactionRating(): Promise<{ avgRating: number; totalRatings: number }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1117,6 +1124,33 @@ export class DatabaseStorage implements IStorage {
       .from(offlineMessages)
       .where(eq(offlineMessages.status, 'new'));
     return Number(result[0]?.count || 0);
+  }
+
+  // Chat satisfaction rating operations
+  async createChatSatisfactionRating(data: InsertChatSatisfactionRating): Promise<ChatSatisfactionRating> {
+    const [rating] = await db.insert(chatSatisfactionRatings).values(data).returning();
+    return rating;
+  }
+
+  async getChatSatisfactionRatingsByCaseId(caseId: string): Promise<ChatSatisfactionRating[]> {
+    return await db.select().from(chatSatisfactionRatings)
+      .where(eq(chatSatisfactionRatings.caseId, caseId))
+      .orderBy(desc(chatSatisfactionRatings.createdAt));
+  }
+
+  async getAllChatSatisfactionRatings(): Promise<ChatSatisfactionRating[]> {
+    return await db.select().from(chatSatisfactionRatings).orderBy(desc(chatSatisfactionRatings.createdAt));
+  }
+
+  async getAverageSatisfactionRating(): Promise<{ avgRating: number; totalRatings: number }> {
+    const result = await db.select({
+      avgRating: sql<number>`avg(rating)`,
+      totalRatings: sql<number>`count(*)`,
+    }).from(chatSatisfactionRatings);
+    return {
+      avgRating: Number(result[0]?.avgRating || 0),
+      totalRatings: Number(result[0]?.totalRatings || 0),
+    };
   }
 }
 
