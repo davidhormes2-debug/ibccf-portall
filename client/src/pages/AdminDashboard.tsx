@@ -24,6 +24,7 @@ import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/App";
 import { ContentManagement } from "@/components/admin/ContentManagement";
+import { CommunityManagement } from "@/components/admin/CommunityManagement";
 
 interface AdminData {
   vipStatus: string;
@@ -2113,6 +2114,9 @@ export default function AdminDashboard() {
             <TabsTrigger value="content" className="data-[state=active]:bg-slate-700" data-testid="tab-content">
               <Globe className="w-4 h-4 mr-2" /> Content
             </TabsTrigger>
+            <TabsTrigger value="community" className="data-[state=active]:bg-slate-700" data-testid="tab-community">
+              <Users className="w-4 h-4 mr-2" /> Community
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="cases">
@@ -3808,6 +3812,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="content">
             <ContentManagement />
+          </TabsContent>
+
+          <TabsContent value="community">
+            <CommunityManagement />
           </TabsContent>
         </Tabs>
       </main>

@@ -91,10 +91,31 @@ communityRouter.get("/threads/:id", async (req, res) => {
   }
 });
 
-// Create new thread (authenticated users only)
+// Create new thread (users, bots, or admins)
 communityRouter.post("/threads", async (req, res) => {
   try {
-    const { departmentId, title, content, participantId } = req.body;
+    const { departmentId, title, content, participantId, authorHandle, authorType, isPinned } = req.body;
+
+    // If admin/bot posting (with authorHandle provided directly)
+    if (authorHandle) {
+      const [newThread] = await db
+        .insert(communityThreads)
+        .values({
+          departmentId,
+          title,
+          content,
+          authorType: authorType || 'user',
+          authorHandle,
+          isPinned: isPinned || false,
+        })
+        .returning();
+      return res.status(201).json(newThread);
+    }
+
+    // Regular user posting (requires participantId)
+    if (!participantId) {
+      return res.status(400).json({ error: "Participant ID or author handle required" });
+    }
 
     // Get participant handle
     const [participant] = await db
@@ -276,6 +297,63 @@ communityRouter.post("/participants", async (req, res) => {
   } catch (error) {
     console.error("Error creating participant:", error);
     res.status(500).json({ error: "Failed to create participant" });
+  }
+});
+
+// Update thread (admin only - pin/lock)
+communityRouter.patch("/threads/:id", async (req, res) => {
+  try {
+    const threadId = parseInt(req.params.id);
+    const { isPinned, isLocked, title, content } = req.body;
+
+    const updateData: Record<string, any> = {};
+    if (isPinned !== undefined) updateData.isPinned = isPinned;
+    if (isLocked !== undefined) updateData.isLocked = isLocked;
+    if (title !== undefined) updateData.title = title;
+    if (content !== undefined) updateData.content = content;
+    updateData.updatedAt = new Date();
+
+    const [updated] = await db
+      .update(communityThreads)
+      .set(updateData)
+      .where(eq(communityThreads.id, threadId))
+      .returning();
+
+    if (!updated) {
+      return res.status(404).json({ error: "Thread not found" });
+    }
+
+    res.json(updated);
+  } catch (error) {
+    console.error("Error updating thread:", error);
+    res.status(500).json({ error: "Failed to update thread" });
+  }
+});
+
+// Delete thread (admin only)
+communityRouter.delete("/threads/:id", async (req, res) => {
+  try {
+    const threadId = parseInt(req.params.id);
+
+    // Delete related posts first
+    await db
+      .delete(communityPosts)
+      .where(eq(communityPosts.threadId, threadId));
+
+    // Delete thread
+    const [deleted] = await db
+      .delete(communityThreads)
+      .where(eq(communityThreads.id, threadId))
+      .returning();
+
+    if (!deleted) {
+      return res.status(404).json({ error: "Thread not found" });
+    }
+
+    res.json({ success: true, deleted });
+  } catch (error) {
+    console.error("Error deleting thread:", error);
+    res.status(500).json({ error: "Failed to delete thread" });
   }
 });
 
