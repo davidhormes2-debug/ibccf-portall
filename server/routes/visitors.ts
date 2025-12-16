@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { storage } from "../storage";
 import { insertActiveVisitorSchema, insertVisitorHistorySchema, insertBlockedVisitorSchema } from "@shared/schema";
+import { checkAdminAuth } from "./middleware";
 
 const router = Router();
 
@@ -260,6 +261,84 @@ router.get("/stats/dashboard", async (req, res) => {
   } catch (error) {
     console.error("Get dashboard stats error:", error);
     res.status(500).json({ error: "Failed to get dashboard stats" });
+  }
+});
+
+// Proactive chat initiation - admin sends first message to visitor
+router.post("/:visitorId/initiate-chat", checkAdminAuth, async (req, res) => {
+  try {
+    const { message, greeting } = req.body;
+    const visitorId = req.params.visitorId;
+
+    if (!message && !greeting) {
+      return res.status(400).json({ error: "Message or greeting is required" });
+    }
+
+    const visitor = await storage.getActiveVisitorByVisitorId(visitorId);
+    if (!visitor) {
+      return res.status(404).json({ error: "Visitor not found" });
+    }
+
+    // Update visitor to indicate active chat
+    await storage.updateActiveVisitor(visitor.id, {
+      hasActiveChat: true,
+      proactiveGreeting: message || greeting,
+    });
+
+    // If visitor has a case, send message to that case
+    if (visitor.caseId) {
+      await storage.createChatMessage({
+        caseId: visitor.caseId,
+        sender: 'admin',
+        message: message || greeting,
+        isRead: 'false',
+      });
+    }
+
+    res.json({ 
+      success: true, 
+      visitorId,
+      caseId: visitor.caseId,
+      message: message || greeting 
+    });
+  } catch (error) {
+    console.error("Initiate chat error:", error);
+    res.status(500).json({ error: "Failed to initiate chat" });
+  }
+});
+
+// Add visitor note (internal admin notes about visitors)
+router.post("/:visitorId/notes", checkAdminAuth, async (req, res) => {
+  try {
+    const { note, createdBy } = req.body;
+    const visitorId = req.params.visitorId;
+
+    if (!note) {
+      return res.status(400).json({ error: "Note is required" });
+    }
+
+    const visitor = await storage.getActiveVisitorByVisitorId(visitorId);
+    if (!visitor) {
+      return res.status(404).json({ error: "Visitor not found" });
+    }
+
+    // Parse existing notes or create new array
+    const existingNotes = visitor.notes ? JSON.parse(visitor.notes) : [];
+    existingNotes.push({
+      id: Date.now(),
+      note,
+      createdBy: createdBy || 'admin',
+      createdAt: new Date().toISOString(),
+    });
+
+    await storage.updateActiveVisitor(visitor.id, {
+      notes: JSON.stringify(existingNotes),
+    });
+
+    res.json({ success: true, notes: existingNotes });
+  } catch (error) {
+    console.error("Add note error:", error);
+    res.status(500).json({ error: "Failed to add note" });
   }
 });
 

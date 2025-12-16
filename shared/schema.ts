@@ -1038,6 +1038,10 @@ export const activeVisitors = pgTable("active_visitors", {
   // Chat status
   hasActiveChat: boolean("has_active_chat").default(false),
   chatStartedAt: timestamp("chat_started_at"),
+  proactiveGreeting: text("proactive_greeting"),
+  
+  // Admin notes
+  notes: text("notes"),
   
   // Timestamps
   sessionStartedAt: timestamp("session_started_at").notNull().default(sql`now()`),

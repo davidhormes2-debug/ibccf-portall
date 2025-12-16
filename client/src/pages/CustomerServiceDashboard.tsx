@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
 interface Case {
@@ -72,6 +73,8 @@ export default function CustomerServiceDashboard() {
   const [smartSuggestions, setSmartSuggestions] = useState<string[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [aiEnabled, setAiEnabled] = useState(true);
+  const [proactiveChatVisitor, setProactiveChatVisitor] = useState<ActiveVisitor | null>(null);
+  const [proactiveChatMessage, setProactiveChatMessage] = useState("");
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('adminToken');
@@ -145,6 +148,27 @@ export default function CustomerServiceDashboard() {
       setMessageInput("");
       setSmartSuggestions([]);
       refetchMessages();
+    },
+  });
+
+  const initiateProactiveChatMutation = useMutation({
+    mutationFn: async ({ visitorId, message }: { visitorId: string; message: string }) => {
+      const res = await fetch(`/api/visitors/${visitorId}/initiate-chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        body: JSON.stringify({ message }),
+      });
+      if (!res.ok) throw new Error("Failed to initiate chat");
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Chat started", description: "Message sent to visitor" });
+      setProactiveChatVisitor(null);
+      setProactiveChatMessage("");
+      queryClient.invalidateQueries({ queryKey: ["/api/visitors/active"] });
+    },
+    onError: () => {
+      toast({ variant: "destructive", title: "Failed to start chat" });
     },
   });
 
@@ -622,8 +646,16 @@ export default function CustomerServiceDashboard() {
                           </div>
                           
                           <div className="flex gap-2">
-                            <Button size="sm" variant="outline" className="text-blue-400 border-blue-400 hover:bg-blue-400/10">
-                              <Play className="h-3 w-3 mr-1" /> Start Chat
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="text-blue-400 border-blue-400 hover:bg-blue-400/10"
+                              onClick={() => setProactiveChatVisitor(visitor)}
+                              disabled={visitor.hasActiveChat}
+                              data-testid={`start-chat-${visitor.visitorId}`}
+                            >
+                              <Play className="h-3 w-3 mr-1" /> 
+                              {visitor.hasActiveChat ? 'Chat Active' : 'Start Chat'}
                             </Button>
                           </div>
                         </div>
@@ -779,6 +811,91 @@ export default function CustomerServiceDashboard() {
           </AnimatePresence>
         </main>
       </div>
+
+      {/* Proactive Chat Dialog */}
+      <Dialog open={!!proactiveChatVisitor} onOpenChange={(open) => !open && setProactiveChatVisitor(null)}>
+        <DialogContent className="bg-slate-800 border-slate-700 text-white">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <MessageCircle className="h-5 w-5 text-blue-400" />
+              Start Chat with Visitor
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              {proactiveChatVisitor?.caseId 
+                ? `Send a proactive message to case ${proactiveChatVisitor.caseId.slice(0, 8)}...`
+                : 'Send a greeting to this anonymous visitor'
+              }
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="text-sm text-slate-400">
+              <p>Current page: {proactiveChatVisitor?.currentPage}</p>
+              <p>Session duration: {proactiveChatVisitor && getSessionDuration(proactiveChatVisitor.sessionStartedAt)}</p>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-sm text-slate-400">Quick Greetings</label>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Hi there! How can I help you today?",
+                  "Hello! I noticed you're browsing our site. Need any assistance?",
+                  "Welcome! Let me know if you have any questions about your case.",
+                ].map((greeting, idx) => (
+                  <Button
+                    key={idx}
+                    variant="outline"
+                    size="sm"
+                    className="text-xs border-slate-600 hover:bg-slate-700"
+                    onClick={() => setProactiveChatMessage(greeting)}
+                    data-testid={`greeting-${idx}`}
+                  >
+                    {greeting.slice(0, 30)}...
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <label className="text-sm text-slate-400">Message</label>
+              <Textarea
+                value={proactiveChatMessage}
+                onChange={(e) => setProactiveChatMessage(e.target.value)}
+                placeholder="Type your greeting message..."
+                className="bg-slate-900 border-slate-600 text-white mt-1"
+                rows={3}
+                data-testid="proactive-message-input"
+              />
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => setProactiveChatVisitor(null)}
+              className="border-slate-600"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                if (proactiveChatVisitor && proactiveChatMessage.trim()) {
+                  initiateProactiveChatMutation.mutate({
+                    visitorId: proactiveChatVisitor.visitorId,
+                    message: proactiveChatMessage,
+                  });
+                }
+              }}
+              disabled={!proactiveChatMessage.trim() || initiateProactiveChatMutation.isPending}
+              className="bg-blue-600 hover:bg-blue-700"
+              data-testid="send-proactive-chat"
+            >
+              <Send className="h-4 w-4 mr-2" />
+              Send Message
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
