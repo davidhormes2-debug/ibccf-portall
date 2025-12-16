@@ -169,6 +169,75 @@ export function registerCaseMessageRoutes(router: Router) {
       res.status(500).json({ error: "Failed to get unread count" });
     }
   });
+
+  router.get("/:id/messages/export", checkAdminAuth, async (req, res) => {
+    try {
+      const { format = 'text' } = req.query;
+      const caseData = await storage.getCase(req.params.id);
+      if (!caseData) {
+        res.status(404).json({ error: "Case not found" });
+        return;
+      }
+
+      const messages = await storage.getChatMessagesByCaseId(req.params.id);
+      
+      if (format === 'json') {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Disposition', `attachment; filename=transcript-${caseData.accessCode}.json`);
+        res.json({
+          caseId: caseData.id,
+          accessCode: caseData.accessCode,
+          userName: caseData.userName || 'Unknown',
+          exportedAt: new Date().toISOString(),
+          messageCount: messages.length,
+          messages: messages.map(m => ({
+            sender: m.sender,
+            message: m.message,
+            timestamp: m.createdAt
+          }))
+        });
+        return;
+      }
+
+      const lines: string[] = [
+        '='.repeat(60),
+        'IBCCF CHAT TRANSCRIPT',
+        '='.repeat(60),
+        '',
+        `Case ID: ${caseData.id}`,
+        `Access Code: ${caseData.accessCode}`,
+        `User: ${caseData.userName || 'Unknown'}`,
+        `Exported: ${new Date().toLocaleString()}`,
+        `Total Messages: ${messages.length}`,
+        '',
+        '-'.repeat(60),
+        'CONVERSATION',
+        '-'.repeat(60),
+        ''
+      ];
+
+      for (const msg of messages) {
+        const timestamp = msg.createdAt ? new Date(msg.createdAt).toLocaleString() : 'Unknown time';
+        const senderLabel = msg.sender === 'admin' ? 'SUPPORT' : 'USER';
+        lines.push(`[${timestamp}] ${senderLabel}:`);
+        lines.push(msg.message);
+        lines.push('');
+      }
+
+      lines.push('-'.repeat(60));
+      lines.push('END OF TRANSCRIPT');
+      lines.push('-'.repeat(60));
+
+      const transcript = lines.join('\n');
+      
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename=transcript-${caseData.accessCode}.txt`);
+      res.send(transcript);
+    } catch (error) {
+      console.error('Error exporting transcript:', error);
+      res.status(500).json({ error: "Failed to export transcript" });
+    }
+  });
 }
 
 export const chatTemplatesRouter = Router();

@@ -5,7 +5,8 @@ import {
   MessageCircle, Users, Send, Bell, BellOff, RefreshCw, Search, Clock, User,
   LayoutDashboard, Settings, BarChart3, Eye, LogOut, Shield, Menu, X, 
   Globe, Monitor, Smartphone, Tablet, MapPin, Circle, Play, MessageSquare,
-  Star, TrendingUp, AlertCircle, CheckCircle2, Zap, Bot, Volume2, VolumeX
+  Star, TrendingUp, AlertCircle, CheckCircle2, Zap, Bot, Volume2, VolumeX,
+  Download, FileText
 } from "lucide-react";
 import { useNotificationSound } from "@/hooks/useNotificationSound";
 import { useKeyboardShortcuts, KEYBOARD_SHORTCUTS } from "@/hooks/useKeyboardShortcuts";
@@ -659,7 +660,41 @@ export default function CustomerServiceDashboard() {
                             <h3 className="font-semibold text-white">{selectedCase.userName || selectedCase.accessCode}</h3>
                             <p className="text-sm text-slate-400">{selectedCase.userEmail}</p>
                           </div>
-                          <Badge variant="outline" className="text-slate-400">{selectedCase.status}</Badge>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                              onClick={async () => {
+                                try {
+                                  const res = await fetch(`/api/cases/${selectedCase.id}/messages/export?format=text`, {
+                                    headers: getAuthHeaders()
+                                  });
+                                  if (res.ok) {
+                                    const blob = await res.blob();
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = `transcript-${selectedCase.accessCode}.txt`;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    window.URL.revokeObjectURL(url);
+                                    document.body.removeChild(a);
+                                    toast({ title: "Transcript exported", description: "Downloaded as text file" });
+                                  } else {
+                                    toast({ title: "Export failed", description: "Could not export transcript", variant: "destructive" });
+                                  }
+                                } catch {
+                                  toast({ title: "Export failed", description: "Network error", variant: "destructive" });
+                                }
+                              }}
+                              data-testid="export-transcript-text"
+                            >
+                              <FileText className="h-4 w-4 mr-1" />
+                              Export
+                            </Button>
+                            <Badge variant="outline" className="text-slate-400">{selectedCase.status}</Badge>
+                          </div>
                         </div>
                         
                         <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[50vh]">
