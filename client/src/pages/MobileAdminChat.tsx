@@ -54,8 +54,17 @@ export default function MobileAdminChat() {
     }
   }, []);
 
+  const adminToken = "ibc-admin-session-2025";
+
   const { data: cases = [], isLoading: casesLoading, refetch: refetchCases } = useQuery<Case[]>({
     queryKey: ["/api/cases"],
+    queryFn: async () => {
+      const res = await fetch("/api/cases", {
+        headers: { "Authorization": `Bearer ${adminToken}` }
+      });
+      if (!res.ok) return [];
+      return res.json();
+    },
     enabled: isLoggedIn,
     refetchInterval: 5000,
   });
@@ -64,7 +73,9 @@ export default function MobileAdminChat() {
     queryKey: ["/api/cases/messages", selectedCase?.id],
     queryFn: async () => {
       if (!selectedCase) return [];
-      const res = await fetch(`/api/cases/${selectedCase.id}/messages`);
+      const res = await fetch(`/api/cases/${selectedCase.id}/messages`, {
+        headers: { "Authorization": `Bearer ${adminToken}` }
+      });
       if (!res.ok) return [];
       return res.json();
     },
@@ -75,7 +86,9 @@ export default function MobileAdminChat() {
   const { data: unreadCounts = {} } = useQuery<Record<string, number>>({
     queryKey: ["/api/messages/unread/all"],
     queryFn: async () => {
-      const res = await fetch("/api/messages/unread/all");
+      const res = await fetch("/api/messages/unread/all", {
+        headers: { "Authorization": `Bearer ${adminToken}` }
+      });
       if (!res.ok) return {};
       return res.json();
     },
@@ -87,7 +100,10 @@ export default function MobileAdminChat() {
     mutationFn: async (content: string) => {
       const res = await fetch(`/api/cases/${selectedCase?.id}/messages`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${adminToken}`
+        },
         body: JSON.stringify({ message: content, sender: "admin" }),
       });
       if (!res.ok) throw new Error("Failed to send");
