@@ -1,0 +1,142 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+export interface Notification {
+  id: number;
+  recipientType: string;
+  recipientId: string | null;
+  type: string;
+  title: string;
+  body: string | null;
+  link: string | null;
+  isRead: boolean;
+  metadata: string | null;
+  createdAt: string;
+}
+
+interface UseNotificationsOptions {
+  recipientType: 'admin' | 'user';
+  recipientId?: string;
+  pollingInterval?: number;
+  soundEnabled?: boolean;
+}
+
+export function useNotifications({
+  recipientType,
+  recipientId,
+  pollingInterval = 5000,
+  soundEnabled = true
+}: UseNotificationsOptions) {
+  const queryClient = useQueryClient();
+  const [hasNewNotification, setHasNewNotification] = useState(false);
+  const prevCountRef = useRef<number>(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio('/notification.mp3');
+    audioRef.current.volume = 0.5;
+  }, []);
+
+  const endpoint = recipientType === 'admin' 
+    ? '/api/notifications/admin'
+    : `/api/notifications/case/${recipientId}`;
+
+  const unreadEndpoint = recipientType === 'admin'
+    ? '/api/notifications/admin/unread'
+    : null;
+
+  const { data: notifications = [], isLoading, refetch } = useQuery<Notification[]>({
+    queryKey: ['notifications', recipientType, recipientId],
+    queryFn: async () => {
+      if (recipientType === 'user' && !recipientId) return [];
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error('Failed to fetch notifications');
+      return res.json();
+    },
+    refetchInterval: pollingInterval,
+    enabled: recipientType === 'admin' || !!recipientId,
+  });
+
+  const { data: unreadData } = useQuery<{ count: number }>({
+    queryKey: ['notifications-unread', recipientType],
+    queryFn: async () => {
+      if (!unreadEndpoint) {
+        return { count: notifications.filter(n => !n.isRead).length };
+      }
+      const res = await fetch(unreadEndpoint);
+      if (!res.ok) throw new Error('Failed to fetch unread count');
+      return res.json();
+    },
+    refetchInterval: pollingInterval,
+    enabled: recipientType === 'admin',
+  });
+
+  const unreadCount = recipientType === 'admin' 
+    ? (unreadData?.count ?? 0)
+    : notifications.filter(n => !n.isRead).length;
+
+  useEffect(() => {
+    if (unreadCount > prevCountRef.current && prevCountRef.current > 0) {
+      setHasNewNotification(true);
+      if (soundEnabled && audioRef.current) {
+        audioRef.current.play().catch(() => {});
+      }
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const latest = notifications.find(n => !n.isRead);
+        if (latest) {
+          new Notification(latest.title, {
+            body: latest.body || undefined,
+            icon: '/favicon.ico'
+          });
+        }
+      }
+      setTimeout(() => setHasNewNotification(false), 3000);
+    }
+    prevCountRef.current = unreadCount;
+  }, [unreadCount, notifications, soundEnabled]);
+
+  const markAsReadMutation = useMutation({
+    mutationFn: async (notificationId: number) => {
+      const res = await fetch(`/api/notifications/${notificationId}/read`, {
+        method: 'POST'
+      });
+      if (!res.ok) throw new Error('Failed to mark as read');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications', recipientType, recipientId] });
+      queryClient.invalidateQueries({ queryKey: ['notifications-unread', recipientType] });
+    }
+  });
+
+  const markAllAsReadMutation = useMutation({
+    mutationFn: async () => {
+      const unreadNotifications = notifications.filter(n => !n.isRead);
+      await Promise.all(
+        unreadNotifications.map(n => 
+          fetch(`/api/notifications/${n.id}/read`, { method: 'POST' })
+        )
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications', recipientType, recipientId] });
+      queryClient.invalidateQueries({ queryKey: ['notifications-unread', recipientType] });
+    }
+  });
+
+  const requestNotificationPermission = useCallback(async () => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      await Notification.requestPermission();
+    }
+  }, []);
+
+  return {
+    notifications,
+    unreadCount,
+    isLoading,
+    hasNewNotification,
+    markAsRead: markAsReadMutation.mutate,
+    markAllAsRead: markAllAsReadMutation.mutate,
+    refetch,
+    requestNotificationPermission
+  };
+}
