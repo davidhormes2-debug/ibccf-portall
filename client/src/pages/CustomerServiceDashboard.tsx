@@ -2,11 +2,11 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  MessageCircle, Users, Send, Bell, BellOff, RefreshCw, Search, Clock, User,
-  LayoutDashboard, Settings, BarChart3, Eye, LogOut, Shield, Menu, X, 
-  Globe, Monitor, Smartphone, Tablet, MapPin, Circle, Play, MessageSquare,
+  MessageCircle, Send, Bell, BellOff, RefreshCw, Search, Clock, User, Users,
+  LayoutDashboard, Settings, BarChart3, Eye, LogOut, Shield,
+  Globe, Monitor, Smartphone, Tablet, MapPin, Circle, Play,
   Star, TrendingUp, AlertCircle, CheckCircle2, Zap, Bot, Volume2, VolumeX,
-  Download, FileText
+  FileText, HelpCircle
 } from "lucide-react";
 import { useNotificationSound } from "@/hooks/useNotificationSound";
 import { useKeyboardShortcuts, KEYBOARD_SHORTCUTS } from "@/hooks/useKeyboardShortcuts";
@@ -447,11 +447,22 @@ export default function CustomerServiceDashboard() {
             {notificationsEnabled && notificationPermission === 'granted' ? <Bell className="h-5 w-5" /> : <BellOff className="h-5 w-5" />}
           </Button>
           
-          <Button variant="ghost" size="icon" onClick={() => refetchCases()} className="text-slate-400">
+          <Button variant="ghost" size="icon" onClick={() => refetchCases()} className="text-slate-400" title="Refresh data">
             <RefreshCw className="h-5 w-5" />
           </Button>
           
-          <Button variant="ghost" size="icon" onClick={handleLogout} className="text-slate-400">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setShowShortcutsDialog(true)} 
+            className="text-slate-400"
+            title="Keyboard shortcuts (Shift+?)"
+            data-testid="button-help"
+          >
+            <HelpCircle className="h-5 w-5" />
+          </Button>
+          
+          <Button variant="ghost" size="icon" onClick={handleLogout} className="text-slate-400" title="Log out">
             <LogOut className="h-5 w-5" />
           </Button>
         </div>
