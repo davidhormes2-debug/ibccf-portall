@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { GlobeWatermark } from "@/components/GlobeWatermark";
 import { createContext, useContext, useState, useEffect, ReactNode, lazy, Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
@@ -101,6 +102,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <TooltipProvider>
+            <GlobeWatermark />
             <Toaster />
             <Router />
           </TooltipProvider>

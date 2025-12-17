@@ -415,27 +415,30 @@
 /* Globe watermark */
 .globe-watermark {
   position: fixed;
-  bottom: -10%;
-  right: -5%;
-  width: 720px;
-  height: 720px;
-  opacity: 0.06;
+  bottom: -8%;
+  right: -3%;
+  width: 650px;
+  height: 650px;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
-  mix-blend-mode: multiply;
+  filter: blur(0.5px);
 }
 
 .dark .globe-watermark {
-  opacity: 0.12;
-  mix-blend-mode: screen;
+  opacity: 0.18;
 }
 
 @media (max-width: 768px) {
   .globe-watermark {
-    width: 400px;
-    height: 400px;
-    bottom: -5%;
-    right: -10%;
+    width: 350px;
+    height: 350px;
+    bottom: -3%;
+    right: -8%;
+    opacity: 0.10;
+  }
+  .dark .globe-watermark {
+    opacity: 0.15;
   }
 }
 
@@ -446,7 +449,7 @@
 }
 
 .animate-slow-spin {
-  animation: slowSpin 120s linear infinite;
+  animation: slowSpin 180s linear infinite;
 }
 
 /* Noise overlay for premium texture */
