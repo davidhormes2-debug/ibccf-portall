@@ -151,19 +151,19 @@ export default function RequestAccessKey() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#004182] to-[#002d5a] font-['Public_Sans',sans-serif]">
+    <div className="min-h-screen bg-gradient-to-b from-slate-100 via-blue-50 to-slate-100 dark:from-[#004182] dark:to-[#002d5a] font-['Public_Sans',sans-serif]">
       <header className="bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
-            <Link href="/verify" className="flex items-center gap-1 sm:gap-2 text-white hover:opacity-80 transition-opacity">
+            <Link href="/verify" className="flex items-center gap-1 sm:gap-2 text-slate-700 dark:text-white hover:opacity-80 transition-opacity">
               <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
               <span className="font-medium text-sm sm:text-base">Back</span>
             </Link>
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-              <span className="text-lg sm:text-xl font-bold text-white font-['Merriweather',serif]">IBCCF</span>
+              <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-white" />
+              <span className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white font-['Merriweather',serif]">IBCCF</span>
             </div>
-            <ThemeToggle className="text-white" />
+            <ThemeToggle className="text-slate-600 dark:text-white" />
           </div>
         </div>
       </header>
@@ -171,26 +171,26 @@ export default function RequestAccessKey() {
       <main className="flex items-center justify-center px-4 py-8 sm:py-12">
         <div className="w-full max-w-lg">
           {submittedRequestId ? (
-            <Card className="bg-white rounded-2xl shadow-2xl">
+            <Card className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl">
               <CardContent className="p-5 sm:p-8">
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="h-8 w-8 text-green-600" />
                   </div>
-                  <h1 className="text-2xl font-bold text-[#0F172B] font-['Merriweather',serif] mb-2">
+                  <h1 className="text-2xl font-bold text-[#0F172B] dark:text-white font-['Merriweather',serif] mb-2">
                     Request Submitted
                   </h1>
-                  <p className="text-slate-600">
+                  <p className="text-slate-600 dark:text-slate-300">
                     Your access key request has been submitted for review.
                   </p>
                 </div>
                 
-                <div className="bg-slate-100 rounded-lg p-4 mb-6">
-                  <p className="text-sm text-slate-600 mb-1">Your Request ID:</p>
+                <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-4 mb-6">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Your Request ID:</p>
                   <p className="text-2xl font-mono font-bold text-[#004182] text-center">{submittedRequestId}</p>
                 </div>
                 
-                <div className="space-y-4 text-sm text-slate-600">
+                <div className="space-y-4 text-sm text-slate-600 dark:text-slate-300">
                   <div className="flex items-start gap-3">
                     <Clock className="h-5 w-5 text-[#004182] mt-0.5" />
                     <p>Please save this Request ID. You'll need it to check your request status and retrieve your access key once approved.</p>
@@ -228,15 +228,15 @@ export default function RequestAccessKey() {
               </CardContent>
             </Card>
           ) : (
-            <div className="bg-white rounded-2xl shadow-2xl p-8">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-[#004182]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Key className="h-8 w-8 text-[#004182]" />
                 </div>
-                <h1 className="text-2xl font-bold text-[#0F172B] font-['Merriweather',serif] mb-2">
+                <h1 className="text-2xl font-bold text-[#0F172B] dark:text-white font-['Merriweather',serif] mb-2">
                   {mode === 'request' ? 'Request Access Key' : 'Check Request Status'}
                 </h1>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-300">
                   {mode === 'request' 
                     ? "Submit a request to receive an access key for the secure portal."
                     : "Enter your request ID to check the status of your application."
@@ -244,14 +244,14 @@ export default function RequestAccessKey() {
                 </p>
               </div>
 
-              <div className="flex mb-6 border-b border-slate-200">
+              <div className="flex mb-6 border-b border-slate-200 dark:border-slate-700">
                 <button
                   type="button"
                   onClick={() => { setMode('request'); setRequestStatus(null); }}
                   className={`flex-1 py-3 text-sm font-medium transition-colors ${
                     mode === 'request' 
                       ? 'text-[#004AB3] border-b-2 border-[#004AB3]' 
-                      : 'text-slate-500 hover:text-slate-700'
+                      : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
                   }`}
                   data-testid="tab-request"
                 >
@@ -264,7 +264,7 @@ export default function RequestAccessKey() {
                   className={`flex-1 py-3 text-sm font-medium transition-colors ${
                     mode === 'check' 
                       ? 'text-[#004AB3] border-b-2 border-[#004AB3]' 
-                      : 'text-slate-500 hover:text-slate-700'
+                      : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
                   }`}
                   data-testid="tab-check-status"
                 >
@@ -276,7 +276,7 @@ export default function RequestAccessKey() {
               {mode === 'request' ? (
                 <form onSubmit={handleSubmitRequest} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       <User className="w-4 h-4 inline mr-1" /> Full Name *
                     </label>
                     <Input
@@ -290,7 +290,7 @@ export default function RequestAccessKey() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       <Mail className="w-4 h-4 inline mr-1" /> Email Address *
                     </label>
                     <Input
@@ -304,7 +304,7 @@ export default function RequestAccessKey() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       <Phone className="w-4 h-4 inline mr-1" /> Phone Number (optional)
                     </label>
                     <Input
@@ -318,7 +318,7 @@ export default function RequestAccessKey() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       <MessageSquare className="w-4 h-4 inline mr-1" /> Reason for Request (optional)
                     </label>
                     <Textarea
@@ -353,7 +353,7 @@ export default function RequestAccessKey() {
                 <div className="space-y-4">
                   <form onSubmit={handleCheckStatus} className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                         <FileText className="w-4 h-4 inline mr-1" /> Request ID
                       </label>
                       <Input
@@ -463,14 +463,14 @@ export default function RequestAccessKey() {
                         )}
 
                         {requestStatus.adminMessages && requestStatus.adminMessages.length > 0 && (
-                          <div className="border-t border-slate-200 pt-4">
-                            <p className="text-sm font-medium text-slate-700 mb-3 flex items-center gap-2">
+                          <div className="border-t border-slate-200 dark:border-slate-600 pt-4">
+                            <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
                               <MessageSquare className="w-4 h-4" /> Messages from Admin
                             </p>
                             <div className="space-y-2">
                               {requestStatus.adminMessages.map((msg, i) => (
-                                <div key={i} className="bg-white border border-slate-200 rounded-lg p-3">
-                                  <p className="text-sm text-slate-800">{msg.message}</p>
+                                <div key={i} className="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg p-3">
+                                  <p className="text-sm text-slate-800 dark:text-slate-200">{msg.message}</p>
                                   <p className="text-xs text-slate-400 mt-2">
                                     {new Date(msg.timestamp).toLocaleString()}
                                   </p>
@@ -485,8 +485,8 @@ export default function RequestAccessKey() {
                 </div>
               )}
 
-              <div className="mt-6 pt-6 border-t border-slate-200">
-                <div className="flex items-start gap-3 text-sm text-slate-600">
+              <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+                <div className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
                   <Lock className="h-4 w-4 mt-0.5 text-[#004182]" />
                   <p>
                     Access key requests are reviewed by our security team. Processing typically takes 1-3 business days.
@@ -496,7 +496,7 @@ export default function RequestAccessKey() {
             </div>
           )}
 
-          <p className="text-center text-white/60 text-sm mt-6">
+          <p className="text-center text-slate-500 dark:text-white/60 text-sm mt-6">
             Protected by enterprise-grade encryption
           </p>
         </div>

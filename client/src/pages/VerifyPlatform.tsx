@@ -141,7 +141,7 @@ export default function VerifyPlatform() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#001a3d] via-[#002d5a] to-[#004182] font-['Public_Sans',sans-serif] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100 dark:from-[#001a3d] dark:via-[#002d5a] dark:to-[#004182] font-['Public_Sans',sans-serif] relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
@@ -151,7 +151,7 @@ export default function VerifyPlatform() {
       <header className="relative z-10 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
-            <Link href="/" className="flex items-center gap-1 sm:gap-2 text-white hover:opacity-80 transition-opacity group">
+            <Link href="/" className="flex items-center gap-1 sm:gap-2 text-slate-700 dark:text-white hover:opacity-80 transition-opacity group">
               <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 group-hover:-translate-x-1 transition-transform" />
               <span className="font-medium text-sm sm:text-base hidden sm:inline">Back to Home</span>
               <span className="font-medium text-sm sm:hidden">Back</span>
@@ -164,10 +164,10 @@ export default function VerifyPlatform() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
                 <Shield className="h-5 w-5 text-white" />
               </div>
-              <span className="text-lg sm:text-xl font-bold text-white font-['Merriweather',serif]">IBCCF</span>
+              <span className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white font-['Merriweather',serif]">IBCCF</span>
             </motion.div>
             <div className="flex items-center gap-2">
-              <ThemeToggle className="text-white" />
+              <ThemeToggle className="text-slate-600 dark:text-white" />
             </div>
           </div>
         </div>
@@ -388,7 +388,7 @@ export default function VerifyPlatform() {
           </div>
 
           <motion.p 
-            className="text-center text-white/60 text-sm mt-6 flex items-center justify-center gap-2"
+            className="text-center text-slate-500 dark:text-white/60 text-sm mt-6 flex items-center justify-center gap-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -401,7 +401,7 @@ export default function VerifyPlatform() {
 
       <footer className="relative z-10 py-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-white/40 text-xs">
+          <p className="text-slate-400 dark:text-white/40 text-xs">
             International Blockchain Community Complaints Forum. All rights reserved.
           </p>
         </div>

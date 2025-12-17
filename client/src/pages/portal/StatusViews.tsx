@@ -21,7 +21,7 @@ export function SuccessView({ lastSubmission = null, selectedOption = null }: Su
     : `IBCCF-${Date.now().toString().slice(-6)}`;
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
       <nav className="bg-primary text-white shadow-lg">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-4">
           <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
