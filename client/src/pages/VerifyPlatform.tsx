@@ -262,63 +262,45 @@ export default function VerifyPlatform() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.2 }}
-                      className="space-y-4"
                     >
-                      <div>
-                        <label htmlFor="pinAccessCode" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Access Code
-                        </label>
+                      <label htmlFor="pin" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        6-Digit PIN
+                      </label>
+                      <div className="relative">
                         <Input
-                          id="pinAccessCode"
-                          type="text"
-                          value={pinAccessCode}
-                          onChange={(e) => setPinAccessCode(e.target.value)}
-                          placeholder="Enter your access code"
-                          className="w-full h-12 text-center text-lg tracking-widest font-mono bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 rounded-xl transition-all"
-                          maxLength={10}
-                          data-testid="input-pin-access-code"
+                          id="pin"
+                          type={showPin ? "text" : "password"}
+                          value={pin}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                            setPin(value);
+                          }}
+                          placeholder="••••••"
+                          className="w-full h-14 text-center text-2xl tracking-[0.8em] font-mono bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 rounded-xl transition-all pr-12"
+                          maxLength={6}
+                          data-testid="input-pin-login"
                         />
+                        <button
+                          type="button"
+                          onClick={() => setShowPin(!showPin)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                        >
+                          {showPin ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        </button>
                       </div>
-                      <div>
-                        <label htmlFor="pin" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          6-Digit PIN
-                        </label>
-                        <div className="relative">
-                          <Input
-                            id="pin"
-                            type={showPin ? "text" : "password"}
-                            value={pin}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/\D/g, '').slice(0, 6);
-                              setPin(value);
-                            }}
-                            placeholder="••••••"
-                            className="w-full h-14 text-center text-2xl tracking-[0.8em] font-mono bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 rounded-xl transition-all pr-12"
-                            maxLength={6}
-                            data-testid="input-pin-login"
+                      <div className="flex justify-center gap-2 mt-3">
+                        {[0, 1, 2, 3, 4, 5].map((i) => (
+                          <motion.div
+                            key={i}
+                            className={`w-3 h-3 rounded-full transition-all ${
+                              i < pin.length 
+                                ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg' 
+                                : 'bg-slate-200 dark:bg-slate-700'
+                            }`}
+                            animate={{ scale: i === pin.length - 1 && pin.length > 0 ? [1, 1.3, 1] : 1 }}
+                            transition={{ duration: 0.2 }}
                           />
-                          <button
-                            type="button"
-                            onClick={() => setShowPin(!showPin)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
-                          >
-                            {showPin ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                          </button>
-                        </div>
-                        <div className="flex justify-center gap-2 mt-3">
-                          {[0, 1, 2, 3, 4, 5].map((i) => (
-                            <motion.div
-                              key={i}
-                              className={`w-3 h-3 rounded-full transition-all ${
-                                i < pin.length 
-                                  ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg' 
-                                  : 'bg-slate-200 dark:bg-slate-700'
-                              }`}
-                              animate={{ scale: i === pin.length - 1 && pin.length > 0 ? [1, 1.3, 1] : 1 }}
-                              transition={{ duration: 0.2 }}
-                            />
-                          ))}
-                        </div>
+                        ))}
                       </div>
                     </motion.div>
                   )}
