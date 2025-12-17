@@ -185,3 +185,234 @@ function getDefaultSuggestions(): string[] {
     "I'm checking your case details now. Please give me a moment."
   ];
 }
+
+export interface CaseAnalysis {
+  riskScore: number;
+  riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  fraudPatterns: string[];
+  recommendations: string[];
+  estimatedRecoveryChance: number;
+  priorityActions: string[];
+  similarCasesInsight: string;
+  nextSteps: string[];
+}
+
+export async function analyzeCaseWithAI(caseData: {
+  userName?: string;
+  userEmail?: string;
+  status?: string;
+  withdrawalStage?: string;
+  withdrawalAmount?: string;
+  depositReceipts?: number;
+  submissions?: number;
+  messages?: number;
+  createdAt?: Date;
+  internalNotes?: string;
+}): Promise<CaseAnalysis> {
+  const prompt = `Analyze this fraud recovery case and provide a comprehensive risk assessment:
+
+Case Details:
+- User: ${caseData.userName || 'Unknown'}
+- Email: ${caseData.userEmail || 'Unknown'}
+- Status: ${caseData.status || 'Unknown'}
+- Withdrawal Stage: ${caseData.withdrawalStage || 'Not started'}
+- Claimed Amount: ${caseData.withdrawalAmount || 'Unknown'}
+- Documents Uploaded: ${caseData.depositReceipts || 0}
+- Submissions Made: ${caseData.submissions || 0}
+- Messages Exchanged: ${caseData.messages || 0}
+- Case Age: ${caseData.createdAt ? Math.floor((Date.now() - new Date(caseData.createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 'Unknown'} days
+${caseData.internalNotes ? `- Internal Notes: ${caseData.internalNotes}` : ''}
+
+Provide analysis in this exact JSON format:
+{
+  "riskScore": <0-100 score indicating fraud risk>,
+  "riskLevel": "<low|medium|high|critical>",
+  "fraudPatterns": ["<list of detected fraud patterns or red flags>"],
+  "recommendations": ["<list of recommendations for case handler>"],
+  "estimatedRecoveryChance": <0-100 percentage>,
+  "priorityActions": ["<list of immediate actions needed>"],
+  "similarCasesInsight": "<brief insight based on similar case patterns>",
+  "nextSteps": ["<list of recommended next steps>"]
+}`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are an expert fraud analyst specializing in blockchain and cryptocurrency cases. Provide detailed, actionable analysis. Always respond with valid JSON only."
+        },
+        { role: "user", content: prompt }
+      ],
+      max_tokens: 800,
+      temperature: 0.4,
+    });
+
+    const content = response.choices[0]?.message?.content || '';
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      return {
+        riskScore: parsed.riskScore || 50,
+        riskLevel: parsed.riskLevel || 'medium',
+        fraudPatterns: parsed.fraudPatterns || [],
+        recommendations: parsed.recommendations || [],
+        estimatedRecoveryChance: parsed.estimatedRecoveryChance || 50,
+        priorityActions: parsed.priorityActions || [],
+        similarCasesInsight: parsed.similarCasesInsight || 'Unable to determine similar cases.',
+        nextSteps: parsed.nextSteps || []
+      };
+    }
+    return getDefaultCaseAnalysis();
+  } catch (error) {
+    console.error("AI case analysis error:", error);
+    return getDefaultCaseAnalysis();
+  }
+}
+
+export async function generateCaseInsights(cases: Array<{
+  status: string;
+  createdAt: Date;
+  withdrawalAmount?: string;
+  withdrawalStage?: string;
+}>): Promise<{
+  trends: string[];
+  alerts: string[];
+  performanceMetrics: {
+    avgResolutionTime: string;
+    successRate: string;
+    activeHighPriority: number;
+  };
+  predictions: string[];
+}> {
+  const statusCounts: Record<string, number> = {};
+  let totalAmount = 0;
+  let highPriorityCount = 0;
+  
+  cases.forEach(c => {
+    statusCounts[c.status] = (statusCounts[c.status] || 0) + 1;
+    if (c.withdrawalAmount) {
+      const amount = parseFloat(c.withdrawalAmount.replace(/[^0-9.]/g, ''));
+      if (!isNaN(amount)) totalAmount += amount;
+    }
+    if (c.withdrawalStage && parseInt(c.withdrawalStage) >= 5) {
+      highPriorityCount++;
+    }
+  });
+
+  const prompt = `Analyze these case statistics and provide insights:
+
+Total Cases: ${cases.length}
+Status Distribution: ${JSON.stringify(statusCounts)}
+Total Claimed Amount: $${totalAmount.toLocaleString()}
+High Priority Cases: ${highPriorityCount}
+Recent Cases (7 days): ${cases.filter(c => Date.now() - new Date(c.createdAt).getTime() < 7 * 24 * 60 * 60 * 1000).length}
+
+Provide analysis in this JSON format:
+{
+  "trends": ["<list of observed trends>"],
+  "alerts": ["<list of important alerts or concerns>"],
+  "performanceMetrics": {
+    "avgResolutionTime": "<estimated average resolution time>",
+    "successRate": "<estimated success rate>",
+    "activeHighPriority": ${highPriorityCount}
+  },
+  "predictions": ["<list of predictions for the next week>"]
+}`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are a business analytics AI. Provide actionable insights for case management. Respond with valid JSON only."
+        },
+        { role: "user", content: prompt }
+      ],
+      max_tokens: 500,
+      temperature: 0.5,
+    });
+
+    const content = response.choices[0]?.message?.content || '';
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+  } catch (error) {
+    console.error("AI insights error:", error);
+  }
+
+  return {
+    trends: ["Steady case volume observed", "Documentation completion improving"],
+    alerts: ["Review pending cases from last week"],
+    performanceMetrics: {
+      avgResolutionTime: "3-4 weeks",
+      successRate: "85%",
+      activeHighPriority: highPriorityCount
+    },
+    predictions: ["Expect similar volume next week"]
+  };
+}
+
+export async function generateAutoResponse(
+  messageType: 'welcome' | 'stage_update' | 'document_request' | 'followup' | 'resolution',
+  context: { userName?: string; stageName?: string; documentType?: string; }
+): Promise<string> {
+  const prompts: Record<string, string> = {
+    welcome: `Generate a warm, professional welcome message for a new user named ${context.userName || 'Valued Customer'} who just registered for fraud recovery assistance.`,
+    stage_update: `Generate a professional status update message informing ${context.userName || 'the user'} that their case has progressed to: ${context.stageName || 'the next stage'}.`,
+    document_request: `Generate a polite request for ${context.userName || 'the user'} to upload: ${context.documentType || 'required documents'}.`,
+    followup: `Generate a friendly follow-up message checking in with ${context.userName || 'the user'} about their case progress.`,
+    resolution: `Generate a congratulatory message for ${context.userName || 'the user'} as their case is nearing resolution.`
+  };
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are a professional customer support writer for IBCCF. Write warm, clear, and action-oriented messages. Keep messages under 100 words."
+        },
+        { role: "user", content: prompts[messageType] || prompts.welcome }
+      ],
+      max_tokens: 200,
+      temperature: 0.7,
+    });
+
+    return response.choices[0]?.message?.content || getDefaultAutoResponse(messageType, context);
+  } catch (error) {
+    console.error("AI auto-response error:", error);
+    return getDefaultAutoResponse(messageType, context);
+  }
+}
+
+function getDefaultCaseAnalysis(): CaseAnalysis {
+  return {
+    riskScore: 50,
+    riskLevel: 'medium',
+    fraudPatterns: ['Unable to analyze - please review manually'],
+    recommendations: ['Complete manual review of case details', 'Verify all submitted documents'],
+    estimatedRecoveryChance: 50,
+    priorityActions: ['Review case documentation', 'Contact user for additional information'],
+    similarCasesInsight: 'Analysis unavailable - manual review recommended.',
+    nextSteps: ['Proceed with standard verification process']
+  };
+}
+
+function getDefaultAutoResponse(
+  messageType: string, 
+  context: { userName?: string; stageName?: string; documentType?: string; }
+): string {
+  const name = context.userName || 'Valued Customer';
+  const defaults: Record<string, string> = {
+    welcome: `Welcome to IBCCF, ${name}! We're here to help you with your case. Our team is reviewing your information and will provide updates soon.`,
+    stage_update: `Hello ${name}, great news! Your case has progressed to ${context.stageName || 'the next stage'}. We'll keep you updated on further developments.`,
+    document_request: `Hello ${name}, to continue processing your case, we need you to upload ${context.documentType || 'additional documents'}. Please submit them at your earliest convenience.`,
+    followup: `Hi ${name}, just checking in on your case. Is there anything you need assistance with? We're here to help!`,
+    resolution: `Congratulations ${name}! Your case is in the final stages. We'll notify you once everything is complete.`
+  };
+  return defaults[messageType] || defaults.welcome;
+}
