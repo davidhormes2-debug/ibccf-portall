@@ -636,7 +636,7 @@ export default function LandingPage() {
               <motion.h1 
                 variants={fadeIn}
                 id="hero-heading" 
-                className="text-4xl md:text-5xl lg:text-7xl font-bold text-white leading-tight mb-6 tracking-tight"
+                className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6 tracking-tight"
               >
                 Protect Your Digital Assets<br />
                 <span className="bg-gradient-to-r from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent">
@@ -646,7 +646,7 @@ export default function LandingPage() {
               
               <motion.p 
                 variants={fadeIn}
-                className="text-lg md:text-xl text-white/80 mb-4 max-w-3xl mx-auto leading-relaxed"
+                className="text-lg md:text-xl text-white/90 mb-4 max-w-3xl mx-auto leading-relaxed font-semibold"
               >
                 IBCCF provides enterprise-grade fraud prevention, platform verification, and comprehensive 
                 case management for blockchain security incidents worldwide.
@@ -654,7 +654,7 @@ export default function LandingPage() {
               
               <motion.p 
                 variants={fadeIn}
-                className="text-base text-white/60 mb-10 max-w-2xl mx-auto"
+                className="text-base text-white/80 mb-10 max-w-2xl mx-auto font-medium"
               >
                 Trusted by 50,000+ users across 180 countries with a 94% success rate
               </motion.p>
@@ -1006,10 +1006,10 @@ export default function LandingPage() {
               <div className="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-8 backdrop-blur-sm">
                 <Mail className="w-10 h-10 text-white" aria-hidden="true" />
               </div>
-              <h2 id="newsletter-heading" className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+              <h2 id="newsletter-heading" className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">
                 Stay Ahead of Fraud
               </h2>
-              <p className="text-white/80 mb-8 text-lg">
+              <p className="text-white/90 mb-8 text-lg font-semibold">
                 Subscribe to receive important security updates and fraud prevention tips.
               </p>
               <form 
