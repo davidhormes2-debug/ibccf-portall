@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { GlobeWatermark } from "@/components/GlobeWatermark";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function VerifyPlatform() {
@@ -141,7 +142,8 @@ export default function VerifyPlatform() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100 dark:from-[#001a3d] dark:via-[#002d5a] dark:to-[#004182] font-['Public_Sans',sans-serif] relative overflow-hidden">
+    <div className="min-h-screen verification-bg font-['Public_Sans',sans-serif] relative overflow-hidden">
+      <GlobeWatermark />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />

@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { GlobeWatermark } from "@/components/GlobeWatermark";
 
 interface AdminMessage {
   message: string;
@@ -151,7 +152,8 @@ export default function RequestAccessKey() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-100 via-blue-50 to-slate-100 dark:from-[#004182] dark:to-[#002d5a] font-['Public_Sans',sans-serif]">
+    <div className="min-h-screen verification-bg font-['Public_Sans',sans-serif] relative overflow-hidden">
+      <GlobeWatermark />
       <header className="bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
