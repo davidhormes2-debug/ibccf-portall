@@ -25,7 +25,7 @@ export class NotificationService {
   async notifyAdmin(type: string, title: string, body?: string, link?: string): Promise<Notification> {
     return this.createNotification({
       recipientType: 'admin',
-      recipientId: 'Admin2025',
+      recipientId: 'admin',
       type,
       title,
       body,

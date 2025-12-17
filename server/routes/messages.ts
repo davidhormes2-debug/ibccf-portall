@@ -2,6 +2,7 @@ import { Router } from "express";
 import { storage } from "../storage";
 import { z } from "zod";
 import { checkAdminAuth } from "./middleware";
+import { notificationService } from "../services/NotificationService";
 
 export const messagesRouter = Router();
 
@@ -88,6 +89,16 @@ export function registerCaseMessageRoutes(router: Router) {
         isRead: 'false'
       });
       
+      if (messageInput.sender === 'user') {
+        const caseData = await storage.getCaseById(req.params.id);
+        await notificationService.notifyAdmin(
+          'new_message',
+          `New message from ${caseData?.userName || 'User'}`,
+          messageInput.message.substring(0, 80),
+          `/admin`
+        );
+      }
+      
       res.json(message);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -151,6 +162,14 @@ export function registerCaseMessageRoutes(router: Router) {
         isRead: false
       });
       
+      await notificationService.notifyUser(
+        req.params.id,
+        messageInput.category === 'urgent' ? 'required_action' : 'new_message',
+        messageInput.title,
+        messageInput.body.substring(0, 100),
+        '/dashboard'
+      );
+      
       res.json(message);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -173,7 +192,7 @@ export function registerCaseMessageRoutes(router: Router) {
   router.get("/:id/messages/export", checkAdminAuth, async (req, res) => {
     try {
       const { format = 'text' } = req.query;
-      const caseData = await storage.getCase(req.params.id);
+      const caseData = await storage.getCaseById(req.params.id);
       if (!caseData) {
         res.status(404).json({ error: "Case not found" });
         return;

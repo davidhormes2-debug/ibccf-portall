@@ -10,6 +10,7 @@ import { useTheme } from "@/App";
 import { useToast } from "@/hooks/use-toast";
 import { usePortal } from "./PortalContext";
 import { useVisitorTracking } from "@/hooks/useVisitorTracking";
+import { NotificationBell } from "@/components/NotificationBell";
 import { 
   Shield, ShieldCheck, Lock, CheckCircle, CheckCircle2, AlertTriangle, Clock, 
   Bell, FileText, MessageCircle, Send, X, Wallet, ExternalLink, User, History,
@@ -140,6 +141,11 @@ export function DashboardView() {
               >
                 {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </Button>
+              <NotificationBell 
+                recipientType="user" 
+                recipientId={currentCase?.id}
+                className="text-white [&_button]:border [&_button]:border-white/20 [&_button]:hover:border-white/40 [&_button]:hover:bg-white/10"
+              />
               <Button 
                 variant="ghost" 
                 size="sm" 

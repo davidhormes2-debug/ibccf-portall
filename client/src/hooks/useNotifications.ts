@@ -76,7 +76,7 @@ export function useNotifications({
     : notifications.filter(n => !n.isRead).length;
 
   useEffect(() => {
-    if (unreadCount > prevCountRef.current && prevCountRef.current > 0) {
+    if (unreadCount > prevCountRef.current) {
       setHasNewNotification(true);
       if (soundEnabled && audioRef.current) {
         audioRef.current.play().catch(() => {});
