@@ -1,0 +1,56 @@
+{
+  "appName": "IBCCF",
+  "appFullName": "Forum International des Plaintes de la Communauté Blockchain",
+  "language": {
+    "label": "Langue",
+    "switcherAriaLabel": "Changer de langue",
+    "emailNoticeTitle": "Langue mise à jour",
+    "emailNoticeDescription": "Les futurs e-mails seront également envoyés en {{language}}."
+  },
+  "nav": {
+    "home": "Accueil",
+    "verify": "Vérifier la Plateforme",
+    "intelNetwork": "Réseau Intel",
+    "community": "Communauté",
+    "legalResources": "Ressources Juridiques",
+    "requestAccess": "Demander l'Accès",
+    "dashboard": "Tableau de Bord",
+    "login": "Se Connecter",
+    "logout": "Se Déconnecter"
+  },
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "retry": "Réessayer",
+    "loading": "Chargement…",
+    "back": "Retour",
+    "next": "Suivant",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "download": "Télécharger",
+    "preview": "Aperçu",
+    "upload": "Téléverser"
+  },
+  "status": {
+    "pending": "En Attente",
+    "submitted": "Soumis",
+    "underReview": "En Révision",
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "completed": "Terminé"
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "network": "Impossible de se connecter au serveur. Veuillez vérifier votre connexion.",
+    "unauthorized": "Vous n'êtes pas autorisé à effectuer cette action.",
+    "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
+  },
+  "theme": {
+    "light": "Mode Clair",
+    "dark": "Mode Sombre",
+    "toggle": "Changer de thème"
+  }
+}

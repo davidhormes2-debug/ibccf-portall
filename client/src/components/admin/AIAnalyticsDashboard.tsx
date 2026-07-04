@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Brain, Sparkles, TrendingUp, AlertCircle, CheckCircle2, 
-  Clock, Shield, Zap, ArrowRight, RefreshCw, BarChart3,
-  Target, AlertTriangle, LineChart, Activity, Lightbulb
+  Clock, Zap, ArrowRight, RefreshCw, 
+  Target, AlertTriangle, Activity, Lightbulb
 } from "lucide-react";
 
 interface AIInsights {
@@ -480,7 +480,7 @@ export function AutoResponseGenerator({ authToken, userName, onResponseGenerated
         AI Quick Responses
       </div>
       <div className="flex flex-wrap gap-2">
-        {messageTypes.map(({ type, label, icon: Icon, color }) => (
+        {messageTypes.map(({ type, label, icon: Icon }) => (
           <Button
             key={type}
             variant="outline"

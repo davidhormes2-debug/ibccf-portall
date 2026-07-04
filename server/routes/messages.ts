@@ -1,12 +1,15 @@
 import { Router } from "express";
 import { storage } from "../storage";
 import { z } from "zod";
-import { checkAdminAuth } from "./middleware";
+import { checkAdminAuth, isValidAdminToken } from "./middleware";
+import { requirePortalAccess, requireUnsealed, validatePortalSession } from "../services/portal-auth";
 import { notificationService } from "../services/NotificationService";
+import { warnOnce } from "../lib/warnOnce";
+import { requireAdminRole } from "./adminPermissions";
 
 export const messagesRouter = Router();
 
-messagesRouter.get("/unread/all", checkAdminAuth, async (req, res) => {
+messagesRouter.get("/unread/all", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const cases = await storage.getAllCases();
     const unreadCounts: Record<string, number> = {};
@@ -19,12 +22,12 @@ messagesRouter.get("/unread/all", checkAdminAuth, async (req, res) => {
     }
     
     res.json(unreadCounts);
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to get unread counts" });
   }
 });
 
-messagesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
+messagesRouter.patch("/:id", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const messageInput = z.object({
       category: z.enum(['urgent', 'processing', 'resolved']).optional(),
@@ -40,47 +43,92 @@ messagesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
     res.json(updated);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
       res.status(500).json({ error: "Failed to update admin message" });
     }
   }
 });
 
-messagesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
+messagesRouter.delete("/:id", checkAdminAuth, requireAdminRole("admin"), async (req, res) => {
   try {
     await storage.deleteAdminMessage(parseInt(req.params.id));
     res.json({ success: true });
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to delete admin message" });
   }
 });
 
 messagesRouter.post("/:id/read", async (req, res) => {
   try {
-    await storage.markAdminMessageAsRead(parseInt(req.params.id));
-    res.json({ success: true });
-  } catch (error) {
+    const messageId = parseInt(req.params.id);
+    if (isNaN(messageId)) {
+      res.status(400).json({ error: "Invalid message id" });
+      return;
+    }
+
+    if (await isValidAdminToken(req.headers.authorization)) {
+      await storage.markAdminMessageAsRead(messageId);
+      res.json({ success: true });
+      return;
+    }
+
+    const portalHeader = req.headers["x-portal-session-token"];
+    const portalToken = Array.isArray(portalHeader) ? portalHeader[0] : portalHeader;
+    if (typeof portalToken === "string" && portalToken.length > 0) {
+      const session = await validatePortalSession(portalToken);
+      if (session) {
+        const message = await storage.getAdminMessageById(messageId);
+        if (!message) {
+          res.status(404).json({ error: "Message not found" });
+          return;
+        }
+        if (message.caseId !== session.caseId) {
+          res.status(403).json({ error: "Forbidden" });
+          return;
+        }
+        await storage.markAdminMessageAsRead(messageId);
+        res.json({ success: true });
+        return;
+      }
+    }
+
+    res.status(401).json({ error: "Unauthorized" });
+  } catch (_e) {
     res.status(500).json({ error: "Failed to mark message as read" });
   }
 });
 
 export function registerCaseMessageRoutes(router: Router) {
-  router.get("/:id/messages", async (req, res) => {
+  router.get("/:id/messages", requirePortalAccess, async (req, res) => {
     try {
       const messages = await storage.getChatMessagesByCaseId(req.params.id);
       res.json(messages);
-    } catch (error) {
+    } catch (_e) {
       res.status(500).json({ error: "Failed to fetch messages" });
     }
   });
 
-  router.post("/:id/messages", async (req, res) => {
+  router.post("/:id/messages", requirePortalAccess, requireUnsealed, async (req, res) => {
     try {
       const messageInput = z.object({
         sender: z.enum(['admin', 'user']),
         message: z.string().min(1)
       }).parse(req.body);
+
+      const callerIsAdmin = await isValidAdminToken(req.headers.authorization);
+
+      // Admin tokens must use sender:'admin'; they cannot forge user-originated messages.
+      if (callerIsAdmin && messageInput.sender === 'user') {
+        res.status(403).json({ error: "Admin credentials cannot create user-sender messages" });
+        return;
+      }
+
+      // Portal sessions cannot create admin-sender messages.
+      if (!callerIsAdmin && messageInput.sender === 'admin') {
+        res.status(403).json({ error: "Unauthorized: Valid admin authentication required" });
+        return;
+      }
 
       const message = await storage.createChatMessage({
         caseId: req.params.id,
@@ -97,19 +145,65 @@ export function registerCaseMessageRoutes(router: Router) {
           messageInput.message.substring(0, 80),
           `/admin`
         );
+
+        // Gap 3: email admin alert alongside the in-app notification.
+        // Fire-and-forget — never blocks the response or throws to the caller.
+        void (async () => {
+          try {
+            const { emailService } = await import("../services/EmailService");
+            const { resolveDocumentUploadAlertRecipientsLocal } = await import("./content");
+            const recipients = await resolveDocumentUploadAlertRecipientsLocal();
+            if (recipients.length === 0) return;
+
+            const dashboardUrl = `${process.env.APP_BASE_URL?.replace(/\/+$/, '') || 'https://ibccf.site'}/admin`;
+            const userName = caseData?.userName || 'User';
+            const preview = messageInput.message.substring(0, 200);
+
+            const result = await emailService.sendAdminNewMessageAlert({
+              to: recipients,
+              caseId: req.params.id,
+              userName,
+              messagePreview: preview,
+              dashboardUrl,
+            });
+
+            // Audit-log directly so we can capture all recipients, not just
+            // the first — sendCaseEmailWithAudit only accepts a single `to`.
+            try {
+              await storage.createAuditLog({
+                action: result.success ? 'email_admin_new_message' : 'email_admin_new_message_failed',
+                newValue: result.success
+                  ? `Admin new-message alert sent to ${recipients.join(', ')}`
+                  : `Admin new-message alert failed: ${result.error ?? 'unknown'}`,
+                adminUsername: 'system',
+                targetType: 'case',
+                targetId: req.params.id,
+                metadata: null,
+              });
+            } catch (auditErr) {
+              warnOnce('messages:admin-new-message-audit-fail', '[messages] admin new-message audit log failed:', auditErr);
+            }
+          } catch (err) {
+            warnOnce(
+              'messages:admin-new-message-alert-fail',
+              '[messages] admin new-message alert failed:',
+              err,
+            );
+          }
+        })();
       }
       
       res.json(message);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        res.status(400).json({ error: error.errors });
+        res.status(400).json({ error: "Invalid request" });
       } else {
         res.status(500).json({ error: "Failed to send message" });
       }
     }
   });
 
-  router.post("/:id/messages/read", async (req, res) => {
+  router.post("/:id/messages/read", requirePortalAccess, async (req, res) => {
     try {
       const { sender } = req.body;
       if (!sender || !['admin', 'user'].includes(sender)) {
@@ -118,12 +212,12 @@ export function registerCaseMessageRoutes(router: Router) {
       }
       await storage.markMessagesAsRead(req.params.id, sender);
       res.json({ success: true });
-    } catch (error) {
+    } catch (_e) {
       res.status(500).json({ error: "Failed to mark messages as read" });
     }
   });
 
-  router.get("/:id/messages/unread", async (req, res) => {
+  router.get("/:id/messages/unread", requirePortalAccess, async (req, res) => {
     try {
       const { sender } = req.query;
       if (!sender || !['admin', 'user'].includes(sender as string)) {
@@ -132,21 +226,21 @@ export function registerCaseMessageRoutes(router: Router) {
       }
       const count = await storage.getUnreadCount(req.params.id, sender as string);
       res.json({ count });
-    } catch (error) {
+    } catch (_e) {
       res.status(500).json({ error: "Failed to get unread count" });
     }
   });
 
-  router.get("/:id/admin-messages", async (req, res) => {
+  router.get("/:id/admin-messages", requirePortalAccess, async (req, res) => {
     try {
       const messages = await storage.getAdminMessagesByCaseId(req.params.id);
       res.json(messages);
-    } catch (error) {
+    } catch (_e) {
       res.status(500).json({ error: "Failed to fetch admin messages" });
     }
   });
 
-  router.post("/:id/admin-messages", checkAdminAuth, async (req, res) => {
+  router.post("/:id/admin-messages", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
     try {
       const messageInput = z.object({
         category: z.enum(['urgent', 'processing', 'resolved']),
@@ -169,11 +263,53 @@ export function registerCaseMessageRoutes(router: Router) {
         messageInput.body.substring(0, 100),
         '/dashboard'
       );
-      
+
+      // Email the user a copy of the compliance message so they don't have to
+      // be live in the portal to see it. Best-effort.
+      try {
+        const caseRow = await storage.getCaseById(req.params.id);
+        if (caseRow?.userEmail) {
+          const { emailService } = await import("../services/EmailService");
+          const { sendCaseEmailWithAudit } = await import(
+            "../services/emailNotify"
+          );
+          const userName =
+            (caseRow.userName ?? "").trim() || caseRow.userEmail;
+          const adminUser =
+            (req as any).admin?.username || "Admin";
+          await sendCaseEmailWithAudit({
+            to: caseRow.userEmail,
+            caseId: req.params.id,
+            tag: "compliance-message",
+            adminUser,
+            // Task #158 — pin the source message so a retry sends THIS
+            // body even if newer compliance messages have been posted.
+            metadata: { adminMessageId: message.id },
+            send: () =>
+              emailService.sendLocalizedCaseEmail({
+                to: caseRow.userEmail!,
+                userName,
+                caseRef: req.params.id,
+                locale: caseRow.preferredLocale ?? req.userLocale,
+                templateKey: 'complianceMessage',
+                ctaPath: '/portal?view=messages',
+                logTag: 'compliance-message',
+                vars: {
+                  category: messageInput.category,
+                  title: messageInput.title,
+                  body: messageInput.body,
+                },
+              }),
+          });
+        }
+      } catch (err) {
+        warnOnce("messages:compliance-email-fail", "[messages] compliance-message email failed:", err);
+      }
+
       res.json(message);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        res.status(400).json({ error: error.errors });
+        res.status(400).json({ error: "Invalid request" });
       } else {
         res.status(500).json({ error: "Failed to create admin message" });
       }
@@ -184,12 +320,12 @@ export function registerCaseMessageRoutes(router: Router) {
     try {
       const count = await storage.getUnreadAdminMessagesCount(req.params.id);
       res.json({ count });
-    } catch (error) {
+    } catch (_e) {
       res.status(500).json({ error: "Failed to get unread count" });
     }
   });
 
-  router.get("/:id/messages/export", checkAdminAuth, async (req, res) => {
+  router.get("/:id/messages/export", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
     try {
       const { format = 'text' } = req.query;
       const caseData = await storage.getCaseById(req.params.id);
@@ -253,7 +389,7 @@ export function registerCaseMessageRoutes(router: Router) {
       res.setHeader('Content-Disposition', `attachment; filename=transcript-${caseData.accessCode}.txt`);
       res.send(transcript);
     } catch (error) {
-      console.error('Error exporting transcript:', error);
+      warnOnce("messages:export-transcript-fail", "Error exporting transcript:", error);
       res.status(500).json({ error: "Failed to export transcript" });
     }
   });
@@ -261,25 +397,25 @@ export function registerCaseMessageRoutes(router: Router) {
 
 export const chatTemplatesRouter = Router();
 
-chatTemplatesRouter.get("/", async (req, res) => {
+chatTemplatesRouter.get("/", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const templates = await storage.getAllChatTemplates();
     res.json(templates);
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to fetch chat templates" });
   }
 });
 
-chatTemplatesRouter.get("/category/:category", async (req, res) => {
+chatTemplatesRouter.get("/category/:category", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const templates = await storage.getChatTemplatesByCategory(req.params.category);
     res.json(templates);
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to fetch chat templates" });
   }
 });
 
-chatTemplatesRouter.post("/", checkAdminAuth, async (req, res) => {
+chatTemplatesRouter.post("/", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const templateInput = z.object({
       name: z.string().min(1),
@@ -291,14 +427,14 @@ chatTemplatesRouter.post("/", checkAdminAuth, async (req, res) => {
     res.json(template);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
       res.status(500).json({ error: "Failed to create chat template" });
     }
   }
 });
 
-chatTemplatesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
+chatTemplatesRouter.patch("/:id", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const templateInput = z.object({
       name: z.string().min(1).optional(),
@@ -315,18 +451,18 @@ chatTemplatesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
     res.json(template);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
       res.status(500).json({ error: "Failed to update chat template" });
     }
   }
 });
 
-chatTemplatesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
+chatTemplatesRouter.delete("/:id", checkAdminAuth, requireAdminRole("admin"), async (req, res) => {
   try {
     await storage.deleteChatTemplate(parseInt(req.params.id));
     res.json({ success: true });
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to delete chat template" });
   }
 });
@@ -335,32 +471,32 @@ chatTemplatesRouter.post("/:id/use", async (req, res) => {
   try {
     await storage.incrementTemplateUsage(parseInt(req.params.id));
     res.json({ success: true });
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to increment template usage" });
   }
 });
 
 export const messageTemplatesRouter = Router();
 
-messageTemplatesRouter.get("/", checkAdminAuth, async (req, res) => {
+messageTemplatesRouter.get("/", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const templates = await storage.getAllMessageTemplates();
     res.json(templates);
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to fetch message templates" });
   }
 });
 
-messageTemplatesRouter.get("/category/:category", checkAdminAuth, async (req, res) => {
+messageTemplatesRouter.get("/category/:category", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const templates = await storage.getMessageTemplatesByCategory(req.params.category);
     res.json(templates);
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to fetch message templates" });
   }
 });
 
-messageTemplatesRouter.post("/", checkAdminAuth, async (req, res) => {
+messageTemplatesRouter.post("/", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const templateInput = z.object({
       name: z.string().min(1),
@@ -373,14 +509,14 @@ messageTemplatesRouter.post("/", checkAdminAuth, async (req, res) => {
     res.json(template);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
       res.status(500).json({ error: "Failed to create message template" });
     }
   }
 });
 
-messageTemplatesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
+messageTemplatesRouter.patch("/:id", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const templateInput = z.object({
       name: z.string().min(1).optional(),
@@ -397,34 +533,34 @@ messageTemplatesRouter.patch("/:id", checkAdminAuth, async (req, res) => {
     res.json(template);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
       res.status(500).json({ error: "Failed to update message template" });
     }
   }
 });
 
-messageTemplatesRouter.delete("/:id", checkAdminAuth, async (req, res) => {
+messageTemplatesRouter.delete("/:id", checkAdminAuth, requireAdminRole("admin"), async (req, res) => {
   try {
     await storage.deleteMessageTemplate(parseInt(req.params.id));
     res.json({ success: true });
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to delete message template" });
   }
 });
 
 export const scheduledMessagesRouter = Router();
 
-scheduledMessagesRouter.get("/pending", checkAdminAuth, async (req, res) => {
+scheduledMessagesRouter.get("/pending", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const messages = await storage.getPendingScheduledMessages();
     res.json(messages);
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to fetch pending scheduled messages" });
   }
 });
 
-scheduledMessagesRouter.post("/", checkAdminAuth, async (req, res) => {
+scheduledMessagesRouter.post("/", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const messageInput = z.object({
       caseId: z.string().optional(),
@@ -443,14 +579,14 @@ scheduledMessagesRouter.post("/", checkAdminAuth, async (req, res) => {
     res.json(message);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
       res.status(500).json({ error: "Failed to create scheduled message" });
     }
   }
 });
 
-scheduledMessagesRouter.post("/:id/cancel", checkAdminAuth, async (req, res) => {
+scheduledMessagesRouter.post("/:id/cancel", checkAdminAuth, requireAdminRole("admin"), async (req, res) => {
   try {
     const message = await storage.cancelScheduledMessage(parseInt(req.params.id));
     if (!message) {
@@ -458,17 +594,17 @@ scheduledMessagesRouter.post("/:id/cancel", checkAdminAuth, async (req, res) => 
       return;
     }
     res.json(message);
-  } catch (error) {
+  } catch (_e) {
     res.status(500).json({ error: "Failed to cancel scheduled message" });
   }
 });
 
 export function registerCaseScheduledMessageRoutes(router: Router) {
-  router.get("/:id/scheduled-messages", checkAdminAuth, async (req, res) => {
+  router.get("/:id/scheduled-messages", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
     try {
       const messages = await storage.getScheduledMessagesByCaseId(req.params.id);
       res.json(messages);
-    } catch (error) {
+    } catch (_e) {
       res.status(500).json({ error: "Failed to fetch scheduled messages" });
     }
   });

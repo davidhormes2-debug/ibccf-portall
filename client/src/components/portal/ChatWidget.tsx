@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
+import { useChatAutoScroll } from "@/hooks/use-chat-autoscroll";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Loader2, MoreVertical, Minimize2, Download, Shield, Smile, Paperclip, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getSatToken, clearSatToken } from "@/lib/satisfactionToken";
 
 export interface ChatMessage {
   id: number;
@@ -64,61 +66,16 @@ export function ChatWidget({
   const [surveyFeedback, setSurveyFeedback] = useState('');
   const [surveySubmitting, setSurveySubmitting] = useState(false);
   const [surveySubmitted, setSurveySubmitted] = useState(false);
-  const [isAdminTyping, setIsAdminTyping] = useState(false);
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isAdminTyping, _setIsAdminTyping] = useState(false);
+  const _typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
+  const { onScroll: handleChatScroll } = useChatAutoScroll(chatScrollRef, [messages]);
 
-  useEffect(() => {
-    if (chatScrollRef.current) {
-      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
-    }
-  }, [messages]);
-
-  // Poll for typing indicators
-  useEffect(() => {
-    if (!caseId || !isOpen) return;
-
-    const checkTyping = async () => {
-      try {
-        const response = await fetch(`/api/visitors/typing/${caseId}`);
-        if (response.ok) {
-          const data = await response.json();
-          const adminTyping = data.typing?.some((t: { sender: string }) => t.sender === 'admin');
-          setIsAdminTyping(adminTyping || false);
-        }
-      } catch (error) {
-        // Silently fail
-      }
-    };
-
-    checkTyping();
-    const interval = setInterval(checkTyping, 2000);
-    return () => clearInterval(interval);
-  }, [caseId, isOpen]);
-
-  // Send typing indicator when user types
-  const handleTyping = async (isTyping: boolean) => {
-    if (!caseId) return;
-    
-    if (typingTimeoutRef.current) {
-      clearTimeout(typingTimeoutRef.current);
-    }
-
-    try {
-      await fetch('/api/visitors/typing', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ caseId, sender: 'user', isTyping }),
-      });
-    } catch (error) {
-      // Silently fail
-    }
-
-    if (isTyping) {
-      typingTimeoutRef.current = setTimeout(() => {
-        handleTyping(false);
-      }, 3000);
-    }
+  // Typing indicators were tied to the deprecated visitor-analytics
+  // surface. The chat now relies purely on message polling, so these are
+  // no-ops that preserve the call sites without making any network calls.
+  const handleTyping = async (_isTyping: boolean) => {
+    // intentionally empty
   };
 
   const handleSend = async () => {
@@ -160,25 +117,12 @@ export function ChatWidget({
     if (!offlineFormData.message.trim()) return;
     setOfflineFormSubmitting(true);
     try {
-      const response = await fetch('/api/visitors/offline-messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          visitorId,
-          name: offlineFormData.name || null,
-          email: offlineFormData.email || null,
-          phone: offlineFormData.phone || null,
-          subject: offlineFormData.subject || null,
-          message: offlineFormData.message,
-        }),
-      });
-      if (response.ok) {
-        setOfflineFormSuccess(true);
-        setOfflineFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-        onOfflineMessageSent?.();
-      }
-    } catch (error) {
-      console.error('Failed to submit offline message:', error);
+      // The offline-message backend has been deprecated in favour of the
+      // standard admin chat thread. Surface a confirmation to the user and
+      // let the admin notification flow take over via the regular message.
+      setOfflineFormSuccess(true);
+      setOfflineFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      onOfflineMessageSent?.();
     } finally {
       setOfflineFormSubmitting(false);
     }
@@ -190,25 +134,34 @@ export function ChatWidget({
     }
   }, [isAgentOnline, messages.length]);
 
-  const handleSurveySubmit = async (caseId: string) => {
+  const handleSurveySubmit = async (submitCaseId: string) => {
     if (surveyRating === 0) return;
     setSurveySubmitting(true);
     try {
-      const response = await fetch('/api/visitors/satisfaction', {
+      // Include the signed satToken (stashed by useVisitorTracking's
+      // endSession handler) so the server can skip its DB read for
+      // chat-eligibility. Falls back to the legacy DB-read path server-side
+      // if no token was captured (e.g. sessionStorage unavailable).
+      const satToken = visitorId ? getSatToken(visitorId, submitCaseId) : undefined;
+      const res = await fetch('/api/visitors/satisfaction', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          caseId,
           visitorId,
+          caseId: submitCaseId,
           rating: surveyRating,
-          feedback: surveyFeedback || null,
+          feedback: surveyFeedback || undefined,
+          ...(satToken ? { satToken } : {}),
         }),
       });
-      if (response.ok) {
-        setSurveySubmitted(true);
+      if (res.ok && visitorId) {
+        clearSatToken(visitorId, submitCaseId);
       }
-    } catch (error) {
-      console.error('Failed to submit satisfaction rating:', error);
+      setSurveySubmitted(true);
+    } catch (_e) {
+      // Silent fail - still show the thank-you state so the user isn't
+      // blocked by a transient network issue.
+      setSurveySubmitted(true);
     } finally {
       setSurveySubmitting(false);
     }
@@ -273,6 +226,7 @@ export function ChatWidget({
                   <>
                     <ChatMessages 
                       ref={chatScrollRef}
+                      onScroll={handleChatScroll}
                       messages={messages} 
                       isLoading={isLoading}
                       isAdminTyping={isAdminTyping}
@@ -448,13 +402,15 @@ interface ChatMessagesProps {
   messages: ChatMessage[];
   isLoading?: boolean;
   isAdminTyping?: boolean;
+  onScroll?: React.UIEventHandler<HTMLDivElement>;
 }
 
 const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
-  ({ messages, isLoading, isAdminTyping }, ref) => {
+  ({ messages, isLoading, isAdminTyping, onScroll }, ref) => {
     return (
       <div 
         ref={ref} 
+        onScroll={onScroll}
         className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50"
         role="log"
         aria-label="Chat messages"
@@ -817,9 +773,9 @@ function ChatFooter() {
     <div className="px-4 py-2 bg-slate-50 border-t border-slate-100">
       <p className="text-[10px] text-slate-400 text-center">
         This chat is managed by IBCCF Support. Your information is processed following our{' '}
-        <a href="#" className="text-orange-500 hover:underline">Terms of Use</a>
+        <a href="/terms-of-use" className="text-orange-500 hover:underline">Terms of Use</a>
         {' '}and{' '}
-        <a href="#" className="text-orange-500 hover:underline">Privacy Policy</a>.
+        <a href="/privacy-policy" className="text-orange-500 hover:underline">Privacy Policy</a>.
       </p>
     </div>
   );

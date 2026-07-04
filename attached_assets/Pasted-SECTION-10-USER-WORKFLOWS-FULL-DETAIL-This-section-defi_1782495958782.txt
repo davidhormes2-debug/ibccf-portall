@@ -1,0 +1,380 @@
+SECTION 10 — USER WORKFLOWS (FULL DETAIL)
+This section defines every user‑facing workflow in the IBCCF system.
+All flows must be implemented exactly as described, with no deviations.
+
+10.1 User Registration / Case Access Workflow
+Trigger:
+User submits a fraud complaint or requests portal access.
+
+Steps:
+User submits case via public form.
+
+System validates all fields.
+
+System creates case record.
+
+System generates Case ID.
+
+System triggers Case Created Email (GAP 1).
+
+System triggers Admin New Case Email (GAP 2).
+
+Admin reviews submission.
+
+Admin approves access code.
+
+System emails access code to user.
+
+User logs into portal.
+
+Security Requirements:
+Access code must be single‑use.
+
+Access code must expire after 24 hours.
+
+Access code must rotate after countdown reset.
+
+10.2 Document Upload Workflow
+Trigger:
+User uploads any required document.
+
+Steps:
+User selects document type.
+
+System validates file type (PDF/JPG/PNG).
+
+System validates file size (max 10MB).
+
+System stores file in secure storage.
+
+System logs upload event.
+
+System triggers Admin Document Uploaded Email.
+
+Admin reviews document.
+
+Admin approves or rejects.
+
+System triggers appropriate email to user.
+
+Edge Cases:
+Duplicate upload → overwrite previous version.
+
+Invalid MIME type → reject with error.
+
+Corrupted file → reject with error.
+
+Upload during countdown → allowed.
+
+Upload after lockout → blocked.
+
+10.3 Declaration of Compliance Workflow
+Trigger:
+User reaches stage requiring compliance declaration.
+
+Steps:
+User opens declaration form.
+
+System loads all sections.
+
+User completes each section.
+
+System validates each field.
+
+User digitally signs.
+
+System locks declaration.
+
+System logs signature.
+
+System updates timeline.
+
+System triggers Declaration Submitted Email.
+
+Legal Requirements:
+Signature must be timestamped.
+
+Signature must be immutable.
+
+Declaration must be stored in read‑only format.
+
+10.4 Messaging Workflow
+Trigger:
+User sends message to admin.
+
+Steps:
+User writes message.
+
+System sanitizes input.
+
+System stores message.
+
+System triggers Admin New Message Email (GAP 3).
+
+Admin replies.
+
+System triggers User New Message Email (missing).
+
+System logs communication.
+
+Security Requirements:
+XSS sanitization.
+
+Rate limiting: 1 message per 10 seconds.
+
+No HTML allowed.
+
+10.5 Countdown Workflow (User Perspective)
+Trigger:
+Admin activates countdown.
+
+Steps:
+User logs in.
+
+System detects active countdown.
+
+System displays countdown banner.
+
+User continues portal usage normally.
+
+Timer reaches zero.
+
+System forces logout.
+
+System resets withdrawal.
+
+System locks portal.
+
+User redirected to Reactivation Page.
+
+User Restrictions During Countdown:
+Cannot change payout wallet.
+
+Cannot modify declaration.
+
+Cannot access sealed settlement.
+
+Can still upload documents.
+
+Can still message admin.
+
+10.6 Reactivation Workflow (User Perspective)
+Trigger:
+Countdown expires.
+
+Steps:
+User logs in.
+
+System detects reactivation_required.
+
+User sees Reactivation Page.
+
+User uploads payment receipt.
+
+Admin reviews.
+
+Admin approves.
+
+System restores access.
+
+System triggers Reactivation Completed Email.
+
+SECTION 11 — DATABASE SCHEMA (FULL DETAIL)
+Below is the complete schema required for IBCCF.
+
+11.1 users Table
+Field	Type	Notes
+id	UUID	PK
+name	text	required
+email	text	unique
+phone	text	optional
+status	enum	active, countdown_active, reactivation_required
+role	enum	super_admin, admin, agent, viewer
+created_at	timestamp	default now()
+updated_at	timestamp	auto-update
+
+
+11.2 cases Table
+Field	Type	Notes
+id	UUID	PK
+user_id	UUID	FK → users
+stage	int	1–14
+sealed	boolean	default false
+payout_wallet	text	encrypted
+declaration_signed	boolean	default false
+nda_signed	boolean	default false
+created_at	timestamp	default now()
+updated_at	timestamp	auto-update
+
+
+11.3 documents Table
+Field	Type	Notes
+id	UUID	PK
+case_id	UUID	FK
+type	enum	kyc, sof, fatca, receipt_activation, receipt_reissue, receipt_certificate, receipt_stamp_duty
+file_path	text	secure storage
+status	enum	pending, approved, rejected
+rejection_reason	text	nullable
+uploaded_at	timestamp	default now()
+reviewed_at	timestamp	nullable
+
+
+11.4 countdowns Table
+Field	Type	Notes
+id	UUID	PK
+user_id	UUID	FK
+start_time	timestamp	required
+end_time	timestamp	required
+duration_seconds	int	required
+status	enum	active, expired, overridden
+triggered_by	UUID	admin ID
+created_at	timestamp	default now()
+
+
+11.5 reactivation Table
+Field	Type	Notes
+id	UUID	PK
+user_id	UUID	FK
+amount	numeric	required
+receipt_path	text	required
+status	enum	pending, approved, rejected
+reviewed_by	UUID	admin ID
+created_at	timestamp	default now()
+reviewed_at	timestamp	nullable
+
+
+11.6 messages Table
+Field	Type	Notes
+id	UUID	PK
+case_id	UUID	FK
+sender	enum	user, admin
+content	text	sanitized
+created_at	timestamp	default now()
+
+
+11.7 audit_logs Table
+Field	Type	Notes
+id	UUID	PK
+admin_id	UUID	FK
+action	text	required
+details	jsonb	required
+created_at	timestamp	default now()
+
+
+SECTION 12 — UI WIREFRAMES (TEXT BLUEPRINT)
+12.1 User Dashboard
+Code
+---------------------------------------------------------
+| CASE ID: 2026-XXXXXX                                  |
+| STAGE: 7/14                                           |
+---------------------------------------------------------
+| NEXT ACTION                                           |
+| - Upload Proof of Income                              |
+| - Complete Declaration Section 3                      |
+---------------------------------------------------------
+| PAYOUT WALLET                                         |
+| 0xA3F...9B2                                           |
+---------------------------------------------------------
+| COUNTDOWN (if active)                                 |
+| 02 : 14 : 55                                          |
+---------------------------------------------------------
+| TIMELINE                                              |
+| - Document approved                                   |
+| - Stage advanced                                      |
+| - Message from admin                                  |
+---------------------------------------------------------
+12.2 Reactivation Page
+Code
+---------------------------------------------------------
+| REACTIVATION REQUIRED                                 |
+---------------------------------------------------------
+| Your portal has been reset due to inactivity.         |
+| To restore access, please complete the reactivation   |
+| deposit shown below.                                  |
+---------------------------------------------------------
+| AMOUNT: $250.00                                       |
+---------------------------------------------------------
+| [ Upload Receipt ]                                    |
+---------------------------------------------------------
+SECTION 13 — BACKEND LOGIC FLOWCHARTS
+13.1 Countdown Flow
+Code
+Admin Activates Countdown
+        |
+        v
+Create Countdown Record
+        |
+        v
+Invalidate Sessions
+        |
+        v
+User Sees Countdown
+        |
+        v
+Countdown Ends?
+   |        |
+   | No     | Yes
+   |        v
+   |   Reset Case
+   |   Void Declarations
+   |   Force Logout
+   |   Lock Portal
+   |   Require Reactivation
+SECTION 14 — MONITORING & OBSERVABILITY
+14.1 Sentry Requirements
+Track:
+
+Frontend errors
+
+Backend errors
+
+Countdown failures
+
+Email failures
+
+AI failures
+
+Health check failures
+
+14.2 Health Endpoint (GAP 6)
+Must return:
+
+DB status
+
+SMTP status
+
+AI status
+
+Uptime
+
+Version
+
+SECTION 15 — QA TEST PLAN
+15.1 Countdown Tests
+Activation
+
+Override
+
+Expiry
+
+Reset
+
+Lockout
+
+Reactivation
+
+15.2 Document Tests
+Upload
+
+Reject
+
+Approve
+
+Email triggers
+
+15.3 Stage Tests
+Sequential enforcement
+
+Email triggers
+
+Timeline updates

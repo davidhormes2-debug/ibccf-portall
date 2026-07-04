@@ -1,0 +1,95 @@
+{
+  "site": {
+    "name": "IBCCF",
+    "fullName": "Foro Internacional de Reclamaciones de la Comunidad Blockchain",
+    "tagline": "Recupere lo que le fue arrebatado. Verifique antes de confiar."
+  },
+  "routes": {
+    "home": {
+      "title": "IBCCF — Foro Internacional de Reclamaciones de la Comunidad Blockchain",
+      "description": "Denuncie fraudes con criptomonedas, verifique plataformas sospechosas y haga seguimiento de su caso con el reconocido Foro Internacional de Reclamaciones de la Comunidad Blockchain. Soporte seguro 24/7 en más de 120 jurisdicciones.",
+      "h1": "Recupere lo que le fue arrebatado. Verifique antes de confiar.",
+      "intro": "Ayudamos a víctimas de fraude con criptomonedas a abrir casos formales, verificar plataformas sospechosas y rastrear activos robados dentro de un marco regulatorio transparente. Análisis autorizado de la cadena de bloques, recuperación de activos y cumplimiento normativo para particulares, despachos y entidades en más de 180 jurisdicciones."
+    },
+    "verify": {
+      "title": "Verifique una plataforma blockchain — IBCCF",
+      "description": "Compruebe si un exchange, monedero o plataforma de criptomonedas está verificada por el IBCCF. Informes independientes de diligencia debida, alertas de fraude y estado de cumplimiento para servicios blockchain en todo el mundo.",
+      "h1": "Verifique una plataforma blockchain",
+      "intro": "Consulte el registro del IBCCF para confirmar si un exchange, monedero, custodio o servicio de recuperación de criptomonedas ha sido revisado de forma independiente. Cada verificación incluye historial de fraude, licencias jurisdiccionales y postura de cumplimiento."
+    },
+    "community": {
+      "title": "Foro de la Comunidad — IBCCF",
+      "description": "Únase a miles de víctimas, defensores e investigadores que comparten experiencias, apoyo e inteligencia sobre fraude con criptomonedas, recuperación y seguridad de plataformas en la Comunidad IBCCF.",
+      "h1": "Foro de la Comunidad",
+      "intro": "Debates, apoyo entre iguales y experiencias compartidas por víctimas, defensores e investigadores de la comunidad global de respuesta al fraude blockchain. Explore los hilos abiertos o inicie sesión para abrir una nueva discusión."
+    },
+    "requestAccess": {
+      "title": "Solicitar acceso al portal — IBCCF",
+      "description": "Solicite una clave de acceso segura al portal de casos del IBCCF. Envíe una solicitud confidencial y nuestro equipo de cumplimiento revisará su petición y emitirá credenciales una vez aprobada.",
+      "h1": "Solicitar clave de acceso",
+      "intro": "Envíe una solicitud para recibir una clave de acceso al portal seguro del IBCCF. Nuestro equipo revisará su petición y le contactará con los próximos pasos. Todas las solicitudes se tratan de forma confidencial."
+    },
+    "legalResources": {
+      "title": "Recursos legales e inteligencia regulatoria — IBCCF",
+      "description": "Derecho financiero internacional, normativa ALD/CFT, regla de viaje del GAFI, MiCA, Basilea III y marcos transfronterizos de cumplimiento en criptomonedas — recopilados por el IBCCF para víctimas, abogados e instituciones.",
+      "h1": "Inteligencia regulatoria",
+      "intro": "La sala de información definitiva sobre derecho financiero internacional, normativa ALD/CFT y marcos transfronterizos de cumplimiento en criptomonedas. Siga la evolución del GAFI, MiCA, Basilea III, OFAC y el OECD CARF en un solo lugar."
+    },
+    "privacyPolicy": {
+      "title": "Política de privacidad — IBCCF",
+      "description": "Lea la Política de privacidad del IBCCF para comprender cómo recopilamos, usamos y protegemos sus datos personales de conformidad con las normas internacionales de protección de datos.",
+      "h1": "Política de privacidad",
+      "intro": "Esta política explica qué información personal recopila el IBCCF, cómo se utiliza y los derechos que le asisten respecto a sus datos. Nos comprometemos a proteger su privacidad de acuerdo con las leyes de protección de datos aplicables."
+    },
+    "termsOfUse": {
+      "title": "Condiciones de uso — IBCCF",
+      "description": "Revise las Condiciones de uso del IBCCF que regulan el acceso a nuestra plataforma, portal de casos, foro de la comunidad y todos los servicios asociados.",
+      "h1": "Condiciones de uso",
+      "intro": "Estas condiciones regulan su acceso y uso de la plataforma IBCCF, incluidos el portal de casos, el foro de la comunidad y los servicios de verificación. Al usar nuestros servicios, acepta estas condiciones."
+    },
+    "withdrawalGuide": {
+      "title": "Guía de retiro — IBCCF",
+      "description": "Guía paso a paso del proceso de retiro del IBCCF. Comprenda cada etapa de cumplimiento, los documentos requeridos y los plazos para la liberación de sus activos recuperados.",
+      "h1": "Guía de retiro",
+      "intro": "Un recorrido completo por el proceso de retiro del IBCCF, desde la aprobación del caso hasta el desembolso final. Conozca qué se requiere en cada etapa de cumplimiento, qué documentos preparar y cómo seguir el estado de su recuperación."
+    }
+  },
+  "divisions": {
+    "aml": {
+      "title": "División ALD — Antiblanqueo de capitales — IBCCF",
+      "description": "Monitorización de transacciones, informes de actividad sospechosa, auditoría KYC y filtrado de sanciones para investigaciones de blanqueo relacionadas con criptomonedas.",
+      "h1": "División ALD",
+      "intro": "Detenemos los fondos ilícitos antes de que entren en el sistema financiero. La División ALD del IBCCF realiza una monitorización profunda de transacciones, perfila actividad sospechosa y coordina con unidades de inteligencia financiera de todo el mundo."
+    },
+    "cyber": {
+      "title": "Ciberdelincuencia y forense digital — IBCCF",
+      "description": "Análisis forense de monederos, trazabilidad blockchain, vigilancia de la dark web y técnicas avanzadas de rastreo de criptoactivos para víctimas de delitos financieros cibernéticos.",
+      "h1": "Ciberdelincuencia y forense digital",
+      "intro": "Análisis blockchain y forense digital para víctimas de delitos financieros cibernéticos. La atribución de monederos, la desanonimización de mezcladores y la inteligencia de la dark web respaldan la recuperación y el enjuiciamiento."
+    },
+    "recovery": {
+      "title": "Unidad de Recuperación de Activos — Aplicación transfronteriza — IBCCF",
+      "description": "Apoyo en litigios civiles, seguimiento de activos congelados y operaciones globales de recuperación para robos, fraudes y colapsos de exchanges de criptomonedas de alto valor.",
+      "h1": "Unidad de Recuperación de Activos",
+      "intro": "Aplicación transfronteriza y recuperación de activos digitales sustraídos. Coordinamos con fuerzas del orden, reguladores y abogados de todo el mundo para congelar, rastrear y devolver fondos a víctimas verificadas."
+    },
+    "compliance": {
+      "title": "Cumplimiento y asuntos regulatorios — IBCCF",
+      "description": "Alineación con el GAFI, reporte jurisdiccional, implementación de MiCA y Basilea III y coordinación regulatoria para negocios cripto y clientes institucionales.",
+      "h1": "Cumplimiento y asuntos regulatorios",
+      "intro": "Reporte jurisdiccional, adhesión a marcos legales y coordinación regulatoria. La práctica de cumplimiento del IBCCF ayuda a exchanges, custodios y abogados a cumplir con las obligaciones del GAFI, MiCA y Basilea III."
+    },
+    "intelligence": {
+      "title": "Inteligencia y análisis de amenazas — IBCCF",
+      "description": "Mapeo de redes de estafa, perfilado de actores maliciosos e inteligencia de alerta temprana sobre nuevos esquemas de fraude con criptomonedas y tipologías de blanqueo.",
+      "h1": "Inteligencia y análisis de amenazas",
+      "intro": "Perfilado de actores maliciosos y mapeo de redes de estafa. El equipo de inteligencia del IBCCF publica informes de alerta temprana sobre tipologías emergentes de fraude y blanqueo con criptomonedas."
+    },
+    "support": {
+      "title": "Servicios de apoyo a víctimas — IBCCF",
+      "description": "Recepción segura de casos, defensa de víctimas y asesoramiento integral de recuperación para personas y familias afectadas por fraude con criptomonedas y colapsos de plataformas.",
+      "h1": "Servicios de apoyo a víctimas",
+      "intro": "Recepción segura de casos, defensa de víctimas y asesoramiento de recuperación. El equipo de apoyo del IBCCF es el primer punto de contacto para personas y familias afectadas por fraude con criptomonedas."
+    }
+  }
+}

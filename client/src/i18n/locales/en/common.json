@@ -1,0 +1,56 @@
+{
+  "appName": "IBCCF",
+  "appFullName": "International Blockchain Community Complaints Forum",
+  "language": {
+    "label": "Language",
+    "switcherAriaLabel": "Change language",
+    "emailNoticeTitle": "Language updated",
+    "emailNoticeDescription": "Future emails will also be sent in {{language}}."
+  },
+  "nav": {
+    "home": "Home",
+    "verify": "Verify Platform",
+    "intelNetwork": "Intel Network",
+    "community": "Community",
+    "legalResources": "Legal Resources",
+    "requestAccess": "Request Access",
+    "dashboard": "Dashboard",
+    "login": "Sign In",
+    "logout": "Sign Out"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "close": "Close",
+    "confirm": "Confirm",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "back": "Back",
+    "next": "Next",
+    "approve": "Approve",
+    "reject": "Reject",
+    "download": "Download",
+    "preview": "Preview",
+    "upload": "Upload"
+  },
+  "status": {
+    "pending": "Pending",
+    "submitted": "Submitted",
+    "underReview": "Under Review",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "completed": "Completed"
+  },
+  "errors": {
+    "generic": "An error occurred. Please try again.",
+    "network": "Unable to connect to the server. Please check your connection.",
+    "unauthorized": "You are not authorised to perform this action.",
+    "sessionExpired": "Your session has expired. Please sign in again."
+  },
+  "theme": {
+    "light": "Light mode",
+    "dark": "Dark mode",
+    "toggle": "Toggle theme"
+  }
+}

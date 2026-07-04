@@ -1,0 +1,56 @@
+{
+  "appName": "IBCCF",
+  "appFullName": "国际区块链社区投诉论坛",
+  "language": {
+    "label": "语言",
+    "switcherAriaLabel": "更改语言",
+    "emailNoticeTitle": "语言已更新",
+    "emailNoticeDescription": "今后的电子邮件也将以{{language}}发送。"
+  },
+  "nav": {
+    "home": "首页",
+    "verify": "验证平台",
+    "intelNetwork": "情报网络",
+    "community": "社区",
+    "legalResources": "法律资源",
+    "requestAccess": "申请访问",
+    "dashboard": "控制台",
+    "login": "登录",
+    "logout": "退出"
+  },
+  "actions": {
+    "save": "保存",
+    "cancel": "取消",
+    "submit": "提交",
+    "close": "关闭",
+    "confirm": "确认",
+    "retry": "重试",
+    "loading": "加载中…",
+    "back": "返回",
+    "next": "下一步",
+    "approve": "批准",
+    "reject": "拒绝",
+    "download": "下载",
+    "preview": "预览",
+    "upload": "上传"
+  },
+  "status": {
+    "pending": "待处理",
+    "submitted": "已提交",
+    "underReview": "审核中",
+    "approved": "已批准",
+    "rejected": "已拒绝",
+    "completed": "已完成"
+  },
+  "errors": {
+    "generic": "出现错误,请重试。",
+    "network": "无法连接到服务器,请检查您的网络连接。",
+    "unauthorized": "您无权执行此操作。",
+    "sessionExpired": "您的会话已过期,请重新登录。"
+  },
+  "theme": {
+    "light": "浅色模式",
+    "dark": "深色模式",
+    "toggle": "切换主题"
+  }
+}

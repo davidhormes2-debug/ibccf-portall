@@ -1,0 +1,285 @@
+{
+  "nav": {
+    "departments": "部门",
+    "services": "服务",
+    "faq": "常见问题",
+    "intelNetwork": "情报网络",
+    "legalHub": "法律中心"
+  },
+  "header": {
+    "verifyCta": "验证平台",
+    "requestAccessCta": "请求访问",
+    "submitReport": "提交报告",
+    "accessPortal": "访问门户",
+    "brandSubtitle": "执法部门",
+    "toggleMenu": "切换菜单"
+  },
+  "hero": {
+    "eyebrow": "国际区块链社区投诉论坛",
+    "title": "找回被盗资产。在信任之前进行验证。",
+    "subtitle": "我们帮助加密货币诈骗的受害者开立正式案件，验证可疑平台，并追踪被盗资产——在透明的监管框架下。",
+    "primaryCta": "报告案件",
+    "secondaryCta": "验证平台",
+    "ariaLabel": "英雄",
+    "globalIntelActive": "全球情报活跃",
+    "titleLine1": "金融犯罪",
+    "titleLine2": "执法机构。",
+    "paragraph": "权威的区块链追踪分析、资产恢复和监管合规，服务于高净值个人、律师事务所和180多个司法管辖区的机构。",
+    "accessSecurePortal": "访问安全门户",
+    "submitIncidentReport": "提交事件报告",
+    "trustedTitle": "受执法机构信任",
+    "trustedSubtitle": "全球监管合作伙伴关系",
+    "securedConnection": "安全连接",
+    "traceStatus": "追踪状态",
+    "confidence": "信心",
+    "jurisdiction": "司法管辖区"
+  },
+  "trust": {
+    "users": "15,000+ 用户",
+    "countries": "120+ 国家",
+    "support": "24/7 安全支持"
+  },
+  "ticker": {
+    "globalFeed": "全球动态"
+  },
+  "liveActivity": {
+    "activePersonnel": "活跃人员"
+  },
+  "backToTop": {
+    "aria": "返回顶部"
+  },
+  "cookie": {
+    "message": "该平台使用严格的安全 Cookie 来维护会话完整性和操作安全。",
+    "decline": "拒绝非必要",
+    "accept": "接受所有"
+  },
+  "stats": {
+    "casesResolved": "已解决案件",
+    "responseTime": "平均响应时间",
+    "recoveryRate": "成功率",
+    "countries": "司法管辖区"
+  },
+  "departments": {
+    "eyebrow": "组织结构",
+    "sectionTitle": "运营部门",
+    "viewDivision": "查看部门",
+    "items": {
+      "aml": {
+        "title": "反洗钱部门",
+        "subtitle": "反洗钱",
+        "description": "交易监控、可疑活动报告和合规审计。"
+      },
+      "cyber": {
+        "title": "网络犯罪与数字取证",
+        "subtitle": "区块链追踪分析",
+        "description": "钱包取证、暗网监控和高级加密追踪。"
+      },
+      "recovery": {
+        "title": "资产恢复单位",
+        "subtitle": "跨境执法",
+        "description": "民事诉讼支持、冻结资产追踪和全球恢复行动。"
+      },
+      "compliance": {
+        "title": "合规与监管事务",
+        "subtitle": "与FATF对齐",
+        "description": "司法管辖区报告、法律框架遵循和监管协调。"
+      },
+      "intelligence": {
+        "title": "情报与威胁分析",
+        "subtitle": "威胁行为者分析",
+        "description": "诈骗网络映射、预警系统和可操作情报。"
+      },
+      "support": {
+        "title": "受害者支持服务",
+        "subtitle": "案件接收与倡导",
+        "description": "安全案件接收、受害者倡导和整体恢复咨询。"
+      }
+    }
+  },
+  "complianceBadges": {
+    "fatf": "与金融行动特别工作组对齐",
+    "fincen": "注册并合规",
+    "fca": "认可的执法合作伙伴",
+    "interpol": "战略合作",
+    "iso": "信息安全认证"
+  },
+  "crossBorder": {
+    "eyebrow": "全球覆盖",
+    "title": "跨境执法网络",
+    "paragraph": "金融犯罪无国界，我们也是。我们的平台直接与监管机构、执法机构和48个核心合作司法管辖区的金融机构整合。",
+    "treatyTitle": "条约合作",
+    "treatyDesc": "利用相互法律协助条约（MLAT）实现快速资产冻结能力。",
+    "courtTitle": "法院可接受的报告",
+    "courtDesc": "为国际法院准备的法医情报包，符合证据标准。",
+    "activeRegion": "活跃区域",
+    "mapAlt": "全球活动地图",
+    "regions": {
+      "na": "北美",
+      "eu": "欧洲联盟",
+      "apac": "亚太地区",
+      "me": "中东"
+    }
+  },
+  "services": {
+    "sectionTitle": "客户门户功能",
+    "sectionSubtitle": "为受害者、律师事务所和合规官提供安全访问点。",
+    "accessModule": "访问模块",
+    "items": {
+      "report": {
+        "title": "报告可疑活动",
+        "description": "记录并报告潜在的欺诈、诈骗或可疑的区块链相关事件，以便进行专业调查。"
+      },
+      "verify": {
+        "title": "验证平台合法性",
+        "description": "检查加密货币平台、交易所或服务是否合法并已注册于相关机构。"
+      },
+      "case-status": {
+        "title": "跟踪您的案件",
+        "description": "使用您的唯一验证代码访问现有案件仪表板，以实时跟踪进展。"
+      },
+      "support": {
+        "title": "24/7 专家支持",
+        "description": "与我们的专门支持团队联系，以获得对您的案件或一般咨询的即时帮助。"
+      }
+    }
+  },
+  "howItWorks": {
+    "sectionTitle": "标准操作程序",
+    "steps": {
+      "intake": {
+        "title": "接收",
+        "desc": "安全提交事件数据和加密证据。"
+      },
+      "triage": {
+        "title": "分类",
+        "desc": "自动威胁评分和司法管辖区分配。"
+      },
+      "forensics": {
+        "title": "取证",
+        "desc": "深度链分析和实体归属。"
+      },
+      "enforcement": {
+        "title": "执法",
+        "desc": "与地区当局协调进行资产冻结。"
+      }
+    }
+  },
+  "partners": {
+    "eyebrow": "与以下机构的运营整合"
+  },
+  "testimonials": {
+    "sectionTitle": "案件结果"
+  },
+  "faqSection": {
+    "sectionTitle": "情报简报",
+    "defaults": {
+      "q1": "我如何提交投诉？",
+      "a1": "您可以通过点击“访问门户”按钮并输入您的案件访问代码来提交投诉。如果您是新用户，请联系支持团队以启动案件。",
+      "q2": "调查过程需要多长时间？",
+      "a2": "调查时间因复杂性而异。大多数案件在24-48小时内收到初步审查，完整调查通常在2-4周内完成。",
+      "q3": "我的信息是否保密？",
+      "a3": "是的，绝对保密。所有提交给IBCCF的信息都经过加密并安全存储。我们绝不会在未获得明确同意的情况下分享个人信息。",
+      "q4": "我可以报告哪些类型的欺诈？",
+      "a4": "您可以报告加密货币诈骗、欺诈交易所、网络钓鱼尝试、庞氏骗局以及任何与区块链相关的可疑活动。",
+      "q5": "我可以跟踪我的案件状态吗？",
+      "a5": "是的，一旦您的案件创建，您将收到一个唯一的访问代码，允许您登录并实时跟踪案件进展。"
+    }
+  },
+  "newsletter": {
+    "title": "威胁情报更新",
+    "subtitle": "订阅以接收经过验证的诈骗警报、平台合规变更和来自我们分析师的安全简报。",
+    "placeholder": "机构或个人邮箱",
+    "processing": "处理中...",
+    "subscribe": "订阅",
+    "subscribedTitle": "已订阅",
+    "subscribedDesc": "已添加到情报简报分发列表。",
+    "errorTitle": "错误",
+    "ariaEmail": "新闻通讯的电子邮件地址"
+  },
+  "contact": {
+    "title": "发起联系",
+    "paragraph": "我们的接收人员全天候提供服务，以处理紧急事件报告并与地区工作组协调。",
+    "urgent": "紧急案件接收",
+    "general": "一般咨询",
+    "secureTitle": "通信安全",
+    "secureDesc": "消息已被接收团队收到。",
+    "formHeading": "提交投诉",
+    "labelName": "全名 *",
+    "labelEmail": "电子邮件地址 *",
+    "labelSubject": "主题",
+    "labelPlatform": "平台 / 交易所",
+    "labelIncidentDate": "大约事件日期",
+    "labelAmountLost": "损失金额",
+    "labelDescription": "描述 *",
+    "placeholderName": "您的全名",
+    "placeholderEmail": "您的@邮箱.com",
+    "placeholderSubject": "投诉的简要描述",
+    "placeholderPlatform": "例如 Binance、Coinbase",
+    "placeholderIncidentDate": "例如 2024年1月",
+    "placeholderAmountLost": "例如 $5,000 USD",
+    "placeholderDescription": "请详细描述事件经过——发生了什么，您是如何被联系的，涉及的任何钱包地址或交易ID。",
+    "submitButton": "提交投诉",
+    "submittingButton": "提交中…",
+    "toastSuccessTitle": "投诉已提交",
+    "toastSuccessDesc": "我们的接收团队已收到您的投诉。",
+    "toastErrorTitle": "提交失败",
+    "toastErrorDesc": "您的投诉无法提交，请重试。"
+  },
+  "footer": {
+    "rights": "版权所有。",
+    "tagline": "可信的区块链事件报告和平台验证。",
+    "fullName": "国际区块链社区投诉论坛。版权所有。",
+    "brand": "IBCCF",
+    "brandSubtitle": "全球执法",
+    "brandDesc": "权威的多司法管辖区平台，用于区块链欺诈预防、法医追踪分析和跨境资产恢复行动。",
+    "divisionsTitle": "部门",
+    "divAml": "反洗钱合规",
+    "divForensics": "数字取证",
+    "divRecovery": "资产恢复",
+    "divIntake": "受害者接收",
+    "commsTitle": "安全通信",
+    "ops": "24/7 运营中心",
+    "copyright": "© {{year}} IBCCF 执法平台。仅限授权人员。",
+    "linkPrivacy": "隐私协议",
+    "linkTerms": "使用条款",
+    "linkJurisdiction": "司法管辖区通知",
+    "linkLegal": "法律资源",
+    "linkWithdrawalGuide": "提款指南"
+  },
+  "verify": {
+    "back": "返回首页",
+    "backShort": "返回",
+    "titleCode": "安全验证",
+    "titlePin": "PIN 认证",
+    "subtitleCode": "输入您的唯一验证代码以访问您的案件。",
+    "subtitlePin": "输入您的 6 位数 PIN 以继续。",
+    "labelCode": "验证代码",
+    "labelPin": "6 位数 PIN",
+    "placeholderCode": "输入您的代码",
+    "submit": "访问我的案件",
+    "submitting": "验证中...",
+    "switchToPin": "改为使用 PIN 登录",
+    "switchToCode": "改为使用验证代码登录",
+    "requestAccess": "没有代码？请求访问",
+    "encrypted": "受企业级加密保护",
+    "feature256": "256 位加密",
+    "featureBio": "支持生物识别",
+    "featureSession": "安全会话",
+    "toast": {
+      "errorTitle": "错误",
+      "missingCode": "请输入您的验证代码。",
+      "missingAccess": "请输入您的访问代码。",
+      "missingPin": "请输入您的 6 位数 PIN。",
+      "verifySuccessTitle": "验证成功",
+      "verifySuccessDesc": "请设置您的安全 PIN 以继续。",
+      "pinRequiredTitle": "需要 PIN",
+      "pinRequiredDesc": "请输入您的 PIN 以访问您的账户。",
+      "invalidCodeTitle": "无效代码",
+      "invalidCodeDesc": "输入的验证代码无效。请检查并重试。",
+      "invalidPinTitle": "无效 PIN",
+      "invalidPinDesc": "输入的 PIN 无效。请检查并重试。",
+      "connectionTitle": "连接错误",
+      "connectionDesc": "此时无法验证。请稍后再试。"
+    }
+  }
+}

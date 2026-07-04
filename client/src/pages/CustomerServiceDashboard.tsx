@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -68,7 +68,7 @@ export default function CustomerServiceDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAvailable, setIsAvailable] = useState(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [_showMobileMenu, _setShowMobileMenu] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -266,7 +266,7 @@ export default function CustomerServiceDashboard() {
           const userTyping = data.typing?.some((t: { sender: string }) => t.sender === 'user');
           setIsUserTyping(userTyping || false);
         }
-      } catch (error) {
+      } catch (_e) {
         // Silently fail
       }
     };
@@ -304,7 +304,7 @@ export default function CustomerServiceDashboard() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ caseId: selectedCase.id, sender: 'admin', isTyping }),
       });
-    } catch (error) {
+    } catch (_e) {
       // Silently fail
     }
 
@@ -317,18 +317,43 @@ export default function CustomerServiceDashboard() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === "Admin2025" && password === "Admin123456789") {
-      const token = "ibc-admin-session-2025";
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      if (!res.ok) {
+        toast({ variant: "destructive", title: "Invalid credentials" });
+        return;
+      }
+      const data = await res.json();
+      const token = typeof data?.token === "string" ? data.token : "";
+      if (!token) {
+        toast({ variant: "destructive", title: "Login failed", description: "Server did not return a session token" });
+        return;
+      }
       sessionStorage.setItem('adminToken', token);
       setAuthToken(token);
       setIsLoggedIn(true);
       toast({ title: "Welcome back", description: "Logged in successfully" });
-    } else {
-      toast({ variant: "destructive", title: "Invalid credentials" });
+    } catch {
+      toast({ variant: "destructive", title: "Connection failed", description: "Could not reach the server" });
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const token = authToken || sessionStorage.getItem('adminToken');
+    if (token) {
+      try {
+        await fetch('/api/admin/logout', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+      } catch {
+        // ignore — still clear local state below
+      }
+    }
     sessionStorage.removeItem('adminToken');
     setAuthToken(null);
     setIsLoggedIn(false);
@@ -497,7 +522,7 @@ export default function CustomerServiceDashboard() {
           </div>
         </nav>
 
-        <main className="flex-1 p-4 overflow-auto">
+        <main id="main-content" tabIndex={-1} className="flex-1 p-4 overflow-auto">
           <AnimatePresence mode="wait">
             {activeTab === "dashboard" && (
               <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -913,7 +938,7 @@ export default function CustomerServiceDashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="h-48 flex items-end justify-between gap-2">
-                      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => (
+                      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, _i) => (
                         <div key={day} className="flex-1 flex flex-col items-center gap-2">
                           <div 
                             className="w-full bg-blue-500 rounded-t" 

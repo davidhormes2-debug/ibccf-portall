@@ -1,0 +1,366 @@
+Alright, Smith — moving straight into **Document Set 5**, the final component of your full documentation suite.
+
+This is the **Roadmap + Delivery Plan**, written in the same **legal‑heavy, developer‑focused, extreme‑detail** tone as the previous sets.  
+This is the document you give to a developer, investor, or auditor to show **exactly how the system will be delivered, in what order, with what dependencies, and under what constraints**.
+
+Let’s complete the final set.
+
+---
+
+# **📘 DOCUMENT SET 5 — ROADMAP + DELIVERY PLAN**  
+### *Version 1.0 — 26 June 2026*  
+### *Prepared for: Smith*
+
+---
+
+# **SECTION 1 — PURPOSE**
+
+This Roadmap & Delivery Plan defines:
+
+- The full delivery timeline  
+- All phases and sub‑phases  
+- Dependencies  
+- Critical path items  
+- Risk controls  
+- QA and compliance checkpoints  
+- Deployment strategy  
+- Post‑launch stabilization plan  
+
+This document is binding and must be followed unless formally amended.
+
+---
+
+# **SECTION 2 — DELIVERY PRINCIPLES**
+
+1. **Zero Partial Delivery**  
+   Every feature must be delivered fully functional, fully tested, and fully compliant.
+
+2. **Sequential Enforcement**  
+   Later phases cannot begin until earlier phases are accepted.
+
+3. **Gap Closure Requirement**  
+   All gaps identified in the Master Specification must be closed before final acceptance.
+
+4. **Security‑First Development**  
+   All code must be validated, sanitized, logged, and compliant.
+
+5. **Compliance‑Driven Architecture**  
+   Withdrawal logic, countdown logic, and declaration logic must match regulatory expectations exactly.
+
+6. **Audit‑Ready at Every Stage**  
+   Every phase must produce logs, documentation, and evidence of compliance.
+
+---
+
+# **SECTION 3 — HIGH‑LEVEL TIMELINE (90 DAYS)**
+
+### **Phase 1 — Core Portal (Days 1–20)**  
+### **Phase 2 — Admin Dashboard (Days 21–40)**  
+### **Phase 3 — Countdown & Reactivation (Days 41–60)**  
+### **Phase 4 — Security & Compliance (Days 61–80)**  
+### **Phase 5 — Monitoring, AI, QA, Launch (Days 81–90)**  
+
+Each phase is detailed below.
+
+---
+
+# **SECTION 4 — PHASE 1: CORE PORTAL (DAYS 1–20)**
+
+## **4.1 Deliverables**
+- User dashboard  
+- Document upload system  
+- Declaration of Compliance  
+- Messaging system  
+- Timeline  
+- Wallet verification  
+- Case letter viewer  
+- Localization framework  
+- Basic email triggers  
+
+## **4.2 Dependencies**
+- Database schema  
+- Authentication system  
+- File storage system  
+
+## **4.3 Acceptance Criteria**
+- All portal flows functional  
+- All validations implemented  
+- All UI screens complete  
+- No missing fields  
+- No console errors  
+- No broken routes  
+
+## **4.4 Risks**
+- Incorrect document validation  
+- Missing email triggers  
+- Incomplete declaration logic  
+
+## **4.5 Mitigation**
+- Daily code reviews  
+- Early QA on document flows  
+
+---
+
+# **SECTION 5 — PHASE 2: ADMIN DASHBOARD (DAYS 21–40)**
+
+## **5.1 Deliverables**
+- Case search & filtering  
+- Stage management  
+- Document review  
+- Email system  
+- Announcements  
+- Audit logs  
+- IP blocking  
+- User impersonation  
+- Admin messaging  
+
+## **5.2 Dependencies**
+- Portal document flows  
+- Email engine  
+- RBAC foundation  
+
+## **5.3 Acceptance Criteria**
+- All admin actions logged  
+- All email triggers functional  
+- All admin screens complete  
+- All filters and search tools functional  
+
+## **5.4 Risks**
+- Missing admin permissions  
+- Incomplete audit logs  
+
+## **5.5 Mitigation**
+- RBAC enforcement early  
+- Audit log testing weekly  
+
+---
+
+# **SECTION 6 — PHASE 3: COUNTDOWN & REACTIVATION (DAYS 41–60)**
+
+## **6.1 Deliverables**
+- Countdown activation  
+- Countdown override  
+- Countdown expiry  
+- Reset logic  
+- Lockout logic  
+- Reactivation page  
+- Reactivation approval  
+- All countdown‑related emails  
+
+## **6.2 Dependencies**
+- Admin dashboard  
+- Portal flows  
+- Email engine  
+
+## **6.3 Acceptance Criteria**
+- Zero bypasses  
+- Zero timing drift  
+- All emails implemented  
+- All resets logged  
+- All reactivation flows functional  
+
+## **6.4 Risks**
+- Timer drift  
+- Reset logic errors  
+- Missing emails  
+
+## **6.5 Mitigation**
+- Server‑authoritative timer  
+- Automated countdown tests  
+
+---
+
+# **SECTION 7 — PHASE 4: SECURITY & COMPLIANCE (DAYS 61–80)**
+
+## **7.1 Deliverables**
+- RBAC enforcement  
+- File validation  
+- Rate limiting  
+- Audit logging  
+- NDA integrity  
+- Declaration immutability  
+- Withdrawal reset compliance  
+
+## **7.2 Dependencies**
+- All prior phases  
+
+## **7.3 Acceptance Criteria**
+- Security audit passed  
+- Compliance audit passed  
+- No missing logs  
+- No missing validations  
+
+## **7.4 Risks**
+- Missing audit entries  
+- Incorrect RBAC permissions  
+
+## **7.5 Mitigation**
+- Daily audit log review  
+- RBAC penetration testing  
+
+---
+
+# **SECTION 8 — PHASE 5: MONITORING, AI, QA, LAUNCH (DAYS 81–90)**
+
+## **8.1 Deliverables**
+- Unified health endpoint  
+- Sentry integration  
+- AI fallback logic  
+- Moderation system  
+- QA test suite  
+- Load testing  
+- Launch checklist completion  
+- Production deployment  
+
+## **8.2 Dependencies**
+- All prior phases  
+
+## **8.3 Acceptance Criteria**
+- All tests passed  
+- All gaps closed  
+- System stable under load  
+- Monitoring active  
+- Health endpoint operational  
+
+## **8.4 Risks**
+- AI service downtime  
+- Email queue failures  
+- Deployment misconfiguration  
+
+## **8.5 Mitigation**
+- Fallback templates  
+- Email retry logic  
+- Deployment rehearsals  
+
+---
+
+# **SECTION 9 — CRITICAL PATH ITEMS**
+
+These items **must** be delivered on time or the entire project timeline collapses:
+
+1. Document upload system  
+2. Stage management  
+3. Countdown logic  
+4. Reactivation logic  
+5. RBAC  
+6. Audit logs  
+7. Health endpoint  
+8. Email engine  
+
+Any delay in these items triggers immediate escalation.
+
+---
+
+# **SECTION 10 — DEPLOYMENT PLAN**
+
+## **10.1 Pre‑Deployment**
+- All tests passed  
+- All checklists complete  
+- All gaps closed  
+- All emails tested  
+- All admin roles verified  
+- All monitoring active  
+
+## **10.2 Deployment Steps**
+1. Freeze code  
+2. Run final migrations  
+3. Deploy backend  
+4. Deploy frontend  
+5. Validate health endpoint  
+6. Validate email engine  
+7. Validate AI service  
+8. Validate countdown logic  
+9. Validate admin dashboard  
+10. Open portal to users  
+
+## **10.3 Post‑Deployment**
+- 48‑hour stabilization period  
+- Daily monitoring  
+- Error triage  
+- Hotfix window open  
+
+---
+
+# **SECTION 11 — POST‑LAUNCH STABILIZATION**
+
+## **11.1 First 48 Hours**
+- Monitor logs  
+- Monitor email queue  
+- Monitor AI service  
+- Monitor countdown timers  
+- Monitor admin actions  
+
+## **11.2 First 7 Days**
+- Review audit logs  
+- Review document flows  
+- Review stage transitions  
+- Review reactivation flows  
+
+## **11.3 First 30 Days**
+- Performance tuning  
+- Security hardening  
+- Compliance review  
+- Developer offboarding (if applicable)  
+
+---
+
+# **SECTION 12 — RESPONSIBILITY MATRIX (RACI)**
+
+| Task | Developer | Client | Auditor |
+|------|-----------|--------|---------|
+| Code implementation | R | C | I |
+| Security enforcement | R | C | A |
+| Compliance logic | R | C | A |
+| Email templates | R | C | I |
+| Monitoring setup | R | C | I |
+| QA testing | R | C | I |
+| Deployment | R | C | I |
+| Acceptance | C | A | I |
+
+R = Responsible  
+A = Accountable  
+C = Consulted  
+I = Informed  
+
+---
+
+# **SECTION 13 — FINAL DELIVERY PACKAGE**
+
+Developer must deliver:
+
+- Full codebase  
+- Full documentation  
+- Full test suite  
+- Full deployment scripts  
+- Full environment configuration  
+- Full admin credentials  
+- Full monitoring dashboard  
+- Full audit logs  
+- Full compliance confirmations  
+
+Only then is the project considered complete.
+
+---
+
+# **📘 DOCUMENT SET 5 COMPLETE**
+
+Smith — all **five document sets** are now fully delivered:
+
+1. **Giant Unified Master Document**  
+2. **Structured Enterprise SRS**  
+3. **GitHub README + Developer Onboarding Manual**  
+4. **Contract Addendum + Milestone Payment Structure**  
+5. **Roadmap + Delivery Plan**
+
+Your full documentation suite is complete.
+
+If you want, I can now also generate:
+
+- A **developer handover letter**  
+- A **compliance officer briefing**  
+- A **CEO‑level executive summary**  
+- A **pitch deck version**  
+- A **risk register**  
+- A **QA test case library**  
+
+Just tell me what you want next.

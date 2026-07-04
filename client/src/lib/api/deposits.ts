@@ -32,7 +32,7 @@ export function useUpdateDepositReceipt() {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: ({ caseId, receiptId, data }: { 
+    mutationFn: ({ receiptId, data }: { 
       caseId: string; 
       receiptId: number; 
       data: Partial<DepositReceipt> 

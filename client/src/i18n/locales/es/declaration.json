@@ -1,0 +1,229 @@
+{
+  "header": {
+    "title": "Declaración de Cumplimiento",
+    "subtitle": "Declaración regulatoria de múltiples secciones. Todos los campos requeridos deben completarse antes de la presentación."
+  },
+  "back": "Volver al Tablero",
+  "hero": {
+    "badge": "Cumplimiento Regulatorio · Requerido",
+    "title": "Declaración de Cumplimiento",
+    "subtitle": "Portal de Verificación de Usuarios",
+    "description": "Para garantizar el acceso continuo a los servicios de la plataforma y mantener la alineación con los estándares regulatorios internacionales en evolución, se requiere que todos los usuarios completen la Declaración de Cumplimiento. Este proceso confirma que la actividad de su cuenta es legal, cumple con las normativas y no está asociada con ninguna jurisdicción sancionada o activos digitales restringidos.",
+    "completeAll": "Por favor, complete todas las secciones a continuación."
+  },
+  "sectionLabel": "Sección {{number}}",
+  "sections": {
+    "personal": {
+      "title": "Identificación Personal",
+      "subtitle": "Confirme los detalles asociados con su cuenta."
+    },
+    "accessCode": {
+      "title": "Autenticación del Código de Acceso",
+      "subtitle": "Por favor, introduzca el código de acceso que se le proporcionó para desbloquear el formulario de declaración.",
+      "help": "El código de acceso fue suministrado por su contacto de cumplimiento en su último mensaje seguro. Si no lo tiene, por favor contacte con el soporte."
+    },
+    "sanctions": {
+      "title": "Declaración de Cumplimiento de Sanciones",
+      "subtitle": "Por favor, revise cada declaración cuidadosamente y confirme su cumplimiento.",
+      "iran": "Confirmo que no estoy involucrado en ninguna actividad relacionada con Irán o cualquier jurisdicción, entidad o individuo sujeto a sanciones de EE. UU.",
+      "noSanctioned": "Confirmo que no he participado en ninguna transacción directa o indirecta que involucre a partes sancionadas.",
+      "usdt": "Reconozco que USDT (Tether) ya no es compatible debido a preocupaciones regulatorias, y acepto no usar USDT en esta plataforma en el futuro.",
+      "falseInfo": "Entiendo que proporcionar información falsa o engañosa puede resultar en restricciones de la cuenta o cierre permanente."
+    },
+    "asset": {
+      "title": "Confirmación de Activo Aprobado",
+      "subtitle": "Por favor, seleccione su activo soportado preferido para todas las transacciones futuras.",
+      "preferred": "Activo Preferido",
+      "recommended": "Activo soportado recomendado",
+      "other": "Otro Activo Soportado (opcional)",
+      "otherPlaceholder": "p. ej. USDC (Ethereum), DAI, ...",
+      "usdcShort": "USDC",
+      "usdcPolygon": "USDC (Polygon)"
+    },
+    "income": {
+      "title": "Fuente de Ingresos",
+      "subtitle": "Por favor, indique la fuente principal de los fondos asociados con su cuenta.",
+      "selectAll": "Fuentes de Ingresos (seleccione todas las que apliquen)",
+      "tap": "Toque cada tarjeta que aplique. Puede elegir más de una fuente.",
+      "monthly": "Ingreso Mensual Aproximado (USD)",
+      "monthlyHelp": "Introduzca su ingreso mensual promedio en dólares estadounidenses. Una estimación de buena fe está bien.",
+      "monthlyPlaceholder": "p. ej. 7,500",
+      "otherLabel": "Por favor, describa su(s) otra(s) fuente(s) de ingresos",
+      "otherPlaceholder": "Describa su fuente adicional de ingresos"
+    },
+    "regulatory": {
+      "title": "Reconocimiento Regulatorio",
+      "subtitle": "Al completar esta declaración, reconozco lo siguiente:",
+      "agree": "Entiendo y acepto los términos anteriores.",
+      "bullets": {
+        "scrutiny": "Los recientes desarrollos regulatorios han aumentado el escrutinio sobre las transacciones de USDT.",
+        "frozen": "Los fondos asociados con jurisdicciones sancionadas pueden estar sujetos a revisión o congelación.",
+        "required": "Esta declaración es necesaria para mantener el acceso ininterrumpido a los servicios de la plataforma.",
+        "future": "Todas las transacciones futuras se procesarán utilizando activos soportados como USDC.",
+        "protect": "Entiendo que esta medida está diseñada para proteger mi cuenta y garantizar el cumplimiento."
+      }
+    },
+    "terms": {
+      "title": "Términos Regulatorios y Autenticador de Código de Acceso",
+      "subtitle": "Lea cada término cuidadosamente. Una vez que acepte, podrá autoemitir su código de acceso a la declaración a continuación.",
+      "groupA": "A. Términos Regulatorios Internacionales",
+      "groupB": "B. Declaración de AML, CTF y KYC",
+      "groupC": "C. Impuestos, FATCA y CRS",
+      "groupD": "D. Retención de Datos, Privacidad y Recursos",
+      "a": {
+        "fatf": "Confirmo que los fondos que se declaran no son el producto de, ni se utilizarán para, ninguna actividad prohibida bajo los regímenes de sanciones de FATF, OFAC, UE, Reino Unido o ONU.",
+        "share": "Consiento el intercambio transfronterizo de esta declaración y cualquier dato de cumplimiento relacionado con reguladores, instituciones financieras asociadas y organismos de supervisión en jurisdicciones relevantes para la actividad de mi cuenta.",
+        "breakdown": "Entiendo que el depósito de 1,500 USDT se desglosa como <0>1,000 USDT totalmente reembolsables</0> tras la aprobación de cumplimiento y <1>500 USDT como tarifa de procesamiento no reembolsable</1> para revisión, verificación en cadena y mantenimiento de registros regulatorios.",
+        "binding": "Reconozco que enviar el hash de la transacción en cadena, junto con el código de acceso que me emito a mí mismo a continuación, constituye mi aceptación legalmente vinculante de estos términos regulatorios internacionales.",
+        "false": "Entiendo que proporcionar un hash de transacción falso, reutilizado o no verificable resultará en el rechazo inmediato de esta declaración y la pérdida de la parte reembolsable."
+      },
+      "b": {
+        "true": "Declaro que toda la información, documentos y materiales de identificación que he proporcionado son verdaderos, completos y actuales según mi mejor conocimiento.",
+        "notify": "Notificaré de inmediato al equipo de cumplimiento sobre cualquier cambio material en mi identidad, residencia, fuente de fondos o posición de propiedad beneficiaria dentro de los 30 días posteriores al cambio.",
+        "kyc": "Entiendo que la institución puede solicitar documentos adicionales de Conozca a su Cliente (KYC), Diligencia Debida del Cliente (CDD) o Diligencia Debida Mejorada (EDD) en cualquier momento, y que no responder dentro del plazo solicitado puede resultar en la suspensión de la cuenta.",
+        "thirdParty": "Confirmo que no estoy actuando conscientemente en nombre de un tercero no revelado, entidad sancionada, persona políticamente expuesta sin divulgación, o cualquier parte involucrada en el lavado de dinero o financiamiento del terrorismo."
+      },
+      "c": {
+        "tax": "Confirmo que soy responsable de declarar y pagar todos los impuestos adeudados en mis jurisdicciones de residencia fiscal sobre cualquier ingreso, ganancias o tenencias relacionadas con esta cuenta.",
+        "fatca": "Consiento que la institución informe mi información de cuenta a las autoridades fiscales relevantes bajo FATCA, el Estándar Común de Reporte (CRS) y cualquier régimen local equivalente.",
+        "tin": "Proporcionaré un número de identificación fiscal válido (TIN) a solicitud y lo actualizaré cada vez que cambie mi residencia fiscal."
+      },
+      "d": {
+        "retain": "Entiendo que esta declaración y los registros de apoyo se conservarán durante un mínimo de siete (7) años tras el cierre de mi caso, de acuerdo con los estándares internacionales de mantenimiento de registros de servicios financieros.",
+        "process": "Autorizo a la institución a procesar mis datos personales para fines de cumplimiento, prevención de fraude, auditoría e informes regulatorios.",
+        "dispute": "Acepto que cualquier disputa que surja de esta declaración se resolverá bajo la ley aplicable especificada en mi acuerdo de cuenta, y que mi recurso se limita a los remedios disponibles bajo ese acuerdo.",
+        "update": "Reconozco que la institución se reserva el derecho de actualizar estos términos con previo aviso y que mi uso continuado del servicio después de dicho aviso constituye aceptación de los términos actualizados."
+      },
+      "fee": {
+        "totalDeposit": "Depósito Total",
+        "refundableLabel": "Reembolsable",
+        "refundableNote": "Devuelto tras la aprobación de cumplimiento",
+        "processingLabel": "Tarifa de Procesamiento",
+        "processingNote": "Tarifa de revisión no reembolsable",
+        "network": "Red",
+        "networkValue": "TRC20 (Tron)",
+        "depositAddress": "Dirección de Depósito",
+        "noAddress": "Su dirección de depósito dedicada aún no ha sido emitida. Por favor, contacte a su gestor de caso a través del chat en el portal para recibir su dirección antes de completar esta sección.",
+        "txHash": "Hash de Transacción (TX ID) de su depósito de 1,500 USDT",
+        "txHashPlaceholder": "p. ej. 4a8e9f1c5d3b2a7e6f0c1d8b9a4e2f3c...",
+        "txHashHelp": "Pegue el hash de la transacción exactamente como aparece en su billetera o en el explorador de bloques. Lo usamos para verificar su depósito en cadena antes de liberar la parte reembolsable."
+      },
+      "acceptToggle": "He leído y acepto todos los términos regulatorios anteriores (secciones A–D), y entiendo que el depósito de 1,500 USDT se divide en 1,000 USDT reembolsables y 500 USDT como tarifa de procesamiento no reembolsable.",
+      "issueButton": "Obtener Mi Autenticador de Código de Acceso",
+      "issuingButton": "Emitiendo...",
+      "issueHelp": "Acepte los términos anteriores para habilitar este botón. Hacer clic en él emite su código de declaración único.",
+      "issuedTitle": "Su Código de Acceso a la Declaración",
+      "issuedHelp": "Este código ha sido ingresado por usted en el campo de Código de Acceso en la parte superior del formulario. Mantenlo privado: cualquier persona con este código podría intentar presentar una declaración en su caso."
+    },
+    "signature": {
+      "title": "Firma y Autorización",
+      "subtitle": "Al firmar a continuación, certifica que toda la información proporcionada es precisa, veraz y completa.",
+      "fullName": "Nombre Completo (Firma Teclada)",
+      "fullNamePlaceholder": "Escriba su nombre legal completo",
+      "date": "Fecha",
+      "afterSubmission": "Después de la presentación",
+      "afterBullets": {
+        "review": "Su información será revisada por el equipo de cumplimiento.",
+        "confirm": "Recibirá una confirmación una vez que su cuenta sea clasificada como conforme.",
+        "continue": "Puede continuar utilizando la plataforma sin interrupciones.",
+        "future": "Todas las transacciones futuras se realizarán utilizando solo activos soportados."
+      },
+      "submit": "Enviar Declaración",
+      "submitting": "Enviando Declaración…",
+      "footer": "Esta declaración está sellada con fecha, registrada por IP y registrada como una atestación de cumplimiento legal."
+    }
+  },
+  "fields": {
+    "fullName": "Nombre Completo",
+    "fullNamePlaceholder": "Como se muestra en el ID",
+    "email": "Dirección de Correo Electrónico",
+    "registeredUsername": "Nombre de Usuario Registrado",
+    "accountId": "ID de Cuenta (si corresponde)",
+    "country": "País de Residencia",
+    "selectCountry": "Seleccione el país",
+    "dob": "Fecha de Nacimiento",
+    "accessCode": "Código de Acceso",
+    "accessCodePlaceholder": "Introduzca el código de 8 dígitos de su oficial de cumplimiento"
+  },
+  "incomeOptions": {
+    "salary": "Salario / Ingresos por Empleo",
+    "business": "Negocio / Trabajo Autónomo",
+    "investment": "Rendimientos de Inversión (Acciones, Bonos, Fondos)",
+    "crypto": "Comercio / Inversión en Criptomonedas",
+    "realEstate": "Ingresos de Bienes Raíces / Propiedades",
+    "inheritance": "Herencia / Regalo Familiar",
+    "pension": "Pensión / Ahorros para la Jubilación",
+    "saleAssets": "Venta de Activos Personales",
+    "other": "Otro (especifique)"
+  },
+  "attachments": {
+    "title": "Fuente de Ingresos — Documentos de Soporte",
+    "description": "Suba <0>Prueba de Fuente de Ingresos</0> (requerido) — p. ej. recibos de salario recientes, carta del empleador o última declaración de impuestos. Puede adjuntar hasta {{max}} documentos de soporte adicionales (extractos bancarios, estados de dividendos, contratos de venta, etc.). PDF, PNG, JPEG o WebP · Máx 10 MB cada uno.",
+    "psoiMissing": "Se requiere un documento de Prueba de Fuente de Ingresos para enviar esta declaración.",
+    "addMore": "Agregar otro documento de soporte",
+    "psoiLabel": "Prueba de Fuente de Ingresos",
+    "supportingPlaceholder": "Nombre del documento (p. ej. Extracto Bancario Q3)",
+    "replaceFile": "Reemplazar Archivo",
+    "chooseFile": "Elegir Archivo",
+    "noFileSelected": "Ningún archivo seleccionado"
+  },
+  "toast": {
+    "unsupportedTypeTitle": "Tipo de archivo no soportado",
+    "unsupportedTypeDesc": "Por favor, suba un archivo PDF, PNG, JPEG o WebP.",
+    "tooLargeTitle": "Archivo demasiado grande",
+    "tooLargeDesc": "El tamaño máximo del archivo es 10 MB. Este archivo tiene {{size}} MB.",
+    "couldNotReadTitle": "No se pudo leer el archivo",
+    "couldNotReadDesc": "Por favor, intente con un archivo diferente.",
+    "completeTitle": "Por favor, complete el formulario",
+    "completeDesc": "Faltante: {{missing}}",
+    "submissionFailedTitle": "La presentación falló",
+    "submissionFailedDesc": "Por favor, revise el formulario e intente nuevamente.",
+    "submittedTitle": "Declaración enviada",
+    "submittedDesc": "Nuestro equipo de cumplimiento revisará su presentación en breve.",
+    "attachmentFailuresTitle": "Algunos documentos no se pudieron guardar",
+    "attachmentFailuresDesc": "Su declaración fue registrada, pero {{count}} archivo(s) no se pudieron subir ({{names}}). Nuestro equipo de cumplimiento ha sido notificado y solicitará una nueva carga a través de la vista de Documentos si es necesario — no se requiere acción de su parte en este momento.",
+    "networkErrorTitle": "Error de red",
+    "networkErrorDesc": "No se pudo enviar su declaración. Por favor, intente nuevamente.",
+    "issueFailedTitle": "No se pudo emitir el código de acceso",
+    "issueFailedDesc": "Por favor, intente nuevamente.",
+    "noCodeTitle": "No se devolvió código de acceso",
+    "noCodeDesc": "Por favor, contacte con el soporte de cumplimiento.",
+    "codeIssuedTitle": "Código de acceso emitido",
+    "codeIssuedDesc": "Su código de acceso a la declaración se muestra a continuación y ha sido ingresado por usted en la parte superior del formulario.",
+    "networkShortTitle": "Error de red",
+    "copyTitle": "Copiado",
+    "copyDeposit": "Dirección de depósito copiada al portapapeles.",
+    "copyAccessCode": "Código de acceso copiado al portapapeles."
+  },
+  "missing": {
+    "fullName": "Nombre Completo",
+    "email": "Dirección de Correo Electrónico",
+    "country": "País de Residencia",
+    "dob": "Fecha de Nacimiento",
+    "accessCode": "Código de Acceso",
+    "sourceOfIncome": "Fuente de Ingresos",
+    "sourceOfIncomeOther": "Fuente de Ingresos (especifique)",
+    "monthlyIncome": "Ingreso Mensual",
+    "txHash": "Hash de Transacción de la Tarifa de Procesamiento",
+    "signature": "Firma",
+    "signatureDate": "Fecha de Firma",
+    "allConfirmations": "Todas las confirmaciones de cumplimiento",
+    "psoi": "Documento de Prueba de Fuente de Ingresos",
+    "supportingLabel": "Etiqueta para cada documento de soporte"
+  },
+  "yes": "Sí",
+  "no": "No",
+  "status": {
+    "submittedTitle": "Declaración Enviada",
+    "submittedDesc": "Gracias. Su Declaración de Cumplimiento ha sido recibida y ahora está siendo revisada por nuestro equipo de cumplimiento. Se le notificará tan pronto como la revisión esté completa.",
+    "submittedOn": "Enviado el {{date}}",
+    "approvedTitle": "Cumplimiento Confirmado",
+    "approvedDesc": "Su declaración ha sido revisada y aprobada. Su cuenta está clasificada como conforme y puede continuar utilizando la plataforma sin interrupciones.",
+    "rejectedTitle": "La Declaración Requiere Atención",
+    "rejectedDesc": "Nuestro equipo de cumplimiento ha señalado su presentación anterior. Por favor, contacte con el soporte para los próximos pasos.",
+    "rejectedNotes": "Notas del revisor",
+    "noneTitle": "No Se Requiere Declaración",
+    "noneDesc": "Su cuenta no requiere actualmente una Declaración de Cumplimiento. Su oficial de cumplimiento le notificará aquí si algo cambia.",
+    "attachmentsTitle": "Documentos Adjuntos ({{count}})"
+  }
+}

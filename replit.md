@@ -1,253 +1,110 @@
-# Overview
+# IBCCF - International Blockchain Complaints Forum
 
-This is an enterprise-grade secure customer portal for the **International Blockchain Community Complaints Forum (IBCCF)** with comprehensive case management and correspondence workflows. The system allows administrators to create and manage cases with unique access codes, while users can access their specific cases using these codes. Each case features customized letter content, three-stage required actions (Urgent→Processing→Resolved), and 40+ premium enterprise features. The application is built as a full-stack TypeScript application with a React frontend and Express backend, using PostgreSQL for data persistence.
+A full-stack web portal for fraud prevention, blockchain platform verification, and security incident case management, with AI-assisted community engagement.
 
-## Routing Structure
-- **/** - Public landing page with IBCCF branding, hero section, 3-step fraud reporting process, privacy section
-- **/verify** - Secure verification portal for access code entry
-- **/request-access** - Access key request and status check page
-- **/dashboard** - User portal (requires valid access code)
-- **/admin** - Admin control panel
-- **/admin/support** - Customer Service Dashboard with real-time chat management, visitor tracking, AI suggestions
+## Run & Operate
+All commands run from the repo root. There is a single `package.json`; `client/` and `server/` are source folders, not separate packages.
+- **Dev (client + server on :5000)**: `npm run dev` — tsx runs `server/index.ts`, which mounts the Vite dev middleware.
+- **Build / Run prod**: `npm run build` (client → `dist/public/`, server → `dist/index.cjs`), then `npm start`.
+- **Typecheck**: `npm run check`. **Tests**: `npm test` (Vitest).
+- **DB push**: `npm run db:push` (drizzle-kit from `shared/schema.ts`). If it fails with a type-cast error, run `bash scripts/db-migrate.sh` first — it applies idempotent `ALTER TABLE … TYPE … USING` migrations for columns whose type changed post-creation (e.g. `community_threads.view_count`/`reply_count` text→integer). Also runs automatically in `scripts/post-merge.sh`. On a `db-migrate.sh`/drift-check failure there, `scripts/notify-post-merge-failure.ts` fires a best-effort Slack/email alert before aborting — see Environment for the enabling vars.
+- **Schema drift pre-check**: `npm run db:check-drift` (`scripts/check-schema-drift.ts`) compares every column's declared type in `shared/schema.ts` against the live DB via drizzle-orm introspection and exits non-zero on mismatch; runs in `scripts/post-merge.sh` before `db:push`. Fix a new mismatch by adding an idempotent `USING`-cast block to `scripts/db-migrate.sh`. Connect timeout defaults to 10000ms (`SCHEMA_DRIFT_CONNECT_TIMEOUT_MS`); connect failures are classified (refused/DNS/timeout/auth) for easy diagnosis.
+- **Migration cast coverage check**: `npm run db:check-migrate-coverage` (`scripts/check-migrate-coverage.ts`) catches three drift classes missing a fix in `scripts/db-migrate.sh`: a text→`integer`/`boolean` type change without a `USING` cast, any new column on an existing table without an `ADD COLUMN IF NOT EXISTS` guard, and a new table with integer/boolean columns without a `CREATE TABLE IF NOT EXISTS` fallback — so a silently-skipped `db:push` is caught at the table level too, not just per-column. It also prints (non-blocking) `console.warn` diagnostics when an `ADD COLUMN IF NOT EXISTS` guard exists but its length/precision modifier (e.g. `varchar(50)`) disagrees with the one declared in `shared/schema.ts` (e.g. `varchar(255)`) — see `findAddColumnGuardPrecisionMismatch` in `scripts/migrateGuardMatchers.ts`; a guard that omits the modifier entirely is intentionally not flagged. Runs in `scripts/post-merge.sh` right after `db:check-drift`. See [`docs/ci-checks.md`](docs/ci-checks.md) ("Unit Tests / Schema Drift Guard").
+- **Before you Publish — production migration safeguard**: `scripts/db-migrate.sh` only ever runs against **dev** (via `scripts/post-merge.sh`). Replit's Publish flow auto-diffs `shared/schema.ts` against **production** with its own plain `ALTER TABLE ... TYPE ...` (no `USING` clause), so a column type change Postgres can't implicitly cast (e.g. text→integer/boolean) fails Publish at "Provision" even though dev already has the correct cast. **Before publishing any column-type change**: run `npm run db:check-drift:production` (needs `PRODUCTION_DATABASE_URL`; read-only, safe anytime) to check whether production has the same drift. If so, the cast must be applied to production **manually** via Replit's production DB console (Deployments pane) or an operator with direct write access — copy the matching block from `scripts/db-migrate.sh`. Never run DDL against production directly from this repo; only Replit's Publish flow or a human operator via Replit's own console may change the production schema.
+- **Security lint**: `npm run lint:security` (`scripts/check-zod-error-leak.sh`) scans `server/**/*.ts` for raw ZodError array forwarding to clients (e.g. `res.json({ error: error.errors })`). **Never** send `.errors` directly — extract a plain string. Suppress rare false positives with `// zod-error-leak-ok` (see Gotchas → ZodError leak check scope for cross-file limitations).
+- **i18n key check**: `npm run check:i18n` diffs each locale's (`de`, `es`, `fr`, `pt`, `zh`) dot-notation keys against the English reference (namespaces auto-discovered from `en/`). `npm run i18n:fix` scaffolds missing locale files with `[UNTRANSLATED]` stubs; `npm run i18n:translate` fills them via OpenAI (`AI_INTEGRATIONS_OPENAI_API_KEY`/`OPENAI_API_KEY`; `--locale`, `--namespace`, `--dry-run`; idempotent). `npm run check:untranslated-strict` fails on any remaining stub; `check:untranslated-emails` scopes that to the `emails` namespace. `npm run check:seo-structure` guards non-English `seo.json` structure. `npm run check:replit-namespaces` verifies the namespace list documented here matches `client/src/i18n/locales/en/`. Pre-push runs the untranslated-emails check in warn-only mode.
+- **Narration audio**: `npm run narration:generate` regenerates per-scene MP3s from captions and re-stamps the freshness manifest (needs `OPENAI_API_KEY`). `npm run narration:stamp` re-stamps only.
+- **Pre-push hook**: installed by `scripts/install-hooks.sh` (`prepare` lifecycle; source `.husky/pre-push`; bypass with `--no-verify`). Runs `npm run check:skip-guards`, verifying every `test.skip()` env guard in `e2e/*.spec.ts` is declared in CI.
 
-## Branding
-- **Color Scheme:** Primary #004182, Accent #004AB3
-- **Icons:** Shield icons from lucide-react (no external logo images)
-- **Fonts:** Public Sans (body), Merriweather (headings)
+### CI / required branch protection checks
+Every check below runs in GitHub Actions and is a required branch-protection status check ("Workflow / Job"). **Full description, rationale, and source/test file for each one lives in [`docs/ci-checks.md`](docs/ci-checks.md)** — read that file before touching CI config, adding a test, or investigating a failing check. To apply or verify the branch protection rules, run `bash scripts/setup-github-protection.sh` / `bash scripts/check-github-protection.sh`. The `Unit Tests / Protection Checks Sync`, `Unit Tests / Action Job Coverage`, `Unit Tests / Replit.md Annotation Coverage`, and `Unit Tests / CI Checks Doc Coverage` checks keep `scripts/required-checks.txt`, this list, and `docs/ci-checks.md` from drifting apart — if you add or rename a check, update all three.
 
-## Admin Access
-- **Username:** Admin2025
-- **Password:** Admin123456789
-- **Demo User Code:** 774982
+- **Smoke Test**: `Smoke Test / Build`, `Smoke Test / Smoke Test`
+- **Unit Tests**: `Unit Tests / Vitest`, `Unit Tests / Recording Validation`, `Unit Tests / Narration Freshness`, `Unit Tests / Tutorial Video Route Tests`, `Unit Tests / i18n Namespace Doc Check`, `Unit Tests / i18n Date Guard`, `Unit Tests / Skip-Guard Coverage`, `Unit Tests / Narration Path Filter Sync`, `Unit Tests / Recordings Path Filter Sync`, `Unit Tests / Skip Pattern Self Test`, `Unit Tests / Protection Checks Sync`, `Unit Tests / Admin Login Rate Limit`, `Unit Tests / Admin Emergency Reset Tests`, `Unit Tests / Public GET Rate Limit Tests`, `Unit Tests / Security Flags Shape Tests`, `Unit Tests / Cross-Tab Sync Hook Tests`, `Unit Tests / Expandable Failure List Tests`, `Unit Tests / SMTP SSL Detection Tests`, `Unit Tests / ESLint`, `Unit Tests / Pre-Push Hook Install`, `Unit Tests / Community Thread Views Cleanup Tests`, `Unit Tests / Community View Cache Throttle Tests`, `Unit Tests / Community Keyword Moderation Tests`, `Unit Tests / Community Moderation Cache Invalidation Tests`, `Unit Tests / Community Flagged Selection Pruning Tests`, `Unit Tests / Keyword Disable Toggle Fail Tests`, `Unit Tests / Keyword Toggle Success Tests`, `Unit Tests / Community Flagged Select All Filter Tests`, `Unit Tests / Portal Closure Warning Tests`, `Unit Tests / Bulk Broadcast RBAC Tests`, `Unit Tests / Portal Auto-Logout Tests`, `Unit Tests / Portal Lockout Toast Once Tests`, `Unit Tests / Portal Lockout Toast Message Tests`, `Unit Tests / Portal Warning Expiry Sweep Tests`, `Unit Tests / Pathway Reset Tests`, `Unit Tests / Secure Portal Lockout Guard Tests`, `Unit Tests / Disabled Access 403 Tests`, `Unit Tests / Cases Tab Reactivation Badge Tests`, `Unit Tests / Reactivation Pill Sync Tests`, `Unit Tests / Reactivation Pill Sync Integration Tests`, `Unit Tests / Deposit Receipts Dialog Actioned Tests`, `Unit Tests / Reactivation Receipt Alert Muted Tests`, `Unit Tests / Reactivation Page Message Tests`, `Unit Tests / All Receipts Tab Category Filter Tests`, `Unit Tests / All Receipts Tab Inbox Reactivation Tests`, `Unit Tests / All Receipts Tab Status Chip Tests`, `Unit Tests / All Receipts Tab Reactivation Approval Toast Tests`, `Unit Tests / App Stage History Source Assertion Tests`, `Unit Tests / App Payout Wallet History Source Assertion Tests`, `Unit Tests / App Wallet Cleanup Source Assertion Tests`, `Unit Tests / Sentinel Comment Guard`, `Unit Tests / Sentinel Self Test`, `Unit Tests / Action Job Coverage`, `Unit Tests / Access Key Requests Admin List Tests`, `Unit Tests / Key Requests Management Auth Header Tests`, `Unit Tests / No Recipient Email Skip Tests`, `Unit Tests / Community Flagged Bulk Action Tests`, `Unit Tests / Community Flagged CSV Export Tests`, `Unit Tests / Community Flagged Auth Guard Tests`, `Unit Tests / Sub-Admin Login And Users Tests`, `Unit Tests / Replit.md Annotation Coverage`, `Unit Tests / CI Checks Doc Coverage`, `Unit Tests / Portal Warning Email Retry Tests`, `Unit Tests / Public POST Rate Limit Tests`, `Unit Tests / Sub-Admin Session Revocation Tests`, `Unit Tests / Testimonials Saving Tests`, `Unit Tests / Test Suite Type Check`, `Unit Tests / Cases Tab Refund Claim Filter Chip Tests`, `Unit Tests / Active Warnings Tests`, `Unit Tests / AI Chat Global Budget Snapshot Tests`, `Unit Tests / AI Chat Global Budget Window Snapshot Tests`, `Unit Tests / AI Chat Per-IP Rate Limit Snapshot Tests`, `Unit Tests / Communications Active Warnings Badge Tests`, `Unit Tests / Emails Translations Stub Guard Tests`, `Unit Tests / Service Degraded Banner Tests`, `Unit Tests / Audit Email Tag Coverage Tests`, `Unit Tests / Case Created Email Patch Tests`, `Unit Tests / Allowlist Staleness Check`, `Unit Tests / Chat Template Quick Send Tests`, `Unit Tests / Satisfaction Token Tests`, `Unit Tests / Bot Response Generator Tests`, `Unit Tests / Schema Drift Guard`, `Unit Tests / Admin Tab Search Clear Tests`
+- **Security Lint**: `Security Lint / Security Lint`
+- **i18n Key Consistency**: `i18n Key Consistency / i18n Key Consistency`, `i18n Key Consistency / Untranslated Stub Guard (strict)`, `i18n Key Consistency / Emails Namespace Untranslated Guard`, `i18n Key Consistency / seo.json Structural Guard`
+- **Narration Freshness**: `Narration Freshness / Narration Freshness Check`, `Narration Freshness / Tutorial Recording Clips Freshness Check`
+- **E2E Tests**: `E2E Tests / Playwright E2E — Prod Escape-Hatch Banner`, `E2E Tests / Playwright E2E — Portal Warning`, `E2E Tests / Playwright E2E — Reactivation Deposit`, `E2E Tests / Playwright E2E — Portal Warning Contact Support`, `E2E Tests / Playwright E2E — Reactivation Receipt Approval`, `E2E Tests / Playwright E2E — Cases Pagination Live DB`, `E2E Tests / Playwright E2E — Case Creation Emails`, `E2E Tests / Playwright E2E — Refund Claim Admin-Only Guard`, `E2E Tests / Playwright E2E — Refund Claim Certificate Guard`, `E2E Tests / Playwright E2E — Certificate Fee & Stamp Duty Mirror Guard`, `E2E Tests / Playwright E2E — Portal Warning Expiry Notification`, `E2E Tests / Playwright E2E — Stage Transition Guard`, `E2E Tests / Playwright E2E — Stage Override UI Guard`, `E2E Tests / Playwright E2E — Health AI Status`, `E2E Tests / Playwright E2E — Service Health Panel`, `E2E Tests / Playwright E2E — All Receipts Reactivation Filter`, `E2E Tests / Playwright E2E — Community Keyword Moderation`, `E2E Tests / Playwright E2E — Reactivation Badge Count Sync`, `E2E Tests / Playwright E2E — Reactivation Nav Badge From Other Tabs`, `E2E Tests / Playwright E2E — Reactivation Badge Mobile Nav`, `E2E Tests / Playwright E2E — Reactivation Page Message`, `E2E Tests / Playwright E2E — Active Warnings Badge`, `E2E Tests / Playwright E2E — Access Code Export Failures`, `E2E Tests / Playwright E2E — Admin Doc Preview Popover Toast Messages`, `E2E Tests / Playwright E2E — Admin Service Degraded Banner`, `E2E Tests / Playwright E2E — Admin Emergency Reset`
 
-# User Preferences
+### Environment
+- **Required at boot**: `DATABASE_URL` (or `NEON_DATABASE_URL`), `ADMIN_USERNAME`, `ADMIN_PASSWORD`.
+- **Required for full functionality** (degrade gracefully if missing): `OPENAI_API_KEY` (community AI → static templates); the seven `SMTP_*` vars `SMTP_HOST/PORT/USER/PASSWORD/FROM_NAME/FROM_ADDRESS/REPLY_TO` (email → best-effort, never blocks requests).
+- **Optional observability**: `SENTRY_DSN`, `VITE_SENTRY_DSN`, plus `SENTRY_AUTH_TOKEN/ORG/PROJECT` for build-time sourcemap upload.
+- **Optional post-merge failure alerting**: `SLACK_WEBHOOK_URL` and/or the seven `SMTP_*` vars, set as **Replit secrets** (not GitHub Secrets — fires from `scripts/post-merge.sh`, which runs in Replit, not Actions). On a `db-migrate.sh`/`check-schema-drift.ts` failure, `scripts/notify-post-merge-failure.ts` posts Slack/email naming the failed step, exit code, and output tail. Best-effort — never changes the post-merge exit code.
+- **Optional live chat** (Tawk.to): `VITE_TAWKTO_PROPERTY_ID` + `VITE_TAWKTO_WIDGET_ID` — when both set, shows a "Contact Support"/"Open Live Chat" button on the portal closure warning and `/contact-admin`. Degrades gracefully when absent.
+- **Optional bulk-action confirmation threshold**: `VITE_BULK_CONFIRM_THRESHOLD` (default 20) — case count above which admin bulk Email/Block IPs/Access Code in `CasesTab.tsx` confirms before firing. Must be a positive integer or falls back to default.
+- **`PUBLIC_BASE_URL`** (recommended off-Replit): app's public origin (no trailing slash), used for absolute links in emails, AI-failure alerts, and CORS. Resolved by `server/lib/publicBaseUrl.ts`: `PUBLIC_BASE_URL` → `APP_BASE_URL` (legacy) → `REPLIT_DOMAINS`/`REPLIT_DEV_DOMAIN` (Replit-only) → hard-coded fallback. Self-hosted deployments should set it explicitly.
+- **Optional admin emergency-reset recovery**: `ADMIN_RECOVERY_EMAIL` — enables the self-service "Locked out?" link on `/admin` (`POST /api/admin/emergency-reset/request` + `/confirm`, confirmed at `/admin/emergency-reset?token=...`). Without it that flow returns 503; see "Admin login recovery" below.
 
-Preferred communication style: Simple, everyday language.
+### Admin login recovery
+- **Three layers, in precedence order**: (1) a DB-stored `admin_password_override`/`admin_username_override` row in `app_settings` (set via the dashboard) always wins when present; (2) otherwise `ADMIN_USERNAME`/`ADMIN_PASSWORD` env vars/secrets are the fallback; (3) `admin_users` rows are independent sub-admin accounts, unrelated to the override/env-var pair.
+- **Secrets only take effect after a republish** — a running instance reads `ADMIN_USERNAME`/`ADMIN_PASSWORD` once at process start. Changing the secret requires a republish (Deployments → Redeploy, or `npm run build && npm start` self-hosted) before it takes effect. Most common cause of "I reset the secret but login still fails."
+- **A DB override silently shadows the env var.** If set, changing `ADMIN_PASSWORD`/`ADMIN_USERNAME` has no effect until the override is cleared. The dashboard Settings tab shows a banner + one-click "Reset to env var" button (`DELETE /api/admin/password-override`) — but it requires being logged in already.
+- **Self-service recovery**: if `ADMIN_RECOVERY_EMAIL` is set, click "Locked out?" on `/admin` (or `POST /api/admin/emergency-reset/request`). A single-use 30-minute link is emailed; `/admin/emergency-reset?token=...` sets a new password (and optionally username), clearing any stale override without a republish or DB console. Rate-limited to 3/hour/IP; every step audit-logged.
+- **Manual recovery (no `ADMIN_RECOVERY_EMAIL`)**: (1) rotate `ADMIN_PASSWORD` and republish; (2) if login still fails, an override is active — use the database skill to run `UPDATE app_settings SET value = '' WHERE key IN ('admin_password_override', 'admin_username_override')` (needs write access) so login falls back to the rotated env vars.
 
-# System Architecture
+## Stack
+- **Frontend**: React 19, Vite, Tailwind CSS v4, shadcn/ui, Wouter (routing), TanStack Query (state).
+- **Backend**: Express.js + TypeScript (tsx). **DB**: PostgreSQL via Drizzle ORM (node-postgres). **Auth**: Passport.js (session-based). **Validation**: Zod.
 
-## Frontend Architecture
+## Where things live
+- `client/src/`: React frontend — pages in `pages/`, portal views in `pages/portal/`, admin in `pages/AdminDashboard.tsx`, shadcn primitives in `components/ui/`.
+- `server/`: Express backend — entry `server/index.ts`, routes registered in `server/routes.ts`, modules in `server/routes/`, services in `server/services/`, DB access in `server/storage.ts`, Sentry in `server/instrument.ts`.
+- `shared/schema.ts`: **single source of truth** for DB schema + Zod types (change only with explicit approval — see User preferences).
+- `shared/constants.ts`, `shared/stageInstructions.ts`, `shared/types.ts`: cross-cutting constants and copy.
+- `migrations/`: Drizzle SQL (apply via `npm run db:push`). `script/build.ts`: prod build orchestration. `scripts/post-merge.sh`: `drizzle-kit pull` to sync schema after merges.
+- `attached_assets/`: user-uploaded reference assets. `RAILWAY_DEPLOY.md`, `HOSTINGER_DEPLOY.md`: external hosting playbooks for managed Node.js hosting (Replit Deployments is primary). `docs/self-hosting-hostinger.md`: full self-hosting runbook for a Hostinger Cloud **VPS** (PM2 process manager + Nginx reverse proxy + Let's Encrypt TLS) — the app is portable and has no hard Replit dependency at runtime (see `server/lib/publicBaseUrl.ts` and the conditional Replit-only Vite plugins in `vite.config.ts`).
 
-**Framework & Build System**
-- React with TypeScript using Vite as the build tool
-- Single Page Application (SPA) with client-side routing via Wouter
-- Component library based on Radix UI primitives with shadcn/ui styling system
-- Tailwind CSS for styling with custom theme configuration
+## Product
+- **Case management**: report, track, and resolve blockchain complaints in a secure portal.
+- **Fraud prevention & verification**: platform verification and security-incident management.
+- **AI community forum**: 650 bot profiles, auto-generated threads, GPT-4o-mini replies (resilient to a missing API key).
+- **Regulatory compliance**: multi-section Declaration of Compliance; admin tools to manage and re-ask declarations.
+- **Regulatory Document Center**: users upload requested docs (proof of income, source of funds, KYC/ID, FATCA/CRS, custom) in the portal `Documents` view; admins request/review/approve/reject from the case dialog with audit logging + email.
+- **Admin dashboards**: analytics, content management, support, communication, audit-log retention.
+- **PWA**: installable on mobile.
 
-**State Management**
-- TanStack Query (React Query) for server state management and data fetching
-- Local component state using React hooks
-- Form handling with React Hook Form and Zod validation
+## Architecture decisions
+- **Premium UI/UX**: 3D depth, glassmorphism, neon accents, animated gradients, drifting orbs.
+- **Unified PortalShell**: all authenticated user views wrap in `PortalShell` for consistent nav + case progress.
+- **Robust admin controls**: granular case control (edit non-sensitive fields, impersonate users, manage declarations) with full audit logging.
+- **Optimistic UI**: admin actions (e.g. receipt approval) update optimistically with server-side rollback on failure.
+- **Accessibility (WCAG 2.1 AA)**: every page has one `<main id="main-content" tabIndex={-1}>`; global skip-to-main link in `App.tsx`/`index.css`. Global `:focus-visible` outline (gold #c8a951 / dark #ffd97a) and `prefers-reduced-motion` block in `index.css`; Framer Motion honors `useReducedMotion()`. Toasts use Radix `ToastViewport label="Notifications"`. Decorative SVGs are `aria-hidden`. **New top-level pages must include the `<main id="main-content">` landmark.**
+- **i18n (multi-language UI)**: react-i18next, six locales (`en`, `es`, `fr`, `de`, `pt`, `zh`). Config in `client/src/i18n/index.ts`; JSON in `client/src/i18n/locales/<code>/<namespace>.json` (namespaces auto-discovered from `en/`: `access`, `common`, `community`, `declaration`, `division`, `emails`, `landing`, `legal`, `portal`, `privacy`, `seo`, `stages`, `terms`, plus internal `admin`). Locale auto-detected from `navigator.language` (region stripped), persisted to `localStorage` (`ibccf.locale`), exposed via `useLocale()`; `useSyncHtmlLang()` (mounted in `App.tsx`) keeps `<html lang>` in sync. `<LanguageSwitcher>` is in the marketing header and portal shell. Prefer `useFormat()` Intl helpers (`formatDate/DateTime/Number/Currency/Relative`) over ad-hoc `toLocaleString()`. New language = matching JSON per namespace + register in `SUPPORTED_LOCALES`. Admin stays English. String extraction is incremental — migrate as pages are touched. Deposit/payout-wallet/stage-CTA copy in `shared/stageInstructions.ts` must stay verbatim (see Gotchas).
+- **Stage-aware portal UX**: each of the 14 withdrawal stages is classified in `client/src/pages/portal/stageCta.ts` as `user_action` / `admin_action` / `system_processing`. Dashboard shows one per-stage CTA card (copy from `shared/stageInstructions.ts`); progress tracker color-codes by classification (amber = user, blue = compliance, slate = system). Transitions observed client-side via `client/src/lib/stageHistory.ts` (no schema changes) drive a one-time banner + Activity Timeline entries.
+- **Supporting Document badge refresh contract**: every surface where an admin approves/rejects a user supporting document MUST refresh counts via `loadUserDocPendingCounts()` (`AdminDashboardContext`). Wired: `SupportingDocumentsTab`, `SupportingDocsQuickPopover`, `SupportingDocumentsPanel`. New surfaces must call it directly or via an `onActioned` prop.
+- **Shared HTML shell / SEO structured data**: `client/index.html` ships a generic English `Organization`+`WebSite` JSON-LD block (`@graph`) plus absolute `og:image`/`twitter:image` as fallback. `server/seo/prerender.ts` replaces it per-request with a locale/host-aware graph (`Organization`, `WebSite`, route `WebPage`, or `BreadcrumbList` for `/divisions/*`) and rewrites image URLs against the same `baseUrl` as canonical/`og:url`. Brand fonts (Public Sans, Merriweather) are self-hosted via `@fontsource/*`.
+- **Unified receipt uploads**: the portal has one Uploads view (nav id stays `deposit` for the mobile bottom-bar contract) with a category dropdown — `activation` / `reissue` / `certificate` / `stamp_duty` / `other` — gated by case state. Each category routes to its existing endpoint: activation/reissue/other → `POST /api/cases/:id/deposit-receipts`, certificate → `.../certificate/fee-payments`, stamp_duty → `.../stamp-duty/receipts`. `deposit_receipts.category` is a nullable app-layer enum; POST validates `category==='reissue' ⟺ reissueId`. Admin has a cross-case **All Receipts** tab (`GET /api/deposits/all-receipts`) and a merged per-case **Uploads** panel (`GET /api/cases/:id/all-receipts`) via `collectMergedReceipts`, stripping the base64 blob.
+- **Bulk access-code rotation**: `POST /api/cases/bulk/rotate-access-code` (registered before `/:id/rotate-access-code` to avoid the literal `"bulk"` id colliding with the single-case route) lets an admin rotate the access code for up to 500 cases in one call — same per-case behavior as the single-case rotate (unique-code retry loop, audit log `rotate_access_code`, `deleteSessionsByCaseId` to force-drop any active portal session) plus a best-effort `sendAccessCodeEmail` notification with the new code where an email is on file. Rotation success and notification success are tracked independently in each result row (`success`/`notified`/`notifyError`), so a rotated-but-not-notified case still surfaces for admin follow-up. The CasesTab "Access code" sidebar panel exposes this below the existing single-purpose Send section — pairs naturally with the "Legacy access codes" filter — with its own failure list/retry/CSV-export (`access-code-rotate-*` testids) and a large-batch confirm dialog (`dialog-confirm-access-code-rotate`) mirroring the existing send-access-code confirm gate.
 
-**Key Design Patterns**
-- Component composition using Radix UI slot pattern
-- Custom hooks for reusable logic (e.g., `use-mobile`, `use-toast`)
-- Path aliases for clean imports (`@/`, `@shared/`, `@assets/`)
+## User preferences
+I prefer clear and concise communication. For any proposed changes or new features, provide a high-level overview of the impact before diving into details. I favor an iterative approach with frequent progress updates and chances for feedback. Prioritize security and performance. **Avoid making changes to `shared/schema.ts` without explicit approval.**
 
-**UI/UX Approach**
-- Responsive design with mobile-first approach
-- Print-optimized layouts for letter generation
-- Motion animations using Framer Motion for enhanced user experience
-- Toast notifications for user feedback
+## Gotchas
+- **Portal-warning expiry sweep cadence**: `runPortalWarningExpirySweep` in `server/portal-warning-expiry-sweep.ts` runs every **5 minutes** (plus once at boot). If you change the interval, update this note and the log message in `startPortalWarningExpirySweep`.
+- **Deposit messaging**: the 1,500 USDT activation deposit breaks down as **1,000 USDT refundable** activation balance + **500 USDT non-refundable** processing fee. Never imply the full amount is refundable.
+- **Admin auth header**: all admin client-side mutating fetches (`PATCH`/`POST`/`DELETE`) must send `Authorization: Bearer ${authToken}` — missing it causes silent 401s.
+- **Portal case field allowlist**: any new admin-controlled case field the portal must react to has to be added to the allowlist in `GET /api/cases/access/:code`.
+- **Sidebar group assignment**: every portal `NavItem` in `PortalShell.tsx` MUST set a `group` (`overview` | `withdrawal` | `compliance` | `communication` | `account`); the grouped sidebar and mobile "More" sheet only render known groups, so a missing/typo'd group silently drops the link. The mobile bottom bar shows only `dashboard`, `letter`, `deposit`, `messages`; anything else lands in "More".
+- **Visitor heartbeat margin**: if `HEARTBEAT_INTERVAL` in `client/src/hooks/useVisitorTracking.ts` changes, update `staleTimeout` in `server/routes/visitors.ts` to keep the 3x margin.
+- **Satisfaction-token single-use enforcement**: `server/lib/satisfactionToken.ts` HMAC tokens embed a random nonce; `POST /api/visitors/satisfaction` must call `storage.claimSatisfactionTokenNonce(nonce, expiresAt)` (DB primary-key insert into `satisfaction_token_nonces`, authoritative across autoscale instances) and reject with 409 on `false` — signature/expiry verification alone doesn't prove the token wasn't already redeemed. `deleteExpiredSatisfactionTokenNonces()` sweeps every 15 minutes from `server/index.ts`.
+- **DB integrity constraints**: `cases.withdrawal_stage` (1-14 or NULL), `cases.declaration_access_code` (unique), `active_visitors` (upsert behavior).
+- **Recipient email locale**: `cases.preferred_locale` is the source of truth for transactional-email language. `sendCaseEmailWithAudit` (`server/services/emailNotify.ts`) resolves it via `resolveRecipientLocale(caseId, override?)` so admin-triggered sends reach the user's language. Persisted via `GET /api/cases/access/:code` (writes when it differs) and `POST /api/cases/access/:code/locale` (called by `LanguageSwitcher`). Audit rows include the resolved locale.
+- **Transactional emails**: all case-event notifications flow through `EmailService` + `sendCaseEmailWithAudit` — best-effort, never blocks the request, audit-logged (`email_<tag>` / `email_<tag>_failed`). "Letter ready" fires only on the false→true transition of `cases.letterSent` in `PATCH /api/cases/:id`.
+- **Non-blocking admin email dispatch**: `POST /:id/email`, `/:id/send-stage-email`, `/:id/toggle-access` (`server/routes/cases.ts`) respond as soon as the DB commits, then dispatch SMTP fire-and-forget, returning `emailDispatched: true` (not `emailSent`/`emailError`) — confirm delivery via audit rows.
+- **Verified payout wallet**: admin-designated disbursement address per case (`cases.payout_wallet_*`). **Display only** — the platform never holds/routes/relays funds. `payoutWalletVerifiedAt/By` are server-stamped in `PATCH /api/cases/:id` only when address/asset/network/note actually change. Emits `payout_wallet_set`/`payout_wallet_updated` audit logs + best-effort email; portal observation in `client/src/lib/payoutWalletHistory.ts` drives a one-time banner + Activity Timeline entries.
+- **Regulatory documents**: `PATCH /api/document-requests/:id` is **authenticated** — admin bearer OR a portal session bound to the owning case (`isAuthorizedForCase`, `server/routes/content.ts`). Force-sets `status='submitted'`; rejects anything not a base64 data URL of `application/pdf`/`image/(png|jpeg|webp)` ≤ 10 MB. Approve/reject **require admin bearer**. Categories are enforced at the route layer, not the DB.
+- **ZodError leak check scope**: `npm run lint:security` (Pass D) catches within-file `.errors`/`.issues` forwarding but **not** cross-file helpers. Cross-file taint analysis is permanently out of scope (disproportionate complexity); code review is the backstop. Suppress a legitimate cross-file case at the **call-site line**: `// zod-error-leak-ok — cross-file helper; returns only error strings, reviewed at PR #NNN`. Never suppress without a justification comment.
+- **Financial signatory documents**: seven post-NDA docs (`source_of_funds`, `beneficial_ownership`, `fatca_crs`, `aml_screening`, `tax_residency_declaration`, `settlement_authorization`, `power_of_attorney`) ship as pre-filled PDF templates the user signs offline and uploads via the standard document-request flow. Generated by `buildFinancialSignatoryTemplate` (`server/services/financialSignatoryPdf.ts`), served by `GET /api/cases/:id/document-templates/:category` (admin bearer OR case-bound portal session). The admin financial-signatory optgroup shows only once `cases.sealedAt` is set (NDA signed).
 
-## Backend Architecture
+## Handoff (transfer of ownership)
+- **Secrets to set on the new account**: `DATABASE_URL` (or `NEON_DATABASE_URL`), `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `OPENAI_API_KEY`, the seven `SMTP_*` vars, optional `SENTRY_*`. None are committed to source. Consider also setting `ADMIN_RECOVERY_EMAIL` (see "Admin login recovery") so a future lockout doesn't need DB console access.
+- **Optional CI alerting secrets** (GitHub Secrets): `SLACK_WEBHOOK_URL` and/or the seven `SMTP_*` vars send branch-protection-drift alerts via `branch-protection.yml`. Without either, the `notify` job only annotates the Actions summary.
+- **Optional CI self-heal secret**: `PROTECTION_SETUP_TOKEN` — a GitHub PAT (`repo` scope or fine-grained `Administration: Read and write`) that lets the weekly `Self-Heal Branch Protection` job re-apply protection automatically (Mondays 07:00 UTC). Without it, self-heal skips gracefully and detection-only checks still run. **Recommended lifetime: 90 days; rotate every 75–80.** `Check PROTECTION_SETUP_TOKEN Expiry` (Mondays 08:00 UTC) alerts 14 days before expiry, or immediately if already invalid; trigger manually via `gh workflow run branch-protection.yml --ref main -f check_pat_expiry=true`.
+- **Database**: production data in Neon Postgres. Dump with `pg_dump $NEON_DATABASE_URL` before transfer; new owner re-points `DATABASE_URL`/`NEON_DATABASE_URL` and runs `npm run db:push` if schema drift exists.
+- **Smoke test after transfer**: `npm install` → `npm run check` → `npm run build` → `npm run dev`, then sign in at `/admin` and confirm a case loads.
+- **Deployment**: Replit Deployments (autoscale); re-publish uses `npm run build` + `npm start`.
+- **Accounts to re-own / rotate**: Neon project, OpenAI org, SMTP provider + the `SMTP_FROM_ADDRESS`/`SMTP_REPLY_TO` mailbox, Sentry org/project, and any custom domain DNS.
 
-**Server Framework**
-- Express.js with TypeScript
-- HTTP server created via Node's native http module
-- RESTful API design with JSON payloads
-
-**Database Layer**
-- Drizzle ORM for type-safe database operations
-- PostgreSQL as the primary database (via Neon serverless driver)
-- Schema-first approach with Drizzle Kit for migrations
-- Zod schemas for runtime validation matching database schema
-
-**Data Model**
-The application uses the following main tables:
-
-*Core Tables:*
-- `cases`: Core case records with access codes, status tracking, user data, deposit addresses, and profile redirect URLs
-- `case_letters`: Customizable letter content per case (headline, body, footer, options)
-- `case_submissions`: Tracks user submissions for each case
-- `chat_messages`: Real-time chat messages between admin and users
-- `admin_messages`: Categorized admin notifications (urgent/processing/resolved) sent to users
-- `deposit_receipts`: User-uploaded deposit receipt images with approval workflow
-- `access_key_requests`: User requests for access keys with admin messaging, approval workflow, and 7-day auto-expiration
-
-*Enterprise Security Tables:*
-- `admin_sessions`: Secure session management for admin users with device tracking and geolocation
-- `admin_two_factor`: TOTP-based 2FA configuration for admin accounts with backup codes
-- `audit_logs`: Complete audit trail of all admin actions for compliance
-
-*Productivity Tables:*
-- `chat_templates`: Quick response templates organized by category for chat replies
-- `case_notes`: Internal admin notes attached to cases with pinning support
-- `translations`: Multi-language support with key-value translations per locale
-- `message_templates`: Reusable message templates for admin communications
-- `scheduled_messages`: Time-delayed message delivery system
-- `help_articles`: Knowledge base articles for user self-service
-- `notifications`: System notifications for admin and users
-- `user_feedback`: User satisfaction ratings and comments
-- `document_requests`: Document request and upload tracking
-- `user_sessions`: User portal session tracking with device info
-
-## Enterprise Features
-
-**Security & Access Control**
-1. Two-Factor Authentication (2FA) - TOTP-based authentication with backup codes
-2. Admin Session Management - Track and revoke active admin sessions
-3. User Session Viewer - Monitor and terminate user portal sessions
-4. Audit Logs - Complete trail of admin actions for compliance
-
-**Communication & Messaging**
-5. Notification Center - Bell icon with real-time alerts and unread counts
-6. Scheduled Messages - Time-delayed message delivery system
-7. Message Templates - Reusable admin message templates
-8. Chat Templates - Quick response templates for support chat
-
-**Content & Localization**
-9. Translation Manager - Multi-language support (EN, ES, ZH, JA, KO, DE, FR)
-10. Help Center - Knowledge base articles organized by category
-
-**User Management**
-11. Admin Users - Role-based access control (super_admin, admin, agent, viewer)
-12. User Feedback - Star ratings (1-5) with comments from users
-13. Document Requests - Request and track document uploads from users
-
-**User Portal Features**
-- Dashboard-centric experience after login with card-based navigation
-- Required Actions section with categorized admin messages (Urgent/Processing/Resolved)
-- Personalized withdrawal letter with submission flow and ticket ID
-- Deposit information display and receipt upload functionality
-- Submission history view
-- Real-time support chat with notification sounds
-- **Withdrawal Progress Tracker** - Admin-controlled 7-stage progress display with activity deposit messaging:
-  - Stage 1: Withdrawal Process Initiated
-  - Stage 2: First Stage Verification Completed
-  - Stage 3: Financial Department Verification
-  - Stage 4: Miners Department
-  - Stage 5: Money Laundry Funds Check
-  - Stage 6: Final Withdrawal Processing
-  - Stage 7: Withdrawal Now Released
-
-**Real-time Features**
-- Chat messaging between admin and users with notification sounds
-- Admin receives notifications for: new user registrations, submissions, and chat messages
-- Categorized admin messages with blinking indicators for urgent items
-- 3-minute session timeout with automatic logout on inactivity
-- Polling-based updates (3s for data, 5s for chat unread counts)
-
-**Customer Service Dashboard (/admin/support)**
-- **Dashboard Tab**: Live stats (active visitors, pending chats, satisfaction score), activity feed, quick actions
-- **Conversations Tab**: All chats with search, unread indicators, real-time messaging, AI smart reply suggestions
-- **Visitors Tab**: Real-time visitor tracking with device type, location, current page, session duration, proactive chat
-- **Statistics Tab**: Chat volume metrics, response times, satisfaction trends, peak hours analysis
-- **Settings Tab**: Availability toggle, AI assistant toggle, notification preferences, working hours
-- **Typing Indicators**: Bidirectional typing status (admin and user) with visual feedback
-- **Desktop Notifications**: Browser notification support with permission handling and sound alerts
-- **Keyboard Shortcuts**: Quick navigation (1-5 for tabs), toggle availability (A), toggle sound (S), show shortcuts (Shift+?)
-- **Transcript Export**: Download chat history as text file for compliance and record keeping
-- **Offline Messaging**: Collect visitor messages when agents are unavailable
-- **Satisfaction Surveys**: Post-chat star ratings and feedback collection
-
-**Storage Pattern**
-- Repository pattern implemented via `IStorage` interface
-- `DatabaseStorage` class provides concrete implementation
-- All database operations return strongly-typed objects
-- Transaction support through Drizzle ORM
-
-**Modular Architecture (Refactored)**
-
-*Frontend Structure:*
-- `client/src/lib/api/` - Typed API layer with React Query hooks
-- `client/src/hooks/` - Custom hooks (useSessionTimeout, useNotificationSound, usePolling, etc.)
-- `client/src/components/portal/` - Reusable portal components (ChatWidget, MessageCard, ProgressStepper, etc.)
-- `client/src/pages/portal/` - Split portal pages (LoginPage, DashboardPage, MessagesPortal, etc.)
-- `client/src/lib/constants.ts` - Stage definitions, API endpoints, messages
-- `client/src/lib/validation.ts` - Centralized Zod validation schemas
-
-*Backend Structure:*
-- `server/routes/` - Feature-based routers (casesRouter, messagesRouter, adminRouter, depositsRouter)
-- `server/services/` - Business logic layer (CaseService, MessageService, NotificationService)
-- `server/middleware/` - Security middleware (rate limiting, CORS, security headers, input sanitization)
-
-*Shared Structure:*
-- `shared/schema.ts` - Drizzle schema definitions with Zod insert schemas
-- `shared/types.ts` - Centralized TypeScript interfaces for all data models
-
-**Security Features**
-- Rate limiting with configurable windows and limits
-- Security headers (X-Content-Type-Options, X-Frame-Options, CSP, etc.)
-- Input sanitization for XSS prevention
-- CORS configuration with allowed origins
-- 3-minute session timeout with automatic logout
-
-**Accessibility**
-- ARIA labels on all interactive elements
-- Role attributes for semantic structure (dialog, progressbar, list, feed)
-- aria-live regions for dynamic content updates
-- Keyboard navigation support
-- Screen reader compatibility
-
-**Error Handling**
-- ErrorBoundary components for graceful error recovery
-- Centralized error handling utilities
-- Loading states with skeleton components
-- Toast notifications for user feedback
-
-**API Structure**
-- Route registration in `server/routes.ts` with modular routers
-- CRUD operations for cases and submissions
-- Access code-based authentication for user access
-- Admin vs. user endpoint separation
-
-**Development vs. Production**
-- Development mode uses Vite middleware for HMR
-- Production mode serves pre-built static assets
-- Custom build script bundles server with esbuild for optimized cold starts
-- Selective bundling of heavy dependencies into server bundle
-
-## External Dependencies
-
-**Database Service**
-- Neon Serverless PostgreSQL (`@neondatabase/serverless`)
-- Connection via DATABASE_URL environment variable
-- Drizzle ORM (`drizzle-orm`) for query building
-- Drizzle Kit for schema management and migrations
-
-**UI Component Libraries**
-- Radix UI primitives for accessible, unstyled components
-- Extensive use of Radix components (Dialog, Dropdown, Select, Toast, etc.)
-- Lucide React for icons
-- Embla Carousel for carousel functionality
-
-**Styling & CSS**
-- Tailwind CSS with custom configuration
-- PostCSS for CSS processing
-- Custom Tailwind plugins and theme extensions
-- CSS variables for theming
-
-**Form Handling & Validation**
-- React Hook Form for form state management
-- Zod for schema validation
-- `@hookform/resolvers` for integrating Zod with React Hook Form
-- `drizzle-zod` for generating Zod schemas from Drizzle tables
-
-**Development Tools (Replit-specific)**
-- `@replit/vite-plugin-runtime-error-modal` for error overlays
-- `@replit/vite-plugin-cartographer` for development features
-- `@replit/vite-plugin-dev-banner` for development banner
-- Custom meta images plugin for OpenGraph image handling
-
-**Build & Deployment**
-- Vite for frontend bundling
-- esbuild for server bundling
-- TypeScript compiler for type checking
-- Custom build script that coordinates client and server builds
-
-**Utilities**
-- `class-variance-authority` for component variant management
-- `clsx` and `tailwind-merge` for className utilities
-- `date-fns` for date formatting
-- `nanoid` for generating unique IDs
+## Pointers
+- **Docs**: [React](https://react.dev/) · [Vite](https://vitejs.dev/) · [Tailwind](https://tailwindcss.com/) · [shadcn/ui](https://ui.shadcn.com/) · [Express](https://expressjs.com/) · [Drizzle](https://orm.drizzle.team/) · [Passport](https://www.passportjs.org/) · [Wouter](https://github.com/molefrog/wouter) · [TanStack Query](https://tanstack.com/query/latest) · [PostgreSQL](https://www.postgresql.org/) · [OpenAI](https://platform.openai.com/docs/api-reference) · [Sentry](https://docs.sentry.io/)

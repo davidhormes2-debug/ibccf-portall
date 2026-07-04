@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useChatAutoScroll } from "@/hooks/use-chat-autoscroll";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -40,10 +41,12 @@ export default function MobileAdminChat() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
+  const _queryClient = useQueryClient();
 
   const [authToken, setAuthToken] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('adminToken');
@@ -52,9 +55,10 @@ export default function MobileAdminChat() {
       setIsLoggedIn(true);
     }
     
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(console.error);
-    }
+    // Service-worker registration is handled globally in main.tsx (with an
+    // environment guard and a tagged warning on failure).  Do not duplicate it
+    // here — a bare .catch(console.error) logs raw error objects to the
+    // console on every mount and fires in dev mode where the SW isn't served.
   }, []);
 
   const getAuthHeaders = (): Record<string, string> => {
@@ -121,16 +125,14 @@ export default function MobileAdminChat() {
     },
   });
 
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
+  // Sticky-bottom auto-scroll: only follow new messages when the user
+  // is already near the bottom of the chat container.
+  const { onScroll: handleMessagesScroll } = useChatAutoScroll(messagesContainerRef, [messages]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoggingIn) return;
+    setIsLoggingIn(true);
     try {
       const res = await fetch("/api/admin/login", {
         method: "POST",
@@ -139,21 +141,43 @@ export default function MobileAdminChat() {
       });
       if (res.ok) {
         const data = await res.json();
-        const token = data.token || "ibc-admin-session-2025";
+        const token = typeof data?.token === "string" ? data.token : "";
+        if (!token) {
+          toast({ variant: "destructive", title: "Login failed", description: "Server did not return a session token" });
+          return;
+        }
         sessionStorage.setItem("adminToken", token);
-        sessionStorage.setItem("adminAuthenticated", "true");
         setAuthToken(token);
         setIsLoggedIn(true);
         toast({ title: "Welcome back!", description: "Logged in successfully" });
+      } else if (res.status === 429) {
+        toast({
+          variant: "destructive",
+          title: "Too many attempts",
+          description: "Please wait 15 minutes before trying again.",
+        });
       } else {
         toast({ variant: "destructive", title: "Login failed", description: "Invalid credentials" });
       }
     } catch {
       toast({ variant: "destructive", title: "Error", description: "Connection failed" });
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const token = authToken || sessionStorage.getItem("adminToken");
+    if (token) {
+      try {
+        await fetch("/api/admin/logout", {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${token}` },
+        });
+      } catch {
+        // ignore — we still want to clear local state
+      }
+    }
     sessionStorage.removeItem("adminToken");
     sessionStorage.removeItem("adminAuthenticated");
     setAuthToken(null);
@@ -199,27 +223,58 @@ export default function MobileAdminChat() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
+        style={{
+          background: 'radial-gradient(ellipse at top, #0a1628 0%, #050912 50%, #02050a 100%)',
+        }}
+      >
+        <div className="absolute inset-0 opacity-30 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.4) 0%, transparent 100%), radial-gradient(1px 1px at 70% 60%, rgba(96,165,250,0.4) 0%, transparent 100%), radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.3) 0%, transparent 100%)',
+          }}
+        />
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-sm"
+          className="w-full max-w-sm relative"
         >
           <div className="text-center mb-8">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#004182]/20 flex items-center justify-center">
-              <Shield className="h-8 w-8 text-[#004182]" />
+            <div className="relative w-16 h-16 mx-auto mb-4">
+              <div className="absolute inset-0 rounded-full bg-blue-500 blur-xl opacity-40" />
+              <div
+                className="relative w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-[#004182] via-[#0a3a8c] to-[#001a3d] border border-blue-400/20"
+                style={{ boxShadow: '0 8px 24px rgba(0,65,130,0.4), inset 0 1px 0 rgba(255,255,255,0.12)' }}
+              >
+                <Shield className="h-8 w-8 text-white" />
+              </div>
             </div>
             <h1 className="text-xl font-bold text-white">IBCCF Admin</h1>
             <p className="text-slate-400 text-sm">Mobile Chat Console</p>
           </div>
           
-          <form onSubmit={handleLogin} className="space-y-4 bg-slate-800 p-6 rounded-2xl">
+          <form
+            onSubmit={handleLogin}
+            className="space-y-4 p-6 rounded-2xl border border-slate-700/40"
+            style={{
+              background: 'linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(2,9,18,0.85) 100%)',
+              backdropFilter: 'blur(16px)',
+              boxShadow: '0 16px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)',
+            }}
+          >
             <Input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="bg-slate-700 border-slate-600 text-white"
+              autoComplete="username"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              disabled={isLoggingIn}
+              className="bg-slate-900/70 border-slate-700 text-white focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/30"
               data-testid="input-mobile-username"
             />
             <Input
@@ -227,21 +282,39 @@ export default function MobileAdminChat() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-slate-700 border-slate-600 text-white"
+              autoComplete="current-password"
+              disabled={isLoggingIn}
+              className="bg-slate-900/70 border-slate-700 text-white focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/30"
               data-testid="input-mobile-password"
             />
-            <Button type="submit" className="w-full bg-[#004182] hover:bg-[#003366]" data-testid="button-mobile-login">
-              Sign In
+            <Button
+              type="submit"
+              disabled={isLoggingIn || !username || !password}
+              className="w-full text-white border-0 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+              style={{
+                background: 'linear-gradient(135deg, #004182 0%, #0a3a8c 100%)',
+                boxShadow: '0 4px 16px rgba(0,65,130,0.4), inset 0 1px 0 rgba(255,255,255,0.12)',
+              }}
+              data-testid="button-mobile-login"
+            >
+              {isLoggingIn ? (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  Signing in…
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
         </motion.div>
-      </div>
+      </main>
     );
   }
 
   if (currentView === "chat" && selectedCase) {
     return (
-      <div className="h-screen bg-slate-900 flex flex-col">
+      <main id="main-content" tabIndex={-1} className="h-screen bg-slate-900 flex flex-col">
         <header className="bg-slate-800 px-4 py-3 flex items-center gap-3 border-b border-slate-700 safe-area-top">
           <Button 
             variant="ghost" 
@@ -271,7 +344,7 @@ export default function MobileAdminChat() {
           </Button>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto p-4 space-y-3">
           {messages.length === 0 ? (
             <div className="text-center text-slate-500 py-12">
               <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
@@ -325,12 +398,12 @@ export default function MobileAdminChat() {
             <Send className="h-4 w-4" />
           </Button>
         </form>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <main id="main-content" tabIndex={-1} className="min-h-screen bg-slate-900">
       <header className="bg-slate-800 px-4 py-3 flex items-center justify-between border-b border-slate-700 sticky top-0 z-10 safe-area-top">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-[#004182]/20 flex items-center justify-center">
@@ -478,6 +551,6 @@ export default function MobileAdminChat() {
           padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
         }
       `}</style>
-    </div>
+    </main>
   );
 }

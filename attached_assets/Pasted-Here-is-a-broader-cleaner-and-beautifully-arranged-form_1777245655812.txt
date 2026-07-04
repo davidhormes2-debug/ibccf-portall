@@ -1,0 +1,126 @@
+Here is a **broader, cleaner, and beautifully arranged form layout** designed specifically for a **professional, modern, compliance‑focused website**.  
+It reads like a real regulatory portal and is structured for clarity, trust, and ease of completion.
+
+You can paste this directly into a webpage, form builder, or dashboard.
+
+---
+
+**DECLARATION OF COMPLIANCE – USER VERIFICATION PORTAL**
+
+Welcome to the Compliance Verification Portal.  
+To ensure continued access to platform services and to maintain alignment with evolving international regulatory standards, all users are required to complete the Declaration of Compliance. This process confirms that your account activity is lawful, compliant, and not associated with any sanctioned jurisdictions or restricted digital assets.
+
+Please complete all sections below.
+
+---
+
+**SECTION 1: PERSONAL IDENTIFICATION**
+
+Full Name  
+[Input Field]
+
+Email Address  
+[Input Field]
+
+Registered Username  
+[Input Field]
+
+Account ID (if applicable)  
+[Input Field]
+
+Country of Residence  
+[Dropdown]
+
+Date of Birth  
+[Date Selector]
+
+---
+
+**SECTION 2: ACCESS CODE AUTHENTICATION**
+
+Please enter the access code provided to you to unlock the declaration form.
+
+Access Code  
+[Input Field – Required]  
+*Provided Code: 09874321*
+
+---
+
+**SECTION 3: SANCTIONS COMPLIANCE DECLARATION**
+
+Please review each statement carefully and confirm your compliance.
+
+I confirm that I am not involved in any activities connected to Iran or any jurisdiction, entity, or individual subject to U.S. sanctions.  
+[Yes / No Toggle]
+
+I confirm that I have not engaged in any direct or indirect transactions involving sanctioned parties.  
+[Yes / No Toggle]
+
+I acknowledge that USDT (Tether) is no longer supported due to regulatory concerns, and I agree not to use USDT on this platform going forward.  
+[Yes / No Toggle]
+
+I understand that providing false or misleading information may result in account restrictions or permanent closure.  
+[Yes / No Toggle]
+
+---
+
+**SECTION 4: APPROVED ASSET CONFIRMATION**
+
+Please select your preferred supported asset for all future transactions.
+
+Preferred Asset  
+[USDC (Polygon)]  
+[Other Supported Asset – Input Field]
+
+---
+
+**SECTION 5: REGULATORY ACKNOWLEDGMENT**
+
+By completing this declaration, I acknowledge the following:
+
+• Recent regulatory developments have increased scrutiny on USDT transactions.  
+• Funds associated with sanctioned jurisdictions may be subject to review or freezing.  
+• This declaration is required to maintain uninterrupted access to platform services.  
+• All future transactions will be processed using supported assets such as USDC.  
+• I understand that this measure is designed to protect my account and ensure compliance.
+
+I understand and agree to the above terms.  
+[Yes / No Toggle]
+
+---
+
+**SECTION 6: SIGNATURE & AUTHORIZATION**
+
+Full Name (Typed Signature)  
+[Input Field]
+
+Date  
+[Date Selector]
+
+I certify that all information provided is accurate, truthful, and complete.  
+[Submit Declaration Button]
+
+---
+
+**SECTION 7: SUBMISSION CONFIRMATION**
+
+After submitting your declaration:
+
+• Your information will be reviewed by the compliance team.  
+• You will receive a confirmation once your account is classified as compliant.  
+• You may continue using the platform without interruption.  
+• All future transactions will be conducted using supported assets only.
+
+If you require assistance at any point, our support team is available to guide you.
+
+---
+
+If you want, I can also create:
+
+• a **minimalist mobile version**  
+• a **dark‑mode version**  
+• a **corporate-branded version with your header/footer**  
+• a **step‑by‑step wizard layout**  
+• or a **PDF‑ready version**
+
+Just tell me the style you prefer.

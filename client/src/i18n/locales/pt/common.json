@@ -1,0 +1,56 @@
+{
+  "appName": "IBCCF",
+  "appFullName": "Fórum Internacional de Reclamações da Comunidade Blockchain",
+  "language": {
+    "label": "Idioma",
+    "switcherAriaLabel": "Alterar idioma",
+    "emailNoticeTitle": "Idioma atualizado",
+    "emailNoticeDescription": "Os próximos e-mails também serão enviados em {{language}}."
+  },
+  "nav": {
+    "home": "Início",
+    "verify": "Verificar plataforma",
+    "intelNetwork": "Rede de inteligência",
+    "community": "Comunidade",
+    "legalResources": "Recursos jurídicos",
+    "requestAccess": "Solicitar acesso",
+    "dashboard": "Painel",
+    "login": "Entrar",
+    "logout": "Sair"
+  },
+  "actions": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "close": "Fechar",
+    "confirm": "Confirmar",
+    "retry": "Tentar novamente",
+    "loading": "Carregando…",
+    "back": "Voltar",
+    "next": "Próximo",
+    "approve": "Aprovar",
+    "reject": "Rejeitar",
+    "download": "Baixar",
+    "preview": "Pré-visualização",
+    "upload": "Enviar"
+  },
+  "status": {
+    "pending": "Pendente",
+    "submitted": "Enviado",
+    "underReview": "Em análise",
+    "approved": "Aprovado",
+    "rejected": "Rejeitado",
+    "completed": "Concluído"
+  },
+  "errors": {
+    "generic": "Ocorreu um erro. Por favor, tente novamente.",
+    "network": "Não foi possível conectar ao servidor. Verifique sua conexão.",
+    "unauthorized": "Você não está autorizado a executar esta ação.",
+    "sessionExpired": "Sua sessão expirou. Faça login novamente."
+  },
+  "theme": {
+    "light": "Modo claro",
+    "dark": "Modo escuro",
+    "toggle": "Alternar tema"
+  }
+}

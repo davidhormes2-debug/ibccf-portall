@@ -1,0 +1,285 @@
+{
+  "nav": {
+    "departments": "Departments",
+    "services": "Services",
+    "faq": "FAQ",
+    "intelNetwork": "Intel Network",
+    "legalHub": "Legal Hub"
+  },
+  "header": {
+    "verifyCta": "Verify Platform",
+    "requestAccessCta": "Request Access",
+    "submitReport": "Submit Report",
+    "accessPortal": "Access Portal",
+    "brandSubtitle": "Enforcement Division",
+    "toggleMenu": "Toggle menu"
+  },
+  "hero": {
+    "eyebrow": "International Blockchain Community Complaints Forum",
+    "title": "Recover what was taken. Verify before you trust.",
+    "subtitle": "We help victims of cryptocurrency fraud open formal cases, verify suspicious platforms, and trace stolen assets — under a transparent regulatory framework.",
+    "primaryCta": "Report a Case",
+    "secondaryCta": "Verify a Platform",
+    "ariaLabel": "Hero",
+    "globalIntelActive": "Global Intelligence Active",
+    "titleLine1": "Financial Crime",
+    "titleLine2": "Enforcement Body.",
+    "paragraph": "Authoritative blockchain trace analysis, asset recovery, and regulatory compliance for high-net-worth individuals, law firms, and institutions across 180+ jurisdictions.",
+    "accessSecurePortal": "Access Secure Portal",
+    "submitIncidentReport": "Submit Incident Report",
+    "trustedTitle": "Trusted by Enforcement",
+    "trustedSubtitle": "Global regulatory partnerships",
+    "securedConnection": "Secured Connection",
+    "traceStatus": "Trace Status",
+    "confidence": "Confidence",
+    "jurisdiction": "Jurisdiction"
+  },
+  "trust": {
+    "users": "15,000+ users",
+    "countries": "120+ countries",
+    "support": "24/7 secure support"
+  },
+  "ticker": {
+    "globalFeed": "Global Feed"
+  },
+  "liveActivity": {
+    "activePersonnel": "Active Personnel"
+  },
+  "backToTop": {
+    "aria": "Back to top"
+  },
+  "cookie": {
+    "message": "This platform uses strict security cookies to maintain session integrity and operational security.",
+    "decline": "Decline Non-Essential",
+    "accept": "Accept All"
+  },
+  "stats": {
+    "casesResolved": "Cases Resolved",
+    "responseTime": "Avg Response",
+    "recoveryRate": "Success Rate",
+    "countries": "Jurisdictions"
+  },
+  "departments": {
+    "eyebrow": "Organizational Structure",
+    "sectionTitle": "Divisions of Operations",
+    "viewDivision": "View Division",
+    "items": {
+      "aml": {
+        "title": "AML Division",
+        "subtitle": "Anti-Money Laundering",
+        "description": "Transaction monitoring, suspicious activity reports, and compliance auditing."
+      },
+      "cyber": {
+        "title": "Cybercrime & Digital Forensics",
+        "subtitle": "Blockchain Trace Analysis",
+        "description": "Wallet forensics, dark web surveillance, and advanced crypto-tracing."
+      },
+      "recovery": {
+        "title": "Asset Recovery Unit",
+        "subtitle": "Cross-Border Enforcement",
+        "description": "Civil litigation support, frozen assets tracking, and global recovery operations."
+      },
+      "compliance": {
+        "title": "Compliance & Regulatory Affairs",
+        "subtitle": "FATF Alignment",
+        "description": "Jurisdictional reporting, legal framework adherence, and regulatory coordination."
+      },
+      "intelligence": {
+        "title": "Intelligence & Threat Analysis",
+        "subtitle": "Threat Actor Profiling",
+        "description": "Scam network mapping, early warning systems, and actionable intel."
+      },
+      "support": {
+        "title": "Victim Support Services",
+        "subtitle": "Case Intake & Advocacy",
+        "description": "Secure case intake, victim advocacy, and holistic recovery counseling."
+      }
+    }
+  },
+  "complianceBadges": {
+    "fatf": "Financial Action Task Force Aligned",
+    "fincen": "Registered & Compliant",
+    "fca": "Recognized Enforcement Partner",
+    "interpol": "Strategic Collaboration",
+    "iso": "Certified Information Security"
+  },
+  "crossBorder": {
+    "eyebrow": "Global Reach",
+    "title": "Cross-Border Enforcement Network",
+    "paragraph": "Financial crime operates without borders. So do we. Our platform integrates directly with regulatory bodies, law enforcement agencies, and financial institutions across 48+ core partner jurisdictions.",
+    "treatyTitle": "Treaty Cooperation",
+    "treatyDesc": "Leveraging mutual legal assistance treaties (MLATs) for swift asset freezing capabilities.",
+    "courtTitle": "Court-Admissible Reporting",
+    "courtDesc": "Forensic intelligence packages prepared to the evidentiary standards of international courts.",
+    "activeRegion": "Active Region",
+    "mapAlt": "Global Activity Map",
+    "regions": {
+      "na": "North America",
+      "eu": "European Union",
+      "apac": "APAC Region",
+      "me": "Middle East"
+    }
+  },
+  "services": {
+    "sectionTitle": "Client Portal Capabilities",
+    "sectionSubtitle": "Secure access points for victims, law firms, and compliance officers.",
+    "accessModule": "Access Module",
+    "items": {
+      "report": {
+        "title": "Report Suspicious Activity",
+        "description": "Document and report potential fraud, scams, or suspicious blockchain-related incidents for professional investigation."
+      },
+      "verify": {
+        "title": "Verify Platform Legitimacy",
+        "description": "Check if a cryptocurrency platform, exchange, or service is legitimate and registered with authorities."
+      },
+      "case-status": {
+        "title": "Track Your Case",
+        "description": "Access your existing case dashboard using your unique verification code to track progress in real-time."
+      },
+      "support": {
+        "title": "24/7 Expert Support",
+        "description": "Connect with our dedicated support team for immediate assistance with your case or general inquiries."
+      }
+    }
+  },
+  "howItWorks": {
+    "sectionTitle": "Standard Operating Procedure",
+    "steps": {
+      "intake": {
+        "title": "Intake",
+        "desc": "Secure submission of incident data and cryptographic evidence."
+      },
+      "triage": {
+        "title": "Triage",
+        "desc": "Automated threat scoring and jurisdiction assignment."
+      },
+      "forensics": {
+        "title": "Forensics",
+        "desc": "Deep chain analysis and entity attribution."
+      },
+      "enforcement": {
+        "title": "Enforcement",
+        "desc": "Coordination with regional authorities for asset freezing."
+      }
+    }
+  },
+  "partners": {
+    "eyebrow": "Operational Integration With"
+  },
+  "testimonials": {
+    "sectionTitle": "Case Outcomes"
+  },
+  "faqSection": {
+    "sectionTitle": "Intelligence Briefing",
+    "defaults": {
+      "q1": "How do I file a complaint?",
+      "a1": "You can file a complaint by clicking the 'Access Portal' button and entering your case access code. If you're a new user, contact our support team to initiate a case.",
+      "q2": "How long does the investigation process take?",
+      "a2": "Investigation timelines vary depending on complexity. Most cases receive initial review within 24-48 hours, with full investigations typically completed within 2-4 weeks.",
+      "q3": "Is my information kept confidential?",
+      "a3": "Yes, absolutely. All information submitted to IBCCF is encrypted and stored securely. We never share personal information without explicit consent.",
+      "q4": "What types of fraud can I report?",
+      "a4": "You can report cryptocurrency scams, fraudulent exchanges, phishing attempts, Ponzi schemes, and any blockchain-related suspicious activities.",
+      "q5": "Can I track my case status?",
+      "a5": "Yes, once your case is created, you'll receive a unique access code that allows you to log in and track your case progress in real-time."
+    }
+  },
+  "newsletter": {
+    "title": "Threat Intelligence Updates",
+    "subtitle": "Subscribe to receive verified scam alerts, platform compliance changes, and security briefings directly from our analysts.",
+    "placeholder": "Institutional or personal email",
+    "processing": "Processing...",
+    "subscribe": "Subscribe",
+    "subscribedTitle": "Subscribed",
+    "subscribedDesc": "Added to intelligence briefing distribution.",
+    "errorTitle": "Error",
+    "ariaEmail": "Email address for newsletter"
+  },
+  "contact": {
+    "title": "Initiate Contact",
+    "paragraph": "Our intake personnel are available 24/7 to process urgent incident reports and coordinate with regional task forces.",
+    "urgent": "Urgent Case Intake",
+    "general": "General Inquiries",
+    "secureTitle": "Communication Secure",
+    "secureDesc": "Message received by intake team.",
+    "formHeading": "Submit a Complaint",
+    "labelName": "Full Name *",
+    "labelEmail": "Email Address *",
+    "labelSubject": "Subject",
+    "labelPlatform": "Platform / Exchange",
+    "labelIncidentDate": "Approximate Incident Date",
+    "labelAmountLost": "Amount Lost",
+    "labelDescription": "Description *",
+    "placeholderName": "Your full name",
+    "placeholderEmail": "your@email.com",
+    "placeholderSubject": "Brief description of your complaint",
+    "placeholderPlatform": "e.g. Binance, Coinbase",
+    "placeholderIncidentDate": "e.g. Jan 2024",
+    "placeholderAmountLost": "e.g. $5,000 USD",
+    "placeholderDescription": "Please describe the incident in detail — what happened, how you were contacted, any wallet addresses or transaction IDs involved.",
+    "submitButton": "Submit Complaint",
+    "submittingButton": "Submitting…",
+    "toastSuccessTitle": "Complaint Submitted",
+    "toastSuccessDesc": "Your complaint has been received by our intake team.",
+    "toastErrorTitle": "Submission Failed",
+    "toastErrorDesc": "Your complaint could not be submitted. Please try again."
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "tagline": "Trusted blockchain incident reporting and platform verification.",
+    "fullName": "International Blockchain Community Complaints Forum. All rights reserved.",
+    "brand": "IBCCF",
+    "brandSubtitle": "Global Enforcement",
+    "brandDesc": "The authoritative multi-jurisdictional platform for blockchain fraud prevention, forensic trace analysis, and cross-border asset recovery operations.",
+    "divisionsTitle": "Divisions",
+    "divAml": "AML Compliance",
+    "divForensics": "Digital Forensics",
+    "divRecovery": "Asset Recovery",
+    "divIntake": "Victim Intake",
+    "commsTitle": "Secure Comms",
+    "ops": "24/7 Operations Center",
+    "copyright": "© {{year}} IBCCF Enforcement Platform. Authorized Personnel Only.",
+    "linkPrivacy": "Privacy Protocol",
+    "linkTerms": "Terms of Use",
+    "linkJurisdiction": "Jurisdictional Notice",
+    "linkLegal": "Legal Resources",
+    "linkWithdrawalGuide": "Withdrawal Guide"
+  },
+  "verify": {
+    "back": "Back to Home",
+    "backShort": "Back",
+    "titleCode": "Secure Verification",
+    "titlePin": "PIN Authentication",
+    "subtitleCode": "Enter your unique verification code to access your case.",
+    "subtitlePin": "Enter your 6-digit PIN to continue.",
+    "labelCode": "Verification Code",
+    "labelPin": "6-Digit PIN",
+    "placeholderCode": "Enter your code",
+    "submit": "Access My Case",
+    "submitting": "Verifying...",
+    "switchToPin": "Login with PIN instead",
+    "switchToCode": "Login with Verification Code instead",
+    "requestAccess": "Don't have a code? Request Access",
+    "encrypted": "Protected by enterprise-grade encryption",
+    "feature256": "256-bit encryption",
+    "featureBio": "Biometric ready",
+    "featureSession": "Secure sessions",
+    "toast": {
+      "errorTitle": "Error",
+      "missingCode": "Please enter your verification code.",
+      "missingAccess": "Please enter your access code.",
+      "missingPin": "Please enter your 6-digit PIN.",
+      "verifySuccessTitle": "Verification Successful",
+      "verifySuccessDesc": "Please set up your security PIN to continue.",
+      "pinRequiredTitle": "PIN Required",
+      "pinRequiredDesc": "Please enter your PIN to access your account.",
+      "invalidCodeTitle": "Invalid Code",
+      "invalidCodeDesc": "The verification code entered is not valid. Please check and try again.",
+      "invalidPinTitle": "Invalid PIN",
+      "invalidPinDesc": "The PIN entered is not valid. Please check and try again.",
+      "connectionTitle": "Connection Error",
+      "connectionDesc": "Unable to verify at this time. Please try again later."
+    }
+  }
+}

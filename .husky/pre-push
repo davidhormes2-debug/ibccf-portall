@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+# pre-push hook — runs the e2e skip-guard checks before every push.
+#
+# 1. check-e2e-skip-guards.sh
+#    Verifies that every env-var name referenced inside test.skip() conditions
+#    in e2e/*.spec.ts is also declared in the CI workflow env: block.  A missing
+#    variable causes tests to silently skip in CI, so we catch it locally first.
+#
+# 2. check-skip-guard-coverage.sh  (--warn-only)
+#    Meta-check: verifies that every CI workflow that runs e2e/Playwright specs
+#    also contains a "check-e2e-skip-guards.sh" step before the Playwright step.
+#    Catches new workflow files that omit the guard before they reach CI.
+#
+#    This step runs in --warn-only mode locally: if a brand-new workflow file
+#    has not yet had the guard step added, you will see a WARNING but the push
+#    will still proceed.  The same script runs without --warn-only in CI
+#    (strict mode), so the gap will be caught before the PR can merge.
+#
+# Invokes the underlying bash scripts directly so the hook works even when npm
+# (or Node.js) is not on the PATH that Git uses inside the hook (e.g. nvm,
+# fnm, or mise setups where the shell PATH isn't inherited by git hooks).
+#
+# Uses `git rev-parse --show-toplevel` for repo-root resolution so the hook
+# works correctly whether it is executed from .husky/pre-push or from the
+# installed copy at .git/hooks/pre-push.
+#
+# ── When to bypass ───────────────────────────────────────────────────────────
+#
+# Use  git push --no-verify  only in these situations:
+#
+#   a) Emergency hotfix — you need to push immediately and will fix the
+#      skip-guard gap in a follow-up commit before the PR merges.
+#
+#   b) You are actively writing a new workflow file whose guard step is not
+#      in place yet.  The coverage warning above already allows the push;
+#      --no-verify is only needed if check-e2e-skip-guards.sh also fires.
+#
+#   c) You are pushing a branch that intentionally has no CI workflow
+#      (e.g. a docs-only branch) — the coverage script exits 0 in that case
+#      so --no-verify is not needed.
+#
+# Do NOT use --no-verify to silence a real gap: the same check runs in CI
+# and will block the PR if the guard step is missing in strict mode.
+# ─────────────────────────────────────────────────────────────────────────────
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+bash "$REPO_ROOT/scripts/check-e2e-skip-guards.sh"
+bash "$REPO_ROOT/scripts/check-skip-guard-coverage.sh" --warn-only
+
+# ---------------------------------------------------------------------------
+# emails-namespace untranslated-stub check (warn-only locally)
+#
+# Mirrors the "Emails Namespace Untranslated Guard" CI job.  Locally it only
+# warns (the push is not blocked) so developers aren't hard-stopped when
+# actively working on translations.  CI runs without the --warn-only escape
+# hatch and will block the PR if stubs are still present.
+#
+# Use  git push --no-verify  only when you know you are pushing a
+# work-in-progress branch and will translate the stubs before the PR merges.
+# ---------------------------------------------------------------------------
+if command -v node >/dev/null 2>&1; then
+  npx --no tsx "$REPO_ROOT/scripts/check-i18n.ts" --namespace emails 2>&1 | \
+    sed 's/^/[emails-i18n-warn] /' >&2 || \
+    echo "[emails-i18n-warn] WARNING: [UNTRANSLATED] stubs detected in emails namespace." \
+         "The CI job 'Emails Namespace Untranslated Guard' will block this PR until all stubs are translated." >&2
+else
+  echo "[emails-i18n-warn] Node.js not found — skipping emails namespace stub check." >&2
+fi
+
+# ---------------------------------------------------------------------------
+# Untranslated stub check — all namespaces (warn-only locally)
+#
+# Mirrors the "Untranslated Stub Guard (strict)" CI job.  Locally it only
+# warns (the push is not blocked) so developers aren't hard-stopped when
+# actively adding new English keys before translations are ready.  CI runs
+# without the warn-only escape hatch and will block the PR if stubs remain.
+#
+# Use  git push --no-verify  only when you know you are pushing a
+# work-in-progress branch and will translate the stubs before the PR merges.
+# ---------------------------------------------------------------------------
+if command -v node >/dev/null 2>&1; then
+  npx --no tsx "$REPO_ROOT/scripts/check-i18n.ts" --strict 2>&1 | \
+    sed 's/^/[untranslated-stubs-warn] /' >&2 || \
+    echo "[untranslated-stubs-warn] WARNING: [UNTRANSLATED] stubs detected across one or more namespaces." \
+         "The CI job 'Untranslated Stub Guard (strict)' will block this PR until all stubs are translated." \
+         "Run 'npm run i18n:translate' to fill them automatically." >&2
+else
+  echo "[untranslated-stubs-warn] Node.js not found — skipping untranslated stub check." >&2
+fi
+
+# ---------------------------------------------------------------------------
+# Recordings path-filter sync check (warn-only locally)
+#
+# Mirrors the "Recordings Path Filter Sync" CI job.  Verifies that the
+# path-filter PATTERN in the recordings-fresh job of narration-fresh.yml
+# covers every source file that recordingFingerprint.mjs depends on.
+#
+# Locally this only warns (the push is not blocked) so developers are not
+# hard-stopped when actively refactoring the video pipeline.  CI runs the
+# same check in strict mode and will block the PR if the PATTERN is stale.
+#
+# Use  git push --no-verify  only when you are actively refactoring
+# video source files and will update PATTERN before the PR merges.
+# ---------------------------------------------------------------------------
+if command -v node >/dev/null 2>&1; then
+  node "$REPO_ROOT/scripts/check-recordings-path-filters.mjs" 2>&1 | \
+    sed 's/^/[recordings-path-filter-warn] /' >&2 || \
+    echo "[recordings-path-filter-warn] WARNING: recordings path-filter sync check failed." \
+         "The CI job 'Recordings Path Filter Sync' will block this PR until PATTERN is updated." >&2
+else
+  echo "[recordings-path-filter-warn] Node.js not found — skipping recordings path-filter sync check." >&2
+fi
+
+# ---------------------------------------------------------------------------
+# Test-suite TypeScript type check
+#
+# Mirrors the "Test Suite Type Check" CI job.  Catches type errors in test
+# files before they reach CI, giving immediate local feedback.
+#
+# The hook blocks the push when tsc reports errors.  When Node.js is not on
+# the PATH that Git uses (nvm/fnm/mise setups with restricted PATH), the
+# check is skipped with a warning so the hook does not break those workflows.
+#
+# Use  git push --no-verify  only when you are actively working on tests
+# that have not yet been brought to a clean type-check state and intend to
+# fix the errors before the PR merges.
+# ---------------------------------------------------------------------------
+if command -v npm >/dev/null 2>&1; then
+  npm run check:test
+else
+  echo "[check-test] npm not found — skipping test-suite type check." >&2
+fi

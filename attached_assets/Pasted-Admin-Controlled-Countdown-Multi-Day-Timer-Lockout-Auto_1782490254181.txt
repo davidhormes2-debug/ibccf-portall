@@ -1,0 +1,243 @@
+Admin‑Controlled Countdown + Multi‑Day Timer + Lockout + Auto‑Reactivation + Tawk.to Contact Board + Admin Override
+1. System Overview
+Build a system where:
+
+Admin manually activates a countdown for a user
+
+Countdown supports minutes, hours, and up to 5 days
+
+Countdown displays in DD:HH:MM:SS
+
+User sees a countdown + message
+
+User can contact admin during countdown via Tawk.to
+
+If user does NOT contact admin before countdown ends →
+System automatically redirects to Reactivation Deposit Page
+
+After countdown ends:
+
+Withdrawal pathway resets
+
+NDA seals + declarations voided
+
+User is locked out of dashboard
+
+Admin can override countdown at any time and skip directly to Reactivation Page
+
+2. Admin Panel Requirements
+Admin panel must include:
+
+A. Countdown Activation
+Toggle: Activate Countdown
+
+User selector: Choose User
+
+When activated:
+
+Countdown starts immediately
+
+User sees countdown timer + message
+
+B. Countdown Duration
+Admin must be able to set:
+
+Days (0–5 max)
+
+Hours
+
+Minutes
+
+System must convert to:
+
+DD:HH:MM:SS (if days > 0)
+
+HH:MM:SS (if < 24 hours)
+
+C. Reactivation Deposit Amount
+Numeric input
+
+Required
+
+Editable anytime
+
+D. Editable Message Fields
+Admin must be able to edit:
+
+Portal Countdown Message
+
+Email Notification Message
+
+Lockout Page Message
+
+Reactivation Page Message
+
+Post‑Reset Instructions
+
+E. Admin Override Controls
+Admin must have:
+
+Override Countdown button
+→ Immediately ends countdown
+→ Immediately redirects user to Reactivation Deposit Page
+
+Skip to Reactivation button
+→ Sends user directly to Reactivation Deposit Page
+→ No countdown required
+
+3. Countdown Behaviour (User Side)
+When countdown is active:
+
+Timer is visible on all pages
+
+Timer updates every second
+
+User cannot hide or dismiss it
+
+Logging out does NOT stop the countdown
+
+Logging back in resumes the timer
+
+Tawk.to contact board is available during countdown
+
+4. Countdown Completion Behaviour
+When countdown reaches 00:00:00:
+
+Force‑close user session
+
+Reset withdrawal pathway:
+
+Clear withdrawal structure
+
+Void NDA seals
+
+Void declarations
+
+Clear pending validations
+
+Log event (admin, user, timestamp, duration)
+
+Redirect user automatically to:
+/reactivation-deposit
+
+Disable dashboard access entirely
+
+No admin clearance required.  
+The reactivation page appears automatically.
+
+5. Lockout Contact Page (During Countdown Only)
+URL:
+/contact-admin
+
+This page is shown only during countdown, not after.
+
+It must include:
+
+A. Tawk.to Contact Board
+Embedded Tawk.to widget
+
+User can contact admin before countdown ends
+
+B. Lockout Warning Message
+Default (admin‑editable):
+
+“Your session is scheduled to close due to extended inactivity. If the countdown reaches zero, your withdrawal pathway will be reset and a reactivation deposit will be required. Please contact an administrator immediately if you need assistance before the session closes.”
+
+C. Dashboard Access
+Dashboard remains accessible during countdown
+
+But user sees persistent warning banner
+
+6. Reactivation Deposit Page (Automatic After Countdown)
+URL:
+/reactivation-deposit
+
+This page appears:
+
+Automatically when countdown ends
+
+Automatically if admin overrides countdown
+
+Automatically if admin skips timer
+
+Page must display:
+
+Default Reactivation Page Message (Admin‑Editable)
+“Your withdrawal pathway has been reset due to extended inactivity. To restore access, please complete the required reactivation deposit below. Once completed, your pathway will be restored and you may continue your process.”
+
+Page must show:
+
+Reason for reactivation
+
+Admin‑configured deposit amount
+
+Steps to restore withdrawal pathway
+
+Payment interface
+
+Success confirmation
+
+7. Default Sample Messages (Admin‑Editable)
+These must be pre‑loaded into the admin panel.
+
+A. Portal Countdown Message
+“Due to extended inactivity, your portal session and withdrawal pathway are scheduled to close when this countdown ends. Once closed, your withdrawal structure will be reset and all NDA seals, declarations, and prior validations will be voided. A reactivation deposit will be required to restore access. You will be redirected to the reactivation deposit page after closure.”
+
+B. Email Notification Message
+“Your account has remained inactive for an extended period, and your portal session is now scheduled to close. When the countdown ends, your withdrawal pathway will be reset and all NDA seals, declarations, and compliance validations will be voided. To continue with your withdrawal, you will need to complete the reactivation process on the reactivation deposit page that will appear after closure.”
+
+C. Lockout Warning Message (During Countdown)
+“Your session is scheduled to close due to extended inactivity. If the countdown reaches zero, your withdrawal pathway will be reset and a reactivation deposit will be required. Please contact an administrator immediately if you need assistance before the session closes.”
+
+D. Reactivation Page Message
+“Your withdrawal pathway has been reset due to extended inactivity. To restore access, please complete the required reactivation deposit below. Once completed, your pathway will be restored and you may continue your process.”
+
+E. Post‑Reset Instructions
+“Your account has been reset for security reasons. Please follow the reactivation steps to restore your withdrawal pathway. If you require assistance, contact the admin team through the support panel.”
+
+8. System Logic Requirements
+A. Admin Controls
+Activate countdown
+
+Set duration
+
+Set reactivation amount
+
+Edit messages
+
+Override countdown
+
+Skip directly to reactivation
+
+B. Reset Logic
+When countdown ends:
+
+Reset withdrawal structure
+
+Void NDA seals
+
+Void declarations
+
+Clear validations
+
+C. Lockout Enforcement
+After countdown ends → dashboard disabled
+
+All dashboard URLs redirect to Reactivation Page
+
+User cannot bypass
+
+D. Logging
+System must log:
+
+Admin who activated countdown
+
+User affected
+
+Countdown duration
+
+Reset timestamp
+
+Override events
+
+Reactivation completion

@@ -1,0 +1,123 @@
+{
+  "back": "Retour",
+  "accessPortal": "Accéder au Portail",
+  "legalDoc": "Documentation Juridique",
+  "title": "Politique de Confidentialité",
+  "subtitle": "Comment IBCCF collecte, utilise et protège vos données personnelles dans le cadre de nos services de gestion des plaintes liées à la blockchain et de prévention de la fraude.",
+  "lastUpdated": "Dernière mise à jour :",
+  "contents": "Sommaire",
+  "termsLink": "Conditions d'Utilisation",
+  "legalResourcesLink": "Ressources Juridiques",
+  "reviewerNote": {
+    "label": "Note aux réviseurs juridiques :",
+    "text": "Ce document est un projet de travail préparé pour le lancement de la plateforme. Il doit être examiné et finalisé par un professionnel juridique qualifié avant que la plateforme ne traite des données personnelles d'utilisateurs dans des juridictions réglementées."
+  },
+  "sections": {
+    "overview": {
+      "title": "1. Vue d'Ensemble",
+      "p1Pre": "Le Forum International des Plaintes sur la Blockchain (",
+      "p1Brand": "« IBCCF »",
+      "p1Post": ", « nous » ou « notre ») exploite ce portail web en tant que service de gestion de cas et de prévention de la fraude pour les plaintes liées à la blockchain.",
+      "p2": "Cette Politique de Confidentialité explique quelles informations personnelles nous collectons lorsque vous visitez notre site web ou soumettez un dossier de plainte, comment nous utilisons et protégeons ces informations, et les droits dont vous disposez."
+    },
+    "dataCollected": {
+      "title": "2. Informations que Nous Collectons",
+      "intro": "Nous pouvons collecter les catégories suivantes d'informations personnelles :",
+      "items": [
+        { "label": "Données d'Identité et de Contact", "detail": "Nom complet, adresse électronique, numéro de téléphone et pays de résidence fournis lors de la soumission d'une plainte ou de la création d'un compte sur le portail." },
+        { "label": "Données de Dossier et de Transaction", "detail": "Détails concernant les transactions blockchain, les adresses de portefeuilles, les noms de plateformes et les montants financiers pertinents pour votre plainte." },
+        { "label": "Documents Téléversés", "detail": "Documents réglementaires et de conformité que vous téléversez volontairement (ex. : justificatifs de revenus, KYC/pièce d'identité, déclarations FATCA/CRS, reçus de dépôt). Ils sont stockés de manière sécurisée et consultés uniquement par le personnel autorisé." },
+        { "label": "Communications", "detail": "Messages que vous envoyez via notre portail, notre chat d'assistance ou nos formulaires de contact, y compris les transcriptions générées par nos outils d'assistance basés sur l'IA." },
+        { "label": "Données Techniques et d'Utilisation", "detail": "Adresse IP, type de navigateur, identifiants d'appareils, pages visitées, temps passé sur le site et activité de session collectés automatiquement à des fins de sécurité et de surveillance opérationnelle." },
+        { "label": "Cookies et Stockage Local", "detail": "Nous utilisons des cookies de session strictement nécessaires et le stockage local du navigateur pour maintenir votre session authentifiée sur le portail et mémoriser votre préférence linguistique. Les cookies d'analyse optionnels ne sont définis qu'avec votre consentement." }
+      ]
+    },
+    "howWeUse": {
+      "title": "3. Comment Nous Utilisons Vos Informations",
+      "intro": "Nous traitons vos informations personnelles aux fins suivantes :",
+      "items": [
+        "Pour enregistrer et gérer votre dossier de plainte tout au long de son cycle de résolution.",
+        "Pour vérifier l'activité de la plateforme et évaluer les comportements frauduleux signalés.",
+        "Pour remplir les obligations de conformité réglementaire, y compris les exigences de vérification d'identité LCB/FT.",
+        "Pour vous communiquer les mises à jour de votre dossier, les demandes de documents et les notifications de la plateforme.",
+        "Pour fournir des réponses communautaires assistées par IA et une fonctionnalité de chat d'assistance.",
+        "Pour surveiller et améliorer la sécurité de la plateforme, détecter les abus et faire appliquer nos Conditions d'Utilisation.",
+        "Pour maintenir les journaux d'audit requis à des fins de conformité et de responsabilité juridique.",
+        "Pour envoyer des e-mails transactionnels relatifs à votre dossier (jamais de marketing non sollicité sans consentement)."
+      ]
+    },
+    "legalBasis": {
+      "title": "4. Base Légale du Traitement",
+      "intro": "Lorsque la loi applicable en matière de protection des données exige une base légale (ex. : en vertu du RGPD de l'UE ou du RGPD du Royaume-Uni), nous nous appuyons sur les éléments suivants :",
+      "items": [
+        { "basis": "Exécution d'un contrat", "detail": "Traitement nécessaire à la fourniture du service de gestion des plaintes que vous avez demandé." },
+        { "basis": "Obligation légale", "detail": "Traitement requis pour se conformer aux lois LCB/FT, KYC et de prévention des infractions financières." },
+        { "basis": "Intérêts légitimes", "detail": "Surveillance de la sécurité, prévention de la fraude, intégrité de la plateforme et analyses agrégées — équilibrés avec vos intérêts et droits." },
+        { "basis": "Consentement", "detail": "Cookies d'analyse optionnels et tout traitement non couvert par les bases ci-dessus." }
+      ]
+    },
+    "sharing": {
+      "title": "5. Partage des Informations",
+      "intro": "Nous ne vendons pas de données personnelles. Nous pouvons partager des informations dans les circonstances limitées suivantes :",
+      "items": [
+        "Avec des autorités réglementées ou des agences d'application de la loi lorsque la loi l'exige ou en réponse à une procédure légale valide.",
+        "Avec des prestataires de services de confiance qui traitent des données en notre nom dans le cadre d'accords de traitement des données appropriés (ex. : hébergement cloud, livraison d'e-mails, surveillance des erreurs).",
+        "Avec OpenAI, Inc. pour les fonctionnalités communautaires et d'assistance assistées par IA — les données sont transmises via API dans le cadre des conditions de traitement des données d'OpenAI.",
+        "En cas de fusion, d'acquisition ou de vente d'actifs, où les données de dossier peuvent être transférées à l'entité successeur sous réserve de protections de confidentialité équivalentes."
+      ]
+    },
+    "retention": {
+      "title": "6. Conservation des Données",
+      "intro": "Nous conservons les données personnelles uniquement aussi longtemps que nécessaire aux fins énoncées dans cette politique ou selon les exigences de la loi applicable :",
+      "items": [
+        "Les dossiers de cas actifs sont conservés pendant la durée du cas plus un minimum de cinq (5) ans à des fins d'audit de conformité.",
+        "Les documents réglementaires téléversés (KYC, FATCA/CRS, origine des fonds) sont conservés pendant au moins cinq (5) ans après la clôture du dossier conformément aux obligations de tenue de registres LCB.",
+        "Les journaux de visiteurs et de sessions sont conservés jusqu'à quatre-vingt-dix (90) jours.",
+        "Les journaux d'audit des e-mails sont conservés pendant deux (2) ans.",
+        "Vous pouvez demander la suppression anticipée de certaines données lorsqu'aucune obligation légale de conservation ne s'applique — voir la Section 8."
+      ]
+    },
+    "security": {
+      "title": "7. Sécurité",
+      "intro": "Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos données personnelles contre tout accès non autorisé, perte ou divulgation, notamment :",
+      "items": [
+        "Chiffrement TLS pour toutes les données en transit.",
+        "Stockage de base de données chiffré avec accès limité au personnel autorisé de la plateforme.",
+        "Authentification basée sur les sessions avec contrôles de déconnexion forcée pour les comptes du portail.",
+        "Journalisation des audits de toutes les actions administratives affectant les dossiers de cas.",
+        "Contrôles de limitation de débit et de blocage d'IP pour atténuer les abus."
+      ],
+      "outro": "Aucune méthode de transmission sur Internet n'est sécurisée à 100 %. Bien que nous nous efforcions de protéger vos données, nous ne pouvons garantir une sécurité absolue."
+    },
+    "rights": {
+      "title": "8. Vos Droits",
+      "intro": "Selon votre juridiction, vous pouvez disposer des droits suivants concernant vos données personnelles :",
+      "items": [
+        { "right": "Accès", "detail": "Demander une copie des données personnelles que nous détenons à votre sujet." },
+        { "right": "Rectification", "detail": "Demander la correction de données inexactes ou incomplètes." },
+        { "right": "Effacement", "detail": "Demander la suppression de vos données lorsqu'aucune obligation légale de conservation ne s'applique (« droit à l'oubli »)." },
+        { "right": "Limitation", "detail": "Demander que nous limitions le traitement de vos données dans certaines circonstances." },
+        { "right": "Portabilité", "detail": "Recevoir vos données dans un format structuré et lisible par machine, lorsque cela est techniquement réalisable." },
+        { "right": "Opposition", "detail": "Vous opposer au traitement fondé sur des intérêts légitimes ou à des fins de marketing direct." },
+        { "right": "Retrait du consentement", "detail": "Retirer tout consentement préalablement donné sans affecter la licéité du traitement antérieur." }
+      ],
+      "outro": "Pour exercer l'un de ces droits, contactez-nous à l'adresse indiquée à la Section 10. Nous répondrons dans un délai de 30 jours. Nous pouvons avoir besoin de vérifier votre identité avant de donner suite à une demande."
+    },
+    "international": {
+      "title": "9. Transferts Internationaux",
+      "p1": "Vos données peuvent être transférées et traitées dans des pays situés en dehors de votre pays de résidence, y compris des pays susceptibles de ne pas offrir le même niveau de protection des données que votre juridiction d'origine. Lorsque de tels transferts ont lieu, nous mettons en œuvre des garanties appropriées telles que des clauses contractuelles types ou des mécanismes équivalents reconnus par les autorités de protection des données compétentes.",
+      "p2Pre": "Pour plus d'informations sur le cadre réglementaire international applicable à cette plateforme, consultez notre",
+      "p2LinkText": "répertoire Ressources Juridiques",
+      "p2Post": "."
+    },
+    "contact": {
+      "title": "10. Contact et Réclamations",
+      "p1": "Pour toute demande relative à la confidentialité, toute demande d'exercice de droits ou pour signaler une préoccupation concernant notre gestion des données personnelles, veuillez nous contacter via le portail d'assistance ou le formulaire de contact sur le site principal.",
+      "p2": "Si vous êtes situé dans l'UE ou au Royaume-Uni et n'êtes pas satisfait de notre réponse, vous avez le droit de déposer une réclamation auprès de votre autorité de contrôle locale en matière de protection des données."
+    },
+    "updates": {
+      "title": "11. Mises à Jour de Cette Politique",
+      "p1": "Nous pouvons mettre à jour cette Politique de Confidentialité de temps à autre. Dans ce cas, nous réviserons la date de « Dernière mise à jour » en haut de cette page. Pour les changements importants, nous informerons les titulaires de dossiers actifs via leur adresse e-mail enregistrée ou un avis prominent sur le portail. L'utilisation continue de la plateforme après la date d'entrée en vigueur constitue l'acceptation de la politique révisée."
+    }
+  }
+}

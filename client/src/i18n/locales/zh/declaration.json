@@ -1,0 +1,229 @@
+{
+  "header": {
+    "title": "合规声明",
+    "subtitle": "多部分监管声明。所有必填字段必须在提交前完成。"
+  },
+  "back": "返回仪表板",
+  "hero": {
+    "badge": "监管合规 · 必需",
+    "title": "合规声明",
+    "subtitle": "用户验证门户",
+    "description": "为确保持续访问平台服务并保持与不断变化的国际监管标准的一致性，所有用户必须完成合规声明。此过程确认您的账户活动是合法的、合规的，并且不与任何受制裁的司法管辖区或受限数字资产相关联。",
+    "completeAll": "请完成以下所有部分。"
+  },
+  "sectionLabel": "第 {{number}} 部分",
+  "sections": {
+    "personal": {
+      "title": "个人身份识别",
+      "subtitle": "确认与您的账户相关的详细信息。"
+    },
+    "accessCode": {
+      "title": "访问代码认证",
+      "subtitle": "请输入提供给您的访问代码以解锁声明表格。",
+      "help": "访问代码由您最新的安全消息中的合规联系人提供。如果您没有，请联系支持。"
+    },
+    "sanctions": {
+      "title": "制裁合规声明",
+      "subtitle": "请仔细审查每一项声明并确认您的合规性。",
+      "iran": "我确认我未参与与伊朗或任何受美国制裁的司法管辖区、实体或个人相关的活动。",
+      "noSanctioned": "我确认我未参与任何涉及受制裁方的直接或间接交易。",
+      "usdt": "我承认由于监管原因，USDT（Tether）不再被支持，并同意今后不在此平台上使用USDT。",
+      "falseInfo": "我理解提供虚假或误导性信息可能导致账户限制或永久关闭。"
+    },
+    "asset": {
+      "title": "批准资产确认",
+      "subtitle": "请选择您未来所有交易的首选支持资产。",
+      "preferred": "首选资产",
+      "recommended": "推荐支持资产",
+      "other": "其他支持资产（可选）",
+      "otherPlaceholder": "例如 USDC（以太坊）、DAI，...",
+      "usdcShort": "USDC",
+      "usdcPolygon": "USDC（Polygon）"
+    },
+    "income": {
+      "title": "收入来源",
+      "subtitle": "请指明与您的账户相关的资金的主要来源。",
+      "selectAll": "收入来源（选择所有适用项）",
+      "tap": "点击每个适用的卡片。您可以选择多个来源。",
+      "monthly": "大约月收入（美元）",
+      "monthlyHelp": "输入您每月的平均收入（以美元计）。最佳诚信估计即可。",
+      "monthlyPlaceholder": "例如 7,500",
+      "otherLabel": "请描述您的其他收入来源",
+      "otherPlaceholder": "描述您额外的收入来源"
+    },
+    "regulatory": {
+      "title": "监管确认",
+      "subtitle": "通过完成此声明，我确认以下内容：",
+      "agree": "我理解并同意上述条款。",
+      "bullets": {
+        "scrutiny": "最近的监管发展增加了对USDT交易的审查。",
+        "frozen": "与受制裁的司法管辖区相关的资金可能会受到审查或冻结。",
+        "required": "此声明是保持对平台服务不间断访问的必要条件。",
+        "future": "所有未来交易将使用支持的资产（如USDC）处理。",
+        "protect": "我理解此措施旨在保护我的账户并确保合规性。"
+      }
+    },
+    "terms": {
+      "title": "监管条款与访问代码认证",
+      "subtitle": "仔细阅读每一条条款。接受后，您可以在下面自助生成您的声明访问代码。",
+      "groupA": "A. 国际监管条款",
+      "groupB": "B. 反洗钱、反恐怖融资与客户尽职调查声明",
+      "groupC": "C. 税务、FATCA与CRS",
+      "groupD": "D. 数据保留、隐私与救济",
+      "a": {
+        "fatf": "我确认所声明的资金不是来自于任何在FATF、OFAC、欧盟、英国或联合国制裁机制下禁止的活动，也不会用于这些活动。",
+        "share": "我同意将此声明及任何相关的合规数据跨境共享给与我的账户活动相关的监管机构、合作金融机构和监督机构。",
+        "breakdown": "我理解1,500 USDT的存款分解为<0>1,000 USDT全额可退还</0>（合规批准后）和<1>500 USDT不可退还的处理费</1>（用于审查、链上验证和监管记录保存）。",
+        "binding": "我承认提交链上交易哈希以及我在下面自助生成的访问代码构成我对这些国际监管条款的法律约束性接受。",
+        "false": "我理解提供虚假、重复或无法验证的交易哈希将导致此声明立即被拒绝，并没收可退还部分。"
+      },
+      "b": {
+        "true": "我声明我提供的所有信息、文件和身份证明材料在我所知的范围内均为真实、完整和最新的。",
+        "notify": "我将及时通知合规团队我身份、居住地、资金来源或受益所有权的任何重大变化，变更后30天内通知。",
+        "kyc": "我理解机构可能会在任何时候要求额外的客户尽职调查（KYC）、客户尽职调查（CDD）或增强尽职调查（EDD）文件，未能在要求的时间内响应可能导致账户暂停。",
+        "thirdParty": "我确认我并未故意代表未披露的第三方、受制裁实体、未披露的政治公众人物或任何参与洗钱或恐怖融资的方行事。"
+      },
+      "c": {
+        "tax": "我确认我负责在与此账户相关的税务居住地申报和支付所有应缴税款。",
+        "fatca": "我同意机构根据FATCA、共同报告标准（CRS）及任何等效的地方制度向相关税务机关报告我的账户信息。",
+        "tin": "我将在请求时提供有效的税务识别号码（TIN），并在我的税务居住地变更时更新。"
+      },
+      "d": {
+        "retain": "我理解此声明及支持记录将在我的案件关闭后至少保留七（7）年，符合国际金融服务记录保存标准。",
+        "process": "我授权机构处理我的个人数据以进行合规、反欺诈、审计和监管报告目的。",
+        "dispute": "我同意因本声明引起的任何争议应根据我账户协议中规定的适用法律解决，并且我的救济仅限于该协议下可用的补救措施。",
+        "update": "我承认机构保留在提前通知的情况下更新这些条款的权利，并且在此类通知后我继续使用服务即构成对更新条款的接受。"
+      },
+      "fee": {
+        "totalDeposit": "总存款",
+        "refundableLabel": "可退还",
+        "refundableNote": "合规批准后退还",
+        "processingLabel": "处理费",
+        "processingNote": "不可退还的审查费",
+        "network": "网络",
+        "networkValue": "TRC20（波场）",
+        "depositAddress": "存款地址",
+        "noAddress": "您的专用存款地址尚未发放。请通过门户内聊天联系您的案件经理，以在完成此部分之前获取您的地址。",
+        "txHash": "您1,500 USDT存款的交易哈希（TX ID）",
+        "txHashPlaceholder": "例如 4a8e9f1c5d3b2a7e6f0c1d8b9a4e2f3c...",
+        "txHashHelp": "请准确粘贴交易哈希，如在您的钱包或区块浏览器中所示。我们使用它在链上验证您的存款，然后释放可退还部分。"
+      },
+      "acceptToggle": "我已阅读并接受上述所有监管条款（A–D部分），并理解1,500 USDT存款分为1,000 USDT可退还和500 USDT不可退还的处理费。",
+      "issueButton": "获取我的访问代码认证器",
+      "issuingButton": "正在发放...",
+      "issueHelp": "接受上述条款以启用此按钮。点击它将发放您的唯一声明代码。",
+      "issuedTitle": "您的声明访问代码",
+      "issuedHelp": "此代码已为您输入在表单顶部的访问代码字段中。请保持私密——任何拥有此代码的人都可能尝试在您的案件上提交声明。"
+    },
+    "signature": {
+      "title": "签名与授权",
+      "subtitle": "通过在下面签名，您证明所提供的所有信息都是准确、真实和完整的。",
+      "fullName": "全名（输入签名）",
+      "fullNamePlaceholder": "输入您的全名",
+      "date": "日期",
+      "afterSubmission": "提交后",
+      "afterBullets": {
+        "review": "您的信息将由合规团队审核。",
+        "confirm": "一旦您的账户被分类为合规，您将收到确认。",
+        "continue": "您可以继续使用平台而不受干扰。",
+        "future": "所有未来交易将仅使用支持的资产进行。"
+      },
+      "submit": "提交声明",
+      "submitting": "正在提交声明…",
+      "footer": "此声明已加时间戳、IP记录，并作为法律合规证明记录。"
+    }
+  },
+  "fields": {
+    "fullName": "全名",
+    "fullNamePlaceholder": "如身份证上所示",
+    "email": "电子邮件地址",
+    "registeredUsername": "注册用户名",
+    "accountId": "账户ID（如适用）",
+    "country": "居住国家",
+    "selectCountry": "选择国家",
+    "dob": "出生日期",
+    "accessCode": "访问代码",
+    "accessCodePlaceholder": "输入您合规官提供的8位代码"
+  },
+  "incomeOptions": {
+    "salary": "薪水 / 雇佣收入",
+    "business": "商业 / 自雇",
+    "investment": "投资回报（股票、债券、基金）",
+    "crypto": "加密货币交易 / 投资",
+    "realEstate": "房地产 / 财产收入",
+    "inheritance": "继承 / 家庭赠与",
+    "pension": "养老金 / 退休储蓄",
+    "saleAssets": "个人资产出售",
+    "other": "其他（请说明）"
+  },
+  "attachments": {
+    "title": "收入来源 — 支持文件",
+    "description": "上传<0>收入来源证明</0>（必需）— 例如最近的工资单、雇主信或最后的税单。您可以附加最多{{max}}份额外支持文件（银行对账单、股息报表、销售合同等）。PDF、PNG、JPEG或WebP · 每个最大10 MB。",
+    "psoiMissing": "提交此声明需要收入来源证明文件。",
+    "addMore": "添加另一个支持文件",
+    "psoiLabel": "收入来源证明",
+    "supportingPlaceholder": "文件名称（例如 银行对账单 Q3）",
+    "replaceFile": "替换文件",
+    "chooseFile": "选择文件",
+    "noFileSelected": "未选择文件"
+  },
+  "toast": {
+    "unsupportedTypeTitle": "不支持的文件类型",
+    "unsupportedTypeDesc": "请上传PDF、PNG、JPEG或WebP文件。",
+    "tooLargeTitle": "文件过大",
+    "tooLargeDesc": "最大文件大小为10 MB。此文件为{{size}} MB。",
+    "couldNotReadTitle": "无法读取文件",
+    "couldNotReadDesc": "请尝试其他文件。",
+    "completeTitle": "请完成表单",
+    "completeDesc": "缺失：{{missing}}",
+    "submissionFailedTitle": "提交失败",
+    "submissionFailedDesc": "请检查表单并重试。",
+    "submittedTitle": "声明已提交",
+    "submittedDesc": "我们的合规团队将尽快审核您的提交。",
+    "attachmentFailuresTitle": "某些文件无法保存",
+    "attachmentFailuresDesc": "您的声明已记录，但{{count}}个附件上传失败（{{names}}）。我们的合规团队已被通知，如有需要将通过文件视图请求重新上传——您现在无需采取任何行动。",
+    "networkErrorTitle": "网络错误",
+    "networkErrorDesc": "无法提交您的声明。请重试。",
+    "issueFailedTitle": "无法发放访问代码",
+    "issueFailedDesc": "请重试。",
+    "noCodeTitle": "未返回访问代码",
+    "noCodeDesc": "请联系合规支持。",
+    "codeIssuedTitle": "访问代码已发放",
+    "codeIssuedDesc": "您的声明访问代码如下所示，并已为您输入在表单顶部。",
+    "networkShortTitle": "网络错误",
+    "copyTitle": "已复制",
+    "copyDeposit": "存款地址已复制到剪贴板。",
+    "copyAccessCode": "访问代码已复制到剪贴板。"
+  },
+  "missing": {
+    "fullName": "全名",
+    "email": "电子邮件地址",
+    "country": "居住国家",
+    "dob": "出生日期",
+    "accessCode": "访问代码",
+    "sourceOfIncome": "收入来源",
+    "sourceOfIncomeOther": "收入来源（请说明）",
+    "monthlyIncome": "月收入",
+    "txHash": "处理费交易哈希",
+    "signature": "签名",
+    "signatureDate": "签名日期",
+    "allConfirmations": "所有合规确认",
+    "psoi": "收入来源证明文件",
+    "supportingLabel": "每个支持文件的标签"
+  },
+  "yes": "是",
+  "no": "否",
+  "status": {
+    "submittedTitle": "声明已提交",
+    "submittedDesc": "谢谢。您的合规声明已收到，正在由我们的合规团队审核。审核完成后您将收到通知。",
+    "submittedOn": "提交于 {{date}}",
+    "approvedTitle": "合规确认",
+    "approvedDesc": "您的声明已审核并获得批准。您的账户被分类为合规，您可以继续使用平台而不受干扰。",
+    "rejectedTitle": "声明需要关注",
+    "rejectedDesc": "我们的合规团队已标记您的先前提交。请联系支持以获取后续步骤。",
+    "rejectedNotes": "审核者备注",
+    "noneTitle": "无需声明",
+    "noneDesc": "您的账户当前不需要合规声明。如果有任何变化，您的合规官将在此通知您。",
+    "attachmentsTitle": "附加文件（{{count}}）"
+  }
+}

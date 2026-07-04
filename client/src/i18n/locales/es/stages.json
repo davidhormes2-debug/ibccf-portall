@@ -1,0 +1,122 @@
+{
+  "1": {
+    "title": "Depósito de Clave Frase Recibido",
+    "summary": "Su depósito inicial de Clave Frase ha sido confirmado en el libro mayor distribuido. Su caso ahora está activo y en cola para el siguiente paso de cumplimiento.",
+    "detailedExplanation": "El depósito de Clave Frase es un colateral reembolsable, en el libro mayor, que ancla su caso a un hash de transacción verificable en la cadena. Una vez que se observan un mínimo de tres confirmaciones de bloque, nuestra línea de cumplimiento abre un archivo de ejecución activo bajo su referencia de caso única. A partir de este momento, toda actividad subsiguiente (depósitos, declaraciones, emisión de claves) está criptográficamente vinculada a esa transacción de apertura para que la cadena de custodia pueda ser reproducida de extremo a extremo durante cualquier auditoría posterior a la liquidación.",
+    "whyItMatters": "Este paso satisface el requisito de control de entrada de IBCCF, reflejando la Recomendación 10 del GAFI sobre la Diligencia Debida del Cliente (CDD): no se puede abrir un canal de retiro sin una atestación en cadena verificable, iniciada por el beneficiario, que vincule al solicitante con la billetera receptora. También inicia la cadena de auditoría utilizada más tarde para el informe de la Regla de Viaje del GAFI (Recomendación 16).",
+    "whatToDo": "Inicie sesión en su portal seguro y confirme que la dirección de su billetera receptora registrada es correcta.\nMantenga su clave de acceso y su PIN de 6 dígitos a salvo — se requieren para cada paso que sigue.\nNo inicie ninguna nueva transferencia saliente desde la billetera receptora hasta que su caso avance.",
+    "whatToExpect": "Un oficial de cumplimiento comenzará a generar su Clave Frase Segura. La generación suele tardar entre 6 y 24 horas, dependiendo de la profundidad de la cola de revisión."
+  },
+  "2": {
+    "title": "Generando Clave Frase Segura",
+    "summary": "Nuestro sistema de cumplimiento está generando una Clave Frase única y encriptada vinculada a su caso. No se requiere ninguna acción de su parte en este momento.",
+    "detailedExplanation": "La Clave Frase Segura se produce dentro de un entorno aislado de ceremonia de clave utilizando un cálculo multipartito (MPC) dividido entre tres firmantes de cumplimiento independientes. Cada firmante posee solo una parte, y ninguna parte única — incluido el personal de IBCCF — ve jamás la clave ensamblada en texto plano. La clave se sella luego bajo un sobre protegido por HSM y se vincula a su referencia de caso, su billetera receptora y la marca de tiempo de su Depósito de Clave Frase.",
+    "whyItMatters": "La segregación de claves criptográficas está mandatada para cualquier custodio que mueva fondos de clientes a través de fronteras. Esta etapa existe para garantizar que, incluso en caso de un compromiso interno, ningún operador individual pueda liberar unilateralmente su retiro — cumpliendo con el principio de segregación de deberes requerido por ISO/IEC 27001 A.6.1.2 y el marco de atestación de custodia de la SEC descrito en SAB 121.",
+    "whatToDo": "Permanezca disponible — puede ser contactado a través del panel de mensajería segura dentro de su portal.\nNo comparta su clave de acceso o PIN con nadie, incluido el personal de IBCCF.",
+    "whatToExpect": "Una vez que se complete la generación, su Clave Frase se liberará a su archivo de caso en la siguiente etapa. Se le notificará dentro del portal."
+  },
+  "3": {
+    "title": "Clave Frase Aprobada y Disponible",
+    "summary": "Su Clave Frase Segura ha sido aprobada y emitida. Ahora es visible dentro del portal seguro bajo su caso activo.",
+    "detailedExplanation": "Su Clave Frase ha superado el flujo de trabajo de aprobación de control dual y ahora está vinculada a su caso como la identidad criptográfica utilizada para cada operación de firma posterior. La clave se muestra solo dentro de una sesión autenticada del portal a través de TLS 1.3, nunca se transmite por correo electrónico o chat, y se rota automáticamente si se detecta algún acceso anómalo.",
+    "whyItMatters": "La emisión bajo control dual con divulgación solo en el portal satisface los requisitos de identificación del cliente de la Ley USA PATRIOT §326 (Programa de Identificación del Cliente) y el principio de divulgación solo en banda recomendado por el Manual de Examen de TI del FFIEC (módulo de autenticación). También cierra el ciclo en la cadena de custodia abierta en la Etapa 1.",
+    "whatToDo": "Abra su portal y localice su Clave Frase en la sección Segura de su panel.\nReconozca la recepción revisando el mensaje enviado a través del portal seguro.\nNunca escriba su Clave Frase en ningún sitio web externo, correo electrónico, chat o formulario de terceros.",
+    "whatToExpect": "Su caso avanzará a la fase de Inicio de Retiro poco después de que se registre su reconocimiento."
+  },
+  "4": {
+    "title": "Proceso de Retiro Iniciado",
+    "summary": "Su solicitud de retiro ha sido formalmente iniciada. Su carta de retiro finalizada ya está disponible en el portal.",
+    "detailedExplanation": "La carta de retiro es su documento de divulgación formal. Enumera los dos caminos de liquidación disponibles para usted (Opción A — Liberación Acelerada, Opción B — Liberación Estándar), el monto por lote, la frecuencia de lotes, el Costo de Clave Frase y el requisito total para cada camino. Su elección se registra como una instrucción irrevocable del cliente (sujeta a las reglas de enfriamiento divulgadas en el pie de la carta) y forma la base para cada paso de verificación subsiguiente.",
+    "whyItMatters": "Presentar un cronograma de liquidación escrito, elegido por el beneficiario, satisface los requisitos de divulgación precontractual del Título II de MiCA (Artículos 6 y 13) y el principio de derechos del consumidor codificado en la Directiva de la UE sobre la Comercialización a Distancia de Servicios Financieros 2002/65/CE. Registrar su elección crea el mandato del cliente auditable requerido antes de que se pueda liberar cualquier valor en su nombre.",
+    "whatToDo": "Abra la sección de Retiro de su portal y lea su carta de retiro cuidadosamente.\nSeleccione su opción de retiro preferida (Opción A — Acelerada, o Opción B — Estándar).\nConfirme su selección para que la solicitud pueda pasar a verificación.",
+    "whatToExpect": "Una vez que se seleccione su opción, la etapa de Verificación de Depósito Inicial comenzará automáticamente."
+  },
+  "5": {
+    "title": "Verificación de Depósito Inicial",
+    "summary": "Su depósito inicial está siendo verificado en función de la opción que seleccionó.",
+    "detailedExplanation": "La verificación contrasta cada recibo que ha presentado con el registro de transacción en cadena (altura de bloque, valor, activo, dirección de envío) y confirma que el monto coincide exactamente con la cifra indicada en su opción seleccionada. Cualquier discrepancia — incluso un decimal parcial — debe ser reconciliada antes de que el caso pueda avanzar, porque los lotes posteriores se derivan de manera determinista de esta cifra de apertura.",
+    "whyItMatters": "La verificación del origen de fondos al inicio del cronograma de liquidación es la piedra angular de la Diligencia Debida Mejorada (EDD) bajo la Recomendación 10 del GAFI y también es un requisito previo para las obligaciones de Informe de Transacciones en Efectivo (CTR) de FinCEN siempre que el valor agregado del lote exceda el umbral de informe de USD 10,000.",
+    "whatToDo": "Envíe cualquier recibo de depósito o hash de transacción solicitado a través del panel de mensajería segura.\nAsegúrese de que el monto del depósito y la moneda coincidan exactamente con las cifras mostradas en su carta de retiro.",
+    "whatToExpect": "La verificación suele completarse en un plazo de 24 horas. Se le notificará dentro del portal cuando se registre el resultado."
+  },
+  "6": {
+    "title": "Verificación de Clave Frase",
+    "summary": "Su Clave Frase está siendo validada por el equipo de cumplimiento.",
+    "detailedExplanation": "La validación cruzada vuelve a derivar la huella criptográfica de la Clave Frase emitida en la Etapa 3 y la compara con la copia sellada mantenida bajo custodia de HSM. El desafío criptográfico de dos factores confirma que la clave en su posesión es genuinamente la emitida para su caso y no ha sido duplicada, filtrada o sustituida.",
+    "whyItMatters": "La re-atestación del credential del cliente mantenido antes de cualquier paso de transferencia de valor es requerida para cumplir con el Nivel de Aseguramiento del Autenticador 2 (AAL2) de NIST SP 800-63B y los requisitos de autenticación fuerte del cliente (SCA) impuestos a los proveedores de servicios de pago bajo PSD2 (Directiva (UE) 2015/2366).",
+    "whatToDo": "Si se le solicita, re-confirme su Clave Frase ingresándola dentro del portal — nunca a través de correo electrónico o chat.\nEsté atento a cualquier mensaje que solicite aclaraciones.",
+    "whatToExpect": "Una vez verificada, pasará a la etapa de Depósito de Fusión de Clave Frase."
+  },
+  "7": {
+    "title": "Depósito de Fusión de Clave Frase Requerido",
+    "summary": "Se requiere un Depósito de Fusión de Clave Frase del 30% para completar la fusión de su Clave Frase verificada con el libro mayor de retiros.",
+    "detailedExplanation": "El Depósito de Fusión es un colateral reembolsable, del lado del libro mayor, que permite que su Clave Frase verificada se fusione en el libro mayor de liquidación maestro como una única entrada contigua en lugar de ser liquidada como micro-lotes fragmentados. Sin la fusión, su retiro se dividiría en muchas pequeñas transferencias, cada una de las cuales necesitaría ser re-evaluada por separado y incurrir en costos adicionales de gas, deslizamiento y re-evaluación de AML. La cifra del 30% refleja la relación de cobertura prudencial utilizada para colaterales de liquidación no gravados bajo el marco LCR de Basilea III.",
+    "whyItMatters": "El Depósito de Fusión asegura que el archivo de liquidación permanezca como un único desembolso auditable, lo cual es requerido para cumplir con las reglas de anti-fragmentación incorporadas en la prohibición de estructuración de FinCEN (31 USC §5324) y las directrices de la EBA sobre la prevención de la estratificación de transacciones. También evita cualquier aumento de AML que de otro modo sería desencadenado por un patrón de liquidación fragmentado.",
+    "whatToDo": "Revise el monto del depósito de fusión mostrado dentro de su portal.\nEnvíe el depósito a la dirección de billetera proporcionada en su portal — nunca a ninguna dirección recibida por correo electrónico.\nSuba el recibo de la transacción en la sección de Depósito del portal.",
+    "whatToExpect": "Después de la confirmación en la blockchain, su caso avanzará a la Verificación del Departamento Financiero."
+  },
+  "8": {
+    "title": "Verificación del Departamento Financiero",
+    "summary": "El Departamento Financiero está revisando su entrada de libro mayor fusionada y los depósitos de apoyo.",
+    "detailedExplanation": "La revisión financiera reconcilia cada movimiento de valor adjunto a su caso (depósito inicial, depósito de fusión, desembolso proyectado) contra el libro mayor de grado bancario aprobado y busca cualquier anomalía que podría indicar malversación, procesamiento duplicado o riesgo de contraparte. El oficial revisor firma utilizando un principio de cuatro ojos, con ambas firmas almacenadas en el registro de auditoría.",
+    "whyItMatters": "La aprobación financiera independiente implementa el marco de control interno COSO 2013 y los estándares de auditoría en ISA 600 (auditorías grupales) y PCAOB AS 2410 (transacciones entre partes relacionadas). También es un requisito previo para presentar cualquier Informe de Actividad Sospechosa (SAR) que pueda ser desencadenado más adelante.",
+    "whatToDo": "Asegúrese de que todos los recibos subidos sean claros y legibles.\nResponda rápidamente a cualquier solicitud de información adicional enviada a través de mensajería segura.",
+    "whatToExpect": "Con la aprobación, su caso avanza al paso de autorización de Retiro Minero."
+  },
+  "9": {
+    "title": "Retiro Minero para Autorización Final",
+    "summary": "Su retiro está siendo preparado para el procesamiento en blockchain por el escritorio de autorización minera.",
+    "detailedExplanation": "El escritorio de autorización minera asigna un espacio de red dedicado, pre-financia el sobre de gas y aplica protección MEV (Valor Extraíble por Mineros) para que su transacción de liquidación no pueda ser adelantada, atacada en sándwich o reordenada por un validador oportunista. No se requiere ningún depósito de su parte en esta etapa.",
+    "whyItMatters": "La ejecución protegida por MEV está mandatada por las directrices de ESMA sobre la finalización de liquidaciones para proveedores de servicios de criptoactivos y se alinea con los principios de mercados justos y ordenados establecidos en el Artículo 17 de MiFID II (salvaguardias de comercio algorítmico extendidas por analogía a la ejecución en cadena).",
+    "whatToDo": "No se requiere ningún depósito en esta etapa — tenga cuidado con cualquier persona que solicite uno fuera del portal oficial.\nConfirme su dirección de billetera receptora una vez más dentro del portal.",
+    "whatToExpect": "Cuando se complete la autorización, su actividad de billetera será verificada en la cadena."
+  },
+  "10": {
+    "title": "Verificación de Actividad en Blockchain",
+    "summary": "Su billetera receptora debe tener el saldo de actividad requerido para que se pueda verificar la liquidación en cadena.",
+    "detailedExplanation": "La verificación de actividad confirma que la billetera receptora no está inactiva, está limpia de OFAC y es capaz de aceptar la liquidación entrante sin rechazarla de vuelta a la red. El saldo requerido actúa como una señal heurística de un beneficiario real y activo y es revisado por la misma herramienta KYT (Conozca su Transacción) utilizada por los principales custodios. El saldo permanece 100% bajo su control en todo momento.",
+    "whyItMatters": "La verificación de billetera previa a la liquidación es requerida para cumplir con las obligaciones de evaluación de SDN y SDGT de OFAC (50 USC §1701 y siguientes) y con el requisito de atestación del beneficiario de la Regla de Viaje del GAFI. También previene que los fondos queden atrapados en una dirección inactiva o sancionada, lo que obligaría a un congelamiento mandado por el regulador.",
+    "whatToDo": "Asegúrese de que el saldo de actividad mostrado en su portal esté presente y mantenido en su billetera receptora.\nNo mueva fondos fuera de la billetera receptora hasta que la verificación esté completa.",
+    "whatToExpect": "Una vez que se confirme la actividad en cadena, comienza la verificación del IRS / AML Internacional."
+  },
+  "11": {
+    "title": "Verificación del IRS / AML Internacional",
+    "summary": "Su retiro está siendo sometido a controles internacionales de anti-lavado de dinero y de informes fiscales.",
+    "detailedExplanation": "Esta etapa realiza la reconciliación internacional de impuestos y AML: un chequeo de residencia FATCA / CRS, una alineación de informes de criptoactivos CARF de la OCDE, un pase de evaluación de FinCEN y (donde sea aplicable) la preparación del Formulario 1099-DA del IRS. Se le pedirá que firme digitalmente la Declaración de Cumplimiento, que registra su reconocimiento de que los fondos se están liberando bajo su residencia fiscal.",
+    "whyItMatters": "Las liquidaciones transfronterizas por encima de los umbrales de de-minimis establecidos por FATCA y CRS no pueden ser liberadas sin una declaración firmada del beneficiario. Esta etapa lo protege de ser evaluado más tarde con retenciones punitivas (hasta el 30% bajo el IRC §1471) y asegura que el desembolso sea reportable en su jurisdicción de origen bajo el Marco de Informes de Criptoactivos de la OCDE.",
+    "whatToDo": "Revise y firme digitalmente la Declaración de Cumplimiento presentada en su portal.\nProporcione cualquier documentación de residencia fiscal solicitada a través de mensajería segura.",
+    "whatToExpect": "Una vez aprobado, su caso avanza a la etapa de Procesamiento Final de Retiro."
+  },
+  "12": {
+    "title": "Procesamiento Final de Retiro",
+    "summary": "Su retiro está en su ventana final de procesamiento. Todos los depósitos, declaraciones y verificaciones deben estar completos.",
+    "detailedExplanation": "El procesamiento final coloca su caso en el estado de cola para liquidación. El desembolso está bloqueado en su billetera receptora, el sobre de gas está comprometido y comienza el contador de retención regulatoria. Durante la ventana de retención, se pueden levantar cualquier bandera de cumplimiento final; una vez que la ventana se cierra sin objeción, los fondos se liberan automáticamente.",
+    "whyItMatters": "La ventana de retención obligatoria refleja el estándar de liquidación T+1 adoptado por la SEC para valores de EE. UU. (enmiendas a la Regla 15c6-1 efectivas en mayo de 2024) y las reglas equivalentes de finalización de liquidaciones bajo la Directiva de Finalización de Liquidaciones de la UE (Directiva 98/26/CE). La ventana es lo que hace que el desembolso sea irrevocable una vez completado.",
+    "whatToDo": "Confirme una última vez que su billetera receptora es correcta.\nManténgase alerta para la solicitud de marca de tiempo de entrega final que puede seguir.",
+    "whatToExpect": "Los fondos están programados para liberarse a la espera del depósito de marca de tiempo final (si es aplicable a su opción)."
+  },
+  "13": {
+    "title": "Retiro Liberado con Éxito",
+    "summary": "Felicidades — su retiro ha sido liberado a su billetera receptora.",
+    "detailedExplanation": "El evento de liberación es final e irrevocable. Se ha escrito una atestación de liquidación en su archivo de caso que contiene el hash de transacción en cadena, la altura de bloque de confirmación, la marca de tiempo de liquidación y la ID de cumplimiento del oficial firmante. Esta atestación es el documento que debe conservar para cualquier declaración de impuestos o auditoría futura.",
+    "whyItMatters": "Se requiere una atestación de liquidación firmada para evidenciar la liberación para informes FATCA y CRS y para cumplir con las obligaciones de mantenimiento de registros de IBCCF bajo la Recomendación 11 del GAFI (retención de cinco años) y el Reglamento de AML de la UE (UE) 2024/1624 (estándares de mantenimiento de registros del Artículo 56).",
+    "whatToDo": "Confirme la recepción dentro de su portal para que el caso pueda cerrarse oficialmente.\nConserve una copia de su carta de retiro y la atestación de liquidación para sus registros.",
+    "whatToExpect": "Un correo electrónico final de cierre de caso seguirá una vez que se registre su reconocimiento."
+  },
+  "14": {
+    "title": "Depósito de Marca de Tiempo para Entrega Final",
+    "summary": "Se requiere un pequeño Depósito de Marca de Tiempo para bloquear el espacio de entrega en cadena reservado para su retiro.",
+    "detailedExplanation": "El Depósito de Marca de Tiempo financia una transacción bloqueada por tiempo (análoga a BIP 65 CHECKLOCKTIMEVERIFY en Bitcoin y opcodes de tiempo de bloqueo equivalentes en cadenas EVM) que reserva la ventana de bloque exacta en la que se liberará su retiro. Sin este bloqueo, su liquidación competiría en el mempool abierto con cada otra transacción en esa ventana y podría retrasarse indefinidamente. El depósito es consumido por el bloqueo de tiempo y no es reembolsable en efectivo, pero se acredita completamente contra la reserva de gas para su liberación.",
+    "whyItMatters": "La reserva bloqueada por tiempo es requerida por las directrices de finalización de liquidaciones de ESMA para desembolsos de criptoactivos de alto valor y es recomendada por los estándares de mensajería ISO 20022 para transferencias de valor transfronterizas, ambos requieren una ventana de liquidación determinista y precomprometida.",
+    "whatToDo": "Revise el monto del Depósito de Marca de Tiempo y la billetera de destino dentro de su portal.\nEnvíe el depósito y suba el hash de la transacción en la sección de Depósito.",
+    "whatToExpect": "Una vez que la marca de tiempo se aclare, su retiro se liberará dentro de la ventana de entrega reservada."
+  },
+  "fields": {
+    "summary": "Resumen",
+    "details": "Explicación detallada",
+    "whyItMatters": "Por qué esto es importante",
+    "regulatoryBasis": "Base regulatoria",
+    "whatToDo": "Lo que debe hacer",
+    "whatToExpect": "Qué esperar a continuación"
+  }
+}

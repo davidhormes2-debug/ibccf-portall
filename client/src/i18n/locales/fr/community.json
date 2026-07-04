@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "Forum Communautaire",
+    "subtitle": "Discussions, soutien et expériences partagées",
+    "back": "Retour",
+    "home": "Accueil",
+    "brand": "Communauté IBCCF",
+    "live": "EN DIRECT"
+  },
+  "actions": {
+    "newThread": "Démarrer une Discussion",
+    "newDiscussion": "Nouvelle Discussion",
+    "newShort": "Nouveau",
+    "signInToPost": "Connectez-vous pour Publier",
+    "signInShort": "Se Connecter",
+    "search": "Rechercher des discussions...",
+    "postReply": "Publier une Réponse",
+    "replyPlaceholder": "Partagez vos pensées ou votre expérience...",
+    "submitReply": "Publier la Réponse",
+    "posting": "Publication...",
+    "backToDiscussions": "Retour aux Discussions"
+  },
+  "dialog": {
+    "title": "Démarrer une Nouvelle Discussion",
+    "department": "Département",
+    "departmentPlaceholder": "Sélectionnez un département",
+    "titleLabel": "Titre",
+    "titlePlaceholder": "Donnez un titre clair à votre discussion",
+    "content": "Contenu",
+    "contentPlaceholder": "Partagez votre expérience, posez une question ou démarrez une discussion...",
+    "cancel": "Annuler",
+    "create": "Créer une Discussion",
+    "creating": "Création..."
+  },
+  "stats": {
+    "members": "Membres",
+    "discussions": "Discussions",
+    "replies": "Réponses",
+    "departments": "Départements"
+  },
+  "sidebar": {
+    "departments": "Départements",
+    "allDiscussions": "Toutes les Discussions"
+  },
+  "thread": {
+    "locked": "Verrouillé",
+    "pinned": "Épinglé",
+    "moderator": "Modérateur",
+    "you": "Vous",
+    "live": "En Direct",
+    "views": "vues",
+    "replies": "réponses",
+    "repliesCount": "Réponses ({{count}})",
+    "loading": "Chargement des réponses...",
+    "noReplies": "Pas encore de réponses. Soyez le premier à répondre !",
+    "postingAs": "Publication en tant que",
+    "postingAsAnonymous": "Publication en tant que membre anonyme de la communauté",
+    "signInToReplyTitle": "Connectez-vous pour répondre",
+    "signInToReplyDesc": "Vous avez besoin d'un compte sur le portail pour participer aux discussions.",
+    "signInToReply": "Connectez-vous pour Répondre"
+  },
+  "empty": {
+    "noThreads": "Pas encore de discussions",
+    "ctaAuthed": "Soyez le premier à commencer une conversation !",
+    "ctaGuest": "Connectez-vous pour commencer la première discussion."
+  },
+  "guidelines": {
+    "title": "Directives de la Communauté",
+    "rule1": "Soyez respectueux et solidaire",
+    "rule2": "Partagez des expériences, pas des détails personnels",
+    "rule3": "Pas de spam ou de contenu promotionnel",
+    "rule4": "Signalez toute activité suspecte",
+    "rule5": "Protégez votre vie privée — utilisez uniquement des pseudonymes"
+  },
+  "toast": {
+    "threadCreatedTitle": "Fil Créé",
+    "threadCreatedDesc": "Votre fil de discussion a été publié.",
+    "replyPostedTitle": "Réponse Publiée",
+    "replyPostedDesc": "Votre réponse a été ajoutée à la discussion.",
+    "errorTitle": "Erreur",
+    "createThreadFail": "Échec de la création du fil",
+    "postReplyFail": "Échec de la publication de la réponse",
+    "missingFieldsTitle": "Champs Manquants",
+    "missingFieldsDesc": "Veuillez remplir tous les champs",
+    "rateLimitedTitle": "Ralentissez un peu",
+    "rateLimitedDesc": "Vous avez posté rapidement. Veuillez attendre un moment et réessayer."
+  },
+  "loading": "Chargement des discussions..."
+}

@@ -1,0 +1,277 @@
+uploads = []
+
+[[generated]]
+id = "8raSfeq3ODeq5mN4_JXWF"
+uri = "file://client/public/images/hero-bg.png"
+type = "image"
+title = "Hero global operations background"
+
+[[generated]]
+id = "B7xAD6s4LMBUimt180lzR"
+uri = "file://client/public/images/dept-aml.png"
+type = "image"
+title = "AML Division imagery"
+
+[[generated]]
+id = "azMPRr8FG0k2S0KrrznZk"
+uri = "file://client/public/images/dept-cyber.png"
+type = "image"
+title = "Cybercrime Forensics imagery"
+
+[[generated]]
+id = "34HkdMJJROMdly4lLSf4r"
+uri = "file://client/public/images/dept-recovery.png"
+type = "image"
+title = "Asset Recovery imagery"
+
+[[generated]]
+id = "5PdEra3CqiSSbRMLg3Kpv"
+uri = "file://client/public/images/dept-compliance.png"
+type = "image"
+title = "Compliance Regulatory imagery"
+
+[[generated]]
+id = "kYoLya61T-I1_jUeTCRxU"
+uri = "file://client/public/images/dept-intel.png"
+type = "image"
+title = "Intelligence Threat Analysis imagery"
+
+[[generated]]
+id = "2c8hDLyj_ZEvON1G1R3SJ"
+uri = "file://client/public/images/dept-support.png"
+type = "image"
+title = "Victim Support Services imagery"
+
+[[generated]]
+id = "kg7o8hbqwf4sBCZ3TGGp4"
+uri = "file://client/public/images/global-map.png"
+type = "image"
+title = "Global Operations Map"
+
+[[generated]]
+id = "1v66PBWLpIT0JakOMwsqL"
+uri = "file://client/public/images/legal-hero.png"
+type = "image"
+title = "legal intelligence command center"
+
+[[generated]]
+id = "pu7zDPep_v6v_7cjSUU7N"
+uri = "file://client/public/images/legal-international.png"
+type = "image"
+title = "globe UN building gold accents"
+
+[[generated]]
+id = "VCG9vo7bc36IJF1Yrcnhw"
+uri = "file://client/public/images/legal-national.png"
+type = "image"
+title = "government buildings flags dark navy"
+
+[[generated]]
+id = "QuGSH8OTGtZaFURdkPX50"
+uri = "file://client/public/images/legal-crypto-law.png"
+type = "image"
+title = "blockchain network legal documents amber"
+
+[[generated]]
+id = "oSXR1cOlXxuTWe0N0ockC"
+uri = "file://client/public/images/legal-aml.png"
+type = "image"
+title = "surveillance red urgency aml"
+
+[[generated]]
+id = "DMwgKNl50GzUEuDrbnN8k"
+uri = "file://client/public/images/legal-legal-databases.png"
+type = "image"
+title = "law library data visualization blue"
+
+[[generated]]
+id = "QJrlsKINW2S1GPNOYZ-yZ"
+uri = "file://client/public/images/legal-research.png"
+type = "image"
+title = "analytics dashboard charts purple pink"
+
+[[outputs]]
+id = "2feTI4N5hNQC3aVqlsu6B"
+uri = "file://attached_assets/nda-v07-preview.pdf"
+type = "pdf"
+title = "NDA preview — v1.2026.07 (new design)"
+
+[[outputs]]
+id = "YU7fkuP4u2qI3IlywyySs"
+uri = "file://client/public/withdrawal-video/narration/en/intro.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "wPCp4Q9twhZhoRkEXStC_"
+uri = "file://client/public/withdrawal-video/narration/en/phase1.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "eLbJ0aJhKpJpMhJpMzpK_"
+uri = "file://client/public/withdrawal-video/narration/en/phase2.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "1G-G7RY5kuMWLyOKvWE98"
+uri = "file://client/public/withdrawal-video/narration/en/phase3.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "PjryZILeKDlmzzS8MXI_G"
+uri = "file://client/public/withdrawal-video/narration/en/phase4.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "k5E7DWiilWN9bcXl1o5D3"
+uri = "file://client/public/withdrawal-video/narration/es/intro.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "xRCL7F8f3uxqWYLGt1viJ"
+uri = "file://client/public/withdrawal-video/narration/es/phase1.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "OKwOMxou9RaRHtie4mcO7"
+uri = "file://client/public/withdrawal-video/narration/es/phase2.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "8awr_w-k0l_JBS4QHQ74t"
+uri = "file://client/public/withdrawal-video/narration/es/phase3.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "AcFNWd2XzPleWqy9QIRVV"
+uri = "file://client/public/withdrawal-video/narration/es/phase4.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "o08KE4gXsmVVHf1AzcGRo"
+uri = "file://client/public/withdrawal-video/narration/fr/intro.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "FFOiL_0X2SSCH5jvuE9Qt"
+uri = "file://client/public/withdrawal-video/narration/fr/phase1.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "2_tPUWHOtDmUqqsmza0og"
+uri = "file://client/public/withdrawal-video/narration/fr/phase2.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "onysCy8JSNB8fb43nmIsV"
+uri = "file://client/public/withdrawal-video/narration/fr/phase3.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "2JsTFcz6gk54Pr24cSKfn"
+uri = "file://client/public/withdrawal-video/narration/fr/phase4.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "gxk66w-fEdoHbaYQnSUtJ"
+uri = "file://client/public/withdrawal-video/narration/de/intro.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "lhfn14jQdxmd0LdhkNPYW"
+uri = "file://client/public/withdrawal-video/narration/de/phase1.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "7O4NB9FEgZZWgzSbIEjkl"
+uri = "file://client/public/withdrawal-video/narration/de/phase2.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "rLo7kBVXNeqQ3vPMyOk4S"
+uri = "file://client/public/withdrawal-video/narration/de/phase3.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "76_y0T-ronjIzi5TwLKHZ"
+uri = "file://client/public/withdrawal-video/narration/de/phase4.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "zPfKtvT7ftpRJnB7Csuzm"
+uri = "file://client/public/withdrawal-video/narration/pt/intro.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "cwZpn20UCD3mbcG4UQGIi"
+uri = "file://client/public/withdrawal-video/narration/pt/phase1.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "BVbEGP2JMkbme51y5_uIp"
+uri = "file://client/public/withdrawal-video/narration/pt/phase2.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "hmohq6VK-Gatv3OW3RsnW"
+uri = "file://client/public/withdrawal-video/narration/pt/phase3.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "eIcEzDUKTXtiG8vITiLmU"
+uri = "file://client/public/withdrawal-video/narration/pt/phase4.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "0FJ90j84FZQSduK-WEgoO"
+uri = "file://client/public/withdrawal-video/narration/zh/intro.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "mTZO32qc0uH8iB8XgLdrQ"
+uri = "file://client/public/withdrawal-video/narration/zh/phase1.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "BqreXxHbsXs5W-fuG9jZf"
+uri = "file://client/public/withdrawal-video/narration/zh/phase2.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "5CJI8e9Xsg4yM8qzbbTm_"
+uri = "file://client/public/withdrawal-video/narration/zh/phase3.mp3"
+type = "audio"
+title = "speech"
+
+[[outputs]]
+id = "a_QtDo7LEOfOPXagYwM-w"
+uri = "file://client/public/withdrawal-video/narration/zh/phase4.mp3"
+type = "audio"
+title = "speech"

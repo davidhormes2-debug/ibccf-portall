@@ -1,0 +1,229 @@
+{
+  "header": {
+    "title": "Erklärung zur Einhaltung",
+    "subtitle": "Regulatorische Erklärung in mehreren Abschnitten. Alle erforderlichen Felder müssen vor der Einreichung ausgefüllt werden."
+  },
+  "back": "Zurück zum Dashboard",
+  "hero": {
+    "badge": "Regulatorische Einhaltung · Erforderlich",
+    "title": "Erklärung zur Einhaltung",
+    "subtitle": "Benutzerauthentifizierungsportal",
+    "description": "Um den fortgesetzten Zugang zu den Plattformdiensten sicherzustellen und die Übereinstimmung mit den sich entwickelnden internationalen regulatorischen Standards aufrechtzuerhalten, sind alle Benutzer verpflichtet, die Erklärung zur Einhaltung auszufüllen. Dieser Prozess bestätigt, dass Ihre Kontobewegungen rechtmäßig, konform und nicht mit sanktionierten Jurisdiktionen oder eingeschränkten digitalen Vermögenswerten verbunden sind.",
+    "completeAll": "Bitte füllen Sie alle Abschnitte unten aus."
+  },
+  "sectionLabel": "Abschnitt {{number}}",
+  "sections": {
+    "personal": {
+      "title": "Persönliche Identifikation",
+      "subtitle": "Bestätigen Sie die mit Ihrem Konto verbundenen Daten."
+    },
+    "accessCode": {
+      "title": "Authentifizierung des Zugangscodes",
+      "subtitle": "Bitte geben Sie den Zugangscode ein, der Ihnen zur Verfügung gestellt wurde, um das Erklärungsformular zu entsperren.",
+      "help": "Der Zugangscode wurde von Ihrem Compliance-Kontakt in Ihrer letzten sicheren Nachricht bereitgestellt. Wenn Sie ihn nicht haben, kontaktieren Sie bitte den Support."
+    },
+    "sanctions": {
+      "title": "Erklärung zur Einhaltung von Sanktionen",
+      "subtitle": "Bitte überprüfen Sie jede Aussage sorgfältig und bestätigen Sie Ihre Einhaltung.",
+      "iran": "Ich bestätige, dass ich nicht an Aktivitäten beteiligt bin, die mit dem Iran oder einer Jurisdiktion, Entität oder Person, die US-Sanktionen unterliegt, verbunden sind.",
+      "noSanctioned": "Ich bestätige, dass ich keine direkten oder indirekten Transaktionen mit sanktionierten Parteien durchgeführt habe.",
+      "usdt": "Ich erkenne an, dass USDT (Tether) aufgrund regulatorischer Bedenken nicht mehr unterstützt wird, und ich stimme zu, USDT auf dieser Plattform künftig nicht zu verwenden.",
+      "falseInfo": "Ich verstehe, dass die Bereitstellung falscher oder irreführender Informationen zu Kontoeinschränkungen oder einer dauerhaften Schließung führen kann."
+    },
+    "asset": {
+      "title": "Bestätigung genehmigter Vermögenswerte",
+      "subtitle": "Bitte wählen Sie Ihren bevorzugten unterstützten Vermögenswert für alle zukünftigen Transaktionen aus.",
+      "preferred": "Bevorzugter Vermögenswert",
+      "recommended": "Empfohlener unterstützter Vermögenswert",
+      "other": "Anderer unterstützter Vermögenswert (optional)",
+      "otherPlaceholder": "z.B. USDC (Ethereum), DAI, ...",
+      "usdcShort": "USDC",
+      "usdcPolygon": "USDC (Polygon)"
+    },
+    "income": {
+      "title": "Einkommensquelle",
+      "subtitle": "Bitte geben Sie die primäre Quelle der mit Ihrem Konto verbundenen Mittel an.",
+      "selectAll": "Einkommensquellen (alle zutreffenden auswählen)",
+      "tap": "Tippen Sie auf jede Karte, die zutrifft. Sie können mehr als eine Quelle auswählen.",
+      "monthly": "Ungefähr monatliches Einkommen (USD)",
+      "monthlyHelp": "Geben Sie Ihr durchschnittliches monatliches Einkommen in US-Dollar an. Eine Schätzung in gutem Glauben ist in Ordnung.",
+      "monthlyPlaceholder": "z.B. 7.500",
+      "otherLabel": "Bitte beschreiben Sie Ihre andere(n) Einkommensquelle(n)",
+      "otherPlaceholder": "Beschreiben Sie Ihre zusätzliche Einkommensquelle"
+    },
+    "regulatory": {
+      "title": "Regulatorische Anerkennung",
+      "subtitle": "Durch das Ausfüllen dieser Erklärung erkenne ich Folgendes an:",
+      "agree": "Ich verstehe und stimme den obigen Bedingungen zu.",
+      "bullets": {
+        "scrutiny": "Jüngste regulatorische Entwicklungen haben die Überprüfung von USDT-Transaktionen erhöht.",
+        "frozen": "Mittel, die mit sanktionierten Jurisdiktionen verbunden sind, können einer Überprüfung oder Einfrierung unterliegen.",
+        "required": "Diese Erklärung ist erforderlich, um den ununterbrochenen Zugang zu den Plattformdiensten aufrechtzuerhalten.",
+        "future": "Alle zukünftigen Transaktionen werden mit unterstützten Vermögenswerten wie USDC verarbeitet.",
+        "protect": "Ich verstehe, dass diese Maßnahme dazu dient, mein Konto zu schützen und die Einhaltung sicherzustellen."
+      }
+    },
+    "terms": {
+      "title": "Regulatorische Bedingungen & Zugangscode-Authentifizierer",
+      "subtitle": "Lesen Sie jede Bedingung sorgfältig durch. Sobald Sie akzeptieren, können Sie unten Ihren Zugangscode selbst ausstellen.",
+      "groupA": "A. Internationale regulatorische Bedingungen",
+      "groupB": "B. AML, CTF & KYC Bestätigung",
+      "groupC": "C. Steuern, FATCA & CRS",
+      "groupD": "D. Datenaufbewahrung, Datenschutz & Rechtsbehelfe",
+      "a": {
+        "fatf": "Ich bestätige, dass die deklarierten Mittel nicht die Erträge aus, noch für Aktivitäten verwendet werden, die unter FATF, OFAC, EU, UK oder UN-Sanktionen verboten sind.",
+        "share": "Ich stimme der grenzüberschreitenden Weitergabe dieser Erklärung und aller damit verbundenen Compliance-Daten an Aufsichtsbehörden, Partnerfinanzinstitute und Aufsichtsbehörden in Jurisdiktionen, die für meine Kontobewegungen relevant sind, zu.",
+        "breakdown": "Ich verstehe, dass die 1.500 USDT Einzahlung wie folgt aufgeschlüsselt wird: <0>1.000 USDT vollständig erstattungsfähig</0> bei Genehmigung der Compliance und <1>500 USDT nicht erstattungsfähige Bearbeitungsgebühr für Überprüfung, On-Chain-Verifizierung und regulatorische Aufzeichnung.</1>",
+        "binding": "Ich erkenne an, dass die Einreichung des On-Chain-Transaktionshashs zusammen mit dem Zugangscode, den ich mir unten ausstelle, meine rechtlich bindende Akzeptanz dieser internationalen regulatorischen Bedingungen darstellt.",
+        "false": "Ich verstehe, dass die Bereitstellung eines falschen, wiederverwendeten oder nicht verifizierbaren Transaktionshashs zur sofortigen Ablehnung dieser Erklärung und zum Verlust des erstattungsfähigen Teils führen wird."
+      },
+      "b": {
+        "true": "Ich erkläre, dass alle Informationen, Dokumente und Identifikationsmaterialien, die ich bereitgestellt habe, nach bestem Wissen wahr, vollständig und aktuell sind.",
+        "notify": "Ich werde das Compliance-Team umgehend über jede wesentliche Änderung meiner Identität, meines Wohnsitzes, meiner Mittelquelle oder meiner wirtschaftlichen Eigentumsposition innerhalb von 30 Tagen nach der Änderung informieren.",
+        "kyc": "Ich verstehe, dass die Institution jederzeit zusätzliche Know-Your-Customer (KYC), Customer Due Diligence (CDD) oder Enhanced Due Diligence (EDD) Dokumente anfordern kann und dass eine Nichtreaktion innerhalb des angeforderten Zeitrahmens zur Kontosperrung führen kann.",
+        "thirdParty": "Ich bestätige, dass ich nicht wissentlich im Namen einer nicht offengelegten dritten Partei, einer sanktionierten Entität, einer politisch exponierten Person ohne Offenlegung oder einer Partei, die in Geldwäsche oder Terrorismusfinanzierung verwickelt ist, handle."
+      },
+      "c": {
+        "tax": "Ich bestätige, dass ich verantwortlich bin für die Erklärung und Zahlung aller Steuern, die in meinen Steueransässigkeitsjurisdiktionen auf etwaige Einkünfte, Gewinne oder Bestände im Zusammenhang mit diesem Konto fällig sind.",
+        "fatca": "Ich stimme zu, dass die Institution meine Kontoinformationen gemäß FATCA, dem Gemeinsamen Meldestandard (CRS) und jedem entsprechenden lokalen Regime an die zuständigen Steuerbehörden meldet.",
+        "tin": "Ich werde auf Anfrage eine gültige Steueridentifikationsnummer (TIN) bereitstellen und diese aktualisieren, wann immer sich mein Steuerwohnsitz ändert."
+      },
+      "d": {
+        "retain": "Ich verstehe, dass diese Erklärung und die unterstützenden Unterlagen mindestens sieben (7) Jahre nach Abschluss meines Falls aufbewahrt werden, gemäß den internationalen Standards zur Aufbewahrung von Finanzdienstleistungsunterlagen.",
+        "process": "Ich autorisiere die Institution, meine personenbezogenen Daten zu Compliance-, Betrugspräventions-, Prüfungs- und regulatorischen Berichtszwecken zu verarbeiten.",
+        "dispute": "Ich stimme zu, dass alle Streitigkeiten, die sich aus dieser Erklärung ergeben, gemäß dem im meinem Kontovertrag angegebenen geltenden Recht gelöst werden und dass mein Rechtsbehelf auf die im Vertrag verfügbaren Rechtsmittel beschränkt ist.",
+        "update": "Ich erkenne an, dass die Institution sich das Recht vorbehält, diese Bedingungen mit vorheriger Ankündigung zu aktualisieren und dass meine fortgesetzte Nutzung des Dienstes nach einer solchen Ankündigung die Akzeptanz der aktualisierten Bedingungen darstellt."
+      },
+      "fee": {
+        "totalDeposit": "Gesamteinzahlung",
+        "refundableLabel": "Erstattungsfähig",
+        "refundableNote": "Nach Genehmigung der Compliance zurückgegeben",
+        "processingLabel": "Bearbeitungsgebühr",
+        "processingNote": "Nicht erstattungsfähige Überprüfungsgebühr",
+        "network": "Netzwerk",
+        "networkValue": "TRC20 (Tron)",
+        "depositAddress": "Einzahlungsadresse",
+        "noAddress": "Ihre dedizierte Einzahlungsadresse wurde noch nicht ausgegeben. Bitte kontaktieren Sie Ihren Fallmanager über den In-Portal-Chat, um Ihre Adresse zu erhalten, bevor Sie diesen Abschnitt ausfüllen.",
+        "txHash": "Transaktionshash (TX-ID) Ihrer 1.500 USDT Einzahlung",
+        "txHashPlaceholder": "z.B. 4a8e9f1c5d3b2a7e6f0c1d8b9a4e2f3c...",
+        "txHashHelp": "Fügen Sie den Transaktionshash genau so ein, wie er in Ihrer Brieftasche oder im Block-Explorer angezeigt wird. Wir verwenden ihn, um Ihre Einzahlung On-Chain zu verifizieren, bevor wir den erstattungsfähigen Teil freigeben."
+      },
+      "acceptToggle": "Ich habe alle oben genannten regulatorischen Bedingungen (Abschnitte A–D) gelesen und akzeptiere sie, und ich verstehe, dass die 1.500 USDT Einzahlung sich in 1.000 USDT erstattungsfähig und 500 USDT nicht erstattungsfähige Bearbeitungsgebühr aufteilt.",
+      "issueButton": "Erhalten Sie meinen Zugangscode-Authentifizierer",
+      "issuingButton": "Ausstellen...",
+      "issueHelp": "Akzeptieren Sie die obigen Bedingungen, um diese Schaltfläche zu aktivieren. Ein Klick darauf stellt Ihren einzigartigen Erklärungscode aus.",
+      "issuedTitle": "Ihr Zugangscode zur Erklärung",
+      "issuedHelp": "Dieser Code wurde für Sie im Zugangscodefeld oben im Formular eingegeben. Halten Sie ihn privat – jeder, der diesen Code hat, könnte versuchen, eine Erklärung für Ihren Fall einzureichen."
+    },
+    "signature": {
+      "title": "Unterschrift & Autorisierung",
+      "subtitle": "Durch Ihre Unterschrift unten bestätigen Sie, dass alle bereitgestellten Informationen genau, wahrheitsgemäß und vollständig sind.",
+      "fullName": "Vollständiger Name (getippte Unterschrift)",
+      "fullNamePlaceholder": "Geben Sie Ihren vollständigen rechtlichen Namen ein",
+      "date": "Datum",
+      "afterSubmission": "Nach der Einreichung",
+      "afterBullets": {
+        "review": "Ihre Informationen werden vom Compliance-Team überprüft.",
+        "confirm": "Sie erhalten eine Bestätigung, sobald Ihr Konto als konform eingestuft ist.",
+        "continue": "Sie können die Plattform ohne Unterbrechung weiter nutzen.",
+        "future": "Alle zukünftigen Transaktionen werden nur mit unterstützten Vermögenswerten durchgeführt."
+      },
+      "submit": "Erklärung einreichen",
+      "submitting": "Erklärung wird eingereicht…",
+      "footer": "Diese Erklärung ist zeitgestempelt, IP-protokolliert und als rechtliche Compliance-Bestätigung aufgezeichnet."
+    }
+  },
+  "fields": {
+    "fullName": "Vollständiger Name",
+    "fullNamePlaceholder": "Wie auf dem Ausweis angegeben",
+    "email": "E-Mail-Adresse",
+    "registeredUsername": "Registrierter Benutzername",
+    "accountId": "Kontonummer (falls zutreffend)",
+    "country": "Wohnsitzland",
+    "selectCountry": "Land auswählen",
+    "dob": "Geburtsdatum",
+    "accessCode": "Zugangscode",
+    "accessCodePlaceholder": "Geben Sie den 8-stelligen Code von Ihrem Compliance-Beauftragten ein"
+  },
+  "incomeOptions": {
+    "salary": "Gehalt / Einkünfte aus Beschäftigung",
+    "business": "Unternehmen / Selbstständigkeit",
+    "investment": "Anlageerträge (Aktien, Anleihen, Fonds)",
+    "crypto": "Kryptowährungshandel / Investieren",
+    "realEstate": "Immobilien / Mieteinnahmen",
+    "inheritance": "Erbschaft / Familienstiftung",
+    "pension": "Rente / Altersvorsorge",
+    "saleAssets": "Verkauf persönlicher Vermögenswerte",
+    "other": "Sonstiges (bitte angeben)"
+  },
+  "attachments": {
+    "title": "Einkommensquelle — Unterstützende Dokumente",
+    "description": "Laden Sie <0>Nachweis der Einkommensquelle</0> (erforderlich) hoch — z.B. aktuelle Gehaltsabrechnungen, Arbeitgeberbrief oder letzte Steuererklärung. Sie können bis zu {{max}} zusätzliche unterstützende Dokumente anhängen (Kontoauszüge, Dividendenabrechnungen, Verkaufsverträge usw.). PDF, PNG, JPEG oder WebP · Max 10 MB jeweils.",
+    "psoiMissing": "Ein Nachweis der Einkommensquelle ist erforderlich, um diese Erklärung einzureichen.",
+    "addMore": "Ein weiteres unterstützendes Dokument hinzufügen",
+    "psoiLabel": "Nachweis der Einkommensquelle",
+    "supportingPlaceholder": "Dokumentenname (z.B. Kontoauszug Q3)",
+    "replaceFile": "Datei ersetzen",
+    "chooseFile": "Datei auswählen",
+    "noFileSelected": "Keine Datei ausgewählt"
+  },
+  "toast": {
+    "unsupportedTypeTitle": "Nicht unterstützter Dateityp",
+    "unsupportedTypeDesc": "Bitte laden Sie eine PDF-, PNG-, JPEG- oder WebP-Datei hoch.",
+    "tooLargeTitle": "Datei zu groß",
+    "tooLargeDesc": "Maximale Dateigröße beträgt 10 MB. Diese Datei ist {{size}} MB.",
+    "couldNotReadTitle": "Datei konnte nicht gelesen werden",
+    "couldNotReadDesc": "Bitte versuchen Sie eine andere Datei.",
+    "completeTitle": "Bitte füllen Sie das Formular aus",
+    "completeDesc": "Fehlend: {{missing}}",
+    "submissionFailedTitle": "Einreichung fehlgeschlagen",
+    "submissionFailedDesc": "Bitte überprüfen Sie das Formular und versuchen Sie es erneut.",
+    "submittedTitle": "Erklärung eingereicht",
+    "submittedDesc": "Unser Compliance-Team wird Ihre Einreichung in Kürze überprüfen.",
+    "attachmentFailuresTitle": "Einige Dokumente konnten nicht gespeichert werden",
+    "attachmentFailuresDesc": "Ihre Erklärung wurde aufgezeichnet, aber {{count}} Anhang(e) konnten nicht hochgeladen werden ({{names}}). Unser Compliance-Team wurde benachrichtigt und wird bei Bedarf eine erneute Hochladung über die Dokumentenansicht anfordern — derzeit sind keine Maßnahmen von Ihnen erforderlich.",
+    "networkErrorTitle": "Netzwerkfehler",
+    "networkErrorDesc": "Ihre Erklärung konnte nicht eingereicht werden. Bitte versuchen Sie es erneut.",
+    "issueFailedTitle": "Zugangscode konnte nicht ausgestellt werden",
+    "issueFailedDesc": "Bitte versuchen Sie es erneut.",
+    "noCodeTitle": "Kein Zugangscode zurückgegeben",
+    "noCodeDesc": "Bitte kontaktieren Sie den Compliance-Support.",
+    "codeIssuedTitle": "Zugangscode ausgestellt",
+    "codeIssuedDesc": "Ihr Zugangscode zur Erklärung wird unten angezeigt und wurde für Sie oben im Formular eingegeben.",
+    "networkShortTitle": "Netzwerkfehler",
+    "copyTitle": "Kopiert",
+    "copyDeposit": "Einzahlungsadresse in die Zwischenablage kopiert.",
+    "copyAccessCode": "Zugangscode in die Zwischenablage kopiert."
+  },
+  "missing": {
+    "fullName": "Vollständiger Name",
+    "email": "E-Mail-Adresse",
+    "country": "Wohnsitzland",
+    "dob": "Geburtsdatum",
+    "accessCode": "Zugangscode",
+    "sourceOfIncome": "Einkommensquelle",
+    "sourceOfIncomeOther": "Einkommensquelle (spezifizieren)",
+    "monthlyIncome": "Monatliches Einkommen",
+    "txHash": "Bearbeitungsgebühr Transaktionshash",
+    "signature": "Unterschrift",
+    "signatureDate": "Unterschriftsdatum",
+    "allConfirmations": "Alle Compliance-Bestätigungen",
+    "psoi": "Nachweis der Einkommensquelle Dokument",
+    "supportingLabel": "Bezeichnung für jedes unterstützende Dokument"
+  },
+  "yes": "Ja",
+  "no": "Nein",
+  "status": {
+    "submittedTitle": "Erklärung eingereicht",
+    "submittedDesc": "Danke. Ihre Erklärung zur Einhaltung wurde erhalten und wird nun von unserem Compliance-Team überprüft. Sie werden benachrichtigt, sobald die Überprüfung abgeschlossen ist.",
+    "submittedOn": "Eingereicht am {{date}}",
+    "approvedTitle": "Compliance bestätigt",
+    "approvedDesc": "Ihre Erklärung wurde überprüft und genehmigt. Ihr Konto wird als konform eingestuft und Sie können die Plattform ohne Unterbrechung weiter nutzen.",
+    "rejectedTitle": "Erklärung erfordert Aufmerksamkeit",
+    "rejectedDesc": "Unser Compliance-Team hat Ihre vorherige Einreichung markiert. Bitte kontaktieren Sie den Support für die nächsten Schritte.",
+    "rejectedNotes": "Überprüfernotizen",
+    "noneTitle": "Keine Erklärung erforderlich",
+    "noneDesc": "Ihr Konto benötigt derzeit keine Erklärung zur Einhaltung. Ihr Compliance-Beauftragter wird Sie hier benachrichtigen, wenn sich etwas ändert.",
+    "attachmentsTitle": "Angehängte Dokumente ({{count}})"
+  }
+}

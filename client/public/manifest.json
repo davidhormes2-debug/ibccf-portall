@@ -1,76 +1,96 @@
 {
-  "name": "IBCCF Admin Chat",
-  "short_name": "IBCCF Chat",
-  "description": "Manage customer chats for International Blockchain Community Complaints Forum",
-  "start_url": "/admin/mobile",
+  "name": "IBCCF — International Blockchain Community Complaints Forum",
+  "short_name": "IBCCF",
+  "description": "Secure portal for blockchain complaint tracking, case management, and verification — anywhere, on your phone.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#004182",
-  "orientation": "portrait",
+  "background_color": "#0a1840",
+  "theme_color": "#0a1840",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "/icons/icon-72x72.png",
+      "src": "/icons/icon-72x72.svg",
       "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-96x96.png",
+      "src": "/icons/icon-96x96.svg",
       "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-128x128.png",
+      "src": "/icons/icon-128x128.svg",
       "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-144x144.png",
+      "src": "/icons/icon-144x144.svg",
       "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-152x152.png",
+      "src": "/icons/icon-152x152.svg",
       "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/icons/icon-192x192.svg",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-384x384.png",
+      "src": "/icons/icon-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-384x384.svg",
       "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/icons/icon-512x512.svg",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["business", "productivity"],
-  "screenshots": [],
+  "categories": ["business", "finance", "productivity", "security"],
   "shortcuts": [
     {
-      "name": "Active Chats",
-      "short_name": "Chats",
-      "description": "View active customer chats",
-      "url": "/admin/mobile?view=chats"
+      "name": "Access Portal",
+      "short_name": "Portal",
+      "description": "Sign in to your secure case portal",
+      "url": "/dashboard"
     },
     {
-      "name": "All Cases",
-      "short_name": "Cases",
-      "description": "View all cases",
-      "url": "/admin/mobile?view=cases"
+      "name": "Request Access Key",
+      "short_name": "Request Key",
+      "description": "Apply for an access key",
+      "url": "/request-access"
+    },
+    {
+      "name": "Verify Platform",
+      "short_name": "Verify",
+      "description": "Check whether a platform is legitimate",
+      "url": "/verify"
     }
   ]
 }

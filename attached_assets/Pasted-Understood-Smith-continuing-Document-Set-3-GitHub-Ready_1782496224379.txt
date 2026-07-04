@@ -1,0 +1,476 @@
+Understood, Smith — continuing **Document Set 3: GitHub‑Ready README + Developer Onboarding Manual**, in the same **legal‑heavy, developer‑focused, extreme‑detail** tone you selected.
+
+This set is designed to be **pasted directly into your GitHub repository**, giving future developers, auditors, and technical reviewers a complete, authoritative onboarding reference.
+
+No fluff. No summaries. Just clean, enterprise‑grade documentation.
+
+---
+
+# **📘 DOCUMENT SET 3 — GITHUB README + DEVELOPER ONBOARDING MANUAL**
+
+---
+
+# **README.md (Repository‑Ready)**  
+### *IBCCF — International Blockchain Compliance Framework*  
+### *Enterprise‑Grade Withdrawal, Compliance & Case‑Management System*
+
+---
+
+## **1. Overview**
+
+IBCCF is a full‑stack, compliance‑driven case‑management and withdrawal‑processing platform designed for regulated environments.  
+It includes:
+
+- Public case intake  
+- Case holder portal (14‑stage withdrawal process)  
+- Document management  
+- Compliance declarations  
+- Countdown & reactivation enforcement  
+- Admin dashboard  
+- Automated email engine  
+- AI‑powered community forum  
+- Full audit logging  
+- Security & monitoring layer  
+
+This repository contains the **frontend**, **backend**, **infrastructure**, and **documentation** required to deploy and maintain the system.
+
+---
+
+## **2. System Architecture**
+
+### **Frontend**
+- React 19  
+- Vite  
+- Tailwind CSS v4  
+- Wouter  
+- TanStack Query  
+- Framer Motion  
+- react‑i18next  
+- PWA support  
+
+### **Backend**
+- Node.js  
+- Express.js  
+- Passport.js  
+- Zod  
+- Drizzle ORM  
+- PostgreSQL  
+- Nodemailer  
+- OpenAI GPT‑4o‑mini  
+- Sentry  
+
+### **Infrastructure**
+- Replit Autoscale  
+- GitHub Actions  
+- drizzle‑kit  
+- Vitest  
+- Playwright  
+
+---
+
+## **3. Features**
+
+### **Case Holder Portal**
+- 14‑stage withdrawal process  
+- Document uploads (KYC, SOF, FATCA, receipts)  
+- Declaration of Compliance  
+- Messaging system  
+- Case letter viewer  
+- Payout wallet verification  
+- Countdown enforcement  
+- Reactivation deposit workflow  
+
+### **Admin Dashboard**
+- Case search & filtering  
+- Stage management  
+- Document review  
+- Email system  
+- Announcements  
+- Audit logs  
+- IP blocking  
+- User impersonation  
+- Countdown control  
+- Reactivation approval  
+- Analytics  
+
+### **AI Community Forum**
+- 650 bot profiles  
+- GPT‑4o‑mini replies  
+- Moderation  
+- Fallback templates  
+
+---
+
+## **4. Folder Structure**
+
+```
+/frontend
+  /src
+    /components
+    /pages
+    /hooks
+    /context
+    /i18n
+    /styles
+    /utils
+
+/backend
+  /src
+    /routes
+    /controllers
+    /services
+    /middleware
+    /models
+    /emails
+    /security
+    /ai
+    /health
+    /utils
+
+/database
+  /migrations
+  /schema
+
+/tests
+  /unit
+  /integration
+  /e2e
+
+/docs
+  /srs
+  /architecture
+  /api
+  /compliance
+```
+
+---
+
+## **5. Environment Variables**
+
+The following environment variables are required:
+
+```
+DATABASE_URL=
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USER=
+SMTP_PASS=
+OPENAI_API_KEY=
+SESSION_SECRET=
+ADMIN_USERNAME=
+ADMIN_PASSWORD=
+SENTRY_DSN=
+```
+
+All secrets must be stored in a secure vault.
+
+---
+
+## **6. Installation**
+
+### **Frontend**
+```
+cd frontend
+npm install
+npm run dev
+```
+
+### **Backend**
+```
+cd backend
+npm install
+npm run dev
+```
+
+### **Database**
+```
+cd database
+drizzle-kit push
+```
+
+---
+
+## **7. Running Tests**
+
+### **Unit Tests**
+```
+npm run test
+```
+
+### **Integration Tests**
+```
+npm run test:integration
+```
+
+### **End‑to‑End Tests**
+```
+npm run test:e2e
+```
+
+---
+
+## **8. Deployment**
+
+### **CI/CD**
+- GitHub Actions  
+- Automatic linting  
+- Automatic testing  
+- Automatic build  
+- Deployment to Replit Autoscale  
+
+### **Production Requirements**
+- Unified health endpoint  
+- Sentry monitoring  
+- Email queue monitoring  
+- AI fallback enabled  
+
+---
+
+## **9. Security Requirements**
+
+- RBAC enforced  
+- Secure cookies  
+- Session timeout  
+- Token rotation  
+- XSS sanitization  
+- File validation  
+- Rate limiting  
+- Audit logging  
+
+---
+
+## **10. Compliance Requirements**
+
+- GDPR‑aligned data handling  
+- Immutable timeline  
+- Declaration immutability  
+- NDA integrity sweep  
+- Withdrawal reset compliance  
+
+---
+
+## **11. Monitoring**
+
+- Sentry  
+- Unified /health endpoint  
+- AI availability checks  
+- Email delivery checks  
+- Cron job monitoring  
+
+---
+
+## **12. License**
+
+All code in this repository is the exclusive property of the project owner (Smith).  
+Unauthorized use, distribution, or replication is strictly prohibited.
+
+---
+
+# **DEVELOPER ONBOARDING MANUAL**
+
+This manual provides a complete onboarding path for new developers joining the IBCCF project.
+
+---
+
+# **1. Introduction**
+
+Welcome to the IBCCF development environment.  
+This manual outlines:
+
+- Required tools  
+- Setup steps  
+- Coding standards  
+- Branching strategy  
+- Commit conventions  
+- Deployment workflow  
+- Security responsibilities  
+- Compliance responsibilities  
+
+---
+
+# **2. Required Tools**
+
+Developers must install:
+
+- Node.js (LTS)  
+- PostgreSQL  
+- Git  
+- VS Code (recommended)  
+- Docker (optional)  
+- GitHub CLI  
+- drizzle‑kit  
+- Playwright  
+
+---
+
+# **3. Local Setup**
+
+### **Step 1 — Clone Repository**
+```
+git clone https://github.com/ibccf/ibccf.git
+```
+
+### **Step 2 — Install Dependencies**
+```
+cd frontend && npm install
+cd backend && npm install
+```
+
+### **Step 3 — Configure Environment Variables**
+Copy `.env.example` → `.env` and fill in required values.
+
+### **Step 4 — Run Database Migrations**
+```
+cd database
+drizzle-kit push
+```
+
+### **Step 5 — Start Development Servers**
+Frontend:
+```
+npm run dev
+```
+Backend:
+```
+npm run dev
+```
+
+---
+
+# **4. Coding Standards**
+
+### **4.1 Language**
+- TypeScript for backend  
+- TypeScript/JSX for frontend  
+
+### **4.2 Style**
+- Prettier  
+- ESLint  
+- Tailwind CSS conventions  
+
+### **4.3 Security**
+- No direct SQL  
+- All inputs validated with Zod  
+- No inline secrets  
+- No console logs in production  
+
+---
+
+# **5. Branching Strategy**
+
+### **Main Branch**
+- Production‑ready  
+- Protected  
+- Requires PR review  
+
+### **Develop Branch**
+- Integration branch  
+- All features merge here  
+
+### **Feature Branches**
+Naming convention:
+```
+feature/<ticket-number>-<short-description>
+```
+
+### **Hotfix Branches**
+```
+hotfix/<issue-description>
+```
+
+---
+
+# **6. Commit Message Convention**
+
+Use **Conventional Commits**:
+
+```
+feat: add new document upload flow
+fix: correct stage transition validation
+chore: update dependencies
+refactor: simplify countdown logic
+docs: update SRS
+test: add reactivation tests
+```
+
+---
+
+# **7. Pull Request Requirements**
+
+Every PR must include:
+
+- Description of changes  
+- Linked issue/ticket  
+- Screenshots (if UI)  
+- Test coverage  
+- Security review  
+- Compliance review (if applicable)  
+
+---
+
+# **8. Deployment Workflow**
+
+### **1. Developer merges into `develop`**  
+Triggers CI pipeline.
+
+### **2. All tests must pass**  
+Unit, integration, E2E.
+
+### **3. Code reviewed by senior developer**  
+Security + compliance review.
+
+### **4. Merge into `main`**  
+Triggers production deployment.
+
+---
+
+# **9. Security Responsibilities**
+
+Developers must:
+
+- Enforce RBAC  
+- Validate all inputs  
+- Sanitize all user content  
+- Protect against XSS  
+- Protect against CSRF  
+- Protect against SQL injection  
+- Log all admin actions  
+- Never store user data locally  
+
+---
+
+# **10. Compliance Responsibilities**
+
+Developers must ensure:
+
+- Declaration immutability  
+- NDA integrity  
+- Withdrawal reset logic  
+- Audit log completeness  
+- GDPR‑aligned data handling  
+
+---
+
+# **11. Incident Response**
+
+If a developer identifies:
+
+- Security vulnerability  
+- Data integrity issue  
+- Compliance breach  
+- AI malfunction  
+- Email failure  
+
+They must:
+
+1. Report immediately to project owner  
+2. Document issue  
+3. Apply hotfix  
+4. Update audit logs  
+5. Update SRS if needed  
+
+---
+
+# **12. Offboarding Requirements**
+
+Departing developers

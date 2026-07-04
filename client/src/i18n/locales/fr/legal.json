@@ -1,0 +1,404 @@
+{
+  "back": "Retour",
+  "header": {
+    "brand": "IBCCF",
+    "subtitle": "Centre d'Intelligence",
+    "accessPortal": "Accéder au Portail"
+  },
+  "hero": {
+    "liveStatus": "Statut d'Intel en Direct",
+    "fatf": "FATF Plénière : Actif",
+    "mica": "MiCA : En Vigueur",
+    "basel": "Bâle III : Phase d'Intégration",
+    "titlePart1": "Réglementaire",
+    "titlePart2": "Intelligence",
+    "subtitle": "La salle de briefing définitive pour le droit financier international, les réglementations AML/CFT et les cadres de conformité en matière de cryptomonnaie transfrontaliers."
+  },
+  "timeline": {
+    "label": "Chronologie",
+    "events": {
+      "2018": "La 5AMLD intègre les VASP dans le champ d'application de l'AML",
+      "2019": "La règle de voyage du FATF s'applique aux actifs virtuels",
+      "2021": "Les directives sur les actifs virtuels du FATF mises à jour",
+      "2022": "L'OFAC sanctionne le mélangeur de cryptomonnaie Tornado Cash",
+      "2023": "Réglementation MiCA de l'UE finalisée",
+      "2024": "Cadre de déclaration fiscale CARF de l'OCDE adopté",
+      "2025": "Mise en œuvre complète de la MiCA"
+    }
+  },
+  "coverage": {
+    "title": "Carte de Couverture",
+    "comprehensive": "Complet",
+    "comprehensiveRegions": "UE, États-Unis, Royaume-Uni, SG",
+    "emerging": "Émergent",
+    "emergingRegions": "JP, AU, ÉAU, CA",
+    "developing": "En Développement",
+    "developingRegions": "Autres Régions"
+  },
+  "comparison": {
+    "title": "Comparaison des Cadres",
+    "metric": "Métrique",
+    "metrics": {
+      "Licensing Required": "Licence requise",
+      "Travel Rule": "Travel Rule",
+      "Stablecoin Rules": "Règles stablecoin",
+      "DeFi Covered": "DeFi couvert",
+      "NFT Coverage": "Couverture NFT",
+      "Enforcement": "Application"
+    },
+    "values": {
+      "yes": "Oui",
+      "yes_msb": "Oui (MSB)",
+      "yes_fca": "Oui (FCA)",
+      "yes_reg": "Oui/Régl.",
+      "yes_psa": "Oui (PSA)",
+      "yes_tfr": "Oui (TFR)",
+      "yes_r_16": "Oui (R.16)",
+      "strict": "Strict",
+      "partial": "Partiel",
+      "pending": "En attente",
+      "covered": "Couvert",
+      "case_by_case": "Au cas par cas",
+      "consulting": "En consultation",
+      "if_controlled": "Si contrôlé",
+      "no_mostly": "Non (le plus souvent)",
+      "if_money": "Si transmission d'argent",
+      "if_regulated": "Si réglementé",
+      "if_payment": "Si jeton de paiement",
+      "if_dpt": "Si DPT",
+      "high": "Élevée",
+      "very_high": "Très élevée",
+      "evaluations": "Évaluations"
+    }
+  },
+  "featured": {
+    "title": "Lectures Essentielles"
+  },
+  "urgency": {
+    "All": "Tous",
+    "ESSENTIAL": "ESSENTIEL",
+    "CORE": "PRINCIPAL",
+    "REFERENCE": "RÉFÉRENCE"
+  },
+  "categories": {
+    "international": {
+      "label": "Organismes Internationaux",
+      "description": "Organisations mondiales de normalisation qui façonnent la réglementation financière internationale et la politique de lutte contre le blanchiment d'argent."
+    },
+    "national": {
+      "label": "Régulateurs Nationaux",
+      "description": "Principaux régulateurs financiers nationaux et régionaux qui appliquent directement les lois sur les cryptomonnaies et l'AML."
+    },
+    "crypto-law": {
+      "label": "Réglementations Cryptographiques",
+      "description": "Législation principale, directives réglementaires et cadres juridiques régissant spécifiquement les cryptomonnaies et les actifs numériques."
+    },
+    "aml": {
+      "label": "AML & Criminalité Financière",
+      "description": "Ressources spécialisées pour les professionnels de la lutte contre le blanchiment d'argent, du financement du terrorisme et de la prévention de la criminalité financière."
+    },
+    "legal-databases": {
+      "label": "Bases de Données Juridiques",
+      "description": "Bases de données juridiques gratuites et accessibles au public pour la recherche sur la réglementation financière, la jurisprudence et les obligations de traité."
+    },
+    "research": {
+      "label": "Recherche & Intelligence",
+      "description": "Analytique blockchain, recherche sur la conformité cryptographique et ressources d'intelligence sur la criminalité financière."
+    }
+  },
+  "search": {
+    "placeholder": "Rechercher des réglementations, des organismes, des sujets...",
+    "urgency": "Urgence",
+    "all": "Tous",
+    "jurisdiction": "Juridiction",
+    "allRegions": "Toutes les Régions",
+    "topics": "Sujets :",
+    "clear": "Effacer les filtres"
+  },
+  "card": {
+    "verified": "Vérifié :",
+    "open": "Ouvrir"
+  },
+  "matchCount": "Les ressources correspondent aux critères",
+  "noResults": {
+    "title": "Aucune information trouvée",
+    "subtitle": "Ajustez les paramètres de recherche pour élargir la couverture."
+  },
+  "entries": "Entrées",
+  "footer": {
+    "title": "Actions de Commande",
+    "subtitle": "Sélectionnez un chemin opérationnel ci-dessous pour procéder à votre demande, à la collecte d'informations ou au dépôt de votre dossier.",
+    "reportTitle": "Signaler un Incident",
+    "reportDesc": "Déposez un rapport officiel concernant une fraude en cryptomonnaie, un vol ou une activité suspecte pour commencer une enquête.",
+    "reportCta": "Initier l'Intake",
+    "intelTitle": "Rejoindre le Réseau d'Intel",
+    "intelDesc": "Accédez à la communauté sécurisée de professionnels vérifiés, d'enquêteurs et d'agents des forces de l'ordre partageant des informations exploitables.",
+    "intelCta": "Demander l'Accès",
+    "portalTitle": "Portail Sécurisé",
+    "portalDesc": "Accédez à vos dossiers de cas actifs, communiquez avec les enquêteurs et téléchargez en toute sécurité des preuves corroborantes.",
+    "portalCta": "S'Authentifier",
+    "division": "Division IBCCF",
+    "disclaimer": "Informations classées comme référence uniquement. Consultez un conseiller pour des directives légales contraignantes."
+  },
+  "resources": {
+    "international": {
+      "0": {
+        "description": "Le superviseur mondial du blanchiment de capitaux et du financement du terrorisme. Fixe les normes internationales en matière de LBC/FT et évalue la conformité dans plus de 200 juridictions. Lecture essentielle pour tout professionnel de la conformité."
+      },
+      "1": {
+        "description": "La banque centrale des banques centrales. Publie des recherches fondamentales sur les risques liés aux crypto-actifs, les cadres MNBC et la régulation des paiements transfrontaliers. Le Comité de Bâle sur la supervision bancaire fonctionne sous l'égide de la BIS."
+      },
+      "2": {
+        "description": "Fournit des orientations de coopération monétaire mondiale. Publie des évaluations par pays, une assistance technique LBC/FT et des notes de politique sur les monnaies numériques, dont sa matrice de classification des risques crypto."
+      },
+      "3": {
+        "description": "Surveille le système financier mondial et formule des recommandations. A publié des recommandations exhaustives sur le cadre réglementaire des crypto-actifs, adoptées par les juridictions du G20 en 2023."
+      },
+      "4": {
+        "description": "Organisme international des régulateurs de valeurs mobilières. A publié des cadres réglementaires mondiaux pour les crypto-actifs et actifs numériques, des orientations sur la DeFi et des normes de coopération transfrontalière en matière d'application."
+      },
+      "5": {
+        "description": "Réseau international de 176 Cellules de Renseignement Financier (CRF). Facilite l'échange d'informations sur le blanchiment, le financement du terrorisme et la criminalité financière liée aux cryptomonnaies."
+      },
+      "6": {
+        "description": "Dirige les efforts de l'ONU contre la drogue, la criminalité et le terrorisme. Fournit des lignes directrices sur le blanchiment lié aux cryptomonnaies, les délits financiers du dark web et la récupération d'actifs entre juridictions."
+      },
+      "7": {
+        "description": "Fournit une assistance technique et des recherches sur la conformité LBC/FT, la lutte anti-corruption, la transparence des bénéficiaires effectifs et la régulation des services financiers numériques dans les économies en développement."
+      }
+    },
+    "national": {
+      "0": {
+        "description": "Bureau du Trésor américain collectant et analysant les transactions financières pour lutter contre le blanchiment national et international et d'autres délits financiers. Émet des orientations LBC contraignantes pour les prestataires de services sur actifs virtuels (VASP)."
+      },
+      "1": {
+        "description": "Régulateur britannique des services financiers supervisant les promotions de crypto-actifs, l'enregistrement des VASP et la conformité LBC. Tient le registre public des entreprises crypto approuvées et refusées opérant au Royaume-Uni."
+      },
+      "2": {
+        "description": "Régulateur américain des marchés de valeurs mobilières. A engagé des poursuites contre de nombreux projets crypto considérés comme des offres de titres non enregistrées. Les actions de la SEC font jurisprudence à l'échelle mondiale."
+      },
+      "3": {
+        "description": "Régule les marchés américains de produits dérivés, y compris les contrats à terme et swaps sur cryptomonnaies. Compétente sur Bitcoin et Ether en tant que matières premières. Poursuit activement les fraudes et manipulations crypto."
+      },
+      "4": {
+        "description": "Régulateur des marchés financiers de l'UE supervisant la mise en œuvre du règlement sur les Marchés de Crypto-Actifs (MiCA). Coordonne la convergence de la supervision entre États membres pour les prestataires de services sur crypto-actifs."
+      },
+      "5": {
+        "description": "Régulateur bancaire de l'UE publiant des lignes directrices LBC/FT pour les émetteurs et prestataires de services sur crypto-actifs au titre de MiCA, y compris des normes techniques pour la Travel Rule et la diligence raisonnable sur les VASP."
+      },
+      "6": {
+        "description": "Autorité des sanctions du Trésor américain. Administre les sanctions économiques et commerciales, y compris contre les exchanges crypto, les protocoles de mélange et les portefeuilles liés à des entités ou États sanctionnés."
+      },
+      "7": {
+        "description": "Banque centrale et régulateur financier de Singapour, doté d'un cadre crypto progressiste au titre du Payment Services Act. L'un des régimes de licence VASP les plus complets et les plus clairs au monde."
+      },
+      "8": {
+        "description": "Régulateur du marché financier suisse avec une législation exhaustive spécifique à la DLT. Le cadre « Crypto Valley » suisse et les orientations de FINMA sont des modèles de référence pour la classification juridique des blockchains."
+      }
+    },
+    "crypto-law": {
+      "0": {
+        "description": "Le premier cadre réglementaire complet au monde pour les crypto-actifs, en vigueur depuis 2024. Couvre l'émission de crypto-actifs, les jetons référencés à des actifs, les jetons de monnaie électronique et les CASP opérant dans l'UE. Disponible en intégralité sur EUR-Lex."
+      },
+      "1": {
+        "description": "Le guide international de référence en matière de LBC/FT pour les actifs virtuels. Couvre la Travel Rule pour les transferts crypto, la supervision fondée sur les risques des VASP et les orientations de mise en œuvre par juridiction. Mis à jour en 2023."
+      },
+      "2": {
+        "description": "Guide d'interprétation de FinCEN appliquant la Bank Secrecy Act aux monnaies virtuelles. Définit la transmission de fonds, les obligations KYC/LBC et les exigences de dépôt de SAR pour les entreprises crypto."
+      },
+      "3": {
+        "description": "Oblige les VASP à collecter et à transmettre les informations sur le donneur d'ordre et le bénéficiaire pour les transferts crypto au-dessus de certains seuils. Désormais mise en œuvre dans l'UE (TFR), au Royaume-Uni, à Singapour et dans d'autres grandes juridictions."
+      },
+      "4": {
+        "description": "Guide d'OFAC sur la conformité aux sanctions pour le secteur des monnaies virtuelles. Couvre les obligations de criblage, l'application de la liste SDN aux adresses blockchain et les priorités d'application pour les entreprises crypto."
+      },
+      "5": {
+        "description": "Intègre les cryptoactifs au cadre de régulation financière britannique. Étend le périmètre réglementaire de la FCA aux activités sur crypto-actifs, à l'émission de stablecoins et aux actifs de règlement numérique."
+      },
+      "6": {
+        "description": "A fait entrer pour la première fois les exchanges de monnaies virtuelles et les fournisseurs de portefeuilles dépositaires dans le cadre LBC de l'UE. Impose le KYC, la déclaration des transactions suspectes et l'enregistrement obligatoire."
+      },
+      "7": {
+        "description": "Nouveau standard international de reporting fiscal imposant l'échange automatique d'informations sur les transactions en crypto-actifs entre administrations fiscales. Adopté par plus de 50 pays, en vigueur dès 2026."
+      }
+    },
+    "aml": {
+      "0": {
+        "description": "Association de 13 banques mondiales fixant les normes LBC/KYC. Publie des orientations largement adoptées sur la banque correspondante, le financement du commerce, la diligence raisonnable sur les VASP et le criblage des sanctions. Guide crypto publié en 2021."
+      },
+      "1": {
+        "description": "La plus grande organisation mondiale de prévention de la criminalité financière, proposant la certification CAMS, des formations LBC crypto, des mises à jour réglementaires et une bibliothèque complète de documents d'orientation et d'études de cas."
+      },
+      "2": {
+        "description": "Classement indépendant du risque de blanchiment et de financement du terrorisme par pays. Publié chaque année par le Basel Institute on Governance. Outil essentiel d'évaluation du risque pays pour les équipes de conformité."
+      },
+      "3": {
+        "description": "Bibliothèque d'avis, de documents d'orientation et d'analyses stratégiques de FinCEN couvrant des typologies spécifiques de criminalité financière, dont les schémas de blanchiment liés aux cryptos et les signaux d'alerte."
+      },
+      "4": {
+        "description": "Division d'INTERPOL chargée de la criminalité financière et de la lutte anti-corruption. Coordonne les enquêtes transfrontalières sur les fraudes crypto, la récupération d'actifs liés à la cybercriminalité et le partage de renseignements entre forces de l'ordre."
+      },
+      "5": {
+        "description": "Bibliothèque du GAFI rassemblant des rapports sur les typologies de blanchiment et de financement du terrorisme, dont des études de cas spécifiques aux cryptos sur les mixers, l'exploitation de la DeFi, le blanchiment via NFT et les paiements de rançongiciels."
+      }
+    },
+    "legal-databases": {
+      "0": {
+        "description": "Accès gratuit à l'ensemble du droit de l'Union européenne, y compris directives, règlements et jurisprudence. Contient le texte intégral de MiCA, 5AMLD, 6AMLD, du règlement TFR et de toute la législation crypto de l'UE."
+      },
+      "1": {
+        "description": "Texte officiel intégral des lois fédérales des États-Unis. Consultez la Bank Secrecy Act, la Securities Exchange Act, la Commodity Exchange Act et d'autres lois applicables aux cryptomonnaies aux États-Unis."
+      },
+      "2": {
+        "description": "Réglementations fédérales américaines codifiées, dont 31 CFR Partie 1022 (services monétaires) et 12 CFR Partie 21 (programmes LBC bancaires). Recherche directe des règles de FinCEN applicables aux cryptos."
+      },
+      "3": {
+        "description": "Texte intégral des lois du Parlement britannique et des instruments statutaires, dont les Money Laundering Regulations 2017 (amendées pour les cryptos), FSMA 2023, et toute la législation britannique relative aux crypto-actifs."
+      },
+      "4": {
+        "description": "Étude comparative exhaustive de la régulation des cryptomonnaies dans plus de 130 juridictions. Mise à jour régulièrement. Indispensable pour comprendre comment les différents pays classifient et régulent les actifs numériques."
+      },
+      "5": {
+        "description": "Service mondial de recherche juridique de la Library of Congress, suivant les nouvelles lois, réglementations et décisions de justice sur les cryptomonnaies dans le monde. Inclut les nouveautés juridictionnelles quasi en temps réel."
+      }
+    },
+    "research": {
+      "0": {
+        "description": "Rapports annuels et trimestriels sur la criminalité liée aux cryptomonnaies, dont les volumes de blanchiment, les paiements de rançongiciels, les revenus des arnaques et l'activité sur les marchés du darknet. Éditions publiques en accès libre."
+      },
+      "1": {
+        "description": "Recherche en analytique blockchain et conformité à la lutte contre la criminalité financière. Publie des rapports sur les typologies, les risques DeFi, les techniques de contournement des sanctions et le profilage des acteurs de menace crypto."
+      },
+      "2": {
+        "description": "Tracker réglementaire mondial des cryptomonnaies en temps réel et recherche en renseignement blockchain. Couvre les licences VASP, l'état de mise en œuvre de la Travel Rule et les mises à jour réglementaires juridiction par juridiction."
+      },
+      "3": {
+        "description": "Base de données open source d'entités sanctionnées comprenant la liste OFAC SDN, les sanctions de l'UE, de l'ONU et plus de 100 autres listes. API gratuite pour le criblage de conformité des adresses crypto et des personnes."
+      },
+      "4": {
+        "description": "Bibliothèque du FSB regroupant des rapports de surveillance du marché des crypto-actifs, des évaluations des stablecoins, des notes de politique sur la DeFi et des recherches sur les paiements transfrontaliers utilisées par les décideurs du G20 dans le monde entier."
+      },
+      "5": {
+        "description": "Cabinet d'analytique blockchain détenu par Mastercard, publiant des rapports sur la lutte contre le blanchiment via cryptomonnaies, des mises à jour de conformité à la Travel Rule et des évaluations géographiques des risques."
+      }
+    }
+  },
+  "jurisdictions": {
+    "European Union": "Union européenne",
+    "Global": "Mondial",
+    "Global (130+ jurisdictions)": "Mondial (130+ juridictions)",
+    "Global (G20)": "Mondial (G20)",
+    "Global (OECD)": "Mondial (OCDE)",
+    "Singapore": "Singapour",
+    "Switzerland": "Suisse",
+    "United Kingdom": "Royaume-Uni",
+    "United States": "États-Unis"
+  },
+  "tags": {
+    "AML": "AML",
+    "CFT": "CFT",
+    "Crypto": "Crypto",
+    "VASP": "VASP",
+    "Travel Rule": "Travel Rule",
+    "MiCA": "MiCA",
+    "Sanctions": "Sanctions",
+    "Stablecoins": "Stablecoins",
+    "DeFi": "DeFi",
+    "KYC": "KYC",
+    "EU Law": "Droit de l'UE",
+    "US Law": "Droit américain",
+    "UK Law": "Droit britannique",
+    "Securities": "Valeurs mobilières",
+    "Research": "Recherche",
+    "Free Access": "Accès libre",
+    "130 Countries": "130 pays",
+    "Advisories": "Avis",
+    "Analytics": "Analyses",
+    "Annual Report": "Rapport annuel",
+    "Asia-Pacific": "Asie-Pacifique",
+    "Asset Recovery": "Recouvrement d'actifs",
+    "BSA": "BSA",
+    "BTC": "BTC",
+    "Banking": "Banque",
+    "Basel": "Bâle",
+    "Beneficial Ownership": "Bénéficiaire effectif",
+    "Blockchain Analytics": "Analyses blockchain",
+    "CAMS": "CAMS",
+    "CARF": "CARF",
+    "CASP": "CASP",
+    "CBDC": "CBDC",
+    "CFR": "CFR",
+    "CRS": "CRS",
+    "Certification": "Certification",
+    "Commodities": "Matières premières",
+    "Comparative": "Comparatif",
+    "Comparative Law": "Droit comparé",
+    "Compliance": "Conformité",
+    "Consumer Protection": "Protection des consommateurs",
+    "Correspondent Banking": "Banque correspondante",
+    "Country Risk": "Risque pays",
+    "Crime": "Criminalité",
+    "Crime Reports": "Rapports de criminalité",
+    "Crime Stats": "Statistiques de criminalité",
+    "Cross-border": "Transfrontalier",
+    "Crypto Fraud": "Fraude crypto",
+    "Crypto Registration": "Enregistrement crypto",
+    "Crypto Regulation": "Réglementation crypto",
+    "Crypto-assets": "Crypto-actifs",
+    "Cybercrime": "Cybercriminalité",
+    "DLT": "DLT",
+    "DSA": "DSA",
+    "Dark Web": "Dark web",
+    "Derivatives": "Dérivés",
+    "Developing Markets": "Marchés émergents",
+    "Enforcement": "Application",
+    "Exchange": "Plateforme d'échange",
+    "Exchange Regulation": "Réglementation des plateformes",
+    "FCA": "FCA",
+    "FIU": "CRF",
+    "Fraud": "Fraude",
+    "Full Text": "Texte intégral",
+    "G20": "G20",
+    "Guidance": "Orientations",
+    "ICO": "ICO",
+    "Index": "Index",
+    "Information Sharing": "Partage d'informations",
+    "Integrity": "Intégrité",
+    "Intelligence": "Renseignement",
+    "Law Enforcement": "Forces de l'ordre",
+    "Licensing": "Licences",
+    "MLR": "MLR",
+    "MSB": "MSB",
+    "Markets": "Marchés",
+    "Mixer Protocols": "Protocoles mixeurs",
+    "Monetary Policy": "Politique monétaire",
+    "NFT": "NFT",
+    "New Laws": "Nouvelles lois",
+    "News": "Actualités",
+    "OFAC Lists": "Listes OFAC",
+    "Open Source": "Open source",
+    "PSA": "PSA",
+    "Policy": "Politique",
+    "Ransomware": "Rançongiciel",
+    "Real-time": "Temps réel",
+    "Red Flags": "Signaux d'alerte",
+    "Regulations": "Réglementations",
+    "Regulatory Tracker": "Suivi réglementaire",
+    "Reporting": "Reporting",
+    "Resources": "Ressources",
+    "SAR": "SAR",
+    "SDN": "SDN",
+    "Standards": "Normes",
+    "Survey": "Enquête",
+    "Switzerland": "Suisse",
+    "Tax": "Fiscalité",
+    "Threat Intelligence": "Renseignement sur les menaces",
+    "Token Classification": "Classification des jetons",
+    "Training": "Formation",
+    "Typologies": "Typologies",
+    "US Federal Law": "Droit fédéral américain",
+    "Virtual Assets": "Actifs virtuels",
+    "Wallet Providers": "Fournisseurs de portefeuilles",
+    "Wire Transfer": "Virement bancaire"
+  }
+}

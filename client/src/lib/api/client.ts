@@ -1,5 +1,5 @@
-import { API_ENDPOINTS, ERROR_MESSAGES } from '@shared/constants';
-import type { ApiResponse } from '@shared/types';
+import { ERROR_MESSAGES } from '@shared/constants';
+
 
 class ApiError extends Error {
   constructor(

@@ -10,46 +10,104 @@ import {
 } from "../services/ai-chatbot";
 import { storage } from "../storage";
 import { checkAdminAuth } from "./middleware";
+import { rateLimiter, AI_CHAT_RATE_LIMIT_NAMESPACE } from "../middleware/security";
+import { warnOnce } from "../lib/warnOnce";
 
 export const aiRouter = Router();
 
-aiRouter.post("/chat", async (req, res) => {
+// Strict per-IP rate limit for the public AI chat endpoint (5 req/min).
+// Persisted to the DB so an attacker cannot bypass the per-IP cap by
+// spraying requests across autoscale instances — each request hits a
+// paid OpenAI endpoint, so the per-instance budget must be authoritative.
+const aiChatLimiter = rateLimiter(5, 60 * 1000, {
+  persistNamespace: AI_CHAT_RATE_LIMIT_NAMESPACE,
+});
+
+// Server-side global hourly budget for anonymous AI chat calls.
+// Acts as a circuit breaker: once the hourly cap is reached, all further
+// requests return 429 until the window resets, regardless of source IP.
+// This caps worst-case OpenAI spend even when an attacker rotates IPs.
+//
+// The counter is persisted to the shared DB via atomicIncrementRateLimit so
+// the budget is authoritative across all autoscale instances — an attacker
+// cannot bypass it by spreading requests across different processes.
+const AI_CHAT_HOURLY_BUDGET = 200;
+// Exported only for use in unit tests — a snapshot test asserts this is
+// exactly 3,600,000 ms (60 minutes). Shortening this window (e.g. to 1
+// minute) resets the budget 60x more often, multiplying worst-case OpenAI
+// spend by 60x without touching the cap itself, so it needs its own guard.
+export const AI_CHAT_HOURLY_WINDOW_MS = 60 * 60 * 1000;
+// Stable DB key used across all instances. Must not change once deployed.
+const AI_CHAT_GLOBAL_BUDGET_KEY = "ai_chat_global_budget:global:hourly";
+
+// In-memory fallback state used only when the DB is unavailable.
+let aiChatFallbackCount = 0;
+let aiChatFallbackResetAt = Date.now() + AI_CHAT_HOURLY_WINDOW_MS;
+
+async function consumeGlobalAiChatBudget(res: import("express").Response): Promise<boolean> {
+  const now = Date.now();
   try {
+    const { count, resetAt } = await storage.atomicIncrementRateLimit({
+      key: AI_CHAT_GLOBAL_BUDGET_KEY,
+      windowResetAt: new Date(now + AI_CHAT_HOURLY_WINDOW_MS),
+    });
+    if (count > AI_CHAT_HOURLY_BUDGET) {
+      const retryAfter = Math.ceil((resetAt.getTime() - now) / 1000);
+      res.setHeader("Retry-After", retryAfter);
+      res.status(429).json({
+        message: "Service temporarily unavailable. Please try again later.",
+        retryAfter,
+      });
+      return false;
+    }
+    return true;
+  } catch {
+    // DB unavailable — fall back to in-memory. Degraded but not disabled:
+    // the circuit breaker still fires per-instance rather than failing open.
+    if (now >= aiChatFallbackResetAt) {
+      aiChatFallbackCount = 0;
+      aiChatFallbackResetAt = now + AI_CHAT_HOURLY_WINDOW_MS;
+    }
+    if (aiChatFallbackCount >= AI_CHAT_HOURLY_BUDGET) {
+      const retryAfter = Math.ceil((aiChatFallbackResetAt - now) / 1000);
+      res.setHeader("Retry-After", retryAfter);
+      res.status(429).json({
+        message: "Service temporarily unavailable. Please try again later.",
+        retryAfter,
+      });
+      return false;
+    }
+    aiChatFallbackCount++;
+    return true;
+  }
+}
+
+// Exported only for use in unit tests — resets module-level fallback counters.
+export function _resetAiChatBudgetForTest(budget = AI_CHAT_HOURLY_BUDGET): void {
+  aiChatFallbackCount = 0;
+  aiChatFallbackResetAt = Date.now() + AI_CHAT_HOURLY_WINDOW_MS;
+  // Allow callers to pre-fill the counter to test the threshold.
+  aiChatFallbackCount = AI_CHAT_HOURLY_BUDGET - budget;
+}
+
+aiRouter.post("/chat", aiChatLimiter, async (req, res) => {
+  try {
+    // Validate input first so malformed requests never consume the global budget.
     const input = z.object({
-      message: z.string().min(1),
-      caseId: z.string().optional(),
+      message: z.string().min(1).max(1000),
     }).parse(req.body);
 
-    let context: {
-      userName?: string;
-      caseStatus?: string;
-      withdrawalStage?: number;
-      previousMessages?: Array<{ role: 'user' | 'admin' | 'bot'; content: string }>;
-    } = {};
+    // Check global hourly circuit breaker only after input is valid.
+    if (!await consumeGlobalAiChatBudget(res)) return;
 
-    if (input.caseId) {
-      const caseData = await storage.getCaseByAccessCode(input.caseId);
-      if (caseData) {
-        context.userName = caseData.userName || undefined;
-        context.caseStatus = caseData.status || undefined;
-        context.withdrawalStage = caseData.withdrawalStage ? parseInt(caseData.withdrawalStage) : undefined;
-        
-        const messages = await storage.getChatMessagesByCaseId(caseData.id);
-        context.previousMessages = messages.slice(-5).map(m => ({
-          role: m.sender as 'user' | 'admin' | 'bot',
-          content: m.message
-        }));
-      }
-    }
-
-    const response = await generateChatResponse(input.message, context);
+    const response = await generateChatResponse(input.message, {});
     
     res.json({ response, isAI: true });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
-      console.error("AI chat error:", error);
+      warnOnce("ai:chat", "AI chat error:", error);
       res.status(500).json({ error: "Failed to generate AI response" });
     }
   }
@@ -76,9 +134,9 @@ aiRouter.post("/suggestions", checkAdminAuth, async (req, res) => {
     res.json({ suggestions });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
-      console.error("AI suggestions error:", error);
+      warnOnce("ai:suggestions", "AI suggestions error", error);
       res.status(500).json({ error: "Failed to generate suggestions" });
     }
   }
@@ -87,17 +145,17 @@ aiRouter.post("/suggestions", checkAdminAuth, async (req, res) => {
 aiRouter.post("/classify", checkAdminAuth, async (req, res) => {
   try {
     const input = z.object({
-      message: z.string().min(1),
+      message: z.string().min(1).max(2000),
     }).parse(req.body);
 
-    const classification = await classifyMessageIntent(input.message);
-    
-    res.json(classification);
+    const result = await classifyMessageIntent(input.message);
+
+    res.json(result);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
-      console.error("AI classification error:", error);
+      warnOnce("ai:classify", "AI classify error:", error);
       res.status(500).json({ error: "Failed to classify message" });
     }
   }
@@ -134,9 +192,9 @@ aiRouter.post("/analyze-case", checkAdminAuth, async (req, res) => {
     res.json(analysis);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
-      console.error("AI case analysis error:", error);
+      warnOnce("ai:analyze-case", "AI case analysis error:", error);
       res.status(500).json({ error: "Failed to analyze case" });
     }
   }
@@ -157,7 +215,7 @@ aiRouter.get("/insights", checkAdminAuth, async (req, res) => {
     
     res.json(insights);
   } catch (error) {
-    console.error("AI insights error:", error);
+    warnOnce("ai:insights", "AI insights error", error);
     res.status(500).json({ error: "Failed to generate insights" });
   }
 });
@@ -180,9 +238,9 @@ aiRouter.post("/auto-response", checkAdminAuth, async (req, res) => {
     res.json({ response });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors });
+      res.status(400).json({ error: "Invalid request" });
     } else {
-      console.error("AI auto-response error:", error);
+      warnOnce("ai:auto-response", "AI auto-response error:", error);
       res.status(500).json({ error: "Failed to generate auto-response" });
     }
   }

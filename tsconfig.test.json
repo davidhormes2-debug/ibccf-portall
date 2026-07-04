@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "client/src/**/*",
+    "shared/**/*",
+    "server/**/*",
+    "scripts/**/*",
+    "video/scripts/**/*"
+  ],
+  "exclude": ["node_modules", "build", "dist"],
+  "compilerOptions": {
+    "incremental": false,
+    "tsBuildInfoFile": null,
+    "types": ["node", "vite/client", "vitest/globals", "react"]
+  }
+}

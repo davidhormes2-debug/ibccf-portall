@@ -1,0 +1,229 @@
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { createStorageMock } from "./helpers/storageMock";
+
+// Task #835 — end-to-end consistency guard: the read-only orphan COUNT an admin
+// sees must exactly equal what the destructive cleanup sweep actually DELETES on
+// the SAME data. Both helpers run through the shared
+// `scanWalletConnectAlertMarkers` (Task #824), so they can no longer drift in
+// logic — but the separate per-function suites never assert the two AGREE on one
+// fixture. This test locks that guarantee in:
+//   countOrphanedWalletConnectAlertMarkers().orphaned === cleanup().deleted
+//   countOrphanedWalletConnectAlertMarkers().scanned  === cleanup().scanned
+// Count runs first (it mutates nothing), then cleanup runs against the identical
+// untouched fixture, so there are no concurrent writes between the two calls.
+//
+// Reuses the same in-memory db/schema/drizzle mock as the count and cleanup
+// suites so the scan/diff runs against fake tables without real DB wiring.
+
+interface AppSettingRow {
+  key: string;
+}
+interface CaseRow {
+  id: string;
+}
+
+const appSettingsRows: AppSettingRow[] = [];
+const casesRows: CaseRow[] = [];
+
+const APP_SETTINGS_TABLE = { __table: "app_settings", key: "app_settings.key" };
+const CASES_TABLE = { __table: "cases", id: "cases.id" };
+
+function fieldName(col: unknown): string {
+  return String(col).split(".").pop() ?? "";
+}
+
+type Cond =
+  | { op: "like"; col: unknown; pattern: string }
+  | { op: "or"; args: Cond[] }
+  | { op: "inArray"; col: unknown; values: unknown[] }
+  | undefined;
+
+function matches(row: Record<string, unknown>, cond: Cond): boolean {
+  if (!cond) return true;
+  switch (cond.op) {
+    case "like": {
+      const v = row[fieldName(cond.col)];
+      if (cond.pattern.endsWith("%")) {
+        return typeof v === "string" && v.startsWith(cond.pattern.slice(0, -1));
+      }
+      return v === cond.pattern;
+    }
+    case "or":
+      return cond.args.some((a) => matches(row, a));
+    case "inArray":
+      return cond.values.includes(row[fieldName(cond.col)]);
+    default:
+      return false;
+  }
+}
+
+function project(
+  row: Record<string, unknown>,
+  sel: Record<string, unknown>,
+): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const alias of Object.keys(sel)) {
+    out[alias] = row[fieldName(sel[alias])];
+  }
+  return out;
+}
+
+function tableData(table: { __table: string }): Record<string, unknown>[] {
+  return (table.__table === "app_settings"
+    ? appSettingsRows
+    : casesRows) as unknown as Record<string, unknown>[];
+}
+
+vi.mock("../db", () => ({
+  db: {
+    select: (sel: Record<string, unknown>) => ({
+      from: (table: { __table: string }) => ({
+        where: (cond: Cond) => {
+          const data = tableData(table);
+          return Promise.resolve(
+            data.filter((r) => matches(r, cond)).map((r) => project(r, sel)),
+          );
+        },
+      }),
+    }),
+    delete: (table: { __table: string }) => ({
+      where: (cond: Cond) => ({
+        returning: (sel: Record<string, unknown>) => {
+          const data = tableData(table);
+          const toDelete = data.filter((r) => matches(r, cond));
+          for (const r of toDelete) {
+            const idx = data.indexOf(r);
+            if (idx >= 0) data.splice(idx, 1);
+          }
+          return Promise.resolve(toDelete.map((r) => project(r, sel)));
+        },
+      }),
+    }),
+  },
+}));
+
+vi.mock("@shared/schema", () => ({
+  appSettings: APP_SETTINGS_TABLE,
+  cases: CASES_TABLE,
+  auditLogs: { id: "auditLogs.id", action: "auditLogs.action", targetId: "auditLogs.targetId" },
+}));
+
+vi.mock("drizzle-orm", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("drizzle-orm")>()),
+  like: (col: unknown, pattern: string) => ({ op: "like", col, pattern }),
+  or: (...args: Cond[]) => ({ op: "or", args }),
+  inArray: (col: unknown, values: unknown[]) => ({ op: "inArray", col, values }),
+  and: (...args: unknown[]) => ({ op: "and", args }),
+  eq: (col: unknown, val: unknown) => ({ op: "eq", col, val }),
+}));
+
+// walletConnectAlert imports these at module top; stub them so the import graph
+// resolves without real SMTP/storage wiring. createAuditLog is a no-op here —
+// the cleanup batch writes one, but this test only cares about the counts.
+vi.mock("../storage", () => ({
+  storage: createStorageMock({ createAuditLog: vi.fn(async () => {}) }),
+}));
+import { createEmailServiceMock } from "./helpers/emailServiceMock";
+vi.mock("../services/EmailService", () => ({ emailService: createEmailServiceMock({}) }));
+vi.mock("../services/emailNotify", () => ({
+  sendCaseEmailWithAudit: vi.fn(),
+  resolveRecipientLocale: vi.fn(),
+}));
+vi.mock("../nda-integrity-sweep", () => ({
+  ADMIN_ALERT_EMAIL_SETTING_KEY: "admin_alert_email",
+  parseAdminAlertRecipients: () => [],
+}));
+
+const FIRED = "wallet_connect_alert_fired:";
+const MUTE = "wallet_connect_alert_muted:";
+
+beforeEach(() => {
+  appSettingsRows.length = 0;
+  casesRows.length = 0;
+  vi.resetModules();
+});
+
+describe("orphan count vs. cleanup deletion consistency", () => {
+  it("count.orphaned equals cleanup.deleted and both agree on scanned", async () => {
+    // A mix of live and orphaned fired/mute markers, plus an unrelated row that
+    // should be invisible to both helpers.
+    casesRows.push({ id: "live-1" }, { id: "live-2" });
+    appSettingsRows.push(
+      { key: `${FIRED}live-1` }, // live — counted, not orphaned
+      { key: `${MUTE}live-1` }, // live — counted, not orphaned
+      { key: `${FIRED}live-2` }, // live — counted, not orphaned
+      { key: `${FIRED}gone-1` }, // orphan
+      { key: `${MUTE}gone-1` }, // orphan
+      { key: `${FIRED}gone-2` }, // orphan
+      { key: `${MUTE}gone-3` }, // orphan
+      { key: "admin_alert_email" }, // unrelated — never matched/counted
+    );
+
+    const mod = await import("../services/walletConnectAlert");
+
+    // Count first — it mutates nothing, so the fixture cleanup sees is identical.
+    const count = await mod.countOrphanedWalletConnectAlertMarkers();
+    const cleanup = await mod.cleanupOrphanedWalletConnectAlertMarkers();
+
+    // The exact Task #824 guarantee: the number an admin is shown is exactly
+    // what the sweep removes, and both scanned the same marker set.
+    expect(count.orphaned).toBe(cleanup.deleted);
+    expect(count.scanned).toBe(cleanup.scanned);
+
+    // Sanity-anchor the shared values so a future regression that breaks BOTH
+    // helpers identically can't pass by making them agree on the wrong number.
+    expect(count).toEqual({ scanned: 7, orphaned: 4 });
+    expect(cleanup).toEqual({ deleted: 4, scanned: 7, skipped: false });
+  });
+
+  it("agree when nothing is orphaned (every marker's case still exists)", async () => {
+    casesRows.push({ id: "live-1" }, { id: "live-2" });
+    appSettingsRows.push(
+      { key: `${FIRED}live-1` },
+      { key: `${MUTE}live-1` },
+      { key: `${FIRED}live-2` },
+    );
+
+    const mod = await import("../services/walletConnectAlert");
+
+    const count = await mod.countOrphanedWalletConnectAlertMarkers();
+    const cleanup = await mod.cleanupOrphanedWalletConnectAlertMarkers();
+
+    expect(count.orphaned).toBe(cleanup.deleted);
+    expect(count.scanned).toBe(cleanup.scanned);
+    expect(count).toEqual({ scanned: 3, orphaned: 0 });
+    expect(cleanup.deleted).toBe(0);
+  });
+
+  it("agree when every marker is orphaned (cases table empty)", async () => {
+    appSettingsRows.push(
+      { key: `${FIRED}gone-1` },
+      { key: `${MUTE}gone-1` },
+      { key: `${FIRED}gone-2` },
+    );
+
+    const mod = await import("../services/walletConnectAlert");
+
+    const count = await mod.countOrphanedWalletConnectAlertMarkers();
+    const cleanup = await mod.cleanupOrphanedWalletConnectAlertMarkers();
+
+    expect(count.orphaned).toBe(cleanup.deleted);
+    expect(count.scanned).toBe(cleanup.scanned);
+    expect(count).toEqual({ scanned: 3, orphaned: 3 });
+    expect(cleanup.deleted).toBe(3);
+  });
+
+  it("agree when there are no markers at all", async () => {
+    appSettingsRows.push({ key: "admin_alert_email" });
+
+    const mod = await import("../services/walletConnectAlert");
+
+    const count = await mod.countOrphanedWalletConnectAlertMarkers();
+    const cleanup = await mod.cleanupOrphanedWalletConnectAlertMarkers();
+
+    expect(count.orphaned).toBe(cleanup.deleted);
+    expect(count.scanned).toBe(cleanup.scanned);
+    expect(count).toEqual({ scanned: 0, orphaned: 0 });
+    expect(cleanup).toEqual({ deleted: 0, scanned: 0, skipped: false });
+  });
+});

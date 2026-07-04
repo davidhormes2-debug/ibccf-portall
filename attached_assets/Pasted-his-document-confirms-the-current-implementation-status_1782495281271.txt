@@ -1,0 +1,296 @@
+his document confirms the current implementation status of IBCCF and outlines mandatory corrections, missing features, and required enhancements that must be completed to meet the full functional specification.
+
+1. CONFIRMED IMPLEMENTED (NO ACTION NEEDED)
+The following modules are fully functional and require no changes:
+
+Portal (Case Holder)
+Dashboard with 14-stage progress tracker
+
+All upload flows (KYC, SOF, receipts, FATCA, etc.)
+
+Messaging system
+
+Declaration of Compliance
+
+Case Letter viewer
+
+Activity Timeline
+
+Payout Wallet display
+
+Withdrawal Hub, Wallet Connect, Sealed Settlement
+
+Admin Dashboard
+Case search & filtering
+
+Stage management
+
+Document review & receipts approval
+
+Email sending (one-off, broadcast, templates)
+
+Announcements
+
+Audit logs
+
+Blocked IP management
+
+User impersonation
+
+Portal warning + countdown + auto-logout
+
+Analytics
+
+Automated Emails (Fully Implemented)
+Access code issued
+
+Stage change
+
+Document requested
+
+Document approved/rejected
+
+Receipt approved/rejected
+
+Case letter issued
+
+Countdown activated
+
+Reactivation requested
+
+Reactivation completed
+
+Settlement sealed
+
+Payout wallet updated
+
+Declaration code issued
+
+NDA integrity alerts
+
+Email failure alerts
+
+Admin alert for new document upload
+
+Security & Validation
+Zod validation
+
+File upload restrictions
+
+MIME type filtering
+
+Reactivation gated on valid payment
+
+Session timeout
+
+Secure cookies
+
+Admin bearer token auth
+
+XSS sanitization
+
+Rate limiting
+
+AI fallback
+
+Sentry tracking
+
+2. GAPS THAT MUST BE FIXED BEFORE LAUNCH (MANDATORY)
+Below are the 8 critical gaps that must be implemented to meet the full IBCCF specification.
+
+GAP 1 — Missing “Case Created” Email to User
+Required:  
+When a case is submitted, the user must immediately receive:
+
+“Your case has been registered”
+
+Case ID
+
+Expected next steps
+
+Timeline for admin review
+
+Status: Not implemented.
+
+GAP 2 — Missing Admin Notification for New Case Submission
+Required:  
+Admins must receive:
+
+Email alert
+
+Dashboard notification
+
+When:
+
+A new case is submitted
+
+A case is created manually
+
+Status: Not implemented.
+
+GAP 3 — Missing Admin Email When User Sends a Message
+Required:  
+When a user sends a message:
+
+Admin must receive an email
+
+Admin must receive a dashboard alert
+
+Status: Only dashboard alert exists. Email missing.
+
+GAP 4 — RBAC (Role-Based Access Control) Not Enforced
+Required:  
+Roles must be enforced:
+
+super_admin → full access
+
+admin → case/document management
+
+agent → limited support actions
+
+viewer → read-only
+
+Status: All admins currently have full access.
+This is a security risk.
+
+GAP 5 — Missing Banned Keyword Moderation
+Required:  
+Community forum must include:
+
+Configurable banned keyword list
+
+Auto-flagging
+
+Auto-logging
+
+Admin moderation UI
+
+Status: Not implemented.
+
+GAP 6 — Missing Unified /health Endpoint
+Required:  
+Single endpoint returning:
+
+DB status
+
+Email SMTP status
+
+OpenAI API status
+
+Uptime
+
+Version
+
+Status: Only partial health checks exist.
+
+GAP 7 — Missing Stage Transition Validation
+Required:  
+Admin must NOT be able to:
+
+Skip stages
+
+Move backwards
+
+Jump arbitrarily
+
+Server must enforce:
+
+Only current_stage + 1 is allowed
+
+Exceptions require super_admin override
+
+Status: Not implemented.
+
+GAP 8 — Tawk.to Integration Not Completed
+Required:
+
+Full integration
+
+Fallback if script fails
+
+Admin visibility of user messages
+
+Countdown page embedding
+
+Status: In progress, not complete.
+
+3. ADDITIONAL REQUIRED FUNCTIONALITY (NEW MANDATORY ITEMS)
+These items must be added to ensure full compliance with the IBCCF specification.
+
+A. Automated Email Enhancements
+Add the following missing automated emails:
+
+1. Case Creation Confirmation (User)
+Sent immediately after case submission.
+
+2. New Case Submitted (Admin)
+Sent to all admins or compliance team.
+
+3. New User Message (Admin)
+Email alert for every incoming user message.
+
+B. Monitoring & Observability
+Add:
+
+Cron job monitoring
+
+AI service availability monitoring
+
+Email queue monitoring
+
+Performance metrics (slow queries, slow endpoints)
+
+C. Security Enhancements
+Enforce RBAC
+
+Add admin action logging for:
+
+Stage changes
+
+Document approvals
+
+Countdown overrides
+
+Reactivation approvals
+
+D. Validation Enhancements
+Enforce stage transition rules
+
+Enforce document type rules
+
+Enforce reactivation payment validation
+
+E. Community Moderation Enhancements
+Banned keyword list
+
+Auto-flagging
+
+Admin review queue
+
+4. REQUIRED DEVELOPER RESPONSE
+Developer must respond with:
+
+A. Confirmation you understand all 8 gaps + new requirements
+B. Timeline for fixing each gap
+C. Any blockers or dependencies
+D. Confirmation that all automated emails will be implemented
+E. Confirmation that RBAC will be enforced
+F. Confirmation that stage transition validation will be added
+G. Confirmation that Tawk.to integration will be completed
+H. Confirmation that unified /health endpoint will be built
+5. PRIORITY ORDER (DO NOT CHANGE)
+RBAC enforcement
+
+Case creation emails
+
+Admin notifications
+
+Unified health endpoint
+
+Stage transition validation
+
+Banned keyword moderation
+
+Tawk.to integration
+
+Monitoring enhancements

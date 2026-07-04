@@ -1,0 +1,130 @@
+{
+  "back": "Voltar",
+  "accessPortal": "Acessar Portal",
+  "legalDoc": "Documentação Jurídica",
+  "title": "Termos de Uso",
+  "subtitle": "As regras e condições que regem o seu acesso e uso da plataforma, portal e serviços associados da IBCCF.",
+  "lastUpdated": "Última atualização:",
+  "contents": "Conteúdo",
+  "privacyLink": "Política de Privacidade",
+  "legalResourcesLink": "Recursos Jurídicos",
+  "reviewerNote": {
+    "label": "Nota para revisores jurídicos:",
+    "text": "Este documento é um rascunho de trabalho. Deve ser revisto e finalizado por um profissional jurídico qualificado antes que a Plataforma processe dados de usuários em jurisdições reguladas."
+  },
+  "sections": {
+    "acceptance": {
+      "title": "1. Aceitação dos Termos",
+      "p1Pre": "Ao acessar ou usar o site e o portal do Fórum Internacional de Reclamações de Blockchain (",
+      "p1Brand": "\"IBCCF\"",
+      "p1Mid": ", \"a Plataforma\", \"nós\" ou \"nosso\"), você concorda em se vincular a estes Termos de Uso (",
+      "p1Terms": "\"Termos\"",
+      "p1Post": "). Se não concordar, você não deve usar a Plataforma.",
+      "p2": "Estes Termos se aplicam a todos os visitantes, titulares de casos registrados e quaisquer outras pessoas que acessem ou usem qualquer parte da Plataforma."
+    },
+    "services": {
+      "title": "2. Descrição dos Serviços",
+      "p1": "A IBCCF fornece um portal de gestão de casos baseado na web, projetado para auxiliar indivíduos a documentar, rastrear e buscar a resolução de reclamações relacionadas a plataformas blockchain e transações de criptomoedas. A Plataforma também inclui:",
+      "items": [
+        "Um diretório de verificação de plataformas para verificar o status de legitimidade de serviços de blockchain.",
+        "Um fórum comunitário assistido por IA para compartilhar conhecimentos de prevenção de fraudes e apoio entre pares.",
+        "Um sistema de gestão de documentos regulatórios para envios relacionados à conformidade.",
+        "Recursos informativos, incluindo o diretório de Recursos Jurídicos."
+      ],
+      "p2": "A IBCCF é exclusivamente um serviço de informação e gestão de casos. Não prestamos aconselhamento jurídico, aconselhamento financeiro nem serviços jurídicos regulados. Nada na Plataforma constitui uma relação advogado-cliente."
+    },
+    "eligibility": {
+      "title": "3. Elegibilidade e Registro",
+      "intro": "Para usar o portal autenticado, você deve:",
+      "items": [
+        "Ter pelo menos 18 anos de idade (ou a maioridade em sua jurisdição, se for mais alta).",
+        "Fornecer informações precisas, completas e atualizadas ao enviar uma reclamação ou se registrar.",
+        "Possuir um código de referência de caso ativo emitido pela IBCCF.",
+        "Não estar proibido de usar a Plataforma pelas leis da sua jurisdição."
+      ],
+      "outro": "Você é responsável por manter a confidencialidade do seu código de acesso ao caso e PIN, e por toda a atividade que ocorrer durante a sua sessão no portal."
+    },
+    "conduct": {
+      "title": "4. Uso Aceitável",
+      "intro": "Você concorda em usar a Plataforma apenas para fins legais. Você não deve:",
+      "items": [
+        "Enviar informações ou documentação de reclamações falsas, enganosas ou fabricadas.",
+        "Fazer-se passar por outra pessoa ou entidade, ou deturpar sua identidade ou afiliação.",
+        "Fazer upload de documentos contendo código malicioso, vírus ou conteúdo executável ativo.",
+        "Tentar obter acesso não autorizado aos casos de outros usuários ou ao sistema administrativo.",
+        "Usar ferramentas automatizadas, bots ou scripts para interagir com a Plataforma fora do uso normal do portal.",
+        "Participar de qualquer atividade que possa danificar, sobrecarregar ou prejudicar a infraestrutura da Plataforma.",
+        "Usar o fórum comunitário ou o chat de IA para difundir esquemas fraudulentos, spam ou conteúdo prejudicial.",
+        "Coletar ou extrair dados pessoais de outros usuários da Plataforma."
+      ],
+      "outro": "A violação dessas regras pode resultar na suspensão ou encerramento imediato do seu acesso ao portal e, quando apropriado, encaminhamento às autoridades policiais relevantes."
+    },
+    "uploads": {
+      "title": "5. Conteúdo e Documentos Enviados",
+      "intro": "Ao fazer upload de documentos ou enviar conteúdo pela Plataforma, você declara e garante que:",
+      "items": [
+        "Você possui ou tem todos os direitos necessários para enviar o conteúdo.",
+        "O conteúdo é preciso e não é fraudulento ou enganoso.",
+        "O conteúdo não viola nenhuma lei aplicável, direitos de terceiros ou estes Termos.",
+        "Os arquivos enviados não contêm vírus, malware ou qualquer código prejudicial."
+      ],
+      "outro": "Os formatos de upload aceitos são PDF e tipos de imagem comuns (PNG, JPEG, WebP). O tamanho máximo do arquivo é de 10 MB por documento. Reservamo-nos o direito de rejeitar ou remover qualquer conteúdo enviado que viole estes Termos."
+    },
+    "financial": {
+      "title": "6. Questões Financeiras e Sem Garantia de Recuperação",
+      "p1": "A IBCCF não garante a recuperação de quaisquer fundos perdidos por fraude em blockchain ou má conduta de plataformas. A Plataforma facilita a documentação de reclamações e a coordenação regulatória; a recuperação efetiva de fundos depende de fatores completamente fora do nosso controle.",
+      "p2": "Quando a Plataforma exigir pagamento de taxas de conformidade ou encargos de processamento como parte de um fluxo de trabalho regulado de gestão de casos, aplica-se o seguinte:",
+      "items": [
+        "As taxas são divulgadas antes de serem cobradas. Você não deve pagar nenhum valor que não esteja claramente descrito no seu portal de casos.",
+        "Certas taxas são encargos de processamento não reembolsáveis uma vez que o trabalho administrativo associado tenha sido iniciado.",
+        "Nenhum pagamento de taxa garante qualquer resultado específico para o seu caso.",
+        "Se tiver dúvidas sobre qualquer solicitação de pagamento, entre em contato com o suporte da IBCCF antes de pagar."
+      ]
+    },
+    "ip": {
+      "title": "7. Propriedade Intelectual",
+      "p1": "Todo o conteúdo da Plataforma — incluindo texto, gráficos, logotipos, software e o design da Plataforma — é propriedade da IBCCF ou está licenciado para ela, e é protegido pelas leis de propriedade intelectual aplicáveis. Você não pode reproduzir, distribuir, modificar ou criar obras derivadas sem o nosso consentimento prévio por escrito.",
+      "p2": "O diretório de Recursos Jurídicos contém links para publicações de terceiros e documentos regulatórios. Esses materiais são de propriedade de suas respectivas organizações; fornecemos links apenas como referência e não reivindicamos propriedade sobre eles."
+    },
+    "disclaimer": {
+      "title": "8. Isenções de Responsabilidade",
+      "introPreAsIs": "A Plataforma é fornecida ",
+      "introAsIs": "\"como está\"",
+      "introMid": " e ",
+      "introAsAvailable": "\"conforme disponível\"",
+      "introPost": " sem garantia de qualquer tipo. Na máxima extensão permitida por lei, a IBCCF se isenta de todas as garantias, expressas ou implícitas, incluindo:",
+      "items": [
+        "Comerciabilidade, adequação a uma finalidade específica ou não violação.",
+        "Que a Plataforma será ininterrupta, livre de erros ou livre de componentes prejudiciais.",
+        "A precisão, integridade ou atualidade de qualquer informação na Plataforma, incluindo conteúdo gerado pela comunidade e gerado por IA.",
+        "Que o uso da Plataforma resultará na recuperação de fundos perdidos."
+      ],
+      "outro": "As respostas geradas por IA no fórum comunitário e no chat de suporte são fornecidas apenas para fins informativos e não constituem aconselhamento jurídico, financeiro ou profissional."
+    },
+    "liability": {
+      "title": "9. Limitação de Responsabilidade",
+      "p1": "Na máxima extensão permitida pela lei aplicável, a IBCCF e seus diretores, funcionários e licenciantes não serão responsáveis por quaisquer danos indiretos, incidentais, especiais, consequentes ou punitivos, incluindo, mas não se limitando a, perda de fundos, perda de dados, perda de reputação ou perda de lucros decorrentes de ou em conexão com o seu uso da Plataforma, mesmo que avisados da possibilidade de tais danos.",
+      "p2": "Algumas jurisdições não permitem a exclusão de certas garantias ou a limitação de certos danos. Nessas jurisdições, a responsabilidade é limitada na máxima extensão permitida por lei."
+    },
+    "termination": {
+      "title": "10. Suspensão e Encerramento",
+      "p1": "Reservamo-nos o direito de suspender ou encerrar o seu acesso à Plataforma a qualquer momento se acreditarmos razoavelmente que você violou estes Termos, participou de atividades fraudulentas ou se formos legalmente obrigados a fazê-lo.",
+      "p2": "Após o encerramento, seu direito de acessar o portal cessa imediatamente. As cláusulas que por sua natureza devem sobreviver ao encerramento (incluindo as Seções 7, 8, 9 e 11) continuarão a se aplicar."
+    },
+    "governingLaw": {
+      "title": "11. Lei Aplicável e Jurisdição",
+      "p1": "Estes Termos e qualquer disputa decorrente do seu uso da Plataforma serão regidos e interpretados de acordo com a lei aplicável. A jurisdição específica aplicável será determinada no momento da finalização jurídica por assessores qualificados e divulgada na versão final publicada destes Termos.",
+      "p2Pre": "Para informações sobre os marcos regulatórios internacionais relevantes para questões de reclamações de blockchain, consulte nosso diretório de",
+      "p2LinkText": "Recursos Jurídicos",
+      "p2Post": "."
+    },
+    "changes": {
+      "title": "12. Alterações nestes Termos",
+      "p1": "Podemos revisar estes Termos a qualquer momento. Quando o fizermos, atualizaremos a data de \"Última atualização\" no topo desta página. Para alterações relevantes, notificaremos os titulares de casos ativos por e-mail ou através de um aviso em destaque no portal. O uso continuado da Plataforma após a data efetiva dos Termos revisados constitui sua aceitação desses Termos."
+    },
+    "contact": {
+      "title": "13. Contato",
+      "p1": "As perguntas sobre estes Termos devem ser dirigidas à IBCCF pelo portal de suporte ou pelo formulário de contato disponível no site principal. Nosso objetivo é responder a todas as consultas dentro de cinco (5) dias úteis."
+    }
+  }
+}

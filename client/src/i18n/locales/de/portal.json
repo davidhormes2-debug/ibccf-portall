@@ -1,0 +1,1841 @@
+{
+  "navGroups": {
+    "overview": "Übersicht",
+    "withdrawal": "Abhebung",
+    "compliance": "Einhaltung",
+    "communication": "Kommunikation",
+    "account": "Konto"
+  },
+  "navItems": {
+    "dashboard": "Dashboard",
+    "timeline": "Aktivitätszeitachse",
+    "letter": "Abhebungsbrief",
+    "deposit": "Einzahlung & Quittungen",
+    "submissions": "Einreichungen",
+    "declaration": "Erklärung zur Einhaltung",
+    "documents": "Dokumente",
+    "keyRequest": "Anfrage für Schlüsselphrase",
+    "messages": "Nachrichten",
+    "settings": "Einstellungen",
+    "more": "Mehr",
+    "sealed": "Versiegelte Vereinbarung & NDA",
+    "sealedDone": "Versiegelte Vereinbarung",
+    "withdrawalActivation": "Auszahlungs-Aktivierung",
+    "withdrawalActivationDone": "Aktivierung genehmigt",
+    "certificate": "Zertifikat",
+    "accountHistory": "Kontohistorie",
+    "walletConnect": "Wallet-Verbindung",
+    "withdrawal": "Auszahlung beantragen",
+    "withdrawalHub": "Auszahlung",
+    "uploads": "Hochladen",
+    "withdrawalGuide": "Auszahlungsleitfaden",
+    "refundClaim": "Rückerstattungsantrag"
+  },
+  "accountHistory": {
+    "title": "Kontohistorie",
+    "subtitle": "Auf Ihrem Fall verbuchte Gutschriften und Belastungen",
+    "recordsTitle": "Hauptbucheinträge",
+    "entrySingular": "{{count}} Eintrag",
+    "entryPlural": "{{count}} Einträge",
+    "displayOnly": "Nur Anzeige",
+    "loading": "Kontohistorie wird geladen…",
+    "loadError": "Kontohistorie konnte nicht geladen werden. Bitte später erneut versuchen.",
+    "empty": "Auf Ihrem Fall wurden noch keine Einträge verbucht.",
+    "credit": "Gutschrift",
+    "debit": "Belastung",
+    "disclaimer": "IBCCF dient nur der Anzeige. Diese Einträge spiegeln den Buchungsstand Ihres Fallbearbeiters wider und bewegen keine Mittel."
+  },
+  "header": {
+    "caseLabel": "Fall",
+    "signOut": "Abmelden"
+  },
+  "common": {
+    "noActiveCase": "Kein aktiver Fall",
+    "loadingCase": "Lade Ihren Fall…"
+  },
+  "messages": {
+    "title": "Sichere Nachrichten",
+    "subtitle": "Verschlüsselte Kommunikation von IBCCF",
+    "unreadBadge": "{{count}} Ungelesen",
+    "encryption": {
+      "title": "Ende-zu-Ende Verschlüsselte Kommunikation",
+      "subtitle": "AES-256 Verschlüsselungsprotokoll"
+    },
+    "stats": {
+      "actionRequired": "Handlung Erforderlich",
+      "processing": "Wird bearbeitet",
+      "completed": "Abgeschlossen"
+    },
+    "sections": {
+      "urgent": "Dringende Handlung Erforderlich",
+      "processing": "Bearbeitungsupdates",
+      "completed": "Abgeschlossene Benachrichtigungen"
+    },
+    "empty": {
+      "title": "Sicheres Nachrichtenportal Leer",
+      "subtitle": "Derzeit keine verschlüsselten Nachrichten.",
+      "hint": "Nachrichten erscheinen hier, wenn IBCCF Updates zu Ihrem Fall sendet."
+    },
+    "dialog": {
+      "encryptedLabel": "Verschlüsselte Nachricht",
+      "close": "Schließen"
+    }
+  },
+  "documents": {
+    "header": {
+      "title": "Regulatorisches Dokumentenzentrum",
+      "subtitle": "Reichen Sie regulatorische Dokumente ein, verfolgen Sie diese und laden Sie sie herunter.",
+      "awaiting": "{{count}} wartet auf Ihre Aktion",
+      "refresh": "Aktualisieren",
+      "refreshing": "Wird aktualisiert…"
+    },
+    "refreshError": {
+      "title": "Aktualisierung fehlgeschlagen",
+      "description": "Ihre Dokumente konnten nicht neu geladen werden. Bitte versuchen Sie es erneut."
+    },
+    "complianceNote": "Dokumente werden verschlüsselt gespeichert und nur von IBCCF Compliance-Beauftragten überprüft. Reichen Sie diese umgehend ein, um Ihren Fall voranzubringen – Ihr zugewiesener Beauftragter wird automatisch benachrichtigt, sobald Sie hochladen.",
+    "empty": {
+      "title": "Keine Dokumente angefordert",
+      "subtitle": "Sie sind auf dem neuesten Stand. Wenn die Compliance etwas anderes benötigt, wird es hier erscheinen und Sie erhalten eine E-Mail."
+    },
+    "categories": {
+      "proofOfIncome": {
+        "label": "Einkommensnachweis",
+        "description": "Aktuelle Gehaltsabrechnungen, Arbeitgeberbrief oder Steuererklärung, die Ihr Einkommen zeigt."
+      },
+      "sourceOfFunds": {
+        "label": "Herkunft der Mittel",
+        "description": "Bankauszug oder Wallet-Aufzeichnung, die den Ursprung der Mittel belegt."
+      },
+      "kyc": {
+        "label": "KYC Identitätsverifizierung",
+        "description": "Von der Regierung ausgestellter Lichtbildausweis – Reisepass, Führerschein oder Personalausweis."
+      },
+      "fatca": {
+        "label": "FATCA / CRS Selbstzertifizierung",
+        "description": "Unterzeichnetes FATCA/CRS-Formular, das Ihren Steuerwohnsitz erklärt."
+      },
+      "taxResidency": {
+        "label": "Erklärung zur steuerlichen Ansässigkeit",
+        "description": "Bestätigen Sie für den Abrechnungsnachweis Ihr Land der steuerlichen Ansässigkeit."
+      },
+      "beneficialOwnership": {
+        "label": "Wirtschaftlich Berechtigter / KYC-Bestätigung",
+        "description": "Bestätigen Sie den wirtschaftlich Berechtigten der Mittel in diesem Fall."
+      },
+      "aml": {
+        "label": "Geldwäsche-Bestätigung",
+        "description": "Bestätigen Sie unsere Geldwäsche- und Sanktionsprüfung."
+      },
+      "settlementAuth": {
+        "label": "Auszahlungs-/Abwicklungsvollmacht",
+        "description": "Ermächtigen Sie das Compliance-Team, die Auszahlung an Ihre verifizierte Auszahlungs-Wallet freizugeben."
+      },
+      "powerOfAttorney": {
+        "label": "Vollmacht für die Auszahlung",
+        "description": "Erteilen Sie dem Compliance-Team eine streng begrenzte Vollmacht für die Auszahlungsschritte."
+      },
+      "custom": {
+        "description": "Ein benutzerdefiniertes Dokument, das vom Compliance-Team angefordert wurde."
+      }
+    },
+    "status": {
+      "approved": "Genehmigt",
+      "rejected": "Erneute Einreichung Erforderlich",
+      "submitted": "Eingereicht – Wartet auf Überprüfung",
+      "underReview": "Wird überprüft",
+      "actionRequired": "Handlung Erforderlich"
+    },
+    "card": {
+      "overdue": "Überfällig",
+      "reference": "Referenz: {{type}}",
+      "complianceNotes": "Compliance-Notizen",
+      "requested": "Angefordert",
+      "deadline": "Frist",
+      "reviewerNotes": "Überprüfernotizen",
+      "submittedOn": "Eingereicht am {{date}}",
+      "preview": "Vorschau",
+      "hide": "Ausblenden",
+      "download": "Herunterladen",
+      "archived": "Archiviert",
+      "uploadsPausedTitle": "Uploads pausiert",
+      "uploadsPausedBody": "Die Compliance hat die Einreichungen für dieses Dokument vorübergehend deaktiviert. Sie werden per E-Mail benachrichtigt, sobald sie wieder geöffnet werden.",
+      "upload": "Dokument hochladen",
+      "uploadCorrected": "Korrigiertes Dokument hochladen",
+      "uploading": "Hochladen…",
+      "templateTitle": "Vorausgefüllte Vorlage herunterladen",
+      "templateBody": "Für dieses Dokument steht eine vorausgefüllte PDF-Vorlage zur Verfügung. Herunterladen, offline unterschreiben und die unterschriebene Kopie unten hochladen.",
+      "templateDownloading": "Wird vorbereitet…",
+      "templateDownload": "Vorlage herunterladen",
+      "uploadHint": "PDF, PNG, JPEG oder WebP · Max 10 MB · Ende-zu-Ende verschlüsselt während der Übertragung"
+    },
+    "supporting": {
+      "title": "Begleitende Dokumente",
+      "description": "Laden Sie zusätzliche Begleitdokumente hoch (Ausweis, Transaktionsnachweise, Beweisdateien), die bei der Überprüfung Ihres Falls helfen können. Dateien werden sicher gespeichert und von unserem Compliance-Team geprüft.",
+      "descriptionLabel": "Beschreibung (optional)",
+      "descriptionPlaceholder": "Beschreiben Sie kurz, um was es sich bei diesem Dokument handelt oder worauf es sich bezieht (optional).",
+      "uploadButton": "Dokument hochladen",
+      "emptyTitle": "Noch keine Begleitdokumente",
+      "emptySubtitle": "Verwenden Sie die Schaltfläche oben, um Ihr erstes Dokument hochzuladen.",
+      "category": {
+        "general": "Allgemein",
+        "idProof": "Ausweis / Identitätsnachweis",
+        "transaction": "Transaktionsnachweis",
+        "evidence": "Beweisdokument",
+        "unknown": "Sonstiges"
+      }
+    }
+  },
+  "settings": {
+    "title": "Profil & Einstellungen",
+    "subtitle": "Kontodetails und eine Live-Bilanzvorschau Ihres Falls",
+    "profile": {
+      "section": "Kontoprofil",
+      "fullName": "Vollständiger Name",
+      "email": "E-Mail",
+      "mobile": "Mobil",
+      "accessCode": "Zugangscode"
+    },
+    "balance": {
+      "section": "Bilanzvorschau",
+      "liveBadge": "Live · USDT",
+      "compiledLabel": "Kompilierter Einzahlungsbetrag",
+      "compiledHint": "Summe aus Aktivierungs-, Schlüsselphrase- und Zusammenführungsbestandteilen – erstattungsfähig auf Ihr Wallet bei Abwicklung.",
+      "activityLabel": "Aktivitätszahlung",
+      "activityHelper": "Erstattungsfähiger Aktivierungsbetrag",
+      "phraseKeyLabel": "Schlüsselphrase-Einzahlung",
+      "phraseKeyHelper": "Wallet-Verifizierungsescrow",
+      "mergeLabel": "Schlüsselphrase-Zusammenführungseinzahlung",
+      "mergeHelper": "30% Zusammenführungsbestandteil",
+      "walletRequirement": "Wallet-Aktivitätsanforderung",
+      "withdrawalTotal": "Abhebungsbetrag (Gesamtbetrag des Falls)",
+      "footnote": "Die kompilierte Einzahlung ist die Summe der oben genannten Aktivierungs-, Schlüsselphrase- und Zusammenführungsbestandteile. Die angezeigten Beträge spiegeln die neuesten Werte wider, die von unserem Abwicklungsteam für Ihren Fall festgelegt wurden – sie aktualisieren sich automatisch, wenn Ihr Fall fortschreitet."
+    }
+  },
+  "keyRequest": {
+    "back": "Zurück zum Dashboard",
+    "header": {
+      "title": "Zugangsanforderung",
+      "subtitle": "Fordern Sie Ihren Zugangsstatus an oder sehen Sie ihn ein"
+    },
+    "status": {
+      "underReview": "Wird überprüft",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt",
+      "expired": "Abgelaufen"
+    },
+    "toast": {
+      "copiedTitle": "Kopiert!",
+      "copiedDescription": "Anforderungs-ID in die Zwischenablage kopiert.",
+      "notFoundTitle": "Nicht Gefunden",
+      "notFoundDescription": "Konnte den Anforderungsstatus nicht laden.",
+      "connectionTitle": "Verbindungsfehler",
+      "statusError": "Konnte den Anforderungsstatus nicht laden.",
+      "requiredFieldsTitle": "Erforderliche Felder",
+      "requiredFieldsDescription": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse ein.",
+      "submissionFailedTitle": "Einreichung Fehlgeschlagen",
+      "submissionFailedDefault": "Konnte Ihre Anfrage nicht einreichen. Bitte versuchen Sie es erneut.",
+      "submitConnectionError": "Konnte Ihre Anfrage nicht einreichen."
+    },
+    "confirm": {
+      "title": "Anfrage Eingereicht!",
+      "subtitle": "Unser Team wird diese innerhalb von 1–3 Werktagen überprüfen.",
+      "requestIdLabel": "Anforderungs-ID",
+      "copyAria": "Anforderungs-ID kopieren",
+      "keepHint": "Für Ihre Unterlagen aufbewahren",
+      "nameLabel": "Name",
+      "emailLabel": "E-Mail",
+      "nextHeading": "Was als Nächstes passiert",
+      "nextReview": "Unser Team überprüft Anfragen innerhalb von",
+      "nextReviewDays": "1–3 Werktagen",
+      "nextKey": "Ihr Zugangsschlüssel wird hier erscheinen, sobald er genehmigt ist",
+      "nextNotify": "Sie erhalten eine Benachrichtigung in Ihrem Portal, wenn es ein Update gibt",
+      "viewStatus": "Anforderungsstatus anzeigen"
+    },
+    "form": {
+      "heading": "Zugangskey anfordern",
+      "intro": "Ein Zugangsschlüssel ermöglicht es Ihnen, jederzeit ohne Ihren ursprünglichen Code wieder in Ihr Portal einzuloggen. Füllen Sie Ihre Daten unten aus und unser Team wird Ihre Anfrage innerhalb von 1–3 Werktagen überprüfen.",
+      "fullName": "Vollständiger Name",
+      "fullNamePlaceholder": "Ihr vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Telefonnummer",
+      "optional": "(optional)",
+      "phonePlaceholder": "+1 (555) 000-0000",
+      "reason": "Grund für die Anfrage",
+      "reasonPlaceholder": "Beschreiben Sie kurz, warum Sie einen Zugangsschlüssel benötigen…",
+      "submit": "Anfrage einreichen",
+      "submitting": "Einreichen…"
+    },
+    "howItWorks": {
+      "heading": "Wie es funktioniert",
+      "step1": "Reichen Sie Ihre Daten über das obige Formular ein",
+      "step2": "Unser Team überprüft diese innerhalb von 1–3 Werktagen",
+      "step3": "Ihr Schlüssel wird hier geliefert, sobald er genehmigt ist"
+    },
+    "statusCard": {
+      "requestId": "Anforderungs-ID",
+      "progressHeading": "Antragsfortschritt",
+      "stepSubmitted": "Eingereicht",
+      "stepSubmittedDesc": "Erhalten am {{date}}",
+      "stepUnderReview": "Wird überprüft",
+      "stepReviewing": "Unser Team überprüft Ihre Anfrage",
+      "stepReviewCompleted": "Überprüfung abgeschlossen",
+      "stepApproved": "Genehmigt",
+      "stepRejected": "Abgelehnt",
+      "stepExpired": "Abgelaufen",
+      "stepApprovedDesc": "Ihr Zugangsschlüssel ist bereit",
+      "stepRejectedDesc": "Anfrage konnte nicht genehmigt werden",
+      "stepExpiredDesc": "Anfrage ist abgelaufen",
+      "stepAwaiting": "Wartet auf Entscheidung",
+      "nameLabel": "Name",
+      "nameNa": "N/A",
+      "submittedLabel": "Eingereicht",
+      "copyAria": "Anforderungs-ID kopieren"
+    },
+    "approved": {
+      "title": "Ihr Zugangsschlüssel",
+      "hint": "Ihr Zugangsschlüssel wurde an Ihre E-Mail-Adresse gesendet. Bitte überprüfen Sie Ihren Posteingang und verwenden Sie ihn, um sich im sicheren Portal anzumelden."
+    },
+    "rejected": {
+      "title": "Anfrage Abgelehnt",
+      "reasonLabel": "Grund",
+      "noReason": "Es wurde kein spezifischer Grund von unserem Team angegeben.",
+      "submitNew": "Neue Anfrage einreichen"
+    },
+    "expired": {
+      "title": "Anfrage Abgelaufen",
+      "body": "Diese Anfrage ist abgelaufen. Sie können unten eine neue Anfrage für einen Zugangsschlüssel einreichen."
+    },
+    "resubmit": {
+      "title": "Neue Anfrage für Zugangsschlüssel",
+      "fullName": "Vollständiger Name",
+      "email": "E-Mail",
+      "reason": "Grund",
+      "reasonPlaceholder": "Beschreiben Sie kurz, warum Sie einen Zugangsschlüssel benötigen…",
+      "submit": "Einreichen",
+      "cancel": "Abbrechen"
+    },
+    "pending": {
+      "title": "Wird Überprüft",
+      "body": "Ihre Anfrage wird von unserem Team überprüft. Sie erhalten hier Updates. Die Bearbeitung dauert in der Regel 1–3 Werktage."
+    },
+    "adminMsgs": {
+      "heading": "Nachrichten von unserem Team",
+      "newBadge": "{{count}} Neu",
+      "newPill": "Neu"
+    }
+  },
+  "submissions": {
+    "title": "Einreichungshistorie",
+    "subtitle": "Ihr vollständiges Einreichungsarchiv",
+    "recordsTitle": "Ihre Einreichungen",
+    "recordSingular": "{{count}} Datensatz",
+    "recordPlural": "{{count}} Datensätze",
+    "encrypted": "Verschlüsselt",
+    "empty": "Keine Einreichungen gefunden.",
+    "optionSelected": "Option {{option}} Ausgewählt",
+    "withdrawalAmount": "Abhebungsbetrag",
+    "totalBatches": "Gesamtanzahl der Chargen"
+  },
+  "shell": {
+    "brand": "IBCCF PORTAL",
+    "secureSession": "Sichere Sitzung",
+    "urgent": "DRINGEND",
+    "member": "Mitglied",
+    "signOut": "Abmelden",
+    "navAriaLabel": "Portalabschnitte",
+    "ssl": "256-Bit SSL Verschlüsselt",
+    "moreLabel": "Mehr",
+    "moreSheetTitle": "Weitere Navigation",
+    "sessionExpiry": {
+      "message": "Ihre Sitzung läuft in weniger als 24 Stunden ab. Melden Sie sich erneut an, um den Zugang zu behalten.",
+      "messageWithTime": "Ihre Sitzung läuft {{time}} ab. Melden Sie sich erneut an, um den Zugang zu behalten.",
+      "messageCountdown": "Sitzung läuft in {{seconds}}s ab — bitte erneut anmelden.",
+      "loginButton": "Erneut anmelden zum Verlängern",
+      "dismiss": "Schließen",
+      "dialogTitle": "Ihre Sitzung Verlängern",
+      "dialogDesc": "Geben Sie Ihre PIN ein, um Ihre Sitzung zu verlängern und nicht gespeicherte Arbeit zu bewahren.",
+      "pinPlaceholder": "6-stellige PIN",
+      "extending": "Verlängern…",
+      "extendButton": "Sitzung Verlängern",
+      "successTitle": "Sitzung verlängert",
+      "successDesc": "Ihre Sitzung wurde um weitere 7 Tage verlängert.",
+      "errorTitle": "Falsche PIN",
+      "errorDesc": "Die eingegebene PIN ist falsch. Bitte versuchen Sie es erneut.",
+      "lockedCountdown": "Zu viele Versuche — versuchen Sie es in {{time}} erneut"
+    }
+  },
+  "status": {
+    "success": {
+      "title": "Einreichung Bestätigt",
+      "subtitle": "Ihre Abhebungsanfrage wurde erhalten",
+      "bannerTitle": "Abhebungsanfrage Bestätigt",
+      "referenceLabel": "Referenz:",
+      "optionSelectedOn": "Option {{option}} ausgewählt am {{date}}",
+      "nextStepTitle": "Nächster Schritt: Einzahlung abschließen",
+      "step1": "Navigieren Sie zum Abschnitt <0>Einzahlung & Quittungen</0>",
+      "step2": "Überweisen Sie die erforderlichen USDT an Ihre zugewiesene Einzahlung-Adresse",
+      "step3": "Laden Sie Ihre Transaktionsquittung zur Verifizierung hoch",
+      "step4": "Warten Sie auf die Bestätigung von unserem Compliance-Team",
+      "goToDeposit": "Zur Einzahlung gehen",
+      "contactSupport": "Support kontaktieren",
+      "fundsReleasedTo": "Mittel werden freigegeben an",
+      "verifiedPayoutWallet": "Verifiziertes Auszahlung-Wallet",
+      "displayOnlyShort": "Nur zur Anzeige – IBCCF hält, leitet oder überträgt keine Mittel.",
+      "displayOnlyAwaiting": "Ihr Fallbeauftragter wird die Auszahlungsadresse festlegen. IBCCF hält, leitet oder überträgt keine Mittel.",
+      "returnToProfileTitle": "Zurück zu Ihrem Profil",
+      "returnToProfileSubtitle": "Zugriff auf Ihr externes Profil-Dashboard",
+      "openProfile": "Profil öffnen",
+      "backToDashboard": "← Zurück zum Dashboard"
+    },
+    "timeline": {
+      "title": "Aktivitätszeitachse",
+      "events": "{{count}} Ereignisse",
+      "recentActivity": "Aktuelle Aktivitäten",
+      "empty": "Noch keine Aktivitäten.",
+      "emptyHint": "Ihre Kontobewegungen erscheinen hier.",
+      "documentRequested": "Dokument angefordert: {{type}}",
+      "documentRequestedDesc": "Die Compliance hat Sie gebeten, dieses Dokument hochzuladen.",
+      "documentSubmitted": "Dokument eingereicht: {{type}}",
+      "documentSubmittedDesc": "Dokument zur Überprüfung durch die Compliance hochgeladen.",
+      "documentUploaded": "Hochgeladen {{name}}",
+      "documentApproved": "Dokument genehmigt: {{type}}",
+      "documentApprovedDesc": "Die Compliance hat Ihre Einreichung genehmigt.",
+      "documentRejected": "Dokument abgelehnt: {{type}}",
+      "documentRejectedDesc": "Die Compliance hat Sie gebeten, dieses Dokument erneut einzureichen.",
+      "payoutWalletUpdated": "Auszahlungs-Wallet aktualisiert",
+      "payoutWalletVerified": "Auszahlungs-Wallet verifiziert",
+      "payoutWalletCleared": "Auszahlungs-Wallet freigegeben",
+      "payoutWalletPrevious": "Frühere Auszahlungs-Wallet in den Unterlagen",
+      "payoutWalletClearedDesc": "Ihr Fallbeauftragter hat eine zuvor verifizierte Auszahlungsadresse entfernt.",
+      "payoutWalletGenericChange": "Die Compliance hat die verifizierte Auszahlungsadresse aktualisiert.",
+      "stagePrefix": "Phase {{stage}}: {{title}}",
+      "submissionTitle": "Option {{option}} Eingereicht",
+      "submissionDesc": "Abhebungsanfrage eingereicht",
+      "depositReceiptTitle": "Einzahlungsquittung hochgeladen",
+      "receiptApproved": "Quittung genehmigt",
+      "receiptRejected": "Quittung abgelehnt",
+      "receiptPending": "Wartet auf Überprüfung",
+      "userDocUploaded": "Begleitdokument hochgeladen",
+      "userDocUploadedDesc": "Sie haben ein Begleitdokument zur Compliance-Prüfung hochgeladen.",
+      "userDocApproved": "Begleitdokument genehmigt",
+      "userDocApprovedDesc": "Die Compliance hat Ihr Begleitdokument genehmigt.",
+      "userDocRejected": "Begleitdokument abgelehnt",
+      "userDocRejectedDesc": "Die Compliance hat Ihr Begleitdokument abgelehnt. Bitte reichen Sie es bei Bedarf erneut ein.",
+      "userDocReviewed": "Begleitdokument geprüft",
+      "userDocReviewedDesc": "Die Compliance hat Ihr Begleitdokument geprüft.",
+      "activation": {
+        "title": "Auszahlungs-Aktivierung — {{status}}",
+        "approvedDesc": "Aktivierungseinzahlung genehmigt. Auszahlungsbearbeitung kann jetzt erfolgen.",
+        "rejectedDesc": "Aktivierungsbeleg abgelehnt. Erneutes Hochladen erforderlich.",
+        "awaitingAdminDesc": "Beleg eingereicht. Wartet auf Compliance-Prüfung.",
+        "awaitingDepositDesc": "Wartet auf Ihre Aktivierungseinzahlung.",
+        "awaitingTokenDesc": "Wartet auf Sicherheitscode-Verifizierung.",
+        "defaultDesc": "Status aktualisiert."
+      },
+      "walletExchangeSelected": "Wallet ausgewählt: {{wallet}}",
+      "walletExchangeSelectedDesc": "Sie haben {{wallet}} als verbundene Wallet ausgewählt.",
+      "walletPhraseRevealed": "Wallet-Phrase enthüllt",
+      "walletPhraseRevealedDesc": "Ihre Wallet-Wiederherstellungsphrase wurde abgerufen.",
+      "tokenWalletSetupConfirmedDesc": "Ihre Token-Wallet-Einrichtung wurde vom Compliance-Team verifiziert.",
+      "tokenWalletSetupUnconfirmedDesc": "Die Verifizierung Ihrer Token-Wallet-Einrichtung wurde widerrufen.",
+      "auditActions": {
+        "wallet_connect_completed": "Wallet-Phrase enthüllt",
+        "token_wallet_setup_confirmed": "Token-Wallet-Einrichtung bestätigt",
+        "token_wallet_setup_unconfirmed": "Token-Wallet-Einrichtung nicht bestätigt"
+      }
+    }
+  },
+  "dashboard": {
+    "header": {
+      "welcomeBack": "Willkommen zurück,",
+      "memberFallback": "Mitglied",
+      "verified": "Verifiziert",
+      "vipStatus": "VIP-Status",
+      "standard": "Standard",
+      "account": "Konto",
+      "active": "Aktiv",
+      "fullyRegulated": "Vollständig reguliert",
+      "fullyRegulatedTooltip": "Vollständig reguliert — alle Compliance-Prüfpunkte erfüllt"
+    },
+    "balance": {
+      "label": "Kontostand",
+      "footnote": "Verifizierter Stand, der in segregiertem Treuhandkonto auf die Genehmigung der Compliance wartet."
+    },
+    "urgentBanner": {
+      "title": "Sofortige Handlung Erforderlich",
+      "body": "Sie haben ausstehende Anforderungen von der Compliance-Abteilung von IBCCF.",
+      "viewNow": "Jetzt ansehen"
+    },
+    "keyRequestBanner": {
+      "title": "Neue Nachricht zu Ihrer Zugangsanforderung",
+      "single": "Der Administrator hat Ihnen eine Nachricht zu Ihrer Anfrage für den Zugangsschlüssel gesendet.",
+      "multiple": "Sie haben {{count}} neue Nachrichten zu Ihrer Anfrage für den Zugangsschlüssel.",
+      "viewMessage": "Nachricht ansehen"
+    },
+    "cards": {
+      "messages": "Erforderliche Aktionen",
+      "letter": "Abhebungsbrief",
+      "profile": "Profilinformationen",
+      "deposit": "Einzahlung & Quittungen",
+      "submissions": "Einreichungshistorie",
+      "timeline": "Aktivitätszeitachse",
+      "support": "IBCCF Support",
+      "feedback": "Feedback",
+      "unread": "{{count}} ungelesen",
+      "pending": "Ausstehend",
+      "accessAccount": "Zugriff auf Konto"
+    },
+    "messages": {
+      "urgent": "Dringend",
+      "processing": "Wird bearbeitet",
+      "resolved": "Gelöst"
+    },
+    "letter": {
+      "status": "Status",
+      "submitted": "Eingereicht",
+      "ready": "Bereit",
+      "submissions": "Einreichungen",
+      "preparing": "Wird vom Compliance-Team vorbereitet"
+    },
+    "profile": {
+      "name": "Name",
+      "email": "E-Mail",
+      "vipStatus": "VIP-Status"
+    },
+    "deposit": {
+      "receiptsUploaded": "Quittungen hochgeladen",
+      "pendingReview": "Wartet auf Überprüfung"
+    },
+    "submissions": {
+      "total": "Gesamtanzahl der Einreichungen"
+    },
+    "timeline": {
+      "recent": "Aktuelle Aktivitäten"
+    },
+    "support": {
+      "body": "Chatten Sie mit dem IBCCF-Support, um Unterstützung bei Ihrem Konto zu erhalten."
+    },
+    "feedback": {
+      "thankYou": "Danke!",
+      "body": "Helfen Sie uns, indem Sie Ihre Erfahrungen teilen.",
+      "title": "Teilen Sie Ihr Feedback",
+      "description": "Bewerten Sie unseren Service und hinterlassen Sie Kommentare.",
+      "rateLabel": "Wie würden Sie Ihre Erfahrung bewerten?",
+      "ratings": {
+        "1": "Schlecht",
+        "2": "Befriedigend",
+        "3": "Gut",
+        "4": "Sehr Gut",
+        "5": "Ausgezeichnet"
+      },
+      "commentsLabel": "Zusätzliche Kommentare (optional)",
+      "commentsPlaceholder": "Erzählen Sie uns mehr über Ihre Erfahrung...",
+      "cancel": "Abbrechen",
+      "submit": "Feedback einreichen",
+      "submitting": "Einreichen...",
+      "toastSuccessTitle": "Feedback Eingereicht",
+      "toastSuccessDesc": "Danke für Ihr Feedback!",
+      "toastErrorTitle": "Fehler",
+      "toastErrorDesc": "Feedback konnte nicht eingereicht werden."
+    },
+    "chat": {
+      "title": "IBCCF Support",
+      "online": "Online · Antwortet normalerweise in Minuten",
+      "welcomeTitle": "Willkommen beim IBCCF Support",
+      "welcomeBody": "Wie können wir Ihnen heute helfen?",
+      "placeholder": "Geben Sie Ihre Nachricht ein..."
+    },
+    "reactivation": {
+      "dismissAria": "Willkommensnachricht abweisen",
+      "label": "Konto reaktiviert",
+      "newPill": "NEU",
+      "fallbackName": "dort",
+      "headline": "Willkommen zurück, {{name}} – Ihr Konto ist vollständig wiederhergestellt.",
+      "bodyWithEmail": "Unser Compliance-Team hat Ihr IBCCF-Portal reaktiviert. Alle Funktionen sind wieder verfügbar. Ein neuer Zugangscode wurde an Ihre E-Mail gesendet – Ihr vorheriger Code funktioniert nicht mehr.",
+      "bodyNoEmail": "Unser Compliance-Team hat Ihr IBCCF-Portal reaktiviert. Alle Funktionen sind wieder verfügbar. Ein neuer Zugangscode wurde ausgegeben – bitte kontaktieren Sie Ihren Fallbeauftragten, um ihn zu erhalten.",
+      "restoration": "Wiederherstellung des Kontos",
+      "allOnline": "Alle Portal-Funktionen online"
+    },
+    "tracker": {
+      "title": "Abhebungsfortschritt",
+      "subtitle": "Echtzeitstatus Ihrer Abhebungsanfrage",
+      "progress": "Fortschritt",
+      "ariaLabel": "Abhebungsfortschritt: Phase {{stage}} von 14",
+      "stageLabel": "Phase {{stage}}: {{label}} – {{state}}",
+      "stageTooltip": "Phase {{stage}}: {{label}}\n{{state}}",
+      "states": {
+        "completed": "Abgeschlossen",
+        "current": "Aktuell",
+        "upcoming": "Kommend"
+      },
+      "legend": {
+        "completed": "Abgeschlossen",
+        "userAction": "Aktion von Ihnen erforderlich",
+        "adminAction": "Warten auf das Compliance-Team",
+        "system": "Systemverarbeitung"
+      },
+      "stageOf": "Phase {{stage}}",
+      "stages": {
+        "1": {
+          "label": "Schlüsselphrase-Einzahlung Erhalten",
+          "description": "Schlüsselphrase-Einzahlung erfolgreich auf dem Ledger bestätigt"
+        },
+        "2": {
+          "label": "Sichere Schlüsselphrase Generierung",
+          "description": "Erstellung der Schlüsselphrase im Gange"
+        },
+        "3": {
+          "label": "Schlüsselphrase Genehmigt & Verfügbar",
+          "description": "Schlüsselphrase genehmigt und an das Zentrum für sichere Nachrichten geliefert"
+        },
+        "4": {
+          "label": "Abhebungsprozess Eingeleitet",
+          "description": "Abhebungsfluss aktiviert"
+        },
+        "5": {
+          "label": "Erste Einzahlung Überprüfung",
+          "description": "Überprüfung der Einzahlung im Gange"
+        },
+        "6": {
+          "label": "Schlüsselphrase Überprüfung",
+          "description": "Validierung der Schlüsselphrase im Gange"
+        },
+        "7": {
+          "label": "Schlüsselphrase Zusammenführungs-Einzahlung Erforderlich",
+          "descriptionWithAmount": "Erforderlich: {{amount}} (30% Zusammenführungs-Einzahlung)",
+          "descriptionAwaiting": "Wartet auf Berechnung der Zusammenführungs-Einzahlung"
+        },
+        "8": {
+          "label": "Überprüfung der Finanzabteilung",
+          "description": "Compliance- und Finanzüberprüfung"
+        },
+        "9": {
+          "label": "Mining-Abhebung für finale Genehmigung",
+          "description": "Blockchain-Bestätigung und interne Genehmigung"
+        },
+        "10": {
+          "label": "Überprüfung der Blockchain-Aktivität",
+          "descriptionWithAmount": "Erforderlich: {{amount}} Guthaben im empfangenden Wallet",
+          "descriptionAwaiting": "Überprüfung der Wallet-Aktivität im Gange"
+        },
+        "11": {
+          "label": "IRS / Internationale AML Überprüfung",
+          "description": "Regulatorische Compliance-Prüfungen im Gange"
+        },
+        "12": {
+          "label": "Finale Abhebungsbearbeitung",
+          "description": "Vorbereitung der Mittel zur Freigabe"
+        },
+        "13": {
+          "label": "Abhebung Erfolgreich Freigegeben",
+          "description": "Mittel an die zugewiesene Wallet freigegeben"
+        },
+        "14": {
+          "label": "Zeitstempel-Einzahlung für finale Lieferung",
+          "description": "Bestätigung der finalen Lieferung"
+        }
+      },
+      "stage7Notice": {
+        "title": "Schlüsselphrase Zusammenführungs-Einzahlung Erforderlich",
+        "body": "Eine 30% Zusammenführungs-Einzahlung ist erforderlich, um die Überprüfung der Schlüsselphrase abzuschließen."
+      },
+      "stage10Notice": {
+        "title": "Überprüfung der Blockchain-Aktivität",
+        "body": "Bitte halten Sie den erforderlichen {{asset}}-Betrag in Ihrem empfangenden Wallet bereit."
+      },
+      "stage12Notice": {
+        "title": "Finale Bestätigung: Auszahlung-Wallet",
+        "body": "Bestätigen Sie, dass die verifizierte Zieladresse unten mit Ihren Unterlagen übereinstimmt, bevor die Compliance die Auszahlung freigibt. Das Portal ist nur zur Anzeige – IBCCF hält, leitet oder überträgt keine Mittel.",
+        "awaiting": "Wartet darauf, dass Ihr Fallbeauftragter das verifizierte Auszahlung-Wallet festlegt."
+      },
+      "withdrawalMode": {
+        "kicker": "Alle Phasen Abgeschlossen",
+        "title": "Auszahlungsphase Aktiv",
+        "body": "Alle Compliance-Phasen wurden abgeschlossen. Ihre Auszahlung ist jetzt in Bearbeitung."
+      }
+    },
+    "payoutWallet": {
+      "awaitingPill": "Wartet auf Verifizierung",
+      "label": "Verifiziertes Auszahlung-Wallet",
+      "awaitingTitle": "Ihr Fallbeauftragter wird die Auszahlungsadresse festlegen",
+      "awaitingBody": "Sobald die Compliance das Wallet verifiziert hat, das Ihre Auszahlung erhalten wird, erscheinen hier die vollständige Adresse, das Asset und das Netzwerk. Das Portal ist nur zur Anzeige – IBCCF hält, leitet oder überträgt niemals Ihre Mittel.",
+      "updatedLabel": "Auszahlungs-Wallet aktualisiert",
+      "updatedTitle": "Ihr Fallbeauftragter hat eine neue Auszahlungsadresse verifiziert.",
+      "updatedBody": "Überprüfen Sie die Details unten und kontaktieren Sie Ihren Beauftragten sofort, wenn etwas ungewöhnlich aussieht.",
+      "dismissAria": "Aktualisierung des Auszahlung-Wallet abweisen",
+      "verifiedPill": "Verifiziert",
+      "label2": "Auszahlungs-Wallet",
+      "verifiedTitle": "Festgelegte Auszahlungsadresse",
+      "verifiedBody": "Ihr Fallbeauftragter hat dies als Ziel für Ihren Fall verifiziert. Das Portal ist <0>nur zur Anzeige</0> – IBCCF hält oder leitet keine Mittel.",
+      "asset": "Asset",
+      "network": "Netzwerk",
+      "walletAddress": "Wallet-Adresse",
+      "copy": "Kopieren",
+      "verified": "Verifiziert",
+      "verifiedBy": "von",
+      "verifiedOn": "am",
+      "toastCopiedTitle": "Wallet-Adresse kopiert",
+      "toastCopiedDesc": "Verifizierte Auszahlung-Adresse in die Zwischenablage kopiert.",
+      "toastFailTitle": "Kopieren fehlgeschlagen",
+      "toastFailDesc": "Bitte kopieren Sie die Adresse manuell.",
+      "toastUpdatedTitle": "Auszahlungs-Wallet aktualisiert",
+      "toastUpdatedDesc": "Ihr Fallbeauftragter hat eine neue Auszahlungsadresse verifiziert. Bitte überprüfen Sie diese, bevor Sie Ihre Abhebung fortsetzen."
+    },
+    "stageCta": {
+      "stage7AmountLabel": "Schlüsselphrase Zusammenführungs-Einzahlung",
+      "stage10AmountLabel": "Erforderlicher Wallet-Betrag",
+      "stage7Headline": "Zahlen Sie die {{amount}} {{asset}} Zusammenführungs-Einzahlung, um die Überprüfung der Schlüsselphrase freizuschalten",
+      "stage10Headline": "Halten Sie {{amount}} {{asset}} in Ihrem empfangenden Wallet für die Aktivitätsüberprüfung bereit",
+      "stageOf": "Phase {{stage}} von 14",
+      "advanced": "Phase fortgeschritten · {{from}} → {{to}}",
+      "dismissAria": "Aktualisierung der Phase abweisen",
+      "whatYouCanDo": "Was Sie jetzt tun können",
+      "withdrawalMode": {
+        "kicker": "Auszahlungsphase",
+        "title": "Auszahlung in Bearbeitung",
+        "body": "Alle Compliance-Phasen wurden abgeschlossen. Ihr Fallbeauftragter bearbeitet Ihre Auszahlung. Von Ihrer Seite ist derzeit keine weitere Aktion erforderlich."
+      }
+    },
+    "finalized": {
+      "label": "Fall abgeschlossen",
+      "title": "Ihr Fall wurde abgeschlossen",
+      "body": "Ihr IBCCF-Auszahlungsfall hat seine letzte Phase erreicht und wurde am {{date}} vollständig abgeschlossen. {{tail}}",
+      "tailCertificate": "Besuchen Sie den Bereich Zertifikat, um Ihr Merge-Phrase-Zertifikat herunterzuladen.",
+      "tailEmail": "Eine Bestätigungskopie wurde Ihnen für Ihre Unterlagen per E-Mail zugesandt."
+    },
+    "activationBanner": {
+      "kicker": "Auszahlungs-Aktivierung",
+      "transition": "{{from}} → {{to}}",
+      "body": "Öffnen Sie die Ansicht \"Auszahlungs-Aktivierung\", um fortzufahren.",
+      "dismiss": "Schließen",
+      "status": {
+        "pending_address": "Adresse ausstehend",
+        "awaiting_token": "wartet auf Token",
+        "awaiting_deposit": "wartet auf Einzahlung",
+        "awaiting_admin_approval": "wartet auf Admin-Genehmigung",
+        "approved": "genehmigt",
+        "rejected": "abgelehnt",
+        "unknown": "In Bearbeitung"
+      }
+    },
+    "stampDuty": {
+      "title": "Stempelsteuer-Einzahlung ausstehend",
+      "statusAwaitingUpload": "Warten auf Upload",
+      "statusAwaitingApproval": "Warten auf Compliance-Prüfung",
+      "statusRejected": "Beleg abgelehnt",
+      "bodyAwaitingUpload": "Laden Sie einen Beleg für die Stempelsteuer-Einzahlung hoch, damit Ihre versiegelte Abwicklung planmäßig fortgeführt wird.",
+      "bodyAwaitingApproval": "Ihr Beleg wurde eingereicht. Die Compliance-Abteilung wird die Einzahlung in Kürze bestätigen.",
+      "bodyRejected": "Ihr letzter Beleg wurde abgelehnt. Bitte beachten Sie den Hinweis und reichen Sie einen neuen Beleg ein.",
+      "amountLabel": "Fälliger Betrag",
+      "ctaUpload": "Beleg hochladen",
+      "ctaView": "Stempelsteuer ansehen",
+      "ctaResubmit": "Beleg erneut einreichen",
+      "updated": "Aktualisiert",
+      "doneKicker": "Schritt abgeschlossen",
+      "doneTitle": "Stempelsteuer — Freigegeben"
+    },
+    "withdrawalGuide": {
+      "title": "Ihr Auszahlungsleitfaden",
+      "label": "Auszahlungsleitfaden",
+      "body": "Befolgen Sie diese Schritte, um Ihren Auszahlungsprozess erfolgreich abzuschließen.",
+      "step1Title": "Identitätsprüfung Abschließen",
+      "step1Body": "Reichen Sie Ihre KYC-Dokumente ein und bestätigen Sie Ihre persönlichen Daten bei unserem Compliance-Team.",
+      "step2Title": "Regulatorische Offenlegungen Unterzeichnen",
+      "step2Body": "Prüfen und unterzeichnen Sie alle erforderlichen Compliance-Formulare und Erklärungen zur Erfüllung der regulatorischen Anforderungen.",
+      "step3Title": "Ihr Auszahlungskonto Aktivieren",
+      "step3Body": "Leisten Sie die Aktivierungseinzahlung: 1.000 USDT erstattungsfähiges Aktivierungsguthaben + 500 USDT nicht erstattungsfähige Bearbeitungsgebühr.",
+      "step4Title": "Nachweisdokumente Hochladen",
+      "step4Body": "Stellen Sie Herkunftsnachweise für Gelder, Einkommensquellendokumente und alle weiteren von Ihrem Compliance-Beauftragten angeforderten Dateien bereit.",
+      "step5Title": "Auf Compliance-Freigabe Warten",
+      "step5Body": "Unser Team führt abschließende Sorgfaltsprüfungen durch, bevor die Freigabe Ihrer Gelder genehmigt wird.",
+      "step6Title": "Ihr Auszahlungs-Wallet Bestätigen",
+      "step6Body": "Überprüfen Sie die von Ihrem Fallbeauftragten angegebene Wallet-Adresse — IBCCF hält oder leitet Ihre Gelder niemals weiter.",
+      "step7Title": "Gelder Erhalten",
+      "step7Body": "Sobald alle Freigaben erteilt sind, erhält Ihr verifiziertes Auszahlungs-Wallet den vollständigen Abrechnungsbetrag."
+    },
+    "tutorialVideo": {
+      "title": "So funktionieren Auszahlungen",
+      "watch": "Tutorial ansehen",
+      "download": "Dieses Video herunterladen",
+      "subtitle": "Eine einminütige animierte Übersicht aller 14 Auszahlungsstufen.",
+      "muteNarration": "Erzählung stummschalten",
+      "unmuteNarration": "Erzählung einschalten"
+    }
+  },
+  "context": {
+    "toast": {
+      "messagesUpToDateTitle": "Alle Nachrichten auf dem neuesten Stand",
+      "messagesUpToDateDesc": "Deine Teamnachrichten sind als gelesen markiert.",
+      "sessionExpiredTitle": "Sitzung abgelaufen",
+      "sessionExpiredDesc": "Du wurdest aufgrund von Inaktivität abgemeldet.",
+      "newMessageTitle": "Neue Nachricht",
+      "newMessageDesc": "Du hast eine neue Nachricht vom Support.",
+      "sendFailedTitle": "Fehler",
+      "sendFailedDesc": "Nachricht konnte nicht gesendet werden.",
+      "emptyFileTitle": "Leere Datei",
+      "emptyFileReceiptDesc": "Diese Datei ist leer. Bitte wähle ein anderes Foto oder PDF.",
+      "fileTooLargeTitle": "Datei zu groß",
+      "fileTooLargeReceiptDesc": "Deine Datei ist {{mb}} MB. Das Maximum sind 8 MB. Versuche, ein neues Foto zu machen oder das Bild zu komprimieren.",
+      "unsupportedTypeTitle": "Nicht unterstützter Dateityp",
+      "unsupportedTypeReceiptDesc": "Bitte lade ein Foto (JPG, PNG, HEIC, WebP) oder einen PDF-Beleg hoch.",
+      "readFailedTitle": "Datei konnte nicht gelesen werden",
+      "readFailedDesc": "Dein Browser konnte diese Datei nicht lesen. Bitte versuche es erneut oder verwende eine andere Datei.",
+      "receiptUploadedTitle": "Beleg hochgeladen",
+      "receiptUploadedDesc": "Dein Einzahlungsbeleg wurde zur Überprüfung eingereicht.",
+      "uploadFailedTitle": "Upload fehlgeschlagen ({{status}})",
+      "uploadFailedDefault": "Beleg konnte nicht hochgeladen werden.",
+      "uploadFailed413": "Diese Datei ist zu groß für den Server. Bitte verwende ein Foto unter 8 MB.",
+      "networkErrorTitle": "Netzwerkfehler",
+      "networkErrorDesc": "Konnte den Server nicht erreichen. Überprüfe deine Verbindung und versuche es erneut.",
+      "emptyFileDocDesc": "Diese Datei ist leer. Wähle ein anderes Dokument.",
+      "fileTooLargeDocDesc": "Deine Datei ist {{mb}} MB. Das Maximum sind 10 MB.",
+      "unsupportedTypeDocDesc": "Bitte lade eine PDF-, PNG-, JPEG- oder WebP-Datei hoch.",
+      "readFailedDocDesc": "Dein Browser konnte diese Datei nicht lesen.",
+      "documentSubmittedTitle": "Dokument eingereicht",
+      "documentSubmittedDesc": "Die Compliance wurde benachrichtigt und wird es in Kürze überprüfen.",
+      "submitFailedTitle": "Einreichung fehlgeschlagen ({{status}})",
+      "submitFailedDefault": "Dokument konnte nicht eingereicht werden.",
+      "submitFailed413": "Diese Datei ist zu groß für den Server. Bitte verwende eine Datei unter 10 MB.",
+      "forceLogoutTitle": "Vom Administrator abgemeldet",
+      "forceLogoutDesc": "Deine Sitzung wurde von der IBCCF-Compliance beendet. Bitte melde dich erneut an.",
+      "accountLockedTitle": "Konto gesperrt",
+      "accountLockedDescAdminDisabled": "Dein Konto wurde von einem Compliance-Beauftragten gesperrt. Bitte schließe die Reaktivierungseinzahlung ab, um den Zugang wiederherzustellen.",
+      "accountLockedDescWarningExpired": "Dein Konto wurde gesperrt, weil der Warnzeitraum abgelaufen ist. Bitte schließe die Reaktivierungseinzahlung ab, um den Zugang wiederherzustellen."
+    }
+  },
+  "notificationBell": {
+    "title": "Benachrichtigungen",
+    "newCount": "{{count}} neu",
+    "markAllRead": "Alle als gelesen markieren",
+    "close": "Schließen",
+    "empty": "Noch keine Benachrichtigungen",
+    "emptyHint": "Wir benachrichtigen dich, wenn etwas Wichtiges passiert",
+    "showingLatest": "Zeige die neuesten {{count}} Benachrichtigungen"
+  },
+  "installApp": {
+    "ariaLabel": "Installiere IBCCF-App",
+    "title": "Installiere IBCCF auf deinem Telefon",
+    "body": "Schneller, vollbildmäßiger Zugang zu deinem sicheren Portal – funktioniert offline für die Grundlagen.",
+    "install": "Installieren",
+    "notNow": "Nicht jetzt",
+    "dismiss": "Schließen",
+    "iosTitle": "Installiere IBCCF auf deinem iPhone",
+    "iosDescription": "iPhones installieren Web-Apps direkt aus Safari. Zwei schnelle Taps.",
+    "iosStep1Prefix": "Tippe auf den",
+    "iosStep1Share": "Teilen",
+    "iosStep1Suffix": "Button am unteren Ende von Safari.",
+    "iosStep2Prefix": "Scrolle und wähle",
+    "iosStep2Add": "Zum Home-Bildschirm hinzufügen",
+    "iosStep2Suffix": ", tippe dann auf",
+    "iosStep2Confirm": "Hinzufügen",
+    "iosFootnote": "Das IBCCF-Symbol wird auf deinem Home-Bildschirm erscheinen und im Vollbildmodus geöffnet, genau wie eine native App."
+  },
+  "auth": {
+    "login": {
+      "title": "SICHERER GATEWAY-ZUGANG",
+      "subtitle": "Abteilung für Kontointegrität",
+      "connectionActive": "Sichere Verbindung Aktiv",
+      "cardTitle": "Verifizierung Erforderlich",
+      "cardSubtitle": "Geben Sie Ihre Compliance-Genehmigungsdaten ein",
+      "codeLabel": "Compliance-Genehmigungsreferenz",
+      "accessCodeLabel": "Zugangscode",
+      "pinLabel": "Sicherheits-PIN",
+      "codePlaceholder": "Zugangscode eingeben",
+      "pinPlaceholder": "6-stellige PIN eingeben",
+      "continue": "Fortfahren",
+      "verify": "Identität verifizieren",
+      "verifying": "Verifiziere...",
+      "useDifferentCode": "Anderen Zugangscode verwenden",
+      "sslBadge": "256-Bit SSL Verschlüsselt",
+      "toast": {
+        "pinRequiredTitle": "PIN Erforderlich",
+        "pinRequiredDesc": "Bitte geben Sie Ihre 6-stellige PIN ein, um fortzufahren.",
+        "accessDeniedTitle": "Zugriff Verweigert",
+        "accessDeniedDesc": "Ungültiger Genehmigungscode angegeben.",
+        "invalidPinTitle": "Ungültige PIN",
+        "invalidPinDesc": "Die eingegebene PIN ist falsch. Bitte versuchen Sie es erneut.",
+        "connectionTitle": "Verbindungsfehler",
+        "connectionDesc": "Konnte die Anmeldedaten nicht verifizieren.",
+        "verifiedTitle": "Identität Verifiziert",
+        "verifiedDesc": "Sichere Sitzung hergestellt."
+      }
+    },
+    "register": {
+      "loadingProfile": "Lade Ihr Profil...",
+      "title": "Identitätsverifizierung",
+      "subtitle": "Bestätigen Sie Ihre Daten für das sichere Ledger",
+      "fullName": "Vollständiger rechtlicher Name",
+      "fullNamePlaceholder": "Ihr vollständiger rechtlicher Name",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "name@example.com",
+      "mobile": "Mobilnummer",
+      "mobilePlaceholder": "Ihre Kontaktnummer",
+      "pinIntro": "Erstellen Sie eine sichere 6-stellige PIN für zukünftige Anmeldungen",
+      "createPin": "6-stellige PIN erstellen",
+      "confirmPin": "PIN bestätigen",
+      "pinPlaceholder": "••••••",
+      "processing": "Wird bearbeitet...",
+      "proceed": "Fortfahren zur sicheren Synchronisation",
+      "toast": {
+        "sessionErrorTitle": "Sitzungsfehler",
+        "sessionErrorDesc": "Bitte beginnen Sie von der Verifizierungsseite neu.",
+        "invalidPinTitle": "Ungültige PIN",
+        "invalidPinDesc": "Bitte geben Sie eine 6-stellige numerische PIN ein.",
+        "pinMismatchTitle": "PIN stimmt nicht überein",
+        "pinMismatchDesc": "Die eingegebenen PINs stimmen nicht überein.",
+        "pinSetupFailedTitle": "PIN-Einrichtung fehlgeschlagen",
+        "pinSetupFailedDesc": "Konnte Ihre PIN nicht einrichten.",
+        "failedTitle": "Registrierung fehlgeschlagen",
+        "failedDesc": "Konnte die Registrierung nicht abschließen.",
+        "connectionTitle": "Verbindungsfehler",
+        "connectionDesc": "Konnte die Registrierung nicht speichern."
+      }
+    },
+    "sync": {
+      "title": "Konto synchronisieren",
+      "defaultStatus": "Stelle sichere Verbindung her...",
+      "protocolLabel": "ISO-D PROTOKOLL",
+      "waitClearance": "Warten auf administrative Genehmigung..."
+    }
+  },
+  "deposit": {
+    "title": "Einzahlung & Quittungen",
+    "subtitle": "Überweisen Sie die erforderliche Einzahlung und laden Sie Ihre Transaktionsquittung zur Verifizierung hoch.",
+    "reissue": {
+      "title": "Neuausgabe Runde v{{version}} – Zahlung Erforderlich",
+      "statusAwaitingDeposit": "Wartet auf Ihre Neuausgabe-Einzahlung, bevor die Compliance die Einreichungen wieder öffnen kann.",
+      "statusAwaitingReview": "Quittung erhalten – Compliance überprüft Ihre Neuausgabe-Zahlung.",
+      "statusPaid": "Neuausgabe-Zahlung bestätigt. Sie können Ihre Abhebungsanfrage erneut einreichen.",
+      "amountDue": "Fälliger Betrag",
+      "reasonLabel": "Grund von der Compliance:"
+    },
+    "address": {
+      "title": "{{asset}} Einzahlung-Adresse ({{network}})",
+      "subtitle": "Überweisen Sie {{asset}} nur auf {{network}} – andere Netzwerke gehen verloren.",
+      "requiredAmount": "Erforderlicher Betrag",
+      "qrUnavailable": "QR-Code auf diesem Gerät nicht verfügbar – kopieren Sie die Adresse manuell.",
+      "qrAmountPrefill": "Scannen, um vorauszufüllen",
+      "qrAmountSuffix": "in Ihrem Wallet.",
+      "qrScanHint": "Scannen Sie mit Ihrer Wallet-App, um die Einzahlung-Adresse zu laden.",
+      "qrDownload": "Herunterladen",
+      "qrCopied": "Kopiert",
+      "qrCopyImage": "Bild kopieren",
+      "qrShare": "Teilen",
+      "importantInstructions": "Wichtige Anweisungen",
+      "instructionNetwork": "Überweisen Sie {{asset}} nur im {{network}}-Netzwerk. Gelder, die auf einem anderen Netzwerk gesendet werden, können nicht wiederhergestellt werden.",
+      "instructionUploadReceipt": "Laden Sie nach dem Senden Ihre Transaktionsquittung unten hoch, damit die Compliance die Zahlung verifizieren kann.",
+      "instructionTxHash": "Fügen Sie den Transaktionshash (TXID) in die Notizen ein, damit wir den On-Chain-Datensatz abgleichen können."
+    },
+    "upload": {
+      "title": "Transaktionsquittung hochladen",
+      "subtitle": "Reichen Sie einen Screenshot oder ein Foto Ihrer abgeschlossenen Transaktion ein.",
+      "requiredReminder": "Überweisen Sie genau den angegebenen Betrag – 1,000 USDT erstattungsfähiger Aktivierungsbetrag + 500 USDT nicht erstattungsgebühr. Erforderlicher Gesamtbetrag:",
+      "notesPlaceholder": "Optionale Notizen – fügen Sie den Transaktionshash (TXID), das verwendete Wallet oder jeglichen Kontext für die Compliance ein…",
+      "uploading": "Hochladen…",
+      "selectImage": "Quittungsbild auswählen",
+      "categoryLabel": "Wofür ist dieser Beleg?",
+      "multiHint": "(eine oder mehrere auswählen)",
+      "category": {
+        "withdrawal": "Auszahlungseinzahlung",
+        "token_deposit": "Token-Einzahlung",
+        "merge_fee": "Batch-Merge-Gebühr",
+        "activation": "Aktivierungseinzahlung",
+        "reissue": "Neuausstellungsgebühr",
+        "certificate": "Zertifikatsgebühr",
+        "stamp_duty": "Stempelsteuer",
+        "other": "Sonstiges / Begleitdokument"
+      }
+    },
+    "receipts": {
+      "title": "Hochgeladene Quittungen",
+      "empty": "Noch keine Quittungen hochgeladen.",
+      "imageAlt": "Einzahlungsquittung",
+      "defaultFileName": "Einzahlungsquittung",
+      "status": {
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt",
+        "pending": "Wartet auf Überprüfung",
+        "unknown": "In Bearbeitung"
+      }
+    },
+    "support": {
+      "message": "Brauchen Sie Hilfe mit Ihrer Einzahlung? Unser Compliance-Team steht zur Verfügung, um zu helfen.",
+      "cta": "Support kontaktieren"
+    },
+    "toast": {
+      "downloadFailedTitle": "Download fehlgeschlagen",
+      "downloadFailedDesc": "Konnte das QR-Code-Bild nicht generieren. Bitte kopieren Sie die Adresse manuell.",
+      "shareFailedTitle": "Teilen fehlgeschlagen",
+      "shareFailedNoImage": "Konnte das QR-Bild nicht generieren, um es zu teilen.",
+      "shareFailedSheet": "Das Systemfreigabeblatt konnte nicht geöffnet werden.",
+      "shareTitle": "Einzahlungsadresse QR",
+      "copyNotSupportedTitle": "Kopieren nicht unterstützt",
+      "copyNotSupportedDesc": "Ihr Browser unterstützt das Kopieren von Bildern nicht. Versuchen Sie stattdessen, das QR herunterzuladen.",
+      "copyFailedTitle": "Kopieren fehlgeschlagen",
+      "copyFailedNoImage": "Konnte das QR-Bild nicht generieren, um es zu kopieren.",
+      "copyFailedNotSupported": "Ihr Browser hat das Bildkopieren blockiert. Versuchen Sie stattdessen, das QR herunterzuladen.",
+      "qrCopiedTitle": "QR-Code kopiert",
+      "qrCopiedDesc": "Fügen Sie das Bild in Ihre Wallet- oder Messaging-App ein.",
+      "addressCopiedTitle": "Adresse kopiert",
+      "addressCopiedDesc": "Fügen Sie sie in Ihr Wallet ein, um die Einzahlung zu senden.",
+      "amountCopiedTitle": "Betrag kopiert",
+      "amountCopiedDesc": "Fügen Sie den genauen Betrag in Ihr Wallet ein, um Abweichungen zu vermeiden.",
+      "sessionExpiredTitle": "Sitzung abgelaufen",
+      "sessionExpiredDesc": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "reissueMissing": "Es ist keine Neuausstellungsrunde zur Zahlung ausstehend.",
+      "uploadSuccessTitle": "Beleg hochgeladen",
+      "certUploaded": "Zertifikatsgetühr-Beleg zur Überprüfung eingereicht.",
+      "stampUploaded": "Stempelsteuer-Beleg zur Überprüfung eingereicht.",
+      "singleUploaded": "Beleg zur Überprüfung eingereicht.",
+      "multiUploaded": "{{count}} Belege zur Überprüfung eingereicht.",
+      "partialUploadTitle": "{{succeeded}} von {{total}} hochgeladen",
+      "uploadFailedTitle": "Hochladen fehlgeschlagen",
+      "uploadFailedDesc": "Bitte versuchen Sie es erneut."
+    },
+    "mergeFee": {
+      "bannerText": "Laden Sie unten Ihren Zahlungsnachweis für die 500 USDT Batch-Merge-Gebühr hoch. Wählen Sie die Datei über die Upload-Schaltfläche aus und reichen Sie sie zur Überprüfung ein.",
+      "bannerDismiss": "Hinweis schließen",
+      "uploadingReminder": "500 USDT nicht erstattungsfähige Batch-Merge-Gebühr",
+      "inlineReminder": "Dies ist die 500 USDT nicht erstattungsfähige Batch-Merge-Gebühr. Laden Sie Ihren Zahlungsnachweis hoch und reichen Sie ihn zur Überprüfung ein."
+    }
+  },
+  "letter": {
+    "pending": {
+      "title": "Abhebungsbrief Noch Nicht Ausgestellt",
+      "description": "Ihr Compliance-Beauftragter finalisiert Ihren offiziellen Abhebungsbrief. Er wird hier erscheinen, sobald er freigegeben wird.",
+      "notification": "Sie erhalten eine Benachrichtigung im Portal und eine E-Mail, sobald Ihr Brief bereit ist.",
+      "returnButton": "Zurück zum Dashboard"
+    },
+    "header": {
+      "title": "Offizieller Abhebungsbrief",
+      "subtitle": "Von der Compliance ausgestellte Anweisungen für Ihre Abhebung",
+      "history": "Historie ({{count}})",
+      "downloadPdf": "PDF herunterladen"
+    },
+    "organization": {
+      "name": "International Blockchain Community Compliance Forum",
+      "division": "Abteilung für Kontointegrität",
+      "secretariat": "Büro des Compliance-Sekretariats"
+    },
+    "session": {
+      "verified": "Sitzung Verifiziert",
+      "verifiedSubtitle": "Identität für diese sichere Ansicht bestätigt",
+      "accountStatus": "Kontostatus",
+      "standardMember": "Standardmitglied"
+    },
+    "compliance": {
+      "referenceLabel": "Compliance-Referenz",
+      "sessionVerifiedLabel": "Sitzung Verifiziert",
+      "authenticated": "Authentifiziert"
+    },
+    "body": {
+      "dateLabel": "Datum:",
+      "defaultClient": "Wertvoller Kunde",
+      "greeting": "Sehr geehrte/r {{name}},"
+    },
+    "payoutWallet": {
+      "title": "Verifiziertes Auszahlung-Wallet"
+    },
+    "reissue": {
+      "versionTitle": "Briefneuausgabe · Version {{version}}",
+      "statusPaid": "Bezahlt",
+      "statusUnderReview": "Wird Überprüft",
+      "statusPaymentRequired": "Zahlung Erforderlich",
+      "descriptionPaid": "Ihre Neuausgabe-Gebühr wurde erhalten. Der aktualisierte Brief ist jetzt aktiv.",
+      "descriptionUnderReview": "Ihre Neuausgabe-Zahlung wird von der Compliance überprüft. Sie werden benachrichtigt, sobald sie genehmigt ist.",
+      "descriptionAwaitingDeposit": "Eine Neuausgabe-Gebühr ist erforderlich, bevor Sie gegen diesen aktualisierten Brief einreichen können.",
+      "feeLabel": "Neuausgabe-Gebühr",
+      "reasonLabel": "Grund für die Neuausgabe:",
+      "goToDeposit": "Zur Einzahlung gehen"
+    },
+    "options": {
+      "title": "Wählen Sie Ihre Abhebungsoption",
+      "optionLabel": "Option {{letter}}",
+      "amount": "Betrag",
+      "frequency": "Häufigkeit",
+      "batches": "Chargen",
+      "phraseKeyCost": "Kosten für Schlüsselphrase",
+      "totalRequirement": "Gesamtanforderung"
+    },
+    "amount": {
+      "label": "Abhebungsbetrag",
+      "help": "Bestätigen oder bearbeiten Sie den Betrag, den Sie unter Option {{option}} abheben möchten.",
+      "placeholder": "z.B. 25,000 USDT",
+      "hintValid": "Leer lassen, um den Standardbetrag des Falls zu verwenden.",
+      "hintInvalid": "Geben Sie einen gültigen positiven Betrag ein (nur Zahlen und Kommas)."
+    },
+    "continue": {
+      "withOption": "Mit Option {{option}} fortfahren",
+      "withOptionPlaceholder": "—",
+      "awaitingApproval": "Wartet auf Neuausgabe-Genehmigung",
+      "payReissueFirst": "Zuerst Neuausgabe-Gebühr bezahlen"
+    },
+    "success": {
+      "title": "Abhebungsanfrage Eingereicht",
+      "description": "Ihre Auswahl wurde aufgezeichnet und zur Bearbeitung an die Compliance weitergeleitet.",
+      "referenceNumber": "Referenznummer",
+      "statusLabel": "Status",
+      "statusBadge": "Eingereicht",
+      "submittedOn": "Eingereicht am",
+      "returnDashboard": "Zurück zum Dashboard",
+      "viewHistory": "Einreichungshistorie anzeigen"
+    },
+    "url": {
+      "sectionTitle": "Reichen Sie Ihre Abhebungsanfrage ein",
+      "title": "Abhebung über sicheres Formular abschließen",
+      "description": "Klicken Sie unten, um das sichere Abhebungsformular in einem neuen Tab zu öffnen. Ihre Einreichung wird automatisch in Ihrer Portalhistorie aufgezeichnet.",
+      "account": "Konto",
+      "withdrawalAmount": "Abhebungsbetrag",
+      "reference": "Referenz",
+      "notAvailable": "N/A",
+      "submit": "Sicheres Abhebungsformular öffnen",
+      "opensInNewTab": "Öffnet in einem neuen Tab. Halten Sie dieses Portal offen, um die Bestätigung zu verfolgen."
+    },
+    "awaitingConfig": {
+      "title": "Wartet auf finale Konfiguration",
+      "description": "Ihr Brief wurde ausgestellt, aber die Compliance finalisiert noch Ihre Abhebungsoptionen. Sie können hier handeln, sobald die Konfiguration abgeschlossen ist.",
+      "returnDashboard": "Zurück zum Dashboard"
+    },
+    "footer": {
+      "encryptionInfo": "Ende-zu-Ende verschlüsselt · Referenz {{ref}}",
+      "generated": "Generiert {{timestamp}}"
+    },
+    "confirm": {
+      "title": "Bestätigen Sie Ihre Einreichung",
+      "description": "Bitte bestätigen Sie die folgenden Details, bevor Sie einreichen, {{name}}.",
+      "selectedOption": "Ausgewählte Option",
+      "amountLabel": "Betrag",
+      "amountPlaceholder": "z.B. 25,000 USDT",
+      "hintValid": "Leer lassen, um den Standardbetrag des Falls zu verwenden.",
+      "hintInvalid": "Geben Sie einen gültigen positiven Betrag ein (nur Zahlen und Kommas).",
+      "cancel": "Abbrechen",
+      "submitting": "Einreichen…",
+      "submitSelection": "Bestätigen & Einreichen",
+      "submitOpenForm": "Bestätigen & Formular öffnen"
+    },
+    "fallback": {
+      "headline": "Offizielle Abhebungsautorisierung",
+      "introduction": "Sehr geehrter Kunde, Ihre Abhebungsanfrage wurde von unserem Compliance-Team überprüft und ist jetzt bereit für Ihre endgültige Aktion.",
+      "bodyContent": "Bitte überprüfen Sie die verfügbaren Abhebungsoptionen unten und wählen Sie den Plan, der am besten zu Ihren Anforderungen passt. Jede Option beschreibt den Zeitplan, die Kosten für die Schlüsselphrase und die Gesamtanforderung für die Compliance.",
+      "footerNote": "Wichtig: Einreichungen sind endgültig, sobald sie aufgezeichnet wurden. Bitte stellen Sie sicher, dass alle Details korrekt sind, bevor Sie bestätigen.",
+      "optionATitle": "Standard-Abhebungsplan",
+      "optionADescription": "Niedrigere Kosten pro Charge mit einem längeren Freigabezeitplan.",
+      "optionAFrequency": "Wöchentliche Chargen",
+      "optionBTitle": "Beschleunigter Abhebungsplan",
+      "optionBDescription": "Schnellerer Freigabezeitplan mit höheren Kosten für die Schlüsselphrase.",
+      "optionBFrequency": "Zweiwöchentliche Chargen",
+      "phraseKey1": "Gültiger, von der Regierung ausgestellter Identitätsnachweis im System",
+      "phraseKey2": "Verifiziertes Auszahlung-Wallet, das von Ihrem Fallbeauftragten festgelegt wurde",
+      "phraseKey3": "Genehmigte Compliance- und AML-Überprüfung",
+      "phraseKey4": "Bestätigte Schlüsselphrase-Einzahlung auf dem Ledger",
+      "phraseKey5": "Endgültige Bestätigung der Abhebungsbedingungen",
+      "complianceNotice": "Diese Autorisierung wird gemäß den Compliance-Protokollen von IBCCF ausgestellt und unterliegt internationalen AML- und KYC-Vorschriften."
+    },
+    "toast": {
+      "reissueAwaitingTitle": "Neuausgabe Wird Überprüft",
+      "reissueAwaitingDescription": "Ihre Neuausgabe-Zahlung wird überprüft. Sie können einreichen, sobald die Compliance sie genehmigt.",
+      "reissueRequiredTitle": "Neuausgabe-Gebühr Erforderlich",
+      "reissueRequiredDescription": "Bitte zahlen Sie die Neuausgabe-Gebühr von {{fee}}, bevor Sie gegen den aktualisierten Brief einreichen.",
+      "submissionSuccessTitle": "Einreichung Aufgezeichnet",
+      "submissionSuccessWithAmount": "Ihre Abhebungsanfrage für {{amount}} wurde erfolgreich eingereicht.",
+      "submissionSuccessNoAmount": "Ihre Abhebungsanfrage wurde erfolgreich eingereicht.",
+      "submissionFailedTitle": "Einreichung Fehlgeschlagen",
+      "submissionFailedDefault": "Konnte Ihre Anfrage nicht einreichen. Bitte versuchen Sie es erneut.",
+      "connectionErrorTitle": "Verbindungsfehler",
+      "submissionRecordedTitle": "Einreichung Aufgezeichnet",
+      "submissionRecordedWithAmount": "Ihre Einreichung für {{amount}} wurde aufgezeichnet. Öffne das sichere Formular…",
+      "submissionRecordedNoAmount": "Ihre Einreichung wurde aufgezeichnet. Öffne das sichere Formular…",
+      "submissionRecordFailedDefault": "Konnte Ihre Einreichung nicht aufzeichnen. Bitte versuchen Sie es erneut.",
+      "errorTitle": "Fehler",
+      "failedRecord": "Konnte Ihre Einreichung nicht aufzeichnen. Bitte versuchen Sie es erneut."
+    }
+  },
+  "withdrawalWindow": {
+    "title": "Auszahlungsfenster geöffnet",
+    "description": "Ihr Fallbearbeiter hat Auszahlungen für diesen Fall freigeschaltet. Reichen Sie Ihre Auszahlungsdetails zur Compliance-Prüfung ein. Diese Plattform ist rein informativ — das Absenden des Formulars bewegt selbst keine Gelder.",
+    "cta": "Auszahlung anfordern",
+    "pendingChip": "Wartet auf Prüfung",
+    "requiredDeposit": "Erforderliche Token-Einzahlung: {{amount}}",
+    "toastDepositTitle": "Token-Einzahlung erforderlich",
+    "toastDepositDescription": "Eine Einzahlung von {{amount}} ist erforderlich, um Ihre Auszahlung zu bearbeiten. Bitte zahlen Sie in Ihr Token-Wallet ein, bevor Sie den Antrag stellen.",
+    "transition": {
+      "label": "Aktualisierung der Auszahlungsanfrage",
+      "approved": "Auszahlungsanfrage genehmigt",
+      "rejected": "Auszahlungsanfrage abgelehnt",
+      "cancelled": "Auszahlungsanfrage storniert",
+      "dismiss": "Schließen"
+    }
+  },
+  "withdrawalView": {
+    "title": "Auszahlung anfordern",
+    "subtitle": "Reichen Sie Ihre Auszahlungsdetails zur Compliance-Prüfung ein. Diese Plattform ist rein informativ — das Absenden dieses Formulars bewegt selbst keine Gelder.",
+    "disabledTitle": "Auszahlungsfenster noch nicht geöffnet",
+    "disabledBody": "Ihr Fallbearbeiter hat das Auszahlungsfenster für diesen Fall noch nicht geöffnet. Sie werden benachrichtigt, sobald Sie eine Anfrage stellen können.",
+    "pendingTitle": "Auszahlungsanfrage in Prüfung",
+    "pendingBody": "Sie haben bereits eine Auszahlungsanfrage, die auf Prüfung wartet. Ihr Fallbearbeiter antwortet, bevor Sie eine weitere senden können.",
+    "formTitle": "Auszahlungsantrag",
+    "formDescription": "Ihr Fallbearbeiter wird die von Ihnen eingereichte Ziel-Wallet prüfen und Sie über das Ergebnis informieren.",
+    "finalStageBadge": "Letzte Phase",
+    "landingTitle": "Auszahlung",
+    "landingSubtitle": "Die letzte Phase Ihres Falls – verbinden Sie eine Wallet, importieren Sie Ihren Phrasen-Code und reichen Sie dann Ihren Auszahlungsantrag zur Prüfung ein.",
+    "stepLabel": "Schritt {{n}}",
+    "applicationHeading": "Auszahlungsantrag",
+    "displayOnlyNote": "Zu Ihrer Sicherheit hält, leitet oder vermittelt IBCCF niemals Gelder. Die Abwicklung erfolgt durch die regulierte Abwicklungsbank an die verifizierte Wallet in Ihrer Fallakte.",
+    "status": {
+      "done": "Erledigt",
+      "active": "Sie sind dran",
+      "pending": "In Prüfung",
+      "locked": "Gesperrt"
+    },
+    "steps": {
+      "connect": {
+        "title": "Verbinden Sie Ihre Empfänger-Wallet",
+        "body": "Wählen Sie die selbstverwaltete Wallet, mit der Sie Ihre Gelder erhalten möchten.",
+        "cta": "Wallet-Verbindung öffnen",
+        "ctaDone": "Wallet überprüfen"
+      },
+      "phrase": {
+        "title": "Phrasen-Code anzeigen und importieren",
+        "body": "Lassen Sie die für Ihren Fall generierte Verbindungsphrase anzeigen und importieren Sie sie Schritt für Schritt in Ihre Wallet-App.",
+        "cta": "Phrasen-Anleitung öffnen"
+      },
+      "apply": {
+        "title": "Reichen Sie Ihren Auszahlungsantrag ein",
+        "body": "Bestätigen Sie die Ziel-Wallet und den Betrag. Ihr Sachbearbeiter prüft den Antrag und benachrichtigt Sie über das Ergebnis.",
+        "cta": "Zum Antrag"
+      }
+    },
+    "batchHistory": {
+      "proofSubmitted": "Nachweis eingereicht"
+    }
+  },
+  "withdrawalRequest": {
+    "dialog": {
+      "title": "Auszahlung anfordern",
+      "description": "Reichen Sie Ihre Auszahlungsdetails zur Compliance-Prüfung ein. Diese Plattform ist rein informativ — dieses Formular bewegt keine Gelder. Ihr Fallbearbeiter wird die angeforderte Ziel-Wallet prüfen und Sie über das Ergebnis informieren."
+    },
+    "sections": {
+      "details": "1. Auszahlungsdetails",
+      "wallet": "2. Angeforderte Ziel-Wallet",
+      "preferences": "3. Präferenzen",
+      "security": "4. Sicherheit & Bedingungen"
+    },
+    "walletHint": "Dies ist die Wallet, auf die die Gelder ausgezahlt werden sollen. Sie ist unabhängig von einer eventuell bereits hinterlegten verifizierten Auszahlungs-Wallet — die Compliance prüft die hier eingereichte Adresse.",
+    "termsCheckbox": "Ich bestätige, dass die oben genannte Ziel-Wallet-Adresse meine ist, und ich verstehe, dass diese Plattform rein informativ ist — das Einreichen dieser Anfrage bittet die Compliance, meine Auszahlung zu prüfen, bewegt selbst keine Gelder.",
+    "buttons": {
+      "cancel": "Abbrechen",
+      "submit": "Auszahlungsanfrage senden",
+      "submitting": "Sende…"
+    },
+    "fields": {
+      "amount": "Betrag",
+      "amountPlaceholder": "z. B. 1000",
+      "type": "Typ",
+      "typeFull": "Gesamtes Guthaben",
+      "typePartial": "Teilbetrag",
+      "asset": "Asset",
+      "network": "Netzwerk",
+      "walletAddress": "Wallet-Adresse",
+      "walletAddressPlaceholder": "Ziel-Adresse einfügen",
+      "walletAssetOptional": "Asset (optional)",
+      "walletNetworkOptional": "Netzwerk (optional)",
+      "walletMatchAbove": "Leer lassen, um mit oben übereinzustimmen",
+      "channel": "Bestätigungskanal",
+      "channelEmail": "E-Mail",
+      "channelSms": "SMS",
+      "channelBoth": "Beide",
+      "note": "Notiz für Compliance (optional)",
+      "notePlaceholder": "Alles, was Ihr Fallbearbeiter wissen sollte",
+      "payoutDate": "Bevorzugtes Auszahlungsdatum (optional, frühestens morgen)",
+      "pin": "Geben Sie Ihre 6-stellige Fall-PIN erneut ein",
+      "twoFa": "2FA-/Verifizierungscode (optional, 6 Ziffern)",
+      "twoFaPlaceholder": "Falls Ihr Bearbeiter einen ausgestellt hat"
+    },
+    "errors": {
+      "missingTitle": "Angaben fehlen",
+      "missingDescription": "Bitte Betrag, Asset, Netzwerk und Ziel-Wallet-Adresse ausfüllen.",
+      "pinTitle": "PIN erforderlich",
+      "pinDescription": "Bitte geben Sie Ihre 6-stellige Fall-PIN ein, um diese Anfrage zu bestätigen.",
+      "twoFaTitle": "Ungültiger 2FA-Code",
+      "twoFaDescription": "Verifizierungscodes müssen genau 6 Ziffern haben.",
+      "dateTitle": "Datum zu früh",
+      "dateDescription": "Das bevorzugte Auszahlungsdatum muss frühestens morgen sein.",
+      "termsTitle": "Bedingungen erforderlich",
+      "termsDescription": "Bitte akzeptieren Sie die Auszahlungsbedingungen vor dem Absenden.",
+      "networkTitle": "Netzwerkfehler",
+      "networkDescription": "Auszahlungsanfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+      "submitFailedTitle": "Auszahlungsanfrage konnte nicht gesendet werden",
+      "submitFailedDefault": "Bitte versuchen Sie es erneut oder kontaktieren Sie Ihren Fallbearbeiter."
+    },
+    "success": {
+      "title": "Auszahlungsanfrage gesendet",
+      "description": "Ihr Fallbearbeiter wird die Ziel-Wallet prüfen und Sie mit dem Ergebnis kontaktieren."
+    },
+    "timeline": {
+      "submitted": "Auszahlungsanfrage gesendet",
+      "approved": "Auszahlungsanfrage genehmigt",
+      "rejected": "Auszahlungsanfrage abgelehnt",
+      "cancelled": "Auszahlungsanfrage storniert",
+      "submittedDesc": "Wartet auf Compliance-Prüfung.",
+      "approvedDesc": "Die Compliance hat Ihre Anfrage genehmigt.",
+      "rejectedDesc": "Die Compliance hat Ihre Anfrage abgelehnt.",
+      "cancelledDesc": "Diese Anfrage wurde storniert."
+    },
+    "history": {
+      "title": "Auszahlungsanfragen",
+      "subtitle": "Nur Anzeige — diese Plattform bewegt keine Mittel. Ihr Fallbearbeiter prüft jede Anfrage.",
+      "destinationWallet": "Ziel-Wallet",
+      "officerNote": "Notiz des Fallbearbeiters",
+      "yourNote": "Ihre Notiz",
+      "submittedOn": "Eingereicht",
+      "reviewedOn": "Geprüft",
+      "status": {
+        "pending": "Prüfung ausstehend",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt",
+        "cancelled": "Storniert"
+      }
+    }
+  },
+  "nda": {
+    "translationDisclaimer": {
+      "title": "Übersetzungshinweis",
+      "body": "Diese Übersetzung wird aus Gefälligkeit bereitgestellt. Die englische Fassung dieses Dokuments ist der rechtlich maßgebliche Text."
+    }
+  },
+  "stageBlocker": {
+    "userAction": "Aktion von Ihnen erforderlich",
+    "adminAction": "Warten auf Compliance-Team",
+    "systemProcessing": "Systemverarbeitung"
+  },
+  "stageCta": {
+    "1": {
+      "label": "Compliance-Updates anzeigen",
+      "headline": "Einzahlung bestätigt — Fall ist jetzt aktiv"
+    },
+    "2": {
+      "label": "Sichere Nachrichten öffnen",
+      "headline": "Compliance erstellt Ihren Phrase Key"
+    },
+    "3": {
+      "label": "Phrase Key anzeigen",
+      "headline": "Ihr Phrase Key liegt in den sicheren Nachrichten bereit"
+    },
+    "4": {
+      "label": "Auszahlungsoption auswählen",
+      "headline": "Wählen Sie Option A oder B in Ihrem Auszahlungsschreiben"
+    },
+    "5": {
+      "label": "Eingaben prüfen",
+      "headline": "Compliance prüft Ihre Ersteinzahlung"
+    },
+    "6": {
+      "label": "Sichere Nachrichten öffnen",
+      "headline": "Phrase-Key-Quervalidierung läuft"
+    },
+    "7": {
+      "label": "Merge-Einzahlung leisten",
+      "headline": "Phrase-Key-Merge-Einzahlung erforderlich, um fortzufahren"
+    },
+    "8": {
+      "label": "Belege prüfen",
+      "headline": "Die Finanzabteilung prüft Ihre Akte"
+    },
+    "9": {
+      "label": "Fortschritt anzeigen",
+      "headline": "Mining-Clearing-Stelle bereitet Ihre Abrechnung vor"
+    },
+    "10": {
+      "label": "Wallet-Guthaben prüfen",
+      "headline": "Aktivitäts-Wallet-Guthaben für Verifizierung erforderlich"
+    },
+    "11": {
+      "label": "Erklärung unterzeichnen",
+      "headline": "Erklärung zur Einhaltung unterzeichnen, um fortzufahren"
+    },
+    "12": {
+      "label": "Sichere Nachrichten öffnen",
+      "headline": "Letztes Verarbeitungsfenster — Abrechnung in Warteschlange"
+    },
+    "13": {
+      "label": "Erhalt bestätigen",
+      "headline": "Mittel freigegeben — Erhalt bestätigen, um Fall abzuschließen"
+    },
+    "14": {
+      "label": "Auszahlungs-Aktivierung öffnen",
+      "headline": "Auszahlungs-Aktivierung abschließen, um Mittel freizugeben"
+    }
+  },
+  "withdrawalActivation": {
+    "notYetTitle": "Noch nicht verfügbar",
+    "notYetDesc": "Die Auszahlungs-Aktivierung wird geöffnet, sobald Ihr Fall die letzte Phase erreicht.",
+    "backToDashboard": "Zurück zum Dashboard",
+    "hero": {
+      "title": "Glückwunsch — Ihr Fall hat die letzte Phase erreicht",
+      "body": "Alle Compliance-Prüfpunkte sind freigegeben. Schließen Sie die Aktivierungsschritte unten ab, um Ihre Auszahlungs-Wallet zu verknüpfen und die Bearbeitung freizuschalten. Ihr Fallbetreuer bestätigt die Freigabe, sobald die Aktivierungseinzahlung genehmigt ist."
+    },
+    "approved": {
+      "title": "Aktivierung genehmigt",
+      "body": "Ihre Aktivierungseinzahlung wurde genehmigt. Die Auszahlungsbearbeitung läuft — Ihr Fallbetreuer wird sich bezüglich der endgültigen Auszahlung an die verknüpfte Wallet melden."
+    },
+    "actionRequired": "Aktion erforderlich",
+    "rejected": {
+      "title": "Ihre Aktivierungseinzahlung erfordert Aufmerksamkeit",
+      "noteLabel": "Hinweis des Prüfers"
+    },
+    "step1": {
+      "title": "Schritt 1 — Verknüpfen Sie Ihre Auszahlungs-Wallet",
+      "description": "Geben Sie die Wallet-Adresse ein, die Ihre endgültige Auszahlung erhalten soll. Stellen Sie sicher, dass das Netzwerk übereinstimmt — Gelder, die an ein falsches Netzwerk gesendet werden, können nicht wiederhergestellt werden.",
+      "walletAddress": "Wallet-Adresse",
+      "walletAddressPlaceholder": "z. B. TXyz...Adresse",
+      "asset": "Asset",
+      "network": "Netzwerk",
+      "amount": "Betrag",
+      "amountPlaceholder": "z. B. 25000",
+      "memo": "Memo / Tag (optional)",
+      "memoPlaceholder": "Nur für Netzwerke erforderlich, die Memos verwenden",
+      "saving": "Wird gespeichert…",
+      "submit": "Adresse senden",
+      "otherOption": "Andere…",
+      "assetCustomPlaceholder": "Asset-Symbol eingeben",
+      "networkCustomPlaceholder": "Netzwerknamen eingeben",
+      "sameWalletNoticeTitle": "Wichtig:",
+      "sameWalletNoticeBody": "Stellen Sie vor dem Absenden sicher, dass Sie genau dieselbe Wallet-Adresse auf Ihrer Betriebsplattform hinterlegt haben. Die beiden Adressen müssen übereinstimmen, damit die Auszahlung empfangen werden kann."
+    },
+    "step2": {
+      "title": "Schritt 2 — Bestätigen Sie Ihren E-Mail-Sicherheitscode",
+      "description": "Wir senden einen 6-stelligen Sicherheitscode per E-Mail an die hinterlegte Adresse. Geben Sie ihn unten ein, um die Wallet-Verknüpfung zu bestätigen. Codes laufen nach 10 Minuten ab und können alle 60 Sekunden erneut gesendet werden.",
+      "sending": "Wird gesendet…",
+      "resendIn": "Erneut senden in {{seconds}}s",
+      "resend": "Code erneut senden",
+      "send": "Sicherheitscode senden",
+      "attempts": "Verwendete Versuche: {{used}}/{{max}}",
+      "codePlaceholder": "6-stelliger Code",
+      "verifying": "Wird verifiziert…",
+      "verify": "Verifizieren"
+    },
+    "step3": {
+      "title": "Schritt 3 — Aktivierungseinzahlung",
+      "minLabel": "Mindest-Aktivierungsbetrag",
+      "sendTo": "Senden an",
+      "addressFallback": "— Kontaktieren Sie Ihren Fallbetreuer —",
+      "intro": "Nach dem Senden der Aktivierungseinzahlung laden Sie unten Ihren Transaktionsbeleg hoch. Ein Compliance-Beauftragter verifiziert die On-Chain-Überweisung und genehmigt Ihre Auszahlung.",
+      "notesPlaceholder": "Optionale Notizen (TX-Hash, Sender-Wallet usw.)",
+      "uploading": "Wird hochgeladen…",
+      "upload": "Beleg hochladen"
+    },
+    "badges": {
+      "approved": "Genehmigt",
+      "awaitingReview": "Wartet auf Prüfung",
+      "resubmit": "Erneut einreichen",
+      "required": "Erforderlich",
+      "submitted": "Eingereicht",
+      "verified": "Verifiziert"
+    },
+    "toasts": {
+      "missingTitle": "Fehlende Angaben",
+      "missingDesc": "Adresse, Asset, Netzwerk und Betrag sind alle erforderlich.",
+      "addressFailedTitle": "Adresse konnte nicht gespeichert werden",
+      "addressFailedDesc": "Bitte überprüfen Sie die Details und versuchen Sie es erneut.",
+      "addressSavedTitle": "Adresse gespeichert",
+      "addressSavedDesc": "Fahren Sie unten mit dem nächsten Schritt fort.",
+      "codeNotSentTitle": "Code nicht gesendet",
+      "codeNotSentDesc": "Bitte warten Sie einen Moment, bevor Sie es erneut versuchen.",
+      "codeSentTitle": "Sicherheitscode gesendet",
+      "codeSentDesc": "Prüfen Sie die hinterlegte E-Mail für Fall {{caseId}}.",
+      "invalidCodeTitle": "Ungültiger Code",
+      "invalidCodeDesc": "Der Code muss 6 Stellen haben.",
+      "verifyFailedTitle": "Verifizierung fehlgeschlagen",
+      "verifyFailedDesc": "Bitte erneut versuchen.",
+      "verifiedTitle": "Code verifiziert",
+      "verifiedDesc": "Fahren Sie mit der Aktivierungseinzahlung unten fort.",
+      "fileRejectedTitle": "Datei abgelehnt",
+      "fileEmpty": "Die Datei ist leer.",
+      "fileTooLarge": "Maximale Dateigröße beträgt 10 MB.",
+      "unsupportedTitle": "Nicht unterstützter Dateityp",
+      "unsupportedDesc": "Bitte laden Sie eine PDF-, PNG-, JPEG- oder WEBP-Datei hoch.",
+      "receiptAttachedTitle": "Beleg angehängt, aber nicht verknüpft",
+      "receiptAttachedDesc": "Kontaktieren Sie Ihren Fallbetreuer zur Bestätigung.",
+      "receiptSubmittedTitle": "Beleg eingereicht",
+      "receiptSubmittedDesc": "Ein Compliance-Beauftragter wird prüfen und genehmigen.",
+      "uploadFailedTitle": "Hochladen fehlgeschlagen",
+      "uploadFailedDesc": "Versuchen Sie es erneut."
+    }
+  },
+  "certificate": {
+    "notEnabled": "Das Merge-Phrase-Zertifikat wurde für diesen Fall nicht aktiviert.",
+    "title": "Merge-Phrase-Zertifikat",
+    "subtitle": "Ein notariell beglaubigtes Zertifikat Ihrer zusammengeführten Wiederherstellungsphrase. Das saubere PDF wird freigegeben, sobald die Zertifizierungsgebühr von Compliance genehmigt wurde.",
+    "badges": {
+      "unlocked": "Freigegeben",
+      "awaiting": "Wartet auf Prüfung",
+      "resubmit": "Erneute Einreichung erforderlich",
+      "feeRequired": "Gebühr erforderlich"
+    },
+    "pdfSection": {
+      "label": "Zertifikat-PDF",
+      "readyTitle": "Sauberes Zertifikat zum Herunterladen bereit",
+      "previewTitle": "Vorschau mit Wasserzeichen (Gebühr erforderlich)",
+      "readyHint": "Das saubere PDF unten ist die offizielle Kopie.",
+      "previewHint": "Die Vorschau zeigt den Dokumentinhalt, damit Sie die Details vor Zahlung der Zertifizierungsgebühr prüfen können.",
+      "downloadCertificate": "Zertifikat herunterladen",
+      "downloadPreview": "Vorschau herunterladen"
+    },
+    "fee": {
+      "label": "Zertifizierungsgebühr",
+      "loading": "Gebühr wird geladen…",
+      "amount": "Gebührenbetrag",
+      "rate": "Satz",
+      "rateOf": "der Auszahlung von {{base}} USDT",
+      "payTo": "Zahlen an",
+      "payToFallback": "Kontaktieren Sie Ihren Fallmanager",
+      "reviewerNotes": "Hinweise des Prüfers",
+      "pending": "Ihr Beleg wird von Compliance geprüft. Sie werden per E-Mail benachrichtigt, wenn das Zertifikat freigegeben ist.",
+      "notesPlaceholder": "Optionale Notiz für den Prüfer (TX-Hash, Kommentare)…",
+      "uploadCorrected": "Korrigierten Beleg hochladen",
+      "uploadReceipt": "Zahlungsbeleg hochladen"
+    },
+    "history": {
+      "title": "Zahlungsverlauf",
+      "statusApproved": "genehmigt",
+      "statusRejected": "abgelehnt",
+      "statusPending": "ausstehend",
+      "receiptLabel": "Beleg"
+    },
+    "toasts": {
+      "tooLargeTitle": "Datei zu groß",
+      "tooLargeDesc": "Beleg muss zwischen 1 B und 10 MB groß sein.",
+      "unsupportedTitle": "Nicht unterstützter Dateityp",
+      "unsupportedDesc": "Nur PDF oder PNG/JPEG/WebP.",
+      "uploadedTitle": "Beleg hochgeladen",
+      "uploadedDesc": "Ihr Beleg für die Zertifizierungsgebühr wartet auf die Compliance-Prüfung.",
+      "uploadFailedTitle": "Hochladen fehlgeschlagen",
+      "uploadFailedDesc": "Hochladen nicht möglich.",
+      "downloadFailedTitle": "Herunterladen fehlgeschlagen",
+      "downloadFailedDesc": "Versuchen Sie es erneut."
+    }
+  },
+  "sealed": {
+    "loadFailedTitle": "Bestätigung konnte nicht geladen werden",
+    "downloadFailedTitle": "Herunterladen fehlgeschlagen",
+    "unknownError": "Unbekannter Fehler",
+    "skippedTitle": "Für diesen Fall ist keine Unterschrift erforderlich",
+    "skippedBody": "IBCCF hat angegeben, dass die versiegelte Vereinbarung und das NDA für Ihren Fall nicht erforderlich sind. Ihr IBCCF-Fallmanager wird Sie durch alle verbleibenden Schritte führen. Falls Sie meinen, ein Vergleichsdokument unterzeichnen zu müssen, kontaktieren Sie bitte direkt Ihren Fallmanager.",
+    "notYetTitle": "Noch nicht verfügbar",
+    "notYetBody": "Die versiegelte Vereinbarung und das NDA werden erst verfügbar, nachdem Ihr Fall die endgültige Vergleichsphase erreicht hat. Wir benachrichtigen Sie, sobald es freigeschaltet ist.",
+    "sealedTitle": "Ihre Vereinbarung ist versiegelt",
+    "signedBy": "Unterzeichnet von <strong>{{name}}</strong> am {{date}}. Dieser Fall ist nun dauerhaft geschlossen; weitere Änderungen sind nicht möglich.",
+    "integrityHash": "SHA-256-Integritäts-Hash",
+    "templateMeta": "{{subtitle}} · Vorlage {{version}}",
+    "partiesHeading": "Parteien & Angaben",
+    "signToSeal": "Unterschreiben Sie, um Ihren Fall zu versiegeln",
+    "documentLanguage": "Dokumentsprache",
+    "documentLanguageNote": "Betrifft nur dieses Dokument. Ihre Portalsprache bleibt unverändert.",
+    "typedNamePlaceholder": "Vollständiger juristischer Name",
+    "typedNameHint": "Die Eingabe Ihres Namens unten hat für diese Bestätigung dieselbe Wirkung wie eine handschriftliche Unterschrift.",
+    "agreeBody": "Ich habe jede Bestimmung dieser versiegelten Vereinbarung und Vertraulichkeitserklärung gelesen, verstanden und stimme ihr zu. Mir ist bewusst, dass mein Fall dauerhaft versiegelt wird.",
+    "sealing": "Wird versiegelt…",
+    "signAndSeal": "Unterzeichnen & versiegeln",
+    "previewPdf": "PDF-Vorschau",
+    "downloadSigned": "Signiertes PDF herunterladen",
+    "toasts": {
+      "completeTitle": "Bitte vervollständigen Sie die Unterschrift",
+      "completeDesc": "Geben Sie Ihren vollständigen juristischen Namen ein und kreuzen Sie das Bestätigungsfeld an.",
+      "alreadyTitle": "Bestätigung bereits hinterlegt",
+      "alreadyDesc": "Ihre vorhandene signierte Kopie wurde geladen.",
+      "sealedTitle": "Vereinbarung versiegelt",
+      "sealedDesc": "Ein signiertes PDF wurde Ihnen per E-Mail zugesandt.",
+      "failedTitle": "Unterschrift konnte nicht aufgezeichnet werden"
+    },
+    "stampDutyGateTitle": "Stempelsteuereinzahlung erforderlich",
+    "stampDutyGateBody": "Bevor das versiegelte Settlement & NDA unterzeichnet werden kann, laden Sie bitte einen Beleg für die Stempelsteuereinzahlung hoch und warten Sie auf die Genehmigung durch die Compliance."
+  },
+  "walletConnect": {
+    "badge": "Wallet-Verbindung",
+    "title": "Verbinden Sie eine persönliche Wallet für Ihre Auszahlung",
+    "subtitle": "Ihr Auszahlungsantrag wurde übermittelt. Wählen Sie eine Self-Custody-Wallet, mit der Sie die Gelder empfangen möchten, und importieren Sie anschließend die für Ihren Fall generierte Verbindungsphrase.",
+    "yourWallet": "Ihre Wallet",
+    "unavailable": {
+      "title": "Wallet-Verbindung nicht verfügbar",
+      "description": "Der Schritt Wallet-Verbindung wurde für Ihren Fall noch nicht freigeschaltet. Bitte kehren Sie zu Ihrem Dashboard zurück und fahren Sie mit dem aktiven Schritt fort.",
+      "back": "Zurück zum Dashboard"
+    },
+    "step1": {
+      "title": "Schritt 1 — Wallet auswählen",
+      "description": "Wählen Sie die Wallet, die Sie verwenden möchten, oder geben Sie den Namen einer eigenen vertrauenswürdigen Wallet ein. Die Verbindungsphrase importieren Sie als Nächstes.",
+      "customTitle": "Eigene Wallet",
+      "customDescription": "Verwenden Sie bereits MetaMask, Ledger Live, Exodus oder eine andere? Geben Sie den Namen ein.",
+      "customLabel": "Wallet-Name",
+      "customPlaceholder": "z. B. MetaMask, Ledger Live, Exodus",
+      "saving": "Wird gespeichert…",
+      "continue": "Weiter",
+      "pickWalletTitle": "Wallet auswählen",
+      "pickWalletDesc": "Wählen Sie eine der vorgeschlagenen Wallets oder geben Sie einen eigenen Namen ein.",
+      "savedTitle": "Wallet ausgewählt",
+      "savedDesc": "Fortfahren mit {{name}}.",
+      "saveErrorTitle": "Konnte nicht gespeichert werden",
+      "saveErrorDesc": "Wallet-Auswahl konnte nicht gespeichert werden (HTTP {{status}}).",
+      "networkErrorTitle": "Netzwerkfehler",
+      "networkErrorDesc": "Bitte erneut versuchen."
+    },
+    "step2": {
+      "title": "Schritt 2 — Ihre Wallet-Verbindungsphrase",
+      "description": "Wir haben eine an Ihren Fall gebundene Wiederherstellungsphrase generiert. Kopieren Sie sie sorgfältig — Sie importieren sie im nächsten Schritt in <0>{{wallet}}</0>.",
+      "securityReminderLabel": "Sicherheitshinweis:",
+      "securityReminderBody": "Teilen Sie diese Wörter niemals mit jemandem, geben Sie sie niemals auf anderen Websites als Ihrer Wallet-App ein und speichern Sie sie niemals in cloud-synchronisierten Notizen oder Screenshots.",
+      "hiddenBody": "Ihre Verbindungsphrase bleibt verborgen, bis Sie bereit sind. Stellen Sie sicher, dass niemand Ihren Bildschirm sehen kann, und decken Sie sie dann auf.",
+      "reveal": "Meine Phrase anzeigen",
+      "generating": "Ihre sichere Phrase wird generiert…",
+      "loading": "Verbindungsphrase wird generiert…",
+      "errorNotReady": "Ihre Wallet-Verbindungsphrase ist noch nicht bereit. Bitte schauen Sie in Kürze wieder vorbei oder kontaktieren Sie Ihren Sachbearbeiter.",
+      "errorHttp": "Ihre Phrase konnte nicht geladen werden (HTTP {{status}}).",
+      "errorNotReadyShort": "Ihre Wallet-Verbindungsphrase ist noch nicht bereit.",
+      "errorNetwork": "Netzwerkfehler — bitte erneut versuchen.",
+      "retry": "Erneut versuchen",
+      "hide": "Verbergen",
+      "show": "Anzeigen",
+      "copy": "Kopieren",
+      "copied": "Kopiert",
+      "copyFailedTitle": "Kopieren fehlgeschlagen",
+      "copyFailedDesc": "Bitte halten Sie die Phrase lange gedrückt oder wählen Sie sie manuell aus.",
+      "next": "Weiter: Import-Anleitung",
+      "changeWallet": "← Wallet ändern",
+      "explainerTitle": "Was ist eine Verbindungsphrase?",
+      "explainerBody": "Es ist eine Liste von Wörtern (in der Regel 12), die als Hauptschlüssel für eine selbstverwaltete Wallet dient. Wenn Sie dieselben Wörter in eine Wallet-App eingeben, wird genau dieselbe Wallet auf Ihrem Gerät wiederhergestellt, sodass nur Sie sie kontrollieren. Bewahren Sie die Wörter in der richtigen Reihenfolge auf – die Reihenfolge ist wichtig.",
+      "saveTitle": "Bevor Sie fortfahren – sicher speichern",
+      "saveTips": [
+        "Schreiben Sie die Wörter in der richtigen Reihenfolge auf Papier und bewahren Sie sie an einem Ort auf, den nur Sie erreichen können.",
+        "Überprüfen Sie jedes Wort anhand des Rasters oben – ein einziges falsches Wort führt zu einer anderen Wallet.",
+        "Machen Sie keine Screenshots und speichern Sie sie nicht in Cloud-Notizen, Fotos, E-Mails oder Chat-Apps."
+      ]
+    },
+    "step3": {
+      "title": "Schritt 3 — Phrase in {{wallet}} importieren",
+      "description": "Installieren Sie die App und folgen Sie dann den nachstehenden Schritten. Die in Schritt 2 angezeigte Phrase geben Sie im Bildschirm „Wiederherstellungsphrase importieren“ der Wallet ein.",
+      "download": "{{wallet}} herunterladen",
+      "appStore": "App Store",
+      "playStore": "Google Play",
+      "recommended": "Für Ihr Gerät",
+      "officialLink": "Offizieller Link",
+      "customNotice": "Sie verwenden eine eigene Wallet (<0>{{name}}</0>). Der genaue Wortlaut variiert je nach App, der allgemeine Ablauf ist jedoch gleich:",
+      "completion": "Sobald Ihre Wallet eingerichtet ist, kehren Sie zu Ihrem Dashboard zurück. Ihr Sachbearbeiter wird benachrichtigt, dass der Schritt Wallet-Verbindung abgeschlossen ist.",
+      "back": "← Zurück zur Phrase",
+      "finish": "Zurück zum Dashboard",
+      "intro": "Installieren Sie die Wallet-App auf Ihrem Telefon und folgen Sie dann den nummerierten Schritten, um die gespeicherte Phrase zu importieren. Lassen Sie sich Zeit – es eilt nicht und Sie können jederzeit auf diese Seite zurückkehren.",
+      "timeEstimate": "Dauert etwa 3–5 Minuten",
+      "dosTitle": "Tun",
+      "dos": [
+        "Laden Sie Wallet-Apps nur aus dem offiziellen App Store oder von Google Play herunter.",
+        "Geben Sie die Wörter der Phrase langsam und in der genau angezeigten Reihenfolge ein.",
+        "Bewahren Sie Ihre Papiersicherung offline und privat auf."
+      ],
+      "dontsTitle": "Nicht tun",
+      "donts": [
+        "Geben Sie die Phrase niemals an Dritte weiter – nicht einmal an Support-Mitarbeiter.",
+        "Geben Sie sie niemals auf einer Website ein und senden Sie sie niemals per E-Mail oder Chat.",
+        "Speichern Sie sie niemals als Screenshot oder in der Cloud."
+      ],
+      "faqTitle": "Fehlerbehebung",
+      "faq": [
+        {
+          "q": "Die Wallet meldet, dass die Phrase ungültig ist.",
+          "a": "Überprüfen Sie die Schreibweise jedes Wortes und stellen Sie sicher, dass die Wörter in derselben Reihenfolge wie im Raster stehen. Die meisten Wallets akzeptieren 12 durch einzelne Leerzeichen getrennte Wörter."
+        },
+        {
+          "q": "Mein Guthaben zeigt nach dem Import null an.",
+          "a": "Bestätigen Sie, dass Sie das richtige Netzwerk/den richtigen Vermögenswert in der Wallet ausgewählt haben. Die Synchronisierung der Guthaben kann auch eine Minute dauern – zum Aktualisieren nach unten ziehen."
+        },
+        {
+          "q": "Ich habe die Seite geschlossen, bevor ich die Phrase gespeichert habe.",
+          "a": "Öffnen Sie die Wallet-Verbindung erneut und lassen Sie sie in Schritt 2 erneut anzeigen. Sie bleibt für Ihren Fall verfügbar."
+        }
+      ]
+    },
+    "wallets": {
+      "cryptocom": {
+        "tagline": "Self-Custody-Wallet von Crypto.com",
+        "importSteps": [
+          "Installieren Sie die Crypto.com DeFi Wallet-App aus dem App Store oder bei Google Play.",
+          "Öffnen Sie die App und tippen Sie auf dem Begrüßungsbildschirm auf „Wallet importieren“.",
+          "Wählen Sie „Wiederherstellungsphrase“ und geben Sie die oben angezeigten 12 Wörter in der richtigen Reihenfolge ein.",
+          "Legen Sie auf Aufforderung ein starkes Wallet-Passwort fest und schließen Sie die biometrische Einrichtung ab.",
+          "Kehren Sie zu dieser Seite zurück und setzen Sie Ihre Auszahlung fort, sobald die Wallet als verbunden angezeigt wird."
+        ]
+      },
+      "trust": {
+        "tagline": "Vertrauenswürdigste Multi-Chain-Self-Custody-Wallet",
+        "importSteps": [
+          "Installieren Sie Trust Wallet aus dem App Store, bei Google Play oder als Browser-Erweiterung.",
+          "Tippen Sie auf dem Begrüßungsbildschirm auf „Ich habe bereits eine Wallet“.",
+          "Wählen Sie „Multi-Coin-Wallet“ und fügen Sie die oben angezeigte 12-Wörter-Wiederherstellungsphrase ein.",
+          "Tippen Sie auf Importieren — Trust Wallet scannt automatisch alle unterstützten Chains.",
+          "Sobald Trust Wallet das importierte Konto anzeigt, kehren Sie hierher zurück und fahren Sie fort."
+        ]
+      },
+      "safepal": {
+        "tagline": "Self-Custody-Wallet auf Hardware-Niveau",
+        "importSteps": [
+          "Installieren Sie die SafePal-App aus dem App Store oder bei Google Play (oder laden Sie die Erweiterung herunter).",
+          "Tippen Sie auf „Software Wallet“ → „Ich habe bereits eine mnemonische Phrase“.",
+          "Wählen Sie das 12-Wörter-Format und geben Sie die oben angezeigten Wörter in der richtigen Reihenfolge ein.",
+          "Vergeben Sie einen Wallet-Namen und ein Passwort; SafePal leitet alle unterstützten Konten ab.",
+          "Sobald die Wallet die Synchronisation abgeschlossen hat, kehren Sie hierher zurück und setzen Sie Ihre Auszahlung fort."
+        ]
+      }
+    },
+    "genericSteps": [
+      "Öffnen Sie Ihre gewählte Wallet-App und suchen Sie nach „Wallet importieren“ oder „Wiederherstellungsphrase“.",
+      "Wählen Sie die Option für eine 12-Wörter-Phrase und geben Sie die oben gezeigten Wörter in der exakten Reihenfolge ein.",
+      "Legen Sie ein Wallet-Passwort fest und schließen Sie alle Geräte-Sicherheitsabfragen ab.",
+      "Warten Sie, bis die Wallet die Synchronisation Ihres Kontos abgeschlossen hat.",
+      "Kehren Sie zu dieser Seite zurück und setzen Sie die Auszahlung fort, sobald die Wallet eingerichtet ist."
+    ],
+    "withdrawalDone": {
+      "kicker": "Schritt abgeschlossen",
+      "title": "Wallet-Verbindung — Verifiziert",
+      "body": "Dieser Schritt wurde als Teil Ihres Auszahlungsprozesses abgeschlossen. Hier sind keine weiteren Maßnahmen erforderlich."
+    }
+  },
+  "stampDuty": {
+    "toasts": {
+      "invalidTypeTitle": "Nicht unterstützter Dateityp",
+      "invalidTypeDesc": "Bitte laden Sie eine PDF- oder PNG/JPEG/WebP-Datei hoch.",
+      "tooLargeTitle": "Datei zu groß",
+      "tooLargeDesc": "Die maximale Größe beträgt 10 MB.",
+      "uploadedTitle": "Beleg hochgeladen",
+      "uploadedDesc": "Die Compliance-Abteilung wird Ihre Stempelsteuerzahlung in Kürze prüfen.",
+      "failedTitle": "Hochladen fehlgeschlagen"
+    },
+    "unavailable": "Stempelsteuerinformationen sind vorübergehend nicht verfügbar. Bitte aktualisieren Sie die Seite.",
+    "disabled": "Für diesen Fall ist keine Stempelsteuer erforderlich.",
+    "title": "Stempelsteuereinzahlung",
+    "subtitle": "Erforderlich, bevor das versiegelte Settlement & NDA unterzeichnet werden kann.",
+    "amountLabel": "Fälliger Betrag",
+    "defaultNote": "Standardmäßige Stempelsteuer für versiegelte Settlements.",
+    "payToLabel": "Senden Sie Ihre Zahlung an",
+    "payToChooseAsset": "Wählen Sie eine der folgenden Wallets — zahlen Sie in dem Asset, das für Sie am bequemsten ist.",
+    "addressLabel": "Wallet-Adresse",
+    "memoLabel": "Memo / Schlagwort",
+    "payToHint": "Laden Sie nach dem Senden der Einzahlung einen Beleg (Screenshot oder PDF) mit dem TX-Hash hoch, damit die Compliance die Zahlung verifizieren kann.",
+    "payToMissing": "Zahlungswege wurden noch nicht konfiguriert — bitte kontaktieren Sie die Compliance für die Einzahlungs-Wallet, bevor Sie einen Beleg hochladen.",
+    "approvedTitle": "Stempelsteuer genehmigt",
+    "approvedBody": "Die Compliance hat Ihre Zahlung genehmigt. Sie können jetzt das versiegelte Settlement & NDA unterzeichnen.",
+    "pendingTitle": "Warten auf Compliance-Überprüfung",
+    "pendingBody": "Ihr Beleg wurde empfangen. Wir werden Sie per E-Mail benachrichtigen, sobald die Einzahlung genehmigt wurde.",
+    "rejectedTitle": "Beleg abgelehnt",
+    "rejectedReason": "Grund: {{reason}}",
+    "rejectedBody": "Bitte laden Sie einen korrigierten Beleg hoch.",
+    "fileLabel": "Zahlungsbeleg (PDF oder Bild, max. 10 MB)",
+    "notesLabel": "Anmerkungen (optional)",
+    "notesPlaceholder": "TX-Hash, Wallet oder sonstiger Kontext für den Prüfer.",
+    "uploading": "Wird hochgeladen…",
+    "uploadCta": "Beleg einreichen",
+    "historyTitle": "Einreichungsverlauf"
+  },
+  "refundClaim": {
+    "pageTitle": "Rückerstattungsantrag",
+    "pageSubtitle": "Dokumentieren Sie Ihren erstattungsfähigen Aktivierungsbetrag für die Auszahlungsbearbeitung",
+    "refundableBalance": "1.000 USDT",
+    "refundableBalanceLabel": "Erstattungsfähiger Aktivierungsbetrag",
+    "statusPendingSubmission": "Warten auf Ihre Einreichung",
+    "statusSubmitted": "Eingereicht — in Prüfung",
+    "statusApproved": "Genehmigt",
+    "statusRejected": "Nicht genehmigt",
+    "recommendationsTitle": "Dokumentarische Empfehlungen",
+    "recommendationsHint": "Ihr Compliance-Beauftragter hat folgende Hinweise für Ihre Einreichung bereitgestellt:",
+    "entriesTitle": "Aufgeführte Einlagenpositionen",
+    "entriesHint": "Fügen Sie eine Zeile für jede erstattungsfähige Gebühr hinzu. Geben Sie so viele Details wie möglich an, um die Prüfung zu beschleunigen.",
+    "addEntry": "Eintrag hinzufügen",
+    "removeEntry": "Entfernen",
+    "amountLabel": "Betrag (USDT)",
+    "amountPlaceholder": "z. B. 1000",
+    "chargedForLabel": "Berechnet für",
+    "chargedForPlaceholder": "z. B. Aktivierungsgebühr, Bearbeitungsgebühr…",
+    "dateLabel": "Datum der Abbuchung",
+    "txIdLabel": "Transaktions- / Referenz-ID",
+    "txIdPlaceholder": "Blockchain-TX-Hash oder Bankreferenz (optional)",
+    "networkLabel": "Netzwerk / Blockchain",
+    "networkPlaceholder": "z. B. TRC-20, BEP-20 (optional)",
+    "entryNotesLabel": "Anmerkungen",
+    "entryNotesPlaceholder": "Zusätzlicher Kontext für diesen Eintrag (optional)",
+    "receiptLabel": "Beleg",
+    "attachReceipt": "Beleg anhängen",
+    "receiptAttached": "Beleg angehängt",
+    "globalDocsTitle": "Zusätzliche Belege",
+    "globalDocsHint": "Laden Sie zusätzliche Nachweise hoch, die nicht einem bestimmten Eintrag zugeordnet sind (Kontoauszüge, Screenshots usw.)",
+    "submitCta": "Rückerstattungsantrag einreichen",
+    "submitting": "Wird eingereicht…",
+    "submittedBannerTitle": "Antrag erfolgreich eingereicht",
+    "submittedBannerBody": "Ihr Rückerstattungsantrag wird geprüft. Sie erhalten eine E-Mail, sobald eine Entscheidung getroffen wurde.",
+    "approvedBannerTitle": "Rückerstattungsantrag genehmigt",
+    "approvedBannerBody": "Ihr Rückerstattungsantrag wurde genehmigt. Laden Sie Ihr offizielles Zertifikat unten herunter.",
+    "rejectedBannerTitle": "Rückerstattungsantrag nicht genehmigt",
+    "rejectedBannerBody": "Bitte überprüfen Sie die Anmerkungen des Sachbearbeiters unten. Kontaktieren Sie Ihren Compliance-Beauftragten, wenn Sie Fragen haben.",
+    "adminNotesLabel": "Prüfernotizen",
+    "downloadCertificate": "Rückerstattungszertifikat herunterladen",
+    "downloadingCertificate": "Zertifikat wird generiert…",
+    "certSubtitle": "Offizielles Zertifikat des genehmigten Rückerstattungsantrags",
+    "emptyEntriesError": "Bitte fügen Sie mindestens einen Einlageneintrag hinzu, bevor Sie einreichen.",
+    "entryAmountRequired": "Betrag ist erforderlich",
+    "entryChargedForRequired": "Beschreibung ist erforderlich",
+    "entryDateRequired": "Datum ist erforderlich",
+    "submittedReadonlyNotice": "Ihr Antrag wurde eingereicht und ist zur Prüfung gesperrt. Es können keine weiteren Änderungen vorgenommen werden.",
+    "approvedReadonlyNotice": "Dieser Antrag wurde genehmigt. Ihr Zertifikat steht unten zum Download bereit.",
+    "rejectedReadonlyNotice": "Dieser Antrag wurde nicht genehmigt. Lesen Sie die Sachbearbeiternotizen oben für weitere Schritte."
+  },
+  "closureWarning": {
+    "heading": "Portal-Sitzung wird geschlossen",
+    "fallbackMessage": "Ihre Portal-Sitzung wurde automatisch vom IBCCF-Compliance-System für die Schließung geplant.",
+    "timeRemainingLabel": "Verbleibende Zeit",
+    "autoLogoutNote": "Sie werden automatisch abgemeldet, wenn der Timer auf null läuft",
+    "logOutNow": "Jetzt abmelden",
+    "dismiss": "Schließen",
+    "dismissNote": "Das Schließen blendet dieses Fenster aus, bricht die Schließung jedoch nicht ab.",
+    "ariaLabel": "Warnung zur Portal-Schließung"
+  },
+  "reactivationDeposit": {
+    "title": "Konto Gesperrt",
+    "subtitle": "Reaktivierung Erforderlich",
+    "backToLogin": "← Zurück zur Anmeldung",
+    "loadError": {
+      "title": "Reaktivierungsdetails konnten nicht geladen werden",
+      "body": "Die Einzahlungsinformationen für Ihr Konto konnten nicht abgerufen werden. Bitte versuchen Sie es erneut oder wenden Sie sich an den Support."
+    },
+    "notice": {
+      "title": "Ihr Konto wurde gesperrt",
+      "body": "Ihr Portalzugang wurde nach dem geplanten Schließungszeitraum gesperrt. Um den vollständigen Zugang wiederherzustellen, senden Sie bitte die Reaktivierungseinzahlung an die unten angegebene Adresse und laden Sie Ihren Zahlungsbeleg hoch. Unser Compliance-Team wird diesen prüfen und Ihren Zugang umgehend wiederherstellen.",
+      "bodyWarningExpired": "Ihr Portalzugang wurde nach dem geplanten Schließungszeitraum gesperrt. Um den vollständigen Zugang wiederherzustellen, senden Sie bitte die Reaktivierungseinzahlung an die unten angegebene Adresse und laden Sie Ihren Zahlungsbeleg hoch. Unser Compliance-Team wird diesen prüfen und Ihren Zugang umgehend wiederherstellen.",
+      "bodyAdminDisabled": "Ihr Konto wurde von unserem Compliance-Team gesperrt. Um den vollständigen Zugang wiederherzustellen, senden Sie bitte die Reaktivierungseinzahlung an die unten angegebene Adresse und laden Sie Ihren Zahlungsbeleg hoch. Unser Compliance-Team wird diesen prüfen und Ihren Zugang umgehend wiederherstellen."
+    },
+    "deposit": {
+      "title": "Reaktivierungseinzahlung Details",
+      "amountLabel": "Fälliger Betrag",
+      "addressLabel": "Einzahlungsadresse",
+      "hint": "Senden Sie ausschließlich an die oben angezeigte genaue Adresse. Überprüfen Sie das Asset und das Netzwerk vor dem Senden.",
+      "noAddress": "Es wurde noch keine Einzahlungsadresse zugewiesen. Bitte wenden Sie sich an den Support, um Ihre Reaktivierungsanweisungen zu erhalten."
+    },
+    "upload": {
+      "title": "Zahlungsbeleg Hochladen",
+      "body": "Laden Sie nach dem Senden der Einzahlung einen Screenshot oder ein PDF Ihres Transaktionsbelegs hoch. Unser Team wird diesen prüfen und Ihren Zugang wiederherstellen.",
+      "cta": "Belegdatei auswählen",
+      "hint": "PNG, JPEG, WebP oder PDF · Max. 10 MB",
+      "change": "Ändern",
+      "submit": "Beleg Einreichen",
+      "submitting": "Wird eingereicht…",
+      "tooLargeTitle": "Datei zu groß",
+      "tooLargeDesc": "Die maximale Dateigröße beträgt 10 MB.",
+      "badFormatTitle": "Nicht unterstütztes Format",
+      "badFormatDesc": "Bitte laden Sie PNG, JPEG, WebP oder PDF hoch.",
+      "failedTitle": "Einreichung fehlgeschlagen",
+      "failedDesc": "Ihr Beleg konnte nicht eingereicht werden. Bitte versuchen Sie es erneut.",
+      "networkTitle": "Netzwerkfehler",
+      "networkDesc": "Der Server konnte nicht erreicht werden. Bitte versuchen Sie es erneut."
+    },
+    "confirmation": {
+      "title": "Beleg erfolgreich eingereicht",
+      "body": "Vielen Dank. Ihr Zahlungsbeleg wird nun von unserem Compliance-Team geprüft. Sie erhalten eine E-Mail-Benachrichtigung, sobald Ihr Zugang wiederhergestellt wurde."
+    }
+  }
+}

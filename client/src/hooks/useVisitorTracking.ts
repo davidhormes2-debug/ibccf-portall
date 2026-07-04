@@ -1,12 +1,28 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'wouter';
+import { storeSatToken } from '@/lib/satisfactionToken';
 
-const HEARTBEAT_INTERVAL = 10000; // 10 seconds
+const HEARTBEAT_INTERVAL = 20000; // 20 seconds
 const IDLE_TIMEOUT = 60000; // 1 minute for idle detection
 
 interface VisitorTrackingOptions {
   caseId?: number | string;
   enabled?: boolean;
+}
+
+// Cheap, dependency-free djb2 hash. Used to derive a stable
+// fingerprintHash from environment fingerprint inputs (UA + screen
+// + lang + tz + colorDepth). Same input → same hex digest, no
+// cryptographic claims, just a compact identifier.
+function djb2Hex(input: string): string {
+  let hash = 5381;
+  for (let i = 0; i < input.length; i++) {
+    // (hash * 33) XOR char — classic djb2
+    hash = ((hash << 5) + hash) ^ input.charCodeAt(i);
+    hash = hash & 0xffffffff;
+  }
+  // unsigned 32-bit hex
+  return (hash >>> 0).toString(16).padStart(8, '0');
 }
 
 export function useVisitorTracking({ caseId, enabled = true }: VisitorTrackingOptions = {}) {
@@ -16,6 +32,10 @@ export function useVisitorTracking({ caseId, enabled = true }: VisitorTrackingOp
   const heartbeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const pagesViewedRef = useRef<string[]>([]);
 
+  // Build a forensic snapshot of the device + environment. Most fields
+  // come from `navigator`/`window.screen`/`Intl`. The fingerprintHash
+  // is a djb2 of the concatenated stable fields so the same browser on
+  // the same device produces the same digest across visits.
   const getDeviceInfo = useCallback(() => {
     const userAgent = navigator.userAgent;
     let deviceType = 'desktop';
@@ -51,13 +71,41 @@ export function useVisitorTracking({ caseId, enabled = true }: VisitorTrackingOp
       os = 'iOS';
     }
 
+    let timezone: string | undefined;
+    try {
+      timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch {
+      timezone = undefined;
+    }
+
+    // navigator.connection is an experimental, unprefixed Network
+    // Information API. Available in Chromium-based browsers; gracefully
+    // omitted on Safari/Firefox.
+    const conn = (navigator as unknown as {
+      connection?: { effectiveType?: string };
+    }).connection;
+    const connectionType = conn?.effectiveType;
+
+    const screenWidth = window.screen?.width ?? 0;
+    const screenHeight = window.screen?.height ?? 0;
+    const colorDepth = window.screen?.colorDepth ?? 0;
+    const language = navigator.language ?? 'unknown';
+
+    const fingerprintHash = djb2Hex(
+      [userAgent, `${screenWidth}x${screenHeight}`, language, timezone ?? '', String(colorDepth)].join('|'),
+    );
+
     return {
       deviceType,
       browser,
       os,
-      screenWidth: window.screen.width,
-      screenHeight: window.screen.height,
-      language: navigator.language,
+      screenWidth,
+      screenHeight,
+      screenResolution: `${screenWidth}x${screenHeight}`,
+      language,
+      timezone,
+      connectionType,
+      fingerprintHash,
       referrer: document.referrer || undefined,
     };
   }, []);
@@ -92,13 +140,14 @@ export function useVisitorTracking({ caseId, enabled = true }: VisitorTrackingOp
         body: JSON.stringify({
           visitorId,
           currentPage: location,
+          pageTitle: typeof document !== 'undefined' ? document.title : undefined,
           caseId,
           isIdle,
           pagesViewed: pagesViewedRef.current,
           ...deviceInfo,
         }),
       });
-    } catch (error) {
+    } catch (_e) {
       // Silent fail - don't interrupt user experience
     }
   }, [enabled, getVisitorId, getDeviceInfo, location, caseId]);
@@ -106,15 +155,25 @@ export function useVisitorTracking({ caseId, enabled = true }: VisitorTrackingOp
   const endSession = useCallback(async () => {
     const visitorId = getVisitorId();
     try {
-      await fetch('/api/visitors/end-session', {
+      const res = await fetch('/api/visitors/end-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ visitorId }),
       });
-    } catch (error) {
+      // The server issues a short-lived signed `satToken` when the visitor
+      // had a chat, so the satisfaction-rating submission can skip its DB
+      // read. Stash it for the chat widget to pick up when it posts the
+      // rating (see client/src/lib/satisfactionToken.ts).
+      if (res.ok && caseId != null) {
+        const data = await res.json().catch(() => null);
+        if (data?.satToken) {
+          storeSatToken(visitorId, String(caseId), data.satToken);
+        }
+      }
+    } catch (_e) {
       // Silent fail
     }
-  }, [getVisitorId]);
+  }, [getVisitorId, caseId]);
 
   const updateActivity = useCallback(() => {
     lastActivityRef.current = Date.now();

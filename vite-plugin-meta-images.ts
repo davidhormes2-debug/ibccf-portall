@@ -56,6 +56,13 @@ export function metaImagesPlugin(): Plugin {
 }
 
 function getDeploymentUrl(): string | null {
+  const portable = process.env.PUBLIC_BASE_URL?.trim() || process.env.APP_BASE_URL?.trim();
+  if (portable) {
+    const url = portable.replace(/\/+$/, "");
+    log('[meta-images] using PUBLIC_BASE_URL/APP_BASE_URL:', url);
+    return url;
+  }
+
   if (process.env.REPLIT_INTERNAL_APP_DOMAIN) {
     const url = `https://${process.env.REPLIT_INTERNAL_APP_DOMAIN}`;
     log('[meta-images] using internal app domain:', url);

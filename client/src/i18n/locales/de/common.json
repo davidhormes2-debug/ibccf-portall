@@ -1,0 +1,56 @@
+{
+  "appName": "IBCCF",
+  "appFullName": "Internationales Blockchain-Community-Beschwerdeforum",
+  "language": {
+    "switcherAriaLabel": "Sprache ändern",
+    "emailNoticeTitle": "Sprache aktualisiert",
+    "emailNoticeDescription": "Künftige E-Mails werden ebenfalls auf {{language}} gesendet.",
+    "label": "Sprache"
+  },
+  "nav": {
+    "home": "Startseite",
+    "verify": "Plattform verifizieren",
+    "intelNetwork": "Intel-Netzwerk",
+    "community": "Gemeinschaft",
+    "legalResources": "Rechtsressourcen",
+    "requestAccess": "Zugang anfordern",
+    "dashboard": "Dashboard",
+    "login": "Anmelden",
+    "logout": "Abmelden"
+  },
+  "actions": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "submit": "Einreichen",
+    "close": "Schließen",
+    "confirm": "Bestätigen",
+    "retry": "Erneut versuchen",
+    "loading": "Laden…",
+    "back": "Zurück",
+    "next": "Weiter",
+    "approve": "Genehmigen",
+    "reject": "Ablehnen",
+    "download": "Herunterladen",
+    "preview": "Vorschau",
+    "upload": "Hochladen"
+  },
+  "status": {
+    "pending": "Ausstehend",
+    "submitted": "Eingereicht",
+    "underReview": "In Überprüfung",
+    "approved": "Genehmigt",
+    "rejected": "Abgelehnt",
+    "completed": "Abgeschlossen"
+  },
+  "errors": {
+    "generic": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "network": "Verbindung zum Server konnte nicht hergestellt werden. Bitte überprüfen Sie Ihre Verbindung.",
+    "unauthorized": "Sie sind nicht berechtigt, diese Aktion auszuführen.",
+    "sessionExpired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
+  },
+  "theme": {
+    "light": "Heller Modus",
+    "dark": "Dunkler Modus",
+    "toggle": "Thema umschalten"
+  }
+}

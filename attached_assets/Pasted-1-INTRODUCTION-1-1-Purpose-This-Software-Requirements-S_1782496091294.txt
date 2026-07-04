@@ -1,0 +1,470 @@
+1. INTRODUCTION
+1.1 Purpose
+This Software Requirements Specification (SRS) defines the complete functional, non‑functional, architectural, operational, and compliance requirements for the IBCCF platform.
+It is intended for:
+
+Developers
+
+Admin/support teams
+
+Auditors & compliance officers
+
+Investors
+
+Future hires
+
+This document is legally binding as a representation of expected system behavior.
+
+1.2 Scope
+IBCCF is a regulated withdrawal, compliance, and case‑management platform consisting of:
+
+Public case intake
+
+Case holder portal
+
+14‑stage withdrawal process
+
+Document management
+
+Compliance declarations
+
+Countdown & reactivation enforcement
+
+Admin dashboard
+
+AI community forum
+
+Automated email system
+
+Security & audit framework
+
+Monitoring & observability layer
+
+This SRS defines every requirement necessary for full implementation.
+
+1.3 Definitions
+Case Holder — User with an active case.
+
+Admin — Authorized staff managing cases.
+
+Super Admin — Highest‑privilege role.
+
+Countdown — Time‑bound compliance enforcement mechanism.
+
+Reactivation — Payment‑based restoration of access after countdown expiry.
+
+NDA Integrity Sweep — Automated daily verification of NDA compliance.
+
+Declaration of Compliance — Legally binding user declaration.
+
+2. SYSTEM OVERVIEW
+2.1 System Components
+Public Interface
+
+Case Holder Portal
+
+Admin Dashboard
+
+AI Community Forum
+
+Automated Email Engine
+
+Security & Compliance Layer
+
+Monitoring & Observability Layer
+
+2.2 System Context Diagram (Textual)
+Code
+[User] → submits case → [Public Intake]
+[User] → logs in → [Portal]
+[Admin] → manages cases → [Admin Dashboard]
+[Portal] ↔ [Backend API] ↔ [Database]
+[Backend] → sends emails → [SMTP]
+[Backend] → requests AI → [OpenAI]
+[Monitoring] → logs errors → [Sentry]
+3. FUNCTIONAL REQUIREMENTS
+3.1 Public Case Intake
+Users must be able to submit fraud complaints.
+
+System must validate all fields.
+
+System must generate Case ID.
+
+System must send Case Created Email (mandatory).
+
+System must notify admin (mandatory).
+
+3.2 Access Code Workflow
+Admin approves access code.
+
+System emails access code.
+
+Access code must be single‑use.
+
+Access code must expire after 24 hours.
+
+3.3 Case Holder Portal
+3.3.1 Dashboard
+Display stage progress.
+
+Display next actions.
+
+Display payout wallet.
+
+Display timeline.
+
+Display countdown (if active).
+
+3.3.2 Document Uploads
+Accept PDF/JPG/PNG only.
+
+Max size 10MB.
+
+Notify admin on upload.
+
+Trigger automated email.
+
+3.3.3 Declaration of Compliance
+Multi‑section form.
+
+Digital signature required.
+
+Immutable after submission.
+
+3.3.4 Messaging
+User can send messages.
+
+Admin receives email notification (mandatory).
+
+User receives email when admin replies (mandatory).
+
+3.3.5 Countdown
+Display countdown timer.
+
+Enforce lockout on expiry.
+
+Reset withdrawal pathway.
+
+Require reactivation deposit.
+
+3.3.6 Reactivation
+User uploads receipt.
+
+Admin approves.
+
+System restores access.
+
+3.4 Admin Dashboard
+3.4.1 Case Management
+Search, filter, sort.
+
+Edit case fields.
+
+Change stages.
+
+Impersonate user.
+
+3.4.2 Document Review
+Approve/reject documents.
+
+Add rejection notes.
+
+Trigger automated emails.
+
+3.4.3 Email System
+One‑off emails.
+
+Broadcast emails.
+
+Template selection.
+
+Email logs.
+
+3.4.4 Security Controls
+Block IPs.
+
+View audit logs.
+
+Manage roles (RBAC).
+
+3.4.5 Countdown & Reactivation
+Activate countdown.
+
+Override countdown.
+
+Reset case.
+
+Approve reactivation.
+
+4. NON‑FUNCTIONAL REQUIREMENTS
+4.1 Performance
+Page load < 2 seconds.
+
+Admin actions < 500ms.
+
+Email queue < 10 seconds.
+
+4.2 Reliability
+99.5% uptime.
+
+Automatic fallback for AI/email failures.
+
+4.3 Security
+RBAC enforced.
+
+Secure cookies.
+
+XSS sanitization.
+
+Rate limiting.
+
+File validation.
+
+Audit logging.
+
+4.4 Compliance
+GDPR‑aligned data handling.
+
+Immutable timeline.
+
+Declaration immutability.
+
+NDA integrity enforcement.
+
+5. ARCHITECTURE
+5.1 Frontend
+React 19
+
+Vite
+
+Tailwind CSS v4
+
+Wouter
+
+TanStack Query
+
+Framer Motion
+
+react‑i18next
+
+PWA support
+
+5.2 Backend
+Node.js
+
+Express.js
+
+Passport.js
+
+Zod
+
+Drizzle ORM
+
+PostgreSQL
+
+Nodemailer
+
+OpenAI GPT‑4o‑mini
+
+Sentry
+
+5.3 Infrastructure
+Replit Autoscale
+
+GitHub Actions
+
+drizzle‑kit
+
+Vitest
+
+Playwright
+
+6. SECURITY MODEL
+6.1 RBAC
+Roles:
+
+super_admin
+
+admin
+
+agent
+
+viewer
+
+Each role must have:
+
+Allowed actions
+
+Forbidden actions
+
+Logged actions
+
+6.2 Authentication
+Secure cookies
+
+Session timeout
+
+Token rotation
+
+6.3 Input Validation
+Zod validation
+
+XSS sanitization
+
+SQL injection protection
+
+6.4 File Security
+MIME validation
+
+Size validation
+
+Secure storage
+
+7. DATA MODEL
+(Condensed version — full schema already in Set 1)
+
+Tables:
+
+users
+
+cases
+
+documents
+
+countdowns
+
+reactivation
+
+messages
+
+audit_logs
+
+Each table includes:
+
+Primary keys
+
+Foreign keys
+
+Timestamps
+
+Status fields
+
+Compliance fields
+
+8. EMAIL SYSTEM
+8.1 Requirements
+20+ automated triggers
+
+Locale‑aware templates
+
+Audit logging
+
+Delivery tracking
+
+Fallback templates
+
+8.2 Missing Emails (Must Implement)
+Case Created
+
+Admin New Case
+
+Admin New Message
+
+Admin Reply → User
+
+Countdown Override
+
+Countdown Expired
+
+Portal Reset
+
+Reactivation Required
+
+AI Failure
+
+Health Check Failure
+
+9. COUNTDOWN & REACTIVATION
+9.1 Countdown
+Admin‑triggered
+
+Server‑authoritative timer
+
+Lockout on expiry
+
+Reset withdrawal
+
+Void declarations
+
+Require reactivation
+
+9.2 Reactivation
+User uploads receipt
+
+Admin approves
+
+System restores access
+
+10. MONITORING & OBSERVABILITY
+10.1 Sentry
+Track:
+
+Frontend errors
+
+Backend errors
+
+Email failures
+
+AI failures
+
+Countdown failures
+
+10.2 Health Endpoint
+Must include:
+
+DB
+
+SMTP
+
+AI
+
+Uptime
+
+Version
+
+11. QA REQUIREMENTS
+11.1 Unit Tests
+80% coverage minimum
+
+11.2 Integration Tests
+Document flows
+
+Stage flows
+
+Countdown flows
+
+Reactivation flows
+
+11.3 End‑to‑End Tests
+Full withdrawal pathway
+
+Full admin workflow
+
+12. ACCEPTANCE CRITERIA
+System is accepted only when:
+
+All functional requirements met
+
+All non‑functional requirements met
+
+All gaps closed
+
+All automated emails implemented
+
+All security controls enforced
+
+All monitoring active
+
+All tests passed
+
+All checklists complete

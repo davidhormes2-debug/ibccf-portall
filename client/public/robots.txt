@@ -1,0 +1,17 @@
+# robots.txt for IBCCF — International Blockchain Complaints Forum
+# https://ibccf.site/
+
+User-agent: *
+Allow: /
+
+# Disallow authenticated portal and admin surfaces — these require credentials
+# and should not appear in search results.
+Disallow: /admin
+Disallow: /admin/
+Disallow: /portal
+Disallow: /portal/
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /api/
+
+Sitemap: https://ibccf.site/sitemap.xml

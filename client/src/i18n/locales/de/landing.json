@@ -1,0 +1,285 @@
+{
+  "nav": {
+    "departments": "Abteilungen",
+    "services": "Dienstleistungen",
+    "faq": "FAQ",
+    "intelNetwork": "Intelligence-Netzwerk",
+    "legalHub": "Rechtszentrum"
+  },
+  "header": {
+    "verifyCta": "Plattform Verifizieren",
+    "requestAccessCta": "Zugang Anfordern",
+    "submitReport": "Bericht Einreichen",
+    "accessPortal": "Portal Zugreifen",
+    "brandSubtitle": "Durchsetzungsabteilung",
+    "toggleMenu": "Menü Umschalten"
+  },
+  "hero": {
+    "eyebrow": "Internationales Blockchain-Community-Beschwerdeforum",
+    "title": "Holen Sie sich zurück, was genommen wurde. Verifizieren Sie, bevor Sie vertrauen.",
+    "subtitle": "Wir helfen Opfern von Kryptowährungsbetrug, formelle Fälle zu eröffnen, verdächtige Plattformen zu verifizieren und gestohlene Vermögenswerte zurückzuverfolgen – unter einem transparenten regulatorischen Rahmen.",
+    "primaryCta": "Einen Fall Melden",
+    "secondaryCta": "Eine Plattform Verifizieren",
+    "ariaLabel": "Held",
+    "globalIntelActive": "Globale Intelligenz Aktiv",
+    "titleLine1": "Finanzkriminalität",
+    "titleLine2": "Durchsetzungsbehörde.",
+    "paragraph": "Autoritative Blockchain-Trace-Analyse, Vermögensrückgewinnung und regulatorische Compliance für vermögende Privatpersonen, Anwaltskanzleien und Institutionen in über 180 Jurisdiktionen.",
+    "accessSecurePortal": "Sicheren Zugang Zum Portal",
+    "submitIncidentReport": "Vorfallbericht Einreichen",
+    "trustedTitle": "Vertraut Von Der Durchsetzung",
+    "trustedSubtitle": "Globale regulatorische Partnerschaften",
+    "securedConnection": "Gesicherte Verbindung",
+    "traceStatus": "Trace-Status",
+    "confidence": "Vertrauen",
+    "jurisdiction": "Gerichtsbarkeit"
+  },
+  "trust": {
+    "users": "15.000+ Nutzer",
+    "countries": "120+ Länder",
+    "support": "24/7 sichere Unterstützung"
+  },
+  "ticker": {
+    "globalFeed": "Globaler Feed"
+  },
+  "liveActivity": {
+    "activePersonnel": "Aktives Personal"
+  },
+  "backToTop": {
+    "aria": "Zurück nach oben"
+  },
+  "cookie": {
+    "message": "Diese Plattform verwendet strenge Sicherheits-Cookies, um die Sitzungsintegrität und die operationale Sicherheit aufrechtzuerhalten.",
+    "decline": "Nicht-Essentielle Ablehnen",
+    "accept": "Alle Akzeptieren"
+  },
+  "stats": {
+    "casesResolved": "Gelöste Fälle",
+    "responseTime": "Durchschnittliche Antwortzeit",
+    "recoveryRate": "Erfolgsquote",
+    "countries": "Gerichtsbarkeiten"
+  },
+  "departments": {
+    "eyebrow": "Organisationsstruktur",
+    "sectionTitle": "Betriebsabteilungen",
+    "viewDivision": "Abteilung Ansehen",
+    "items": {
+      "aml": {
+        "title": "AML-Abteilung",
+        "subtitle": "Geldwäschebekämpfung",
+        "description": "Transaktionsüberwachung, Berichte über verdächtige Aktivitäten und Compliance-Prüfungen."
+      },
+      "cyber": {
+        "title": "Cyberkriminalität & Digitale Forensik",
+        "subtitle": "Blockchain-Trace-Analyse",
+        "description": "Wallet-Forensik, Dark-Web-Überwachung und fortgeschrittenes Krypto-Tracking."
+      },
+      "recovery": {
+        "title": "Vermögensrückgewinnungseinheit",
+        "subtitle": "Grenzüberschreitende Durchsetzung",
+        "description": "Unterstützung bei zivilrechtlichen Verfahren, Verfolgung eingefrorener Vermögenswerte und globale Rückgewinnungsoperationen."
+      },
+      "compliance": {
+        "title": "Compliance & Regulierungsangelegenheiten",
+        "subtitle": "FATF-Ausrichtung",
+        "description": "Berichterstattung nach Gerichtsbarkeit, Einhaltung des rechtlichen Rahmens und regulatorische Koordination."
+      },
+      "intelligence": {
+        "title": "Intelligenz & Bedrohungsanalyse",
+        "subtitle": "Bedrohungsakteur-Profilierung",
+        "description": "Kartierung von Betrugsnetzwerken, Frühwarnsysteme und umsetzbare Informationen."
+      },
+      "support": {
+        "title": "Opferunterstützungsdienste",
+        "subtitle": "Fallaufnahme & Interessenvertretung",
+        "description": "Sichere Fallaufnahme, Interessenvertretung für Opfer und ganzheitliche Rückgewinnungsberatung."
+      }
+    }
+  },
+  "complianceBadges": {
+    "fatf": "Finanzaktionsausschuss Ausgerichtet",
+    "fincen": "Registriert & Konform",
+    "fca": "Anerkannter Durchsetzungspartner",
+    "interpol": "Strategische Zusammenarbeit",
+    "iso": "Zertifizierte Informationssicherheit"
+  },
+  "crossBorder": {
+    "eyebrow": "Globale Reichweite",
+    "title": "Grenzüberschreitendes Durchsetzungsnetzwerk",
+    "paragraph": "Finanzkriminalität operiert ohne Grenzen. Wir auch. Unsere Plattform integriert sich direkt mit Regulierungsbehörden, Strafverfolgungsbehörden und Finanzinstituten in über 48 Kernpartnerjurisdiktionen.",
+    "treatyTitle": "Vertragskooperation",
+    "treatyDesc": "Nutzung von gegenseitigen Rechtshilfeverträgen (MLATs) für schnelle Vermögenssperrmöglichkeiten.",
+    "courtTitle": "Gerichtstaugliche Berichterstattung",
+    "courtDesc": "Forensische Informationspakete, die den Beweisstandards internationaler Gerichte entsprechen.",
+    "activeRegion": "Aktive Region",
+    "mapAlt": "Globale Aktivitätskarte",
+    "regions": {
+      "na": "Nordamerika",
+      "eu": "Europäische Union",
+      "apac": "APAC-Region",
+      "me": "Naher Osten"
+    }
+  },
+  "services": {
+    "sectionTitle": "Funktionen des Kundenportals",
+    "sectionSubtitle": "Sichere Zugangspunkte für Opfer, Anwaltskanzleien und Compliance-Beauftragte.",
+    "accessModule": "Zugangsmodul",
+    "items": {
+      "report": {
+        "title": "Verdächtige Aktivitäten Melden",
+        "description": "Dokumentieren und melden Sie potenziellen Betrug, Betrügereien oder verdächtige blockchainbezogene Vorfälle zur professionellen Untersuchung."
+      },
+      "verify": {
+        "title": "Legitimität der Plattform Verifizieren",
+        "description": "Überprüfen Sie, ob eine Kryptowährungsplattform, ein Austausch oder ein Dienst legitim und bei den Behörden registriert ist."
+      },
+      "case-status": {
+        "title": "Ihren Fall Verfolgen",
+        "description": "Greifen Sie auf Ihr bestehendes Fall-Dashboard zu, indem Sie Ihren einzigartigen Verifizierungscode verwenden, um den Fortschritt in Echtzeit zu verfolgen."
+      },
+      "support": {
+        "title": "24/7 Expertenunterstützung",
+        "description": "Verbinden Sie sich mit unserem engagierten Support-Team für sofortige Unterstützung bei Ihrem Fall oder allgemeinen Anfragen."
+      }
+    }
+  },
+  "howItWorks": {
+    "sectionTitle": "Standardbetriebsverfahren",
+    "steps": {
+      "intake": {
+        "title": "Aufnahme",
+        "desc": "Sichere Einreichung von Vorfalldaten und kryptografischen Beweisen."
+      },
+      "triage": {
+        "title": "Triage",
+        "desc": "Automatisierte Bedrohungsbewertung und Zuweisung der Gerichtsbarkeit."
+      },
+      "forensics": {
+        "title": "Forensik",
+        "desc": "Tiefe Kettenanalyse und Entitätszuordnung."
+      },
+      "enforcement": {
+        "title": "Durchsetzung",
+        "desc": "Koordination mit regionalen Behörden zur Vermögenssperrung."
+      }
+    }
+  },
+  "partners": {
+    "eyebrow": "Betriebliche Integration Mit"
+  },
+  "testimonials": {
+    "sectionTitle": "Fall Ergebnisse"
+  },
+  "faqSection": {
+    "sectionTitle": "Intelligenzbriefing",
+    "defaults": {
+      "q1": "Wie reiche ich eine Beschwerde ein?",
+      "a1": "Sie können eine Beschwerde einreichen, indem Sie auf die Schaltfläche 'Portal Zugreifen' klicken und Ihren Fallzugangscode eingeben. Wenn Sie ein neuer Benutzer sind, kontaktieren Sie unser Support-Team, um einen Fall zu initiieren.",
+      "q2": "Wie lange dauert der Untersuchungsprozess?",
+      "a2": "Die Zeitrahmen für Untersuchungen variieren je nach Komplexität. Die meisten Fälle erhalten innerhalb von 24-48 Stunden eine erste Überprüfung, wobei vollständige Untersuchungen in der Regel innerhalb von 2-4 Wochen abgeschlossen sind.",
+      "q3": "Wird meine Information vertraulich behandelt?",
+      "a3": "Ja, absolut. Alle Informationen, die an IBCCF übermittelt werden, sind verschlüsselt und sicher gespeichert. Wir teilen persönliche Informationen niemals ohne ausdrückliche Zustimmung.",
+      "q4": "Welche Arten von Betrug kann ich melden?",
+      "a4": "Sie können Kryptowährungsbetrug, betrügerische Börsen, Phishing-Versuche, Ponzi-Schemata und alle blockchainbezogenen verdächtigen Aktivitäten melden.",
+      "q5": "Kann ich den Status meines Falls verfolgen?",
+      "a5": "Ja, sobald Ihr Fall erstellt wurde, erhalten Sie einen einzigartigen Zugangscode, mit dem Sie sich anmelden und den Fortschritt Ihres Falls in Echtzeit verfolgen können."
+    }
+  },
+  "newsletter": {
+    "title": "Bedrohungsintelligenz-Updates",
+    "subtitle": "Abonnieren Sie, um verifizierte Betrugswarnungen, Änderungen der Plattform-Compliance und Sicherheitsbriefings direkt von unseren Analysten zu erhalten.",
+    "placeholder": "Institutionelle oder persönliche E-Mail",
+    "processing": "Verarbeitung...",
+    "subscribe": "Abonnieren",
+    "subscribedTitle": "Abonniert",
+    "subscribedDesc": "Zur Verteilung des Intelligenzbriefings hinzugefügt.",
+    "errorTitle": "Fehler",
+    "ariaEmail": "E-Mail-Adresse für den Newsletter"
+  },
+  "contact": {
+    "title": "Kontakt Initiieren",
+    "paragraph": "Unser Aufnahmepersonal ist 24/7 verfügbar, um dringende Vorfallberichte zu bearbeiten und mit regionalen Task Forces zu koordinieren.",
+    "urgent": "Dringende Fallaufnahme",
+    "general": "Allgemeine Anfragen",
+    "secureTitle": "Kommunikation Sicher",
+    "secureDesc": "Nachricht vom Aufnahmeteam erhalten.",
+    "formHeading": "Beschwerde Einreichen",
+    "labelName": "Vollständiger Name *",
+    "labelEmail": "E-Mail-Adresse *",
+    "labelSubject": "Betreff",
+    "labelPlatform": "Plattform / Exchange",
+    "labelIncidentDate": "Ungefähres Vorfallsdatum",
+    "labelAmountLost": "Verlorener Betrag",
+    "labelDescription": "Beschreibung *",
+    "placeholderName": "Ihr vollständiger Name",
+    "placeholderEmail": "ihre@email.com",
+    "placeholderSubject": "Kurze Beschreibung Ihrer Beschwerde",
+    "placeholderPlatform": "z.B. Binance, Coinbase",
+    "placeholderIncidentDate": "z.B. Jan 2024",
+    "placeholderAmountLost": "z.B. $5.000 USD",
+    "placeholderDescription": "Bitte beschreiben Sie den Vorfall im Detail — was passiert ist, wie Sie kontaktiert wurden, beteiligte Wallet-Adressen oder Transaktions-IDs.",
+    "submitButton": "Beschwerde Einreichen",
+    "submittingButton": "Wird gesendet…",
+    "toastSuccessTitle": "Beschwerde Eingereicht",
+    "toastSuccessDesc": "Ihre Beschwerde wurde von unserem Aufnahmeteam erhalten.",
+    "toastErrorTitle": "Einreichung Fehlgeschlagen",
+    "toastErrorDesc": "Ihre Beschwerde konnte nicht eingereicht werden. Bitte versuchen Sie es erneut."
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten.",
+    "tagline": "Vertrauliche Berichterstattung über Blockchain-Vorfälle und Plattformverifizierung.",
+    "fullName": "Internationales Blockchain-Community-Beschwerdeforum. Alle Rechte vorbehalten.",
+    "brand": "IBCCF",
+    "brandSubtitle": "Globale Durchsetzung",
+    "brandDesc": "Die autoritative multi-jurisdiktionale Plattform zur Verhinderung von Blockchain-Betrug, forensischer Trace-Analyse und grenzüberschreitenden Vermögensrückgewinnungsoperationen.",
+    "divisionsTitle": "Abteilungen",
+    "divAml": "AML-Compliance",
+    "divForensics": "Digitale Forensik",
+    "divRecovery": "Vermögensrückgewinnung",
+    "divIntake": "Opferaufnahme",
+    "commsTitle": "Sichere Kommunikation",
+    "ops": "24/7 Operationszentrum",
+    "copyright": "© {{year}} IBCCF Enforcement-Plattform. Nur autorisiertes Personal.",
+    "linkPrivacy": "Datenschutzprotokoll",
+    "linkTerms": "Nutzungsbedingungen",
+    "linkJurisdiction": "Gerichtliche Mitteilung",
+    "linkLegal": "Rechtsressourcen",
+    "linkWithdrawalGuide": "Auszahlungsleitfaden"
+  },
+  "verify": {
+    "back": "Zurück zur Startseite",
+    "backShort": "Zurück",
+    "titleCode": "Sichere Verifizierung",
+    "titlePin": "PIN-Authentifizierung",
+    "subtitleCode": "Geben Sie Ihren einzigartigen Verifizierungscode ein, um auf Ihren Fall zuzugreifen.",
+    "subtitlePin": "Geben Sie Ihre 6-stellige PIN ein, um fortzufahren.",
+    "labelCode": "Verifizierungscode",
+    "labelPin": "6-stellige PIN",
+    "placeholderCode": "Geben Sie Ihren Code ein",
+    "submit": "Zugriff Auf Meinen Fall",
+    "submitting": "Verifizieren...",
+    "switchToPin": "Stattdessen mit PIN anmelden",
+    "switchToCode": "Stattdessen mit Verifizierungscode anmelden",
+    "requestAccess": "Haben Sie keinen Code? Zugang Anfordern",
+    "encrypted": "Durch Unternehmensstandard-Verschlüsselung geschützt",
+    "feature256": "256-Bit-Verschlüsselung",
+    "featureBio": "Biometrisch bereit",
+    "featureSession": "Sichere Sitzungen",
+    "toast": {
+      "errorTitle": "Fehler",
+      "missingCode": "Bitte geben Sie Ihren Verifizierungscode ein.",
+      "missingAccess": "Bitte geben Sie Ihren Zugangscode ein.",
+      "missingPin": "Bitte geben Sie Ihre 6-stellige PIN ein.",
+      "verifySuccessTitle": "Verifizierung Erfolgreich",
+      "verifySuccessDesc": "Bitte richten Sie Ihre Sicherheits-PIN ein, um fortzufahren.",
+      "pinRequiredTitle": "PIN Erforderlich",
+      "pinRequiredDesc": "Bitte geben Sie Ihre PIN ein, um auf Ihr Konto zuzugreifen.",
+      "invalidCodeTitle": "Ungültiger Code",
+      "invalidCodeDesc": "Der eingegebene Verifizierungscode ist ungültig. Bitte überprüfen Sie und versuchen Sie es erneut.",
+      "invalidPinTitle": "Ungültige PIN",
+      "invalidPinDesc": "Die eingegebene PIN ist ungültig. Bitte überprüfen Sie und versuchen Sie es erneut.",
+      "connectionTitle": "Verbindungsfehler",
+      "connectionDesc": "Zu diesem Zeitpunkt kann nicht verifiziert werden. Bitte versuchen Sie es später erneut."
+    }
+  }
+}

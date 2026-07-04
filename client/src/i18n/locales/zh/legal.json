@@ -1,0 +1,404 @@
+{
+  "back": "返回",
+  "header": {
+    "brand": "IBCCF",
+    "subtitle": "情报中心",
+    "accessPortal": "访问门户"
+  },
+  "hero": {
+    "liveStatus": "实时情报状态",
+    "fatf": "FATF全体会议：活跃",
+    "mica": "MiCA：生效中",
+    "basel": "巴塞尔协议III：逐步实施",
+    "titlePart1": "监管",
+    "titlePart2": "情报",
+    "subtitle": "国际金融法、反洗钱/反恐融资法规及跨境加密货币合规框架的权威简报室。"
+  },
+  "timeline": {
+    "label": "时间线",
+    "events": {
+      "2018": "第五次反洗钱指令将虚拟资产服务提供商纳入反洗钱范围",
+      "2019": "FATF旅行规则适用于虚拟资产",
+      "2021": "FATF虚拟资产指导更新",
+      "2022": "OFAC制裁加密混合器Tornado Cash",
+      "2023": "欧盟MiCA法规最终确定",
+      "2024": "OECD CARF税务报告框架通过",
+      "2025": "MiCA全面实施"
+    }
+  },
+  "coverage": {
+    "title": "覆盖热图",
+    "comprehensive": "全面",
+    "comprehensiveRegions": "欧盟、美国、英国、新加坡",
+    "emerging": "新兴",
+    "emergingRegions": "日本、澳大利亚、阿联酋、加拿大",
+    "developing": "发展中",
+    "developingRegions": "其他地区"
+  },
+  "comparison": {
+    "title": "框架比较",
+    "metric": "指标",
+    "metrics": {
+      "Licensing Required": "需要许可",
+      "Travel Rule": "旅行规则",
+      "Stablecoin Rules": "稳定币规则",
+      "DeFi Covered": "DeFi覆盖",
+      "NFT Coverage": "NFT覆盖",
+      "Enforcement": "执法"
+    },
+    "values": {
+      "yes": "是",
+      "yes_msb": "是 (MSB)",
+      "yes_fca": "是 (FCA)",
+      "yes_reg": "是/受监管",
+      "yes_psa": "是 (PSA)",
+      "yes_tfr": "是 (TFR)",
+      "yes_r_16": "是 (R.16)",
+      "strict": "严格",
+      "partial": "部分",
+      "pending": "待定",
+      "covered": "已涵盖",
+      "case_by_case": "逐案处理",
+      "consulting": "征询中",
+      "if_controlled": "若受控制",
+      "no_mostly": "否(多数情况)",
+      "if_money": "若涉及资金转移",
+      "if_regulated": "若受监管",
+      "if_payment": "若为支付代币",
+      "if_dpt": "若为DPT",
+      "high": "高",
+      "very_high": "非常高",
+      "evaluations": "评估"
+    }
+  },
+  "featured": {
+    "title": "重要阅读"
+  },
+  "urgency": {
+    "All": "全部",
+    "ESSENTIAL": "必备",
+    "CORE": "核心",
+    "REFERENCE": "参考"
+  },
+  "categories": {
+    "international": {
+      "label": "国际机构",
+      "description": "塑造国际金融监管和反洗钱政策的全球标准制定组织。"
+    },
+    "national": {
+      "label": "国家监管机构",
+      "description": "直接执行加密货币和反洗钱法律的关键国家和地区金融监管机构。"
+    },
+    "crypto-law": {
+      "label": "加密法规",
+      "description": "专门管理加密货币和数字资产的主要立法、监管指导和法律框架。"
+    },
+    "aml": {
+      "label": "反洗钱与金融犯罪",
+      "description": "为反洗钱、反恐融资和金融犯罪预防专业人士提供的专业资源。"
+    },
+    "legal-databases": {
+      "label": "法律数据库",
+      "description": "用于研究金融监管、案例法和条约义务的免费公共法律数据库。"
+    },
+    "research": {
+      "label": "研究与情报",
+      "description": "区块链分析、加密合规研究和金融犯罪情报资源。"
+    }
+  },
+  "search": {
+    "placeholder": "搜索法规、机构、主题...",
+    "urgency": "紧急性",
+    "all": "所有",
+    "jurisdiction": "管辖区",
+    "allRegions": "所有地区",
+    "topics": "主题：",
+    "clear": "清除筛选"
+  },
+  "card": {
+    "verified": "已验证：",
+    "open": "打开"
+  },
+  "matchCount": "资源符合标准",
+  "noResults": {
+    "title": "未找到情报",
+    "subtitle": "调整搜索参数以扩展覆盖范围。"
+  },
+  "entries": "条目",
+  "footer": {
+    "title": "指令操作",
+    "subtitle": "选择下面的操作路径以继续您的查询、情报收集或案件提交。",
+    "reportTitle": "报告事件",
+    "reportDesc": "提交有关加密货币欺诈、盗窃或可疑活动的正式报告以开始调查。",
+    "reportCta": "开始接收",
+    "intelTitle": "加入情报网络",
+    "intelDesc": "访问安全的已验证专业人士、调查人员和执法人员共享可操作情报的社区。",
+    "intelCta": "请求访问",
+    "portalTitle": "安全门户",
+    "portalDesc": "访问您的活跃案件文件，与调查人员沟通，并安全上传证据。",
+    "portalCta": "身份验证",
+    "division": "IBCCF部门",
+    "disclaimer": "信息仅作为参考。请咨询法律顾问以获取具有约束力的法律指令。"
+  },
+  "resources": {
+    "international": {
+      "0": {
+        "description": "全球反洗钱和反恐融资监督机构。制定 AML/CFT 国际标准,并对 200 多个司法辖区的合规情况进行评估。所有合规专业人士的必读资源。"
+      },
+      "1": {
+        "description": "各国央行的央行。发布关于加密资产风险、央行数字货币(CBDC)框架及跨境支付监管的基础性研究。巴塞尔银行监管委员会在 BIS 之下运作。"
+      },
+      "2": {
+        "description": "提供全球货币合作指导。发布国别评估、AML/CFT 技术援助及数字货币政策文件,包括其加密风险分类矩阵。"
+      },
+      "3": {
+        "description": "监督全球金融体系并提出建议。2023 年发布了被 G20 司法辖区采纳的加密资产监管框架的全面建议。"
+      },
+      "4": {
+        "description": "证券监管机构的国际组织。发布了全球加密及数字资产监管框架、DeFi 指引以及跨境执法合作标准。"
+      },
+      "5": {
+        "description": "由 176 个金融情报机构(FIU)组成的国际网络。促进有关洗钱、恐怖融资及加密货币相关金融犯罪的信息交流。"
+      },
+      "6": {
+        "description": "领导联合国打击毒品、犯罪与恐怖主义的工作。提供关于加密货币相关洗钱、暗网金融犯罪及跨辖区资产追回的指导方针。"
+      },
+      "7": {
+        "description": "为发展中经济体提供 AML/CFT 合规、反腐败、受益所有人透明度及数字金融服务监管方面的技术援助和研究。"
+      }
+    },
+    "national": {
+      "0": {
+        "description": "美国财政部下属机构,收集并分析金融交易,以打击国内外洗钱及其他金融犯罪。为虚拟资产服务提供商(VASP)发布具有约束力的 AML 指引。"
+      },
+      "1": {
+        "description": "英国金融服务监管机构,负责监督加密资产推广、VASP 注册和 AML 合规。维护在英国运营的获批与被拒加密公司的公开登记册。"
+      },
+      "2": {
+        "description": "美国证券市场监管机构。已对众多被视为未注册证券发行的加密项目采取执法行动。SEC 的加密执法行动具有全球先例意义。"
+      },
+      "3": {
+        "description": "监管美国衍生品市场,包括加密货币期货和掉期。对作为商品的比特币和以太币拥有管辖权。积极打击加密欺诈与市场操纵案件。"
+      },
+      "4": {
+        "description": "欧盟金融市场监管机构,负责监督《加密资产市场监管条例》(MiCA)的实施。在欧盟成员国之间协调对加密资产服务提供商的监管趋同。"
+      },
+      "5": {
+        "description": "欧盟银行业监管机构,在 MiCA 框架下为加密资产发行人和服务提供商发布 AML/CFT 指引,包括 Travel Rule 合规和 VASP 尽职调查的技术标准。"
+      },
+      "6": {
+        "description": "美国财政部制裁主管机构。管理经济和贸易制裁,包括针对加密交易所、混币协议以及与被制裁实体或国家相关的钱包。"
+      },
+      "7": {
+        "description": "新加坡的中央银行和金融监管机构,在《支付服务法》(PSA)框架下推行前瞻性的加密监管。是全球最完善、最清晰的 VASP 许可制度之一。"
+      },
+      "8": {
+        "description": "瑞士金融市场监管机构,拥有针对分布式账本技术(DLT)的全面立法。瑞士的“加密谷”框架和 FINMA 指引是区块链法律分类的标杆模式。"
+      }
+    },
+    "crypto-law": {
+      "0": {
+        "description": "全球首个全面的加密资产监管框架,2024 年生效。涵盖加密资产、资产参考型代币、电子货币代币的发行,以及在欧盟运营的 CASP。完整文本可在 EUR-Lex 获取。"
+      },
+      "1": {
+        "description": "针对虚拟资产的权威国际 AML/CFT 指引。涵盖加密转账的 Travel Rule、基于风险的 VASP 监管以及各司法辖区的实施指引。2023 年更新。"
+      },
+      "2": {
+        "description": "FinCEN 将《银行保密法》(BSA)适用于虚拟货币的解释性指引。界定货币传输、KYC/AML 义务以及加密企业的可疑活动报告(SAR)提交要求。"
+      },
+      "3": {
+        "description": "要求 VASP 对超过门槛的加密转账收集并传输发起方和受益方信息。已在欧盟(TFR)、英国、新加坡等主要司法辖区落实。"
+      },
+      "4": {
+        "description": "OFAC 针对虚拟货币行业制裁合规的指引。涵盖筛查义务、SDN 名单在区块链地址上的适用以及加密企业的执法重点。"
+      },
+      "5": {
+        "description": "将加密资产纳入英国金融监管框架。把 FCA 的监管边界扩展到加密资产活动、稳定币发行和数字结算资产。"
+      },
+      "6": {
+        "description": "首次将虚拟货币交易所和托管钱包提供商纳入欧盟 AML 框架。强制要求 KYC、可疑交易报告和注册义务。"
+      },
+      "7": {
+        "description": "新的国际税务报告标准,要求税务机关之间就加密资产交易自动交换信息。已被 50 多个国家采纳,2026 年起生效。"
+      }
+    },
+    "aml": {
+      "0": {
+        "description": "由 13 家全球性银行组成的协会,制定 AML/KYC 标准。发布被广泛采纳的代理行业务、贸易融资、VASP 尽职调查和制裁筛查指引。2021 年发布加密指引。"
+      },
+      "1": {
+        "description": "全球最大的金融犯罪预防组织,提供 CAMS 认证、加密 AML 培训、监管更新以及全面的指导文件与案例研究库。"
+      },
+      "2": {
+        "description": "对各国洗钱与恐怖融资风险的独立排名。由巴塞尔治理研究所每年发布。是合规团队不可或缺的国家风险评估工具。"
+      },
+      "3": {
+        "description": "FinCEN 发布的咨询通告、指导文件和战略分析库,涵盖具体的金融犯罪类型,包括加密相关的洗钱手法和红旗指标。"
+      },
+      "4": {
+        "description": "INTERPOL 的金融犯罪与反腐败部门。协调跨境加密欺诈调查、与网络犯罪相关的资产追回以及执法情报共享。"
+      },
+      "5": {
+        "description": "FATF 的洗钱与恐怖融资类型学报告库,包括关于混币服务、DeFi 利用、NFT 洗钱和勒索软件付款的加密相关案例研究。"
+      }
+    },
+    "legal-databases": {
+      "0": {
+        "description": "免费访问所有欧盟法律,包括指令、条例和判例法。包含 MiCA、5AMLD、6AMLD、TFR 条例及所有与加密相关的欧盟立法全文。"
+      },
+      "1": {
+        "description": "美国联邦法律的完整官方文本。可查阅《银行保密法》、《证券交易法》、《商品交易法》及其他适用于美国加密货币的法律。"
+      },
+      "2": {
+        "description": "编纂后的美国联邦法规,包括 31 CFR 第 1022 部分(货币服务机构)和 12 CFR 第 21 部分(银行 AML 项目)。可直接检索适用于加密的 FinCEN 规则。"
+      },
+      "3": {
+        "description": "英国议会法案及法定文件的完整文本,包括《2017 年反洗钱条例》(已为加密修订)、FSMA 2023 及所有与加密资产相关的英国法律。"
+      },
+      "4": {
+        "description": "对 130 多个司法辖区加密货币监管的全面比较研究。定期更新。理解不同国家如何分类和监管数字资产的必备资料。"
+      },
+      "5": {
+        "description": "美国国会图书馆的全球法律研究服务,追踪世界各地关于加密货币的新法律、法规和法院判决。近乎实时地包含各司法辖区的最新进展。"
+      }
+    },
+    "research": {
+      "0": {
+        "description": "关于加密货币相关犯罪的年度和季度报告,涵盖洗钱规模、勒索软件付款、欺诈收入及暗网市场活动。公开版本可免费访问。"
+      },
+      "1": {
+        "description": "区块链分析与金融犯罪合规研究。发布有关犯罪类型、DeFi 风险、规避制裁手法以及加密威胁行为者画像的报告。"
+      },
+      "2": {
+        "description": "全球实时加密货币监管追踪与区块链情报研究。涵盖 VASP 许可、Travel Rule 实施进展及各司法辖区的监管更新。"
+      },
+      "3": {
+        "description": "开源制裁实体数据库,包含 OFAC SDN 名单、欧盟制裁、联合国制裁及 100 多份其他名单。可通过免费 API 对加密地址和人员进行合规筛查。"
+      },
+      "4": {
+        "description": "FSB 的加密资产市场监控报告、稳定币评估、DeFi 政策文件及跨境支付研究库,被全球 G20 政策制定者广泛使用。"
+      },
+      "5": {
+        "description": "万事达卡(Mastercard)旗下的区块链分析公司,发布加密货币反洗钱报告、Travel Rule 合规更新以及地理风险评估。"
+      }
+    }
+  },
+  "jurisdictions": {
+    "European Union": "欧盟",
+    "Global": "全球",
+    "Global (130+ jurisdictions)": "全球(130+个司法管辖区)",
+    "Global (G20)": "全球(G20)",
+    "Global (OECD)": "全球(OECD)",
+    "Singapore": "新加坡",
+    "Switzerland": "瑞士",
+    "United Kingdom": "英国",
+    "United States": "美国"
+  },
+  "tags": {
+    "AML": "反洗钱",
+    "CFT": "反恐怖融资",
+    "Crypto": "加密货币",
+    "VASP": "VASP",
+    "Travel Rule": "旅行规则",
+    "MiCA": "MiCA",
+    "Sanctions": "制裁",
+    "Stablecoins": "稳定币",
+    "DeFi": "DeFi",
+    "KYC": "了解客户",
+    "EU Law": "欧盟法律",
+    "US Law": "美国法律",
+    "UK Law": "英国法律",
+    "Securities": "证券",
+    "Research": "研究",
+    "Free Access": "免费访问",
+    "130 Countries": "130个国家",
+    "Advisories": "咨询通告",
+    "Analytics": "分析",
+    "Annual Report": "年度报告",
+    "Asia-Pacific": "亚太地区",
+    "Asset Recovery": "资产追回",
+    "BSA": "BSA",
+    "BTC": "BTC",
+    "Banking": "银行业",
+    "Basel": "巴塞尔",
+    "Beneficial Ownership": "实益所有权",
+    "Blockchain Analytics": "区块链分析",
+    "CAMS": "CAMS",
+    "CARF": "CARF",
+    "CASP": "CASP",
+    "CBDC": "央行数字货币",
+    "CFR": "CFR",
+    "CRS": "CRS",
+    "Certification": "认证",
+    "Commodities": "大宗商品",
+    "Comparative": "比较",
+    "Comparative Law": "比较法",
+    "Compliance": "合规",
+    "Consumer Protection": "消费者保护",
+    "Correspondent Banking": "代理银行业务",
+    "Country Risk": "国家风险",
+    "Crime": "犯罪",
+    "Crime Reports": "犯罪报告",
+    "Crime Stats": "犯罪统计",
+    "Cross-border": "跨境",
+    "Crypto Fraud": "加密欺诈",
+    "Crypto Registration": "加密注册",
+    "Crypto Regulation": "加密监管",
+    "Crypto-assets": "加密资产",
+    "Cybercrime": "网络犯罪",
+    "DLT": "分布式账本",
+    "DSA": "DSA",
+    "Dark Web": "暗网",
+    "Derivatives": "衍生品",
+    "Developing Markets": "新兴市场",
+    "Enforcement": "执法",
+    "Exchange": "交易所",
+    "Exchange Regulation": "交易所监管",
+    "FCA": "FCA",
+    "FIU": "金融情报机构",
+    "Fraud": "欺诈",
+    "Full Text": "全文",
+    "G20": "G20",
+    "Guidance": "指引",
+    "ICO": "ICO",
+    "Index": "索引",
+    "Information Sharing": "信息共享",
+    "Integrity": "廉政",
+    "Intelligence": "情报",
+    "Law Enforcement": "执法",
+    "Licensing": "许可",
+    "MLR": "MLR",
+    "MSB": "MSB",
+    "Markets": "市场",
+    "Mixer Protocols": "混币协议",
+    "Monetary Policy": "货币政策",
+    "NFT": "NFT",
+    "New Laws": "新法律",
+    "News": "新闻",
+    "OFAC Lists": "OFAC清单",
+    "Open Source": "开源",
+    "PSA": "PSA",
+    "Policy": "政策",
+    "Ransomware": "勒索软件",
+    "Real-time": "实时",
+    "Red Flags": "风险信号",
+    "Regulations": "法规",
+    "Regulatory Tracker": "监管追踪",
+    "Reporting": "报告",
+    "Resources": "资源",
+    "SAR": "可疑活动报告",
+    "SDN": "SDN",
+    "Standards": "标准",
+    "Survey": "调查",
+    "Switzerland": "瑞士",
+    "Tax": "税务",
+    "Threat Intelligence": "威胁情报",
+    "Token Classification": "代币分类",
+    "Training": "培训",
+    "Typologies": "类型分析",
+    "US Federal Law": "美国联邦法律",
+    "Virtual Assets": "虚拟资产",
+    "Wallet Providers": "钱包提供商",
+    "Wire Transfer": "电汇"
+  }
+}

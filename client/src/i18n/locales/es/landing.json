@@ -1,0 +1,285 @@
+{
+  "nav": {
+    "departments": "Departamentos",
+    "services": "Servicios",
+    "faq": "Preguntas Frecuentes",
+    "intelNetwork": "Red de Inteligencia",
+    "legalHub": "Centro Legal"
+  },
+  "header": {
+    "verifyCta": "Verificar Plataforma",
+    "requestAccessCta": "Solicitar Acceso",
+    "submitReport": "Enviar Informe",
+    "accessPortal": "Acceder al Portal",
+    "brandSubtitle": "División de Aplicación",
+    "toggleMenu": "Alternar menú"
+  },
+  "hero": {
+    "eyebrow": "Foro Internacional de Quejas de la Comunidad Blockchain",
+    "title": "Recupere lo que fue tomado. Verifique antes de confiar.",
+    "subtitle": "Ayudamos a las víctimas de fraude en criptomonedas a abrir casos formales, verificar plataformas sospechosas y rastrear activos robados, bajo un marco regulatorio transparente.",
+    "primaryCta": "Reportar un Caso",
+    "secondaryCta": "Verificar una Plataforma",
+    "ariaLabel": "Héroe",
+    "globalIntelActive": "Inteligencia Global Activa",
+    "titleLine1": "Crimen Financiero",
+    "titleLine2": "Cuerpo de Aplicación.",
+    "paragraph": "Análisis de trazabilidad de blockchain autoritativo, recuperación de activos y cumplimiento regulatorio para individuos de alto patrimonio, despachos de abogados e instituciones en más de 180 jurisdicciones.",
+    "accessSecurePortal": "Acceder al Portal Seguro",
+    "submitIncidentReport": "Enviar Informe de Incidente",
+    "trustedTitle": "Confiado por la Aplicación",
+    "trustedSubtitle": "Asociaciones regulatorias globales",
+    "securedConnection": "Conexión Segura",
+    "traceStatus": "Estado de Trazabilidad",
+    "confidence": "Confianza",
+    "jurisdiction": "Jurisdicción"
+  },
+  "trust": {
+    "users": "Más de 15,000 usuarios",
+    "countries": "Más de 120 países",
+    "support": "Soporte seguro 24/7"
+  },
+  "ticker": {
+    "globalFeed": "Flujo Global"
+  },
+  "liveActivity": {
+    "activePersonnel": "Personal Activo"
+  },
+  "backToTop": {
+    "aria": "Volver al inicio"
+  },
+  "cookie": {
+    "message": "Esta plataforma utiliza cookies de seguridad estrictas para mantener la integridad de la sesión y la seguridad operativa.",
+    "decline": "Rechazar No Esenciales",
+    "accept": "Aceptar Todo"
+  },
+  "stats": {
+    "casesResolved": "Casos Resueltos",
+    "responseTime": "Tiempo Promedio de Respuesta",
+    "recoveryRate": "Tasa de Éxito",
+    "countries": "Jurisdicciones"
+  },
+  "departments": {
+    "eyebrow": "Estructura Organizativa",
+    "sectionTitle": "Divisiones de Operaciones",
+    "viewDivision": "Ver División",
+    "items": {
+      "aml": {
+        "title": "División de AML",
+        "subtitle": "Prevención de Lavado de Dinero",
+        "description": "Monitoreo de transacciones, informes de actividades sospechosas y auditoría de cumplimiento."
+      },
+      "cyber": {
+        "title": "Cibercrimen y Forense Digital",
+        "subtitle": "Análisis de Trazabilidad de Blockchain",
+        "description": "Forense de billeteras, vigilancia de la dark web y trazabilidad avanzada de criptomonedas."
+      },
+      "recovery": {
+        "title": "Unidad de Recuperación de Activos",
+        "subtitle": "Aplicación Transfronteriza",
+        "description": "Apoyo a litigios civiles, seguimiento de activos congelados y operaciones de recuperación global."
+      },
+      "compliance": {
+        "title": "Cumplimiento y Asuntos Regulatorios",
+        "subtitle": "Alineación con FATF",
+        "description": "Informes jurisdiccionales, adherencia a marcos legales y coordinación regulatoria."
+      },
+      "intelligence": {
+        "title": "Inteligencia y Análisis de Amenazas",
+        "subtitle": "Perfilado de Actores de Amenaza",
+        "description": "Mapeo de redes de estafa, sistemas de alerta temprana e inteligencia procesable."
+      },
+      "support": {
+        "title": "Servicios de Apoyo a Víctimas",
+        "subtitle": "Recepción de Casos y Defensa",
+        "description": "Recepción segura de casos, defensa de víctimas y asesoramiento integral de recuperación."
+      }
+    }
+  },
+  "complianceBadges": {
+    "fatf": "Alineado con el Grupo de Acción Financiera",
+    "fincen": "Registrado y Cumplidor",
+    "fca": "Socio de Aplicación Reconocido",
+    "interpol": "Colaboración Estratégica",
+    "iso": "Seguridad de la Información Certificada"
+  },
+  "crossBorder": {
+    "eyebrow": "Alcance Global",
+    "title": "Red de Aplicación Transfronteriza",
+    "paragraph": "El crimen financiero opera sin fronteras. Nosotros también. Nuestra plataforma se integra directamente con organismos reguladores, agencias de aplicación de la ley e instituciones financieras en más de 48 jurisdicciones asociadas clave.",
+    "treatyTitle": "Cooperación de Tratados",
+    "treatyDesc": "Aprovechando los tratados de asistencia legal mutua (MLAT) para capacidades rápidas de congelación de activos.",
+    "courtTitle": "Informes Admisibles en Corte",
+    "courtDesc": "Paquetes de inteligencia forense preparados según los estándares de evidencia de los tribunales internacionales.",
+    "activeRegion": "Región Activa",
+    "mapAlt": "Mapa de Actividad Global",
+    "regions": {
+      "na": "América del Norte",
+      "eu": "Unión Europea",
+      "apac": "Región APAC",
+      "me": "Medio Oriente"
+    }
+  },
+  "services": {
+    "sectionTitle": "Capacidades del Portal del Cliente",
+    "sectionSubtitle": "Puntos de acceso seguros para víctimas, despachos de abogados y oficiales de cumplimiento.",
+    "accessModule": "Acceder al Módulo",
+    "items": {
+      "report": {
+        "title": "Reportar Actividad Sospechosa",
+        "description": "Documentar y reportar posibles fraudes, estafas o incidentes sospechosos relacionados con blockchain para investigación profesional."
+      },
+      "verify": {
+        "title": "Verificar la Legitimidad de la Plataforma",
+        "description": "Verificar si una plataforma de criptomonedas, intercambio o servicio es legítima y está registrada ante las autoridades."
+      },
+      "case-status": {
+        "title": "Rastrear Su Caso",
+        "description": "Acceder a su panel de casos existente utilizando su código de verificación único para rastrear el progreso en tiempo real."
+      },
+      "support": {
+        "title": "Soporte Experto 24/7",
+        "description": "Conéctese con nuestro equipo de soporte dedicado para asistencia inmediata con su caso o consultas generales."
+      }
+    }
+  },
+  "howItWorks": {
+    "sectionTitle": "Procedimiento Operativo Estándar",
+    "steps": {
+      "intake": {
+        "title": "Recepción",
+        "desc": "Envío seguro de datos de incidentes y evidencia criptográfica."
+      },
+      "triage": {
+        "title": "Clasificación",
+        "desc": "Puntuación automática de amenazas y asignación de jurisdicción."
+      },
+      "forensics": {
+        "title": "Forense",
+        "desc": "Análisis profundo de la cadena y atribución de entidades."
+      },
+      "enforcement": {
+        "title": "Aplicación",
+        "desc": "Coordinación con autoridades regionales para la congelación de activos."
+      }
+    }
+  },
+  "partners": {
+    "eyebrow": "Integración Operativa Con"
+  },
+  "testimonials": {
+    "sectionTitle": "Resultados de Casos"
+  },
+  "faqSection": {
+    "sectionTitle": "Informe de Inteligencia",
+    "defaults": {
+      "q1": "¿Cómo presento una queja?",
+      "a1": "Puede presentar una queja haciendo clic en el botón 'Acceder al Portal' e ingresando su código de acceso al caso. Si es un nuevo usuario, contacte a nuestro equipo de soporte para iniciar un caso.",
+      "q2": "¿Cuánto tiempo tarda el proceso de investigación?",
+      "a2": "Los plazos de investigación varían según la complejidad. La mayoría de los casos reciben una revisión inicial dentro de 24-48 horas, con investigaciones completas que generalmente se completan en 2-4 semanas.",
+      "q3": "¿Se mantiene mi información confidencial?",
+      "a3": "Sí, absolutamente. Toda la información enviada a IBCCF está encriptada y almacenada de forma segura. Nunca compartimos información personal sin consentimiento explícito.",
+      "q4": "¿Qué tipos de fraude puedo reportar?",
+      "a4": "Puede reportar estafas de criptomonedas, intercambios fraudulentos, intentos de phishing, esquemas Ponzi y cualquier actividad sospechosa relacionada con blockchain.",
+      "q5": "¿Puedo rastrear el estado de mi caso?",
+      "a5": "Sí, una vez que se crea su caso, recibirá un código de acceso único que le permitirá iniciar sesión y rastrear el progreso de su caso en tiempo real."
+    }
+  },
+  "newsletter": {
+    "title": "Actualizaciones de Inteligencia de Amenazas",
+    "subtitle": "Suscríbase para recibir alertas de estafas verificadas, cambios en el cumplimiento de plataformas y informes de seguridad directamente de nuestros analistas.",
+    "placeholder": "Correo electrónico institucional o personal",
+    "processing": "Procesando...",
+    "subscribe": "Suscribirse",
+    "subscribedTitle": "Suscrito",
+    "subscribedDesc": "Añadido a la distribución de informes de inteligencia.",
+    "errorTitle": "Error",
+    "ariaEmail": "Dirección de correo electrónico para el boletín"
+  },
+  "contact": {
+    "title": "Iniciar Contacto",
+    "paragraph": "Nuestro personal de recepción está disponible 24/7 para procesar informes de incidentes urgentes y coordinar con fuerzas de tarea regionales.",
+    "urgent": "Recepción de Casos Urgentes",
+    "general": "Consultas Generales",
+    "secureTitle": "Comunicación Segura",
+    "secureDesc": "Mensaje recibido por el equipo de recepción.",
+    "formHeading": "Enviar una Queja",
+    "labelName": "Nombre Completo *",
+    "labelEmail": "Correo Electrónico *",
+    "labelSubject": "Asunto",
+    "labelPlatform": "Plataforma / Exchange",
+    "labelIncidentDate": "Fecha Aproximada del Incidente",
+    "labelAmountLost": "Monto Perdido",
+    "labelDescription": "Descripción *",
+    "placeholderName": "Su nombre completo",
+    "placeholderEmail": "su@email.com",
+    "placeholderSubject": "Breve descripción de su queja",
+    "placeholderPlatform": "ej. Binance, Coinbase",
+    "placeholderIncidentDate": "ej. Ene 2024",
+    "placeholderAmountLost": "ej. $5,000 USD",
+    "placeholderDescription": "Por favor describa el incidente en detalle — qué ocurrió, cómo fue contactado, cualquier dirección de billetera o ID de transacción involucrado.",
+    "submitButton": "Enviar Queja",
+    "submittingButton": "Enviando…",
+    "toastSuccessTitle": "Queja Enviada",
+    "toastSuccessDesc": "Su queja ha sido recibida por nuestro equipo de recepción.",
+    "toastErrorTitle": "Error al Enviar",
+    "toastErrorDesc": "Su queja no pudo ser enviada. Por favor intente de nuevo."
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "tagline": "Informe de incidentes de blockchain y verificación de plataformas de confianza.",
+    "fullName": "Foro Internacional de Quejas de la Comunidad Blockchain. Todos los derechos reservados.",
+    "brand": "IBCCF",
+    "brandSubtitle": "Aplicación Global",
+    "brandDesc": "La plataforma autoritativa multijurisdiccional para la prevención de fraudes en blockchain, análisis de trazabilidad forense y operaciones de recuperación de activos transfronterizos.",
+    "divisionsTitle": "Divisiones",
+    "divAml": "Cumplimiento de AML",
+    "divForensics": "Forense Digital",
+    "divRecovery": "Recuperación de Activos",
+    "divIntake": "Recepción de Víctimas",
+    "commsTitle": "Comunicaciones Seguras",
+    "ops": "Centro de Operaciones 24/7",
+    "copyright": "© {{year}} Plataforma de Aplicación IBCCF. Solo Personal Autorizado.",
+    "linkPrivacy": "Protocolo de Privacidad",
+    "linkTerms": "Términos de Uso",
+    "linkJurisdiction": "Aviso Jurisdiccional",
+    "linkLegal": "Recursos Legales",
+    "linkWithdrawalGuide": "Guía de Retiro"
+  },
+  "verify": {
+    "back": "Volver a Inicio",
+    "backShort": "Volver",
+    "titleCode": "Verificación Segura",
+    "titlePin": "Autenticación por PIN",
+    "subtitleCode": "Ingrese su código de verificación único para acceder a su caso.",
+    "subtitlePin": "Ingrese su PIN de 6 dígitos para continuar.",
+    "labelCode": "Código de Verificación",
+    "labelPin": "PIN de 6 Dígitos",
+    "placeholderCode": "Ingrese su código",
+    "submit": "Acceder a Mi Caso",
+    "submitting": "Verificando...",
+    "switchToPin": "Iniciar sesión con PIN en su lugar",
+    "switchToCode": "Iniciar sesión con Código de Verificación en su lugar",
+    "requestAccess": "¿No tiene un código? Solicitar Acceso",
+    "encrypted": "Protegido por encriptación de nivel empresarial",
+    "feature256": "Encriptación de 256 bits",
+    "featureBio": "Listo para biometría",
+    "featureSession": "Sesiones seguras",
+    "toast": {
+      "errorTitle": "Error",
+      "missingCode": "Por favor, ingrese su código de verificación.",
+      "missingAccess": "Por favor, ingrese su código de acceso.",
+      "missingPin": "Por favor, ingrese su PIN de 6 dígitos.",
+      "verifySuccessTitle": "Verificación Exitosa",
+      "verifySuccessDesc": "Por favor, configure su PIN de seguridad para continuar.",
+      "pinRequiredTitle": "PIN Requerido",
+      "pinRequiredDesc": "Por favor, ingrese su PIN para acceder a su cuenta.",
+      "invalidCodeTitle": "Código Inválido",
+      "invalidCodeDesc": "El código de verificación ingresado no es válido. Por favor, verifique e intente nuevamente.",
+      "invalidPinTitle": "PIN Inválido",
+      "invalidPinDesc": "El PIN ingresado no es válido. Por favor, verifique e intente nuevamente.",
+      "connectionTitle": "Error de Conexión",
+      "connectionDesc": "No se puede verificar en este momento. Por favor, intente nuevamente más tarde."
+    }
+  }
+}

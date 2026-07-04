@@ -30,6 +30,25 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.setState({ errorInfo });
     this.props.onError?.(error, errorInfo);
     console.error("ErrorBoundary caught an error:", error, errorInfo);
+    // Best-effort: ship the error to the server so we can read it in
+    // deployment logs without asking non-technical users to open
+    // devtools. Fire-and-forget — never let a reporting failure cascade.
+    try {
+      const payload = JSON.stringify({
+        message: error?.message ?? String(error),
+        stack: error?.stack ?? "",
+        componentStack: errorInfo?.componentStack ?? "",
+        url: typeof window !== "undefined" ? window.location.href : "",
+      });
+      fetch("/api/client-errors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+        keepalive: true,
+      }).catch(() => undefined);
+    } catch {
+      // ignore
+    }
   }
 
   handleReset = (): void => {
@@ -63,7 +82,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               <p className="text-slate-600">
                 We encountered an unexpected error. Please try refreshing the page or go back to the home page.
               </p>
-              {this.props.showDetails && this.state.error && (
+              {this.state.error && (
                 <div className="bg-slate-100 rounded-lg p-3 text-left">
                   <p className="text-sm font-mono text-red-600 break-words">
                     {this.state.error.message}
@@ -79,13 +98,6 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Try Again
-              </Button>
-              <Button 
-                onClick={this.handleReload}
-                data-testid="error-reload-button"
-              >
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Refresh Page
               </Button>
               <Button 
                 onClick={this.handleGoHome} 

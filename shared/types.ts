@@ -40,6 +40,8 @@ export {
   type InsertMessageTemplate,
   type ScheduledMessage,
   type InsertScheduledMessage,
+  type RefundClaimStatus,
+  type RefundClaimStatusFilter,
 } from './schema';
 
 // Import for local use in interfaces
@@ -93,7 +95,7 @@ export type AdminSettingsView =
   | 'user-sessions' 
   | 'translations';
 
-export const LOCALES = ['en', 'es', 'zh', 'ja', 'ko', 'de', 'fr'] as const;
+export const LOCALES = ['en', 'es', 'fr', 'de', 'pt', 'zh'] as const;
 export type Locale = typeof LOCALES[number];
 
 export interface ApiResponse<T> {

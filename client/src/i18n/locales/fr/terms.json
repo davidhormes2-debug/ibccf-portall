@@ -1,0 +1,130 @@
+{
+  "back": "Retour",
+  "accessPortal": "Accéder au Portail",
+  "legalDoc": "Documentation Juridique",
+  "title": "Conditions d'Utilisation",
+  "subtitle": "Les règles et conditions régissant votre accès et utilisation de la plateforme, du portail et des services associés d'IBCCF.",
+  "lastUpdated": "Dernière mise à jour :",
+  "contents": "Sommaire",
+  "privacyLink": "Politique de Confidentialité",
+  "legalResourcesLink": "Ressources Juridiques",
+  "reviewerNote": {
+    "label": "Note aux réviseurs juridiques :",
+    "text": "Ce document est un projet de travail. Il doit être examiné et finalisé par un professionnel juridique qualifié avant que la Plateforme ne traite des données d'utilisateurs dans des juridictions réglementées."
+  },
+  "sections": {
+    "acceptance": {
+      "title": "1. Acceptation des Conditions",
+      "p1Pre": "En accédant ou en utilisant le site web et le portail du Forum International des Plaintes sur la Blockchain (",
+      "p1Brand": "« IBCCF »",
+      "p1Mid": ", « la Plateforme », « nous » ou « notre »), vous acceptez d'être lié par ces Conditions d'Utilisation (",
+      "p1Terms": "« Conditions »",
+      "p1Post": "). Si vous n'acceptez pas, vous ne devez pas utiliser la Plateforme.",
+      "p2": "Ces Conditions s'appliquent à tous les visiteurs, aux titulaires de dossiers enregistrés et à toute autre personne qui accède ou utilise toute partie de la Plateforme."
+    },
+    "services": {
+      "title": "2. Description des Services",
+      "p1": "IBCCF fournit un portail de gestion de dossiers basé sur le web, conçu pour aider les particuliers à documenter, suivre et résoudre des plaintes liées aux plateformes blockchain et aux transactions en cryptomonnaies. La Plateforme comprend également :",
+      "items": [
+        "Un répertoire de vérification des plateformes pour contrôler le statut de légitimité des services blockchain.",
+        "Un forum communautaire assisté par IA pour partager des connaissances en matière de prévention de la fraude et un soutien entre pairs.",
+        "Un système de gestion de documents réglementaires pour les soumissions liées à la conformité.",
+        "Des ressources informatives, dont le répertoire des Ressources Juridiques."
+      ],
+      "p2": "IBCCF est uniquement un service d'information et de gestion de dossiers. Nous ne fournissons pas de conseils juridiques, de conseils financiers, ni de services juridiques réglementés. Rien sur la Plateforme ne constitue une relation avocat-client."
+    },
+    "eligibility": {
+      "title": "3. Éligibilité et Inscription",
+      "intro": "Pour utiliser le portail authentifié, vous devez :",
+      "items": [
+        "Avoir au moins 18 ans (ou l'âge de la majorité dans votre juridiction, si celui-ci est plus élevé).",
+        "Fournir des informations exactes, complètes et à jour lors du dépôt d'une plainte ou de l'inscription.",
+        "Détenir un code de référence de dossier actif émis par IBCCF.",
+        "Ne pas être interdit d'utiliser la Plateforme en vertu des lois de votre juridiction."
+      ],
+      "outro": "Vous êtes responsable du maintien de la confidentialité de votre code d'accès au dossier et de votre PIN, ainsi que de toutes les activités qui ont lieu lors de votre session sur le portail."
+    },
+    "conduct": {
+      "title": "4. Utilisation Acceptable",
+      "intro": "Vous acceptez d'utiliser la Plateforme uniquement à des fins légales. Vous ne devez pas :",
+      "items": [
+        "Soumettre des informations ou des documents de plainte faux, trompeurs ou fabriqués.",
+        "Usurper l'identité d'une autre personne ou entité, ou déformer votre identité ou affiliation.",
+        "Téléverser des documents contenant du code malveillant, des virus ou du contenu exécutable actif.",
+        "Tenter d'obtenir un accès non autorisé aux dossiers d'autres utilisateurs ou au système administratif.",
+        "Utiliser des outils automatisés, des bots ou des scripts pour interagir avec la Plateforme en dehors de l'utilisation normale du portail.",
+        "S'engager dans toute activité susceptible d'endommager, de surcharger ou de compromettre l'infrastructure de la Plateforme.",
+        "Utiliser le forum communautaire ou le chat IA pour diffuser des schémas frauduleux, du spam ou du contenu nuisible.",
+        "Collecter ou extraire des données personnelles d'autres utilisateurs de la Plateforme."
+      ],
+      "outro": "La violation de ces règles peut entraîner la suspension ou la résiliation immédiate de votre accès au portail et, le cas échéant, un signalement aux autorités chargées de l'application de la loi compétentes."
+    },
+    "uploads": {
+      "title": "5. Contenu et Documents Téléversés",
+      "intro": "Lorsque vous téléversez des documents ou soumettez du contenu via la Plateforme, vous déclarez et garantissez que :",
+      "items": [
+        "Vous possédez ou détenez tous les droits nécessaires pour soumettre le contenu.",
+        "Le contenu est exact et n'est pas frauduleux ni trompeur.",
+        "Le contenu ne viole aucune loi applicable, aucun droit de tiers, ni les présentes Conditions.",
+        "Les fichiers téléversés ne contiennent pas de virus, de logiciels malveillants, ni aucun code nuisible."
+      ],
+      "outro": "Les formats de téléversement acceptés sont le PDF et les types d'images courants (PNG, JPEG, WebP). La taille maximale des fichiers est de 10 Mo par document. Nous nous réservons le droit de rejeter ou de supprimer tout contenu téléversé qui viole ces Conditions."
+    },
+    "financial": {
+      "title": "6. Questions Financières et Absence de Garantie de Récupération",
+      "p1": "IBCCF ne garantit pas la récupération de fonds perdus en raison d'une fraude blockchain ou d'une mauvaise conduite d'une plateforme. La Plateforme facilite la documentation des plaintes et la coordination réglementaire ; la récupération effective des fonds dépend de facteurs entièrement hors de notre contrôle.",
+      "p2": "Lorsque la Plateforme exige le paiement de frais de conformité ou de charges de traitement dans le cadre d'un flux de travail de gestion de dossiers réglementé, les conditions suivantes s'appliquent :",
+      "items": [
+        "Les frais sont divulgués avant d'être facturés. Vous ne devez pas payer tout montant qui n'est pas clairement décrit dans votre portail de dossier.",
+        "Certains frais sont des charges de traitement non remboursables une fois que le travail administratif associé a commencé.",
+        "Aucun paiement de frais ne garantit un résultat particulier pour votre dossier.",
+        "Si vous avez des préoccupations concernant une demande de frais, contactez le support IBCCF avant de payer."
+      ]
+    },
+    "ip": {
+      "title": "7. Propriété Intellectuelle",
+      "p1": "Tout le contenu de la Plateforme — y compris les textes, graphiques, logos, logiciels et la conception de la Plateforme — est détenu par ou sous licence d'IBCCF et est protégé par les lois applicables en matière de propriété intellectuelle. Vous ne pouvez pas reproduire, distribuer, modifier ou créer des œuvres dérivées sans notre consentement écrit préalable.",
+      "p2": "Le répertoire des Ressources Juridiques contient des liens vers des publications tierces et des documents réglementaires. Ces documents appartiennent à leurs organisations respectives ; nous fournissons des liens à titre de référence uniquement et ne revendiquons pas leur propriété."
+    },
+    "disclaimer": {
+      "title": "8. Avertissements",
+      "introPreAsIs": "La Plateforme est fournie ",
+      "introAsIs": "« en l'état »",
+      "introMid": " et ",
+      "introAsAvailable": "« selon disponibilité »",
+      "introPost": " sans garantie d'aucune sorte. Dans toute la mesure permise par la loi, IBCCF décline toutes les garanties, expresses ou implicites, y compris :",
+      "items": [
+        "La qualité marchande, l'adéquation à un usage particulier ou la non-contrefaçon.",
+        "Que la Plateforme sera ininterrompue, sans erreur ou exempte de composants nuisibles.",
+        "L'exactitude, l'exhaustivité ou l'actualité de toute information sur la Plateforme, y compris le contenu généré par la communauté et par l'IA.",
+        "Que l'utilisation de la Plateforme entraînera la récupération de fonds perdus."
+      ],
+      "outro": "Les réponses générées par l'IA dans le forum communautaire et le chat d'assistance sont fournies à titre informatif uniquement et ne constituent pas un conseil juridique, financier ou professionnel."
+    },
+    "liability": {
+      "title": "9. Limitation de Responsabilité",
+      "p1": "Dans toute la mesure permise par la loi applicable, IBCCF et ses dirigeants, employés et concédants de licence ne seront pas responsables des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs, y compris, sans s'y limiter, la perte de fonds, la perte de données, la perte de réputation ou la perte de bénéfices découlant de ou en relation avec votre utilisation de la Plateforme, même si avertis de la possibilité de tels dommages.",
+      "p2": "Certaines juridictions n'autorisent pas l'exclusion de certaines garanties ou la limitation de certains dommages. Dans ces juridictions, la responsabilité est limitée dans toute la mesure permise par la loi."
+    },
+    "termination": {
+      "title": "10. Suspension et Résiliation",
+      "p1": "Nous nous réservons le droit de suspendre ou de résilier votre accès à la Plateforme à tout moment si nous croyons raisonnablement que vous avez violé ces Conditions, participé à des activités frauduleuses, ou si la loi l'exige.",
+      "p2": "Lors de la résiliation, votre droit d'accéder au portail cesse immédiatement. Les clauses qui, par leur nature, doivent survivre à la résiliation (y compris les Sections 7, 8, 9 et 11) continueront de s'appliquer."
+    },
+    "governingLaw": {
+      "title": "11. Droit Applicable et Juridiction",
+      "p1": "Ces Conditions et tout litige découlant de votre utilisation de la Plateforme seront régis et interprétés conformément au droit applicable. La juridiction spécifique applicable sera déterminée au moment de la finalisation juridique par des conseils qualifiés et divulguée dans la version finale publiée de ces Conditions.",
+      "p2Pre": "Pour des informations sur les cadres réglementaires internationaux pertinents aux questions de plaintes blockchain, consultez notre répertoire de",
+      "p2LinkText": "Ressources Juridiques",
+      "p2Post": "."
+    },
+    "changes": {
+      "title": "12. Modifications de Ces Conditions",
+      "p1": "Nous pouvons réviser ces Conditions à tout moment. Dans ce cas, nous mettrons à jour la date de « Dernière mise à jour » en haut de cette page. Pour les changements importants, nous informerons les titulaires de dossiers actifs par e-mail ou via un avis prominent sur le portail. L'utilisation continue de la Plateforme après la date d'entrée en vigueur des Conditions révisées constitue votre acceptation de ces Conditions."
+    },
+    "contact": {
+      "title": "13. Contact",
+      "p1": "Les questions relatives à ces Conditions doivent être adressées à IBCCF via le portail d'assistance ou le formulaire de contact disponible sur le site web principal. Nous nous efforçons de répondre à toutes les demandes dans un délai de cinq (5) jours ouvrables."
+    }
+  }
+}

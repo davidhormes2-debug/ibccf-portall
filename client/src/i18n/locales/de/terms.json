@@ -1,0 +1,130 @@
+{
+  "back": "Zurück",
+  "accessPortal": "Zugangsportal",
+  "legalDoc": "Rechtliche Dokumentation",
+  "title": "Nutzungsbedingungen",
+  "subtitle": "Die Regeln und Bedingungen, die Ihren Zugang zur und Ihre Nutzung der IBCCF-Plattform, des Portals und der zugehörigen Dienste regeln.",
+  "lastUpdated": "Zuletzt aktualisiert:",
+  "contents": "Inhalt",
+  "privacyLink": "Datenschutzrichtlinie",
+  "legalResourcesLink": "Rechtsressourcen",
+  "reviewerNote": {
+    "label": "Hinweis für juristische Prüfer:",
+    "text": "Dieses Dokument ist ein Arbeitsentwurf. Es sollte von einem qualifizierten Rechtsexperten überprüft und finalisiert werden, bevor die Plattform Daten von Nutzern in regulierten Jurisdiktionen verarbeitet."
+  },
+  "sections": {
+    "acceptance": {
+      "title": "1. Annahme der Bedingungen",
+      "p1Pre": "Durch den Zugriff auf oder die Nutzung der Website und des Portals des Internationalen Blockchain-Beschwerdeforums (",
+      "p1Brand": "\u201eIBCCF\u201c",
+      "p1Mid": ", \u201edie Plattform\u201c, \u201ewir\u201c, \u201euns\u201c oder \u201eunser\u201c) stimmen Sie zu, an diese Nutzungsbedingungen (",
+      "p1Terms": "\u201eBedingungen\u201c",
+      "p1Post": ") gebunden zu sein. Wenn Sie nicht zustimmen, dürfen Sie die Plattform nicht nutzen.",
+      "p2": "Diese Bedingungen gelten für alle Besucher, registrierten Fallinhaber und alle anderen Personen, die auf einen Teil der Plattform zugreifen oder diesen nutzen."
+    },
+    "services": {
+      "title": "2. Beschreibung der Dienste",
+      "p1": "IBCCF bietet ein webbasiertes Fallverwaltungsportal, das Einzelpersonen dabei helfen soll, Beschwerden zu blockchain-Plattformen und Kryptowährungstransaktionen zu dokumentieren, zu verfolgen und deren Lösung anzustreben. Die Plattform umfasst außerdem:",
+      "items": [
+        "Ein Plattformverifizierungsverzeichnis zur Überprüfung des Legitimitätsstatus von Blockchain-Diensten.",
+        "Ein KI-gestütztes Community-Forum zum Austausch von Wissen zur Betrugsprävention und gegenseitiger Unterstützung.",
+        "Ein Regulierungsdokumenten-Verwaltungssystem für compliance-bezogene Einreichungen.",
+        "Informationsressourcen, einschließlich des Rechtsressourcen-Verzeichnisses."
+      ],
+      "p2": "IBCCF ist ausschließlich ein Informations- und Fallverwaltungsdienst. Wir bieten keine Rechtsberatung, keine Finanzberatung und keine geregelten Rechtsdienstleistungen an. Nichts auf der Plattform begründet ein Mandatsverhältnis zwischen Anwalt und Mandant."
+    },
+    "eligibility": {
+      "title": "3. Berechtigung und Registrierung",
+      "intro": "Um das authentifizierte Portal nutzen zu können, müssen Sie:",
+      "items": [
+        "Mindestens 18 Jahre alt sein (oder das Volljährigkeitsalter in Ihrer Jurisdiktion, wenn dieses höher ist).",
+        "Bei der Einreichung einer Beschwerde oder der Registrierung genaue, vollständige und aktuelle Informationen angeben.",
+        "Einen aktiven Fallreferenzcode besitzen, der von IBCCF ausgegeben wurde.",
+        "Nicht nach den Gesetzen Ihrer Jurisdiktion von der Nutzung der Plattform ausgeschlossen sein."
+      ],
+      "outro": "Sie sind für die Wahrung der Vertraulichkeit Ihres Fallzugangscodes und Ihrer PIN sowie für alle Aktivitäten verantwortlich, die während Ihrer Portalsitzung stattfinden."
+    },
+    "conduct": {
+      "title": "4. Zulässige Nutzung",
+      "intro": "Sie stimmen zu, die Plattform nur für rechtmäßige Zwecke zu nutzen. Sie dürfen nicht:",
+      "items": [
+        "Falsche, irreführende oder gefälschte Beschwerdeinformationen oder -dokumentation einreichen.",
+        "Eine andere Person oder Einheit vortäuschen oder Ihre Identität oder Zugehörigkeit falsch darstellen.",
+        "Dokumente hochladen, die schädlichen Code, Viren oder aktiv ausführbare Inhalte enthalten.",
+        "Versuchen, unbefugten Zugang zu den Fällen anderer Nutzer oder zum Verwaltungssystem zu erlangen.",
+        "Automatisierte Tools, Bots oder Skripte verwenden, um außerhalb der normalen Portalnutzung mit der Plattform zu interagieren.",
+        "An Aktivitäten teilnehmen, die die Infrastruktur der Plattform beschädigen, überlasten oder beeinträchtigen könnten.",
+        "Das Community-Forum oder den KI-Chat nutzen, um betrügerische Schemata, Spam oder schädliche Inhalte zu verbreiten.",
+        "Personenbezogene Daten anderer Nutzer von der Plattform zu sammeln oder abzugreifen."
+      ],
+      "outro": "Ein Verstoß gegen diese Regeln kann zur sofortigen Sperrung oder Kündigung Ihres Portalzugangs führen und, falls angemessen, zur Weiterleitung an die zuständigen Strafverfolgungsbehörden."
+    },
+    "uploads": {
+      "title": "5. Hochgeladene Inhalte und Dokumente",
+      "intro": "Wenn Sie Dokumente hochladen oder Inhalte über die Plattform einreichen, erklären und garantieren Sie, dass:",
+      "items": [
+        "Sie Eigentümer des Inhalts sind oder alle notwendigen Rechte zur Einreichung besitzen.",
+        "Der Inhalt korrekt und weder betrügerisch noch irreführend ist.",
+        "Der Inhalt keine geltenden Gesetze, Rechte Dritter oder diese Bedingungen verletzt.",
+        "Hochgeladene Dateien keine Viren, Malware oder schädlichen Code enthalten."
+      ],
+      "outro": "Akzeptierte Upload-Formate sind PDF und gängige Bildtypen (PNG, JPEG, WebP). Die maximale Dateigröße beträgt 10 MB pro Dokument. Wir behalten uns das Recht vor, hochgeladene Inhalte, die gegen diese Bedingungen verstoßen, abzulehnen oder zu entfernen."
+    },
+    "financial": {
+      "title": "6. Finanzielle Angelegenheiten und keine Garantie der Rückforderung",
+      "p1": "IBCCF garantiert nicht die Rückforderung von durch Blockchain-Betrug oder Plattform-Fehlverhalten verlorenen Geldern. Die Plattform erleichtert die Beschwerdedokumentation und regulatorische Koordination; die tatsächliche Rückforderung von Geldern hängt von Faktoren ab, die vollständig außerhalb unserer Kontrolle liegen.",
+      "p2": "Soweit die Plattform die Zahlung von Compliance-Gebühren oder Bearbeitungsgebühren als Teil eines regulierten Fallverwaltungsarbeitsablaufs erfordert, gilt folgendes:",
+      "items": [
+        "Gebühren werden vor ihrer Erhebung offengelegt. Sie sollten keinen Betrag zahlen, der nicht klar in Ihrem Fallportal beschrieben ist.",
+        "Bestimmte Gebühren sind nicht erstattungsfähige Bearbeitungsgebühren, sobald die damit verbundene Verwaltungsarbeit begonnen hat.",
+        "Keine Gebührenzahlung garantiert ein bestimmtes Ergebnis für Ihren Fall.",
+        "Wenn Sie Bedenken bezüglich einer Gebührenanforderung haben, kontaktieren Sie den IBCCF-Support vor der Zahlung."
+      ]
+    },
+    "ip": {
+      "title": "7. Geistiges Eigentum",
+      "p1": "Alle Inhalte auf der Plattform — einschließlich Texte, Grafiken, Logos, Software und das Plattformdesign — sind Eigentum von IBCCF oder an IBCCF lizenziert und durch anwendbare Gesetze zum Schutz des geistigen Eigentums geschützt. Sie dürfen ohne unsere vorherige schriftliche Zustimmung keine Vervielfältigung, Verbreitung, Änderung oder abgeleiteten Werke erstellen.",
+      "p2": "Das Rechtsressourcen-Verzeichnis enthält Links zu Publikationen Dritter und Regulierungsdokumenten. Diese Materialien sind Eigentum ihrer jeweiligen Organisationen; wir stellen Links nur als Referenz bereit und erheben keinen Eigentumsanspruch."
+    },
+    "disclaimer": {
+      "title": "8. Haftungsausschlüsse",
+      "introPreAsIs": "Die Plattform wird ",
+      "introAsIs": "\u201ewie besehen\u201c",
+      "introMid": " und ",
+      "introAsAvailable": "\u201ewie verfügbar\u201c",
+      "introPost": " ohne Gewährleistung jeglicher Art bereitgestellt. Im größtmöglichen gesetzlich zulässigen Umfang lehnt IBCCF alle ausdrücklichen oder stillschweigenden Garantien ab, einschließlich:",
+      "items": [
+        "Marktgängigkeit, Eignung für einen bestimmten Zweck oder Nichtverletzung.",
+        "Dass die Plattform ununterbrochen, fehlerfrei oder frei von schädlichen Komponenten sein wird.",
+        "Die Genauigkeit, Vollständigkeit oder Aktualität von Informationen auf der Plattform, einschließlich community-generierter und KI-generierter Inhalte.",
+        "Dass die Nutzung der Plattform zur Rückforderung verlorener Gelder führt."
+      ],
+      "outro": "KI-generierte Antworten im Community-Forum und im Support-Chat dienen ausschließlich zu Informationszwecken und stellen keine Rechts-, Finanz- oder Fachberatung dar."
+    },
+    "liability": {
+      "title": "9. Haftungsbeschränkung",
+      "p1": "Im größtmöglichen gesetzlich zulässigen Umfang haften IBCCF und seine Beauftragten, Mitarbeiter und Lizenzgeber nicht für indirekte, zufällige, besondere, Folge- oder Strafschäden, einschließlich, aber nicht beschränkt auf Geldverluste, Datenverluste, Reputationsverluste oder Gewinnverluste, die aus oder in Verbindung mit Ihrer Nutzung der Plattform entstehen, selbst wenn auf die Möglichkeit solcher Schäden hingewiesen wurde.",
+      "p2": "Einige Jurisdiktionen erlauben den Ausschluss bestimmter Garantien oder die Beschränkung bestimmter Schäden nicht. In diesen Jurisdiktionen ist die Haftung im größtmöglichen gesetzlich zulässigen Umfang beschränkt."
+    },
+    "termination": {
+      "title": "10. Sperrung und Kündigung",
+      "p1": "Wir behalten uns das Recht vor, Ihren Zugang zur Plattform jederzeit zu sperren oder zu kündigen, wenn wir vernünftigerweise glauben, dass Sie gegen diese Bedingungen verstoßen haben, betrügerische Aktivitäten betrieben haben oder wenn wir gesetzlich dazu verpflichtet sind.",
+      "p2": "Bei Kündigung erlischt Ihr Recht auf Zugang zum Portal sofort. Klauseln, die ihrer Natur nach die Kündigung überdauern sollten (einschließlich der Abschnitte 7, 8, 9 und 11), gelten weiterhin."
+    },
+    "governingLaw": {
+      "title": "11. Anwendbares Recht und Gerichtsstand",
+      "p1": "Diese Bedingungen und alle Streitigkeiten, die sich aus Ihrer Nutzung der Plattform ergeben, unterliegen dem anwendbaren Recht und werden gemäß diesem ausgelegt. Die spezifische Zuständigkeitsjurisdiktion wird zum Zeitpunkt der rechtlichen Finalisierung durch qualifizierte Rechtsberater bestimmt und in der endgültigen veröffentlichten Version dieser Bedingungen bekannt gegeben.",
+      "p2Pre": "Informationen zu den für Blockchain-Beschwerdeverfahren relevanten internationalen Regulierungsrahmen finden Sie in unserem",
+      "p2LinkText": "Rechtsressourcen-Verzeichnis",
+      "p2Post": "."
+    },
+    "changes": {
+      "title": "12. Änderungen dieser Bedingungen",
+      "p1": "Wir können diese Bedingungen jederzeit überarbeiten. In diesem Fall werden wir das Datum \u201eZuletzt aktualisiert\u201c oben auf dieser Seite aktualisieren. Bei wesentlichen Änderungen werden wir aktive Fallinhaber per E-Mail oder durch einen prominenten Portalhinweis benachrichtigen. Die fortgesetzte Nutzung der Plattform nach dem Inkrafttretensdatum der überarbeiteten Bedingungen gilt als Ihre Annahme dieser Bedingungen."
+    },
+    "contact": {
+      "title": "13. Kontakt",
+      "p1": "Fragen zu diesen Bedingungen sollten an IBCCF über das Support-Portal oder das auf der Hauptwebsite verfügbare Kontaktformular gerichtet werden. Wir sind bestrebt, alle Anfragen innerhalb von fünf (5) Werktagen zu beantworten."
+    }
+  }
+}

@@ -1,0 +1,411 @@
+1. FULL CORPORATE POLICY HANDBOOK
+IBCCF Corporate Policy & Governance Manual — Version 1.0
+1. Purpose
+This handbook defines the corporate policies, behavioral standards, operational expectations, and compliance obligations governing all employees, contractors, and partners of IBCCF.
+
+2. Code of Conduct
+All personnel must:
+
+Act with integrity, professionalism, and transparency
+
+Protect confidential information
+
+Avoid conflicts of interest
+
+Follow all compliance and security protocols
+
+Maintain accurate records
+
+Report violations immediately
+
+3. Data Protection Policy
+No local storage of user data
+
+No screenshots of sensitive documents
+
+No exporting data outside approved systems
+
+All access must follow RBAC
+
+All data handling must align with GDPR
+
+4. Communication Policy
+No promises or guarantees to users
+
+No deviation from compliance requirements
+
+No informal or unprofessional language
+
+All communication must be logged
+
+All escalations must follow SOP
+
+5. Security Policy
+Mandatory MFA for admin accounts
+
+Session timeout enforcement
+
+Token rotation
+
+XSS and SQL injection prevention
+
+File validation
+
+Audit logging of all admin actions
+
+6. Compliance Policy
+Mandatory KYC/SOF/FATCA documentation
+
+Immutable declarations
+
+NDA integrity enforcement
+
+Withdrawal reset logic
+
+Countdown enforcement
+
+Reactivation workflow
+
+7. Operational Policy
+All actions must follow SOP
+
+No manual overrides
+
+No undocumented changes
+
+All incidents must be logged
+
+All defects must be fixed within 48 hours
+
+8. HR & Conduct Policy
+Zero tolerance for harassment
+
+Zero tolerance for discrimination
+
+Mandatory training for all staff
+
+Confidential reporting channels
+
+9. Enforcement
+Violations may result in:
+
+Revoked access
+
+Disciplinary action
+
+Contract termination
+
+Legal action
+
+2. SUPPORT AGENT CERTIFICATION EXAM
+IBCCF Support Agent Competency Assessment — Version 1.0
+Section A — System Knowledge
+Describe the 14‑stage withdrawal process.
+
+What documents are mandatory for compliance?
+
+What is the purpose of the Declaration of Compliance?
+
+What triggers a countdown?
+
+What happens when countdown reaches zero?
+
+Section B — Admin Dashboard
+List all admin dashboard modules.
+
+What is the purpose of user impersonation?
+
+How do you approve or reject documents?
+
+What must be logged after every admin action?
+
+What is the difference between stage progression and document approval?
+
+Section C — Compliance
+What makes the declaration immutable?
+
+What is the NDA Integrity Sweep?
+
+What is the rule for data export?
+
+What is the rule for local storage?
+
+What is the rule for communication with users?
+
+Section D — Security
+Define RBAC.
+
+What are the four roles?
+
+What is the session timeout rule?
+
+What is the rule for file uploads?
+
+What is the rule for rate limiting?
+
+Section E — Scenarios
+User refuses to upload SOF — what do you do?
+
+User asks for a manual override — what do you do?
+
+User claims countdown is unfair — what do you do?
+
+User wants to skip a stage — what do you do?
+
+User requests a timeline guarantee — what do you do?
+
+3. REGULATORY SUBMISSION PACKAGE
+IBCCF Regulatory Compliance Submission — Version 1.0
+1. Executive Summary
+IBCCF is a compliance‑driven case‑management platform designed to meet regulatory expectations across multiple jurisdictions.
+
+2. System Overview
+14‑stage withdrawal process
+
+Mandatory documentation
+
+Immutable declarations
+
+Countdown enforcement
+
+Reactivation workflow
+
+Full audit logging
+
+Monitoring & observability
+
+3. Compliance Controls
+GDPR‑aligned data handling
+
+Immutable timeline
+
+NDA integrity
+
+Declaration immutability
+
+Withdrawal reset logic
+
+Document validation
+
+RBAC enforcement
+
+Audit logging
+
+4. Security Controls
+Secure cookies
+
+Token rotation
+
+Session timeout
+
+File validation
+
+Rate limiting
+
+XSS sanitization
+
+SQL injection protection
+
+5. Operational Controls
+SOP‑driven workflows
+
+Mandatory documentation
+
+Automated email notifications
+
+Admin action logging
+
+Countdown enforcement
+
+Reactivation enforcement
+
+6. Risk Mitigation
+Server‑authoritative timers
+
+Immutable compliance artifacts
+
+Monitoring & alerts
+
+AI fallback templates
+
+Daily integrity sweeps
+
+7. Evidence Package
+Audit logs
+
+Email logs
+
+Stage history
+
+Document history
+
+Compliance artifacts
+
+System architecture diagrams
+
+QA test results
+
+4. VC‑READY FINANCIAL MODEL
+IBCCF Financial Projection Framework — Version 1.0
+(No investment advice — this is a structural model, not a recommendation.)
+
+1. Revenue Streams
+SaaS licensing
+
+Per‑case processing fees
+
+Compliance automation fees
+
+Enterprise support contracts
+
+White‑label licensing
+
+AI‑powered support add‑ons
+
+2. Cost Structure
+Fixed Costs
+Infrastructure
+
+Compliance operations
+
+Security monitoring
+
+Development
+
+Support staff
+
+Variable Costs
+AI usage
+
+Email delivery
+
+Storage
+
+Case volume scaling
+
+3. Key Metrics
+CAC (Customer Acquisition Cost)
+
+LTV (Lifetime Value)
+
+Gross Margin
+
+Case Processing Margin
+
+Compliance Cost Ratio
+
+Support Cost per Case
+
+4. 3‑Year Projection Model
+(You can plug in your own numbers.)
+
+Year 1
+Focus: Build + onboard early clients
+
+Revenue: Low–moderate
+
+Costs: High (development + compliance)
+
+Year 2
+Focus: Scaling + enterprise onboarding
+
+Revenue: Moderate–high
+
+Costs: Moderate
+
+Year 3
+Focus: Global expansion
+
+Revenue: High
+
+Costs: Stable
+
+5. Investor Narrative
+IBCCF is positioned to become the compliance backbone of digital‑asset case management, offering:
+
+Predictable recurring revenue
+
+High switching costs
+
+Strong regulatory alignment
+
+Scalable infrastructure
+
+Multi‑jurisdiction applicability
+
+5. FULL OPERATIONAL SOP MANUAL
+IBCCF Standard Operating Procedures — Version 2.0
+SOP 1 — Case Intake
+Review submission
+
+Validate details
+
+Approve access code
+
+Log action
+
+SOP 2 — Document Review
+Open document
+
+Validate authenticity
+
+Approve or reject
+
+Add notes
+
+Trigger email
+
+Log action
+
+SOP 3 — Stage Progression
+Confirm requirements met
+
+Advance stage
+
+Trigger email
+
+Update timeline
+
+Log action
+
+SOP 4 — Countdown Activation
+Set duration
+
+Notify user
+
+Monitor timer
+
+Enforce lockout
+
+Reset case
+
+Log action
+
+SOP 5 — Reactivation
+Review receipt
+
+Approve or reject
+
+Restore access
+
+Trigger email
+
+Log action
+
+SOP 6 — Messaging
+Respond within guidelines
+
+No promises
+
+No deviations
+
+Log communication
+
+SOP 7 — Security
+Enforce RBAC
+
+Monitor logs
+
+Report anomalies
+
+Never store data locally

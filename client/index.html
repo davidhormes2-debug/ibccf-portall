@@ -5,46 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#004182" />
+    <meta name="theme-color" content="#0a1840" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="IBCCF Chat" />
+    <meta name="apple-mobile-web-app-title" content="IBCCF" />
     <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.svg" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.svg" />
     
     <title>IBCCF - International Blockchain Community Complaints Forum</title>
     <meta name="description" content="Report cryptocurrency fraud, verify platforms, and track your case with the trusted International Blockchain Community Complaints Forum. 24/7 secure support for blockchain-related complaints." />
     <meta name="keywords" content="cryptocurrency fraud, blockchain complaints, crypto scam report, platform verification, IBCCF, fraud prevention" />
+
+    <!-- Explicit indexing signal. Reinforces the server-side
+         `X-Robots-Tag: index, follow` header so Lighthouse / crawlers have
+         a positive in-HTML directive. Authenticated /admin and /portal
+         routes remain non-indexable via robots.txt + the server header. -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://ibccf.site/" />
+    <meta property="og:url" content="https://ibccf.site/" />
     
     <meta property="og:title" content="IBCCF - International Blockchain Community Complaints Forum" />
     <meta property="og:description" content="Report cryptocurrency fraud, verify platforms, and track your case. Trusted by 15,000+ users in 120+ countries for blockchain security." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://replit.com/public/images/opengraph.png" />
+    <meta property="og:site_name" content="IBCCF" />
+    <meta property="og:image" content="https://ibccf.site/opengraph.jpg" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="576" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@replit" />
     <meta name="twitter:title" content="IBCCF - International Blockchain Community Complaints Forum" />
     <meta name="twitter:description" content="Report cryptocurrency fraud, verify platforms, and track your case. Trusted by 15,000+ users in 120+ countries." />
-    <meta name="twitter:image" content="https://replit.com/public/images/opengraph.png" />
+    <meta name="twitter:image" content="https://ibccf.site/opengraph.jpg" />
 
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/icons/icon-192x192.svg" />
+
+    <!-- Site-level structured data so search engines and AI crawlers can
+         disambiguate the brand/entity independently of page copy. Route-level
+         WebPage/BreadcrumbList data is injected by the prerender pipeline
+         (server/seo/prerender.ts) for search-facing routes; this generic
+         block is the fallback for the raw (non-prerendered) shell. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://ibccf.site/#organization",
+          "name": "IBCCF",
+          "alternateName": "International Blockchain Community Complaints Forum",
+          "url": "https://ibccf.site/",
+          "logo": "https://ibccf.site/icons/icon-192x192.svg"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://ibccf.site/#website",
+          "name": "IBCCF",
+          "url": "https://ibccf.site/",
+          "publisher": { "@id": "https://ibccf.site/#organization" },
+          "inLanguage": "en"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    
-    <!-- Smartsupp Live Chat script -->
-    <script type="text/javascript">
-    var _smartsupp = _smartsupp || {};
-    _smartsupp.key = 'b60c8c794ef0fd93b6333b094abd52041a3f7a4b';
-    window.smartsupp||(function(d) {
-      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-      c.type='text/javascript';c.charset='utf-8';c.async=true;
-      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-    })(document);
-    </script>
-    <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
+
+    <!-- Tawk.to is loaded dynamically via src/lib/tawkto.ts when
+         VITE_TAWKTO_PROPERTY_ID and VITE_TAWKTO_WIDGET_ID are set. -->
   </body>
 </html>

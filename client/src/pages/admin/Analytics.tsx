@@ -3,10 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Users, FolderOpen, Clock, CheckCircle, User, Activity, BarChart3, TrendingUp } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useAdmin } from "./AdminContext";
 
 export function Analytics() {
   const { cases, allSubmissions } = useAdmin();
+  const { t } = useTranslation("admin");
 
   const statusCounts = {
     created: cases.filter(c => c.status === 'created').length,
@@ -16,22 +18,22 @@ export function Analytics() {
   };
 
   const pieData = [
-    { name: 'Created', value: statusCounts.created, color: '#64748b' },
-    { name: 'Syncing', value: statusCounts.syncing, color: '#f59e0b' },
-    { name: 'Active', value: statusCounts.active, color: '#22c55e' },
-    { name: 'Completed', value: statusCounts.completed, color: '#3b82f6' },
+    { name: t("analytics.statusCreated"), value: statusCounts.created, color: '#64748b' },
+    { name: t("analytics.statusSyncing"), value: statusCounts.syncing, color: '#f59e0b' },
+    { name: t("analytics.statusActive"), value: statusCounts.active, color: '#22c55e' },
+    { name: t("analytics.statusCompleted"), value: statusCounts.completed, color: '#3b82f6' },
   ].filter(d => d.value > 0);
 
   const submissionData = [
-    { name: 'Option A', count: allSubmissions.filter(s => s.selectedOption === 'A').length, fill: '#3b82f6' },
-    { name: 'Option B', count: allSubmissions.filter(s => s.selectedOption === 'B').length, fill: '#8b5cf6' },
+    { name: t("analytics.optionA"), count: allSubmissions.filter(s => s.selectedOption === 'A').length, fill: '#3b82f6' },
+    { name: t("analytics.optionB"), count: allSubmissions.filter(s => s.selectedOption === 'B').length, fill: '#8b5cf6' },
   ];
 
   return (
     <div className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-white mb-1">Analytics Dashboard</h2>
-        <p className="text-slate-400 text-sm">Monitor key metrics, trends, and performance indicators.</p>
+        <h2 className="text-2xl font-bold text-white mb-1">{t("analytics.heading")}</h2>
+        <p className="text-slate-400 text-sm">{t("analytics.subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -40,7 +42,7 @@ export function Analytics() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-blue-200 text-sm">Total Cases</p>
+                  <p className="text-blue-200 text-sm">{t("analytics.totalCases")}</p>
                   <p className="text-3xl font-bold text-white">{cases.length}</p>
                 </div>
                 <div className="h-12 w-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -56,7 +58,7 @@ export function Analytics() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-green-200 text-sm">Active Users</p>
+                  <p className="text-green-200 text-sm">{t("analytics.activeUsers")}</p>
                   <p className="text-3xl font-bold text-white">{cases.filter(c => c.status === 'active' || c.status === 'completed').length}</p>
                 </div>
                 <div className="h-12 w-12 bg-green-500/20 rounded-lg flex items-center justify-center">
@@ -72,7 +74,7 @@ export function Analytics() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-purple-200 text-sm">Total Submissions</p>
+                  <p className="text-purple-200 text-sm">{t("analytics.totalSubmissions")}</p>
                   <p className="text-3xl font-bold text-white">{allSubmissions.length}</p>
                 </div>
                 <div className="h-12 w-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
@@ -88,7 +90,7 @@ export function Analytics() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-amber-200 text-sm">Pending Actions</p>
+                  <p className="text-amber-200 text-sm">{t("analytics.pendingActions")}</p>
                   <p className="text-3xl font-bold text-white">{cases.filter(c => c.status === 'syncing').length}</p>
                 </div>
                 <div className="h-12 w-12 bg-amber-500/20 rounded-lg flex items-center justify-center">
@@ -106,7 +108,7 @@ export function Analytics() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <BarChart3 className="h-5 w-5 text-blue-400" />
-                Case Status Distribution
+                {t("analytics.statusDistribution")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -147,7 +149,7 @@ export function Analytics() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-green-400" />
-                Submission Options Breakdown
+                {t("analytics.submissionBreakdown")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -179,7 +181,7 @@ export function Analytics() {
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <Activity className="h-5 w-5 text-purple-400" />
-              Recent Activity
+              {t("analytics.recentActivity")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -205,11 +207,11 @@ export function Analytics() {
                   <div className="flex-1">
                     <p className="text-white font-medium">{c.userName || `Case ${c.accessCode}`}</p>
                     <p className="text-slate-400 text-sm">
-                      Status: <span className={`font-medium ${
+                      {t("analytics.statusLabel")}: <span className={`font-medium ${
                         c.status === 'completed' ? 'text-blue-400' :
                         c.status === 'active' ? 'text-green-400' :
                         c.status === 'syncing' ? 'text-amber-400' : 'text-slate-300'
-                      }`}>{c.status}</span>
+                      }`}>{t(`status.${c.status}`, { defaultValue: c.status })}</span>
                     </p>
                   </div>
                   <div className="text-right">
@@ -225,7 +227,7 @@ export function Analytics() {
               {cases.length === 0 && (
                 <div className="text-center py-8 text-slate-500">
                   <Activity className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                  <p>No recent activity</p>
+                  <p>{t("analytics.noActivity")}</p>
                 </div>
               )}
             </div>

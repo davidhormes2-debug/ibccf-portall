@@ -1,0 +1,377 @@
+{
+  "back": "Retour",
+  "sections": {
+    "coreFunctions": "Fonctions Principales",
+    "whatWeDo": "Ce Que Nous Faisons",
+    "caseTypes": "Types de Cas",
+    "casesWeHandle": "Cas Que Nous Traiterons",
+    "ourProcess": "Notre Processus",
+    "howItWorks": "Comment Cela Fonctionne",
+    "getInTouch": "Entrer en Contact",
+    "contact": "Contacter {{name}}",
+    "otherDivisions": "Autres Divisions"
+  },
+  "contact": {
+    "email": "Email",
+    "helpline": "Ligne d'assistance",
+    "responseTime": "Délai de Réponse"
+  },
+  "cta": {
+    "fileCase": "Demander l'Accès & Déposer un Cas",
+    "allDivisions": "Toutes les Divisions"
+  },
+  "notFound": {
+    "title": "Division non trouvée",
+    "back": "Retour à l'accueil"
+  },
+  "divisions": {
+    "aml": {
+      "title": "Division AML",
+      "subtitle": "Lutte Contre le Blanchiment d'Argent",
+      "tagline": "Arrêter les fonds illicites avant qu'ils n'entrent dans le système financier.",
+      "overview": "La Division AML est la première ligne de défense contre les opérations de blanchiment d'argent ciblant les cryptomonnaies et l'infrastructure financière traditionnelle. Notre équipe de spécialistes AML certifiés effectue un suivi approfondi des transactions, construit des profils d'activités suspectes et coordonne avec des unités de renseignement financier mondiales pour tracer et signaler les flux de fonds illicites en temps réel.",
+      "functions": {
+        "0": {
+          "title": "Suivi des Transactions",
+          "description": "Examen automatisé et manuel des transactions blockchain à fort volume, signalant des modèles inhabituels, des comportements de structuration et des techniques de superposition utilisées pour obscurcir les origines illicites."
+        },
+        "1": {
+          "title": "Rapports d'Activité Suspecte (SAR)",
+          "description": "Dépôt et coordination des SAR avec FinCEN, FCA et d'autres autorités financières lorsque les transactions atteignent le seuil d'activité potentiellement blanchissante."
+        },
+        "2": {
+          "title": "Audit de Connaissance du Client (KYC)",
+          "description": "Examen des processus d'intégration dans les échanges et les dépositaires pour identifier les lacunes KYC qui pourraient permettre à des acteurs malveillants d'accéder au système financier sans être détectés."
+        },
+        "3": {
+          "title": "Vérification OFAC & Sanctions",
+          "description": "Vérification croisée des adresses de portefeuille et des contreparties avec les listes SDN de l'OFAC, les bases de données de sanctions de l'UE et les registres de crimes financiers d'INTERPOL."
+        },
+        "4": {
+          "title": "Recherche de Typologie",
+          "description": "Étude continue et catalogage des typologies émergentes de blanchiment d'argent dans la crypto, y compris le trading de lavage NFT, le blanchiment d'exploitation DeFi et les techniques d'obfuscation de mixeurs."
+        }
+      },
+      "caseTypes": {
+        "0": "Structuration et superposition de cryptomonnaie",
+        "1": "Blanchiment facilité par les échanges",
+        "2": "Obfuscation de fonds de mixeur et de tumbler",
+        "3": "Blanchiment basé sur NFT et DeFi",
+        "4": "Transferts de fonds illicites transfrontaliers",
+        "5": "Transactions crypto de sociétés écran"
+      },
+      "process": {
+        "0": {
+          "step": "Soumettez Votre Rapport",
+          "description": "Fournissez les identifiants de transaction, les adresses de portefeuille et toute preuve à l'appui via notre portail d'accueil sécurisé."
+        },
+        "1": {
+          "step": "Triage Initial (24–48 heures)",
+          "description": "Un analyste AML examine la soumission, vérifie les données de transaction sur la chaîne et évalue le niveau d'urgence."
+        },
+        "2": {
+          "step": "Enquête & Dépôt de SAR",
+          "description": "Lorsque les seuils sont atteints, des SAR formels sont déposés auprès des unités de renseignement financier concernées."
+        },
+        "3": {
+          "step": "Coordination & Résultat",
+          "description": "Vous recevez une référence de cas et des mises à jour régulières au fur et à mesure que l'enquête progresse à travers les canaux réglementaires."
+        }
+      },
+      "contact": {
+        "responseTime": "24–48 heures",
+        "hours": "Lundi–Vendredi, 08:00–18:00 UTC"
+      }
+    },
+    "cyber": {
+      "title": "Cybercriminalité & Criminalistique Numérique",
+      "subtitle": "Analyse de Traçage Blockchain",
+      "tagline": "Suivre chaque octet — de la blockchain au dark web et au-delà.",
+      "overview": "La Division Cybercriminalité & Criminalistique Numérique utilise des analyses blockchain de pointe et des renseignements open-source pour tracer les flux de cryptomonnaie frauduleux, identifier les auteurs opérant sur le dark web et constituer des dossiers de preuves pour les poursuites judiciaires. Nos analystes judiciaires sont certifiés dans les principaux outils de traçage blockchain et collaborent directement avec des groupes de travail mondiaux sur la cybercriminalité.",
+      "functions": {
+        "0": {
+          "title": "Criminalistique Blockchain",
+          "description": "Analyse complète sur chaîne des portefeuilles suspects, traçant les flux de fonds à travers plusieurs sauts, ponts et chaînes pour identifier la propriété bénéficiaire ultime et les points de retrait."
+        },
+        "1": {
+          "title": "Renseignements sur le Dark Web",
+          "description": "Surveillance des marchés souterrains, des forums et des canaux Telegram où les schémas de fraude crypto sont annoncés, vendus et coordonnés."
+        },
+        "2": {
+          "title": "Traçage Crypto & Cartographie des Actifs",
+          "description": "Création de cartes d'actifs complètes montrant exactement où les fonds volés ont été déplacés — à travers des portefeuilles, des échanges, des mixeurs et des points de retrait — dans un format adapté à une utilisation en cour."
+        },
+        "3": {
+          "title": "Coopération avec les Échanges & Subpoenas",
+          "description": "Coordination avec des échanges réglementés pour geler les comptes suspects et obtenir des dossiers KYC par le biais de demandes de processus légaux et de traités d'assistance juridique mutuelle."
+        },
+        "4": {
+          "title": "Analyse de Malware & Phishing",
+          "description": "Ingénierie inverse technique des malwares utilisés dans les campagnes de vol crypto et identification de l'infrastructure de phishing pour permettre des démantèlements."
+        }
+      },
+      "caseTypes": {
+        "0": "Piraterie et vol d'échanges crypto",
+        "1": "Escroqueries de phishing et d'ingénierie sociale",
+        "2": "Traçage de paiements de ransomware",
+        "3": "Exploits de protocoles DeFi",
+        "4": "Prise de contrôle de compte par SIM-swap",
+        "5": "Fraude d'investissement et rug pulls"
+      },
+      "process": {
+        "0": {
+          "step": "Soumission de Preuves",
+          "description": "Fournissez toutes les adresses de portefeuille, les hachages de transaction, les communications et tout détail connu sur l'auteur."
+        },
+        "1": {
+          "step": "Analyse Judiciaire (48–72 heures)",
+          "description": "Nos analystes effectuent des traçages complets sur chaîne et vérifient par rapport à des clusters de fraude connus et à l'activité sur le dark web."
+        },
+        "2": {
+          "step": "Dossier de Renseignements",
+          "description": "Un rapport judiciaire est compilé détaillant les flux de fonds, les auteurs probables et les échanges de retrait."
+        },
+        "3": {
+          "step": "Référence aux Forces de l'Ordre",
+          "description": "Lorsque des preuves suffisantes existent, le dossier est référé à Interpol, Europol ou aux unités nationales de cybercriminalité."
+        }
+      },
+      "contact": {
+        "responseTime": "24–72 heures",
+        "hours": "24/7 pour les escalades d'urgence"
+      }
+    },
+    "recovery": {
+      "title": "Unité de Récupération d'Actifs",
+      "subtitle": "Application Transfrontalière",
+      "tagline": "Poursuivre les actifs volés à travers les frontières jusqu'à ce que la récupération soit réalisée.",
+      "overview": "L'Unité de Récupération d'Actifs se spécialise dans le processus légal et logistique de localisation, de gel et de rapatriement des actifs volés par le biais de fraudes crypto. Travaillant en partenariat avec des avocats, des agences d'application de la loi internationales et des organismes de réglementation à travers les juridictions, notre équipe navigue dans les cadres juridiques multi-nationaux complexes nécessaires pour récupérer des actifs auprès de fraudeurs sophistiqués.",
+      "functions": {
+        "0": {
+          "title": "Gel d'Actifs & Ordonnances de Restriction",
+          "description": "Coordination avec les tribunaux et les agences d'application de la loi pour émettre des ordonnances de gel d'urgence contre des portefeuilles, des comptes d'échange et des comptes bancaires identifiés avant que les actifs ne soient dissipés."
+        },
+        "1": {
+          "title": "Soutien aux Litiges Civils",
+          "description": "Préparation de dossiers de preuves judiciaires, de témoignages d'experts et de documentation de cas pour soutenir les victimes poursuivant une récupération civile devant les tribunaux."
+        },
+        "2": {
+          "title": "Traçage d'Actifs International",
+          "description": "Suivre les actifs alors qu'ils se déplacent à travers plusieurs juridictions, engageant des avocats locaux et des autorités dans chaque pays pour prévenir la dissipation."
+        },
+        "3": {
+          "title": "Traités d'Assistance Judiciaire Mutuelle (MLAT)",
+          "description": "Naviguer dans les demandes de MLAT pour obtenir des preuves, des ordonnances de gel et la coopération des juridictions étrangères où se trouvent les suspects ou les actifs."
+        },
+        "4": {
+          "title": "Coordination de Restitution aux Victimes",
+          "description": "Gérer la distribution des actifs récupérés aux victimes vérifiées conformément aux ordonnances judiciaires et aux exigences de conformité."
+        }
+      },
+      "caseTypes": {
+        "0": "Récupération de fraudes d'investissement à grande échelle",
+        "1": "Réclamations d'insolvabilité d'échanges",
+        "2": "Victimes de systèmes de Ponzi et de pyramides",
+        "3": "Récupération d'actifs d'escroqueries amoureuses",
+        "4": "Restitution de courtiers frauduleux",
+        "5": "Vol de crypto multi-juridictionnel"
+      },
+      "process": {
+        "0": {
+          "step": "Évaluation du Cas (2–3 jours)",
+          "description": "Notre équipe évalue la viabilité de la récupération d'actifs en fonction du montant perdu, de la qualité des preuves et des juridictions impliquées."
+        },
+        "1": {
+          "step": "Traçage d'Actifs",
+          "description": "Des analyses blockchain et des renseignements financiers complets sont déployés pour localiser et documenter les actifs actuellement détenus par les auteurs."
+        },
+        "2": {
+          "step": "Coordination des Actions Légales",
+          "description": "Nous coordonnons avec des avocats partenaires et des agences d'application de la loi pour initier des ordonnances de gel et des litiges."
+        },
+        "3": {
+          "step": "Récupération & Restitution",
+          "description": "Les actifs récupérés sont rassemblés et distribués aux victimes vérifiées par le biais de processus supervisés par le tribunal."
+        }
+      },
+      "contact": {
+        "responseTime": "2–3 jours ouvrables",
+        "hours": "Lundi–Vendredi, 09:00–17:00 UTC"
+      }
+    },
+    "compliance": {
+      "title": "Conformité & Affaires Réglementaires",
+      "subtitle": "Alignement FATF",
+      "tagline": "Aligner l'écosystème crypto mondial avec les meilleures pratiques réglementaires.",
+      "overview": "La Division Conformité & Affaires Réglementaires veille à ce que les opérations d'IBCCF, les échanges partenaires et les entités déclarantes respectent les normes réglementaires internationales les plus élevées. Nos agents de conformité maintiennent une expertise à jour sur les recommandations du FATF, les cadres AMLD de l'UE, les directives de FinCEN et les réglementations nationales sur les VASP — traduisant des exigences complexes en programmes de conformité actionnables.",
+      "functions": {
+        "0": {
+          "title": "Rapport Juridictionnel FATF",
+          "description": "Préparation et soumission de rapports formels au FATF et aux unités de renseignement financier affiliées au nom des entités déclarantes, en veillant à respecter les délais et les exigences de format."
+        },
+        "1": {
+          "title": "Cartographie du Cadre Légal",
+          "description": "Suivi continu des changements réglementaires dans plus de 40 juridictions pour fournir des conseils opportuns sur la manière dont les nouvelles lois affectent les opérations des VASP, les obligations des utilisateurs et les exigences de déclaration."
+        },
+        "2": {
+          "title": "Analyse des Lacunes Réglementaires",
+          "description": "Audit des programmes de conformité existants dans les échanges et les dépositaires pour identifier les vulnérabilités, les procédures obsolètes et les lacunes qui pourraient les exposer à des sanctions réglementaires."
+        },
+        "3": {
+          "title": "Supervision & Conseils aux VASP",
+          "description": "Soutenir les Fournisseurs de Services d'Actifs Virtuels avec les exigences de licence, la mise en œuvre de la règle de voyage et le suivi de la conformité en cours dans leurs juridictions d'exploitation."
+        },
+        "4": {
+          "title": "Coordination Réglementaire",
+          "description": "Agir en tant qu'intermédiaire entre IBCCF, les autorités compétentes nationales et les organismes de réglementation internationaux pour faciliter le partage d'informations et l'application coordonnée."
+        }
+      },
+      "caseTypes": {
+        "0": "Soutien à la licence et à la conformité des VASP",
+        "1": "Conseils sur la mise en œuvre de la règle de voyage",
+        "2": "Assistance au dépôt de SAR/STR",
+        "3": "Défense contre les sanctions réglementaires",
+        "4": "Audit et remédiation des programmes AML",
+        "5": "Préparation à l'évaluation mutuelle du FATF"
+      },
+      "process": {
+        "0": {
+          "step": "Consultation Initiale (1–2 jours)",
+          "description": "Nos agents de conformité examinent votre situation, votre juridiction et le cadre réglementaire applicable."
+        },
+        "1": {
+          "step": "Analyse des Lacunes",
+          "description": "Un audit approfondi des procédures de conformité existantes est réalisé et documenté."
+        },
+        "2": {
+          "step": "Plan de Remédiation",
+          "description": "Une feuille de route de remédiation structurée est fournie avec des actions prioritaires et des délais de mise en œuvre."
+        },
+        "3": {
+          "step": "Suivi Continu",
+          "description": "Service de suivi de conformité optionnel pour maintenir les programmes à jour avec les réglementations évolutives."
+        }
+      },
+      "contact": {
+        "responseTime": "1–2 jours ouvrables",
+        "hours": "Lundi–Vendredi, 08:00–18:00 UTC"
+      }
+    },
+    "intelligence": {
+      "title": "Renseignements & Analyse des Menaces",
+      "subtitle": "Profilage des Acteurs de Menace",
+      "tagline": "Cartographier les réseaux d'escroquerie avant qu'ils ne réclament leur prochaine victime.",
+      "overview": "La Division Renseignements & Analyse des Menaces fonctionne comme le centre d'alerte précoce d'IBCCF — identifiant, cartographiant et neutralisant proactivement les menaces émergentes de fraude crypto avant qu'elles n'atteignent une échelle significative. Nos analystes de renseignement combinent des renseignements open-source, le profilage des acteurs de menace et la surveillance du dark web pour construire des images complètes des organisations criminelles opérant dans l'espace crypto.",
+      "functions": {
+        "0": {
+          "title": "Cartographie des Réseaux d'Escroquerie",
+          "description": "Construire des graphes de relations d'entités frauduleuses — portefeuilles, sites web, comptes sociaux et individus — qui forment ensemble des opérations d'escroquerie coordonnées."
+        },
+        "1": {
+          "title": "Profilage des Acteurs de Menace",
+          "description": "Créer des profils détaillés d'opérateurs de fraude crypto connus et suspects, y compris leurs techniques, leur infrastructure, leurs cibles démographiques et leurs modèles opérationnels."
+        },
+        "2": {
+          "title": "Système d'Alerte Précoce",
+          "description": "Surveiller les médias sociaux, les forums et les canaux du dark web pour détecter de nouvelles campagnes d'escroquerie à leurs débuts et émettre des alertes avant qu'elles ne se propagent largement."
+        },
+        "3": {
+          "title": "Partage de Renseignements",
+          "description": "Distribuer des rapports de renseignement sur les menaces assainis aux agences partenaires de l'application de la loi, aux échanges et aux institutions financières pour permettre une action défensive coordonnée."
+        },
+        "4": {
+          "title": "Modélisation Prédictive des Menaces",
+          "description": "Utiliser des données historiques et une analyse des modèles pour prévoir où et comment la prochaine vague de fraude crypto est susceptible d'émerger, permettant des contre-mesures proactives."
+        }
+      },
+      "caseTypes": {
+        "0": "Campagnes d'escroquerie de type 'pig butchering'",
+        "1": "Infrastructure d'échange frauduleuse",
+        "2": "Escroqueries d'imitation et deepfake",
+        "3": "Escroqueries par endorsement de célébrités",
+        "4": "Schémas de pump-and-dump coordonnés",
+        "5": "Opérations de syndicats de fraude transfrontaliers"
+      },
+      "process": {
+        "0": {
+          "step": "Soumission de Rapport de Menace",
+          "description": "Soumettez les détails de l'escroquerie suspectée, y compris les URL, les portefeuilles, les communications et toute autre preuve."
+        },
+        "1": {
+          "step": "Analyse OSINT (48–72 heures)",
+          "description": "Notre équipe de renseignement enquête sur la menace en utilisant des méthodes de renseignement open et closed-source."
+        },
+        "2": {
+          "step": "Création de Profil de Menace",
+          "description": "Un profil de menace complet est compilé et ajouté à notre base de données de renseignement sur les menaces."
+        },
+        "3": {
+          "step": "Alerte & Référence",
+          "description": "Des alertes pertinentes sont émises aux agences partenaires et, le cas échéant, des avertissements publics sont publiés."
+        }
+      },
+      "contact": {
+        "responseTime": "48–72 heures",
+        "hours": "Surveillance 24/7 avec réponse d'analyste pendant la journée"
+      }
+    },
+    "support": {
+      "title": "Services de Soutien aux Victimes",
+      "subtitle": "Accueil des Cas & Plaidoyer",
+      "tagline": "Se tenir aux côtés des victimes depuis le premier contact jusqu'à la résolution finale.",
+      "overview": "La Division des Services de Soutien aux Victimes fournit un chemin de soutien compatissant, confidentiel et structuré pour les individus ayant subi des dommages financiers et psychologiques à travers la fraude crypto. Nos défenseurs de cas travaillent en tête-à-tête avec les victimes pour documenter leur expérience, les connecter avec des ressources d'enquête et juridiques appropriées, et fournir un soutien émotionnel et pratique continu tout au long du processus de récupération.",
+      "functions": {
+        "0": {
+          "title": "Accueil de Cas Sécurisé",
+          "description": "Processus d'accueil confidentiel et crypté qui collecte toutes les informations pertinentes sur la fraude, les circonstances de la victime et toute documentation ou preuve existante."
+        },
+        "1": {
+          "title": "Plaidoyer pour les Victimes",
+          "description": "Des défenseurs de cas dédiés qui représentent les intérêts de la victime tout au long de l'enquête et du processus légal, veillant à ce que leur voix soit entendue et que leurs droits soient protégés."
+        },
+        "2": {
+          "title": "Références de Soutien Psychologique",
+          "description": "Connexions avec des conseillers vérifiés et des groupes de soutien spécialisés dans le traumatisme unique de la fraude financière — y compris la honte, l'isolement et le chagrin qu'elle cause souvent."
+        },
+        "3": {
+          "title": "Conseils Juridiques & Références",
+          "description": "Conseils sur les options juridiques des victimes, assistance à la préparation de la documentation pour les plaintes auprès des forces de l'ordre, et références à des avocats expérimentés dans les affaires de fraude crypto."
+        },
+        "4": {
+          "title": "Navigation de Restitution",
+          "description": "Aider les victimes à comprendre et à naviguer dans le processus de restitution, y compris le dépôt de déclarations d'impact sur les victimes et la participation aux distributions de récupération d'actifs."
+        }
+      },
+      "caseTypes": {
+        "0": "Victimes d'escroqueries amoureuses",
+        "1": "Survivants de fraudes d'investissement",
+        "2": "Soutien aux victimes âgées et vulnérables",
+        "3": "Assistance à la récupération d'identité",
+        "4": "Soutien à l'impact familial",
+        "5": "Références d'intervention en cas de crise"
+      },
+      "process": {
+        "0": {
+          "step": "Accueil Confidentiel (Le Même Jour)",
+          "description": "Contactez-nous via le formulaire sécurisé ou la ligne d'assistance. Un défenseur de cas répondra le même jour ouvrable pour commencer votre accueil."
+        },
+        "1": {
+          "step": "Évaluation du Cas",
+          "description": "Votre défenseur examine votre situation et vous connecte avec les divisions d'enquête et les ressources appropriées."
+        },
+        "2": {
+          "step": "Soutien Continu",
+          "description": "Des vérifications régulières vous tiennent informé de l'avancement de l'enquête pendant que votre défenseur répond à tous les besoins de soutien qui se présentent."
+        },
+        "3": {
+          "step": "Résolution & Récupération",
+          "description": "Votre défenseur vous soutient dans les étapes finales, y compris les procédures légales, la restitution et la planification de la récupération post-cas."
+        }
+      },
+      "contact": {
+        "responseTime": "Le même jour ouvrable",
+        "hours": "Lundi–Vendredi, 08:00–20:00 UTC · Ligne d'urgence 24/7"
+      }
+    }
+  }
+}

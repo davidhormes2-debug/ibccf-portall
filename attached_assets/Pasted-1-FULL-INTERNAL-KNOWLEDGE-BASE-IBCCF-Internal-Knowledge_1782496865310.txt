@@ -1,0 +1,503 @@
+1. FULL INTERNAL KNOWLEDGE BASE
+IBCCF Internal Knowledge Base — Version 1.0
+This is the master reference library for all internal teams: support, compliance, engineering, operations, and leadership.
+
+SECTION 1 — System Overview
+IBCCF is a compliance‑driven case‑management and withdrawal‑processing platform.
+
+Core modules:
+
+Case Holder Portal
+
+Admin Dashboard
+
+Document Management
+
+Countdown & Reactivation
+
+Compliance Declarations
+
+Automated Email Engine
+
+AI Community Forum
+
+Monitoring & Audit Logging
+
+SECTION 2 — Key Concepts
+Case
+A user‑specific record containing all documents, stages, communications, and compliance artifacts.
+
+Stage
+One of 14 regulated steps required for withdrawal completion.
+
+Countdown
+A compliance enforcement mechanism that resets the withdrawal pathway if deadlines are missed.
+
+Reactivation
+A controlled process to restore access after countdown expiry.
+
+SECTION 3 — User Workflows
+Case submission
+
+Access code login
+
+Document uploads
+
+Declaration signing
+
+Messaging
+
+Countdown handling
+
+Reactivation
+
+SECTION 4 — Admin Workflows
+Case search
+
+Stage management
+
+Document review
+
+Email sending
+
+Countdown activation
+
+Reactivation approval
+
+Audit log review
+
+IP blocking
+
+SECTION 5 — Compliance Requirements
+Mandatory KYC/SOF/FATCA
+
+Immutable declarations
+
+NDA integrity
+
+Withdrawal reset logic
+
+GDPR‑aligned data handling
+
+SECTION 6 — Security Requirements
+RBAC
+
+Session timeout
+
+Token rotation
+
+File validation
+
+Rate limiting
+
+XSS sanitization
+
+SQL injection protection
+
+SECTION 7 — Monitoring
+Sentry
+
+Health endpoint
+
+AI fallback
+
+Email queue monitoring
+
+SECTION 8 — SOP Index
+Case Intake
+
+Document Review
+
+Stage Progression
+
+Countdown Activation
+
+Reactivation
+
+Messaging
+
+Security
+
+2. SUPPORT ESCALATION MATRIX
+IBCCF Support Escalation Framework — Version 1.0
+This matrix defines who handles what, and when escalation is mandatory.
+
+LEVEL 0 — Self‑Service (User Portal)
+User actions:
+
+Upload documents
+
+Read instructions
+
+Complete declarations
+
+View countdown
+
+Upload reactivation receipt
+
+No agent involvement.
+
+LEVEL 1 — Support Agent
+Handles:
+
+Basic questions
+
+Stage explanations
+
+Document instructions
+
+Messaging
+
+Portal navigation
+
+Must NOT:
+
+Override stages
+
+Modify documents
+
+Change countdown
+
+Promise timelines
+
+Escalate if:
+
+User disputes compliance
+
+User requests exceptions
+
+User challenges countdown
+
+User requests manual approval
+
+LEVEL 2 — Compliance Officer
+Handles:
+
+Document authenticity concerns
+
+SOF/FATCA issues
+
+Declaration disputes
+
+NDA issues
+
+Withdrawal reset disputes
+
+Escalate if:
+
+User threatens legal action
+
+User claims fraud
+
+User requests regulatory intervention
+
+LEVEL 3 — Security / CISO
+Handles:
+
+Account compromise
+
+Suspicious activity
+
+IP blocking
+
+Admin misuse
+
+Data access concerns
+
+Escalate if:
+
+Breach suspected
+
+Data exposure risk
+
+Unauthorized access detected
+
+LEVEL 4 — Executive
+Handles:
+
+Legal escalations
+
+Regulator inquiries
+
+Investor concerns
+
+High‑risk disputes
+
+3. CISO‑LEVEL SECURITY BRIEFING
+IBCCF Security Architecture & Threat Model — Version 1.0
+Executive Summary
+IBCCF is built with a security‑first architecture designed to withstand operational, regulatory, and adversarial threats.
+
+Threat Model Overview
+Primary Threat Categories
+Unauthorized admin access
+
+Data leakage
+
+Document forgery
+
+Countdown bypass
+
+Session hijacking
+
+XSS/SQL injection
+
+AI misuse
+
+Email spoofing
+
+Security Controls
+RBAC
+super_admin
+
+admin
+
+agent
+
+viewer
+
+Strict permission boundaries.
+
+Authentication
+Secure cookies
+
+Token rotation
+
+Session timeout
+
+Input Validation
+Zod schema validation
+
+XSS sanitization
+
+SQL injection prevention
+
+File Security
+MIME validation
+
+Size limits
+
+Secure storage
+
+Monitoring
+Sentry
+
+Health endpoint
+
+AI fallback
+
+Email queue monitoring
+
+Incident Response
+Identify
+
+Contain
+
+Eradicate
+
+Recover
+
+Document
+
+Report
+
+Security KPIs
+Zero unauthorized access
+
+Zero data leaks
+
+Zero countdown bypasses
+
+Zero unlogged admin actions
+
+4. REGULATOR‑FACING WHITEPAPER
+IBCCF Regulatory Compliance Whitepaper — Version 1.0
+Abstract
+IBCCF is a compliance‑driven platform engineered to meet the operational, documentation, and audit requirements of digital‑asset regulatory frameworks across multiple jurisdictions.
+
+1. Introduction
+Regulators require:
+
+Structured withdrawal processes
+
+Mandatory documentation
+
+Immutable records
+
+Transparent audit trails
+
+Enforceable compliance mechanisms
+
+IBCCF delivers all of these.
+
+2. Compliance Architecture
+Immutable Timeline
+Every action is logged permanently.
+
+Mandatory Documentation
+KYC, SOF, FATCA, receipts.
+
+Declaration Immutability
+Digitally signed, locked, and stored read‑only.
+
+NDA Integrity
+Daily automated verification.
+
+Withdrawal Reset Logic
+Triggered by countdown expiry.
+
+3. Security Architecture
+RBAC
+
+Secure cookies
+
+Token rotation
+
+File validation
+
+Rate limiting
+
+XSS/SQLi protection
+
+Audit logging
+
+4. Operational Controls
+SOP‑driven workflows
+
+Automated email notifications
+
+Countdown enforcement
+
+Reactivation workflow
+
+5. Multi‑Jurisdiction Alignment
+GDPR (EU)
+
+VARA (UAE)
+
+FINTRAC/CRA (Canada)
+
+FinCEN/SEC (USA)
+
+6. Conclusion
+IBCCF is engineered to be audit‑ready, regulator‑aligned, and operationally robust.
+
+5. COMPLETE INVESTOR DECK (SLIDE‑BY‑SLIDE)
+IBCCF Investor Pitch Deck — Version 1.0
+Slide 1 — Title
+IBCCF: International Blockchain Compliance Framework  
+Compliance. Structure. Trust.
+
+Slide 2 — The Problem
+Digital‑asset platforms struggle with:
+
+Fraud exposure
+
+Weak documentation
+
+Inconsistent compliance
+
+Poor audit trails
+
+Regulatory pressure
+
+Slide 3 — The Solution
+A unified compliance and case‑management platform with:
+
+14‑stage withdrawal process
+
+Mandatory documentation
+
+Immutable declarations
+
+Countdown enforcement
+
+Reactivation workflow
+
+Full audit logging
+
+Slide 4 — Product Overview
+Case Holder Portal
+
+Admin Dashboard
+
+Document Management
+
+Automated Emails
+
+AI Community Forum
+
+Monitoring & Security
+
+Slide 5 — Technology
+React 19
+
+Node.js
+
+PostgreSQL
+
+Drizzle ORM
+
+Sentry
+
+OpenAI GPT‑4o‑mini
+
+Slide 6 — Compliance Strength
+GDPR‑aligned
+
+Immutable timeline
+
+NDA integrity
+
+Declaration immutability
+
+Withdrawal reset logic
+
+Slide 7 — Market Opportunity
+Rising regulatory pressure
+
+Growing digital‑asset adoption
+
+Need for structured compliance
+
+High demand for audit‑ready systems
+
+Slide 8 — Business Model
+SaaS licensing
+
+Per‑case fees
+
+Compliance automation
+
+Enterprise support
+
+White‑label licensing
+
+Slide 9 — Competitive Advantages
+Regulatory alignment
+
+Immutable compliance artifacts
+
+Automated enforcement
+
+AI‑augmented support
+
+Multi‑jurisdiction readiness
+
+Slide 10 — Roadmap
+Phase 1: Core platform
+
+Phase 2: AI automation
+
+Phase 3: Enterprise integrations
+
+Phase 4: Global expansion
+
+Slide 11 — Financial Model
+Recurring revenue
+
+High retention
+
+Low churn
+
+Scalable margins

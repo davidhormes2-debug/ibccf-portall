@@ -1,0 +1,123 @@
+{
+  "back": "Voltar",
+  "accessPortal": "Acessar Portal",
+  "legalDoc": "Documentação Jurídica",
+  "title": "Política de Privacidade",
+  "subtitle": "Como a IBCCF coleta, usa e protege seus dados pessoais em relação aos nossos serviços de gestão de reclamações de blockchain e prevenção de fraudes.",
+  "lastUpdated": "Última atualização:",
+  "contents": "Conteúdo",
+  "termsLink": "Termos de Uso",
+  "legalResourcesLink": "Recursos Jurídicos",
+  "reviewerNote": {
+    "label": "Nota para revisores jurídicos:",
+    "text": "Este documento é um rascunho de trabalho preparado para o lançamento da plataforma. Deve ser revisto e finalizado por um profissional jurídico qualificado antes que a plataforma processe dados pessoais de usuários em jurisdições reguladas."
+  },
+  "sections": {
+    "overview": {
+      "title": "1. Visão Geral",
+      "p1Pre": "O Fórum Internacional de Reclamações de Blockchain (",
+      "p1Brand": "\"IBCCF\"",
+      "p1Post": ", \"nós\" ou \"nosso\") opera este portal web como um serviço de gestão de casos e prevenção de fraudes para reclamações relacionadas a blockchain.",
+      "p2": "Esta Política de Privacidade explica quais informações pessoais coletamos quando você visita nosso site ou submete um caso de reclamação, como usamos e protegemos essas informações e os direitos que você tem sobre elas."
+    },
+    "dataCollected": {
+      "title": "2. Informações que Coletamos",
+      "intro": "Podemos coletar as seguintes categorias de informações pessoais:",
+      "items": [
+        { "label": "Dados de Identidade e Contato", "detail": "Nome completo, endereço de e-mail, número de telefone e país de residência fornecidos ao enviar uma reclamação ou criar uma conta no portal." },
+        { "label": "Dados de Caso e Transação", "detail": "Detalhes sobre transações de blockchain, endereços de carteiras, nomes de plataformas e valores financeiros relevantes para sua reclamação." },
+        { "label": "Documentos Enviados", "detail": "Documentos regulatórios e de conformidade que você envia voluntariamente (ex.: comprovante de renda, KYC/identificação, declarações FATCA/CRS, recibos de depósito). São armazenados com segurança e revisados apenas por pessoal autorizado." },
+        { "label": "Comunicações", "detail": "Mensagens que você envia pelo nosso portal, chat de suporte ou formulários de contato, incluindo transcrições de chat geradas por nossas ferramentas de suporte assistidas por IA." },
+        { "label": "Dados Técnicos e de Uso", "detail": "Endereço IP, tipo de navegador, identificadores de dispositivo, páginas visitadas, tempo no site e atividade de sessão coletados automaticamente para monitoramento de segurança e operações." },
+        { "label": "Cookies e Armazenamento Local", "detail": "Usamos cookies de sessão estritamente necessários e armazenamento local do navegador para manter sua sessão autenticada no portal e lembrar sua preferência de idioma. Cookies de análise opcionais são definidos apenas com seu consentimento." }
+      ]
+    },
+    "howWeUse": {
+      "title": "3. Como Usamos Suas Informações",
+      "intro": "Processamos suas informações pessoais para os seguintes fins:",
+      "items": [
+        "Para registrar e gerenciar seu caso de reclamação ao longo do seu ciclo de resolução.",
+        "Para verificar a atividade da plataforma e avaliar condutas fraudulentas relatadas.",
+        "Para cumprir obrigações de conformidade regulatória, incluindo requisitos de verificação de identidade AML/CFT.",
+        "Para comunicar atualizações de casos, solicitações de documentos e notificações da plataforma.",
+        "Para fornecer respostas comunitárias assistidas por IA e funcionalidade de chat de suporte.",
+        "Para monitorar e melhorar a segurança da plataforma, detectar abusos e aplicar nossos Termos de Uso.",
+        "Para manter registros de auditoria exigidos para conformidade e responsabilidade jurídica.",
+        "Para enviar e-mails transacionais relacionados ao seu caso (nunca marketing não solicitado sem consentimento)."
+      ]
+    },
+    "legalBasis": {
+      "title": "4. Base Legal para o Tratamento",
+      "intro": "Quando a lei de proteção de dados aplicável exige uma base legal (ex.: sob o RGPD da UE ou RGPD do Reino Unido), baseamo-nos no seguinte:",
+      "items": [
+        { "basis": "Execução de contrato", "detail": "Tratamento necessário para fornecer o serviço de gestão de reclamações que você solicitou." },
+        { "basis": "Obrigação legal", "detail": "Tratamento necessário para cumprir as leis AML/CFT, KYC e de prevenção de crimes financeiros." },
+        { "basis": "Interesses legítimos", "detail": "Monitoramento de segurança, prevenção de fraudes, integridade da plataforma e análises agregadas — equilibrados com seus interesses e direitos." },
+        { "basis": "Consentimento", "detail": "Cookies de análise opcionais e qualquer tratamento não coberto pelas bases acima." }
+      ]
+    },
+    "sharing": {
+      "title": "5. Compartilhamento de Informações",
+      "intro": "Não vendemos dados pessoais. Podemos compartilhar informações nas seguintes circunstâncias limitadas:",
+      "items": [
+        "Com autoridades reguladoras ou agências de aplicação da lei quando exigido por lei ou em resposta a um processo legal válido.",
+        "Com prestadores de serviços confiáveis que processam dados em nosso nome sob acordos de processamento de dados adequados (ex.: hospedagem em nuvem, entrega de e-mail, monitoramento de erros).",
+        "Com a OpenAI, Inc. para recursos comunitários e de suporte assistidos por IA — os dados são transmitidos via API sob os termos de processamento de dados da OpenAI.",
+        "Em caso de fusão, aquisição ou venda de ativos, onde os dados do caso podem ser transferidos para a entidade sucessora sujeita a proteções de privacidade equivalentes."
+      ]
+    },
+    "retention": {
+      "title": "6. Retenção de Dados",
+      "intro": "Retemos dados pessoais apenas pelo tempo necessário para os fins estabelecidos nesta política ou conforme exigido pela lei aplicável:",
+      "items": [
+        "Os registros de casos ativos são retidos pela duração do caso mais um mínimo de cinco (5) anos para fins de auditoria de conformidade.",
+        "Os documentos regulatórios enviados (KYC, FATCA/CRS, origem dos fundos) são retidos por pelo menos cinco (5) anos após o encerramento do caso, conforme as obrigações de manutenção de registros AML.",
+        "Os registros de visitantes e sessões são retidos por até noventa (90) dias.",
+        "Os registros de auditoria de e-mail são retidos por dois (2) anos.",
+        "Você pode solicitar a exclusão antecipada de determinados dados quando não houver obrigação legal de retenção — consulte a Seção 8."
+      ]
+    },
+    "security": {
+      "title": "7. Segurança",
+      "intro": "Implementamos medidas de segurança técnicas e organizacionais apropriadas para proteger seus dados pessoais contra acesso não autorizado, perda ou divulgação, incluindo:",
+      "items": [
+        "Criptografia TLS para todos os dados em trânsito.",
+        "Armazenamento de banco de dados criptografado com acesso restrito ao pessoal autorizado da plataforma.",
+        "Autenticação baseada em sessão com controles de logout forçado para contas do portal.",
+        "Registro de auditoria de todas as ações administrativas que afetam os registros de casos.",
+        "Controles de limitação de taxa e bloqueio de IP para mitigar abusos."
+      ],
+      "outro": "Nenhum método de transmissão pela internet é 100% seguro. Embora nos esforcemos para proteger seus dados, não podemos garantir segurança absoluta."
+    },
+    "rights": {
+      "title": "8. Seus Direitos",
+      "intro": "Dependendo de sua jurisdição, você pode ter os seguintes direitos em relação aos seus dados pessoais:",
+      "items": [
+        { "right": "Acesso", "detail": "Solicitar uma cópia dos dados pessoais que mantemos sobre você." },
+        { "right": "Retificação", "detail": "Solicitar a correção de dados inexatos ou incompletos." },
+        { "right": "Apagamento", "detail": "Solicitar a exclusão de seus dados quando não houver obrigação legal de retê-los ('direito ao esquecimento')." },
+        { "right": "Restrição", "detail": "Solicitar que restrinjamos o tratamento de seus dados em determinadas circunstâncias." },
+        { "right": "Portabilidade", "detail": "Receber seus dados em um formato estruturado e legível por máquina, quando tecnicamente viável." },
+        { "right": "Oposição", "detail": "Opor-se ao tratamento baseado em interesses legítimos ou para marketing direto." },
+        { "right": "Retirar consentimento", "detail": "Retirar qualquer consentimento dado anteriormente sem afetar a licitude do tratamento anterior." }
+      ],
+      "outro": "Para exercer qualquer um desses direitos, entre em contato conosco pelo endereço indicado na Seção 10. Responderemos dentro de 30 dias. Podemos precisar verificar sua identidade antes de atender a uma solicitação."
+    },
+    "international": {
+      "title": "9. Transferências Internacionais",
+      "p1": "Seus dados podem ser transferidos e processados em países fora do seu país de residência, incluindo países que podem não oferecer o mesmo nível de proteção de dados que sua jurisdição de origem. Quando tais transferências ocorrem, implementamos salvaguardas apropriadas, como cláusulas contratuais padrão ou mecanismos equivalentes reconhecidos pelas autoridades de proteção de dados aplicáveis.",
+      "p2Pre": "Para mais informações sobre o quadro regulatório internacional aplicável a esta plataforma, consulte nosso",
+      "p2LinkText": "diretório de Recursos Jurídicos",
+      "p2Post": "."
+    },
+    "contact": {
+      "title": "10. Contato e Reclamações",
+      "p1": "Para consultas relacionadas à privacidade, solicitações de titulares de dados ou para levantar uma preocupação sobre como tratamos dados pessoais, entre em contato conosco pelo portal de suporte ou pelo formulário de contato no site principal.",
+      "p2": "Se você estiver localizado na UE ou no Reino Unido e não estiver satisfeito com nossa resposta, você tem o direito de apresentar uma reclamação junto à sua autoridade supervisora local de proteção de dados."
+    },
+    "updates": {
+      "title": "11. Atualizações desta Política",
+      "p1": "Podemos atualizar esta Política de Privacidade periodicamente. Quando o fizermos, revisaremos a data de \"Última atualização\" no topo desta página. Para alterações relevantes, notificaremos os titulares de casos ativos por meio de seu endereço de e-mail registrado ou de um aviso em destaque no portal. O uso continuado da plataforma após a data efetiva constitui aceitação da política revisada."
+    }
+  }
+}

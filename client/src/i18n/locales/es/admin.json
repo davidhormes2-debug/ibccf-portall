@@ -1,0 +1,680 @@
+{
+  "login": {
+    "headerTitle": "PANEL DE CONTROL ADMINISTRATIVO",
+    "headerSubtitle": "Gestión de Cumplimiento ISO-D",
+    "cardTitle": "Acceso de Administrador",
+    "usernameLabel": "Nombre de usuario",
+    "usernamePlaceholder": "Introduzca el nombre de usuario del administrador",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "Introduzca la contraseña",
+    "submit": "Acceder al Panel de Control",
+    "authenticating": "Autenticando…",
+    "footer": "Acceso Restringido • Nivel 1 ISO-D"
+  },
+  "header": {
+    "title": "PORTAL ADMINISTRATIVO IBCCF",
+    "status": "Sistema Activo • Nivel de Autorización ISO-D 1",
+    "sessionLabel": "Sesión de Administrador",
+    "sessionRole": "Oficial de Cumplimiento",
+    "userPortal": "Portal de Usuario",
+    "logout": "Cerrar sesión",
+    "notifications": "Notificaciones",
+    "noNotifications": "Sin notificaciones"
+  },
+  "tabs": {
+    "cases": "Casos",
+    "submissions": "Todas las Presentaciones",
+    "conversations": "Conversaciones",
+    "analytics": "Analíticas",
+    "settings": "Configuraciones",
+    "content": "Contenido",
+    "community": "Comunidad",
+    "keyRequests": "Solicitudes de Clave",
+    "visitors": "Visitantes",
+    "communications": "Comunicaciones",
+    "documents": "Documentos"
+  },
+  "sections": {
+    "regulatoryDocuments": "Documentos Regulatorios",
+    "accountSettings": "Configuraciones de Cuenta",
+    "withdrawalProgress": "Progreso de Retiro",
+    "communication": "Comunicación",
+    "caseNotes": "Notas del Caso (Solo Administrador)",
+    "dangerZone": "Zona de Peligro",
+    "messageHistory": "Historial de Mensajes",
+    "personalIdentification": "Identificación Personal",
+    "sanctionsCompliance": "Cumplimiento de Sanciones",
+    "approvedAssetIncome": "Ingreso de Activos Aprobados",
+    "internationalTerms": "Términos Internacionales y Tarifa de Procesamiento",
+    "regulatorySignature": "Regulatorio y Firma",
+    "complianceReview": "Revisión de Cumplimiento",
+    "optionCustomization": "Personalización de Opciones"
+  },
+  "dialogs": {
+    "createCase": {
+      "title": "Crear Caso de Acceso Seguro",
+      "description": "Genere una contraseña única para que el usuario acceda al portal.",
+      "label": "Contraseña de Acceso",
+      "placeholder": "p. ej. 774982",
+      "submit": "Crear Caso"
+    },
+    "finalize": {
+      "title": "Finalizar Reactivación de Cuenta",
+      "description": "Revise y edite los detalles del usuario y el contenido de la carta antes de activar la cuenta.",
+      "userDetailsTab": "Detalles del Usuario",
+      "letterContentTab": "Contenido de la Carta"
+    },
+    "editLetter": {
+      "title": "Editar Contenido de la Carta",
+      "description": "Personalice la carta de retiro para {{name}}.",
+      "fallbackUser": "este usuario"
+    },
+    "submissionHistory": {
+      "title": "Historial de Presentaciones",
+      "description": "Presentaciones anteriores para {{name}}."
+    },
+    "chatTemplates": {
+      "title": "Gestor de Plantillas de Chat"
+    },
+    "declaration": {
+      "title": "Declaración de Cumplimiento — {{name}}"
+    },
+    "reissueLetter": {
+      "title": "Reemitir Carta"
+    },
+    "openDeclarationPortal": {
+      "title": "Abrir Portal de Declaración"
+    },
+    "stageEmail": {
+      "title": "Vista Previa y Edición del Correo de la Etapa {{stage}}"
+    },
+    "sendEmail": {
+      "title": "Enviar Correo a {{name}}"
+    },
+    "depositReceipts": {
+      "title": "Recibos de Depósito: {{name}}"
+    },
+    "editAccount": {
+      "title": "Editar Cuenta"
+    }
+  },
+  "actions": {
+    "refresh": "Actualizar",
+    "newCase": "Nuevo Caso",
+    "createCase": "Crear Caso",
+    "generate": "Generar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "delete": "Eliminar",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "send": "Enviar"
+  },
+  "caseList": {
+    "heading": "Gestión de Casos",
+    "subtitle": "Crear y gestionar códigos de acceso de usuario.",
+    "searchPlaceholder": "Buscar por código, nombre o correo…",
+    "filterPlaceholder": "Filtrar por estado",
+    "filterAll": "Todos los Estados",
+    "tableAccessCode": "Código de Acceso",
+    "tableUser": "Usuario",
+    "tableStatus": "Estado",
+    "tableSubmissions": "Presentaciones",
+    "tableLedger": "Ledger",
+    "tableActions": "Acciones",
+    "viewLedgerTooltip": "Ver Ledger del Caso",
+    "empty": "No se encontraron casos que coincidan con sus criterios.",
+    "createTitle": "Crear Nuevo Caso",
+    "createDescription": "Genere un código de acceso único para un nuevo usuario.",
+    "createPlaceholder": "Código de acceso"
+  },
+  "conversations": {
+    "heading": "Conversaciones de Usuarios",
+    "subtitle": "Ver y responder a los mensajes de los usuarios en tiempo real.",
+    "activeChats": "Chats Activos",
+    "noActiveChats": "Sin conversaciones activas",
+    "noMessages": "Sin mensajes aún",
+    "selectConversationTitle": "Seleccionar una conversación",
+    "selectConversationSubtitle": "Elija un usuario de la lista para comenzar a chatear",
+    "inputPlaceholder": "Escriba su mensaje…",
+    "templates": "Plantillas"
+  },
+  "analytics": {
+    "heading": "Panel de Analíticas",
+    "subtitle": "Monitorear métricas clave, tendencias e indicadores de rendimiento.",
+    "totalCases": "Total de Casos",
+    "activeUsers": "Usuarios Activos",
+    "totalSubmissions": "Total de Presentaciones",
+    "pendingActions": "Acciones Pendientes",
+    "statusDistribution": "Distribución del Estado del Caso",
+    "submissionBreakdown": "Desglose de Opciones de Presentación",
+    "recentActivity": "Actividad Reciente",
+    "noActivity": "Sin actividad reciente",
+    "statusCreated": "Creado",
+    "statusSyncing": "Sincronizando",
+    "statusActive": "Activo",
+    "statusCompleted": "Completado",
+    "statusRegistered": "Registrado",
+    "statusLabel": "Estado",
+    "optionA": "Opción A",
+    "optionB": "Opción B"
+  },
+  "status": {
+    "created": "Creado",
+    "registered": "Registrado",
+    "syncing": "Sincronizando",
+    "active": "Activo",
+    "completed": "Completado"
+  },
+  "toasts": {
+    "errorTitle": "Error",
+    "successTitle": "Éxito",
+    "networkError": "Se produjo un error de red.",
+    "networkErrorTitle": "Error de Red",
+    "networkErrorBody": "No se pudo alcanzar el servidor.",
+    "accessGranted": {
+      "title": "Acceso Concedido",
+      "description": "Sesión de administrador establecida."
+    },
+    "accessDenied": {
+      "title": "Acceso Denegado",
+      "description": "Credenciales inválidas."
+    },
+    "connectionError": {
+      "title": "Error de Conexión",
+      "description": "No se pudo autenticar."
+    },
+    "loggedOut": {
+      "title": "Desconectado",
+      "description": "Sesión de administrador finalizada."
+    },
+    "newUserRegistered": {
+      "title": "Nuevo Usuario Registrado",
+      "description": "{{name}} se ha registrado{{extra}}"
+    },
+    "newSubmission": {
+      "title": "Nueva Presentación",
+      "description": "Opción {{option}} presentada{{extra}}"
+    },
+    "newDocumentUploaded": {
+      "title": "Nuevo documento de soporte subido",
+      "description": "El caso {{caseId}} envió un documento para revisión{{extra}}"
+    },
+    "refreshed": {
+      "title": "Actualizado",
+      "description": "Los datos han sido actualizados."
+    },
+    "refreshFailed": {
+      "description": "Error al actualizar los datos."
+    },
+    "templateNameRequired": {
+      "description": "Se requieren nombre y contenido"
+    },
+    "templateCreated": {
+      "title": "Plantilla Creada",
+      "description": "Nueva plantilla de chat añadida."
+    },
+    "templateCreateFailed": {
+      "description": "Error al crear la plantilla"
+    },
+    "deleted": {
+      "title": "Eliminado"
+    },
+    "templateRemoved": {
+      "description": "Plantilla eliminada."
+    },
+    "templateDeleteFailed": {
+      "description": "Error al eliminar la plantilla"
+    },
+    "noteAdded": {
+      "title": "Nota Añadida",
+      "description": "Nota del caso creada."
+    },
+    "noteAddFailed": {
+      "description": "Error al añadir nota"
+    },
+    "noteRemoved": {
+      "description": "Nota eliminada."
+    },
+    "noteDeleteFailed": {
+      "description": "Error al eliminar nota"
+    },
+    "togglePinFailed": {
+      "description": "Error al alternar el pin"
+    },
+    "sessionRevoked": {
+      "title": "Sesión revocada",
+      "description": "La sesión de administrador ha sido terminada."
+    },
+    "scheduleRequiredFields": {
+      "description": "Se requieren contenido y hora programada"
+    },
+    "scheduled": {
+      "title": "Programado",
+      "description": "Mensaje programado para entrega."
+    },
+    "scheduleFailed": {
+      "description": "Error al programar el mensaje"
+    },
+    "cancelled": {
+      "title": "Cancelado",
+      "description": "Mensaje programado cancelado."
+    },
+    "scheduleCancelFailed": {
+      "description": "Error al cancelar el mensaje"
+    },
+    "templateMsgCreated": {
+      "title": "Creado",
+      "description": "Plantilla de mensaje añadida."
+    },
+    "templateMsgCreateFailed": {
+      "description": "Error al crear la plantilla"
+    },
+    "templateMsgRemoved": {
+      "description": "Plantilla de mensaje eliminada."
+    },
+    "templateMsgDeleteFailed": {
+      "description": "Error al eliminar la plantilla"
+    },
+    "helpRequired": {
+      "description": "Se requieren título y contenido"
+    },
+    "helpCreated": {
+      "title": "Creado",
+      "description": "Artículo de ayuda añadido."
+    },
+    "helpCreateFailed": {
+      "description": "Error al crear el artículo"
+    },
+    "helpDeleteFailed": {
+      "description": "Error al eliminar el artículo"
+    },
+    "sessionEnded": {
+      "title": "Sesión Finalizada",
+      "description": "La sesión del usuario ha sido terminada."
+    },
+    "endSessionFailed": {
+      "description": "Error al finalizar la sesión"
+    },
+    "translationCreated": {
+      "title": "Traducción Creada",
+      "description": "Añadido \"{{key}}\" para {{locale}}"
+    },
+    "translationCreateFailed": {
+      "description": "Error al crear la traducción"
+    },
+    "translationDeleted": {
+      "title": "Traducción Eliminada",
+      "description": "Eliminado \"{{key}}\""
+    },
+    "translationDeleteFailed": {
+      "description": "Error al eliminar la traducción"
+    },
+    "docRequestRequired": {
+      "description": "Se requieren caso y tipo de documento"
+    },
+    "docCreated": {
+      "title": "Creado",
+      "description": "Solicitud de documento enviada al usuario."
+    },
+    "docCreateFailed": {
+      "description": "Error al crear la solicitud"
+    },
+    "docApproved": {
+      "title": "Documento aprobado",
+      "description": "El usuario ha sido notificado por correo electrónico."
+    },
+    "docApproveFailed": {
+      "title": "Aprobación fallida ({{status}})"
+    },
+    "docToggleFailed": {
+      "title": "Alternar fallido ({{status}})"
+    },
+    "docRequestFailed": {
+      "title": "Solicitud fallida ({{status}})"
+    },
+    "docRejectFailed": {
+      "title": "Rechazo fallido ({{status}})"
+    },
+    "notesRequired": {
+      "title": "Notas requeridas",
+      "description": "Indique al usuario qué necesita ser corregido."
+    },
+    "docRejected": {
+      "title": "Documento rechazado",
+      "description": "Se ha solicitado al usuario que lo vuelva a enviar."
+    },
+    "previewFailed": {
+      "title": "Preview failed"
+    },
+    "newMessageNotify": {
+      "title": "Nuevo Mensaje",
+      "description": "Nuevo mensaje de {{name}}"
+    },
+    "newMessageGeneric": {
+      "description": "El usuario envió un nuevo mensaje"
+    },
+    "sendMessageFailed": {
+      "description": "Error al enviar el mensaje."
+    },
+    "sendMessageRetry": {
+      "description": "Error al enviar el mensaje. Por favor, inténtelo de nuevo."
+    },
+    "loadMessagesFailed": {
+      "description": "Error al cargar mensajes."
+    },
+    "loadAdminMessagesFailed": {
+      "description": "Error al cargar mensajes de administrador."
+    },
+    "loadReceiptsFailed": {
+      "description": "Error al cargar recibos."
+    },
+    "resetToDefault": {
+      "title": "Restablecer a Predeterminado",
+      "description": "Contenido del correo restaurado a predeterminado."
+    },
+    "subjectRequired": {
+      "title": "Asunto Requerido",
+      "description": "Por favor, introduzca un asunto de correo antes de enviar."
+    },
+    "regenerateCodeFailed": {
+      "title": "No se pudo regenerar el código de acceso"
+    },
+    "reissueCleared": {
+      "title": "Reemisión despejada"
+    },
+    "reissueClearFailed": {
+      "title": "No se pudo despejar la reemisión"
+    },
+    "declarationCleared": {
+      "title": "Solicitud de declaración despejada"
+    },
+    "declarationClearFailed": {
+      "title": "No se pudo despejar la solicitud de declaración"
+    },
+    "accountVerbFailed": {
+      "title": "No se pudo {{verb}} la cuenta"
+    },
+    "logoutFailed": {
+      "title": "No se pudo cerrar sesión del usuario"
+    },
+    "userSignedOut": {
+      "title": "Usuario desconectado",
+      "description": "{{name}} será devuelto a la pantalla de inicio de sesión en su próxima actualización."
+    },
+    "accountUpdated": {
+      "title": "Cuenta actualizada",
+      "description": "{{name}} guardado."
+    },
+    "mirrorTokenMissing": {
+      "title": "No se devolvió el token espejo"
+    },
+    "messageSent": {
+      "title": "Mensaje Enviado",
+      "description": "El mensaje del administrador ha sido enviado al usuario."
+    },
+    "messageSendFailed": {
+      "description": "Error al enviar el mensaje del administrador."
+    },
+    "messageStatusUpdateFailed": {
+      "description": "Error al actualizar el estado del mensaje."
+    },
+    "messageUnsent": {
+      "title": "Mensaje no enviado",
+      "description": "\"{{title}}\" fue eliminado de la bandeja de entrada del usuario."
+    },
+    "unsendFailed": {
+      "title": "Error al deshacer el envío"
+    },
+    "messageUnsendFailed": {
+      "description": "Error al deshacer el envío del mensaje."
+    },
+    "updated": {
+      "title": "Actualizado"
+    },
+    "depositUpdated": {
+      "description": "Los detalles del depósito han sido guardados."
+    },
+    "depositUpdateFailed": {
+      "description": "Error al actualizar los detalles del depósito."
+    },
+    "depositUpdateHttpFailed": {
+      "description": "Error al actualizar los detalles del depósito (HTTP {{status}})."
+    },
+    "payoutUpdateFailed": {
+      "description": "Error al actualizar la billetera de pago."
+    },
+    "profileRedirectUpdated": {
+      "description": "La URL de redirección del perfil ha sido guardada."
+    },
+    "profileRedirectFailed": {
+      "description": "Error al actualizar la redirección del perfil."
+    },
+    "profileRedirectHttpFailed": {
+      "description": "Error al actualizar la redirección del perfil (HTTP {{status}})."
+    },
+    "submissionUrlUpdated": {
+      "description": "La URL de presentación ha sido guardada."
+    },
+    "submissionUrlFailed": {
+      "description": "Error al actualizar la URL de presentación."
+    },
+    "submissionUrlHttpFailed": {
+      "description": "Error al actualizar la URL de presentación (HTTP {{status}})."
+    },
+    "letterStatusFailed": {
+      "description": "Error al actualizar el estado de la carta."
+    },
+    "letterStatusHttpFailed": {
+      "description": "Error al actualizar el estado de la carta (HTTP {{status}})."
+    },
+    "landingPageUpdated": {
+      "description": "La página de aterrizaje del usuario ha sido actualizada."
+    },
+    "landingPageFailed": {
+      "description": "Error al actualizar la página de aterrizaje."
+    },
+    "landingPageHttpFailed": {
+      "description": "Error al actualizar la página de aterrizaje (HTTP {{status}})."
+    },
+    "withdrawalUpdated": {
+      "description": "Las configuraciones del progreso de retiro han sido guardadas."
+    },
+    "withdrawalFailed": {
+      "description": "Error al actualizar el progreso de retiro."
+    },
+    "withdrawalHttpFailed": {
+      "description": "Error al actualizar el progreso de retiro (HTTP {{status}})."
+    },
+    "noCaseSelected": {
+      "title": "Ningún Caso Seleccionado",
+      "description": "Por favor, seleccione un caso primero."
+    },
+    "finalStage": {
+      "title": "Etapa Final",
+      "description": "Ya está en la etapa final (14)."
+    },
+    "stageApproveFailed": {
+      "description": "Error al aprobar la etapa."
+    },
+    "stageApproveHttpFailed": {
+      "description": "Error al aprobar la etapa (HTTP {{status}})."
+    },
+    "noEmailOnFile": {
+      "title": "Sin Correo Electrónico en Archivo",
+      "description": "Este usuario no tiene una dirección de correo electrónico en archivo."
+    },
+    "stageResetDefault": {
+      "description": "Contenido del correo restaurado a predeterminado para esta etapa."
+    },
+    "stageEmailFailed": {
+      "description": "Error al enviar el correo de la etapa."
+    },
+    "receiptUpdated": {
+      "title": "Recibo Actualizado",
+      "description": "El recibo ha sido {{status}}."
+    },
+    "receiptUpdateFailed": {
+      "description": "Error al actualizar el estado del recibo."
+    },
+    "receiptUpdateHttpFailed": {
+      "description": "Error al actualizar el estado del recibo (HTTP {{status}})."
+    },
+    "logsCleared": {
+      "title": "Registros Limpiados",
+      "description": "Los registros de actividad y el historial de chat han sido limpiados. Las cuentas de usuario se conservan."
+    },
+    "logsClearFailed": {
+      "description": "Error al limpiar los registros."
+    },
+    "accountDeleted": {
+      "title": "Cuenta Eliminada",
+      "description": "La cuenta {{name}} ha sido eliminada permanentemente."
+    },
+    "accountDeleteFailed": {
+      "description": "Error al eliminar la cuenta."
+    },
+    "caseCreated": {
+      "title": "Caso Creado",
+      "description": "Código de Acceso: {{code}}"
+    },
+    "caseCreateFailed": {
+      "description": "Error al crear el caso."
+    },
+    "letterSaved": {
+      "title": "Carta Guardada",
+      "description": "El contenido de la carta personalizada ha sido guardado."
+    },
+    "letterSaveFailed": {
+      "description": "Error al guardar la carta."
+    },
+    "letterContentSaveFailed": {
+      "description": "Error al guardar el contenido de la carta."
+    },
+    "accountActivated": {
+      "title": "Cuenta Activada",
+      "description": "El usuario ahora puede acceder a la carta segura."
+    },
+    "finalizeFailed": {
+      "description": "Error al finalizar el caso."
+    },
+    "submissionDeleted": {
+      "title": "Presentación Eliminada",
+      "description": "La presentación ha sido eliminada."
+    },
+    "submissionDeleteFailed": {
+      "description": "Error al eliminar la presentación."
+    },
+    "sealCleared": {
+      "title": "Sello despejado",
+      "description": "Este caso ahora puede ser editado."
+    },
+    "templateSent": {
+      "title": "Enviado",
+      "description": "\"{{title}}\" entregado a {{name}}."
+    },
+    "templateFailed": {
+      "title": "Fallido",
+      "description": "No se pudo enviar el mensaje."
+    },
+    "fallbackUser": "Usuario",
+    "tryAgain": "Por favor, inténtelo de nuevo.",
+    "serverError": "Error del servidor",
+    "unknownError": "Error desconocido",
+    "accountNeedsAuth": {
+      "title": "La Cuenta Necesita Autorización",
+      "description": "{{name}} está esperando la finalización de la cuenta{{extra}}"
+    },
+    "kycBundle": {
+      "title": "Paquete de ID KYC solicitado",
+      "description": "Se han solicitado cuatro documentos KYC. El usuario ha sido notificado."
+    },
+    "declarationRequestFailed": {
+      "title": "No se pudo solicitar la declaración"
+    },
+    "declarationPortalOpened": {
+      "title": "Portal de declaración abierto",
+      "descriptionWithCode": "Código de acceso para {{name}}: {{code}} (válido 24h).{{suffix}}",
+      "descriptionNoCode": "{{name}} verá el formulario de declaración en su próximo inicio de sesión.{{suffix}}"
+    },
+    "accessCodeRegenerated": {
+      "title": "Código de acceso regenerado"
+    },
+    "previousLetterFailed": {
+      "title": "No se pudo cargar la carta anterior",
+      "descriptionServer": "El servidor devolvió {{status}}. Los campos a continuación están en blanco — complételos o cancele.",
+      "descriptionNetwork": "Error de red. Los campos a continuación están en blanco — complételos o cancele."
+    },
+    "missingFee": {
+      "title": "Tarifa faltante",
+      "description": "Se requiere tarifa de reemisión."
+    },
+    "reissueLetterFailed": {
+      "title": "No se pudo reemitir la carta"
+    },
+    "letterReissued": {
+      "title": "Carta reemitida",
+      "description": "{{name}} ahora necesita subir un recibo para la tarifa de reemisión de {{fee}} antes de volver a enviar."
+    },
+    "accountLocked": {
+      "title": "Cuenta bloqueada",
+      "description": "{{name}} no puede iniciar sesión hasta que usted la desbloquee."
+    },
+    "accountUnlocked": {
+      "title": "Cuenta desbloqueada"
+    },
+    "accountSaveFailed": {
+      "title": "No se pudieron guardar los cambios en la cuenta"
+    },
+    "reasonRequired": {
+      "title": "Razón requerida",
+      "description": "Por favor, introduzca al menos 10 caracteres describiendo por qué necesita abrir la cuenta de este usuario."
+    },
+    "mirrorOpenFailed": {
+      "title": "No se pudo abrir el espejo del usuario"
+    },
+    "declarationStatusFailed": {
+      "title": "No se pudo actualizar el estado de la declaración"
+    },
+    "declarationApproved": {
+      "title": "Declaración aprobada"
+    },
+    "declarationRejected": {
+      "title": "Declaración rechazada"
+    },
+    "emailSent": {
+      "title": "Correo Electrónico Enviado",
+      "description": "Correo enviado con éxito a {{email}}"
+    },
+    "emailFailed": {
+      "title": "Error al Enviar",
+      "description": "No se pudo enviar el correo electrónico",
+      "descriptionGeneric": "Error al enviar el correo electrónico"
+    },
+    "statusUpdated": {
+      "title": "Estado Actualizado",
+      "description": "Mensaje movido a {{category}}"
+    },
+    "statusUpdateFailed": {
+      "title": "Error al actualizar el estado"
+    },
+    "stageApproved": {
+      "title": "Etapa Aprobada",
+      "description": "Avanzado a la Etapa {{stage}} de 14."
+    },
+    "stageEmailSent": {
+      "title": "Correo de Etapa Enviado",
+      "description": "Correo de la Etapa {{stage}} enviado a {{email}}."
+    },
+    "stageEmailHttpFailed": {
+      "description": "No se pudo enviar el correo de la etapa (HTTP {{status}})."
+    },
+    "sealOverrideFailed": {
+      "title": "No se pudo anular el sello"
+    },
+    "overrideFailed": {
+      "title": "Anulación fallida"
+    }
+  }
+}

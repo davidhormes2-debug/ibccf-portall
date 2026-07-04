@@ -1,13 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation, Link } from "wouter";
-import { Shield, Lock, ArrowLeft, CheckCircle, Key, Fingerprint, Sparkles, ShieldCheck, Eye, EyeOff } from "lucide-react";
+import { Shield, Lock, ArrowLeft, Key, Fingerprint, Sparkles, ShieldCheck, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { BuildStampLine } from "@/components/BuildStampLine";
 import { motion, AnimatePresence } from "framer-motion";
+import { setPortalToken } from "@/lib/portalSession";
+import { useTranslation } from "react-i18next";
 
 export default function VerifyPlatform() {
+  const { t } = useTranslation("landing");
+  const tv = (k: string) => t(`verify.${k}`);
+  const tt = (k: string) => t(`verify.toast.${k}`);
   const [accessCode, setAccessCode] = useState("");
   const [pinAccessCode, setPinAccessCode] = useState("");
   const [pin, setPin] = useState("");
@@ -24,8 +30,8 @@ export default function VerifyPlatform() {
       if (!accessCode.trim()) {
         toast({
           variant: "destructive",
-          title: "Error",
-          description: "Please enter your verification code.",
+          title: tt("errorTitle"),
+          description: tt("missingCode"),
         });
         return;
       }
@@ -35,7 +41,7 @@ export default function VerifyPlatform() {
         const verifyRes = await fetch("/api/cases/verify-access-code", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ accessCode }),
+          body: JSON.stringify({ accessCode: accessCode.trim() }),
         });
         
         if (verifyRes.ok) {
@@ -46,14 +52,14 @@ export default function VerifyPlatform() {
             sessionStorage.setItem("caseId", verifyData.caseId);
             sessionStorage.setItem("requiresPinSetup", "true");
             toast({
-              title: "Verification Successful",
-              description: "Please set up your security PIN to continue.",
+              title: tt("verifySuccessTitle"),
+              description: tt("verifySuccessDesc"),
             });
             setLocation("/dashboard");
           } else {
             toast({
-              title: "PIN Required",
-              description: "Please enter your PIN to access your account.",
+              title: tt("pinRequiredTitle"),
+              description: tt("pinRequiredDesc"),
             });
             setLoginMode("pin");
             setPinAccessCode(accessCode);
@@ -61,15 +67,15 @@ export default function VerifyPlatform() {
         } else {
           toast({
             variant: "destructive",
-            title: "Invalid Code",
-            description: "The verification code entered is not valid. Please check and try again.",
+            title: tt("invalidCodeTitle"),
+            description: tt("invalidCodeDesc"),
           });
         }
-      } catch (error) {
+      } catch (_e) {
         toast({
           variant: "destructive",
-          title: "Connection Error",
-          description: "Unable to verify at this time. Please try again later.",
+          title: tt("connectionTitle"),
+          description: tt("connectionDesc"),
         });
       } finally {
         setIsLoading(false);
@@ -78,16 +84,16 @@ export default function VerifyPlatform() {
       if (!pinAccessCode.trim()) {
         toast({
           variant: "destructive",
-          title: "Error",
-          description: "Please enter your access code.",
+          title: tt("errorTitle"),
+          description: tt("missingAccess"),
         });
         return;
       }
       if (!pin.trim() || pin.length !== 6) {
         toast({
           variant: "destructive",
-          title: "Error",
-          description: "Please enter your 6-digit PIN.",
+          title: tt("errorTitle"),
+          description: tt("missingPin"),
         });
         return;
       }
@@ -97,7 +103,7 @@ export default function VerifyPlatform() {
         const res = await fetch("/api/cases/login-pin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ accessCode: pinAccessCode, pin }),
+          body: JSON.stringify({ accessCode: pinAccessCode.trim(), pin }),
         });
         
         if (res.ok) {
@@ -106,20 +112,25 @@ export default function VerifyPlatform() {
           sessionStorage.setItem("caseId", data.id);
           sessionStorage.setItem("pinVerified", "true");
           sessionStorage.removeItem("requiresPinSetup");
-          setLocation("/dashboard");
+          if (data.sessionToken) {
+            setPortalToken(data.sessionToken);
+          }
+          const params = new URLSearchParams(window.location.search);
+          const redirectTo = params.get("redirect");
+          setLocation(redirectTo || "/dashboard");
         } else {
           const errorData = await res.json();
           toast({
             variant: "destructive",
-            title: "Invalid PIN",
-            description: errorData.error || "The PIN entered is not valid. Please check and try again.",
+            title: tt("invalidPinTitle"),
+            description: errorData.error || tt("invalidPinDesc"),
           });
         }
-      } catch (error) {
+      } catch (_e) {
         toast({
           variant: "destructive",
-          title: "Connection Error",
-          description: "Unable to verify at this time. Please try again later.",
+          title: tt("connectionTitle"),
+          description: tt("connectionDesc"),
         });
       } finally {
         setIsLoading(false);
@@ -135,17 +146,126 @@ export default function VerifyPlatform() {
   };
 
   const securityFeatures = [
-    { icon: ShieldCheck, text: "256-bit encryption" },
-    { icon: Fingerprint, text: "Biometric ready" },
-    { icon: Lock, text: "Secure sessions" },
+    { icon: ShieldCheck, text: tv("feature256") },
+    { icon: Fingerprint, text: tv("featureBio") },
+    { icon: Lock, text: tv("featureSession") },
   ];
 
   return (
     <div className="min-h-screen verification-bg font-['Public_Sans',sans-serif] relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* ── HDR 3D Background System ─────────────────────────────────────────── */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none dark:block hidden">
+
+        {/* Atmospheric depth hazes */}
+        <div style={{
+          position: "absolute", top: "-35%", left: "-15%", width: "75%", height: "75%",
+          background: "radial-gradient(ellipse, rgba(0,90,230,0.38) 0%, rgba(0,50,160,0.15) 45%, transparent 70%)",
+          filter: "blur(90px)", animation: "orb-drift-1 20s ease-in-out infinite",
+        }} />
+        <div style={{
+          position: "absolute", bottom: "-25%", right: "-10%", width: "65%", height: "65%",
+          background: "radial-gradient(ellipse, rgba(80,20,240,0.28) 0%, rgba(60,0,180,0.1) 45%, transparent 70%)",
+          filter: "blur(110px)", animation: "orb-drift-2 25s ease-in-out infinite",
+        }} />
+        <div style={{
+          position: "absolute", top: "30%", right: "-5%", width: "50%", height: "60%",
+          background: "radial-gradient(ellipse, rgba(0,170,220,0.18) 0%, transparent 65%)",
+          filter: "blur(80px)", animation: "orb-drift-3 17s ease-in-out infinite 3s",
+        }} />
+
+        {/* Aurora bands */}
+        <div style={{
+          position: "absolute", top: "8%", left: "-10%", right: "-10%", height: "260px",
+          background: "linear-gradient(180deg, transparent, rgba(0,120,255,0.14) 40%, rgba(0,80,200,0.08) 70%, transparent)",
+          filter: "blur(32px)", transform: "rotate(-3deg)",
+          animation: "aurora-shift 14s ease-in-out infinite",
+        }} />
+        <div style={{
+          position: "absolute", bottom: "12%", left: "-10%", right: "-10%", height: "200px",
+          background: "linear-gradient(180deg, transparent, rgba(100,40,255,0.12) 40%, rgba(60,0,200,0.07) 70%, transparent)",
+          filter: "blur(28px)", transform: "rotate(2deg)",
+          animation: "aurora-shift-2 18s ease-in-out infinite 2s",
+        }} />
+
+        {/* HDR neon focal points */}
+        <div style={{
+          position: "absolute", top: "12%", left: "58%", width: "280px", height: "280px",
+          background: "radial-gradient(circle, rgba(0,160,255,0.55) 0%, rgba(0,100,220,0.2) 40%, transparent 68%)",
+          filter: "blur(38px)", animation: "orb-drift-3 8s ease-in-out infinite",
+        }} />
+        <div style={{
+          position: "absolute", top: "55%", left: "15%", width: "200px", height: "200px",
+          background: "radial-gradient(circle, rgba(80,210,255,0.45) 0%, rgba(0,160,230,0.15) 45%, transparent 68%)",
+          filter: "blur(28px)", animation: "orb-drift-1 10s ease-in-out infinite 1s",
+        }} />
+        <div style={{
+          position: "absolute", bottom: "20%", right: "20%", width: "160px", height: "160px",
+          background: "radial-gradient(circle, rgba(140,80,255,0.4) 0%, transparent 65%)",
+          filter: "blur(22px)", animation: "orb-drift-2 11s ease-in-out infinite 2.5s",
+        }} />
+
+        {/* Depth grid */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: [
+            "linear-gradient(rgba(255,255,255,0.032) 1px, transparent 1px)",
+            "linear-gradient(90deg, rgba(255,255,255,0.032) 1px, transparent 1px)",
+          ].join(","),
+          backgroundSize: "52px 52px",
+          animation: "grid-breathe 7s ease-in-out infinite",
+        }} />
+
+        {/* HDR scan line */}
+        <div style={{
+          position: "absolute", left: 0, right: 0, height: "1px",
+          background: "linear-gradient(90deg, transparent 5%, rgba(0,180,255,0.65) 35%, rgba(120,220,255,0.8) 50%, rgba(0,180,255,0.65) 65%, transparent 95%)",
+          boxShadow: "0 0 12px 3px rgba(0,160,255,0.3)",
+          animation: "hdr-scan 10s ease-in-out infinite",
+        }} />
+
+        {/* Star field */}
+        {([
+          { top: "7%",  left: "10%",  delay: "0s",    size: 1.5 },
+          { top: "14%", left: "71%",  delay: "0.7s",  size: 1 },
+          { top: "23%", left: "42%",  delay: "1.4s",  size: 2 },
+          { top: "34%", left: "87%",  delay: "2.1s",  size: 1 },
+          { top: "43%", left: "5%",   delay: "0.3s",  size: 1.5 },
+          { top: "59%", left: "54%",  delay: "1.8s",  size: 1 },
+          { top: "66%", left: "29%",  delay: "0.9s",  size: 2 },
+          { top: "73%", left: "79%",  delay: "2.4s",  size: 1 },
+          { top: "83%", left: "17%",  delay: "1.1s",  size: 1.5 },
+          { top: "89%", left: "61%",  delay: "0.5s",  size: 1 },
+          { top: "4%",  left: "91%",  delay: "1.6s",  size: 1 },
+          { top: "49%", left: "96%",  delay: "2.8s",  size: 1.5 },
+        ] as const).map((s, i) => (
+          <div key={i} style={{
+            position: "absolute", top: s.top, left: s.left,
+            width: `${s.size}px`, height: `${s.size}px`,
+            borderRadius: "50%", background: "rgba(180,220,255,0.9)",
+            boxShadow: `0 0 ${s.size * 3}px rgba(100,180,255,0.7)`,
+            animation: `star-twinkle ${2.5 + i * 0.3}s ease-in-out infinite`,
+            animationDelay: s.delay,
+          }} />
+        ))}
+
+        {/* Radial vignette */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(2,9,18,0.55) 80%, rgba(2,9,18,0.85) 100%)",
+        }} />
+
+        {/* Top edge light bleed */}
+        <div style={{
+          position: "absolute", top: 0, left: "15%", right: "15%", height: "3px",
+          background: "linear-gradient(90deg, transparent, rgba(0,140,255,0.7) 30%, rgba(100,200,255,1) 50%, rgba(0,140,255,0.7) 70%, transparent)",
+          boxShadow: "0 0 30px 8px rgba(0,120,255,0.35)",
+        }} />
+      </div>
+
+      {/* Light mode subtle blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none dark:hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-blue-400/5 to-transparent rounded-full" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
       </div>
 
       <header className="relative z-10 bg-transparent">
@@ -153,8 +273,8 @@ export default function VerifyPlatform() {
           <div className="flex items-center justify-between h-14 sm:h-16">
             <Link href="/" className="flex items-center gap-1 sm:gap-2 text-slate-700 dark:text-white hover:opacity-80 transition-opacity group">
               <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 group-hover:-translate-x-1 transition-transform" />
-              <span className="font-medium text-sm sm:text-base hidden sm:inline">Back to Home</span>
-              <span className="font-medium text-sm sm:hidden">Back</span>
+              <span className="font-medium text-sm sm:text-base hidden sm:inline">{tv("back")}</span>
+              <span className="font-medium text-sm sm:hidden">{tv("backShort")}</span>
             </Link>
             <motion.div 
               className="flex items-center gap-2"
@@ -173,7 +293,7 @@ export default function VerifyPlatform() {
         </div>
       </header>
 
-      <main className="relative z-10 flex items-center justify-center px-4 py-10 sm:py-16">
+      <main id="main-content" tabIndex={-1} className="relative z-10 flex items-center justify-center px-4 py-10 sm:py-16">
         <motion.div 
           className="w-full max-w-md"
           initial={{ opacity: 0, y: 20 }}
@@ -215,13 +335,10 @@ export default function VerifyPlatform() {
                   transition={{ delay: 0.1 }}
                 >
                   <h1 className="text-2xl font-bold text-slate-900 dark:text-white font-['Merriweather',serif] mb-2">
-                    {loginMode === "code" ? "Secure Verification" : "PIN Authentication"}
+                    {loginMode === "code" ? tv("titleCode") : tv("titlePin")}
                   </h1>
                   <p className="text-slate-600 dark:text-slate-400 text-sm">
-                    {loginMode === "code" 
-                      ? "Enter your unique verification code to access your case."
-                      : "Enter your 6-digit PIN to continue."
-                    }
+                    {loginMode === "code" ? tv("subtitleCode") : tv("subtitlePin")}
                   </p>
                 </motion.div>
               </div>
@@ -237,7 +354,7 @@ export default function VerifyPlatform() {
                       transition={{ duration: 0.2 }}
                     >
                       <label htmlFor="accessCode" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                        Verification Code
+                        {tv("labelCode")}
                       </label>
                       <div className="relative">
                         <Input
@@ -245,7 +362,7 @@ export default function VerifyPlatform() {
                           type="text"
                           value={accessCode}
                           onChange={(e) => setAccessCode(e.target.value)}
-                          placeholder="Enter your code"
+                          placeholder={tv("placeholderCode")}
                           className="w-full h-14 text-center text-xl tracking-[0.5em] font-mono bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 rounded-xl transition-all"
                           maxLength={10}
                           data-testid="input-access-code"
@@ -264,7 +381,7 @@ export default function VerifyPlatform() {
                       transition={{ duration: 0.2 }}
                     >
                       <label htmlFor="pin" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                        6-Digit PIN
+                        {tv("labelPin")}
                       </label>
                       <div className="relative">
                         <Input
@@ -320,12 +437,12 @@ export default function VerifyPlatform() {
                           animate={{ rotate: 360 }}
                           transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                         />
-                        Verifying...
+                        {tv("submitting")}
                       </span>
                     ) : (
                       <span className="flex items-center gap-2">
                         <Sparkles className="h-5 w-5" />
-                        Access My Case
+                        {tv("submit")}
                       </span>
                     )}
                   </Button>
@@ -342,12 +459,12 @@ export default function VerifyPlatform() {
                   {loginMode === "code" ? (
                     <>
                       <Fingerprint className="w-4 h-4" />
-                      Login with PIN instead
+                      {tv("switchToPin")}
                     </>
                   ) : (
                     <>
                       <Key className="w-4 h-4" />
-                      Login with Verification Code instead
+                      {tv("switchToCode")}
                     </>
                   )}
                 </button>
@@ -361,7 +478,7 @@ export default function VerifyPlatform() {
                     data-testid="button-request-access"
                   >
                     <Key className="w-4 h-4 mr-2" />
-                    Don't have a code? Request Access
+                    {tv("requestAccess")}
                   </Button>
                 </Link>
               </div>
@@ -394,16 +511,17 @@ export default function VerifyPlatform() {
             transition={{ delay: 0.5 }}
           >
             <Lock className="w-4 h-4" />
-            Protected by enterprise-grade encryption
+            {tv("encrypted")}
           </motion.p>
         </motion.div>
       </main>
 
       <footer className="relative z-10 py-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="max-w-7xl mx-auto px-4 text-center flex flex-col items-center gap-2">
           <p className="text-slate-400 dark:text-white/40 text-xs">
-            International Blockchain Community Complaints Forum. All rights reserved.
+            {t("footer.fullName")}
           </p>
+          <BuildStampLine className="text-slate-400 dark:text-white/40" />
         </div>
       </footer>
     </div>

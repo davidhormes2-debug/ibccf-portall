@@ -1,0 +1,123 @@
+{
+  "back": "Zurück",
+  "accessPortal": "Zugangsportal",
+  "legalDoc": "Rechtliche Dokumentation",
+  "title": "Datenschutzrichtlinie",
+  "subtitle": "Wie IBCCF Ihre personenbezogenen Daten im Zusammenhang mit unseren Dienstleistungen zur Verwaltung von Blockchain-Beschwerden und zur Betrugsprävention erhebt, verwendet und schützt.",
+  "lastUpdated": "Zuletzt aktualisiert:",
+  "contents": "Inhalt",
+  "termsLink": "Nutzungsbedingungen",
+  "legalResourcesLink": "Rechtsressourcen",
+  "reviewerNote": {
+    "label": "Hinweis für juristische Prüfer:",
+    "text": "Dieses Dokument ist ein Arbeitsentwurf, der für den Plattformstart vorbereitet wurde. Es sollte von einem qualifizierten Rechtsexperten überprüft und finalisiert werden, bevor die Plattform personenbezogene Daten von Nutzern in regulierten Jurisdiktionen verarbeitet."
+  },
+  "sections": {
+    "overview": {
+      "title": "1. Überblick",
+      "p1Pre": "Das Internationale Blockchain-Beschwerdeforum (",
+      "p1Brand": "\u201eIBCCF\u201c",
+      "p1Post": ", \u201ewir\u201c, \u201euns\u201c oder \u201eunser\u201c) betreibt dieses Webportal als Fallverwaltungs- und Betrugspräventionsdienst für blockchain-bezogene Beschwerden.",
+      "p2": "Diese Datenschutzrichtlinie erläutert, welche personenbezogenen Daten wir erheben, wenn Sie unsere Website besuchen oder einen Beschwerdefall einreichen, wie wir diese Daten verwenden und schützen und welche Rechte Sie diesbezüglich haben."
+    },
+    "dataCollected": {
+      "title": "2. Von uns erhobene Informationen",
+      "intro": "Wir können folgende Kategorien personenbezogener Daten erheben:",
+      "items": [
+        { "label": "Identitäts- und Kontaktdaten", "detail": "Vollständiger Name, E-Mail-Adresse, Telefonnummer und Wohnsitzland, die Sie bei der Einreichung einer Beschwerde oder der Erstellung eines Portalkontos angeben." },
+        { "label": "Fall- und Transaktionsdaten", "detail": "Angaben zu Blockchain-Transaktionen, Wallet-Adressen, Plattformnamen und Finanzbeträgen, die für Ihre Beschwerde relevant sind." },
+        { "label": "Hochgeladene Dokumente", "detail": "Regulierungs- und Compliance-Dokumente, die Sie freiwillig hochladen (z. B. Einkommensnachweise, KYC/Ausweis, FATCA/CRS-Erklärungen, Einzahlungsbelege). Diese werden sicher gespeichert und nur von autorisiertem Personal eingesehen." },
+        { "label": "Kommunikation", "detail": "Nachrichten, die Sie über unser Portal, den Support-Chat oder Kontaktformulare senden, einschließlich Chat-Protokolle, die durch unsere KI-gestützten Support-Tools erstellt wurden." },
+        { "label": "Technische Daten und Nutzungsdaten", "detail": "IP-Adresse, Browsertyp, Gerätekennungen, besuchte Seiten, Verweildauer auf der Website und Sitzungsaktivität, die automatisch für Sicherheits- und Betriebsüberwachungszwecke erhoben werden." },
+        { "label": "Cookies und lokaler Speicher", "detail": "Wir verwenden unbedingt erforderliche Sitzungs-Cookies und den lokalen Browserspeicher, um Ihre authentifizierte Portalsitzung aufrechtzuerhalten und Ihre Sprachpräferenz zu speichern. Optionale Analyse-Cookies werden nur mit Ihrer Zustimmung gesetzt." }
+      ]
+    },
+    "howWeUse": {
+      "title": "3. Verwendung Ihrer Daten",
+      "intro": "Wir verarbeiten Ihre personenbezogenen Daten für folgende Zwecke:",
+      "items": [
+        "Zur Registrierung und Verwaltung Ihres Beschwerdedossiers über seinen gesamten Lösungszyklus.",
+        "Zur Überprüfung von Plattformaktivitäten und Beurteilung gemeldeter betrügerischer Verhaltensweisen.",
+        "Zur Erfüllung regulatorischer Compliance-Verpflichtungen, einschließlich der Anforderungen zur Identitätsprüfung nach AML/CFT.",
+        "Zur Kommunikation mit Ihnen über Fallaktualisierungen, Dokumentenanforderungen und Plattformbenachrichtigungen.",
+        "Zur Bereitstellung von KI-gestützten Community-Antworten und Support-Chat-Funktionen.",
+        "Zur Überwachung und Verbesserung der Plattformsicherheit, Erkennung von Missbrauch und Durchsetzung unserer Nutzungsbedingungen.",
+        "Zur Führung von Prüfprotokollen, die für Compliance und rechtliche Rechenschaftspflicht erforderlich sind.",
+        "Zum Versand transaktionaler E-Mails in Bezug auf Ihren Fall (niemals unerwünschtes Marketing ohne Zustimmung)."
+      ]
+    },
+    "legalBasis": {
+      "title": "4. Rechtsgrundlage der Verarbeitung",
+      "intro": "Soweit das anwendbare Datenschutzrecht eine Rechtsgrundlage erfordert (z. B. gemäß EU-DSGVO oder UK-DSGVO), stützen wir uns auf folgende Grundlagen:",
+      "items": [
+        { "basis": "Vertragserfüllung", "detail": "Verarbeitung, die zur Erbringung des von Ihnen angeforderten Beschwerdeverwaltungsdienstes erforderlich ist." },
+        { "basis": "Rechtliche Verpflichtung", "detail": "Verarbeitung, die zur Einhaltung von AML/CFT-, KYC- und Gesetzen zur Verhinderung von Finanzkriminalität erforderlich ist." },
+        { "basis": "Berechtigte Interessen", "detail": "Sicherheitsüberwachung, Betrugsprävention, Plattformintegrität und aggregierte Analysen — abgewogen gegen Ihre Interessen und Rechte." },
+        { "basis": "Einwilligung", "detail": "Optionale Analyse-Cookies und jede Verarbeitung, die nicht durch die oben genannten Grundlagen abgedeckt ist." }
+      ]
+    },
+    "sharing": {
+      "title": "5. Weitergabe von Informationen",
+      "intro": "Wir verkaufen keine personenbezogenen Daten. Wir können Informationen unter folgenden eingeschränkten Umständen weitergeben:",
+      "items": [
+        "An Regulierungsbehörden oder Strafverfolgungsbehörden, wenn dies gesetzlich vorgeschrieben ist oder als Antwort auf ein gültiges Rechtsverfahren.",
+        "An vertrauenswürdige Dienstleister, die Daten in unserem Auftrag gemäß angemessener Datenverarbeitungsvereinbarungen verarbeiten (z. B. Cloud-Hosting, E-Mail-Zustellung, Fehlerüberwachung).",
+        "An OpenAI, Inc. für KI-gestützte Community- und Support-Funktionen — Daten werden über API gemäß den Datenverarbeitungsbedingungen von OpenAI übertragen.",
+        "Im Falle einer Fusion, Übernahme oder eines Vermögensverkaufs, bei dem Falldaten auf die Nachfolgeentität vorbehaltlich gleichwertiger Datenschutzmaßnahmen übertragen werden können."
+      ]
+    },
+    "retention": {
+      "title": "6. Datenspeicherung",
+      "intro": "Wir speichern personenbezogene Daten nur so lange, wie es für die in dieser Richtlinie dargelegten Zwecke oder gemäß den anwendbaren gesetzlichen Anforderungen notwendig ist:",
+      "items": [
+        "Aktive Falldaten werden für die Dauer des Falls zuzüglich eines Minimums von fünf (5) Jahren für Compliance-Prüfzwecke aufbewahrt.",
+        "Hochgeladene regulatorische Dokumente (KYC, FATCA/CRS, Mittelherkunft) werden gemäß den AML-Aufzeichnungspflichten mindestens fünf (5) Jahre nach Fallabschluss aufbewahrt.",
+        "Besucher- und Sitzungsprotokolle werden bis zu neunzig (90) Tage aufbewahrt.",
+        "E-Mail-Prüfprotokolle werden zwei (2) Jahre aufbewahrt.",
+        "Sie können eine frühere Löschung bestimmter Daten beantragen, wenn keine gesetzliche Aufbewahrungspflicht gilt — siehe Abschnitt 8."
+      ]
+    },
+    "security": {
+      "title": "7. Sicherheit",
+      "intro": "Wir implementieren angemessene technische und organisatorische Sicherheitsmaßnahmen zum Schutz Ihrer personenbezogenen Daten vor unbefugtem Zugriff, Verlust oder Offenlegung, darunter:",
+      "items": [
+        "TLS-Verschlüsselung für alle Daten während der Übertragung.",
+        "Verschlüsselte Datenbankspeicherung mit Zugriffsbeschränkung auf autorisiertes Plattformpersonal.",
+        "Sitzungsbasierte Authentifizierung mit erzwungenen Abmeldekontrollen für Portalkonten.",
+        "Prüfprotokollierung aller administrativen Aktionen, die Falldaten betreffen.",
+        "Ratenbegrenzungs- und IP-Sperrkontrollen zur Missbrauchsprävention."
+      ],
+      "outro": "Keine Übertragungsmethode über das Internet ist zu 100 % sicher. Obwohl wir bestrebt sind, Ihre Daten zu schützen, können wir keine absolute Sicherheit garantieren."
+    },
+    "rights": {
+      "title": "8. Ihre Rechte",
+      "intro": "Abhängig von Ihrer Jurisdiktion können Sie folgende Rechte bezüglich Ihrer personenbezogenen Daten haben:",
+      "items": [
+        { "right": "Auskunft", "detail": "Anforderung einer Kopie der personenbezogenen Daten, die wir über Sie gespeichert haben." },
+        { "right": "Berichtigung", "detail": "Anforderung der Korrektur ungenauer oder unvollständiger Daten." },
+        { "right": "Löschung", "detail": "Anforderung der Löschung Ihrer Daten, wenn keine gesetzliche Aufbewahrungspflicht gilt (Recht auf Vergessenwerden)." },
+        { "right": "Einschränkung", "detail": "Anforderung, dass wir die Verarbeitung Ihrer Daten unter bestimmten Umständen einschränken." },
+        { "right": "Datenübertragbarkeit", "detail": "Erhalt Ihrer Daten in einem strukturierten, maschinenlesbaren Format, soweit technisch machbar." },
+        { "right": "Widerspruch", "detail": "Widerspruch gegen die auf berechtigten Interessen oder Direktmarketing basierte Verarbeitung." },
+        { "right": "Widerruf der Einwilligung", "detail": "Widerruf einer zuvor erteilten Einwilligung, ohne die Rechtmäßigkeit der vorherigen Verarbeitung zu beeinträchtigen." }
+      ],
+      "outro": "Um eines dieser Rechte auszuüben, kontaktieren Sie uns unter der Adresse in Abschnitt 10. Wir antworten innerhalb von 30 Tagen. Wir müssen möglicherweise Ihre Identität überprüfen, bevor wir eine Anfrage bearbeiten."
+    },
+    "international": {
+      "title": "9. Internationale Übermittlungen",
+      "p1": "Ihre Daten können in Länder außerhalb Ihres Wohnsitzlandes übermittelt und verarbeitet werden, einschließlich Länder, die möglicherweise nicht das gleiche Datenschutzniveau wie Ihre Heimatjurisdiktion bieten. Wenn solche Übermittlungen stattfinden, implementieren wir angemessene Schutzmaßnahmen wie Standardvertragsklauseln oder gleichwertige, von den zuständigen Datenschutzbehörden anerkannte Mechanismen.",
+      "p2Pre": "Weitere Informationen zum auf diese Plattform anwendbaren internationalen Regulierungsrahmen finden Sie in unserem",
+      "p2LinkText": "Verzeichnis der Rechtsressourcen",
+      "p2Post": "."
+    },
+    "contact": {
+      "title": "10. Kontakt und Beschwerden",
+      "p1": "Für datenschutzbezogene Anfragen, Betroffenenanträge oder zur Äußerung von Bedenken bezüglich unseres Umgangs mit personenbezogenen Daten kontaktieren Sie uns bitte über das Support-Portal oder das Kontaktformular auf der Hauptwebsite.",
+      "p2": "Wenn Sie sich in der EU oder im Vereinigten Königreich befinden und mit unserer Antwort nicht zufrieden sind, haben Sie das Recht, eine Beschwerde bei Ihrer zuständigen Datenschutzaufsichtsbehörde einzulegen."
+    },
+    "updates": {
+      "title": "11. Aktualisierungen dieser Richtlinie",
+      "p1": "Wir können diese Datenschutzrichtlinie von Zeit zu Zeit aktualisieren. In diesem Fall werden wir das Datum \u201eZuletzt aktualisiert\u201c oben auf dieser Seite überarbeiten. Bei wesentlichen Änderungen werden wir aktive Fallinhaber über ihre registrierte E-Mail-Adresse oder durch einen prominenten Hinweis im Portal benachrichtigen. Die fortgesetzte Nutzung der Plattform nach dem Inkrafttretensdatum gilt als Annahme der überarbeiteten Richtlinie."
+    }
+  }
+}

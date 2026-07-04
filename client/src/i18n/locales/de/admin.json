@@ -1,0 +1,680 @@
+{
+  "login": {
+    "headerTitle": "ADMIN-KONTROLLPANEL",
+    "headerSubtitle": "ISO-D Compliance-Management",
+    "cardTitle": "Administratorzugang",
+    "usernameLabel": "Benutzername",
+    "usernamePlaceholder": "Geben Sie den Admin-Benutzernamen ein",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "Geben Sie das Passwort ein",
+    "submit": "Zugriff auf das Kontrollpanel",
+    "authenticating": "Authentifizierung…",
+    "footer": "Eingeschränkter Zugriff • ISO-D Stufe 1"
+  },
+  "header": {
+    "title": "IBCCF ADMIN PORTAL",
+    "status": "System Aktiv • ISO-D Freigabestufe 1",
+    "sessionLabel": "Admin-Sitzung",
+    "sessionRole": "Compliance-Beauftragter",
+    "userPortal": "Benutzerportal",
+    "logout": "Abmelden",
+    "notifications": "Benachrichtigungen",
+    "noNotifications": "Keine Benachrichtigungen"
+  },
+  "tabs": {
+    "cases": "Fälle",
+    "submissions": "Alle Einreichungen",
+    "conversations": "Unterhaltungen",
+    "analytics": "Analysen",
+    "settings": "Einstellungen",
+    "content": "Inhalt",
+    "community": "Gemeinschaft",
+    "keyRequests": "Schlüsselanforderungen",
+    "visitors": "Besucher",
+    "communications": "Kommunikationen",
+    "documents": "Dokumente"
+  },
+  "sections": {
+    "regulatoryDocuments": "Regulatorische Dokumente",
+    "accountSettings": "Kontoeinstellungen",
+    "withdrawalProgress": "Abhebungsfortschritt",
+    "communication": "Kommunikation",
+    "caseNotes": "Fallnotizen (Nur Admin)",
+    "dangerZone": "Gefahrenzone",
+    "messageHistory": "Nachrichtenverlauf",
+    "personalIdentification": "Persönliche Identifikation",
+    "sanctionsCompliance": "Sanktionen Compliance",
+    "approvedAssetIncome": "Genehmigte Vermögenswerte & Einkommen",
+    "internationalTerms": "Internationale Bedingungen & Bearbeitungsgebühr",
+    "regulatorySignature": "Regulatorische & Unterschrift",
+    "complianceReview": "Compliance-Überprüfung",
+    "optionCustomization": "Optionen anpassen"
+  },
+  "dialogs": {
+    "createCase": {
+      "title": "Sicheren Zugangsfal erstellen",
+      "description": "Generieren Sie ein einzigartiges Passwort für den Benutzer, um auf das Portal zuzugreifen.",
+      "label": "Zugangs-Passwort",
+      "placeholder": "z.B. 774982",
+      "submit": "Fall erstellen"
+    },
+    "finalize": {
+      "title": "Konto-Reaktivierung abschließen",
+      "description": "Überprüfen und bearbeiten Sie die Benutzerdaten und den Inhalt des Schreibens, bevor Sie das Konto aktivieren.",
+      "userDetailsTab": "Benutzerdetails",
+      "letterContentTab": "Inhalt des Schreibens"
+    },
+    "editLetter": {
+      "title": "Inhalt des Schreibens bearbeiten",
+      "description": "Passen Sie das Abhebungsanschreiben für {{name}} an.",
+      "fallbackUser": "diesen Benutzer"
+    },
+    "submissionHistory": {
+      "title": "Einreichungshistorie",
+      "description": "Frühere Einreichungen für {{name}}."
+    },
+    "chatTemplates": {
+      "title": "Chat-Vorlagenmanager"
+    },
+    "declaration": {
+      "title": "Erklärung zur Compliance — {{name}}"
+    },
+    "reissueLetter": {
+      "title": "Schreiben erneut ausstellen"
+    },
+    "openDeclarationPortal": {
+      "title": "Erklärung-Portal öffnen"
+    },
+    "stageEmail": {
+      "title": "Vorschau & Bearbeitung der E-Mail zur Stufe {{stage}}"
+    },
+    "sendEmail": {
+      "title": "E-Mail an {{name}} senden"
+    },
+    "depositReceipts": {
+      "title": "Einzahlungsbelege: {{name}}"
+    },
+    "editAccount": {
+      "title": "Konto bearbeiten"
+    }
+  },
+  "actions": {
+    "refresh": "Aktualisieren",
+    "newCase": "Neuer Fall",
+    "createCase": "Fall erstellen",
+    "generate": "Generieren",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "delete": "Löschen",
+    "approve": "Genehmigen",
+    "reject": "Ablehnen",
+    "send": "Senden"
+  },
+  "caseList": {
+    "heading": "Fallmanagement",
+    "subtitle": "Erstellen und verwalten Sie Benutzerzugangscodes.",
+    "searchPlaceholder": "Nach Code, Namen oder E-Mail suchen…",
+    "filterPlaceholder": "Nach Status filtern",
+    "filterAll": "Alle Status",
+    "tableAccessCode": "Zugangscode",
+    "tableUser": "Benutzer",
+    "tableStatus": "Status",
+    "tableSubmissions": "Einreichungen",
+    "tableLedger": "Ledger",
+    "tableActions": "Aktionen",
+    "viewLedgerTooltip": "Fall-Ledger anzeigen",
+    "empty": "Keine Fälle gefunden, die Ihren Kriterien entsprechen.",
+    "createTitle": "Neuen Fall erstellen",
+    "createDescription": "Generieren Sie einen einzigartigen Zugangscode für einen neuen Benutzer.",
+    "createPlaceholder": "Zugangscode"
+  },
+  "conversations": {
+    "heading": "Benutzerunterhaltungen",
+    "subtitle": "Sehen Sie sich Benutzer Nachrichten in Echtzeit an und antworten Sie.",
+    "activeChats": "Aktive Chats",
+    "noActiveChats": "Keine aktiven Unterhaltungen",
+    "noMessages": "Noch keine Nachrichten",
+    "selectConversationTitle": "Wählen Sie eine Unterhaltung",
+    "selectConversationSubtitle": "Wählen Sie einen Benutzer aus der Liste, um mit dem Chat zu beginnen",
+    "inputPlaceholder": "Geben Sie Ihre Nachricht ein…",
+    "templates": "Vorlagen"
+  },
+  "analytics": {
+    "heading": "Analyse-Dashboard",
+    "subtitle": "Überwachen Sie wichtige Kennzahlen, Trends und Leistungsindikatoren.",
+    "totalCases": "Gesamtfälle",
+    "activeUsers": "Aktive Benutzer",
+    "totalSubmissions": "Gesamte Einreichungen",
+    "pendingActions": "Ausstehende Aktionen",
+    "statusDistribution": "Verteilung des Fallstatus",
+    "submissionBreakdown": "Einreichungsoptionen Aufschlüsselung",
+    "recentActivity": "Aktuelle Aktivitäten",
+    "noActivity": "Keine aktuellen Aktivitäten",
+    "statusCreated": "Erstellt",
+    "statusSyncing": "Synchronisieren",
+    "statusActive": "Aktiv",
+    "statusCompleted": "Abgeschlossen",
+    "statusRegistered": "Registriert",
+    "statusLabel": "Status",
+    "optionA": "Option A",
+    "optionB": "Option B"
+  },
+  "status": {
+    "created": "Erstellt",
+    "registered": "Registriert",
+    "syncing": "Synchronisieren",
+    "active": "Aktiv",
+    "completed": "Abgeschlossen"
+  },
+  "toasts": {
+    "errorTitle": "Fehler",
+    "successTitle": "Erfolg",
+    "networkError": "Netzwerkfehler aufgetreten.",
+    "networkErrorTitle": "Netzwerkfehler",
+    "networkErrorBody": "Konnte den Server nicht erreichen.",
+    "accessGranted": {
+      "title": "Zugriff gewährt",
+      "description": "Admin-Sitzung eingerichtet."
+    },
+    "accessDenied": {
+      "title": "Zugriff verweigert",
+      "description": "Ungültige Anmeldeinformationen."
+    },
+    "connectionError": {
+      "title": "Verbindungsfehler",
+      "description": "Authentifizierung nicht möglich."
+    },
+    "loggedOut": {
+      "title": "Abgemeldet",
+      "description": "Admin-Sitzung beendet."
+    },
+    "newUserRegistered": {
+      "title": "Neuer Benutzer registriert",
+      "description": "{{name}} hat sich registriert{{extra}}"
+    },
+    "newSubmission": {
+      "title": "Neue Einreichung",
+      "description": "Option {{option}} eingereicht{{extra}}"
+    },
+    "newDocumentUploaded": {
+      "title": "Neues unterstützendes Dokument hochgeladen",
+      "description": "Fall {{caseId}} hat ein Dokument zur Überprüfung eingereicht{{extra}}"
+    },
+    "refreshed": {
+      "title": "Aktualisiert",
+      "description": "Daten wurden aktualisiert."
+    },
+    "refreshFailed": {
+      "description": "Aktualisierung der Daten fehlgeschlagen."
+    },
+    "templateNameRequired": {
+      "description": "Name und Inhalt sind erforderlich"
+    },
+    "templateCreated": {
+      "title": "Vorlage erstellt",
+      "description": "Neue Chatvorlage hinzugefügt."
+    },
+    "templateCreateFailed": {
+      "description": "Erstellung der Vorlage fehlgeschlagen"
+    },
+    "deleted": {
+      "title": "Gelöscht"
+    },
+    "templateRemoved": {
+      "description": "Vorlage entfernt."
+    },
+    "templateDeleteFailed": {
+      "description": "Löschen der Vorlage fehlgeschlagen"
+    },
+    "noteAdded": {
+      "title": "Notiz hinzugefügt",
+      "description": "Fallnotiz erstellt."
+    },
+    "noteAddFailed": {
+      "description": "Hinzufügen der Notiz fehlgeschlagen"
+    },
+    "noteRemoved": {
+      "description": "Notiz entfernt."
+    },
+    "noteDeleteFailed": {
+      "description": "Löschen der Notiz fehlgeschlagen"
+    },
+    "togglePinFailed": {
+      "description": "Umschalten der Anheftung fehlgeschlagen"
+    },
+    "sessionRevoked": {
+      "title": "Sitzung widerrufen",
+      "description": "Admin-Sitzung wurde beendet."
+    },
+    "scheduleRequiredFields": {
+      "description": "Inhalt und geplante Zeit sind erforderlich"
+    },
+    "scheduled": {
+      "title": "Geplant",
+      "description": "Nachricht für die Zustellung geplant."
+    },
+    "scheduleFailed": {
+      "description": "Planen der Nachricht fehlgeschlagen"
+    },
+    "cancelled": {
+      "title": "Abgebrochen",
+      "description": "Geplante Nachricht abgebrochen."
+    },
+    "scheduleCancelFailed": {
+      "description": "Abbrechen der Nachricht fehlgeschlagen"
+    },
+    "templateMsgCreated": {
+      "title": "Erstellt",
+      "description": "Nachrichtenvorlage hinzugefügt."
+    },
+    "templateMsgCreateFailed": {
+      "description": "Erstellung der Vorlage fehlgeschlagen"
+    },
+    "templateMsgRemoved": {
+      "description": "Nachrichtenvorlage entfernt."
+    },
+    "templateMsgDeleteFailed": {
+      "description": "Löschen der Vorlage fehlgeschlagen"
+    },
+    "helpRequired": {
+      "description": "Titel und Inhalt sind erforderlich"
+    },
+    "helpCreated": {
+      "title": "Erstellt",
+      "description": "Hilfeartikel hinzugefügt."
+    },
+    "helpCreateFailed": {
+      "description": "Erstellung des Artikels fehlgeschlagen"
+    },
+    "helpDeleteFailed": {
+      "description": "Löschen des Artikels fehlgeschlagen"
+    },
+    "sessionEnded": {
+      "title": "Sitzung beendet",
+      "description": "Benutzersitzung wurde beendet."
+    },
+    "endSessionFailed": {
+      "description": "Beenden der Sitzung fehlgeschlagen"
+    },
+    "translationCreated": {
+      "title": "Übersetzung erstellt",
+      "description": "Hinzugefügt \"{{key}}\" für {{locale}}"
+    },
+    "translationCreateFailed": {
+      "description": "Erstellung der Übersetzung fehlgeschlagen"
+    },
+    "translationDeleted": {
+      "title": "Übersetzung gelöscht",
+      "description": "Entfernt \"{{key}}\""
+    },
+    "translationDeleteFailed": {
+      "description": "Löschen der Übersetzung fehlgeschlagen"
+    },
+    "docRequestRequired": {
+      "description": "Fall und Dokumenttyp sind erforderlich"
+    },
+    "docCreated": {
+      "title": "Erstellt",
+      "description": "Dokumentanforderung an den Benutzer gesendet."
+    },
+    "docCreateFailed": {
+      "description": "Erstellung der Anfrage fehlgeschlagen"
+    },
+    "docApproved": {
+      "title": "Dokument genehmigt",
+      "description": "Benutzer wurde per E-Mail benachrichtigt."
+    },
+    "docApproveFailed": {
+      "title": "Genehmigung fehlgeschlagen ({{status}})"
+    },
+    "docToggleFailed": {
+      "title": "Umschalten fehlgeschlagen ({{status}})"
+    },
+    "docRequestFailed": {
+      "title": "Anfrage fehlgeschlagen ({{status}})"
+    },
+    "docRejectFailed": {
+      "title": "Ablehnung fehlgeschlagen ({{status}})"
+    },
+    "notesRequired": {
+      "title": "Notizen erforderlich",
+      "description": "Teilen Sie dem Benutzer mit, was behoben werden muss."
+    },
+    "docRejected": {
+      "title": "Dokument abgelehnt",
+      "description": "Benutzer wurde aufgefordert, erneut einzureichen."
+    },
+    "previewFailed": {
+      "title": "Preview failed"
+    },
+    "newMessageNotify": {
+      "title": "Neue Nachricht",
+      "description": "Neue Nachricht von {{name}}"
+    },
+    "newMessageGeneric": {
+      "description": "Benutzer hat eine neue Nachricht gesendet"
+    },
+    "sendMessageFailed": {
+      "description": "Nachricht konnte nicht gesendet werden."
+    },
+    "sendMessageRetry": {
+      "description": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+    },
+    "loadMessagesFailed": {
+      "description": "Nachrichten konnten nicht geladen werden."
+    },
+    "loadAdminMessagesFailed": {
+      "description": "Admin-Nachrichten konnten nicht geladen werden."
+    },
+    "loadReceiptsFailed": {
+      "description": "Belege konnten nicht geladen werden."
+    },
+    "resetToDefault": {
+      "title": "Auf Standard zurücksetzen",
+      "description": "E-Mail-Inhalt auf Standard wiederhergestellt."
+    },
+    "subjectRequired": {
+      "title": "Betreff erforderlich",
+      "description": "Bitte geben Sie einen E-Mail-Betreff ein, bevor Sie senden."
+    },
+    "regenerateCodeFailed": {
+      "title": "Zugangscode konnte nicht regeneriert werden"
+    },
+    "reissueCleared": {
+      "title": "Neuausstellung genehmigt"
+    },
+    "reissueClearFailed": {
+      "title": "Neuausstellung konnte nicht genehmigt werden"
+    },
+    "declarationCleared": {
+      "title": "Erklärungsanfrage genehmigt"
+    },
+    "declarationClearFailed": {
+      "title": "Erklärungsanfrage konnte nicht genehmigt werden"
+    },
+    "accountVerbFailed": {
+      "title": "Konnte das Konto nicht {{verb}}"
+    },
+    "logoutFailed": {
+      "title": "Benutzer konnte nicht abgemeldet werden"
+    },
+    "userSignedOut": {
+      "title": "Benutzer abgemeldet",
+      "description": "{{name}} wird beim nächsten Aktualisieren zum Anmeldebildschirm zurückkehren."
+    },
+    "accountUpdated": {
+      "title": "Konto aktualisiert",
+      "description": "{{name}} gespeichert."
+    },
+    "mirrorTokenMissing": {
+      "title": "Kein Spiegel-Token zurückgegeben"
+    },
+    "messageSent": {
+      "title": "Nachricht gesendet",
+      "description": "Admin-Nachricht wurde an den Benutzer gesendet."
+    },
+    "messageSendFailed": {
+      "description": "Senden der Admin-Nachricht fehlgeschlagen."
+    },
+    "messageStatusUpdateFailed": {
+      "description": "Aktualisierung des Nachrichtenstatus fehlgeschlagen."
+    },
+    "messageUnsent": {
+      "title": "Nachricht nicht gesendet",
+      "description": "\"{{title}}\" wurde aus dem Posteingang des Benutzers entfernt."
+    },
+    "unsendFailed": {
+      "title": "Rücksendung fehlgeschlagen"
+    },
+    "messageUnsendFailed": {
+      "description": "Rücksendung der Nachricht fehlgeschlagen."
+    },
+    "updated": {
+      "title": "Aktualisiert"
+    },
+    "depositUpdated": {
+      "description": "Einzahlungsdetails wurden gespeichert."
+    },
+    "depositUpdateFailed": {
+      "description": "Aktualisierung der Einzahlungsdetails fehlgeschlagen."
+    },
+    "depositUpdateHttpFailed": {
+      "description": "Aktualisierung der Einzahlungsdetails fehlgeschlagen (HTTP {{status}})."
+    },
+    "payoutUpdateFailed": {
+      "description": "Aktualisierung der Auszahlung-Wallet fehlgeschlagen."
+    },
+    "profileRedirectUpdated": {
+      "description": "Profil-Weiterleitungs-URL wurde gespeichert."
+    },
+    "profileRedirectFailed": {
+      "description": "Aktualisierung der Profil-Weiterleitung fehlgeschlagen."
+    },
+    "profileRedirectHttpFailed": {
+      "description": "Aktualisierung der Profil-Weiterleitung fehlgeschlagen (HTTP {{status}})."
+    },
+    "submissionUrlUpdated": {
+      "description": "Einreichungs-URL wurde gespeichert."
+    },
+    "submissionUrlFailed": {
+      "description": "Aktualisierung der Einreichungs-URL fehlgeschlagen."
+    },
+    "submissionUrlHttpFailed": {
+      "description": "Aktualisierung der Einreichungs-URL fehlgeschlagen (HTTP {{status}})."
+    },
+    "letterStatusFailed": {
+      "description": "Aktualisierung des Status des Schreibens fehlgeschlagen."
+    },
+    "letterStatusHttpFailed": {
+      "description": "Aktualisierung des Status des Schreibens fehlgeschlagen (HTTP {{status}})."
+    },
+    "landingPageUpdated": {
+      "description": "Benutzer-Startseite wurde aktualisiert."
+    },
+    "landingPageFailed": {
+      "description": "Aktualisierung der Startseite fehlgeschlagen."
+    },
+    "landingPageHttpFailed": {
+      "description": "Aktualisierung der Startseite fehlgeschlagen (HTTP {{status}})."
+    },
+    "withdrawalUpdated": {
+      "description": "Einstellungen zum Abhebungsfortschritt wurden gespeichert."
+    },
+    "withdrawalFailed": {
+      "description": "Aktualisierung des Abhebungsfortschritts fehlgeschlagen."
+    },
+    "withdrawalHttpFailed": {
+      "description": "Aktualisierung des Abhebungsfortschritts fehlgeschlagen (HTTP {{status}})."
+    },
+    "noCaseSelected": {
+      "title": "Kein Fall ausgewählt",
+      "description": "Bitte wählen Sie zuerst einen Fall aus."
+    },
+    "finalStage": {
+      "title": "Letzte Stufe",
+      "description": "Bereits in der letzten Stufe (14)."
+    },
+    "stageApproveFailed": {
+      "description": "Genehmigung der Stufe fehlgeschlagen."
+    },
+    "stageApproveHttpFailed": {
+      "description": "Genehmigung der Stufe fehlgeschlagen (HTTP {{status}})."
+    },
+    "noEmailOnFile": {
+      "title": "Keine E-Mail in der Datei",
+      "description": "Dieser Benutzer hat keine E-Mail-Adresse in der Datei."
+    },
+    "stageResetDefault": {
+      "description": "E-Mail-Inhalt auf den Standard für diese Stufe wiederhergestellt."
+    },
+    "stageEmailFailed": {
+      "description": "Senden der E-Mail zur Stufe fehlgeschlagen."
+    },
+    "receiptUpdated": {
+      "title": "Beleg aktualisiert",
+      "description": "Beleg wurde {{status}}."
+    },
+    "receiptUpdateFailed": {
+      "description": "Aktualisierung des Belegstatus fehlgeschlagen."
+    },
+    "receiptUpdateHttpFailed": {
+      "description": "Aktualisierung des Belegstatus fehlgeschlagen (HTTP {{status}})."
+    },
+    "logsCleared": {
+      "title": "Protokolle gelöscht",
+      "description": "Aktivitätsprotokolle und Chatverlauf wurden gelöscht. Benutzerkonten sind erhalten geblieben."
+    },
+    "logsClearFailed": {
+      "description": "Löschen der Protokolle fehlgeschlagen."
+    },
+    "accountDeleted": {
+      "title": "Konto gelöscht",
+      "description": "Konto {{name}} wurde dauerhaft gelöscht."
+    },
+    "accountDeleteFailed": {
+      "description": "Löschen des Kontos fehlgeschlagen."
+    },
+    "caseCreated": {
+      "title": "Fall erstellt",
+      "description": "Zugangscode: {{code}}"
+    },
+    "caseCreateFailed": {
+      "description": "Erstellung des Falls fehlgeschlagen."
+    },
+    "letterSaved": {
+      "title": "Schreiben gespeichert",
+      "description": "Inhalt des benutzerdefinierten Schreibens wurde gespeichert."
+    },
+    "letterSaveFailed": {
+      "description": "Speichern des Schreibens fehlgeschlagen."
+    },
+    "letterContentSaveFailed": {
+      "description": "Speichern des Inhalts des Schreibens fehlgeschlagen."
+    },
+    "accountActivated": {
+      "title": "Konto aktiviert",
+      "description": "Benutzer kann jetzt auf das sichere Schreiben zugreifen."
+    },
+    "finalizeFailed": {
+      "description": "Abschluss des Falls fehlgeschlagen."
+    },
+    "submissionDeleted": {
+      "title": "Einreichung gelöscht",
+      "description": "Die Einreichung wurde entfernt."
+    },
+    "submissionDeleteFailed": {
+      "description": "Löschen der Einreichung fehlgeschlagen."
+    },
+    "sealCleared": {
+      "title": "Siegel genehmigt",
+      "description": "Dieser Fall kann jetzt bearbeitet werden."
+    },
+    "templateSent": {
+      "title": "Gesendet",
+      "description": "\"{{title}}\" an {{name}} geliefert."
+    },
+    "templateFailed": {
+      "title": "Fehlgeschlagen",
+      "description": "Nachricht konnte nicht gesendet werden."
+    },
+    "fallbackUser": "Benutzer",
+    "tryAgain": "Bitte versuchen Sie es erneut.",
+    "serverError": "Serverfehler",
+    "unknownError": "Unbekannter Fehler",
+    "accountNeedsAuth": {
+      "title": "Konto benötigt Autorisierung",
+      "description": "{{name}} wartet auf die Abschluss des Kontos{{extra}}"
+    },
+    "kycBundle": {
+      "title": "KYC-ID-Bundle angefordert",
+      "description": "Vier KYC-Dokumente wurden angefordert. Der Benutzer wurde benachrichtigt."
+    },
+    "declarationRequestFailed": {
+      "title": "Erklärung konnte nicht angefordert werden"
+    },
+    "declarationPortalOpened": {
+      "title": "Erklärung-Portal geöffnet",
+      "descriptionWithCode": "Zugangscode für {{name}}: {{code}} (gültig 24h).{{suffix}}",
+      "descriptionNoCode": "{{name}} wird das Erklärungsformular beim nächsten Login sehen.{{suffix}}"
+    },
+    "accessCodeRegenerated": {
+      "title": "Zugangscode regeneriert"
+    },
+    "previousLetterFailed": {
+      "title": "Vorheriges Schreiben konnte nicht geladen werden",
+      "descriptionServer": "Server hat {{status}} zurückgegeben. Die Felder unten sind leer — füllen Sie sie aus oder brechen Sie ab.",
+      "descriptionNetwork": "Netzwerkfehler. Die Felder unten sind leer — füllen Sie sie aus oder brechen Sie ab."
+    },
+    "missingFee": {
+      "title": "Fehlende Gebühr",
+      "description": "Neuausstellungsgebühr ist erforderlich."
+    },
+    "reissueLetterFailed": {
+      "title": "Schreiben konnte nicht erneut ausgestellt werden"
+    },
+    "letterReissued": {
+      "title": "Schreiben erneut ausgestellt",
+      "description": "{{name}} muss jetzt einen Beleg für die Neuausstellungsgebühr von {{fee}} hochladen, bevor er erneut einreicht."
+    },
+    "accountLocked": {
+      "title": "Konto gesperrt",
+      "description": "{{name}} kann sich nicht anmelden, bis Sie es entsperren."
+    },
+    "accountUnlocked": {
+      "title": "Konto entsperrt"
+    },
+    "accountSaveFailed": {
+      "title": "Änderungen am Konto konnten nicht gespeichert werden"
+    },
+    "reasonRequired": {
+      "title": "Grund erforderlich",
+      "description": "Bitte geben Sie mindestens 10 Zeichen an, die beschreiben, warum Sie das Konto dieses Benutzers öffnen müssen."
+    },
+    "mirrorOpenFailed": {
+      "title": "Konnte Benutzer-Spiegel nicht öffnen"
+    },
+    "declarationStatusFailed": {
+      "title": "Konnte den Status der Erklärung nicht aktualisieren"
+    },
+    "declarationApproved": {
+      "title": "Erklärung genehmigt"
+    },
+    "declarationRejected": {
+      "title": "Erklärung abgelehnt"
+    },
+    "emailSent": {
+      "title": "E-Mail gesendet",
+      "description": "E-Mail erfolgreich an {{email}} gesendet"
+    },
+    "emailFailed": {
+      "title": "Senden fehlgeschlagen",
+      "description": "E-Mail konnte nicht gesendet werden",
+      "descriptionGeneric": "E-Mail senden fehlgeschlagen"
+    },
+    "statusUpdated": {
+      "title": "Status aktualisiert",
+      "description": "Nachricht in {{category}} verschoben"
+    },
+    "statusUpdateFailed": {
+      "title": "Aktualisierung des Status fehlgeschlagen"
+    },
+    "stageApproved": {
+      "title": "Stufe genehmigt",
+      "description": "Fortgeschritten zu Stufe {{stage}} von 14."
+    },
+    "stageEmailSent": {
+      "title": "E-Mail zur Stufe gesendet",
+      "description": "E-Mail zur Stufe {{stage}} an {{email}} gesendet."
+    },
+    "stageEmailHttpFailed": {
+      "description": "Senden der E-Mail zur Stufe fehlgeschlagen (HTTP {{status}})."
+    },
+    "sealOverrideFailed": {
+      "title": "Konnte das Siegel nicht überschreiben"
+    },
+    "overrideFailed": {
+      "title": "Überschreibung fehlgeschlagen"
+    }
+  }
+}

@@ -1,0 +1,511 @@
+{
+  "common": {
+    "greeting": "Hallo {{name}},",
+    "regards": "Mit freundlichen Grüßen,",
+    "team": "IBCCF Compliance-Team",
+    "footer": "Dies ist eine transaktionale Benachrichtigung vom International Blockchain Community Complaints Forum. Antworten werden vom Compliance-Team überwacht.",
+    "viewInPortal": "Im Portal ansehen",
+    "caseRef": "Fallreferenz: {{case}}",
+    "securityNoticeLabel": "Sicherheitshinweis.",
+    "importantLabel": "Wichtig",
+    "actionRequiredLabel": "Handlung erforderlich",
+    "sectionWhatToDo": "Was Sie tun müssen",
+    "sectionWhatToExpect": "Was als Nächstes zu erwarten ist",
+    "sectionStageSummary": "Phasenzusammenfassung",
+    "sectionDetailedExplanation": "Ausführliche Erläuterung",
+    "sectionWhyItMatters": "Warum dieser Schritt erforderlich ist",
+    "sectionRegulatoryBasis": "Regulatorische Grundlage",
+    "sectionNextSteps": "Nächste Schritte:",
+    "sectionHowToAccess": "So gelangen Sie in Ihr Portal:",
+    "sectionHowToSignIn": "So melden Sie sich erneut an:",
+    "caseReferenceLabel": "Fallnummer",
+    "currentStageLabel": "Aktuelle Phase",
+    "declarationStatusLabel": "Erklärungsstatus",
+    "openSecurePortalCta": "Sicheres Portal öffnen",
+    "copyLinkPrefix": "Oder kopieren Sie diesen Link:"
+  },
+  "letterReady": {
+    "subject": "Ihr Auszahlungsschreiben ist bereit — Fall {{case}}",
+    "headline": "Ihr Auszahlungsschreiben ist bereit",
+    "body": "Ihr formelles Auszahlungsschreiben wurde ausgestellt und ist jetzt in Ihrem Portal verfügbar. Bitte melden Sie sich an, um es zu prüfen und herunterzuladen."
+  },
+  "letterReissued": {
+    "subject": "Rückzugsbrief erneut ausgestellt (v{{version}}) — Fall {{case}}",
+    "headline": "Ihr Rückzugsbrief wurde erneut ausgestellt",
+    "body": "Eine neue Version Ihres Rückzugsbriefs (v{{version}}) wurde ausgestellt. Die vorherige Version ist nicht mehr gültig. Bitte melden Sie sich an, um die neueste Kopie zu überprüfen."
+  },
+  "reissueApproved": {
+    "preheader": "Ihre Neuausstellungszahlung für Runde v{{version}} wurde genehmigt.",
+    "intro": "Gute Nachrichten — Ihre Neuausstellungszahlung für Runde v{{version}} ({{fee}}) wurde vom Compliance-Team genehmigt. Sie können Ihre Auszahlungsoption nun erneut in Ihrem Portal einreichen.",
+    "approvedFeeLabel": "Genehmigte Neuausstellungsgebühr",
+    "expectBody": "Öffnen Sie Ihr Portal, kehren Sie zum Auszahlungsschreiben zurück, wählen Sie eine Option und reichen Sie sie ein. Die Bearbeitung wird gemäß dem Standardzeitplan fortgesetzt.",
+    "cta": "Auswahl erneut einreichen",
+    "subject": "Zahlung zur Neuausstellung genehmigt — Fall {{case}}",
+    "headline": "Ihre Zahlung zur Neuausstellung wurde genehmigt",
+    "body": "Ihre Zahlung zur Neuausstellung wurde genehmigt. Der neu ausgestellte Brief wird in Kürze veröffentlicht."
+  },
+  "reissueRejected": {
+    "preheader": "Ihr Neuausstellungs-Zahlungsbeleg wurde nicht genehmigt.",
+    "intro": "Ihr letzter Neuausstellungs-Zahlungsbeleg wurde überprüft und konnte nicht genehmigt werden. Bitte beachten Sie die Anmerkungen des Prüfers unten und laden Sie einen korrigierten Beleg in Ihr Portal hoch.",
+    "reviewerNotesLabel": "Anmerkungen des Prüfers",
+    "actionBody": "Öffnen Sie das sichere Portal, navigieren Sie zum Einzahlungsbereich der aktiven Neuausstellungsrunde und laden Sie einen deutlicheren oder korrigierten Beleg zur Prüfung hoch.",
+    "cta": "Korrigierten Beleg hochladen",
+    "subject": "Zahlung zur Neuausstellung konnte nicht genehmigt werden — Fall {{case}}",
+    "headline": "Ihre Zahlung zur Neuausstellung konnte nicht genehmigt werden",
+    "body": "Ihre Zahlung zur Neuausstellung konnte nicht genehmigt werden. Bitte überprüfen Sie den Grund in Ihrem Portal und reichen Sie es erneut ein."
+  },
+  "declarationAssigned": {
+    "subject": "Eine Erklärung zur Einhaltung wurde zugewiesen — Fall {{case}}",
+    "headline": "Eine Erklärung zur Einhaltung wurde zugewiesen",
+    "body": "Eine Erklärung zur Einhaltung wurde Ihrem Fall zugewiesen. Bitte vervollständigen Sie sie im Abschnitt Erklärung Ihres Portals."
+  },
+  "declarationApproved": {
+    "subject": "Erklärung zur Einhaltung genehmigt — Fall {{case}}",
+    "headline": "Ihre Erklärung wurde genehmigt",
+    "body": "Ihre Erklärung zur Einhaltung wurde genehmigt. Ihr Fall wird nun in die nächste Phase übergehen."
+  },
+  "declarationRejected": {
+    "subject": "Erklärung zur Einhaltung erfordert Überarbeitung — Fall {{case}}",
+    "headline": "Ihre Erklärung benötigt eine Überarbeitung",
+    "body": "Ihre Erklärung zur Einhaltung erfordert eine Überarbeitung. Bitte überprüfen Sie die Kommentare in Ihrem Portal und reichen Sie es erneut ein."
+  },
+  "submissionReceived": {
+    "subject": "Wir haben Ihre Einreichung erhalten — Fall {{case}}",
+    "headline": "Wir haben Ihre Einreichung erhalten",
+    "body": "Wir haben Ihre Einreichung erhalten und unser Compliance-Team wird sie in Kürze überprüfen. Sie werden im Portal über das Ergebnis informiert."
+  },
+  "complianceMessage": {
+    "subject": "Neue Nachricht von Compliance — {{title}}",
+    "headline": "Sie haben eine neue Compliance-Nachricht",
+    "body": "Ein Compliance-Beauftragter hat Ihnen eine neue Nachricht zu Ihrem Fall gesendet. Bitte melden Sie sich an, um sie zu lesen."
+  },
+  "documentRequested": {
+    "subject": "Dokument angefordert — Fall {{case}}",
+    "headline": "Ein Dokument wurde angefordert",
+    "body": "Ein Compliance-Beauftragter hat ein Dokument für Ihren Fall angefordert. Bitte laden Sie es im Abschnitt Dokumente Ihres Portals hoch."
+  },
+  "documentUnderReview": {
+    "subject": "Dokument in Prüfung — Fall {{case}}",
+    "headline": "Ihr Dokument wird jetzt geprüft",
+    "body": "Ein Compliance-Beauftragter hat mit der Prüfung Ihres eingereichten Dokuments \"{{documentType}}\" begonnen. Von Ihrer Seite ist derzeit keine Maßnahme erforderlich — wir benachrichtigen Sie im Portal, sobald die Prüfung abgeschlossen ist."
+  },
+  "documentApproved": {
+    "subject": "Dokument genehmigt — Fall {{case}}",
+    "headline": "Ihr Dokument wurde genehmigt",
+    "body": "Ihr eingereichtes Dokument wurde von der Compliance genehmigt. Es sind keine weiteren Maßnahmen für diese Anfrage erforderlich."
+  },
+  "documentRejected": {
+    "subject": "Dokument benötigt erneute Einreichung — Fall {{case}}",
+    "headline": "Ihr Dokument benötigt eine erneute Einreichung",
+    "body": "Ihr eingereichtes Dokument konnte nicht genehmigt werden. Bitte überprüfen Sie die Kommentare in Ihrem Portal und laden Sie eine korrigierte Datei hoch."
+  },
+  "payoutWalletSet": {
+    "subject": "Auszahlungs-Wallet kalibriert und mit Ihrem IBCCF-Secure-Wallet verbunden — Fall {{case}}",
+    "headline": "Ihr Auszahlungs-Wallet wurde kalibriert und mit Ihrem IBCCF-Secure-Wallet verbunden",
+    "body": "Ihre Compliance-Beauftragte hat Ihr Auszahlungs-Wallet kalibriert und mit Ihrem IBCCF-Secure-Wallet verbunden. Dies ist nun das autorisierte Ziel für die finale Auszahlung Ihres Falls — bitte prüfen Sie die Details in Ihrem Portal und bestätigen Sie, dass sie mit dem mit Ihrem Beauftragten Besprochenen übereinstimmen."
+  },
+  "payoutWalletChanged": {
+    "subject": "Auszahlungs-Wallet rekalibriert und erneut mit Ihrem IBCCF-Secure-Wallet verbunden — Fall {{case}}",
+    "headline": "Ihr Auszahlungs-Wallet wurde rekalibriert und erneut mit Ihrem IBCCF-Secure-Wallet verbunden",
+    "body": "Ihre Compliance-Beauftragte hat Ihr Auszahlungs-Wallet rekalibriert und erneut mit Ihrem IBCCF-Secure-Wallet verbunden. Nur diese neue Adresse ist nun für Ihre finale Auszahlung autorisiert — bitte prüfen Sie die aktualisierten Details in Ihrem Portal sorgfältig."
+  },
+  "withdrawalRequestSubmitted": {
+    "subject": "Auszahlungsantrag eingegangen — Fall {{case}}",
+    "headline": "Ihr Auszahlungsantrag wurde empfangen",
+    "body": "Wir haben Ihren Auszahlungsantrag über {{amount}} {{asset}} ({{network}}) erhalten. Ihr Sachbearbeiter wird die angeforderte Ziel-Wallet prüfen und Sie über das Ergebnis informieren. Die Plattform dient nur der Anzeige und bewegt keine Gelder."
+  },
+  "withdrawalApproved": {
+    "subject": "Auszahlungsantrag genehmigt — Fall {{case}}",
+    "headline": "Ihr Auszahlungsantrag wurde genehmigt",
+    "body": "Ihr Auszahlungsantrag über {{amount}} {{asset}} wurde von der Compliance genehmigt. Die Stufenfortschreitung bis zur Freigabe wird manuell von Ihrem Sachbearbeiter abgewickelt."
+  },
+  "withdrawalRejected": {
+    "subject": "Auszahlungsantrag konnte nicht genehmigt werden — Fall {{case}}",
+    "headline": "Ihr Auszahlungsantrag bedarf einer Überarbeitung",
+    "body": "Ihr Auszahlungsantrag über {{amount}} {{asset}} konnte derzeit nicht genehmigt werden. Hinweis des Prüfers: {{note}}. Bitte wenden Sie sich an Ihren Sachbearbeiter oder reichen Sie im Portal einen neuen Antrag ein."
+  },
+  "withdrawalCancelled": {
+    "subject": "Auszahlungsantrag storniert — Fall {{case}}",
+    "headline": "Ihr Auszahlungsantrag wurde storniert",
+    "body": "Ihr Auszahlungsantrag über {{amount}} {{asset}} wurde storniert. Sie können einen neuen Antrag stellen, solange das Auszahlungsfenster geöffnet ist."
+  },
+  "keyRequestConfirmation": {
+    "subject": "Antrag auf Zugangsschlüssel eingegangen — Referenz {{requestId}}",
+    "preheader": "Ihr Antrag auf einen Zugangsschlüssel {{requestId}} ist eingegangen und wird geprüft.",
+    "intro": "Vielen Dank für die Einreichung Ihres Antrags auf einen Zugangsschlüssel. Ihr Antrag ist sicher eingegangen und wird derzeit von unserem Verifizierungsteam geprüft.",
+    "requestIdLabel": "Ihre Antragskennung",
+    "importantBody": "Bitte bewahren Sie diese Antragskennung auf. Sie benötigen sie, um den Status Ihres Antrags zu verfolgen und Ihren Zugangsschlüssel nach Genehmigung abzurufen.",
+    "verificationNote": "Die Prüfung wird in der Regel innerhalb von 1 bis 3 Werktagen abgeschlossen. Sie können den Status Ihres Antrags jederzeit über den nachstehenden Link einsehen — keine Anmeldung erforderlich.",
+    "cta": "Antragsstatus prüfen",
+    "signoff": "Falls Sie diesen Antrag nicht gestellt haben, können Sie diese Nachricht ignorieren."
+  },
+  "keyApproval": {
+    "subject": "IBCCF-Zugangsschlüssel ausgestellt — Anmeldedaten anbei",
+    "preheader": "Ihr Zugangsschlüssel wurde genehmigt und ist einsatzbereit.",
+    "intro": "Wir freuen uns, Ihnen mitteilen zu können, dass Ihr Antrag auf einen Zugangsschlüssel genehmigt wurde. Sie können nun mit den unten ausgestellten Anmeldedaten auf das sichere Portal zugreifen.",
+    "accessKeyLabel": "Ihr Zugangsschlüssel",
+    "step1": "Rufen Sie das sichere Verifizierungsportal auf",
+    "step2": "Geben Sie den oben angezeigten Zugangsschlüssel ein",
+    "step3": "Schließen Sie die Profileinrichtung ab",
+    "step4": "Legen Sie eine vertrauliche 6-stellige PIN fest",
+    "securityBody": "Ihr Zugangsschlüssel ist vertraulich. Geben Sie ihn an niemanden weiter. Autorisiertes IBCCF-Personal wird Sie niemals nach Ihrem Zugangsschlüssel oder Ihrer PIN fragen.",
+    "signoff": "Bei Fragen steht Ihnen unser Compliance-Team zur Verfügung."
+  },
+  "accountReactivation": {
+    "subject": "IBCCF-Portalzugang wiederhergestellt — Ihr neuer Anmeldecode",
+    "preheader": "Ihr IBCCF-Portalzugang wurde reaktiviert.",
+    "intro": "Gute Nachrichten — Ihr IBCCF-Portalkonto wurde von unserem Compliance-Team reaktiviert. Aus Sicherheitsgründen haben wir Ihnen einen brandneuen Zugangscode ausgestellt; Ihr vorheriger Code ist nicht mehr gültig.",
+    "accessCodeLabel": "Ihr neuer Zugangscode",
+    "step1": "Öffnen Sie das sichere IBCCF-Portal",
+    "step2": "Geben Sie den oben angezeigten neuen Zugangscode ein",
+    "step3": "Verwenden Sie Ihre bestehende 6-stellige PIN, um die Anmeldung abzuschließen",
+    "securityBody": "Dieser neue Code ersetzt Ihren bisherigen. Geben Sie ihn an niemanden weiter — IBCCF-Mitarbeiter werden Sie niemals nach Ihrem Zugangscode oder Ihrer PIN fragen.",
+    "signoff": "Falls Sie diese E-Mail nicht erwartet haben, kontaktieren Sie bitte umgehend unser Compliance-Team."
+  },
+  "newDeclarationCode": {
+    "subject": "IBCCF-Erklärungscode ausgestellt — bitte vervollständigen Sie Ihre Erklärung",
+    "preheader": "Für Ihren Fall wurde ein neuer Zugangscode für die Erklärung ausgestellt.",
+    "intro": "Unser Compliance-Team hat einen neuen Zugangscode für die Erklärung Ihres Falls ausgestellt. Ihr vorheriger Code ist nicht mehr gültig — bitte verwenden Sie den nachstehenden neuen Code, um die Compliance-Erklärung zu vervollständigen.",
+    "accessCodeLabel": "Ihr neuer Zugangscode für die Erklärung",
+    "step1": "Melden Sie sich wie gewohnt in Ihrem IBCCF-Portal an",
+    "step2": "Öffnen Sie die Compliance-Erklärung",
+    "step3": "Geben Sie auf Aufforderung den oben angezeigten Zugangscode ein",
+    "securityBody": "Dieser Code ersetzt jeden zuvor ausgestellten Erklärungscode. Geben Sie ihn an niemanden weiter — IBCCF-Mitarbeiter werden Sie niemals telefonisch oder per Chat nach diesem Code fragen.",
+    "signoff": "Falls Sie diese E-Mail nicht erwartet haben, kontaktieren Sie bitte umgehend unser Compliance-Team."
+  },
+  "adminMessage": {
+    "subject": "Neue Nachricht zu Ihrem Antrag {{requestId}} — IBCCF",
+    "preheader": "Neue Korrespondenz zum Antrag {{requestId}}.",
+    "intro": "Sie haben eine neue Nachricht vom IBCCF-Verifizierungsteam zu Ihrem Antrag auf einen Zugangsschlüssel {{requestId}} erhalten.",
+    "afterMessage": "Bitte prüfen Sie Ihren Fall und antworten Sie zeitnah über das sichere Portal.",
+    "cta": "Ihren Antrag ansehen",
+    "signoff": "Dies ist eine automatische Benachrichtigung. Antworten an diese Adresse erreichen das Verifizierungsteam nicht — bitte antworten Sie innerhalb des sicheren Portals."
+  },
+  "rejection": {
+    "subject": "Aktualisierung zu Ihrem Antrag auf Zugangsschlüssel {{requestId}} — IBCCF",
+    "preheader": "Aktualisierung zu Ihrem Antrag auf Zugangsschlüssel {{requestId}}.",
+    "intro": "Vielen Dank für die Einreichung des Antrags auf Zugangsschlüssel {{requestId}}. Nach sorgfältiger Prüfung können wir Ihren Antrag derzeit nicht genehmigen.",
+    "reasonLabel": "Begründung",
+    "body": "Sie können jederzeit einen neuen Antrag stellen. Die Schaltfläche unten öffnet ein vorausgefülltes Wiederholungsformular, mit dem Sie in Sekunden erneut einreichen können.",
+    "cta": "Neuen Antrag einreichen",
+    "statusLink": "den Antragsstatus ansehen",
+    "statusLinkPrefix": "Alternativ können Sie",
+    "statusLinkSuffix": ".",
+    "signoff": "Dies ist eine automatische Benachrichtigung. Bitte antworten Sie nicht direkt auf diese E-Mail."
+  },
+  "expiry": {
+    "subject": "Ihr Antrag auf Zugangsschlüssel {{requestId}} ist abgelaufen — IBCCF",
+    "preheader": "Ihr Antrag auf Zugangsschlüssel {{requestId}} ist abgelaufen.",
+    "intro": "Ihr Antrag auf Zugangsschlüssel {{requestId}} ist abgelaufen, da er nicht innerhalb des vorgesehenen Zeitfensters geprüft wurde. Es wurden keine Maßnahmen zu Ihrem Antrag ergriffen.",
+    "body": "Sie können jederzeit einen neuen Antrag stellen. Die Schaltfläche unten öffnet ein vorausgefülltes Wiederholungsformular, mit dem Sie in Sekunden erneut einreichen können.",
+    "cta": "Jetzt erneut beantragen",
+    "statusLink": "den abgelaufenen Antrag ansehen",
+    "statusLinkPrefix": "Alternativ können Sie",
+    "statusLinkSuffix": ".",
+    "signoff": "Dies ist eine automatische Benachrichtigung. Bitte antworten Sie nicht direkt auf diese E-Mail."
+  },
+  "stageInstructions": {
+    "subjectTemplate": "Phase {{stage}} von 14: {{title}} — Fall {{case}}",
+    "preheader": "Phase {{stage}} von 14: {{title}} — Anweisungen zum Fall {{case}}.",
+    "intro": "Nachstehend finden Sie eine ausführliche Aktualisierung zu Ihrem Fall {{case}}. Bitte lesen Sie die Phasenanweisungen sorgfältig und führen Sie alle erforderlichen Schritte in Ihrem sicheren Portal aus.",
+    "stageOf": "Phase {{stage}} von 14",
+    "regulatoryNote": "Die Verweise dienen der Transparenz. Die konkrete Anwendbarkeit hängt von Ihrer Wohnsitzjurisdiktion und der betroffenen Anlageklasse ab.",
+    "securityBody": "Führen Sie Einzahlungen und Bestätigungen stets in Ihrem sicheren Portal durch. IBCCF wird Sie niemals per E-Mail oder Chat nach Ihrem Zugangsschlüssel, Ihrer PIN oder Ihrem Phrase Key fragen.",
+    "signoff": "Bei Fragen verwenden Sie bitte die sichere Nachrichtenfunktion in Ihrem Portal, damit das Team den vollständigen Fallkontext hat."
+  },
+  "declarationAccess": {
+    "subject": "Ihr Erklärungsportal wurde geöffnet — Fall {{case}}",
+    "preheaderShell": "Ihr Erklärungsportal ist geöffnet. Zugangscode: {{code}}. 24 Stunden gültig.",
+    "intro": "Das Compliance-Team hat das Portal für die Compliance-Erklärung Ihres Falls geöffnet. Bitte befolgen Sie die nachstehenden Anweisungen innerhalb der nächsten 24 Stunden.",
+    "statusLabel": "Portal geöffnet — Wir erwarten Ihre Einreichung",
+    "accessCodeLabel": "Ihr Zugangscode für die Erklärung",
+    "validUntil": "Gültig bis {{expiry}} — etwa 24 Stunden ab Ausstellung.",
+    "defaultIntroBody": "Unser Compliance-Team hat das Portal für die Compliance-Erklärung geöffnet. Verwenden Sie den nachstehenden Zugangscode, um sich in Ihrem Portal anzumelden, Ihre Erklärung zu prüfen und zu unterzeichnen. Dieser Zugangscode ist 24 Stunden ab Ausstellung gültig — bitte vervollständigen Sie Ihre Erklärung vor Ablauf.",
+    "todo1": "Öffnen Sie das sichere Portal über den nachstehenden Link.",
+    "todo2": "Geben Sie den in dieser E-Mail angezeigten Zugangscode auf Aufforderung ein.",
+    "todo3": "Lesen Sie jeden Abschnitt der Compliance-Erklärung sorgfältig.",
+    "todo4": "Bestätigen Sie alle erforderlichen Bestätigungen und reichen Sie vor Ablauf des 24-Stunden-Fensters ein.",
+    "todo5": "Falls das Fenster abläuft, wenden Sie sich an Ihren Compliance-Beauftragten, um einen neuen Code ausstellen zu lassen.",
+    "defaultClosing": "Aus Sicherheitsgründen ist dieser Zugangscode nur einmalig für diesen Fall verwendbar und darf an niemanden weitergegeben werden. Falls Sie diese Benachrichtigung nicht erwartet haben, kontaktieren Sie umgehend die Compliance-Abteilung.",
+    "securityNoteLabel": "Sicherheitshinweis:",
+    "cta": "Erklärungsportal öffnen",
+    "signoff": "Bei Fragen nutzen Sie bitte die sichere Nachrichtenfunktion im Portal, damit das Team den vollständigen Fallkontext hat."
+  },
+  "custom": {
+    "greeting": "Sehr geehrte Empfängerin, sehr geehrter Empfänger,",
+    "intro": "Nachstehend finden Sie eine wichtige Nachricht des IBCCF-Teams.",
+    "signoff": "Für Rückfragen nutzen Sie bitte das sichere Portal oder antworten Sie an diese Adresse."
+  },
+  "withdrawalActivationAddressSubmitted": {
+    "subject": "Auszahlungsadresse erhalten — Fall {{case}}",
+    "headline": "Wir haben Ihre Auszahlungsadresse erhalten",
+    "body": "Ihre Auszahlungsadresse ({{asset}} auf {{network}}) wurde übermittelt. Melden Sie sich in Ihrem Portal an, um den Aktivierungsprozess fortzusetzen."
+  },
+  "withdrawalActivationTokenVerified": {
+    "subject": "Sicherheitscode verifiziert — Fall {{case}}",
+    "headline": "Ihr Sicherheitscode wurde verifiziert",
+    "body": "Ihr Auszahlungs-Sicherheitscode wurde erfolgreich verifiziert. Sie können nun den Beleg Ihrer Aktivierungseinzahlung im Portal hochladen."
+  },
+  "withdrawalActivationCode": {
+    "subject": "Auszahlungs-Sicherheitscode — Fall {{case}}",
+    "headline": "Ihr Auszahlungs-Sicherheitscode",
+    "body": "Verwenden Sie den untenstehenden Code, um Ihre Auszahlungsadresse im IBCCF-Portal zu bestätigen. Code: {{code}} (gültig für {{expiresInMinutes}} Minuten). Geben Sie diesen Code an niemanden weiter — IBCCF-Mitarbeiter werden niemals danach fragen."
+  },
+  "withdrawalActivationReceiptReceived": {
+    "subject": "Beleg der Aktivierungseinzahlung erhalten — Fall {{case}}",
+    "headline": "Wir haben Ihren Beleg der Aktivierungseinzahlung erhalten",
+    "body": "Wir haben Ihren Beleg der Aktivierungseinzahlung erhalten und ein Compliance-Mitarbeiter wird ihn in Kürze prüfen. Sie werden im Portal benachrichtigt, sobald er genehmigt wurde."
+  },
+  "withdrawalActivationApproved": {
+    "subject": "Auszahlungsaktivierung genehmigt — Fall {{case}}",
+    "headline": "Ihre Auszahlungsaktivierung wurde genehmigt",
+    "body": "Ihre Aktivierungseinzahlung wurde genehmigt. Die Auszahlungsbearbeitung wird fortgesetzt und Ihr Fallbearbeiter wird sich bezüglich der finalen Auszahlung mit Ihnen in Verbindung setzen."
+  },
+  "withdrawalActivationRejected": {
+    "subject": "Aktivierungseinzahlung konnte nicht genehmigt werden — Fall {{case}}",
+    "headline": "Ihre Aktivierungseinzahlung erfordert Aufmerksamkeit",
+    "body": "Ihre Aktivierungseinzahlung konnte nicht genehmigt werden. Hinweis des Prüfers: {{reason}}. Bitte prüfen Sie die Nachricht in Ihrem Portal und laden Sie einen korrigierten Beleg hoch."
+  },
+  "settlementSealed": {
+    "subject": "Vereinbarung versiegelt — Fall {{case}}",
+    "headline": "Ihre Vereinbarung wurde versiegelt",
+    "body": "Ihre versiegelte Vergleichs- und Vertraulichkeitserklärung wurde unterzeichnet und Ihr Fall ist nun dauerhaft versiegelt. Eine unterschriebene Kopie des Dokuments ist für Ihre Unterlagen beigefügt. Mit dem im Portal angezeigten Integritäts-Hash (SHA-256) können Sie überprüfen, dass das beigefügte PDF nicht verändert wurde.",
+    "greeting": "Sehr geehrte/r {{name}},",
+    "caseReferenceLabel": "Fallreferenz",
+    "integrityHashLabel": "SHA-256-Integritäts-Hash",
+    "signedAtLabel": "Unterzeichnet am {{when}}"
+  },
+  "caseFinalized": {
+    "subject": "Ihr Fall wurde abgeschlossen — Fall {{case}}",
+    "headline": "Ihr Fall wurde abgeschlossen",
+    "body": "Ihr IBCCF-Auszahlungsfall hat seine letzte Phase erreicht und wurde vollständig abgeschlossen. Sie können sich jederzeit in Ihrem Portal anmelden, um Ihre versiegelten Unterlagen herunterzuladen."
+  },
+  "certificateFeeReceived": {
+    "subject": "Zertifizierungsgebühr-Beleg erhalten — Fall {{case}}",
+    "headline": "Wir haben Ihren Zertifizierungsgebühr-Beleg erhalten",
+    "body": "Wir haben Ihren Zahlungsbeleg für das Merge Phrase Certificate ({{amount}} USDT) erhalten und unser Compliance-Team prüft ihn. Sie werden benachrichtigt, sobald das saubere Zertifikat freigeschaltet ist."
+  },
+  "certificateUnlocked": {
+    "subject": "Ihr Merge Phrase Certificate ist bereit — Fall {{case}}",
+    "headline": "Ihr Merge Phrase Certificate ist freigeschaltet",
+    "body": "Ihre Zertifizierungsgebühr wurde genehmigt. Das saubere Merge Phrase Certificate steht nun im Zertifikatsbereich Ihres Portals zum Download bereit."
+  },
+  "certificateFeeRejected": {
+    "subject": "Zertifizierungsgebühr muss erneut eingereicht werden — Fall {{case}}",
+    "headline": "Ihre Zertifizierungsgebühr konnte nicht genehmigt werden",
+    "body": "Ihr jüngster Zertifizierungsgebühr-Beleg konnte nicht genehmigt werden. Bitte prüfen Sie die Prüferhinweise in Ihrem Portal und laden Sie einen korrigierten Beleg hoch."
+  },
+  "stampDutyRequired": {
+    "subject": "Stempelgebühr-Hinterlegung erforderlich — Fall {{case}}",
+    "headline": "Stempelgebühr-Hinterlegung erforderlich",
+    "body": "Bevor die Versiegelte Vereinbarung & NDA unterzeichnet werden kann, laden Sie bitte einen Beleg für die Stempelgebühr-Hinterlegung ({{amount}} USDT) in Ihrem Portal hoch. Die Compliance prüft und genehmigt ihn vor der Freischaltung."
+  },
+  "stampDutyReceived": {
+    "subject": "Stempelgebühr-Beleg erhalten — Fall {{case}}",
+    "headline": "Wir haben Ihren Stempelgebühr-Beleg erhalten",
+    "body": "Wir haben Ihren Beleg für die Stempelgebühr-Hinterlegung ({{amount}} USDT) erhalten und unser Compliance-Team prüft ihn. Sie werden bei Genehmigung benachrichtigt."
+  },
+  "stampDutyApproved": {
+    "subject": "Stempelgebühr genehmigt — Fall {{case}}",
+    "headline": "Ihre Stempelgebühr-Hinterlegung ist genehmigt",
+    "body": "Ihre Stempelgebühr-Hinterlegung wurde genehmigt. Sie können jetzt die Versiegelte Vereinbarung & NDA in Ihrem Portal unterzeichnen."
+  },
+  "stampDutyRejected": {
+    "subject": "Stempelgebühr-Beleg muss erneut eingereicht werden — Fall {{case}}",
+    "headline": "Ihr Stempelgebühr-Beleg konnte nicht genehmigt werden",
+    "body": "Ihr neuester Beleg für die Stempelgebühr-Hinterlegung konnte nicht genehmigt werden. {{reason}} Bitte laden Sie einen korrigierten Beleg im Bereich Stempelgebühr Ihres Portals hoch."
+  },
+  "walletExchangeSelected": {
+    "subject": "Wallet-Verbindung Aktualisiert — Fall {{case}}",
+    "headline": "Ihre Wallet wurde ausgewählt",
+    "body": "Sie haben {{wallet}} als verbundene Wallet für Fall {{case}} ausgewählt. Sie können jetzt Ihre Wallet-Wiederherstellungsphrase im sicheren Portal abrufen."
+  },
+  "walletPhraseRevealed": {
+    "subject": "Wallet-Wiederherstellungsphrase Abgerufen — Fall {{case}}",
+    "headline": "Ihre Wallet-Wiederherstellungsphrase wurde abgerufen",
+    "body": "Ihre Wallet-Wiederherstellungsphrase für Fall {{case}} wurde über das sichere Portal abgerufen. Falls Sie dies nicht veranlasst haben, wenden Sie sich sofort an Ihren Compliance-Beauftragten."
+  },
+  "phraseCodeNotice": {
+    "subject": "Handlung Erforderlich: Rufen Sie Ihren Phrasenschlüssel ab und schließen Sie Ihre Auszahlung ab — Fall {{case}}",
+    "preheader": "Melden Sie sich in Ihrem sicheren Portal an, um Ihren Phrasenschlüssel abzurufen und Ihre Auszahlung fortzusetzen.",
+    "intro": "Ihr Fall ist bereit für den nächsten Schritt. Ihr Phrasenschlüssel ist jetzt in Ihrem sicheren Portal verfügbar, und Sie können ihn verwenden, um Ihre Auszahlung zu autorisieren und abzuschließen. Zu Ihrer Sicherheit wird der Phrasenschlüssel niemals per E-Mail versendet – bitte melden Sie sich an, um ihn anzuzeigen.",
+    "retrieveTitle": "So rufen Sie Ihren Phrasenschlüssel ab",
+    "retrieveStep1": "Öffnen Sie Ihr sicheres Portal über die Schaltfläche unten und melden Sie sich mit Ihrem Zugangscode an.",
+    "retrieveStep2": "Gehen Sie im Menü zum Schritt „Wallet-Verbindung“.",
+    "retrieveStep3": "Zeigen Sie Ihren Phrasenschlüssel an und notieren Sie ihn sorgfältig, und bewahren Sie ihn privat und sicher auf.",
+    "withdrawTitle": "So schließen Sie Ihre Auszahlung ab",
+    "withdrawStep1": "Bestätigen Sie im Schritt „Wallet-Verbindung“ die Daten Ihrer verifizierten Auszahlungs-Wallet.",
+    "withdrawStep2": "Folgen Sie den Anweisungen auf dem Bildschirm, um Ihre Auszahlung mit Ihrem Phrasenschlüssel zu autorisieren.",
+    "withdrawStep3": "Verfolgen Sie die verbleibenden Schritte in Ihrem Dashboard, bis Ihre Auszahlung abgeschlossen ist.",
+    "securityBody": "Die IBCCF wird Sie niemals auffordern, Ihren Phrasenschlüssel per E-Mail, Telefon oder Nachricht weiterzugeben. Geben Sie ihn ausschließlich in Ihrem sicheren Portal ein."
+  },
+  "unknownWallet": "Unbekannte Wallet",
+  "walletConnectAlert": {
+    "subject": "[IBCCF] Wallet-Verbindung abgeschlossen — Fall {{caseId}}",
+    "preheader": "Ein Benutzer hat den Wallet-Verbindungsschritt für Fall {{caseId}} abgeschlossen.",
+    "greeting": "Admin-Benachrichtigung: Wallet-Verbindung abgeschlossen",
+    "intro": "Ein Portalbenutzer hat den Wallet-Verbindungsschritt für Fall {{caseId}} abgeschlossen. Er hat seinen Phrasencode offengelegt und der Fall ist bereit für die nächste Compliance-Aktion.",
+    "caseLabel": "Fall",
+    "walletLabel": "Wallet ausgewählt",
+    "cta": "Fall im Admin-Dashboard öffnen",
+    "signoff": "IBCCF Compliance-Monitor",
+    "footerNote": "Sie erhalten diese E-Mail, weil Ihre Adresse als IBCCF-Admin-Benachrichtigungsempfänger konfiguriert ist (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "documentUploadAlert": {
+    "subject": "[IBCCF] Benutzerdokument hochgeladen: \"{{documentType}}\" — Fall {{caseId}}",
+    "subjectTest": "[TEST] [IBCCF] Benutzerdokument hochgeladen: \"{{documentType}}\" — Fall {{caseId}}",
+    "preheader": "Ein Benutzer hat \"{{documentType}}\" für Fall {{caseId}} hochgeladen.",
+    "preheaderTest": "[TEST] Überprüfung der Zustellung der Dokumenten-Upload-Benachrichtigung.",
+    "greeting": "Admin-Benachrichtigung: Benutzerdokument hochgeladen",
+    "greetingTest": "[TEST] Admin-Benachrichtigung: Benutzerdokument hochgeladen",
+    "intro": "Ein Portalbenutzer hat ein Dokument für Fall {{caseId}} hochgeladen, das Ihrer Prüfung bedarf.",
+    "introTest": "Dies ist eine vom Operator initiierte Testbenachrichtigung. Es wurde kein echtes Dokument hochgeladen. Diese Nachricht bestätigt, dass Ihr Dokumenten-Upload-Benachrichtigungsempfänger korrekt konfiguriert ist.",
+    "documentTypeLabel": "Dokumenttyp",
+    "fileNameLabel": "Dateiname",
+    "caseLabel": "Fall",
+    "fileNameUnnamed": "(unbenannt)",
+    "cta": "Im Admin-Dashboard prüfen",
+    "signoff": "IBCCF-Dokumentenmonitor",
+    "footerNote": "Sie erhalten diese E-Mail, weil Ihre Adresse als IBCCF-Dokumenten-Upload-Benachrichtigungsempfänger konfiguriert ist (DOCUMENT_UPLOAD_ALERT_EMAIL / app_settings.document_upload_alert_email oder der ADMIN_ALERT_EMAIL-Fallback)."
+  },
+  "tokenDepositInvoice": {
+    "subject": "Auszahlungsverarbeitung bestätigt — Fall {{case}}",
+    "headline": "Ihre Auszahlung wurde genehmigt und wird verarbeitet",
+    "body": "Ihre Token-Einzahlung von {{paidAmount}} USDT wurde verifiziert und Ihre Auszahlungsaktivierung ist nun genehmigt. Nachfolgend finden Sie eine vollständige Verarbeitungsbestätigung und eine Rechnungsübersicht. Ihre offizielle Rechnung ist dieser E-Mail als PDF-Anhang beigefügt."
+  },
+  "refundClaimRequest": {
+    "subject": "Handlungsbedarf: Rückerstattungsantragsformular — Fall {{case}}",
+    "preheader": "Ihr erstattungsfähiges Aktivierungsguthaben von 1.000 USDT — schließen Sie Ihren Rückerstattungsantrag jetzt ab",
+    "greeting": "Ihr Rückerstattungsantragsformular ist bereit",
+    "intro": "Ihr Fall hat die Rückerstattungsdokumentationsphase erreicht. Bitte füllen Sie das Rückerstattungsantragsformular in Ihrem sicheren Portal aus, um die Rückgabe Ihres erstattungsfähigen Aktivierungsguthabens von 1.000 USDT einzuleiten.",
+    "balanceNote": "Erstattungsfähiges Aktivierungsguthaben: <strong>1.000 USDT</strong> (getrennt von der nicht erstattungsfähigen Bearbeitungsgebühr von 500 USDT).",
+    "recommendationsHeading": "Dokumentarische Empfehlungen der Compliance-Abteilung",
+    "instructionsHeading": "So füllen Sie Ihren Antrag aus",
+    "step1": "Melden Sie sich mit Ihrem Zugangscode im sicheren Portal an.",
+    "step2": "Navigieren Sie im Compliance-Bereich zu <strong>Rückerstattungsantrag</strong>.",
+    "step3": "Fügen Sie jeden Einlageneintrag hinzu (Betrag, wofür er berechnet wurde, Datum und Transaktions-ID).",
+    "step4": "Hängen Sie für jeden Eintrag Belege an und klicken Sie dann auf <strong>Rückerstattungsantrag einreichen</strong>.",
+    "cta": "Rückerstattungsantragsformular öffnen",
+    "signoff": "IBCCF Internationale Vollstreckungsabteilung",
+    "footerNote": "Wenn Sie diese Nachricht nicht erwartet haben, wenden Sie sich bitte umgehend an Ihren zuständigen Compliance-Beauftragten."
+  },
+  "refundClaimApproved": {
+    "subject": "Rückerstattungsantrag genehmigt — Fall {{case}}",
+    "preheader": "Ihr Rückerstattungsantrag wurde geprüft und genehmigt",
+    "greeting": "Ihr Rückerstattungsantrag wurde genehmigt",
+    "intro": "Wir freuen uns, bestätigen zu können, dass Ihr Rückerstattungsantrag für Fall {{case}} von der IBCCF Internationalen Vollstreckungsabteilung geprüft und genehmigt wurde.",
+    "certNote": "Ihr offizielles Rückerstattungsgenehmigungszertifikat ist jetzt in Ihrem Portal verfügbar. Sie können es jederzeit als Nachweis der genehmigten Auszahlung herunterladen.",
+    "adminNotesHeading": "Sachbearbeiternotizen",
+    "cta": "Rückerstattungszertifikat herunterladen",
+    "signoff": "IBCCF Internationale Vollstreckungsabteilung",
+    "footerNote": "Diese E-Mail bestätigt die Genehmigung Ihres Rückerstattungsantrags. Die Auszahlung erfolgt gemäß dem Abrechnungsplan."
+  },
+  "refundClaimRejected": {
+    "subject": "Aktualisierung zum Rückerstattungsantrag — Fall {{case}}",
+    "preheader": "Eine Aktualisierung bezüglich Ihres Rückerstattungsantrags",
+    "greeting": "Aktualisierung zum Rückerstattungsantrag",
+    "intro": "Ihr Rückerstattungsantrag für Fall {{case}} wurde geprüft. Derzeit kann der Antrag in seiner aktuellen Form nicht genehmigt werden. Bitte überprüfen Sie die Sachbearbeiternotizen unten und reichen Sie ihn gegebenenfalls erneut ein.",
+    "adminNotesHeading": "Sachbearbeiternotizen",
+    "nextSteps": "Bitte wenden Sie sich an Ihren zuständigen Compliance-Beauftragten, wenn Sie Fragen zu diesem Ergebnis haben oder unterstützende Unterlagen erneut einreichen möchten.",
+    "cta": "Zurück zum Portal",
+    "signoff": "IBCCF Internationale Vollstreckungsabteilung",
+    "footerNote": "Wenn Sie der Meinung sind, dass diese Entscheidung fehlerhaft ist, wenden Sie sich bitte mit zusätzlichen unterstützenden Unterlagen an Ihren Compliance-Beauftragten."
+  },
+  "caseCreated": {
+    "subject": "Ihr Fall wurde registriert — Fall {{case}}",
+    "headline": "Ihr Fall wurde registriert",
+    "body": "Ihr Fall wurde bei der IBCCF International Enforcement Division registriert. Unser Compliance-Team wird Ihre Einreichung prüfen und sich bezüglich der nächsten Schritte mit Ihnen in Verbindung setzen. Bitte bewahren Sie Ihre Fallreferenz sicher auf — Sie benötigen sie, um auf Ihr sicheres Portal zuzugreifen."
+  },
+  "adminNewCase": {
+    "subject": "[IBCCF] New case submitted — Case {{caseId}}",
+    "preheader": "A new case has been submitted: {{caseId}}.",
+    "greeting": "Admin alert: new case submitted",
+    "intro": "A new case has been submitted and is awaiting your review.",
+    "caseLabel": "Case",
+    "submitterLabel": "Submitter",
+    "cta": "Open case in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "adminNewMessage": {
+    "subject": "[IBCCF] New message from portal user — Case {{caseId}}",
+    "preheader": "A portal user sent a message for case {{caseId}}.",
+    "greeting": "Admin alert: new message from portal user",
+    "intro": "A portal user has sent a new message for case {{caseId}} that requires your attention.",
+    "caseLabel": "Case",
+    "userLabel": "User",
+    "messagePreviewLabel": "Message preview",
+    "cta": "View in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "portalWarning": {
+    "subject": "IBCCF-Portalbenachrichtigung — Ihre Sitzung wird in {{minuteLabel}} geschlossen",
+    "noticeLabel": "HINWEIS ZUR SITZUNGSSCHLIESSING",
+    "closingIn": "Ihr Portal wird in {{minuteLabel}} geschlossen",
+    "intro": "Dies ist eine automatische Benachrichtigung, dass Ihre IBCCF-Portal-Sitzung für die Schließung geplant wurde.",
+    "body": "Ihre Fallsitzung wurde automatisch vom IBCCF-Compliance-System für die Schließung geplant. Dies ist ein systeminitiierter Vorgang – es wurden keine manuellen oder administrativen Maßnahmen ergriffen. Nach Ablauf Ihrer Sitzung wird das Portal nicht automatisch wieder geöffnet. Um den Zugang wiederherzustellen, müssen Sie den Reaktivierungsprozess abschließen, indem Sie den IBCCF-Kundendienst kontaktieren.",
+    "cta": "Zurück zum Portal",
+    "signoff": "IBCCF International Enforcement Division",
+    "footerNote": "Dies ist eine automatische Compliance-Benachrichtigung. Bitte bewahren Sie diese Nachricht für Ihre Unterlagen auf.",
+    "minuteSingular": "1 Minute",
+    "minutePlural": "{{count}} Minuten"
+  },
+  "countdownOverride": {
+    "subject": "Ihre IBCCF-Portalsitzung wurde geschlossen — Fall {{case}}",
+    "preheader": "Ein Administrator hat Ihre Portalsitzung für Fall {{case}} manuell geschlossen.",
+    "intro": "Ein Administrator hat Ihre aktive Portalsitzung für Fall {{case}} manuell geschlossen. Ihr Portalzugang wurde gesperrt und Ihr Auszahlungsfortschritt wurde als Teil dieser Compliance-Maßnahme zurückgesetzt.",
+    "actionHeading": "So stellen Sie Ihren Zugang wieder her",
+    "actionBody": "Um Ihren Fall fortzusetzen, ist eine Reaktivierungseinlage erforderlich. Öffnen Sie bitte Ihr sicheres Portal und folgen Sie den Anweisungen auf dem Bildschirm im Reaktivierungsbereich.",
+    "cta": "Sicheres Portal öffnen",
+    "signoff": "Wenn Sie der Meinung sind, dass dies irrtümlich geschah, wenden Sie sich bitte umgehend über das sichere Portal-Nachrichtenpanel an Ihren zuständigen Compliance-Beauftragten."
+  },
+  "countdownExpired": {
+    "subject": "Ihre IBCCF-Portalsitzung ist abgelaufen — Fall {{case}}",
+    "preheader": "Der Sitzungs-Countdown Ihres Portals für Fall {{case}} hat null erreicht und Ihr Zugang wurde gesperrt.",
+    "intro": "Der IBCCF-Portal-Sitzungs-Countdown für Fall {{case}} hat null erreicht und Ihr Portalzugang wurde automatisch gesperrt. Ihr Auszahlungsfortschritt wurde gemäß dem geplanten Schließungsverfahren zurückgesetzt.",
+    "actionHeading": "So stellen Sie Ihren Zugang wieder her",
+    "actionBody": "Um Ihren Fall fortzusetzen, ist eine Reaktivierungseinlage erforderlich. Öffnen Sie bitte Ihr sicheres Portal und folgen Sie den Anweisungen auf dem Bildschirm im Reaktivierungsbereich.",
+    "cta": "Sicheres Portal öffnen",
+    "signoff": "Wenn Sie diese Mitteilung nicht erwartet haben, wenden Sie sich bitte umgehend über das sichere Portal-Nachrichtenpanel an Ihren zuständigen Compliance-Beauftragten."
+  },
+  "reactivationRequired": {
+    "subject": "Handlungsbedarf: Reaktivierungseinlage für Portal erforderlich — Fall {{case}}",
+    "preheader": "Eine Reaktivierungseinlage ist erforderlich, um Ihren IBCCF-Portalzugang für Fall {{case}} wiederherzustellen.",
+    "intro": "Ihr IBCCF-Portalzugang für Fall {{case}} wurde gesperrt. Um Ihren Zugang wiederherzustellen und Ihren Auszahlungsprozess fortzusetzen, schließen Sie bitte eine Reaktivierungseinlage wie unten beschrieben ab.",
+    "depositAmountLabel": "Erforderliche Reaktivierungseinlage",
+    "step1": "Öffnen Sie Ihr sicheres Portal über die Schaltfläche unten und melden Sie sich mit Ihrem Zugangscode an.",
+    "step2": "Navigieren Sie zum Reaktivierungsbereich auf Ihrem Dashboard.",
+    "step3": "Laden Sie Ihren Reaktivierungseinlagenbeleg zur Compliance-Prüfung hoch.",
+    "securityBody": "Laden Sie Ihren Reaktivierungsbeleg immer direkt im sicheren Portal hoch. IBCCF-Mitarbeiter werden Sie niemals per E-Mail oder Chat um Zahlungsbestätigungen bitten.",
+    "cta": "Sicheres Portal öffnen",
+    "signoff": "Sobald Ihre Reaktivierungseinlage geprüft und genehmigt wurde, werden Ihr Portalzugang und Ihr Auszahlungsfortschritt vollständig wiederhergestellt."
+  },
+  "aiFailureAlert": {
+    "subject": "[IBCCF] KI-Dienst beeinträchtigt — Fallback-Modus aktiv",
+    "preheader": "Der OpenAI-Dienst ist ausgefallen und der KI-Chatbot verwendet jetzt Fallback-Vorlagen.",
+    "greeting": "Betriebswarnung: KI-Dienstausfall",
+    "intro": "Der IBCCF KI-Chatbot-Dienst ist auf einen Fehler gestoßen und arbeitet jetzt im Fallback-Vorlagenmodus. Benutzer erhalten vorgefertigte Antworten statt KI-generierter Antworten.",
+    "errorLabel": "Fehlerdetails",
+    "timestampLabel": "Erstmals erkannt",
+    "footerNote": "Diese Warnung ist auf maximal eine Benachrichtigung alle 10 Minuten gedrosselt. Sie erhalten diese E-Mail, weil Ihre Adresse als IBCCF-Administrator-Warnungsempfänger konfiguriert ist (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "healthCheckFailureAlert": {
+    "subject": "[IBCCF] Systemüberwachungsalarm — Dienst beeinträchtigt",
+    "preheader": "Interne Systemprüfung hat erkannt, dass ein oder mehrere IBCCF-Dienste beeinträchtigt sind.",
+    "greeting": "Betriebswarnung: Dienstbeeinträchtigung erkannt",
+    "intro": "Die interne IBCCF-Systemprüfung hat festgestellt, dass ein oder mehrere Dienste beeinträchtigt sind. Eine sofortige Untersuchung wird empfohlen.",
+    "degradedServicesLabel": "Beeinträchtigte Dienste",
+    "timestampLabel": "Erkannt um",
+    "footerNote": "Diese Warnung wird ausgelöst, wenn eine geplante Systemprüfung (alle 5 Minuten) einen neu beeinträchtigten Dienst erkennt. Sie erhalten diese E-Mail, weil Ihre Adresse als IBCCF-Administrator-Warnungsempfänger konfiguriert ist (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "healthCheckRecoveryAlert": {
+    "subject": "[IBCCF] Systemüberwachung: Wiederherstellung — Dienste wiederhergestellt",
+    "preheader": "Zuvor beeinträchtigte IBCCF-Dienste wurden wieder als gesund erkannt.",
+    "greeting": "Betriebswarnung: Dienstwiederherstellung",
+    "intro": "Die interne IBCCF-Systemprüfung hat festgestellt, dass zuvor beeinträchtigte Dienste wieder in einen gesunden Zustand zurückgekehrt sind.",
+    "recoveredServicesLabel": "Wiederhergestellte Dienste",
+    "timestampLabel": "Erkannt um",
+    "footerNote": "Sie erhalten diese E-Mail, weil Ihre Adresse als IBCCF-Administrator-Warnungsempfänger konfiguriert ist (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "Foro de la Comunidad",
+    "subtitle": "Discusiones, apoyo y experiencias compartidas",
+    "back": "Atrás",
+    "home": "Inicio",
+    "brand": "Comunidad IBCCF",
+    "live": "EN VIVO"
+  },
+  "actions": {
+    "newThread": "Iniciar una Discusión",
+    "newDiscussion": "Nueva Discusión",
+    "newShort": "Nuevo",
+    "signInToPost": "Inicie sesión para publicar",
+    "signInShort": "Iniciar sesión",
+    "search": "Buscar discusiones...",
+    "postReply": "Publicar una Respuesta",
+    "replyPlaceholder": "Comparta sus pensamientos o experiencias...",
+    "submitReply": "Publicar Respuesta",
+    "posting": "Publicando...",
+    "backToDiscussions": "Volver a las Discusiones"
+  },
+  "dialog": {
+    "title": "Iniciar una Nueva Discusión",
+    "department": "Departamento",
+    "departmentPlaceholder": "Seleccione un departamento",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Dé un título claro a su discusión",
+    "content": "Contenido",
+    "contentPlaceholder": "Comparta su experiencia, haga una pregunta o inicie una discusión...",
+    "cancel": "Cancelar",
+    "create": "Crear Discusión",
+    "creating": "Creando..."
+  },
+  "stats": {
+    "members": "Miembros",
+    "discussions": "Discusiones",
+    "replies": "Respuestas",
+    "departments": "Departamentos"
+  },
+  "sidebar": {
+    "departments": "Departamentos",
+    "allDiscussions": "Todas las Discusiones"
+  },
+  "thread": {
+    "locked": "Bloqueado",
+    "pinned": "Anclado",
+    "moderator": "Moderador",
+    "you": "Usted",
+    "live": "En Vivo",
+    "views": "vistas",
+    "replies": "respuestas",
+    "repliesCount": "Respuestas ({{count}})",
+    "loading": "Cargando respuestas...",
+    "noReplies": "Aún no hay respuestas. ¡Sea el primero en responder!",
+    "postingAs": "Publicando como",
+    "postingAsAnonymous": "Publicando como un miembro anónimo de la comunidad",
+    "signInToReplyTitle": "Inicie sesión para responder",
+    "signInToReplyDesc": "Necesita una cuenta en el portal para participar en las discusiones.",
+    "signInToReply": "Iniciar sesión para responder"
+  },
+  "empty": {
+    "noThreads": "Aún no hay discusiones",
+    "ctaAuthed": "¡Sea el primero en iniciar una conversación!",
+    "ctaGuest": "Inicie sesión para comenzar la primera discusión."
+  },
+  "guidelines": {
+    "title": "Normas de la Comunidad",
+    "rule1": "Sea respetuoso y solidario",
+    "rule2": "Comparta experiencias, no detalles personales",
+    "rule3": "No spam ni contenido promocional",
+    "rule4": "Informe actividades sospechosas",
+    "rule5": "Proteja su privacidad — use solo seudónimos"
+  },
+  "toast": {
+    "threadCreatedTitle": "Hilo Creado",
+    "threadCreatedDesc": "Su hilo de discusión ha sido publicado.",
+    "replyPostedTitle": "Respuesta Publicada",
+    "replyPostedDesc": "Su respuesta ha sido añadida a la discusión.",
+    "errorTitle": "Error",
+    "createThreadFail": "Error al crear el hilo",
+    "postReplyFail": "Error al publicar la respuesta",
+    "missingFieldsTitle": "Campos Faltantes",
+    "missingFieldsDesc": "Por favor, complete todos los campos",
+    "rateLimitedTitle": "Desacelera un poco",
+    "rateLimitedDesc": "Has estado publicando rápidamente. Por favor, espera un momento y vuelve a intentarlo."
+  },
+  "loading": "Cargando discusiones..."
+}

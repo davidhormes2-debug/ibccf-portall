@@ -1,20 +1,23 @@
 import { Link, useLocation } from "wouter";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { 
-  Shield, FileText, AlertTriangle, CheckCircle, Lock, Search, MessageCircle, 
-  ChevronRight, Phone, Mail, Clock, Users, Menu, X, ChevronUp, Star, ShieldCheck, 
-  Award, Zap, Globe, ArrowRight, Quote, Send, Plus, Minus, TrendingUp, Eye, Bell, 
-  Key, Sparkles, ArrowUpRight, Play, BadgeCheck, HeartHandshake, Scale, Fingerprint,
-  Building2, Trophy, Target, Rocket
+  Shield, FileText, AlertTriangle, Search, MessageCircle, 
+  ChevronRight, Phone, Mail, Clock, Menu, X, ChevronUp, ShieldCheck, 
+  Globe, ArrowRight, Quote, Send, 
+  HeartHandshake, Scale, Fingerprint,
+  Building2, Target, Activity, Database, Network, FileSearch
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
+import { useFormat } from "@/i18n/format";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { BuildStampLine } from "@/components/BuildStampLine";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
+import { PremiumBackground, SubduedSpaceBackground } from "@/components/PremiumBackground";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
@@ -84,28 +87,80 @@ const services = [
   }
 ];
 
-const features = [
-  { icon: Lock, title: "Bank-Grade Security", description: "256-bit encryption protects your sensitive data", gradient: "from-blue-600 to-cyan-500" },
-  { icon: Clock, title: "24/7 Availability", description: "Submit reports and access your case anytime", gradient: "from-purple-600 to-pink-500" },
-  { icon: Users, title: "Expert Analysts", description: "Certified professionals handle every case", gradient: "from-emerald-600 to-teal-500" },
-  { icon: BadgeCheck, title: "Verified Process", description: "Industry-standard investigation procedures", gradient: "from-orange-600 to-amber-500" }
+const departments = [
+  {
+    id: "aml",
+    title: "AML Division",
+    subtitle: "Anti-Money Laundering",
+    description: "Transaction monitoring, suspicious activity reports, and compliance auditing.",
+    icon: ShieldCheck,
+    image: "/images/dept-aml.png",
+    color: "from-blue-600 to-cyan-500"
+  },
+  {
+    id: "cyber",
+    title: "Cybercrime & Digital Forensics",
+    subtitle: "Blockchain Trace Analysis",
+    description: "Wallet forensics, dark web surveillance, and advanced crypto-tracing.",
+    icon: Network,
+    image: "/images/dept-cyber.png",
+    color: "from-purple-600 to-indigo-500"
+  },
+  {
+    id: "recovery",
+    title: "Asset Recovery Unit",
+    subtitle: "Cross-Border Enforcement",
+    description: "Civil litigation support, frozen assets tracking, and global recovery operations.",
+    icon: Database,
+    image: "/images/dept-recovery.png",
+    color: "from-amber-600 to-yellow-500"
+  },
+  {
+    id: "compliance",
+    title: "Compliance & Regulatory Affairs",
+    subtitle: "FATF Alignment",
+    description: "Jurisdictional reporting, legal framework adherence, and regulatory coordination.",
+    icon: Scale,
+    image: "/images/dept-compliance.png",
+    color: "from-slate-600 to-slate-400"
+  },
+  {
+    id: "intelligence",
+    title: "Intelligence & Threat Analysis",
+    subtitle: "Threat Actor Profiling",
+    description: "Scam network mapping, early warning systems, and actionable intel.",
+    icon: Activity,
+    image: "/images/dept-intel.png",
+    color: "from-red-600 to-rose-500"
+  },
+  {
+    id: "support",
+    title: "Victim Support Services",
+    subtitle: "Case Intake & Advocacy",
+    description: "Secure case intake, victim advocacy, and holistic recovery counseling.",
+    icon: HeartHandshake,
+    image: "/images/dept-support.png",
+    color: "from-emerald-600 to-teal-500"
+  }
 ];
 
-const trustMetrics = [
-  { icon: Shield, value: "99.9%", label: "Security Rating", description: "Enterprise-grade protection" },
-  { icon: Trophy, value: "50K+", label: "Cases Resolved", description: "Successfully closed investigations" },
-  { icon: Globe, value: "180+", label: "Countries", description: "Worldwide coverage" },
-  { icon: Clock, value: "<2h", label: "Response Time", description: "Average first response" }
+const complianceBadges = [
+  { id: "fatf", name: "FATF" },
+  { id: "fincen", name: "FinCEN" },
+  { id: "fca", name: "FCA" },
+  { id: "interpol", name: "INTERPOL" },
+  { id: "iso", name: "ISO 27001" }
 ];
 
-const processSteps = [
-  { step: 1, title: "Submit Your Report", description: "Fill out our secure encrypted form with all relevant incident details", icon: FileText, color: "from-blue-500 to-blue-600" },
-  { step: 2, title: "Expert Verification", description: "Our certified team reviews and validates your submission", icon: Search, color: "from-purple-500 to-purple-600" },
-  { step: 3, title: "Investigation", description: "Comprehensive analysis using advanced fraud detection tools", icon: Shield, color: "from-emerald-500 to-emerald-600" },
-  { step: 4, title: "Resolution & Recovery", description: "Receive detailed updates and resolution of your case", icon: CheckCircle, color: "from-amber-500 to-amber-600" }
+const partners = [
+  { name: "UNODC", short: "UN" },
+  { name: "Europol", short: "EU" },
+  { name: "Global Cyber Alliance", short: "GCA" },
+  { name: "World Economic Forum", short: "WEF" },
+  { name: "Financial Intelligence Units", short: "FIU" }
 ];
 
-const defaultFaqs = [
+const _defaultFaqs = [
   { question: "How do I file a complaint?", answer: "You can file a complaint by clicking the 'Access Portal' button and entering your case access code. If you're a new user, contact our support team to initiate a case." },
   { question: "How long does the investigation process take?", answer: "Investigation timelines vary depending on complexity. Most cases receive initial review within 24-48 hours, with full investigations typically completed within 2-4 weeks." },
   { question: "Is my information kept confidential?", answer: "Yes, absolutely. All information submitted to IBCCF is encrypted and stored securely. We never share personal information without explicit consent." },
@@ -154,72 +209,32 @@ function useAnimatedCounter(endValue: number, duration: number = 2000) {
   return { count, ref };
 }
 
-function ParticlesBackground() {
-  const particles = useMemo(() => 
-    Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      delay: Math.random() * 10,
-      duration: 15 + Math.random() * 10,
-      size: 4 + Math.random() * 4
-    })), []
-  );
-
-  return (
-    <div className="particles-bg">
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className="particle"
-          style={{
-            left: p.left,
-            bottom: '-10px',
-            width: p.size,
-            height: p.size,
-            animationDelay: `${p.delay}s`,
-            animationDuration: `${p.duration}s`
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function FloatingOrbs() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-    </div>
-  );
-}
-
 function StatCounter({ value, label, suffix = "", icon: Icon }: { value: number; label: string; suffix?: string; icon?: any }) {
   const { count, ref } = useAnimatedCounter(value, 2500);
+  const { formatNumber } = useFormat();
   return (
     <motion.div 
       ref={ref} 
-      className="text-center group"
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 300 }}
+      className="bg-slate-900/50 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 text-center group cursor-default relative overflow-hidden"
+      whileHover={{ scale: 1.05, y: -4 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
-      <div className="relative inline-block mb-3">
-        {Icon && (
-          <div className="absolute -top-2 -right-2 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-            <Icon className="w-4 h-4 text-white" />
-          </div>
-        )}
-        <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-1 tracking-tight">
-          {count.toLocaleString()}{suffix}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+      {Icon && (
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-400/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+          <Icon className="w-6 h-6 text-blue-400" />
         </div>
+      )}
+      <div className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight" style={{ textShadow: '0 0 20px rgba(59,130,246,0.3)' }}>
+        {formatNumber(count)}{suffix}
       </div>
-      <div className="text-white/70 text-sm font-medium uppercase tracking-wider">{label}</div>
+      <div className="text-white/60 text-sm font-semibold uppercase tracking-widest">{label}</div>
     </motion.div>
   );
 }
 
 function ScamAlertsTicker() {
+  const { t } = useTranslation("landing");
   const { data: alerts = [] } = useQuery<any[]>({
     queryKey: ['/api/public/scam-alerts'],
     refetchInterval: 30000
@@ -246,15 +261,15 @@ function ScamAlertsTicker() {
   };
 
   return (
-    <div className="bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50 overflow-hidden">
+    <div className="bg-[#020817] border-y border-slate-800 overflow-hidden relative z-40">
       <div className="max-w-7xl mx-auto px-4 py-2.5">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 shrink-0">
             <div className="relative">
-              <Bell className="w-4 h-4 text-red-400" />
+              <Activity className="w-4 h-4 text-red-500" />
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-ping" />
             </div>
-            <span className="text-xs font-bold text-red-400 uppercase tracking-wider">Live Alert</span>
+            <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">{t("ticker.globalFeed")}</span>
           </div>
           <AnimatePresence mode="wait">
             <motion.div
@@ -264,12 +279,12 @@ function ScamAlertsTicker() {
               exit={{ opacity: 0, y: -10 }}
               className="flex items-center gap-3 overflow-hidden"
             >
-              <span className={`px-2.5 py-1 rounded-full text-xs font-bold text-white ${severityColors[currentAlert.severity] || 'bg-gray-600'}`}>
-                {currentAlert.severity?.toUpperCase()}
+              <span className={`px-2.5 py-1 rounded-sm text-[10px] font-bold text-white uppercase tracking-wider ${severityColors[currentAlert.severity] || 'bg-slate-700'}`}>
+                {currentAlert.severity}
               </span>
               <span className="text-white/90 text-sm font-medium truncate">{currentAlert.title}</span>
               {currentAlert.platformName && (
-                <span className="text-white/50 text-xs font-medium">• {currentAlert.platformName}</span>
+                <span className="text-white/50 text-xs font-medium uppercase tracking-wider hidden sm:inline-block">/ {currentAlert.platformName}</span>
               )}
             </motion.div>
           </AnimatePresence>
@@ -280,6 +295,7 @@ function ScamAlertsTicker() {
 }
 
 function LiveActivityIndicator() {
+  const { t } = useTranslation("landing");
   const [viewers, setViewers] = useState(Math.floor(Math.random() * 50) + 150);
   
   useEffect(() => {
@@ -296,17 +312,17 @@ function LiveActivityIndicator() {
       transition={{ delay: 1 }}
       className="fixed bottom-24 left-4 z-40 hidden lg:block"
     >
-      <div className="glass-card rounded-xl p-4 shadow-xl">
+      <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-lg p-3 shadow-2xl">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
-              <Eye className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 bg-blue-900/50 rounded flex items-center justify-center border border-blue-500/30">
+              <Globe className="w-4 h-4 text-blue-400" />
             </div>
-            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full animate-pulse border-2 border-white" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse border-2 border-slate-900" />
           </div>
           <div>
-            <div className="text-lg font-bold text-slate-800 dark:text-white">{viewers}</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">Active now</div>
+            <div className="text-sm font-bold text-white leading-none">{viewers}</div>
+            <div className="text-[10px] text-slate-400 uppercase tracking-widest mt-1">{t("liveActivity.activePersonnel")}</div>
           </div>
         </div>
       </div>
@@ -315,6 +331,7 @@ function LiveActivityIndicator() {
 }
 
 function BackToTop() {
+  const { t } = useTranslation("landing");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -337,11 +354,11 @@ function BackToTop() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#004182] to-[#0066cc] hover:from-[#003366] hover:to-[#004182] text-white rounded-full shadow-2xl flex items-center justify-center transition-all btn-premium"
-          aria-label="Back to top"
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center shadow-2xl transition-colors border border-slate-700"
+          aria-label={t("backToTop.aria")}
           data-testid="button-back-to-top"
         >
-          <ChevronUp className="w-6 h-6" />
+          <ChevronUp className="w-5 h-5" />
         </motion.button>
       )}
     </AnimatePresence>
@@ -349,6 +366,7 @@ function BackToTop() {
 }
 
 function CookieConsent() {
+  const { t } = useTranslation("landing");
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -370,18 +388,21 @@ function CookieConsent() {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 100, opacity: 0 }}
-      className="fixed bottom-0 left-0 right-0 z-50 glass-dark p-4"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 p-4"
     >
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-sm text-white/80 text-center sm:text-left">
-          We use cookies to enhance your experience and ensure security. By continuing, you agree to our privacy policy.
-        </p>
+        <div className="flex items-center gap-3">
+          <Shield className="w-5 h-5 text-blue-500 hidden sm:block" />
+          <p className="text-sm text-slate-300 text-center sm:text-left">
+            {t("cookie.message")}
+          </p>
+        </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="sm" className="border-white/20 text-white hover:bg-white/10" onClick={() => setShow(false)}>
-            Decline
+          <Button variant="outline" size="sm" className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white" onClick={() => setShow(false)}>
+            {t("cookie.decline")}
           </Button>
-          <Button size="sm" className="bg-white text-[#004182] hover:bg-slate-100 font-semibold" onClick={accept} data-testid="button-accept-cookies">
-            Accept
+          <Button size="sm" className="bg-blue-600 text-white hover:bg-blue-700" onClick={accept} data-testid="button-accept-cookies">
+            {t("cookie.accept")}
           </Button>
         </div>
       </div>
@@ -389,64 +410,15 @@ function CookieConsent() {
   );
 }
 
-function PremiumServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-      variants={fadeIn}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-    >
-      <Link href={service.href}>
-        <Card 
-          className="group relative overflow-hidden cursor-pointer card-premium border-0 bg-white dark:bg-slate-800 h-full"
-          data-testid={`service-card-${service.id}`}
-        >
-          <div className={`absolute inset-0 ${service.bgGlow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-3xl`} />
-          <div className="relative">
-            <div className="h-48 relative overflow-hidden">
-              <img 
-                src={service.image} 
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-70 group-hover:opacity-80 transition-opacity`} />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div 
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/30 shadow-2xl"
-                >
-                  <service.icon className="w-10 h-10 text-white" aria-hidden="true" />
-                </motion.div>
-              </div>
-            </div>
-            <CardContent className="p-6 relative">
-              <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3 group-hover:text-[#004182] dark:group-hover:text-blue-400 transition-colors">
-                {service.title}
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">
-                {service.description}
-              </p>
-              <div className="flex items-center text-[#004182] dark:text-blue-400 font-semibold text-sm">
-                <span>Get Started</span>
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-2" aria-hidden="true" />
-              </div>
-            </CardContent>
-          </div>
-        </Card>
-      </Link>
-    </motion.div>
-  );
-}
-
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "", platform: "", incidentDate: "", amountLost: "" });
+  const [complaintSubmitted, setComplaintSubmitted] = useState(false);
   const { toast } = useToast();
-  const [, setLocation] = useLocation();
+  const { t: commonT } = useTranslation("common");
+  const { t: landingT } = useTranslation("landing");
+  const [, _setLocation] = useLocation();
   const { scrollYProgress } = useScroll();
   const headerOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.95]);
   
@@ -476,20 +448,28 @@ export default function LandingPage() {
       return res.json();
     },
     onSuccess: () => {
-      toast({ title: "Subscribed!", description: "You've been added to our newsletter." });
+      toast({ title: landingT("newsletter.subscribedTitle"), description: landingT("newsletter.subscribedDesc") });
       setNewsletterEmail("");
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: landingT("newsletter.errorTitle"), description: error.message, variant: "destructive" });
     }
   });
 
   const contactMutation = useMutation({
     mutationFn: async (data: typeof contactForm) => {
-      const res = await fetch('/api/public/contact', {
+      const res = await fetch('/api/submissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          subject: data.subject || undefined,
+          message: data.message,
+          platform: data.platform || undefined,
+          incidentDate: data.incidentDate || undefined,
+          amountLost: data.amountLost || undefined,
+        })
       });
       if (!res.ok) {
         const err = await res.json();
@@ -498,242 +478,276 @@ export default function LandingPage() {
       return res.json();
     },
     onSuccess: () => {
-      toast({ title: "Message Sent!", description: "We'll get back to you soon." });
-      setContactForm({ name: "", email: "", subject: "", message: "" });
+      toast({ title: landingT("contact.toastSuccessTitle"), description: landingT("contact.toastSuccessDesc") });
+      setContactForm({ name: "", email: "", subject: "", message: "", platform: "", incidentDate: "", amountLost: "" });
+      setComplaintSubmitted(true);
     },
-    onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+    onError: () => {
+      toast({ title: landingT("contact.toastErrorTitle"), description: landingT("contact.toastErrorDesc"), variant: "destructive" });
     }
   });
 
-  const displayFaqs = faqs.length > 0 ? faqs : defaultFaqs;
+  const localizedDefaultFaqs = [
+    { question: landingT("faqSection.defaults.q1"), answer: landingT("faqSection.defaults.a1") },
+    { question: landingT("faqSection.defaults.q2"), answer: landingT("faqSection.defaults.a2") },
+    { question: landingT("faqSection.defaults.q3"), answer: landingT("faqSection.defaults.a3") },
+    { question: landingT("faqSection.defaults.q4"), answer: landingT("faqSection.defaults.a4") },
+    { question: landingT("faqSection.defaults.q5"), answer: landingT("faqSection.defaults.a5") },
+  ];
+  const displayFaqs = faqs.length > 0 ? faqs : localizedDefaultFaqs;
   const displayStats = stats.length > 0 ? stats : [
-    { key: 'cases_resolved', label: 'Cases Resolved', value: '50000', suffix: '+' },
-    { key: 'response_time', label: 'Avg Response', value: '2', suffix: 'h' },
-    { key: 'recovery_rate', label: 'Success Rate', value: '94', suffix: '%' },
-    { key: 'countries', label: 'Countries', value: '180', suffix: '+' }
+    { key: 'cases_resolved', label: landingT("stats.casesResolved"), value: '50000', suffix: '+' },
+    { key: 'response_time', label: landingT("stats.responseTime"), value: '2', suffix: 'h' },
+    { key: 'recovery_rate', label: landingT("stats.recoveryRate"), value: '94', suffix: '%' },
+    { key: 'countries', label: landingT("stats.countries"), value: '180', suffix: '+' }
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 font-sans">
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-[#004182] focus:text-white focus:px-4 focus:py-2 focus:rounded">
-        Skip to main content
-      </a>
-      
+    <div className="min-h-screen bg-[#020817] text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200">
       <ScamAlertsTicker />
 
+      {/* Header */}
       <motion.header 
         style={{ opacity: headerOpacity }}
-        className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-50 shadow-sm" 
-        role="banner"
+        className="fixed top-0 left-0 right-0 z-50 bg-[#020817]/90 backdrop-blur-md border-b border-slate-800 transition-all duration-300 pt-10" // added pt-10 to account for ticker
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-18 py-3">
+        <div className="max-w-[1400px] mx-auto px-4 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#004182] to-[#0066cc] rounded-xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
-                <div className="relative w-12 h-12 bg-gradient-to-br from-[#004182] to-[#004AB3] rounded-xl flex items-center justify-center shadow-lg">
-                  <Shield className="h-7 w-7 text-white" aria-hidden="true" />
-                </div>
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-900 rounded border border-blue-500/30 flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.3)] group-hover:shadow-[0_0_25px_rgba(37,99,235,0.5)] transition-shadow">
+                <Shield className="h-5 w-5 text-white" />
               </div>
-              <div>
-                <span className="text-xl font-bold text-[#004182] dark:text-blue-400 tracking-tight">IBCCF</span>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 hidden sm:block font-medium tracking-wide">International Blockchain Complaints Forum</p>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-white tracking-wider">IBCCF</span>
+                <span className="text-[9px] text-slate-400 uppercase tracking-widest">{landingT("header.brandSubtitle")}</span>
               </div>
             </Link>
+          </div>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-8">
+            <div className="flex items-center gap-6 text-sm font-medium text-slate-300 uppercase tracking-wider">
+              <a href="#departments" className="hover:text-white transition-colors">{landingT("nav.departments", { defaultValue: "Departments" })}</a>
+              <a href="#services" className="hover:text-white transition-colors">{landingT("nav.services", { defaultValue: "Services" })}</a>
+              <Link href="/community" className="hover:text-white transition-colors">{commonT("nav.intelNetwork")}</Link>
+              <Link href="/legal-resources" className="hover:text-white transition-colors">{commonT("nav.legalResources")}</Link>
+              <a href="#faq" className="hover:text-white transition-colors">{landingT("nav.faq", { defaultValue: "FAQ" })}</a>
+            </div>
             
-            <nav className="hidden lg:flex items-center gap-8" role="navigation" aria-label="Main navigation">
-              {[
-                { href: "/", label: "Home" },
-                { href: "#services", label: "Services" },
-                { href: "#how-it-works", label: "How It Works" },
-                { href: "/community", label: "Community", isLink: true },
-                { href: "#faq", label: "FAQ" },
-                { href: "#contact", label: "Contact" }
-              ].map((item) => (
-                item.isLink ? (
-                  <Link key={item.label} href={item.href} className="text-slate-600 dark:text-slate-300 hover:text-[#004182] dark:hover:text-blue-400 font-medium text-sm transition-colors relative group" data-testid={`link-${item.label.toLowerCase()}`}>
-                    {item.label}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#004182] group-hover:w-full transition-all duration-300" />
-                  </Link>
-                ) : (
-                  <a key={item.label} href={item.href} className="text-slate-600 dark:text-slate-300 hover:text-[#004182] dark:hover:text-blue-400 font-medium text-sm transition-colors relative group" data-testid={`link-${item.label.toLowerCase().replace(' ', '-')}`}>
-                    {item.label}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#004182] group-hover:w-full transition-all duration-300" />
-                  </a>
-                )
-              ))}
-            </nav>
-            
-            <div className="flex items-center gap-3">
-              <ThemeToggle />
-              <Link href="/verify">
-                <Button size="sm" className="bg-gradient-to-r from-[#004182] to-[#0066cc] hover:from-[#003366] hover:to-[#004182] text-white hidden sm:inline-flex font-semibold btn-premium" data-testid="button-login">
-                  <Lock className="w-4 h-4 mr-2" />
-                  Access Portal
+            <div className="flex items-center gap-4 border-l border-slate-800 pl-8">
+              <LanguageSwitcher variant="header" />
+              <Link href="/request-access">
+                <Button variant="ghost" className="text-slate-300 hover:text-white hover:bg-slate-800 border-0 rounded" data-testid="nav-request-access">
+                  {landingT("header.submitReport")}
                 </Button>
               </Link>
-              <button
-                className="lg:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Toggle mobile menu"
-                aria-expanded={mobileMenuOpen}
-                data-testid="button-mobile-menu"
-              >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
+              <Link href="/verify">
+                <Button className="bg-blue-600 hover:bg-blue-500 text-white rounded font-bold tracking-wide shadow-[0_0_15px_rgba(37,99,235,0.3)] border border-blue-500" data-testid="nav-verify">
+                  {landingT("header.accessPortal")}
+                </Button>
+              </Link>
             </div>
-          </div>
+          </nav>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="lg:hidden p-2 text-slate-400 hover:text-white"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={landingT("header.toggleMenu")}
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
 
+        {/* Mobile Nav */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700"
+              className="lg:hidden border-t border-slate-800 bg-[#020817]"
             >
-              <nav className="px-4 py-4 space-y-2" role="navigation" aria-label="Mobile navigation">
-                {["Home", "Services", "How It Works", "Community", "FAQ", "Contact"].map((item) => (
-                  item === "Community" ? (
-                    <Link key={item} href="/community" className="block text-slate-700 dark:text-slate-200 hover:text-[#004182] hover:bg-slate-50 dark:hover:bg-slate-700 font-medium py-3 px-4 rounded-lg transition-colors" onClick={() => setMobileMenuOpen(false)}>{item}</Link>
-                  ) : (
-                    <a key={item} href={item === "Home" ? "/" : `#${item.toLowerCase().replace(' ', '-')}`} className="block text-slate-700 dark:text-slate-200 hover:text-[#004182] hover:bg-slate-50 dark:hover:bg-slate-700 font-medium py-3 px-4 rounded-lg transition-colors" onClick={() => setMobileMenuOpen(false)}>{item}</a>
-                  )
-                ))}
-                <Link href="/verify" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full bg-gradient-to-r from-[#004182] to-[#0066cc] hover:from-[#003366] hover:to-[#004182] text-white mt-4 font-semibold">
-                    <Lock className="w-4 h-4 mr-2" />
-                    Access Portal
+              <div className="flex flex-col px-4 py-6 space-y-4">
+                <a href="#departments" className="text-slate-300 hover:text-white uppercase tracking-wider text-sm p-2" onClick={() => setMobileMenuOpen(false)}>{landingT("nav.departments")}</a>
+                <a href="#services" className="text-slate-300 hover:text-white uppercase tracking-wider text-sm p-2" onClick={() => setMobileMenuOpen(false)}>{landingT("nav.services")}</a>
+                <Link href="/community" className="text-slate-300 hover:text-white uppercase tracking-wider text-sm p-2" onClick={() => setMobileMenuOpen(false)}>{landingT("nav.intelNetwork")}</Link>
+                <Link href="/legal-resources" className="text-slate-300 hover:text-white uppercase tracking-wider text-sm p-2" onClick={() => setMobileMenuOpen(false)}>{landingT("nav.legalHub")}</Link>
+                <a href="#faq" className="text-slate-300 hover:text-white uppercase tracking-wider text-sm p-2" onClick={() => setMobileMenuOpen(false)}>{landingT("nav.faq")}</a>
+                <div className="h-px bg-slate-800 my-2" />
+                <Link href="/request-access" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="outline" className="w-full justify-start border-slate-700 text-slate-300 rounded" data-testid="mobile-nav-request-access">
+                    {landingT("header.submitReport")}
                   </Button>
                 </Link>
-              </nav>
+                <Link href="/verify" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full justify-start bg-blue-600 hover:bg-blue-500 text-white rounded border border-blue-500" data-testid="mobile-nav-verify">
+                    {landingT("header.accessPortal")}
+                  </Button>
+                </Link>
+                {/* Mobile language switcher — mobile public visitors
+                    must be able to change language without opening the
+                    desktop layout. */}
+                <div className="pt-2 flex justify-start">
+                  <LanguageSwitcher variant="compact" />
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.header>
 
-      <main id="main-content" role="main">
-        <section className="relative overflow-hidden min-h-[90vh] flex items-center" aria-labelledby="hero-heading">
-          <div className="absolute inset-0 hero-gradient" />
-          <div className="absolute inset-0 mesh-gradient opacity-50" />
-          <ParticlesBackground />
-          <FloatingOrbs />
-          
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
-            <motion.div 
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-              className="text-center"
-            >
-              <motion.div variants={fadeIn} className="inline-flex items-center gap-2 glass rounded-full px-5 py-2.5 mb-8">
-                <Sparkles className="h-5 w-5 text-amber-400" aria-hidden="true" />
-                <span className="text-sm font-semibold text-white">World's Leading Blockchain Security Platform</span>
-              </motion.div>
-              
-              <motion.h1 
-                variants={fadeIn}
-                id="hero-heading" 
-                className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6 tracking-tight"
-              >
-                Protect Your Digital Assets<br />
-                <span className="bg-gradient-to-r from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent">
-                  With Expert Recovery
-                </span>
-              </motion.h1>
-              
-              <motion.p 
-                variants={fadeIn}
-                className="text-lg md:text-xl text-white/90 mb-4 max-w-3xl mx-auto leading-relaxed font-semibold"
-              >
-                IBCCF provides enterprise-grade fraud prevention, platform verification, and comprehensive 
-                case management for blockchain security incidents worldwide.
-              </motion.p>
-              
-              <motion.p 
-                variants={fadeIn}
-                className="text-base text-white/80 mb-10 max-w-2xl mx-auto font-medium"
-              >
-                Trusted by 50,000+ users across 180 countries with a 94% success rate
-              </motion.p>
+      <main id="main-content" tabIndex={-1} className="pt-[120px]">
+        {/* ===== HERO SECTION ===== */}
+        <section className="relative min-h-[90vh] flex items-center pt-20 pb-32 overflow-hidden border-b border-slate-800" aria-label={landingT("hero.ariaLabel")}>
+          <PremiumBackground />
 
-              <motion.div variants={fadeIn} className="flex flex-wrap justify-center gap-4 mb-12">
-                <Link href="/request-access">
-                  <Button 
-                    size="lg" 
-                    className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold px-8 py-6 text-lg shadow-2xl shadow-emerald-500/30 btn-premium"
-                    data-testid="button-generate-key"
-                  >
-                    <Key className="w-5 h-5 mr-2" />
-                    Generate Key
-                    <ArrowUpRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </Link>
-                <Link href="/verify">
-                  <Button 
-                    size="lg" 
-                    variant="outline"
-                    className="glass border-white/30 text-white hover:bg-white/20 font-bold px-8 py-6 text-lg"
-                    data-testid="button-access-portal-hero"
-                  >
-                    <Lock className="w-5 h-5 mr-2" />
-                    Access Portal
-                  </Button>
-                </Link>
-                <Link href="/community">
-                  <Button 
-                    size="lg" 
-                    variant="outline"
-                    className="glass border-white/30 text-white hover:bg-white/20 font-bold px-8 py-6 text-lg"
-                    data-testid="button-community-hero"
-                  >
-                    <Users className="w-5 h-5 mr-2" />
-                    Community
-                  </Button>
-                </Link>
-              </motion.div>
+          <div className="max-w-[1400px] mx-auto px-4 relative z-10 w-full">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
+                className="text-left"
+              >
+                <motion.div variants={fadeIn} className="inline-flex items-center gap-3 px-4 py-2 border border-blue-500/30 bg-blue-500/10 rounded-sm mb-8">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+                  </span>
+                  <span className="text-xs font-bold text-blue-300 uppercase tracking-widest">{landingT("hero.globalIntelActive")}</span>
+                </motion.div>
 
-              <motion.div variants={fadeIn} className="flex flex-wrap justify-center gap-4">
-                {[
-                  { icon: ShieldCheck, label: "256-bit SSL" },
-                  { icon: Award, label: "Certified Secure" },
-                  { icon: Globe, label: "Global Coverage" },
-                  { icon: Zap, label: "Instant Response" }
-                ].map((badge) => (
-                  <div key={badge.label} className="trust-badge flex items-center gap-2 rounded-full px-4 py-2">
-                    <badge.icon className="w-4 h-4 text-emerald-400" aria-hidden="true" />
-                    <span className="text-xs font-semibold text-white">{badge.label}</span>
+                <motion.h1 variants={fadeIn} className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight mb-8">
+                  {landingT("hero.titleLine1")} <br/>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400">{landingT("hero.titleLine2")}</span>
+                </motion.h1>
+
+                <motion.p variants={fadeIn} className="text-lg md:text-xl text-slate-400 mb-10 max-w-xl leading-relaxed border-l-2 border-slate-700 pl-6">
+                  {landingT("hero.paragraph")}
+                </motion.p>
+
+                <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4">
+                  <Link href="/verify">
+                    <Button size="lg" className="h-14 px-8 bg-blue-600 hover:bg-blue-500 text-white rounded font-bold tracking-wider uppercase text-sm shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] border border-blue-400 transition-all duration-200 w-full sm:w-auto" data-testid="hero-button-access">
+                      {landingT("hero.accessSecurePortal")}
+                      <ChevronRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/request-access">
+                    <Button size="lg" variant="outline" className="h-14 px-8 border-blue-700/60 bg-blue-900/20 hover:bg-blue-900/40 hover:border-blue-600 text-white rounded font-bold tracking-wider uppercase text-sm transition-all duration-200 w-full sm:w-auto" data-testid="hero-button-report">
+                      {landingT("hero.submitIncidentReport")}
+                      <ChevronRight className="ml-2 w-4 h-4 opacity-60" />
+                    </Button>
+                  </Link>
+                </motion.div>
+
+                <motion.div variants={fadeIn} className="mt-12 flex items-center gap-6 border-t border-slate-800 pt-8">
+                  <div className="flex -space-x-4">
+                    {[1,2,3,4].map((i) => (
+                      <div key={i} className="w-10 h-10 rounded-full border-2 border-[#020817] bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-400 z-10 relative overflow-hidden">
+                        <span className="text-[10px]">{['UN', 'EU', 'UK', 'US'][i-1]}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                  <div className="text-sm">
+                    <div className="text-white font-bold">{landingT("hero.trustedTitle")}</div>
+                    <div className="text-slate-500">{landingT("hero.trustedSubtitle")}</div>
+                  </div>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </div>
 
-          <div className="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" aria-hidden="true" preserveAspectRatio="none">
-              <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 67.5C1200 60 1320 45 1380 37.5L1440 30V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" className="fill-slate-50 dark:fill-slate-900"/>
-            </svg>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, rotateY: 10 }}
+                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                transition={{ duration: 1, delay: 0.4 }}
+                className="hidden lg:block relative"
+                style={{ perspective: "1000px" }}
+              >
+                {/* 3D Dashboard representation */}
+                <div className="relative z-10 bg-slate-900/80 backdrop-blur-xl border border-slate-700 rounded-lg shadow-2xl p-6 transform-gpu" style={{ boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(37, 99, 235, 0.2)" }}>
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 rounded-full bg-red-500" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                      <div className="w-3 h-3 rounded-full bg-green-500" />
+                    </div>
+                    <div className="text-xs font-mono text-slate-500 uppercase tracking-widest">{landingT("hero.securedConnection")}</div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="h-8 w-1/3 bg-slate-800 rounded animate-pulse" />
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="h-24 bg-slate-800 rounded border border-slate-700/50 p-3">
+                        <div className="text-[10px] text-slate-500 uppercase mb-2">{landingT("hero.traceStatus")}</div>
+                        <div className="h-2 w-1/2 bg-blue-500/50 rounded mb-2" />
+                        <div className="h-2 w-3/4 bg-blue-500/30 rounded" />
+                      </div>
+                      <div className="h-24 bg-slate-800 rounded border border-slate-700/50 p-3">
+                        <div className="text-[10px] text-slate-500 uppercase mb-2">{landingT("hero.confidence")}</div>
+                        <div className="text-2xl font-bold text-green-400">94%</div>
+                      </div>
+                      <div className="h-24 bg-slate-800 rounded border border-slate-700/50 p-3">
+                        <div className="text-[10px] text-slate-500 uppercase mb-2">{landingT("hero.jurisdiction")}</div>
+                        <div className="text-lg font-bold text-slate-300">EU-UK</div>
+                      </div>
+                    </div>
+                    <div className="h-40 bg-slate-800 rounded border border-slate-700/50 overflow-hidden relative">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.1)_0%,transparent_100%)]" />
+                      {/* Fake chart lines */}
+                      <svg className="absolute bottom-0 w-full h-1/2" preserveAspectRatio="none" viewBox="0 0 100 100">
+                        <path d="M0,100 L0,50 Q25,30 50,60 T100,20 L100,100 Z" fill="rgba(37,99,235,0.2)" />
+                        <path d="M0,50 Q25,30 50,60 T100,20" fill="none" stroke="rgba(59,130,246,0.8)" strokeWidth="2" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Floating elements behind */}
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-600/20 blur-[50px] rounded-full" />
+                <div className="absolute -bottom-10 -left-10 w-60 h-60 bg-purple-600/20 blur-[60px] rounded-full" />
+              </motion.div>
+            </div>
           </div>
         </section>
 
-        <section className="py-16 px-4 bg-gradient-to-r from-[#004182] via-[#003366] to-[#004182] -mt-1 relative overflow-hidden" aria-labelledby="stats-heading">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.03%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
-          <div className="max-w-7xl mx-auto relative">
-            <h2 id="stats-heading" className="sr-only">Our Statistics</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
-              {displayStats.map((stat: any, idx: number) => {
-                const numericValue = parseInt(stat.value) || 0;
-                const suffix = stat.suffix || stat.value.toString().replace(/[\d,]/g, '').trim() || "";
-                const icons = [Trophy, Clock, Target, Globe];
+        {/* ===== COMPLIANCE BADGES ===== */}
+        <section className="py-10 border-b border-slate-800 bg-[#030a1a]">
+          <div className="max-w-[1400px] mx-auto px-4 overflow-hidden">
+            <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+              {complianceBadges.map((badge, i) => (
+                <div key={i} className="flex flex-col items-center group cursor-default">
+                  <div className="text-2xl font-black tracking-tighter text-slate-400 group-hover:text-blue-400 transition-colors">
+                    {badge.name}
+                  </div>
+                  <div className="text-[9px] uppercase tracking-widest text-slate-600 group-hover:text-blue-500/70">
+                    {landingT(`complianceBadges.${badge.id}`)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== STATS ===== */}
+        <section className="py-20 relative bg-[#020817]">
+          <div className="max-w-[1400px] mx-auto px-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {displayStats.map((stat: any, _index: number) => {
+                const numValue = parseInt(stat.value.replace(/[^0-9]/g, '')) || 0;
+                let icon = Activity;
+                if(stat.key === 'cases_resolved') icon = FileSearch;
+                if(stat.key === 'response_time') icon = Clock;
+                if(stat.key === 'recovery_rate') icon = ShieldCheck;
+                if(stat.key === 'countries') icon = Globe;
+
                 return (
-                  <StatCounter
-                    key={`${stat.key}-${numericValue}`}
-                    value={numericValue}
-                    label={stat.label}
-                    suffix={suffix}
-                    icon={icons[idx % icons.length]}
+                  <StatCounter 
+                    key={stat.key} 
+                    value={numValue} 
+                    label={stat.label} 
+                    suffix={stat.suffix || ''} 
+                    icon={icon} 
                   />
                 );
               })}
@@ -741,169 +755,282 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="services" className="py-20 lg:py-28 px-4 relative scroll-mt-20" aria-labelledby="services-heading">
-          <div className="max-w-7xl mx-auto">
+        {/* ===== DEPARTMENTS HUB ===== */}
+        <section id="departments" className="py-32 relative border-t border-slate-800 bg-[#030a1a]" aria-labelledby="departments-heading">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+          <div className="max-w-[1400px] mx-auto px-4">
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeIn}
               transition={{ duration: 0.5 }}
-              className="text-center mb-16"
+              className="mb-20"
             >
-              <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 rounded-full px-4 py-2 mb-6">
-                <Rocket className="w-4 h-4 text-[#004182]" />
-                <span className="text-sm font-semibold text-[#004182] dark:text-blue-400">Our Services</span>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-px w-8 bg-blue-500" />
+                <span className="text-sm font-bold text-blue-400 uppercase tracking-widest">{landingT("departments.eyebrow")}</span>
               </div>
-              <h2 id="services-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white mb-6 tracking-tight">
-                Comprehensive Protection<br />
-                <span className="gradient-text">For Your Digital Assets</span>
+              <h2 id="departments-heading" className="text-4xl md:text-5xl font-bold text-white tracking-tight max-w-2xl">
+                {landingT("departments.sectionTitle")}
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto text-lg">
-                Choose from our range of enterprise-grade services designed to protect you and the blockchain community.
-              </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-              {services.map((service, index) => (
-                <PremiumServiceCard key={service.id} service={service} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="how-it-works" className="py-20 lg:py-28 px-4 bg-white dark:bg-slate-800 scroll-mt-20 relative overflow-hidden" aria-labelledby="process-heading">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-slate-800 dark:to-slate-800" />
-          <div className="max-w-7xl mx-auto relative">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeIn}
-              transition={{ duration: 0.5 }}
-              className="text-center mb-16"
-            >
-              <div className="inline-flex items-center gap-2 bg-purple-50 dark:bg-purple-900/30 rounded-full px-4 py-2 mb-6">
-                <Target className="w-4 h-4 text-purple-600" />
-                <span className="text-sm font-semibold text-purple-600 dark:text-purple-400">Simple Process</span>
-              </div>
-              <h2 id="process-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white mb-6 tracking-tight">
-                How It Works
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto text-lg">
-                Our streamlined 4-step process ensures your case is handled with maximum efficiency and professionalism.
-              </p>
-            </motion.div>
-
-            <div className="relative">
-              <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 transform -translate-y-1/2 rounded-full opacity-30" aria-hidden="true" />
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {processSteps.map((step, index) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {departments.map((dept, index) => (
+                <Link key={dept.id} href={`/divisions/${dept.id}`}>
                   <motion.div
-                    key={step.step}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
                     variants={fadeInScale}
-                    transition={{ duration: 0.5, delay: index * 0.15 }}
-                    className="relative"
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="group relative cursor-pointer"
                   >
-                    <div className="glass-card rounded-2xl p-8 text-center relative z-10 h-full">
-                      <motion.div 
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        className={`w-20 h-20 bg-gradient-to-br ${step.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl`}
-                      >
-                        <span className="text-3xl font-bold text-white">{step.step}</span>
-                      </motion.div>
-                      <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3">{step.title}</h3>
-                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{step.description}</p>
-                    </div>
-                    {index < processSteps.length - 1 && (
-                      <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-20">
-                        <ChevronRight className="w-8 h-8 text-slate-300 dark:text-slate-600" />
+                    <div className="absolute -inset-0.5 bg-gradient-to-b from-slate-700 to-slate-800 rounded-lg opacity-50 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative h-full bg-slate-900 border border-slate-800 rounded-lg p-1 overflow-hidden">
+                      <div className="h-48 overflow-hidden rounded top-section relative">
+                        <img src={dept.image} alt={landingT(`departments.items.${dept.id}.title`, { defaultValue: dept.title })} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent" />
+                        <div className="absolute bottom-4 left-4">
+                          <div className={`w-10 h-10 rounded bg-slate-800/80 backdrop-blur border border-slate-700 flex items-center justify-center mb-2`}>
+                            <dept.icon className="w-5 h-5 text-white" />
+                          </div>
+                        </div>
                       </div>
-                    )}
+                      <div className="p-6">
+                        <div className="text-[10px] text-blue-400 font-mono uppercase tracking-widest mb-2">{landingT(`departments.items.${dept.id}.subtitle`, { defaultValue: dept.subtitle })}</div>
+                        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors">{landingT(`departments.items.${dept.id}.title`, { defaultValue: dept.title })}</h3>
+                        <p className="text-slate-400 text-sm leading-relaxed mb-6">{landingT(`departments.items.${dept.id}.description`, { defaultValue: dept.description })}</p>
+                        
+                        <div className="flex items-center text-xs font-bold text-slate-500 uppercase tracking-widest group-hover:text-white transition-colors">
+                          <span>{landingT("departments.viewDivision")}</span>
+                          <ChevronRight className="w-3 h-3 ml-1 transform group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </div>
                   </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 lg:py-28 px-4" aria-labelledby="features-heading">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeIn}
-              transition={{ duration: 0.5 }}
-              className="text-center mb-16"
-            >
-              <div className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-full px-4 py-2 mb-6">
-                <Shield className="w-4 h-4 text-emerald-600" />
-                <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Why Choose Us</span>
-              </div>
-              <h2 id="features-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white mb-6 tracking-tight">
-                Trusted by Thousands<br />
-                <span className="gradient-text">Worldwide</span>
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto text-lg">
-                Industry-leading security standards and expert support for your peace of mind.
-              </p>
-            </motion.div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeInScale}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="text-center"
-                >
-                  <Card className="h-full glass-card border-0 card-premium">
-                    <CardContent className="p-8">
-                      <motion.div 
-                        whileHover={{ scale: 1.1, rotate: -5 }}
-                        className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl`}
-                      >
-                        <feature.icon className="w-8 h-8 text-white" aria-hidden="true" />
-                      </motion.div>
-                      <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-3">{feature.title}</h3>
-                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{feature.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                </Link>
               ))}
             </div>
           </div>
         </section>
 
-        {testimonials.length > 0 && (
-          <section className="py-20 lg:py-28 px-4 bg-slate-100 dark:bg-slate-800/50" aria-labelledby="testimonials-heading">
-            <div className="max-w-7xl mx-auto">
+        {/* ===== GLOBAL OPERATIONS MAP ===== */}
+        <section className="py-32 relative border-t border-slate-800 bg-[#020817] overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="/images/global-map.png" 
+              alt={landingT("crossBorder.mapAlt")} 
+              className="w-full h-full object-cover opacity-20 mix-blend-screen"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#020817] via-[#020817]/80 to-[#020817]/50" />
+          </div>
+
+          <div className="max-w-[1400px] mx-auto px-4 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeIn}
                 transition={{ duration: 0.5 }}
-                className="text-center mb-16"
               >
-                <div className="inline-flex items-center gap-2 bg-amber-50 dark:bg-amber-900/30 rounded-full px-4 py-2 mb-6">
-                  <HeartHandshake className="w-4 h-4 text-amber-600" />
-                  <span className="text-sm font-semibold text-amber-600 dark:text-amber-400">Testimonials</span>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-px w-8 bg-amber-500" />
+                  <span className="text-sm font-bold text-amber-500 uppercase tracking-widest">{landingT("crossBorder.eyebrow")}</span>
                 </div>
-                <h2 id="testimonials-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white mb-6 tracking-tight">
-                  What Our Users Say
+                <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
+                  {landingT("crossBorder.title")}
                 </h2>
-                <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto text-lg">
-                  Real stories from people we've helped protect.
+                <p className="text-slate-400 text-lg leading-relaxed mb-8">
+                  {landingT("crossBorder.paragraph")}
                 </p>
+
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 mt-1">
+                      <Target className="w-5 h-5 text-amber-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold mb-1">{landingT("crossBorder.treatyTitle")}</h4>
+                      <p className="text-sm text-slate-500">{landingT("crossBorder.treatyDesc")}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 mt-1">
+                      <Fingerprint className="w-5 h-5 text-amber-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold mb-1">{landingT("crossBorder.courtTitle")}</h4>
+                      <p className="text-sm text-slate-500">{landingT("crossBorder.courtDesc")}</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInScale}
+                className="grid grid-cols-2 gap-4"
+              >
+                {/* Jurisdiction Cards */}
+                {[
+                  { id: "na", label: landingT("crossBorder.regions.na") },
+                  { id: "eu", label: landingT("crossBorder.regions.eu") },
+                  { id: "apac", label: landingT("crossBorder.regions.apac") },
+                  { id: "me", label: landingT("crossBorder.regions.me") }
+                ].map((region) => (
+                  <div key={region.id} className="bg-slate-900/60 backdrop-blur border border-slate-800 p-6 rounded group hover:border-slate-600 transition-colors">
+                    <div className="flex justify-between items-start mb-4">
+                      <Globe className="w-6 h-6 text-slate-600 group-hover:text-blue-400 transition-colors" />
+                      <div className="w-2 h-2 rounded-full bg-green-500" />
+                    </div>
+                    <div className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-1">{landingT("crossBorder.activeRegion")}</div>
+                    <div className="text-lg font-bold text-white">{region.label}</div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+
+        {/* ===== SERVICES (PORTAL FEATURES) ===== */}
+        <section id="services" className="py-32 relative border-t border-slate-800 bg-[#030a1a]" aria-labelledby="services-heading">
+          <div className="max-w-[1400px] mx-auto px-4">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-20"
+            >
+              <h2 id="services-heading" className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                {landingT("services.sectionTitle")}
+              </h2>
+              <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+                {landingT("services.sectionSubtitle")}
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {services.map((service, index) => (
+                <motion.div
+                  key={service.id}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeInScale}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group"
+                >
+                  <Link href={service.href} className="block h-full bg-slate-900 border border-slate-800 rounded hover:border-blue-500/50 transition-colors p-8 relative overflow-hidden" data-testid={`service-card-${service.id}`}>
+                    <div className="absolute right-0 top-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-colors" />
+                    
+                    <div className="flex items-start gap-6 relative z-10">
+                      <div className="w-14 h-14 rounded bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0">
+                        <service.icon className="w-6 h-6 text-blue-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-white mb-3">{landingT(`services.items.${service.id}.title`, { defaultValue: service.title })}</h3>
+                        <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                          {landingT(`services.items.${service.id}.description`, { defaultValue: service.description })}
+                        </p>
+                        <div className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center group-hover:text-blue-400 transition-colors">
+                          {landingT("services.accessModule")} <ArrowRight className="w-3 h-3 ml-2" />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== HOW IT WORKS ===== */}
+        <section id="how-it-works" className="py-32 bg-[#020817] border-t border-slate-800 relative">
+          <div className="max-w-[1400px] mx-auto px-4">
+             <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              transition={{ duration: 0.5 }}
+              className="mb-20 text-center"
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                {landingT("howItWorks.sectionTitle")}
+              </h2>
+            </motion.div>
+
+            <div className="grid md:grid-cols-4 gap-8 relative">
+              {/* Connector line */}
+              <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-px bg-slate-800" />
+
+              {[
+                { step: "01", id: "intake", title: landingT("howItWorks.steps.intake.title"), desc: landingT("howItWorks.steps.intake.desc") },
+                { step: "02", id: "triage", title: landingT("howItWorks.steps.triage.title"), desc: landingT("howItWorks.steps.triage.desc") },
+                { step: "03", id: "forensics", title: landingT("howItWorks.steps.forensics.title"), desc: landingT("howItWorks.steps.forensics.desc") },
+                { step: "04", id: "enforcement", title: landingT("howItWorks.steps.enforcement.title"), desc: landingT("howItWorks.steps.enforcement.desc") }
+              ].map((step, i) => (
+                <motion.div 
+                  key={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeIn}
+                  transition={{ delay: i * 0.1 }}
+                  className="relative text-center"
+                >
+                  <div className="w-24 h-24 mx-auto bg-[#020817] border-2 border-slate-800 rounded-full flex items-center justify-center mb-6 relative z-10 group hover:border-blue-500 transition-colors">
+                    <span className="text-2xl font-mono text-slate-500 group-hover:text-blue-400">{step.step}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
+                  <p className="text-sm text-slate-500 px-4">{step.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== PARTNERS ===== */}
+        <section className="py-20 border-t border-slate-800 bg-[#030a1a]">
+          <div className="max-w-[1400px] mx-auto px-4">
+            <div className="text-center mb-10 text-xs font-mono text-slate-500 uppercase tracking-widest">
+              {landingT("partners.eyebrow")}
+            </div>
+            <div className="flex flex-wrap justify-center items-center gap-12 lg:gap-24 opacity-40">
+              {partners.map((partner, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <Building2 className="w-6 h-6 text-slate-400" />
+                  <span className="text-lg font-bold text-slate-400">{partner.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+
+        {/* ===== TESTIMONIALS (Data Driven) ===== */}
+        {testimonials.length > 0 && (
+          <section className="py-32 bg-[#020817] border-t border-slate-800" aria-labelledby="testimonials-heading">
+            <div className="max-w-[1400px] mx-auto px-4">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+                transition={{ duration: 0.5 }}
+                className="text-center mb-20"
+              >
+                 <h2 id="testimonials-heading" className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                  {landingT("testimonials.sectionTitle")}
+                </h2>
               </motion.div>
 
               <div className="grid md:grid-cols-3 gap-6">
@@ -916,30 +1043,22 @@ export default function LandingPage() {
                     variants={fadeInScale}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <Card className="h-full glass-card border-0 card-premium">
-                      <CardContent className="p-8">
-                        <Quote className="w-10 h-10 text-[#004182]/20 mb-6" aria-hidden="true" />
-                        <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg italic">
-                          "{testimonial.content}"
-                        </p>
-                        <div className="flex items-center gap-1 mb-4">
-                          {[...Array(parseInt(testimonial.rating) || 5)].map((_, i) => (
-                            <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" aria-hidden="true" />
-                          ))}
+                    <div className="h-full bg-slate-900 border border-slate-800 rounded p-8">
+                      <Quote className="w-8 h-8 text-slate-700 mb-6" />
+                      <p className="text-slate-400 mb-8 text-sm leading-relaxed">"{testimonial.content}"</p>
+                      
+                      <div className="flex items-center gap-4 pt-6 border-t border-slate-800">
+                        <div className="w-10 h-10 bg-slate-800 rounded flex items-center justify-center font-bold text-slate-400">
+                          {testimonial.authorName?.[0] || 'A'}
                         </div>
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#004182] to-[#0066cc] flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                            {testimonial.authorName?.[0] || 'A'}
-                          </div>
-                          <div>
-                            <p className="font-bold text-slate-800 dark:text-white">{testimonial.authorName}</p>
-                            {testimonial.authorLocation && (
-                              <p className="text-slate-500 dark:text-slate-400 text-sm">{testimonial.authorLocation}</p>
-                            )}
-                          </div>
+                        <div>
+                          <div className="font-bold text-white text-sm">{testimonial.authorName}</div>
+                          {testimonial.authorLocation && (
+                            <div className="text-xs text-slate-500 font-mono mt-1">{testimonial.authorLocation}</div>
+                          )}
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -947,7 +1066,8 @@ export default function LandingPage() {
           </section>
         )}
 
-        <section id="faq" className="py-20 lg:py-28 px-4 scroll-mt-20" aria-labelledby="faq-heading">
+        {/* ===== FAQ ===== */}
+        <section id="faq" className="py-32 px-4 border-t border-slate-800 bg-[#030a1a]" aria-labelledby="faq-heading">
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial="hidden"
@@ -957,182 +1077,275 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="text-center mb-16"
             >
-              <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 rounded-full px-4 py-2 mb-6">
-                <MessageCircle className="w-4 h-4 text-[#004182]" />
-                <span className="text-sm font-semibold text-[#004182] dark:text-blue-400">FAQ</span>
-              </div>
-              <h2 id="faq-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white mb-6 tracking-tight">
-                Frequently Asked Questions
+              <h2 id="faq-heading" className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                {landingT("faqSection.sectionTitle")}
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto text-lg">
-                Find answers to common questions about our services.
-              </p>
             </motion.div>
 
             <Accordion type="single" collapsible className="space-y-4">
               {displayFaqs.map((faq: any, index: number) => (
-                <motion.div
-                  key={index}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeIn}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                >
-                  <AccordionItem value={`item-${index}`} className="glass-card rounded-xl border-0 px-6 overflow-hidden">
-                    <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-white hover:no-underline py-5 text-lg" data-testid={`faq-trigger-${index}`}>
-                      {faq.question}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-slate-600 dark:text-slate-300 pb-5 text-base leading-relaxed">
-                      {faq.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                </motion.div>
+                <AccordionItem key={index} value={`item-${index}`} className="bg-slate-900 border border-slate-800 rounded px-6 data-[state=open]:border-blue-500/30 transition-colors">
+                  <AccordionTrigger className="text-left font-bold text-white hover:text-blue-400 hover:no-underline py-6" data-testid={`faq-trigger-${index}`}>
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-slate-400 pb-6 leading-relaxed">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
               ))}
             </Accordion>
           </div>
         </section>
 
-        <section className="py-20 px-4 hero-gradient relative overflow-hidden" aria-labelledby="newsletter-heading">
-          <ParticlesBackground />
-          <div className="max-w-3xl mx-auto text-center relative">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeIn}
-              transition={{ duration: 0.5 }}
+        {/* ===== NEWSLETTER ===== */}
+        <section className="py-32 relative border-t border-slate-800 bg-[#020817] overflow-hidden" aria-labelledby="newsletter-heading">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.05)_0%,transparent_70%)]" />
+          <div className="max-w-xl mx-auto px-4 relative z-10 text-center">
+            <Mail className="w-8 h-8 text-blue-500 mx-auto mb-6" />
+            <h2 id="newsletter-heading" className="text-3xl font-bold text-white mb-4">
+              {landingT("newsletter.title")}
+            </h2>
+            <p className="text-slate-400 mb-8 text-sm">
+              {landingT("newsletter.subtitle")}
+            </p>
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (newsletterEmail) newsletterMutation.mutate(newsletterEmail);
+              }}
+              className="flex flex-col sm:flex-row gap-3"
             >
-              <div className="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-8 backdrop-blur-sm">
-                <Mail className="w-10 h-10 text-white" aria-hidden="true" />
-              </div>
-              <h2 id="newsletter-heading" className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">
-                Stay Ahead of Fraud
-              </h2>
-              <p className="text-white/90 mb-8 text-lg font-semibold">
-                Subscribe to receive important security updates and fraud prevention tips.
-              </p>
-              <form 
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (newsletterEmail) newsletterMutation.mutate(newsletterEmail);
-                }}
-                className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
+              <Input
+                type="email"
+                placeholder={landingT("newsletter.placeholder")}
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                className="flex-1 bg-slate-900 border-slate-700 text-white placeholder:text-slate-600 h-12"
+                required
+                aria-label={landingT("newsletter.ariaEmail")}
+                data-testid="input-newsletter-email"
+              />
+              <Button
+                type="submit"
+                disabled={newsletterMutation.isPending}
+                className="bg-blue-600 hover:bg-blue-500 text-white font-bold h-12 px-8 rounded"
+                data-testid="button-subscribe"
               >
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="flex-1 glass border-white/20 text-white placeholder:text-white/50 focus:border-white h-14 text-lg px-6"
-                  required
-                  aria-label="Email address for newsletter"
-                  data-testid="input-newsletter-email"
-                />
-                <Button
-                  type="submit"
-                  disabled={newsletterMutation.isPending}
-                  className="bg-white text-[#004182] hover:bg-slate-100 font-bold h-14 px-8 text-lg btn-premium"
-                  data-testid="button-subscribe"
-                >
-                  {newsletterMutation.isPending ? "Subscribing..." : "Subscribe"}
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </form>
-            </motion.div>
+                {newsletterMutation.isPending ? landingT("newsletter.processing") : landingT("newsletter.subscribe")}
+              </Button>
+            </form>
           </div>
         </section>
 
-        <section id="contact" className="py-20 lg:py-28 px-4 bg-white dark:bg-slate-800 scroll-mt-20" aria-labelledby="cta-heading">
-          <div className="max-w-7xl mx-auto">
-            <div className="glass-card rounded-3xl p-8 lg:p-12 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-700">
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-                <div className="text-center lg:text-left">
-                  <h2 id="cta-heading" className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-4 tracking-tight">
-                    Need Immediate Assistance?
-                  </h2>
-                  <p className="text-slate-600 dark:text-slate-300 text-lg max-w-xl">
-                    Our expert team is available 24/7 to help you with urgent security concerns and fraud reports.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-4 justify-center">
-                  <Link href="/verify">
-                    <Button size="lg" className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold px-8 py-6 text-lg btn-premium" data-testid="button-urgent-report">
-                      <AlertTriangle className="w-5 h-5 mr-2" aria-hidden="true" />
-                      Urgent Report
-                    </Button>
-                  </Link>
-                  <Button size="lg" variant="outline" className="border-2 border-[#004182] text-[#004182] hover:bg-[#004182] hover:text-white font-bold px-8 py-6 text-lg transition-all" onClick={() => setContactForm({ ...contactForm })} data-testid="button-contact-support">
-                    <Phone className="w-5 h-5 mr-2" aria-hidden="true" />
-                    Contact Support
-                  </Button>
-                </div>
-              </div>
+        {/* ===== CONTACT / CTA ===== */}
+        <section id="contact" className="relative py-24 border-t border-slate-800 overflow-hidden" aria-labelledby="cta-heading">
+          <SubduedSpaceBackground />
+          <div className="relative z-10 max-w-[1400px] mx-auto px-4">
+            <div className="text-center mb-10">
+              <h2 id="cta-heading" className="text-3xl font-bold text-white mb-6">
+                {landingT("contact.title")}
+              </h2>
+              <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+                {landingT("contact.paragraph")}
+              </p>
             </div>
+
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+              <Link href="/verify">
+                <Button size="lg" className="w-full sm:w-auto h-14 px-8 bg-red-600 hover:bg-red-500 text-white font-bold uppercase tracking-wider text-sm rounded shadow-[0_0_15px_rgba(220,38,38,0.3)]" data-testid="button-urgent-report">
+                  <AlertTriangle className="w-4 h-4 mr-2" />
+                  {landingT("contact.urgent")}
+                </Button>
+              </Link>
+            </div>
+
+            {complaintSubmitted ? (
+              <div className="max-w-2xl mx-auto bg-slate-900 border border-slate-700 rounded-lg p-8 text-center" data-testid="complaint-success">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center">
+                  <Send className="w-5 h-5 text-green-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">{landingT("contact.secureTitle")}</h3>
+                <p className="text-slate-400">{landingT("contact.secureDesc")}</p>
+              </div>
+            ) : (
+              <div className="max-w-2xl mx-auto bg-slate-900 border border-slate-700 rounded-lg p-8">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-blue-400" />
+                  {landingT("contact.formHeading")}
+                </h3>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    contactMutation.mutate(contactForm);
+                  }}
+                  className="space-y-4"
+                >
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-1">{landingT("contact.labelName")}</label>
+                      <Input
+                        type="text"
+                        value={contactForm.name}
+                        onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
+                        placeholder={landingT("contact.placeholderName")}
+                        required
+                        className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-blue-500"
+                        data-testid="complaint-input-name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-1">{landingT("contact.labelEmail")}</label>
+                      <Input
+                        type="email"
+                        value={contactForm.email}
+                        onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder={landingT("contact.placeholderEmail")}
+                        required
+                        className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-blue-500"
+                        data-testid="complaint-input-email"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1">{landingT("contact.labelSubject")}</label>
+                    <Input
+                      type="text"
+                      value={contactForm.subject}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, subject: e.target.value }))}
+                      placeholder={landingT("contact.placeholderSubject")}
+                      className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-blue-500"
+                      data-testid="complaint-input-subject"
+                    />
+                  </div>
+
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-1">{landingT("contact.labelPlatform")}</label>
+                      <Input
+                        type="text"
+                        value={contactForm.platform}
+                        onChange={(e) => setContactForm(prev => ({ ...prev, platform: e.target.value }))}
+                        placeholder={landingT("contact.placeholderPlatform")}
+                        className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-blue-500"
+                        data-testid="complaint-input-platform"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-1">{landingT("contact.labelIncidentDate")}</label>
+                      <Input
+                        type="text"
+                        value={contactForm.incidentDate}
+                        onChange={(e) => setContactForm(prev => ({ ...prev, incidentDate: e.target.value }))}
+                        placeholder={landingT("contact.placeholderIncidentDate")}
+                        className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-blue-500"
+                        data-testid="complaint-input-incident-date"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-1">{landingT("contact.labelAmountLost")}</label>
+                      <Input
+                        type="text"
+                        value={contactForm.amountLost}
+                        onChange={(e) => setContactForm(prev => ({ ...prev, amountLost: e.target.value }))}
+                        placeholder={landingT("contact.placeholderAmountLost")}
+                        className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-blue-500"
+                        data-testid="complaint-input-amount-lost"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1">{landingT("contact.labelDescription")}</label>
+                    <Textarea
+                      value={contactForm.message}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+                      placeholder={landingT("contact.placeholderDescription")}
+                      required
+                      rows={5}
+                      className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-blue-500 resize-none"
+                      data-testid="complaint-input-message"
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-2">
+                    <Button
+                      type="submit"
+                      disabled={contactMutation.isPending}
+                      className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold h-12"
+                      data-testid="complaint-submit-button"
+                    >
+                      <Send className="w-4 h-4 mr-2" />
+                      {contactMutation.isPending ? landingT("contact.submittingButton") : landingT("contact.submitButton")}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            )}
           </div>
         </section>
       </main>
 
-      <footer className="bg-slate-900 text-white py-16 px-4" role="contentinfo">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
+      {/* ===== FOOTER ===== */}
+      <footer className="relative border-t border-slate-800 py-16 px-4 overflow-hidden" role="contentinfo">
+        <SubduedSpaceBackground />
+        <div className="relative z-10 max-w-[1400px] mx-auto">
+          <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#004182] to-[#0066cc] rounded-xl flex items-center justify-center shadow-lg">
-                  <Shield className="h-7 w-7 text-white" />
+                <div className="w-10 h-10 bg-slate-800 rounded border border-slate-700 flex items-center justify-center">
+                  <Shield className="h-5 w-5 text-slate-400" />
                 </div>
                 <div>
-                  <span className="text-xl font-bold">IBCCF</span>
-                  <p className="text-xs text-slate-400">International Blockchain Complaints Forum</p>
+                  <span className="text-lg font-bold text-white tracking-widest">IBCCF</span>
+                  <p className="text-[10px] text-slate-500 uppercase tracking-widest">{landingT("footer.brandSubtitle")}</p>
                 </div>
               </div>
-              <p className="text-slate-400 text-sm leading-relaxed max-w-md mb-6">
-                The world's leading platform for blockchain fraud prevention, platform verification, and comprehensive case management. Protecting digital assets since 2019.
+              <p className="text-slate-500 text-sm leading-relaxed max-w-md">
+                {landingT("footer.brandDesc")}
               </p>
-              <div className="flex gap-4">
-                {[ShieldCheck, Award, Globe, Zap].map((Icon, i) => (
-                  <div key={i} className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-slate-400" />
-                  </div>
-                ))}
-              </div>
             </div>
+
             <div>
-              <h4 className="font-bold text-lg mb-6">Quick Links</h4>
-              <ul className="space-y-3 text-sm">
-                <li><Link href="/" className="text-slate-400 hover:text-white transition-colors">Home</Link></li>
-                <li><a href="#services" className="text-slate-400 hover:text-white transition-colors">Services</a></li>
-                <li><a href="#how-it-works" className="text-slate-400 hover:text-white transition-colors">How It Works</a></li>
-                <li><Link href="/community" className="text-slate-400 hover:text-white transition-colors">Community</Link></li>
-                <li><a href="#faq" className="text-slate-400 hover:text-white transition-colors">FAQ</a></li>
+              <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-xs">{landingT("footer.divisionsTitle")}</h4>
+              <ul className="space-y-3 text-sm text-slate-500">
+                <li><a href="#departments" className="hover:text-blue-400 transition-colors">{landingT("footer.divAml")}</a></li>
+                <li><a href="#departments" className="hover:text-blue-400 transition-colors">{landingT("footer.divForensics")}</a></li>
+                <li><a href="#departments" className="hover:text-blue-400 transition-colors">{landingT("footer.divRecovery")}</a></li>
+                <li><Link href="/verify" className="hover:text-blue-400 transition-colors">{landingT("footer.divIntake")}</Link></li>
               </ul>
             </div>
+
             <div>
-              <h4 className="font-bold text-lg mb-6">Contact</h4>
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-center gap-3 text-slate-400">
+              <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-xs">{landingT("footer.commsTitle")}</h4>
+              <ul className="space-y-3 text-sm text-slate-500">
+                <li className="flex items-center gap-3">
                   <Mail className="w-4 h-4" />
-                  support@ibccf.org
+                  intake@ibccf.org
                 </li>
-                <li className="flex items-center gap-3 text-slate-400">
+                <li className="flex items-center gap-3">
                   <Phone className="w-4 h-4" />
-                  +1 (800) IBCCF-HELP
+                  +1 (800) ENFORCE
                 </li>
-                <li className="flex items-center gap-3 text-slate-400">
+                <li className="flex items-center gap-3">
                   <Clock className="w-4 h-4" />
-                  24/7 Support Available
+                  {landingT("footer.ops")}
                 </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-500 text-sm">
-              &copy; {new Date().getFullYear()} IBCCF. All rights reserved.
+
+          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-600 font-mono uppercase tracking-widest">
+            <p>
+              {landingT("footer.copyright", { year: new Date().getFullYear() })}
             </p>
-            <div className="flex gap-6 text-sm">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Cookie Policy</a>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center">
+              <Link href="/privacy-policy" className="hover:text-slate-400 transition-colors">{landingT("footer.linkPrivacy")}</Link>
+              <Link href="/terms-of-use" className="hover:text-slate-400 transition-colors">{landingT("footer.linkTerms")}</Link>
+              <Link href="/legal-resources" className="hover:text-slate-400 transition-colors">{landingT("footer.linkJurisdiction")}</Link>
+              <Link href="/legal-resources" className="hover:text-slate-400 transition-colors">{landingT("footer.linkLegal")}</Link>
+              <Link href="/withdrawal-guide" className="hover:text-slate-400 transition-colors">{landingT("footer.linkWithdrawalGuide")}</Link>
+              <BuildStampLine className="text-slate-600" />
             </div>
           </div>
         </div>

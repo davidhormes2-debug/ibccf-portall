@@ -1,0 +1,33 @@
+name: Compute source hash
+description: >
+  Hashes all production source files (TS/TSX/CSS, i18n JSON, fonts,
+  and key config files) into a single SHA-256 digest exposed as
+  `outputs.hash`.  Use this output as a shared cache key so every
+  cache step in the workflow stays in sync automatically.
+
+outputs:
+  hash:
+    description: SHA-256 digest of all production source files
+    value: ${{ steps.compute.outputs.hash }}
+
+runs:
+  using: composite
+  steps:
+    - name: Compute hash
+      id: compute
+      shell: bash
+      run: |
+        HASH=$({ \
+          find client/src server shared \
+            -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.css" \) \
+            ! -name "*.test.ts"  ! -name "*.test.tsx" \
+            ! -name "*.spec.ts"  ! -name "*.spec.tsx" \
+            ! -path "*/__tests__/*" \
+            -print0 | sort -z | xargs -0 sha256sum; \
+          find client/src/i18n/locales -type f -name "*.json" \
+            -print0 | sort -z | xargs -0 sha256sum; \
+          find server/assets/fonts -type f \
+            -print0 | sort -z | xargs -0 sha256sum; \
+          sha256sum package-lock.json vite.config.ts tsconfig.json; \
+        } | sha256sum | cut -d' ' -f1)
+        echo "hash=$HASH" >> "$GITHUB_OUTPUT"

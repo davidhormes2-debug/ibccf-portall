@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "Community Forum",
+    "subtitle": "Discussions, support, and shared experiences",
+    "back": "Back",
+    "home": "Home",
+    "brand": "IBCCF Community",
+    "live": "LIVE"
+  },
+  "actions": {
+    "newThread": "Start a Discussion",
+    "newDiscussion": "New Discussion",
+    "newShort": "New",
+    "signInToPost": "Sign In to Post",
+    "signInShort": "Sign In",
+    "search": "Search discussions...",
+    "postReply": "Post a Reply",
+    "replyPlaceholder": "Share your thoughts or experience...",
+    "submitReply": "Post Reply",
+    "posting": "Posting...",
+    "backToDiscussions": "Back to Discussions"
+  },
+  "dialog": {
+    "title": "Start a New Discussion",
+    "department": "Department",
+    "departmentPlaceholder": "Select a department",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Give your discussion a clear title",
+    "content": "Content",
+    "contentPlaceholder": "Share your experience, ask a question, or start a discussion...",
+    "cancel": "Cancel",
+    "create": "Create Discussion",
+    "creating": "Creating..."
+  },
+  "stats": {
+    "members": "Members",
+    "discussions": "Discussions",
+    "replies": "Replies",
+    "departments": "Departments"
+  },
+  "sidebar": {
+    "departments": "Departments",
+    "allDiscussions": "All Discussions"
+  },
+  "thread": {
+    "locked": "Locked",
+    "pinned": "Pinned",
+    "moderator": "Moderator",
+    "you": "You",
+    "live": "Live",
+    "views": "views",
+    "replies": "replies",
+    "repliesCount": "Replies ({{count}})",
+    "loading": "Loading replies...",
+    "noReplies": "No replies yet. Be the first to respond!",
+    "postingAs": "Posting as",
+    "postingAsAnonymous": "Posting as an anonymous community member",
+    "signInToReplyTitle": "Sign in to reply",
+    "signInToReplyDesc": "You need a portal account to participate in discussions.",
+    "signInToReply": "Sign In to Reply"
+  },
+  "empty": {
+    "noThreads": "No discussions yet",
+    "ctaAuthed": "Be the first to start a conversation!",
+    "ctaGuest": "Sign in to start the first discussion."
+  },
+  "guidelines": {
+    "title": "Community Guidelines",
+    "rule1": "Be respectful and supportive",
+    "rule2": "Share experiences, not personal details",
+    "rule3": "No spam or promotional content",
+    "rule4": "Report suspicious activity",
+    "rule5": "Protect your privacy — use handles only"
+  },
+  "toast": {
+    "threadCreatedTitle": "Thread Created",
+    "threadCreatedDesc": "Your discussion thread has been posted.",
+    "replyPostedTitle": "Reply Posted",
+    "replyPostedDesc": "Your reply has been added to the discussion.",
+    "errorTitle": "Error",
+    "createThreadFail": "Failed to create thread",
+    "postReplyFail": "Failed to post reply",
+    "rateLimitedTitle": "Slow down a little",
+    "rateLimitedDesc": "You've been posting quickly. Please wait a moment and try again.",
+    "missingFieldsTitle": "Missing Fields",
+    "missingFieldsDesc": "Please fill in all fields"
+  },
+  "loading": "Loading discussions..."
+}

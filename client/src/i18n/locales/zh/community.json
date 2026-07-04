@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "社区论坛",
+    "subtitle": "讨论、支持和共享经验",
+    "back": "返回",
+    "home": "首页",
+    "brand": "IBCCF 社区",
+    "live": "在线"
+  },
+  "actions": {
+    "newThread": "开始讨论",
+    "newDiscussion": "新讨论",
+    "newShort": "新建",
+    "signInToPost": "登录以发布",
+    "signInShort": "登录",
+    "search": "搜索讨论...",
+    "postReply": "发布回复",
+    "replyPlaceholder": "分享您的想法或经验...",
+    "submitReply": "发布回复",
+    "posting": "发布中...",
+    "backToDiscussions": "返回讨论"
+  },
+  "dialog": {
+    "title": "开始新讨论",
+    "department": "部门",
+    "departmentPlaceholder": "选择一个部门",
+    "titleLabel": "标题",
+    "titlePlaceholder": "给您的讨论一个清晰的标题",
+    "content": "内容",
+    "contentPlaceholder": "分享您的经验、提问或开始讨论...",
+    "cancel": "取消",
+    "create": "创建讨论",
+    "creating": "创建中..."
+  },
+  "stats": {
+    "members": "成员",
+    "discussions": "讨论",
+    "replies": "回复",
+    "departments": "部门"
+  },
+  "sidebar": {
+    "departments": "部门",
+    "allDiscussions": "所有讨论"
+  },
+  "thread": {
+    "locked": "已锁定",
+    "pinned": "已固定",
+    "moderator": "版主",
+    "you": "您",
+    "live": "在线",
+    "views": "浏览",
+    "replies": "回复",
+    "repliesCount": "回复 ({{count}})",
+    "loading": "加载回复中...",
+    "noReplies": "还没有回复。成为第一个回应的人！",
+    "postingAs": "以身份发布",
+    "postingAsAnonymous": "以匿名社区成员身份发布",
+    "signInToReplyTitle": "登录以回复",
+    "signInToReplyDesc": "您需要一个门户账户才能参与讨论。",
+    "signInToReply": "登录以回复"
+  },
+  "empty": {
+    "noThreads": "还没有讨论",
+    "ctaAuthed": "成为第一个开始对话的人！",
+    "ctaGuest": "登录以开始第一次讨论。"
+  },
+  "guidelines": {
+    "title": "社区准则",
+    "rule1": "保持尊重和支持",
+    "rule2": "分享经验，而不是个人细节",
+    "rule3": "禁止垃圾信息或推广内容",
+    "rule4": "举报可疑活动",
+    "rule5": "保护您的隐私 — 仅使用昵称"
+  },
+  "toast": {
+    "threadCreatedTitle": "讨论创建成功",
+    "threadCreatedDesc": "您的讨论主题已发布。",
+    "replyPostedTitle": "回复已发布",
+    "replyPostedDesc": "您的回复已添加到讨论中。",
+    "errorTitle": "错误",
+    "createThreadFail": "创建讨论失败",
+    "postReplyFail": "发布回复失败",
+    "missingFieldsTitle": "缺少字段",
+    "missingFieldsDesc": "请填写所有字段",
+    "rateLimitedTitle": "稍微慢一点",
+    "rateLimitedDesc": "您发布的速度太快了。请稍等片刻再试。"
+  },
+  "loading": "加载讨论中..."
+}

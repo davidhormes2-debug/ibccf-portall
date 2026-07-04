@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { useChatAutoScroll } from "@/hooks/use-chat-autoscroll";
+import { Card, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { User, MessageCircle, Send, ChevronDown } from "lucide-react";
-import { useAdmin, Case, ChatTemplate, playNotificationSound } from "./AdminContext";
+import { useTranslation } from "react-i18next";
+import { useAdmin, ChatTemplate, playNotificationSound } from "./AdminContext";
 
 export function Conversations() {
   const { 
@@ -21,11 +23,14 @@ export function Conversations() {
     lastMessageCountRef,
     isInitialLoadRef
   } = useAdmin();
+  const { t } = useTranslation("admin");
   
   const [newMessage, setNewMessage] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
   const chatScrollRef = useRef<HTMLDivElement>(null);
+  // Sticky-bottom auto-scroll for the conversations chat pane.
+  const { onScroll: handleChatScroll } = useChatAutoScroll(chatScrollRef, [chatMessages, chatCase?.id]);
 
   const loadChatMessages = async (caseId: string) => {
     try {
@@ -57,11 +62,9 @@ export function Conversations() {
           headers: { 'Authorization': `Bearer ${authToken}` }
         });
         
-        setTimeout(() => {
-          if (chatScrollRef.current) {
-            chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
-          }
-        }, 100);
+        // useChatAutoScroll handles initial scroll on first mount via its
+        // lastElRef !== el branch, and respects the user's scroll position
+        // on subsequent updates. No manual scroll needed here.
       }
     } catch (error) {
       console.error('Failed to load chat messages:', error);
@@ -89,10 +92,10 @@ export function Conversations() {
         setNewMessage("");
         loadChatMessages(chatCase.id);
       } else {
-        toast({ variant: "destructive", title: "Error", description: "Failed to send message." });
+        toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.sendMessageFailed.description") });
       }
-    } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Network error occurred." });
+    } catch (_e) {
+      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.networkError") });
     } finally {
       setIsSendingMessage(false);
     }
@@ -123,14 +126,14 @@ export function Conversations() {
   return (
     <div className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-white mb-1">User Conversations</h2>
-        <p className="text-slate-400 text-sm">View and respond to user messages in real-time.</p>
+        <h2 className="text-2xl font-bold text-white mb-1">{t("conversations.heading")}</h2>
+        <p className="text-slate-400 text-sm">{t("conversations.subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="bg-slate-950 border-slate-800 lg:col-span-1">
           <CardHeader className="border-b border-slate-800 py-3">
-            <CardTitle className="text-base text-white">Active Chats</CardTitle>
+            <CardTitle className="text-base text-white">{t("conversations.activeChats")}</CardTitle>
           </CardHeader>
           <ScrollArea className="h-[300px] lg:h-[500px]">
             <div className="p-2">
@@ -169,7 +172,7 @@ export function Conversations() {
               {cases.filter(c => c.userName).length === 0 && (
                 <div className="text-center py-8 text-slate-500">
                   <MessageCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No active conversations</p>
+                  <p className="text-sm">{t("conversations.noActiveChats")}</p>
                 </div>
               )}
             </div>
@@ -195,11 +198,11 @@ export function Conversations() {
                   </Badge>
                 </div>
               </CardHeader>
-              <div ref={chatScrollRef} className="h-[250px] lg:h-[350px] overflow-y-auto p-4 space-y-3 bg-slate-900/30">
+              <div ref={chatScrollRef} onScroll={handleChatScroll} className="h-[250px] lg:h-[350px] overflow-y-auto p-4 space-y-3 bg-slate-900/30">
                 {chatMessages.length === 0 ? (
                   <div className="text-center text-slate-500 mt-12">
                     <MessageCircle className="h-12 w-12 mx-auto text-slate-700 mb-3" />
-                    <p className="text-sm">No messages yet</p>
+                    <p className="text-sm">{t("conversations.noMessages")}</p>
                   </div>
                 ) : (
                   chatMessages.map((msg) => (
@@ -232,16 +235,22 @@ export function Conversations() {
                         size="sm"
                         onClick={() => setShowTemplateDropdown(!showTemplateDropdown)}
                         className="border-slate-700 text-slate-400"
+                        data-testid="button-chat-templates-toggle"
                       >
-                        <ChevronDown className="h-4 w-4" />
+                        <ChevronDown className="h-4 w-4 mr-1" />
+                        {t("conversations.templates")}
                       </Button>
                       {showTemplateDropdown && (
-                        <div className="absolute bottom-full mb-2 left-0 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-50 min-w-[200px]">
+                        <div
+                          className="absolute bottom-full mb-2 left-0 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-50 min-w-[200px]"
+                          data-testid="panel-chat-templates"
+                        >
                           {chatTemplates.map(t => (
                             <button
                               key={t.id}
-                              onClick={() => useTemplate(t)}
+                              onClick={() => useTemplate(t)} // eslint-disable-line react-hooks/rules-of-hooks
                               className="w-full text-left px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 first:rounded-t-lg last:rounded-b-lg"
+                              data-testid={`chat-template-${t.id}`}
                             >
                               {t.name}
                             </button>
@@ -251,7 +260,7 @@ export function Conversations() {
                     </div>
                   )}
                   <Input
-                    placeholder="Type your message..."
+                    placeholder={t("conversations.inputPlaceholder")}
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendChatMessage()}
@@ -274,8 +283,8 @@ export function Conversations() {
             <div className="h-[300px] lg:h-[500px] flex items-center justify-center text-slate-500">
               <div className="text-center">
                 <MessageCircle className="w-16 h-16 mx-auto mb-4 opacity-30" />
-                <p className="text-lg font-medium">Select a conversation</p>
-                <p className="text-sm">Choose a user from the list to start chatting</p>
+                <p className="text-lg font-medium">{t("conversations.selectConversationTitle")}</p>
+                <p className="text-sm">{t("conversations.selectConversationSubtitle")}</p>
               </div>
             </div>
           )}

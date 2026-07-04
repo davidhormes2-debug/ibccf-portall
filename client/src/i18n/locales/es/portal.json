@@ -1,0 +1,1841 @@
+{
+  "navGroups": {
+    "overview": "Resumen",
+    "withdrawal": "Retiro",
+    "compliance": "Cumplimiento",
+    "communication": "Comunicación",
+    "account": "Cuenta"
+  },
+  "navItems": {
+    "dashboard": "Tablero",
+    "timeline": "Cronología de Actividades",
+    "letter": "Carta de Retiro",
+    "deposit": "Depósito y Recibos",
+    "submissions": "Envíos",
+    "declaration": "Declaración de Cumplimiento",
+    "documents": "Documentos",
+    "keyRequest": "Solicitud de Clave Frase",
+    "messages": "Mensajes",
+    "settings": "Configuraciones",
+    "more": "Más",
+    "sealed": "Acuerdo sellado y NDA",
+    "sealedDone": "Acuerdo sellado",
+    "withdrawalActivation": "Activación de retiro",
+    "withdrawalActivationDone": "Activación aprobada",
+    "certificate": "Certificado",
+    "accountHistory": "Historial de cuenta",
+    "walletConnect": "Conexión de billetera",
+    "withdrawal": "Solicitar retiro",
+    "withdrawalHub": "Retiro",
+    "uploads": "Archivos",
+    "withdrawalGuide": "Guía de Retiro",
+    "refundClaim": "Solicitud de Reembolso"
+  },
+  "accountHistory": {
+    "title": "Historial de cuenta",
+    "subtitle": "Créditos y débitos registrados en su caso",
+    "recordsTitle": "Asientos contables",
+    "entrySingular": "{{count}} asiento",
+    "entryPlural": "{{count}} asientos",
+    "displayOnly": "Solo visualización",
+    "loading": "Cargando su historial de cuenta…",
+    "loadError": "No pudimos cargar su historial de cuenta. Inténtelo de nuevo más tarde.",
+    "empty": "Aún no se han registrado asientos en su caso.",
+    "credit": "Crédito",
+    "debit": "Débito",
+    "disclaimer": "IBCCF es solo de visualización. Estos asientos reflejan el registro contable de su oficial de caso y no mueven fondos."
+  },
+  "header": {
+    "caseLabel": "Caso",
+    "signOut": "Cerrar sesión"
+  },
+  "common": {
+    "noActiveCase": "No hay caso activo",
+    "loadingCase": "Cargando su caso…"
+  },
+  "messages": {
+    "title": "Mensajes Seguros",
+    "subtitle": "Comunicaciones encriptadas de IBCCF",
+    "unreadBadge": "{{count}} No Leídos",
+    "encryption": {
+      "title": "Comunicaciones Encriptadas de Extremo a Extremo",
+      "subtitle": "Protocolo de encriptación AES-256"
+    },
+    "stats": {
+      "actionRequired": "Acción Requerida",
+      "processing": "Procesando",
+      "completed": "Completado"
+    },
+    "sections": {
+      "urgent": "Acción Urgente Requerida",
+      "processing": "Actualizaciones en Proceso",
+      "completed": "Notificaciones Completadas"
+    },
+    "empty": {
+      "title": "Portal de Mensajes Seguros Vacío",
+      "subtitle": "No hay mensajes encriptados en este momento.",
+      "hint": "Los mensajes aparecerán aquí cuando IBCCF envíe actualizaciones sobre su caso."
+    },
+    "dialog": {
+      "encryptedLabel": "Mensaje Encriptado",
+      "close": "Cerrar"
+    }
+  },
+  "documents": {
+    "header": {
+      "title": "Centro de Documentos Regulatorios",
+      "subtitle": "Envíe, rastree y descargue documentos regulatorios solicitados por cumplimiento.",
+      "awaiting": "{{count}} esperando su acción",
+      "refresh": "Actualizar",
+      "refreshing": "Actualizando…"
+    },
+    "refreshError": {
+      "title": "Error al actualizar",
+      "description": "No se pudieron recargar sus documentos. Por favor, inténtelo de nuevo."
+    },
+    "complianceNote": "Los documentos se almacenan encriptados y son revisados únicamente por los oficiales de cumplimiento de IBCCF. Envíe con prontitud para mantener su caso en movimiento — su oficial asignado es notificado automáticamente en el momento en que usted carga.",
+    "empty": {
+      "title": "No se solicitaron documentos",
+      "subtitle": "Está al día. Si el cumplimiento necesita algo más, aparecerá aquí y recibirá un correo electrónico."
+    },
+    "categories": {
+      "proofOfIncome": {
+        "label": "Prueba de Ingresos",
+        "description": "Recibos de sueldo recientes, carta del empleador o declaración de impuestos que muestre sus ingresos."
+      },
+      "sourceOfFunds": {
+        "label": "Fuente de Fondos",
+        "description": "Extracto bancario o registro de billetera que evidencie el origen de los fondos."
+      },
+      "kyc": {
+        "label": "Verificación de Identidad KYC",
+        "description": "Identificación con foto emitida por el gobierno — pasaporte, licencia de conducir o tarjeta de identificación nacional."
+      },
+      "fatca": {
+        "label": "FATCA / CRS Auto-Certificación",
+        "description": "Formulario FATCA/CRS firmado declarando su residencia fiscal."
+      },
+      "taxResidency": {
+        "label": "Declaración de Residencia Fiscal",
+        "description": "Confirme su residencia fiscal para el registro de liquidación."
+      },
+      "beneficialOwnership": {
+        "label": "Titularidad Real / Atestación KYC",
+        "description": "Atestigüe quién es el titular real último de los fondos de este caso."
+      },
+      "aml": {
+        "label": "Reconocimiento AML",
+        "description": "Reconozca nuestro proceso de prevención de blanqueo de capitales y verificación de sanciones."
+      },
+      "settlementAuth": {
+        "label": "Autorización de Liquidación / Desembolso",
+        "description": "Autorice al equipo de cumplimiento a liberar la liquidación a su billetera de pago verificada."
+      },
+      "powerOfAttorney": {
+        "label": "Poder Notarial para el Desembolso",
+        "description": "Otorgue al equipo de cumplimiento un poder estrictamente limitado para los pasos de liberación."
+      },
+      "custom": {
+        "description": "Un documento personalizado solicitado por el equipo de cumplimiento."
+      }
+    },
+    "status": {
+      "approved": "Aprobado",
+      "rejected": "Reenvío Requerido",
+      "submitted": "Enviado — Pendiente de Revisión",
+      "underReview": "En Revisión",
+      "actionRequired": "Acción Requerida"
+    },
+    "card": {
+      "overdue": "Vencido",
+      "reference": "Referencia: {{type}}",
+      "complianceNotes": "Notas de Cumplimiento",
+      "requested": "Solicitado",
+      "deadline": "Fecha Límite",
+      "reviewerNotes": "Notas del Revisor",
+      "submittedOn": "Enviado {{date}}",
+      "preview": "Vista Previa",
+      "hide": "Ocultar",
+      "download": "Descargar",
+      "archived": "Archivado",
+      "uploadsPausedTitle": "Subidas pausadas",
+      "uploadsPausedBody": "El cumplimiento ha deshabilitado temporalmente los envíos para este documento. Se le notificará por correo electrónico tan pronto como se reabra.",
+      "upload": "Cargar Documento",
+      "uploadCorrected": "Cargar Documento Corregido",
+      "uploading": "Cargando…",
+      "templateTitle": "Descargar plantilla precargada",
+      "templateBody": "Hay una plantilla PDF precargada disponible para este documento. Descárguela, fírmela fuera de línea y suba la copia firmada a continuación.",
+      "templateDownloading": "Preparando…",
+      "templateDownload": "Descargar plantilla",
+      "uploadHint": "PDF, PNG, JPEG o WebP · Máx 10 MB · Encriptado de extremo a extremo en tránsito"
+    },
+    "supporting": {
+      "title": "Documentos de respaldo",
+      "description": "Cargue documentos de respaldo adicionales (identificación, registros de transacciones, archivos de evidencia) que puedan ayudar en la revisión de su caso. Los archivos se almacenan de forma segura y son revisados por nuestro equipo de cumplimiento.",
+      "descriptionLabel": "Descripción (opcional)",
+      "descriptionPlaceholder": "Describa brevemente qué es este documento o con qué se relaciona (opcional).",
+      "uploadButton": "Cargar documento",
+      "emptyTitle": "Aún no hay documentos de respaldo",
+      "emptySubtitle": "Use el botón de arriba para cargar su primer documento.",
+      "category": {
+        "general": "General",
+        "idProof": "Identificación / Prueba de identidad",
+        "transaction": "Registro de transacción",
+        "evidence": "Evidencia",
+        "unknown": "Otro"
+      }
+    }
+  },
+  "settings": {
+    "title": "Perfil y Configuraciones",
+    "subtitle": "Detalles de la cuenta y una vista previa del saldo en vivo de su caso",
+    "profile": {
+      "section": "Perfil de Cuenta",
+      "fullName": "Nombre Completo",
+      "email": "Correo Electrónico",
+      "mobile": "Móvil",
+      "accessCode": "Código de Acceso"
+    },
+    "balance": {
+      "section": "Vista Previa del Saldo",
+      "liveBadge": "En Vivo · USDT",
+      "compiledLabel": "Monto de Depósito Compilado",
+      "compiledHint": "Suma de los componentes de activación, clave-frase y fusión — reembolsable a su billetera al liquidar.",
+      "activityLabel": "Depósito de Actividad",
+      "activityHelper": "Saldo de activación reembolsable",
+      "phraseKeyLabel": "Depósito de Clave-Frase",
+      "phraseKeyHelper": "Escrow de verificación de billetera",
+      "mergeLabel": "Depósito de Fusión de Clave-Frase",
+      "mergeHelper": "30% componente de fusión",
+      "walletRequirement": "Requisito de Actividad de Billetera",
+      "withdrawalTotal": "Monto de Retiro (Total del Caso)",
+      "footnote": "El depósito compilado es la suma de los componentes de activación, clave-frase y fusión mencionados arriba. Los montos mostrados reflejan los últimos valores establecidos en su caso por nuestro equipo de liquidación — se actualizan automáticamente cuando su caso avanza."
+    }
+  },
+  "keyRequest": {
+    "back": "Volver al Tablero",
+    "header": {
+      "title": "Solicitud de Acceso a Clave",
+      "subtitle": "Solicitar o ver el estado de su clave de acceso"
+    },
+    "status": {
+      "underReview": "En Revisión",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "expired": "Caducado"
+    },
+    "toast": {
+      "copiedTitle": "¡Copiado!",
+      "copiedDescription": "ID de solicitud copiada al portapapeles.",
+      "notFoundTitle": "No Encontrado",
+      "notFoundDescription": "No se pudo cargar el estado de la solicitud.",
+      "connectionTitle": "Error de Conexión",
+      "statusError": "No se pudo cargar el estado de la solicitud.",
+      "requiredFieldsTitle": "Campos Requeridos",
+      "requiredFieldsDescription": "Por favor, introduzca su nombre y correo electrónico.",
+      "submissionFailedTitle": "Error en el Envío",
+      "submissionFailedDefault": "No se pudo enviar su solicitud. Por favor, inténtelo de nuevo.",
+      "submitConnectionError": "No se pudo enviar su solicitud."
+    },
+    "confirm": {
+      "title": "¡Solicitud Enviada!",
+      "subtitle": "Nuestro equipo la revisará en un plazo de 1 a 3 días hábiles.",
+      "requestIdLabel": "ID de Solicitud",
+      "copyAria": "Copiar ID de Solicitud",
+      "keepHint": "Guarde esto para sus registros",
+      "nameLabel": "Nombre",
+      "emailLabel": "Correo Electrónico",
+      "nextHeading": "Qué sucede a continuación",
+      "nextReview": "Nuestro equipo revisa las solicitudes en un plazo de",
+      "nextReviewDays": "1 a 3 días hábiles",
+      "nextKey": "Su clave de acceso aparecerá aquí una vez aprobada",
+      "nextNotify": "Verá una notificación en su portal cuando haya una actualización",
+      "viewStatus": "Ver Estado de Solicitud"
+    },
+    "form": {
+      "heading": "Solicitar una Clave de Acceso",
+      "intro": "Una clave de acceso le permite volver a iniciar sesión en su portal en cualquier momento sin necesidad de su código original. Complete sus datos a continuación y nuestro equipo revisará su solicitud en un plazo de 1 a 3 días hábiles.",
+      "fullName": "Nombre Completo",
+      "fullNamePlaceholder": "Su nombre completo",
+      "email": "Dirección de Correo Electrónico",
+      "emailPlaceholder": "su@correo.com",
+      "phone": "Número de Teléfono",
+      "optional": "(opcional)",
+      "phonePlaceholder": "+34 600 000 000",
+      "reason": "Razón de la Solicitud",
+      "reasonPlaceholder": "Describa brevemente por qué necesita una clave de acceso…",
+      "submit": "Enviar Solicitud",
+      "submitting": "Enviando…"
+    },
+    "howItWorks": {
+      "heading": "Cómo funciona",
+      "step1": "Envíe sus datos utilizando el formulario anterior",
+      "step2": "Nuestro equipo lo revisa en un plazo de 1 a 3 días hábiles",
+      "step3": "Su clave se entrega aquí una vez aprobada"
+    },
+    "statusCard": {
+      "requestId": "ID de Solicitud",
+      "progressHeading": "Progreso de la Solicitud",
+      "stepSubmitted": "Enviado",
+      "stepSubmittedDesc": "Recibido el {{date}}",
+      "stepUnderReview": "En Revisión",
+      "stepReviewing": "Nuestro equipo está revisando su solicitud",
+      "stepReviewCompleted": "Revisión completada",
+      "stepApproved": "Aprobado",
+      "stepRejected": "Rechazado",
+      "stepExpired": "Caducado",
+      "stepApprovedDesc": "Su clave de acceso está lista",
+      "stepRejectedDesc": "La solicitud no pudo ser aprobada",
+      "stepExpiredDesc": "La solicitud ha caducado",
+      "stepAwaiting": "Esperando decisión",
+      "nameLabel": "Nombre",
+      "nameNa": "N/A",
+      "submittedLabel": "Enviado",
+      "copyAria": "Copiar ID de Solicitud"
+    },
+    "approved": {
+      "title": "Su Clave de Acceso",
+      "hint": "Su clave de acceso ha sido enviada a su dirección de correo electrónico. Por favor, revise su bandeja de entrada y úsela para iniciar sesión en el portal seguro."
+    },
+    "rejected": {
+      "title": "Solicitud Rechazada",
+      "reasonLabel": "Razón",
+      "noReason": "No se proporcionó ninguna razón específica por parte de nuestro equipo.",
+      "submitNew": "Enviar Nueva Solicitud"
+    },
+    "expired": {
+      "title": "Solicitud Caducada",
+      "body": "Esta solicitud ha caducado. Puede enviar una nueva solicitud de clave de acceso a continuación."
+    },
+    "resubmit": {
+      "title": "Nueva Solicitud de Clave de Acceso",
+      "fullName": "Nombre Completo",
+      "email": "Correo Electrónico",
+      "reason": "Razón",
+      "reasonPlaceholder": "Describa brevemente por qué necesita una clave de acceso…",
+      "submit": "Enviar",
+      "cancel": "Cancelar"
+    },
+    "pending": {
+      "title": "En Revisión",
+      "body": "Su solicitud está siendo revisada por nuestro equipo. Recibirá actualizaciones aquí. El procesamiento normalmente toma de 1 a 3 días hábiles."
+    },
+    "adminMsgs": {
+      "heading": "Mensajes de Nuestro Equipo",
+      "newBadge": "{{count}} Nuevo",
+      "newPill": "Nuevo"
+    }
+  },
+  "submissions": {
+    "title": "Historial de Envíos",
+    "subtitle": "Su archivo completo de envíos",
+    "recordsTitle": "Sus Envíos",
+    "recordSingular": "{{count}} registro",
+    "recordPlural": "{{count}} registros",
+    "encrypted": "Encriptado",
+    "empty": "No se encontraron envíos.",
+    "optionSelected": "Opción {{option}} Seleccionada",
+    "withdrawalAmount": "Monto de Retiro",
+    "totalBatches": "Total de Lotes"
+  },
+  "shell": {
+    "brand": "PORTAL IBCCF",
+    "secureSession": "Sesión Segura",
+    "urgent": "URGENTE",
+    "member": "Miembro",
+    "signOut": "Cerrar Sesión",
+    "navAriaLabel": "Secciones del portal",
+    "ssl": "Encriptado SSL de 256 bits",
+    "moreLabel": "Más",
+    "moreSheetTitle": "Más navegación",
+    "sessionExpiry": {
+      "message": "Su sesión expira en menos de 24 horas. Vuelva a iniciar sesión para mantener el acceso.",
+      "messageWithTime": "Su sesión expira {{time}}. Vuelva a iniciar sesión para mantener el acceso.",
+      "messageCountdown": "La sesión expira en {{seconds}}s — vuelva a iniciar sesión para mantener el acceso.",
+      "loginButton": "Iniciar sesión de nuevo para extender",
+      "dismiss": "Ignorar",
+      "dialogTitle": "Extender Su Sesión",
+      "dialogDesc": "Ingrese su PIN para extender su sesión y evitar perder cualquier trabajo no guardado.",
+      "pinPlaceholder": "PIN de 6 dígitos",
+      "extending": "Extendiendo…",
+      "extendButton": "Extender Sesión",
+      "successTitle": "Sesión extendida",
+      "successDesc": "Su sesión ha sido extendida por otros 7 días.",
+      "errorTitle": "PIN incorrecto",
+      "errorDesc": "El PIN que ingresó es incorrecto. Por favor, inténtelo de nuevo.",
+      "lockedCountdown": "Demasiados intentos — inténtelo de nuevo en {{time}}"
+    }
+  },
+  "status": {
+    "success": {
+      "title": "Envío Confirmado",
+      "subtitle": "Su solicitud de retiro ha sido recibida",
+      "bannerTitle": "Solicitud de Retiro Confirmada",
+      "referenceLabel": "Referencia:",
+      "optionSelectedOn": "Opción {{option}} seleccionada el {{date}}",
+      "nextStepTitle": "Siguiente Paso: Completar Depósito",
+      "step1": "Navegue a la sección <0>Depósito y Recibos</0>",
+      "step2": "Envíe el USDT requerido a su dirección de depósito asignada",
+      "step3": "Cargue su recibo de transacción para verificación",
+      "step4": "Espere la confirmación de nuestro equipo de cumplimiento",
+      "goToDeposit": "Ir a Depósito",
+      "contactSupport": "Contactar Soporte",
+      "fundsReleasedTo": "Los fondos se liberarán a",
+      "verifiedPayoutWallet": "Billetera de pago verificada",
+      "displayOnlyShort": "Solo visualización — IBCCF no retiene, enruta ni transmite fondos.",
+      "displayOnlyAwaiting": "Su oficial de caso designará la dirección de desembolso. IBCCF no retiene, enruta ni transmite fondos.",
+      "returnToProfileTitle": "Regresar a Su Perfil",
+      "returnToProfileSubtitle": "Acceda a su panel de perfil externo",
+      "openProfile": "Abrir Perfil",
+      "backToDashboard": "← Volver al Tablero"
+    },
+    "timeline": {
+      "title": "Cronología de Actividades",
+      "events": "{{count}} eventos",
+      "recentActivity": "Actividad Reciente",
+      "empty": "Aún no hay actividad.",
+      "emptyHint": "Las actividades de su cuenta aparecerán aquí.",
+      "documentRequested": "Documento solicitado: {{type}}",
+      "documentRequestedDesc": "El cumplimiento le pidió que cargara este documento.",
+      "documentSubmitted": "Documento enviado: {{type}}",
+      "documentSubmittedDesc": "Documento cargado para revisión de cumplimiento.",
+      "documentUploaded": "Cargado {{name}}",
+      "documentApproved": "Documento aprobado: {{type}}",
+      "documentApprovedDesc": "El cumplimiento aprobó su envío.",
+      "documentRejected": "Documento rechazado: {{type}}",
+      "documentRejectedDesc": "El cumplimiento le pidió que reenviara este documento.",
+      "payoutWalletUpdated": "Billetera de pago actualizada",
+      "payoutWalletVerified": "Billetera de pago verificada",
+      "payoutWalletCleared": "Billetera de pago despejada",
+      "payoutWalletPrevious": "Billetera de pago anterior en archivo",
+      "payoutWalletClearedDesc": "Su oficial de caso eliminó una dirección de desembolso previamente verificada.",
+      "payoutWalletGenericChange": "El cumplimiento actualizó la dirección de desembolso verificada.",
+      "stagePrefix": "Etapa {{stage}}: {{title}}",
+      "submissionTitle": "Opción {{option}} Enviada",
+      "submissionDesc": "Solicitud de retiro enviada",
+      "depositReceiptTitle": "Recibo de Depósito Cargado",
+      "receiptApproved": "Recibo aprobado",
+      "receiptRejected": "Recibo rechazado",
+      "receiptPending": "Pendiente de revisión",
+      "userDocUploaded": "Documento de apoyo cargado",
+      "userDocUploadedDesc": "Ha cargado un documento de apoyo para revisión de cumplimiento.",
+      "userDocApproved": "Documento de apoyo aprobado",
+      "userDocApprovedDesc": "El cumplimiento ha aprobado su documento de apoyo.",
+      "userDocRejected": "Documento de apoyo rechazado",
+      "userDocRejectedDesc": "El cumplimiento ha rechazado su documento de apoyo. Vuelva a enviarlo si es necesario.",
+      "userDocReviewed": "Documento de apoyo revisado",
+      "userDocReviewedDesc": "El cumplimiento ha revisado su documento de apoyo.",
+      "activation": {
+        "title": "Activación de retiro — {{status}}",
+        "approvedDesc": "Depósito de activación aprobado. Ahora puede ejecutarse el procesamiento del retiro.",
+        "rejectedDesc": "Recibo de activación rechazado. Se requiere recargar.",
+        "awaitingAdminDesc": "Recibo enviado. En espera de revisión de cumplimiento.",
+        "awaitingDepositDesc": "En espera de su depósito de activación.",
+        "awaitingTokenDesc": "En espera de la verificación del código de seguridad.",
+        "defaultDesc": "Estado actualizado."
+      },
+      "walletExchangeSelected": "Billetera seleccionada: {{wallet}}",
+      "walletExchangeSelectedDesc": "Ha seleccionado {{wallet}} como su billetera conectada.",
+      "walletPhraseRevealed": "Frase de billetera revelada",
+      "walletPhraseRevealedDesc": "Se accedió a la frase de recuperación de su billetera.",
+      "tokenWalletSetupConfirmedDesc": "La configuración de su billetera de tokens ha sido verificada por el equipo de cumplimiento.",
+      "tokenWalletSetupUnconfirmedDesc": "La verificación de la configuración de su billetera de tokens ha sido revertida.",
+      "auditActions": {
+        "wallet_connect_completed": "Frase de billetera revelada",
+        "token_wallet_setup_confirmed": "Configuración de billetera de tokens confirmada",
+        "token_wallet_setup_unconfirmed": "Configuración de billetera de tokens no confirmada"
+      }
+    }
+  },
+  "dashboard": {
+    "header": {
+      "welcomeBack": "Bienvenido de nuevo,",
+      "memberFallback": "Miembro",
+      "verified": "Verificado",
+      "vipStatus": "Estado VIP",
+      "standard": "Estándar",
+      "account": "Cuenta",
+      "active": "Activo",
+      "fullyRegulated": "Totalmente regulado",
+      "fullyRegulatedTooltip": "Totalmente regulado — todos los controles de cumplimiento aprobados"
+    },
+    "balance": {
+      "label": "Saldo de la Cuenta",
+      "footnote": "Saldo verificado mantenido en escrow segregado a la espera de la autorización de cumplimiento."
+    },
+    "urgentBanner": {
+      "title": "Acción Inmediata Requerida",
+      "body": "Tiene requisitos pendientes del equipo de cumplimiento de IBCCF.",
+      "viewNow": "Ver Ahora"
+    },
+    "keyRequestBanner": {
+      "title": "Nuevo Mensaje sobre Su Solicitud de Acceso",
+      "single": "El administrador le ha enviado un mensaje sobre su solicitud de clave de acceso.",
+      "multiple": "Tiene {{count}} nuevos mensajes sobre su solicitud de clave de acceso.",
+      "viewMessage": "Ver Mensaje"
+    },
+    "cards": {
+      "messages": "Acciones Requeridas",
+      "letter": "Carta de Retiro",
+      "profile": "Información del Perfil",
+      "deposit": "Depósito y Recibos",
+      "submissions": "Historial de Envíos",
+      "timeline": "Cronología de Actividades",
+      "support": "Soporte de IBCCF",
+      "feedback": "Comentarios",
+      "unread": "{{count}} no leídos",
+      "pending": "Pendiente",
+      "accessAccount": "Acceder a la Cuenta"
+    },
+    "messages": {
+      "urgent": "Urgente",
+      "processing": "Procesando",
+      "resolved": "Resuelto"
+    },
+    "letter": {
+      "status": "Estado",
+      "submitted": "Enviado",
+      "ready": "Listo",
+      "submissions": "Envíos",
+      "preparing": "Siendo preparado por el equipo de cumplimiento"
+    },
+    "profile": {
+      "name": "Nombre",
+      "email": "Correo Electrónico",
+      "vipStatus": "Estado VIP"
+    },
+    "deposit": {
+      "receiptsUploaded": "Recibos Cargados",
+      "pendingReview": "Pendiente de Revisión"
+    },
+    "submissions": {
+      "total": "Total de Envíos"
+    },
+    "timeline": {
+      "recent": "Actividades Recientes"
+    },
+    "support": {
+      "body": "Chatee con el soporte de IBCCF para obtener asistencia con su cuenta."
+    },
+    "feedback": {
+      "thankYou": "¡Gracias!",
+      "body": "Ayúdenos a mejorar compartiendo su experiencia.",
+      "title": "Comparta Sus Comentarios",
+      "description": "Califique nuestro servicio y deje comentarios.",
+      "rateLabel": "¿Cómo calificaría su experiencia?",
+      "ratings": {
+        "1": "Pobre",
+        "2": "Regular",
+        "3": "Bueno",
+        "4": "Muy Bueno",
+        "5": "Excelente"
+      },
+      "commentsLabel": "Comentarios adicionales (opcional)",
+      "commentsPlaceholder": "Cuéntanos más sobre tu experiencia...",
+      "cancel": "Cancelar",
+      "submit": "Enviar Comentarios",
+      "submitting": "Enviando...",
+      "toastSuccessTitle": "Comentarios Enviados",
+      "toastSuccessDesc": "¡Gracias por sus comentarios!",
+      "toastErrorTitle": "Error",
+      "toastErrorDesc": "No se pudo enviar los comentarios."
+    },
+    "chat": {
+      "title": "Soporte de IBCCF",
+      "online": "En Línea · Responde normalmente en minutos",
+      "welcomeTitle": "Bienvenido al Soporte de IBCCF",
+      "welcomeBody": "¿Cómo podemos ayudarle hoy?",
+      "placeholder": "Escriba su mensaje..."
+    },
+    "reactivation": {
+      "dismissAria": "Descartar mensaje de bienvenida",
+      "label": "Cuenta Reactivada",
+      "newPill": "NUEVO",
+      "fallbackName": "ahí",
+      "headline": "Bienvenido de nuevo, {{name}} — su cuenta está completamente restaurada.",
+      "bodyWithEmail": "Nuestro equipo de cumplimiento ha reactivado su portal de IBCCF. Todas las funciones están disponibles nuevamente. Se ha enviado un nuevo código de acceso a su correo electrónico — su código anterior ya no funciona.",
+      "bodyNoEmail": "Nuestro equipo de cumplimiento ha reactivado su portal de IBCCF. Todas las funciones están disponibles nuevamente. Se ha emitido un nuevo código de acceso — por favor, contacte a su oficial de caso para recibirlo.",
+      "restoration": "Restauración de cuenta",
+      "allOnline": "Todas las funciones del portal en línea"
+    },
+    "tracker": {
+      "title": "Progreso del Retiro",
+      "subtitle": "Estado en tiempo real de su solicitud de retiro",
+      "progress": "Progreso",
+      "ariaLabel": "Progreso del retiro: etapa {{stage}} de 14",
+      "stageLabel": "Etapa {{stage}}: {{label}} — {{state}}",
+      "stageTooltip": "Etapa {{stage}}: {{label}}\n{{state}}",
+      "states": {
+        "completed": "Completado",
+        "current": "Actual",
+        "upcoming": "Próximo"
+      },
+      "legend": {
+        "completed": "Completado",
+        "userAction": "Acción necesaria de usted",
+        "adminAction": "Esperando al equipo de cumplimiento",
+        "system": "Sistema procesando"
+      },
+      "stageOf": "Etapa {{stage}}",
+      "stages": {
+        "1": {
+          "label": "Depósito de Clave Frase Recibido",
+          "description": "Depósito de clave frase confirmado con éxito en el libro mayor"
+        },
+        "2": {
+          "label": "Generando Clave Frase Segura",
+          "description": "Creación de clave frase en curso"
+        },
+        "3": {
+          "label": "Clave Frase Aprobada y Disponible",
+          "description": "Clave frase aprobada y entregada al Centro de Mensajes Seguros"
+        },
+        "4": {
+          "label": "Proceso de Retiro Iniciado",
+          "description": "Flujo de retiro activado"
+        },
+        "5": {
+          "label": "Verificación de Depósito Inicial",
+          "description": "Verificación de depósito en progreso"
+        },
+        "6": {
+          "label": "Verificación de Clave Frase",
+          "description": "Validación de clave frase en progreso"
+        },
+        "7": {
+          "label": "Depósito de Fusión de Clave Frase Requerido",
+          "descriptionWithAmount": "Requerido: {{amount}} (depósito de fusión del 30%)",
+          "descriptionAwaiting": "Esperando cálculo de depósito de fusión"
+        },
+        "8": {
+          "label": "Verificación del Departamento Financiero",
+          "description": "Revisión de cumplimiento y financiera"
+        },
+        "9": {
+          "label": "Retiro Minero para Liquidación Final",
+          "description": "Confirmación de blockchain y liquidación interna"
+        },
+        "10": {
+          "label": "Verificación de Actividad en Blockchain",
+          "descriptionWithAmount": "Requerido: {{amount}} saldo en billetera receptora",
+          "descriptionAwaiting": "Verificación de actividad de billetera en progreso"
+        },
+        "11": {
+          "label": "Verificación de IRS / AML Internacional",
+          "description": "Controles de cumplimiento regulatorio en progreso"
+        },
+        "12": {
+          "label": "Procesamiento Final de Retiro",
+          "description": "Preparando fondos para liberación"
+        },
+        "13": {
+          "label": "Retiro Liberado con Éxito",
+          "description": "Fondos liberados a la billetera designada"
+        },
+        "14": {
+          "label": "Depósito de Sello de Tiempo para Entrega Final",
+          "description": "Confirmación de entrega final"
+        }
+      },
+      "stage7Notice": {
+        "title": "Depósito de Fusión de Clave Frase Requerido",
+        "body": "Se requiere un depósito de fusión del 30% para completar la verificación de la clave frase."
+      },
+      "stage10Notice": {
+        "title": "Verificación de Actividad en Blockchain",
+        "body": "Por favor, mantenga el saldo requerido de {{asset}} en su billetera receptora."
+      },
+      "stage12Notice": {
+        "title": "Confirmación Final: Billetera de Pago",
+        "body": "Confirme que la dirección de destino verificada a continuación coincide con sus registros antes de que el cumplimiento libere el desembolso. El portal es solo de visualización — IBCCF no retiene, enruta ni transmite fondos.",
+        "awaiting": "Esperando que su oficial de caso designe la billetera de pago verificada."
+      },
+      "withdrawalMode": {
+        "kicker": "Todas las Etapas Completadas",
+        "title": "Fase de Retiro Activa",
+        "body": "Todas las etapas de cumplimiento han sido completadas. Su retiro está ahora en progreso."
+      }
+    },
+    "payoutWallet": {
+      "awaitingPill": "Esperando verificación",
+      "label": "Billetera de Pago Verificada",
+      "awaitingTitle": "Su oficial de caso designará la dirección de desembolso",
+      "awaitingBody": "Una vez que el cumplimiento haya verificado la billetera que recibirá su pago, la dirección completa, el activo y la red aparecerán aquí. El portal es solo de visualización — IBCCF nunca retiene, enruta ni transmite sus fondos.",
+      "updatedLabel": "Billetera de pago actualizada",
+      "updatedTitle": "Su oficial de caso ha verificado una nueva dirección de desembolso.",
+      "updatedBody": "Revise los detalles a continuación y contacte a su oficial de inmediato si algo parece desconocido.",
+      "dismissAria": "Descartar actualización de billetera de pago",
+      "verifiedPill": "Verificado",
+      "label2": "Billetera de Pago",
+      "verifiedTitle": "Dirección de desembolso designada",
+      "verifiedBody": "Su oficial de caso ha verificado esto como el destino para su caso. El portal es <0>solo de visualización</0> — IBCCF no retiene ni transmite fondos.",
+      "asset": "Activo",
+      "network": "Red",
+      "walletAddress": "Dirección de billetera",
+      "copy": "Copiar",
+      "verified": "Verificado",
+      "verifiedBy": "por",
+      "verifiedOn": "el",
+      "toastCopiedTitle": "Dirección de billetera copiada",
+      "toastCopiedDesc": "Dirección de pago verificada copiada al portapapeles.",
+      "toastFailTitle": "Error al copiar",
+      "toastFailDesc": "Por favor, copie la dirección manualmente.",
+      "toastUpdatedTitle": "Billetera de pago actualizada",
+      "toastUpdatedDesc": "Su oficial de caso ha verificado una nueva dirección de desembolso. Por favor, revísela antes de continuar con su retiro."
+    },
+    "stageCta": {
+      "stage7AmountLabel": "Depósito de Fusión de Clave Frase",
+      "stage10AmountLabel": "Saldo de billetera requerido",
+      "stage7Headline": "Pague el depósito de fusión de {{amount}} {{asset}} para desbloquear la verificación de la clave frase",
+      "stage10Headline": "Mantenga {{amount}} {{asset}} en su billetera receptora para la verificación de actividad",
+      "stageOf": "Etapa {{stage}} de 14",
+      "advanced": "Etapa avanzada · {{from}} → {{to}}",
+      "dismissAria": "Descartar actualización de etapa",
+      "whatYouCanDo": "Lo que puede hacer ahora",
+      "withdrawalMode": {
+        "kicker": "Fase de Retiro",
+        "title": "Retiro en Progreso",
+        "body": "Todas las etapas de cumplimiento han sido completadas. Su oficial de caso está procesando su desembolso. No se requiere ninguna acción adicional de su parte en este momento."
+      }
+    },
+    "finalized": {
+      "label": "Caso finalizado",
+      "title": "Su caso ha sido finalizado",
+      "body": "Su caso de retiro de IBCCF alcanzó su etapa final y ha sido completamente finalizado el {{date}}. {{tail}}",
+      "tailCertificate": "Visite la sección Certificado para descargar su Certificado de Frase de Fusión.",
+      "tailEmail": "Se ha enviado por correo una copia de confirmación para sus registros."
+    },
+    "activationBanner": {
+      "kicker": "Activación de retiro",
+      "transition": "{{from}} → {{to}}",
+      "body": "Abra la vista de Activación de retiro para continuar.",
+      "dismiss": "Descartar",
+      "status": {
+        "pending_address": "dirección pendiente",
+        "awaiting_token": "esperando token",
+        "awaiting_deposit": "esperando depósito",
+        "awaiting_admin_approval": "esperando aprobación del administrador",
+        "approved": "aprobado",
+        "rejected": "rechazado",
+        "unknown": "Procesando"
+      }
+    },
+    "stampDuty": {
+      "title": "Depósito de Impuesto de Timbre pendiente",
+      "statusAwaitingUpload": "Pendiente de carga",
+      "statusAwaitingApproval": "En revisión de cumplimiento",
+      "statusRejected": "Recibo rechazado",
+      "bodyAwaitingUpload": "Sube un recibo del Depósito de Impuesto de Timbre para mantener tu liquidación sellada en curso.",
+      "bodyAwaitingApproval": "Tu recibo ha sido enviado. El equipo de cumplimiento confirmará el depósito en breve.",
+      "bodyRejected": "Tu último recibo fue rechazado. Por favor revisa la nota y envía un nuevo recibo.",
+      "amountLabel": "Importe a pagar",
+      "ctaUpload": "Subir recibo",
+      "ctaView": "Ver Impuesto de Timbre",
+      "ctaResubmit": "Reenviar recibo",
+      "updated": "Actualizado",
+      "doneKicker": "Paso Completado",
+      "doneTitle": "Impuesto de Timbre — Liquidado"
+    },
+    "withdrawalGuide": {
+      "title": "Su Guía de Retiro",
+      "label": "Guía de Retiro",
+      "body": "Siga estos pasos para completar su proceso de retiro con éxito.",
+      "step1Title": "Complete la Verificación de Identidad",
+      "step1Body": "Envíe sus documentos KYC y confirme sus datos personales con nuestro equipo de cumplimiento.",
+      "step2Title": "Firme las Divulgaciones Regulatorias",
+      "step2Body": "Revise y firme todos los formularios de cumplimiento y declaraciones requeridos para satisfacer los requisitos regulatorios.",
+      "step3Title": "Active su Cuenta de Retiro",
+      "step3Body": "Realice el depósito de activación: 1.000 USDT de saldo de activación reembolsable + 500 USDT de tarifa de procesamiento no reembolsable.",
+      "step4Title": "Cargue Documentos de Respaldo",
+      "step4Body": "Proporcione prueba de fondos, documentos de origen de ingresos y cualquier archivo adicional solicitado por su oficial de cumplimiento.",
+      "step5Title": "Espere la Autorización de Cumplimiento",
+      "step5Body": "Nuestro equipo realiza verificaciones finales de debida diligencia antes de autorizar la liberación de sus fondos.",
+      "step6Title": "Confirme su Billetera de Pago",
+      "step6Body": "Verifique la dirección de billetera designada por su oficial de caso — IBCCF nunca retiene ni redirige sus fondos.",
+      "step7Title": "Reciba sus Fondos",
+      "step7Body": "Una vez obtenidas todas las autorizaciones, su billetera de pago verificada recibirá el importe total del acuerdo."
+    },
+    "tutorialVideo": {
+      "title": "Cómo funcionan los retiros",
+      "watch": "Ver el tutorial",
+      "download": "Descargar este video",
+      "subtitle": "Un recorrido animado de un minuto por las 14 etapas del retiro.",
+      "muteNarration": "Silenciar narración",
+      "unmuteNarration": "Activar narración"
+    }
+  },
+  "context": {
+    "toast": {
+      "messagesUpToDateTitle": "Todos los mensajes actualizados",
+      "messagesUpToDateDesc": "Los mensajes de tu equipo están marcados como leídos.",
+      "sessionExpiredTitle": "Sesión expirada",
+      "sessionExpiredDesc": "Has sido desconectado por inactividad.",
+      "newMessageTitle": "Nuevo mensaje",
+      "newMessageDesc": "Tienes un nuevo mensaje de soporte.",
+      "sendFailedTitle": "Error",
+      "sendFailedDesc": "No se pudo enviar el mensaje.",
+      "emptyFileTitle": "Archivo vacío",
+      "emptyFileReceiptDesc": "Este archivo está vacío. Por favor elige una foto o PDF diferente.",
+      "fileTooLargeTitle": "Archivo demasiado grande",
+      "fileTooLargeReceiptDesc": "Tu archivo es {{mb}} MB. El máximo es 8 MB. Intenta tomar una nueva foto o comprimir la imagen.",
+      "unsupportedTypeTitle": "Tipo de archivo no soportado",
+      "unsupportedTypeReceiptDesc": "Por favor, sube una foto (JPG, PNG, HEIC, WebP) o un recibo en PDF.",
+      "readFailedTitle": "No se pudo leer el archivo",
+      "readFailedDesc": "Tu navegador no pudo leer este archivo. Por favor, intenta de nuevo o usa un archivo diferente.",
+      "receiptUploadedTitle": "Recibo subido",
+      "receiptUploadedDesc": "Tu recibo de depósito ha sido enviado para revisión.",
+      "uploadFailedTitle": "Error de carga ({{status}})",
+      "uploadFailedDefault": "No se pudo subir el recibo.",
+      "uploadFailed413": "Este archivo es demasiado grande para que el servidor lo acepte. Por favor, usa una foto de menos de 8 MB.",
+      "networkErrorTitle": "Error de red",
+      "networkErrorDesc": "No se pudo alcanzar el servidor. Verifica tu conexión e intenta de nuevo.",
+      "emptyFileDocDesc": "Este archivo está vacío. Elige un documento diferente.",
+      "fileTooLargeDocDesc": "Tu archivo es {{mb}} MB. El máximo es 10 MB.",
+      "unsupportedTypeDocDesc": "Por favor, sube un archivo PDF, PNG, JPEG o WebP.",
+      "readFailedDocDesc": "Tu navegador no pudo leer este archivo.",
+      "documentSubmittedTitle": "Documento enviado",
+      "documentSubmittedDesc": "El cumplimiento ha sido notificado y revisará pronto.",
+      "submitFailedTitle": "Envío fallido ({{status}})",
+      "submitFailedDefault": "No se pudo enviar el documento.",
+      "submitFailed413": "Este archivo es demasiado grande para el servidor. Por favor, usa un archivo de menos de 10 MB.",
+      "forceLogoutTitle": "Desconectado por el administrador",
+      "forceLogoutDesc": "Tu sesión fue finalizada por el cumplimiento de IBCCF. Por favor, inicia sesión nuevamente.",
+      "accountLockedTitle": "Cuenta bloqueada",
+      "accountLockedDescAdminDisabled": "Tu cuenta ha sido bloqueada por un oficial de cumplimiento. Por favor, completa el depósito de reactivación para restaurar el acceso.",
+      "accountLockedDescWarningExpired": "Tu cuenta fue bloqueada porque expiró el período de advertencia. Por favor, completa el depósito de reactivación para restaurar el acceso."
+    }
+  },
+  "notificationBell": {
+    "title": "Notificaciones",
+    "newCount": "{{count}} nuevas",
+    "markAllRead": "Marcar todo como leído",
+    "close": "Cerrar",
+    "empty": "No hay notificaciones aún",
+    "emptyHint": "Te notificaremos cuando ocurra algo importante",
+    "showingLatest": "Mostrando las últimas {{count}} notificaciones"
+  },
+  "installApp": {
+    "ariaLabel": "Instalar la aplicación IBCCF",
+    "title": "Instalar IBCCF en tu teléfono",
+    "body": "Acceso rápido y a pantalla completa a tu portal seguro — funciona sin conexión para lo básico.",
+    "install": "Instalar",
+    "notNow": "No ahora",
+    "dismiss": "Descartar",
+    "iosTitle": "Instalar IBCCF en tu iPhone",
+    "iosDescription": "Los iPhones instalan aplicaciones web directamente desde Safari. Dos toques rápidos.",
+    "iosStep1Prefix": "Toca el",
+    "iosStep1Share": "Compartir",
+    "iosStep1Suffix": "botón en la parte inferior de Safari.",
+    "iosStep2Prefix": "Desplázate y elige",
+    "iosStep2Add": "Agregar a la pantalla de inicio",
+    "iosStep2Suffix": ", luego toca",
+    "iosStep2Confirm": "Agregar",
+    "iosFootnote": "El ícono de IBCCF aparecerá en tu pantalla de inicio y se abrirá a pantalla completa, como una aplicación nativa."
+  },
+  "auth": {
+    "login": {
+      "title": "ACCESO A PUERTA SEGURA",
+      "subtitle": "División de Integridad de Cuenta",
+      "connectionActive": "Conexión Segura Activa",
+      "cardTitle": "Verificación Requerida",
+      "cardSubtitle": "Ingrese sus credenciales de autorización de cumplimiento",
+      "codeLabel": "Referencia de Autorización de Cumplimiento",
+      "accessCodeLabel": "Código de Acceso",
+      "pinLabel": "PIN de Seguridad",
+      "codePlaceholder": "Ingrese el Código de Acceso",
+      "pinPlaceholder": "Ingrese el PIN de 6 dígitos",
+      "continue": "Continuar",
+      "verify": "Verificar Identidad",
+      "verifying": "Verificando...",
+      "useDifferentCode": "Usar un código de acceso diferente",
+      "sslBadge": "Encriptado SSL de 256 bits",
+      "toast": {
+        "pinRequiredTitle": "PIN Requerido",
+        "pinRequiredDesc": "Por favor, ingrese su PIN de 6 dígitos para continuar.",
+        "accessDeniedTitle": "Acceso Denegado",
+        "accessDeniedDesc": "Código de autorización inválido proporcionado.",
+        "invalidPinTitle": "PIN Inválido",
+        "invalidPinDesc": "El PIN ingresado es incorrecto. Por favor, inténtelo de nuevo.",
+        "connectionTitle": "Error de Conexión",
+        "connectionDesc": "No se pudo verificar las credenciales.",
+        "verifiedTitle": "Identidad Verificada",
+        "verifiedDesc": "Sesión segura establecida."
+      }
+    },
+    "register": {
+      "loadingProfile": "Cargando su perfil...",
+      "title": "Verificación de Identidad",
+      "subtitle": "Confirme sus datos para el libro mayor seguro",
+      "fullName": "Nombre Legal Completo",
+      "fullNamePlaceholder": "Su nombre legal completo",
+      "email": "Dirección de Correo Electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "mobile": "Número de Móvil",
+      "mobilePlaceholder": "Su número de contacto",
+      "pinIntro": "Cree un PIN seguro de 6 dígitos para futuros inicios de sesión",
+      "createPin": "Crear PIN de 6 Dígitos",
+      "confirmPin": "Confirmar PIN",
+      "pinPlaceholder": "••••••",
+      "processing": "Procesando...",
+      "proceed": "Proceder a la Sincronización Segura",
+      "toast": {
+        "sessionErrorTitle": "Error de Sesión",
+        "sessionErrorDesc": "Por favor, comience de nuevo desde la página de verificación.",
+        "invalidPinTitle": "PIN Inválido",
+        "invalidPinDesc": "Por favor, ingrese un PIN numérico de 6 dígitos.",
+        "pinMismatchTitle": "Desajuste de PIN",
+        "pinMismatchDesc": "Los PIN que ingresó no coinciden.",
+        "pinSetupFailedTitle": "Error en la Configuración del PIN",
+        "pinSetupFailedDesc": "No se pudo configurar su PIN.",
+        "failedTitle": "Registro Fallido",
+        "failedDesc": "No se pudo completar el registro.",
+        "connectionTitle": "Error de Conexión",
+        "connectionDesc": "No se pudo guardar el registro."
+      }
+    },
+    "sync": {
+      "title": "Sincronizando Cuenta",
+      "defaultStatus": "Estableciendo conexión segura...",
+      "protocolLabel": "PROTOCOLO ISO-D",
+      "waitClearance": "Espere la autorización administrativa..."
+    }
+  },
+  "deposit": {
+    "title": "Depósito y Recibos",
+    "subtitle": "Envíe el depósito requerido y cargue su recibo de transacción para verificación.",
+    "reissue": {
+      "title": "Reemisión Ronda v{{version}} — Pago Requerido",
+      "statusAwaitingDeposit": "Esperando su depósito de reemisión antes de que el cumplimiento pueda reabrir los envíos.",
+      "statusAwaitingReview": "Recibo recibido — el cumplimiento está revisando su pago de reemisión.",
+      "statusPaid": "Pago de reemisión confirmado. Puede reenviar su solicitud de retiro.",
+      "amountDue": "Monto a pagar",
+      "reasonLabel": "Razón del cumplimiento:"
+    },
+    "address": {
+      "title": "{{asset}} Dirección de Depósito ({{network}})",
+      "subtitle": "Envíe {{asset}} solo en {{network}} — otras redes se perderán.",
+      "requiredAmount": "Monto requerido",
+      "qrUnavailable": "Código QR no disponible en este dispositivo — copie la dirección manualmente.",
+      "qrAmountPrefill": "Escanee para prellenar",
+      "qrAmountSuffix": "en su billetera.",
+      "qrScanHint": "Escanee con su aplicación de billetera para cargar la dirección de depósito.",
+      "qrDownload": "Descargar",
+      "qrCopied": "Copiado",
+      "qrCopyImage": "Copiar imagen",
+      "qrShare": "Compartir",
+      "importantInstructions": "Instrucciones importantes",
+      "instructionNetwork": "Envíe {{asset}} solo en la red {{network}}. Los fondos enviados en una red diferente no pueden ser recuperados.",
+      "instructionUploadReceipt": "Después de enviar, cargue su recibo de transacción a continuación para que el cumplimiento pueda verificar el pago.",
+      "instructionTxHash": "Incluya el hash de la transacción (TXID) en las notas para que podamos coincidir con el registro en cadena."
+    },
+    "upload": {
+      "title": "Cargar Recibo de Transacción",
+      "subtitle": "Envíe una captura de pantalla o foto de su transacción completada.",
+      "requiredReminder": "Envíe exactamente el monto mostrado — 1,000 USDT saldo de activación reembolsable + 500 USDT tarifa de procesamiento no reembolsable. Total requerido:",
+      "notesPlaceholder": "Notas opcionales — pegue el hash de la transacción (TXID), billetera utilizada o cualquier contexto para el cumplimiento…",
+      "uploading": "Cargando…",
+      "selectImage": "Seleccionar Imagen del Recibo",
+      "categoryLabel": "¿Para qué es este comprobante?",
+      "multiHint": "(seleccione uno o más)",
+      "category": {
+        "withdrawal": "Depósito de retiro",
+        "token_deposit": "Depósito de tokens",
+        "merge_fee": "Tarifa de combinación por lotes",
+        "activation": "Depósito de activación",
+        "reissue": "Tarifa de reemisión de carta",
+        "certificate": "Tarifa de certificado",
+        "stamp_duty": "Impuesto de timbre",
+        "other": "Otro / documento de respaldo"
+      }
+    },
+    "receipts": {
+      "title": "Recibos Cargados",
+      "empty": "Aún no se han cargado recibos.",
+      "imageAlt": "Recibo de depósito",
+      "defaultFileName": "Recibo de Depósito",
+      "status": {
+        "approved": "Aprobado",
+        "rejected": "Rechazado",
+        "pending": "Pendiente de Revisión",
+        "unknown": "Procesando"
+      }
+    },
+    "support": {
+      "message": "¿Necesita ayuda con su depósito? Nuestro equipo de cumplimiento está disponible para ayudar.",
+      "cta": "Contactar Soporte"
+    },
+    "toast": {
+      "downloadFailedTitle": "Error al descargar",
+      "downloadFailedDesc": "No se pudo generar la imagen del código QR. Por favor, copie la dirección manualmente.",
+      "shareFailedTitle": "Error al compartir",
+      "shareFailedNoImage": "No se pudo generar la imagen QR para compartir.",
+      "shareFailedSheet": "No se pudo abrir la hoja de compartir del sistema.",
+      "shareTitle": "Código QR de dirección de depósito",
+      "copyNotSupportedTitle": "Copiar no soportado",
+      "copyNotSupportedDesc": "Su navegador no soporta copiar imágenes. Intente descargar el QR en su lugar.",
+      "copyFailedTitle": "Error al copiar",
+      "copyFailedNoImage": "No se pudo generar la imagen QR para copiar.",
+      "copyFailedNotSupported": "Su navegador bloqueó la copia de la imagen. Intente descargar el QR en su lugar.",
+      "qrCopiedTitle": "Código QR copiado",
+      "qrCopiedDesc": "Pegue la imagen en su billetera o aplicación de mensajería.",
+      "addressCopiedTitle": "Dirección copiada",
+      "addressCopiedDesc": "Péguela en su billetera para enviar el depósito.",
+      "amountCopiedTitle": "Monto copiado",
+      "amountCopiedDesc": "Pegue el monto exacto en su billetera para evitar desajustes.",
+      "sessionExpiredTitle": "Sesión expirada",
+      "sessionExpiredDesc": "Su sesión ha expirado. Por favor, inicie sesión nuevamente.",
+      "reissueMissing": "No hay ninguna ronda de reemisión pendiente de pago.",
+      "uploadSuccessTitle": "Comprobante cargado",
+      "certUploaded": "Comprobante de tarifa de certificado enviado para revisión.",
+      "stampUploaded": "Comprobante de impuesto de timbre enviado para revisión.",
+      "singleUploaded": "Comprobante enviado para revisión.",
+      "multiUploaded": "{{count}} comprobantes enviados para revisión.",
+      "partialUploadTitle": "Cargados {{succeeded}} de {{total}}",
+      "uploadFailedTitle": "Error al cargar",
+      "uploadFailedDesc": "Por favor, intente nuevamente."
+    },
+    "mergeFee": {
+      "bannerText": "Cargue a continuación su comprobante de pago de la tarifa de combinación por lotes de 500 USDT. Seleccione el archivo con el botón de carga y envíelo para revisión.",
+      "bannerDismiss": "Descartar aviso",
+      "uploadingReminder": "Tarifa de combinación por lotes de 500 USDT no reembolsable",
+      "inlineReminder": "Esta es la tarifa de combinación por lotes de 500 USDT no reembolsable. Cargue su comprobante de pago y envíelo para revisión."
+    }
+  },
+  "letter": {
+    "pending": {
+      "title": "Carta de Retiro Aún No Emitida",
+      "description": "Su oficial de cumplimiento está finalizando su carta oficial de retiro. Aparecerá aquí tan pronto como se emita.",
+      "notification": "Recibirá una notificación en el portal y un correo electrónico en el momento en que su carta esté lista.",
+      "returnButton": "Volver al Tablero"
+    },
+    "header": {
+      "title": "Carta Oficial de Retiro",
+      "subtitle": "Instrucciones emitidas por cumplimiento para su retiro",
+      "history": "Historial ({{count}})",
+      "downloadPdf": "Descargar PDF"
+    },
+    "organization": {
+      "name": "Foro de Cumplimiento de la Comunidad Internacional de Blockchain",
+      "division": "División de Integridad de Cuenta",
+      "secretariat": "Oficina del Secretario de Cumplimiento"
+    },
+    "session": {
+      "verified": "Sesión Verificada",
+      "verifiedSubtitle": "Identidad confirmada para esta vista segura",
+      "accountStatus": "Estado de la Cuenta",
+      "standardMember": "Miembro Estándar"
+    },
+    "compliance": {
+      "referenceLabel": "Referencia de Cumplimiento",
+      "sessionVerifiedLabel": "Sesión Verificada",
+      "authenticated": "Autenticado"
+    },
+    "body": {
+      "dateLabel": "Fecha:",
+      "defaultClient": "Cliente Valorado",
+      "greeting": "Estimado/a {{name}},"
+    },
+    "payoutWallet": {
+      "title": "Billetera de Pago Verificada"
+    },
+    "reissue": {
+      "versionTitle": "Reemisión de Carta · Versión {{version}}",
+      "statusPaid": "Pagado",
+      "statusUnderReview": "En Revisión",
+      "statusPaymentRequired": "Pago Requerido",
+      "descriptionPaid": "Su tarifa de reemisión ha sido recibida. La carta actualizada ahora está activa.",
+      "descriptionUnderReview": "Su pago de reemisión está siendo verificado por cumplimiento. Se le notificará una vez que se aclare.",
+      "descriptionAwaitingDeposit": "Se requiere una tarifa de reemisión antes de que pueda enviar contra esta carta actualizada.",
+      "feeLabel": "Tarifa de Reemisión",
+      "reasonLabel": "Razón para la reemisión:",
+      "goToDeposit": "Ir a Depósito"
+    },
+    "options": {
+      "title": "Seleccione Su Opción de Retiro",
+      "optionLabel": "Opción {{letter}}",
+      "amount": "Monto",
+      "frequency": "Frecuencia",
+      "batches": "Lotes",
+      "phraseKeyCost": "Costo de Clave-Frase",
+      "totalRequirement": "Requisito Total"
+    },
+    "amount": {
+      "label": "Monto de Retiro",
+      "help": "Confirme o edite el monto que desea retirar bajo la Opción {{option}}.",
+      "placeholder": "p. ej. 25,000 USDT",
+      "hintValid": "Deje en blanco para usar el monto predeterminado del caso.",
+      "hintInvalid": "Ingrese un monto positivo válido (solo números y comas)."
+    },
+    "continue": {
+      "withOption": "Continuar con la Opción {{option}}",
+      "withOptionPlaceholder": "—",
+      "awaitingApproval": "Esperando Aprobación de Reemisión",
+      "payReissueFirst": "Pague la Tarifa de Reemisión Primero"
+    },
+    "success": {
+      "title": "Solicitud de Retiro Enviada",
+      "description": "Su selección ha sido registrada y enviada a cumplimiento para su procesamiento.",
+      "referenceNumber": "Número de Referencia",
+      "statusLabel": "Estado",
+      "statusBadge": "Enviado",
+      "submittedOn": "Enviado El",
+      "returnDashboard": "Volver al Tablero",
+      "viewHistory": "Ver Historial de Envíos"
+    },
+    "url": {
+      "sectionTitle": "Envíe Su Solicitud de Retiro",
+      "title": "Complete el Retiro a través del Formulario Seguro",
+      "description": "Haga clic a continuación para abrir el formulario de retiro seguro en una nueva pestaña. Su envío se registrará automáticamente en el historial de su portal.",
+      "account": "Cuenta",
+      "withdrawalAmount": "Monto de Retiro",
+      "reference": "Referencia",
+      "notAvailable": "N/A",
+      "submit": "Abrir Formulario de Retiro Seguro",
+      "opensInNewTab": "Se abre en una nueva pestaña. Mantenga este portal abierto para rastrear la confirmación."
+    },
+    "awaitingConfig": {
+      "title": "Esperando Configuración Final",
+      "description": "Su carta ha sido emitida, pero el cumplimiento aún está finalizando sus opciones de retiro. Podrá tomar acción aquí tan pronto como se complete la configuración.",
+      "returnDashboard": "Volver al Tablero"
+    },
+    "footer": {
+      "encryptionInfo": "Encriptado de extremo a extremo · Referencia {{ref}}",
+      "generated": "Generado {{timestamp}}"
+    },
+    "confirm": {
+      "title": "Confirme Su Envío",
+      "description": "Por favor, confirme los detalles a continuación antes de enviar, {{name}}.",
+      "selectedOption": "Opción seleccionada",
+      "amountLabel": "Monto",
+      "amountPlaceholder": "p. ej. 25,000 USDT",
+      "hintValid": "Deje en blanco para usar el monto predeterminado del caso.",
+      "hintInvalid": "Ingrese un monto positivo válido (solo números y comas).",
+      "cancel": "Cancelar",
+      "submitting": "Enviando…",
+      "submitSelection": "Confirmar y Enviar",
+      "submitOpenForm": "Confirmar y Abrir Formulario"
+    },
+    "fallback": {
+      "headline": "Autorización Oficial de Retiro",
+      "introduction": "Estimado Cliente Valorado, su solicitud de retiro ha sido revisada por nuestro equipo de cumplimiento y ahora está lista para su acción final.",
+      "bodyContent": "Por favor, revise las opciones de retiro disponibles a continuación y seleccione el plan que mejor se adapte a sus requisitos. Cada opción describe el cronograma, el costo de la clave-frase y el requisito total de cumplimiento.",
+      "footerNote": "Importante: Los envíos son finales una vez registrados. Asegúrese de que todos los detalles sean correctos antes de confirmar.",
+      "optionATitle": "Plan de Retiro Estándar",
+      "optionADescription": "Costo por lote más bajo con un cronograma de liberación más largo.",
+      "optionAFrequency": "Lotes semanales",
+      "optionBTitle": "Plan de Retiro Acelerado",
+      "optionBDescription": "Cronograma de liberación más rápido con un costo de clave-frase más alto.",
+      "optionBFrequency": "Lotes quincenales",
+      "phraseKey1": "Identificación válida emitida por el gobierno en archivo",
+      "phraseKey2": "Billetera de pago verificada designada por su oficial de caso",
+      "phraseKey3": "Revisión de cumplimiento y AML despejada",
+      "phraseKey4": "Depósito de clave-frase confirmado en el libro mayor",
+      "phraseKey5": "Reconocimiento final de los términos de retiro",
+      "complianceNotice": "Esta autorización se emite bajo los protocolos de cumplimiento de IBCCF y está sujeta a regulaciones internacionales de AML y KYC."
+    },
+    "toast": {
+      "reissueAwaitingTitle": "Reemisión en Revisión",
+      "reissueAwaitingDescription": "Su pago de reemisión está siendo verificado. Podrá enviar una vez que el cumplimiento lo aclare.",
+      "reissueRequiredTitle": "Tarifa de Reemisión Requerida",
+      "reissueRequiredDescription": "Por favor, pague la tarifa de reemisión de {{fee}} antes de enviar contra la carta actualizada.",
+      "submissionSuccessTitle": "Envío Registrado",
+      "submissionSuccessWithAmount": "Su solicitud de retiro por {{amount}} ha sido enviada con éxito.",
+      "submissionSuccessNoAmount": "Su solicitud de retiro ha sido enviada con éxito.",
+      "submissionFailedTitle": "Error en el Envío",
+      "submissionFailedDefault": "No se pudo enviar su solicitud. Por favor, inténtelo de nuevo.",
+      "connectionErrorTitle": "Error de Conexión",
+      "submissionRecordedTitle": "Envío Registrado",
+      "submissionRecordedWithAmount": "Su envío por {{amount}} ha sido registrado. Abriendo el formulario seguro…",
+      "submissionRecordedNoAmount": "Su envío ha sido registrado. Abriendo el formulario seguro…",
+      "submissionRecordFailedDefault": "No se pudo registrar su envío. Por favor, inténtelo de nuevo.",
+      "errorTitle": "Error",
+      "failedRecord": "No se pudo registrar su envío. Por favor, inténtelo de nuevo."
+    }
+  },
+  "withdrawalWindow": {
+    "title": "La ventana de retiro está abierta",
+    "description": "Su oficial de caso ha habilitado los retiros para este caso. Envíe los detalles de su retiro para revisión de cumplimiento. Esta plataforma es solo informativa — enviar el formulario no mueve fondos por sí mismo.",
+    "cta": "Solicitar retiro",
+    "pendingChip": "Revisión pendiente",
+    "requiredDeposit": "Depósito de token requerido: {{amount}}",
+    "toastDepositTitle": "Se requiere depósito de token",
+    "toastDepositDescription": "Se requiere un depósito de {{amount}} para procesar su retiro. Por favor, deposite en su billetera de tokens antes de enviar su solicitud.",
+    "transition": {
+      "label": "Actualización de la solicitud de retiro",
+      "approved": "Solicitud de retiro aprobada",
+      "rejected": "Solicitud de retiro rechazada",
+      "cancelled": "Solicitud de retiro cancelada",
+      "dismiss": "Descartar"
+    }
+  },
+  "withdrawalView": {
+    "title": "Solicitar retiro",
+    "subtitle": "Envíe los detalles de su retiro para revisión de cumplimiento. Esta plataforma es solo informativa — enviar este formulario no mueve fondos por sí mismo.",
+    "disabledTitle": "La ventana de retiro aún no está abierta",
+    "disabledBody": "Su oficial de caso aún no ha abierto la ventana de retiro para este caso. Se le notificará cuando pueda solicitarlo.",
+    "pendingTitle": "Solicitud de retiro en revisión",
+    "pendingBody": "Ya tiene una solicitud de retiro a la espera de revisión. Su oficial de caso responderá antes de que pueda enviar otra.",
+    "formTitle": "Solicitud de retiro",
+    "formDescription": "Su oficial de caso revisará la billetera de destino que envíe y le notificará el resultado.",
+    "finalStageBadge": "Etapa final",
+    "landingTitle": "Retiro",
+    "landingSubtitle": "La etapa final de su caso: conecte una billetera, importe su frase de conexión y, a continuación, envíe su solicitud de retiro para revisión.",
+    "stepLabel": "Paso {{n}}",
+    "applicationHeading": "Solicitud de retiro",
+    "displayOnlyNote": "Por su seguridad, IBCCF nunca retiene, dirige ni transfiere fondos. La liquidación la realiza el banco de liquidación regulado a la billetera verificada en su expediente.",
+    "status": {
+      "done": "Hecho",
+      "active": "Su turno",
+      "pending": "En revisión",
+      "locked": "Bloqueado"
+    },
+    "steps": {
+      "connect": {
+        "title": "Conecte su billetera receptora",
+        "body": "Elija la billetera de autocustodia con la que desea recibir sus fondos.",
+        "cta": "Abrir Conexión de billetera",
+        "ctaDone": "Revisar billetera"
+      },
+      "phrase": {
+        "title": "Revele e importe su frase de conexión",
+        "body": "Revele la frase de conexión generada para su caso e impórtela en su aplicación de billetera, con una guía paso a paso.",
+        "cta": "Abrir guía de la frase"
+      },
+      "apply": {
+        "title": "Envíe su solicitud de retiro",
+        "body": "Confirme la billetera de destino y el importe. Su gestor del caso revisa la solicitud y le notifica el resultado.",
+        "cta": "Ir a la solicitud"
+      }
+    },
+    "batchHistory": {
+      "proofSubmitted": "Prueba enviada"
+    }
+  },
+  "withdrawalRequest": {
+    "dialog": {
+      "title": "Solicitar retiro",
+      "description": "Envíe los detalles de su retiro para revisión de cumplimiento. Esta plataforma es solo informativa — este formulario no mueve fondos. Su oficial de caso revisará la billetera de destino solicitada y le notificará el resultado."
+    },
+    "sections": {
+      "details": "1. Detalles del retiro",
+      "wallet": "2. Billetera de destino solicitada",
+      "preferences": "3. Preferencias",
+      "security": "4. Seguridad y términos"
+    },
+    "walletHint": "Esta es la billetera a la que desea que se envíen los fondos. Es independiente de cualquier billetera de pago verificada que su oficial de caso ya tenga registrada — el cumplimiento verificará la dirección que envíe aquí.",
+    "termsCheckbox": "Confirmo que la dirección de billetera de destino anterior es mía y entiendo que esta plataforma es solo informativa — enviar esta solicitud pide al cumplimiento que revise mi retiro, no mueve fondos por sí mismo.",
+    "buttons": {
+      "cancel": "Cancelar",
+      "submit": "Enviar solicitud de retiro",
+      "submitting": "Enviando…"
+    },
+    "fields": {
+      "amount": "Monto",
+      "amountPlaceholder": "p. ej., 1000",
+      "type": "Tipo",
+      "typeFull": "Saldo total",
+      "typePartial": "Parcial",
+      "asset": "Activo",
+      "network": "Red",
+      "walletAddress": "Dirección de billetera",
+      "walletAddressPlaceholder": "Pegue la dirección de destino",
+      "walletAssetOptional": "Activo (opcional)",
+      "walletNetworkOptional": "Red (opcional)",
+      "walletMatchAbove": "Deje en blanco para coincidir con lo anterior",
+      "channel": "Canal de confirmación",
+      "channelEmail": "Correo electrónico",
+      "channelSms": "SMS",
+      "channelBoth": "Ambos",
+      "note": "Nota para cumplimiento (opcional)",
+      "notePlaceholder": "Cualquier cosa que su oficial de caso deba saber",
+      "payoutDate": "Fecha de pago preferida (opcional, mañana o después)",
+      "pin": "Reingrese su PIN de caso de 6 dígitos",
+      "twoFa": "Código 2FA / de verificación (opcional, 6 dígitos)",
+      "twoFaPlaceholder": "Si su oficial lo emitió"
+    },
+    "errors": {
+      "missingTitle": "Faltan datos",
+      "missingDescription": "Complete el monto, activo, red y dirección de billetera de destino.",
+      "pinTitle": "PIN requerido",
+      "pinDescription": "Ingrese su PIN de caso de 6 dígitos para confirmar esta solicitud.",
+      "twoFaTitle": "Código 2FA inválido",
+      "twoFaDescription": "Los códigos de verificación deben tener exactamente 6 dígitos.",
+      "dateTitle": "Fecha demasiado próxima",
+      "dateDescription": "La fecha de pago preferida debe ser mañana o posterior.",
+      "termsTitle": "Términos requeridos",
+      "termsDescription": "Acepte los términos de retiro antes de enviar.",
+      "networkTitle": "Error de red",
+      "networkDescription": "No se pudo enviar la solicitud de retiro. Inténtelo de nuevo.",
+      "submitFailedTitle": "No se pudo enviar la solicitud de retiro",
+      "submitFailedDefault": "Inténtelo de nuevo o contacte a su oficial de caso."
+    },
+    "success": {
+      "title": "Solicitud de retiro enviada",
+      "description": "Su oficial de caso revisará la billetera de destino y le contactará con el resultado."
+    },
+    "timeline": {
+      "submitted": "Solicitud de retiro enviada",
+      "approved": "Solicitud de retiro aprobada",
+      "rejected": "Solicitud de retiro rechazada",
+      "cancelled": "Solicitud de retiro cancelada",
+      "submittedDesc": "A la espera de revisión de cumplimiento.",
+      "approvedDesc": "El cumplimiento ha aprobado su solicitud.",
+      "rejectedDesc": "El cumplimiento ha rechazado su solicitud.",
+      "cancelledDesc": "Esta solicitud fue cancelada."
+    },
+    "history": {
+      "title": "Solicitudes de retiro",
+      "subtitle": "Solo visualización — esta plataforma no transfiere fondos. Su oficial de caso revisa cada solicitud.",
+      "destinationWallet": "Billetera de destino",
+      "officerNote": "Nota del oficial de caso",
+      "yourNote": "Su nota",
+      "submittedOn": "Enviado",
+      "reviewedOn": "Revisado",
+      "status": {
+        "pending": "Pendiente de revisión",
+        "approved": "Aprobado",
+        "rejected": "Rechazado",
+        "cancelled": "Cancelado"
+      }
+    }
+  },
+  "nda": {
+    "translationDisclaimer": {
+      "title": "Aviso de traducción",
+      "body": "Esta traducción se proporciona por cortesía. La versión en inglés de este documento es el texto jurídicamente vinculante."
+    }
+  },
+  "stageBlocker": {
+    "userAction": "Acción requerida por usted",
+    "adminAction": "Esperando al equipo de cumplimiento",
+    "systemProcessing": "Procesamiento del sistema"
+  },
+  "stageCta": {
+    "1": {
+      "label": "Ver actualizaciones de cumplimiento",
+      "headline": "Depósito confirmado — su caso está activo"
+    },
+    "2": {
+      "label": "Abrir mensajes seguros",
+      "headline": "Cumplimiento está generando su clave de frase"
+    },
+    "3": {
+      "label": "Ver clave de frase",
+      "headline": "Su clave de frase está lista en mensajes seguros"
+    },
+    "4": {
+      "label": "Seleccionar opción de retiro",
+      "headline": "Elija la opción A o B en su carta de retiro"
+    },
+    "5": {
+      "label": "Revisar envíos",
+      "headline": "Cumplimiento está verificando su depósito inicial"
+    },
+    "6": {
+      "label": "Abrir mensajes seguros",
+      "headline": "Validación cruzada de la clave de frase en curso"
+    },
+    "7": {
+      "label": "Pagar depósito de fusión",
+      "headline": "Se requiere el depósito de fusión de la clave de frase para continuar"
+    },
+    "8": {
+      "label": "Revisar recibos",
+      "headline": "El Departamento Financiero está revisando su expediente"
+    },
+    "9": {
+      "label": "Ver progreso",
+      "headline": "El centro de autorización de minería está preparando su liquidación"
+    },
+    "10": {
+      "label": "Verificar saldo de la cartera",
+      "headline": "Se requiere el saldo de la cartera de actividad para la verificación"
+    },
+    "11": {
+      "label": "Firmar declaración",
+      "headline": "Firme la Declaración de Cumplimiento para avanzar"
+    },
+    "12": {
+      "label": "Abrir mensajes seguros",
+      "headline": "Ventana final de procesamiento — liquidación en cola"
+    },
+    "13": {
+      "label": "Confirmar recibo",
+      "headline": "Fondos liberados — confirme el recibo para cerrar su caso"
+    },
+    "14": {
+      "label": "Abrir activación de retiro",
+      "headline": "Complete la activación de retiro para liberar los fondos"
+    }
+  },
+  "withdrawalActivation": {
+    "notYetTitle": "Aún no disponible",
+    "notYetDesc": "La activación de retiro se abre cuando su caso alcanza la etapa final.",
+    "backToDashboard": "Volver al panel",
+    "hero": {
+      "title": "Felicidades — su caso ha alcanzado la etapa final",
+      "body": "Todos los puntos de control de cumplimiento están claros. Complete los pasos de activación a continuación para vincular su cartera de retiro y desbloquear el procesamiento. Su oficial de caso confirmará la liberación una vez que se apruebe el depósito de activación."
+    },
+    "approved": {
+      "title": "Activación aprobada",
+      "body": "Su depósito de activación ha sido aprobado. El procesamiento del retiro está en curso — su oficial de caso se pondrá en contacto con respecto al desembolso final a la cartera vinculada."
+    },
+    "actionRequired": "Acción requerida",
+    "rejected": {
+      "title": "Su depósito de activación necesita atención",
+      "noteLabel": "Nota del revisor"
+    },
+    "step1": {
+      "title": "Paso 1 — Vincule su cartera de retiro",
+      "description": "Ingrese la dirección de la cartera que recibirá su desembolso final. Asegúrese de que la red coincida — los fondos enviados a una red incorrecta no se pueden recuperar.",
+      "walletAddress": "Dirección de la cartera",
+      "walletAddressPlaceholder": "p. ej. TXyz...dirección",
+      "asset": "Activo",
+      "network": "Red",
+      "amount": "Cantidad",
+      "amountPlaceholder": "p. ej. 25000",
+      "memo": "Memo / Etiqueta (opcional)",
+      "memoPlaceholder": "Solo requerido para redes que utilizan memos",
+      "saving": "Guardando…",
+      "submit": "Enviar dirección",
+      "otherOption": "Otro…",
+      "assetCustomPlaceholder": "Introduzca el símbolo del activo",
+      "networkCustomPlaceholder": "Introduzca el nombre de la red",
+      "sameWalletNoticeTitle": "Importante:",
+      "sameWalletNoticeBody": "Antes de enviar, asegúrese de haber vinculado exactamente esta misma dirección de cartera en su plataforma operativa. Las dos direcciones deben coincidir para que pueda recibir el desembolso."
+    },
+    "step2": {
+      "title": "Paso 2 — Confirme su código de seguridad por correo",
+      "description": "Le enviaremos un código de seguridad de 6 dígitos por correo electrónico a la dirección registrada. Ingréselo a continuación para confirmar la vinculación de la cartera. Los códigos expiran después de 10 minutos y pueden reenviarse cada 60 segundos.",
+      "sending": "Enviando…",
+      "resendIn": "Reenviar en {{seconds}}s",
+      "resend": "Reenviar código",
+      "send": "Enviar código de seguridad",
+      "attempts": "Intentos usados: {{used}}/{{max}}",
+      "codePlaceholder": "Código de 6 dígitos",
+      "verifying": "Verificando…",
+      "verify": "Verificar"
+    },
+    "step3": {
+      "title": "Paso 3 — Depósito de activación",
+      "minLabel": "Cantidad mínima de activación",
+      "sendTo": "Enviar a",
+      "addressFallback": "— Contacte a su oficial de caso —",
+      "intro": "Después de enviar el depósito de activación, cargue su recibo de transacción a continuación. Un oficial de cumplimiento verificará la transferencia en cadena y aprobará su retiro.",
+      "notesPlaceholder": "Notas opcionales (hash de tx, cartera emisora, etc.)",
+      "uploading": "Cargando…",
+      "upload": "Cargar recibo"
+    },
+    "badges": {
+      "approved": "Aprobado",
+      "awaitingReview": "En revisión",
+      "resubmit": "Reenviar",
+      "required": "Requerido",
+      "submitted": "Enviado",
+      "verified": "Verificado"
+    },
+    "toasts": {
+      "missingTitle": "Detalles faltantes",
+      "missingDesc": "Dirección, activo, red y cantidad son obligatorios.",
+      "addressFailedTitle": "No se pudo guardar la dirección",
+      "addressFailedDesc": "Verifique los detalles e intente nuevamente.",
+      "addressSavedTitle": "Dirección guardada",
+      "addressSavedDesc": "Continúe con el siguiente paso a continuación.",
+      "codeNotSentTitle": "Código no enviado",
+      "codeNotSentDesc": "Espere un momento antes de volver a intentarlo.",
+      "codeSentTitle": "Código de seguridad enviado",
+      "codeSentDesc": "Revise el correo electrónico registrado para el caso {{caseId}}.",
+      "invalidCodeTitle": "Código no válido",
+      "invalidCodeDesc": "El código debe tener 6 dígitos.",
+      "verifyFailedTitle": "Verificación fallida",
+      "verifyFailedDesc": "Inténtelo de nuevo.",
+      "verifiedTitle": "Código verificado",
+      "verifiedDesc": "Continúe con el depósito de activación a continuación.",
+      "fileRejectedTitle": "Archivo rechazado",
+      "fileEmpty": "El archivo está vacío.",
+      "fileTooLarge": "El tamaño máximo del archivo es 10MB.",
+      "unsupportedTitle": "Tipo de archivo no compatible",
+      "unsupportedDesc": "Cargue un archivo PDF, PNG, JPEG o WEBP.",
+      "receiptAttachedTitle": "Recibo adjunto pero no vinculado",
+      "receiptAttachedDesc": "Contacte a su oficial de caso para confirmar.",
+      "receiptSubmittedTitle": "Recibo enviado",
+      "receiptSubmittedDesc": "Un oficial de cumplimiento revisará y aprobará.",
+      "uploadFailedTitle": "Carga fallida",
+      "uploadFailedDesc": "Inténtelo de nuevo."
+    }
+  },
+  "certificate": {
+    "notEnabled": "El Certificado de Frase de Fusión no ha sido habilitado para este caso.",
+    "title": "Certificado de Frase de Fusión",
+    "subtitle": "Un certificado notariado de su frase de recuperación fusionada. El PDF limpio se libera una vez que el cargo de certificación es aprobado por cumplimiento.",
+    "badges": {
+      "unlocked": "Desbloqueado",
+      "awaiting": "En espera de revisión",
+      "resubmit": "Se requiere reenvío",
+      "feeRequired": "Cargo requerido"
+    },
+    "pdfSection": {
+      "label": "PDF del certificado",
+      "readyTitle": "Certificado limpio listo para descargar",
+      "previewTitle": "Vista previa con marca de agua (cargo requerido)",
+      "readyHint": "El PDF limpio a continuación es la copia oficial.",
+      "previewHint": "La vista previa muestra el cuerpo del documento para que pueda verificar los detalles antes de pagar el cargo de certificación.",
+      "downloadCertificate": "Descargar certificado",
+      "downloadPreview": "Descargar vista previa"
+    },
+    "fee": {
+      "label": "Cargo de certificación",
+      "loading": "Cargando cargo…",
+      "amount": "Monto del cargo",
+      "rate": "Tasa",
+      "rateOf": "del retiro de {{base}} USDT",
+      "payTo": "Pagar a",
+      "payToFallback": "Contacte a su gestor de caso",
+      "reviewerNotes": "Notas del revisor",
+      "pending": "Su recibo está siendo revisado por cumplimiento. Será notificado por correo electrónico cuando se desbloquee el certificado.",
+      "notesPlaceholder": "Nota opcional para el revisor (hash de TX, comentarios)…",
+      "uploadCorrected": "Cargar recibo corregido",
+      "uploadReceipt": "Cargar recibo de pago"
+    },
+    "history": {
+      "title": "Historial de pagos",
+      "statusApproved": "aprobado",
+      "statusRejected": "rechazado",
+      "statusPending": "pendiente",
+      "receiptLabel": "recibo"
+    },
+    "toasts": {
+      "tooLargeTitle": "Archivo demasiado grande",
+      "tooLargeDesc": "El recibo debe pesar entre 1 B y 10 MB.",
+      "unsupportedTitle": "Tipo de archivo no compatible",
+      "unsupportedDesc": "Solo PDF o PNG/JPEG/WebP.",
+      "uploadedTitle": "Recibo cargado",
+      "uploadedDesc": "Su recibo del cargo de certificación está en espera de revisión por cumplimiento.",
+      "uploadFailedTitle": "Carga fallida",
+      "uploadFailedDesc": "No se pudo cargar.",
+      "downloadFailedTitle": "Descarga fallida",
+      "downloadFailedDesc": "Inténtelo de nuevo."
+    }
+  },
+  "sealed": {
+    "loadFailedTitle": "No se pudo cargar el acuse de recibo",
+    "downloadFailedTitle": "Descarga fallida",
+    "unknownError": "Error desconocido",
+    "skippedTitle": "No se requiere firma para este caso",
+    "skippedBody": "IBCCF ha indicado que el Acuerdo Sellado y NDA no son necesarios para su caso. Su gestor de caso de IBCCF le guiará en los pasos restantes. Si cree que debería estar firmando un documento de acuerdo, contacte directamente a su gestor de caso.",
+    "notYetTitle": "Aún no disponible",
+    "notYetBody": "El Acuerdo Sellado y NDA estarán disponibles solo después de que su caso alcance la etapa de liquidación final. Le notificaremos en el momento en que se abra.",
+    "sealedTitle": "Su acuerdo está sellado",
+    "signedBy": "Firmado por <strong>{{name}}</strong> el {{date}}. Este caso ahora está permanentemente cerrado; no se pueden realizar más cambios.",
+    "integrityHash": "Hash de integridad SHA-256",
+    "templateMeta": "{{subtitle}} · Plantilla {{version}}",
+    "partiesHeading": "Partes y particulares",
+    "signToSeal": "Firme para sellar su caso",
+    "documentLanguage": "Idioma del documento",
+    "documentLanguageNote": "Afecta solo a este documento. El idioma de su portal no cambia.",
+    "typedNamePlaceholder": "Nombre legal completo",
+    "typedNameHint": "Escribir su nombre a continuación tiene el mismo efecto que una firma manuscrita para este acuse de recibo.",
+    "agreeBody": "He leído, comprendido y acepto cada disposición de este Acuerdo Sellado y Acuse de Confidencialidad. Entiendo que mi caso quedará permanentemente sellado.",
+    "sealing": "Sellando…",
+    "signAndSeal": "Firmar y sellar",
+    "previewPdf": "Vista previa del PDF",
+    "downloadSigned": "Descargar PDF firmado",
+    "toasts": {
+      "completeTitle": "Complete la firma",
+      "completeDesc": "Escriba su nombre legal completo y marque la casilla de acuse de recibo.",
+      "alreadyTitle": "Acuse de recibo ya registrado",
+      "alreadyDesc": "Se cargó su copia firmada existente.",
+      "sealedTitle": "Acuerdo sellado",
+      "sealedDesc": "Se le envió por correo electrónico un PDF firmado.",
+      "failedTitle": "No se pudo registrar la firma"
+    },
+    "stampDutyGateTitle": "Se requiere el depósito del impuesto de timbre",
+    "stampDutyGateBody": "Antes de que pueda firmarse el Acuerdo Sellado y NDA, por favor cargue un comprobante del depósito del impuesto de timbre y espere la aprobación de cumplimiento."
+  },
+  "walletConnect": {
+    "badge": "Conexión de billetera",
+    "title": "Conecte una billetera personal para su retiro",
+    "subtitle": "Su solicitud de retiro ha sido enviada. Elija una billetera de autocustodia con la que desee recibir los fondos y, a continuación, importe la frase de conexión generada para su caso.",
+    "yourWallet": "su billetera",
+    "unavailable": {
+      "title": "Conexión de billetera no disponible",
+      "description": "El paso de Conexión de billetera aún no se ha abierto para su caso. Vuelva a su tablero y continúe con el paso activo.",
+      "back": "Volver al tablero"
+    },
+    "step1": {
+      "title": "Paso 1 — Seleccione su billetera",
+      "description": "Elija la billetera que desea utilizar o introduzca el nombre de una billetera personalizada en la que ya confíe. A continuación importará la frase de conexión.",
+      "customTitle": "Billetera personalizada",
+      "customDescription": "¿Ya usa MetaMask, Ledger Live, Exodus u otra? Introduzca su nombre.",
+      "customLabel": "Nombre de la billetera",
+      "customPlaceholder": "p. ej. MetaMask, Ledger Live, Exodus",
+      "saving": "Guardando…",
+      "continue": "Continuar",
+      "pickWalletTitle": "Elija una billetera",
+      "pickWalletDesc": "Seleccione una de las billeteras sugeridas o escriba un nombre personalizado.",
+      "savedTitle": "Billetera seleccionada",
+      "savedDesc": "Continuando con {{name}}.",
+      "saveErrorTitle": "No se pudo guardar",
+      "saveErrorDesc": "No se pudo guardar la selección de la billetera (HTTP {{status}}).",
+      "networkErrorTitle": "Error de red",
+      "networkErrorDesc": "Vuelva a intentarlo."
+    },
+    "step2": {
+      "title": "Paso 2 — Su frase de conexión de billetera",
+      "description": "Hemos generado una frase de recuperación vinculada a su caso. Cópiela con cuidado: la importará en <0>{{wallet}}</0> en el siguiente paso.",
+      "securityReminderLabel": "Recordatorio de seguridad:",
+      "securityReminderBody": "nunca comparta estas palabras con nadie, nunca las escriba en sitios web que no sean su aplicación de billetera y nunca las guarde en notas sincronizadas en la nube ni en capturas de pantalla.",
+      "hiddenBody": "Su frase de conexión permanece oculta hasta que esté listo. Asegúrese de que nadie más pueda ver su pantalla y, a continuación, revélela.",
+      "reveal": "Revelar mi frase",
+      "generating": "Generando su frase segura…",
+      "loading": "Generando su frase de conexión…",
+      "errorNotReady": "Su frase de conexión de billetera aún no está lista. Vuelva a comprobarlo en breve o póngase en contacto con su gestor del caso.",
+      "errorHttp": "No se pudo cargar su frase (HTTP {{status}}).",
+      "errorNotReadyShort": "Su frase de conexión de billetera aún no está lista.",
+      "errorNetwork": "Error de red — vuelva a intentarlo.",
+      "retry": "Reintentar",
+      "hide": "Ocultar",
+      "show": "Mostrar",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "copyFailedTitle": "Error al copiar",
+      "copyFailedDesc": "Mantenga pulsado o seleccione la frase manualmente.",
+      "next": "Siguiente: guía de importación",
+      "changeWallet": "← Cambiar billetera",
+      "explainerTitle": "¿Qué es una frase de conexión?",
+      "explainerBody": "Es una lista de palabras (normalmente 12) que actúa como la llave maestra de una billetera de autocustodia. Escribir las mismas palabras en una aplicación de billetera recrea exactamente la misma billetera en su dispositivo, de modo que solo usted la controla. Mantenga las palabras en orden: el orden importa.",
+      "saveTitle": "Antes de continuar: guárdela de forma segura",
+      "saveTips": [
+        "Escriba las palabras en papel, en orden, y guárdelas en un lugar al que solo usted pueda acceder.",
+        "Compruebe cada palabra con la cuadrícula de arriba: una sola palabra incorrecta lleva a una billetera diferente.",
+        "No haga capturas de pantalla ni la guarde en notas en la nube, fotos, correo electrónico o aplicaciones de chat."
+      ]
+    },
+    "step3": {
+      "title": "Paso 3 — Importar la frase en {{wallet}}",
+      "description": "Instale la aplicación y siga los pasos a continuación. La frase que reveló en el paso 2 es la que introducirá en la pantalla \"Importar frase de recuperación\" de la billetera.",
+      "download": "Descargar {{wallet}}",
+      "appStore": "App Store",
+      "playStore": "Google Play",
+      "recommended": "Para su dispositivo",
+      "officialLink": "Enlace oficial",
+      "customNotice": "Está usando una billetera personalizada (<0>{{name}}</0>). La redacción exacta varía según la aplicación, pero el flujo general es el mismo:",
+      "completion": "Una vez que su billetera esté configurada, vuelva a su tablero. Se notificará a su gestor del caso que el paso de conexión de billetera está completo.",
+      "back": "← Volver a la frase",
+      "finish": "Volver al tablero",
+      "intro": "Instale la aplicación de billetera en su teléfono y, a continuación, siga los pasos numerados para importar la frase que guardó. Tómese su tiempo: no hay prisa y puede volver a esta página en cualquier momento.",
+      "timeEstimate": "Toma unos 3–5 minutos",
+      "dosTitle": "Qué hacer",
+      "dos": [
+        "Descargue aplicaciones de billetera solo desde la App Store oficial o Google Play.",
+        "Escriba las palabras de la frase despacio, en el orden exacto que se muestra.",
+        "Mantenga su copia de seguridad en papel sin conexión y en privado."
+      ],
+      "dontsTitle": "Qué no hacer",
+      "donts": [
+        "Nunca comparta la frase con nadie, ni siquiera con el personal de soporte.",
+        "Nunca la introduzca en un sitio web ni la envíe por correo electrónico o chat.",
+        "Nunca la guarde como captura de pantalla ni en almacenamiento en la nube."
+      ],
+      "faqTitle": "Solución de problemas",
+      "faq": [
+        {
+          "q": "La billetera dice que la frase no es válida.",
+          "a": "Compruebe la ortografía de cada palabra y asegúrese de que estén en el mismo orden que la cuadrícula. La mayoría de las billeteras aceptan 12 palabras separadas por espacios simples."
+        },
+        {
+          "q": "Mi saldo muestra cero después de importar.",
+          "a": "Confirme que seleccionó la red o el activo correctos en la billetera. Los saldos también pueden tardar un minuto en sincronizarse: deslice para actualizar."
+        },
+        {
+          "q": "Cerré la página antes de guardar la frase.",
+          "a": "Vuelva a abrir Conexión de billetera y revélela de nuevo en el paso 2. Permanece disponible para su caso."
+        }
+      ]
+    },
+    "wallets": {
+      "cryptocom": {
+        "tagline": "Billetera de autocustodia de Crypto.com",
+        "importSteps": [
+          "Instale la aplicación Crypto.com DeFi Wallet desde App Store o Google Play.",
+          "Abra la aplicación y toque \"Importar billetera\" en la pantalla de bienvenida.",
+          "Elija \"Frase de recuperación\" e introduzca las 12 palabras mostradas arriba en orden.",
+          "Establezca una contraseña fuerte para la billetera cuando se le solicite y complete la configuración biométrica.",
+          "Vuelva a esta página y continúe con su retiro una vez que la billetera aparezca como conectada."
+        ]
+      },
+      "trust": {
+        "tagline": "La billetera de autocustodia multicadena de mayor confianza",
+        "importSteps": [
+          "Instale Trust Wallet desde App Store, Google Play o como extensión del navegador.",
+          "En la pantalla de bienvenida toque \"Ya tengo una billetera\".",
+          "Seleccione \"Billetera multimoneda\" y pegue las 12 palabras de la frase de recuperación mostradas arriba.",
+          "Toque Importar — Trust Wallet escaneará automáticamente todas las cadenas compatibles.",
+          "Una vez que Trust Wallet muestre la cuenta importada, vuelva aquí y continúe."
+        ]
+      },
+      "safepal": {
+        "tagline": "Billetera de autocustodia con seguridad de hardware",
+        "importSteps": [
+          "Instale la aplicación SafePal desde App Store o Google Play (o descargue la extensión).",
+          "Toque \"Billetera de software\" → \"Ya tengo una frase mnemotécnica\".",
+          "Seleccione el formato de 12 palabras e introduzca las palabras mostradas arriba en orden.",
+          "Establezca un nombre y una contraseña para la billetera; SafePal derivará todas las cuentas compatibles.",
+          "Una vez que la billetera termine de sincronizarse, vuelva aquí y continúe con su retiro."
+        ]
+      }
+    },
+    "genericSteps": [
+      "Abra la aplicación de billetera elegida y busque \"Importar billetera\" o \"Frase de recuperación\".",
+      "Seleccione la opción de frase de 12 palabras e introduzca las palabras mostradas arriba en el orden exacto.",
+      "Establezca una contraseña para la billetera y complete cualquier solicitud de seguridad del dispositivo.",
+      "Espere a que la billetera termine de sincronizar su cuenta.",
+      "Vuelva a esta página y continúe con el retiro una vez que la billetera esté configurada."
+    ],
+    "withdrawalDone": {
+      "kicker": "Paso completado",
+      "title": "Conexión de billetera — Verificada",
+      "body": "Este paso ha sido completado como parte de su proceso de retiro. No se requiere ninguna acción adicional aquí."
+    }
+  },
+  "stampDuty": {
+    "toasts": {
+      "invalidTypeTitle": "Tipo de archivo no compatible",
+      "invalidTypeDesc": "Por favor, cargue un archivo PDF o una imagen PNG/JPEG/WebP.",
+      "tooLargeTitle": "Archivo demasiado grande",
+      "tooLargeDesc": "El tamaño máximo es de 10 MB.",
+      "uploadedTitle": "Comprobante cargado",
+      "uploadedDesc": "El equipo de cumplimiento revisará su pago del impuesto de timbre en breve.",
+      "failedTitle": "Error al cargar"
+    },
+    "unavailable": "La información del impuesto de timbre no está disponible temporalmente. Por favor, actualice la página.",
+    "disabled": "No se requiere impuesto de timbre para este caso.",
+    "title": "Depósito de impuesto de timbre",
+    "subtitle": "Requerido antes de que pueda firmarse el Acuerdo Sellado y NDA.",
+    "amountLabel": "Monto a pagar",
+    "defaultNote": "Impuesto de timbre estándar para acuerdos sellados.",
+    "payToLabel": "Envíe su pago a",
+    "payToChooseAsset": "Elija cualquiera de las billeteras a continuación — pague en el activo que le resulte más conveniente.",
+    "addressLabel": "Dirección de billetera",
+    "memoLabel": "Memo / Etiqueta",
+    "payToHint": "Después de enviar el depósito, cargue un comprobante (captura de pantalla o PDF) que muestre el hash de la transacción para que el equipo de cumplimiento pueda verificar el pago.",
+    "payToMissing": "Los métodos de pago aún no han sido configurados — por favor contacte al equipo de cumplimiento para obtener la billetera de depósito antes de cargar un comprobante.",
+    "approvedTitle": "Impuesto de timbre aprobado",
+    "approvedBody": "El equipo de cumplimiento ha aprobado su pago. Ahora puede firmar el Acuerdo Sellado y NDA.",
+    "pendingTitle": "Esperando revisión de cumplimiento",
+    "pendingBody": "Su comprobante ha sido recibido. Le enviaremos un correo electrónico en cuanto se apruebe el depósito.",
+    "rejectedTitle": "Comprobante rechazado",
+    "rejectedReason": "Motivo: {{reason}}",
+    "rejectedBody": "Por favor, cargue un comprobante corregido.",
+    "fileLabel": "Comprobante de pago (PDF o imagen, máx. 10 MB)",
+    "notesLabel": "Notas (opcional)",
+    "notesPlaceholder": "Hash de transacción, billetera o cualquier contexto para el revisor.",
+    "uploading": "Cargando…",
+    "uploadCta": "Enviar comprobante",
+    "historyTitle": "Historial de envíos"
+  },
+  "refundClaim": {
+    "pageTitle": "Solicitud de Reembolso",
+    "pageSubtitle": "Documente su saldo de activación reembolsable para el procesamiento de desembolso",
+    "refundableBalance": "1.000 USDT",
+    "refundableBalanceLabel": "Saldo de activación reembolsable",
+    "statusPendingSubmission": "Esperando su envío",
+    "statusSubmitted": "Enviado — en revisión",
+    "statusApproved": "Aprobado",
+    "statusRejected": "No aprobado",
+    "recommendationsTitle": "Recomendaciones Documentales",
+    "recommendationsHint": "Su oficial de cumplimiento ha proporcionado la siguiente orientación para su envío:",
+    "entriesTitle": "Entradas de Depósito Detalladas",
+    "entriesHint": "Añada una fila por cada cargo reembolsable. Proporcione el máximo detalle posible para agilizar la revisión.",
+    "addEntry": "Añadir Entrada",
+    "removeEntry": "Eliminar",
+    "amountLabel": "Importe (USDT)",
+    "amountPlaceholder": "p. ej. 1000",
+    "chargedForLabel": "Cobrado por",
+    "chargedForPlaceholder": "p. ej. Tarifa de activación, Tarifa de procesamiento…",
+    "dateLabel": "Fecha del cargo",
+    "txIdLabel": "ID de Transacción / Referencia",
+    "txIdPlaceholder": "Hash TX de blockchain o referencia bancaria (opcional)",
+    "networkLabel": "Red / Cadena",
+    "networkPlaceholder": "p. ej. TRC-20, BEP-20 (opcional)",
+    "entryNotesLabel": "Notas",
+    "entryNotesPlaceholder": "Contexto adicional para esta entrada (opcional)",
+    "receiptLabel": "Recibo",
+    "attachReceipt": "Adjuntar recibo",
+    "receiptAttached": "Recibo adjunto",
+    "globalDocsTitle": "Documentos de Apoyo Adicionales",
+    "globalDocsHint": "Suba cualquier evidencia adicional no vinculada a una entrada específica (extractos bancarios, capturas de pantalla, etc.)",
+    "submitCta": "Enviar Solicitud de Reembolso",
+    "submitting": "Enviando…",
+    "submittedBannerTitle": "Solicitud enviada correctamente",
+    "submittedBannerBody": "Su solicitud de reembolso está en revisión. Recibirá un correo electrónico cuando se tome una decisión.",
+    "approvedBannerTitle": "Solicitud de reembolso aprobada",
+    "approvedBannerBody": "Su solicitud de reembolso ha sido aprobada. Descargue su certificado oficial a continuación.",
+    "rejectedBannerTitle": "Solicitud de reembolso no aprobada",
+    "rejectedBannerBody": "Por favor, revise las notas del oficial a continuación. Contacte a su oficial de cumplimiento si tiene preguntas.",
+    "adminNotesLabel": "Notas del oficial revisor",
+    "downloadCertificate": "Descargar Certificado de Reembolso",
+    "downloadingCertificate": "Generando certificado…",
+    "certSubtitle": "Certificado oficial de solicitud de reembolso aprobada",
+    "emptyEntriesError": "Por favor, añada al menos una entrada de depósito antes de enviar.",
+    "entryAmountRequired": "El importe es obligatorio",
+    "entryChargedForRequired": "La descripción es obligatoria",
+    "entryDateRequired": "La fecha es obligatoria",
+    "submittedReadonlyNotice": "Su solicitud ha sido enviada y está bloqueada para revisión. No se pueden realizar más cambios.",
+    "approvedReadonlyNotice": "Esta solicitud ha sido aprobada. Su certificado está disponible para descargar a continuación.",
+    "rejectedReadonlyNotice": "Esta solicitud no fue aprobada. Revise las notas del oficial arriba para los próximos pasos."
+  },
+  "closureWarning": {
+    "heading": "Cerrando sesión del portal",
+    "fallbackMessage": "Su sesión del portal ha sido programada automáticamente para su cierre por el sistema de cumplimiento de IBCCF.",
+    "timeRemainingLabel": "Tiempo restante",
+    "autoLogoutNote": "Se cerrará su sesión automáticamente cuando el temporizador llegue a cero",
+    "logOutNow": "Cerrar sesión ahora",
+    "dismiss": "Descartar",
+    "dismissNote": "Descartar oculta este aviso pero no cancela el cierre.",
+    "ariaLabel": "Aviso de cierre del portal"
+  },
+  "reactivationDeposit": {
+    "title": "Cuenta Suspendida",
+    "subtitle": "Reactivación Requerida",
+    "backToLogin": "← Volver al inicio de sesión",
+    "loadError": {
+      "title": "No se pueden cargar los detalles de reactivación",
+      "body": "No pudimos recuperar la información de depósito de su cuenta. Por favor, inténtelo de nuevo o contacte con el soporte."
+    },
+    "notice": {
+      "title": "Su cuenta ha sido suspendida",
+      "body": "El acceso a su portal fue suspendido tras el período de cierre programado. Para restaurar el acceso completo, envíe el depósito de reactivación a la dirección indicada a continuación y suba su comprobante de pago. Nuestro equipo de cumplimiento lo revisará y restaurará su acceso a la brevedad.",
+      "bodyWarningExpired": "El acceso a su portal fue suspendido tras el período de cierre programado. Para restaurar el acceso completo, envíe el depósito de reactivación a la dirección indicada a continuación y suba su comprobante de pago. Nuestro equipo de cumplimiento lo revisará y restaurará su acceso a la brevedad.",
+      "bodyAdminDisabled": "Su cuenta ha sido suspendida por nuestro equipo de cumplimiento. Para restaurar el acceso completo, envíe el depósito de reactivación a la dirección indicada a continuación y suba su comprobante de pago. Nuestro equipo de cumplimiento lo revisará y restaurará su acceso a la brevedad."
+    },
+    "deposit": {
+      "title": "Detalles del Depósito de Reactivación",
+      "amountLabel": "Importe a Pagar",
+      "addressLabel": "Dirección de Depósito",
+      "hint": "Envíe únicamente a la dirección exacta indicada arriba. Verifique el activo y la red antes de enviar.",
+      "noAddress": "Aún no se ha asignado una dirección de depósito. Comuníquese con el soporte para recibir sus instrucciones de reactivación."
+    },
+    "upload": {
+      "title": "Subir Comprobante de Pago",
+      "body": "Después de enviar el depósito, suba una captura de pantalla o PDF de su comprobante de transacción. Nuestro equipo lo revisará y restaurará su acceso.",
+      "cta": "Seleccionar archivo de comprobante",
+      "hint": "PNG, JPEG, WebP o PDF · Máx. 10 MB",
+      "change": "Cambiar",
+      "submit": "Enviar Comprobante",
+      "submitting": "Enviando…",
+      "tooLargeTitle": "Archivo demasiado grande",
+      "tooLargeDesc": "El tamaño máximo de archivo es 10 MB.",
+      "badFormatTitle": "Formato no compatible",
+      "badFormatDesc": "Por favor, suba PNG, JPEG, WebP o PDF.",
+      "failedTitle": "Error al enviar",
+      "failedDesc": "No se pudo enviar su comprobante. Por favor, inténtelo de nuevo.",
+      "networkTitle": "Error de red",
+      "networkDesc": "No se pudo conectar con el servidor. Por favor, inténtelo de nuevo."
+    },
+    "confirmation": {
+      "title": "Comprobante enviado correctamente",
+      "body": "Gracias. Su comprobante de pago está siendo revisado por nuestro equipo de cumplimiento. Recibirá una notificación por correo electrónico una vez que se haya restaurado su acceso."
+    }
+  }
+}

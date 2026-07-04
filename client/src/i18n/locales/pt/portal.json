@@ -1,0 +1,1841 @@
+{
+  "navGroups": {
+    "overview": "Visão Geral",
+    "withdrawal": "Retirada",
+    "compliance": "Conformidade",
+    "communication": "Comunicação",
+    "account": "Conta"
+  },
+  "navItems": {
+    "dashboard": "Painel",
+    "timeline": "Linha do Tempo de Atividades",
+    "letter": "Carta de Retirada",
+    "deposit": "Depósito e Recibos",
+    "submissions": "Submissões",
+    "declaration": "Declaração de Conformidade",
+    "documents": "Documentos",
+    "keyRequest": "Solicitação de Chave de Frase",
+    "messages": "Mensagens",
+    "settings": "Configurações",
+    "more": "Mais",
+    "sealed": "Acordo selado e NDA",
+    "sealedDone": "Acordo selado",
+    "withdrawalActivation": "Ativação de saque",
+    "withdrawalActivationDone": "Ativação aprovada",
+    "certificate": "Certificado",
+    "accountHistory": "Histórico da conta",
+    "walletConnect": "Conexão de carteira",
+    "withdrawal": "Solicitar saque",
+    "withdrawalHub": "Saque",
+    "uploads": "Envios",
+    "withdrawalGuide": "Guia de Saque",
+    "refundClaim": "Pedido de Reembolso"
+  },
+  "accountHistory": {
+    "title": "Histórico da conta",
+    "subtitle": "Créditos e débitos registados no seu caso",
+    "recordsTitle": "Lançamentos contábeis",
+    "entrySingular": "{{count}} lançamento",
+    "entryPlural": "{{count}} lançamentos",
+    "displayOnly": "Apenas visualização",
+    "loading": "A carregar o histórico da sua conta…",
+    "loadError": "Não foi possível carregar o histórico da sua conta. Tente novamente mais tarde.",
+    "empty": "Ainda não foram registados lançamentos no seu caso.",
+    "credit": "Crédito",
+    "debit": "Débito",
+    "disclaimer": "O IBCCF é apenas para visualização. Estes lançamentos refletem o registo contabilístico do seu oficial responsável e não movimentam fundos."
+  },
+  "header": {
+    "caseLabel": "Caso",
+    "signOut": "Sair"
+  },
+  "common": {
+    "noActiveCase": "Nenhum caso ativo",
+    "loadingCase": "Carregando seu caso…"
+  },
+  "messages": {
+    "title": "Mensagens Seguras",
+    "subtitle": "Comunicações criptografadas da IBCCF",
+    "unreadBadge": "{{count}} Não Lidas",
+    "encryption": {
+      "title": "Comunicações Criptografadas de Ponta a Ponta",
+      "subtitle": "Protocolo de criptografia AES-256"
+    },
+    "stats": {
+      "actionRequired": "Ação Necessária",
+      "processing": "Processando",
+      "completed": "Concluído"
+    },
+    "sections": {
+      "urgent": "Ação Urgente Necessária",
+      "processing": "Atualizações em Processamento",
+      "completed": "Notificações Concluídas"
+    },
+    "empty": {
+      "title": "Portal de Mensagens Seguras Vazio",
+      "subtitle": "Nenhuma mensagem criptografada no momento.",
+      "hint": "As mensagens aparecerão aqui quando a IBCCF enviar atualizações sobre seu caso."
+    },
+    "dialog": {
+      "encryptedLabel": "Mensagem Criptografada",
+      "close": "Fechar"
+    }
+  },
+  "documents": {
+    "header": {
+      "title": "Centro de Documentos Regulatórios",
+      "subtitle": "Envie, acompanhe e baixe documentos regulatórios solicitados pela conformidade.",
+      "awaiting": "{{count}} aguardando sua ação",
+      "refresh": "Atualizar",
+      "refreshing": "Atualizando…"
+    },
+    "refreshError": {
+      "title": "Falha ao atualizar",
+      "description": "Não foi possível recarregar seus documentos. Por favor, tente novamente."
+    },
+    "complianceNote": "Os documentos são armazenados criptografados e revisados apenas por oficiais de conformidade da IBCCF. Envie prontamente para manter seu caso em andamento — seu oficial designado é notificado automaticamente no momento em que você faz o upload.",
+    "empty": {
+      "title": "Nenhum documento solicitado",
+      "subtitle": "Você está em dia. Se a conformidade precisar de mais alguma coisa, aparecerá aqui e você receberá um e-mail."
+    },
+    "categories": {
+      "proofOfIncome": {
+        "label": "Comprovante de Renda",
+        "description": "Holerites recentes, carta do empregador ou declaração de imposto mostrando sua renda."
+      },
+      "sourceOfFunds": {
+        "label": "Fonte de Fundos",
+        "description": "Extrato bancário ou registro de carteira evidenciando a origem dos fundos."
+      },
+      "kyc": {
+        "label": "Verificação de Identidade KYC",
+        "description": "Documento de identidade com foto emitido pelo governo — passaporte, carteira de motorista ou cartão de identidade nacional."
+      },
+      "fatca": {
+        "label": "FATCA / CRS Auto-Certificação",
+        "description": "Formulário FATCA/CRS assinado declarando sua residência fiscal."
+      },
+      "taxResidency": {
+        "label": "Declaração de Residência Fiscal",
+        "description": "Confirme sua residência fiscal para o registro da liquidação."
+      },
+      "beneficialOwnership": {
+        "label": "Beneficiário Final / Atestado KYC",
+        "description": "Ateste o beneficiário final dos fundos neste caso."
+      },
+      "aml": {
+        "label": "Reconhecimento AML",
+        "description": "Reconheça nossos controles de prevenção à lavagem de dinheiro e de verificação de sanções."
+      },
+      "settlementAuth": {
+        "label": "Autorização de Liquidação / Desembolso",
+        "description": "Autorize a equipe de conformidade a liberar a liquidação para sua carteira de pagamento verificada."
+      },
+      "powerOfAttorney": {
+        "label": "Procuração para o Desembolso",
+        "description": "Conceda à equipe de conformidade uma procuração estritamente limitada às etapas de liberação."
+      },
+      "custom": {
+        "description": "Um documento personalizado solicitado pela equipe de conformidade."
+      }
+    },
+    "status": {
+      "approved": "Aprovado",
+      "rejected": "Reenvio Necessário",
+      "submitted": "Submetido — Aguardando Revisão",
+      "underReview": "Em Revisão",
+      "actionRequired": "Ação Necessária"
+    },
+    "card": {
+      "overdue": "Vencido",
+      "reference": "Referência: {{type}}",
+      "complianceNotes": "Notas de Conformidade",
+      "requested": "Solicitado",
+      "deadline": "Prazo",
+      "reviewerNotes": "Notas do Revisor",
+      "submittedOn": "Submetido em {{date}}",
+      "preview": "Visualizar",
+      "hide": "Ocultar",
+      "download": "Baixar",
+      "archived": "Arquivado",
+      "uploadsPausedTitle": "Uploads pausados",
+      "uploadsPausedBody": "A conformidade desativou temporariamente as submissões para este documento. Você será notificado por e-mail assim que reabrir.",
+      "upload": "Enviar Documento",
+      "uploadCorrected": "Enviar Documento Corrigido",
+      "uploading": "Enviando…",
+      "templateTitle": "Baixar modelo pré-preenchido",
+      "templateBody": "Um modelo PDF pré-preenchido está disponível para este documento. Baixe, assine offline e envie a cópia assinada abaixo.",
+      "templateDownloading": "Preparando…",
+      "templateDownload": "Baixar modelo",
+      "uploadHint": "PDF, PNG, JPEG ou WebP · Máx 10 MB · Criptografado de ponta a ponta em trânsito"
+    },
+    "supporting": {
+      "title": "Documentos de suporte",
+      "description": "Envie documentos de suporte adicionais (identificação, registros de transações, arquivos de evidências) que possam auxiliar na análise do seu caso. Os arquivos são armazenados com segurança e revisados pela nossa equipe de conformidade.",
+      "descriptionLabel": "Descrição (opcional)",
+      "descriptionPlaceholder": "Descreva brevemente o que é este documento ou ao que se refere (opcional).",
+      "uploadButton": "Enviar documento",
+      "emptyTitle": "Nenhum documento de suporte ainda",
+      "emptySubtitle": "Use o botão acima para enviar seu primeiro documento.",
+      "category": {
+        "general": "Geral",
+        "idProof": "Identificação / Prova de identidade",
+        "transaction": "Registro de transação",
+        "evidence": "Evidência",
+        "unknown": "Outro"
+      }
+    }
+  },
+  "settings": {
+    "title": "Perfil e Configurações",
+    "subtitle": "Detalhes da conta e uma prévia do saldo ao vivo do seu caso",
+    "profile": {
+      "section": "Perfil da Conta",
+      "fullName": "Nome Completo",
+      "email": "E-mail",
+      "mobile": "Celular",
+      "accessCode": "Código de Acesso"
+    },
+    "balance": {
+      "section": "Prévia do Saldo",
+      "liveBadge": "Ao Vivo · USDT",
+      "compiledLabel": "Valor Total do Depósito Compilado",
+      "compiledHint": "Soma dos componentes de ativação, chave de frase e fusão — reembolsável para sua carteira na liquidação.",
+      "activityLabel": "Depósito de Atividade",
+      "activityHelper": "Saldo de ativação reembolsável",
+      "phraseKeyLabel": "Depósito de Chave de Frase",
+      "phraseKeyHelper": "Escrow de verificação de carteira",
+      "mergeLabel": "Depósito de Fusão de Chave de Frase",
+      "mergeHelper": "30% componente de fusão",
+      "walletRequirement": "Requisito de Atividade da Carteira",
+      "withdrawalTotal": "Valor da Retirada (Total do Caso)",
+      "footnote": "O depósito compilado é a soma dos componentes de ativação, chave de frase e fusão acima. Os valores mostrados refletem os últimos valores definidos em seu caso pela nossa equipe de liquidação — eles são atualizados automaticamente quando seu caso avança."
+    }
+  },
+  "keyRequest": {
+    "back": "Voltar ao Painel",
+    "header": {
+      "title": "Solicitação de Chave de Acesso",
+      "subtitle": "Solicite ou veja o status da sua chave de acesso"
+    },
+    "status": {
+      "underReview": "Em Revisão",
+      "approved": "Aprovado",
+      "rejected": "Rejeitado",
+      "expired": "Expirado"
+    },
+    "toast": {
+      "copiedTitle": "Copiado!",
+      "copiedDescription": "ID da solicitação copiada para a área de transferência.",
+      "notFoundTitle": "Não Encontrado",
+      "notFoundDescription": "Não foi possível carregar o status da solicitação.",
+      "connectionTitle": "Erro de Conexão",
+      "statusError": "Não foi possível carregar o status da solicitação.",
+      "requiredFieldsTitle": "Campos Obrigatórios",
+      "requiredFieldsDescription": "Por favor, insira seu nome e e-mail.",
+      "submissionFailedTitle": "Falha na Submissão",
+      "submissionFailedDefault": "Não foi possível enviar sua solicitação. Por favor, tente novamente.",
+      "submitConnectionError": "Não foi possível enviar sua solicitação."
+    },
+    "confirm": {
+      "title": "Solicitação Enviada!",
+      "subtitle": "Nossa equipe a revisará em 1–3 dias úteis.",
+      "requestIdLabel": "ID da Solicitação",
+      "copyAria": "Copiar ID da Solicitação",
+      "keepHint": "Guarde isso para seus registros",
+      "nameLabel": "Nome",
+      "emailLabel": "E-mail",
+      "nextHeading": "O que acontece a seguir",
+      "nextReview": "Nossa equipe revisa solicitações dentro de",
+      "nextReviewDays": "1–3 dias úteis",
+      "nextKey": "Sua chave de acesso aparecerá aqui assim que aprovada",
+      "nextNotify": "Você verá uma notificação em seu portal quando houver uma atualização",
+      "viewStatus": "Ver Status da Solicitação"
+    },
+    "form": {
+      "heading": "Solicitar uma Chave de Acesso",
+      "intro": "Uma chave de acesso permite que você faça login novamente em seu portal a qualquer momento sem precisar do seu código original. Preencha seus dados abaixo e nossa equipe revisará sua solicitação em 1–3 dias úteis.",
+      "fullName": "Nome Completo",
+      "fullNamePlaceholder": "Seu nome completo",
+      "email": "Endereço de E-mail",
+      "emailPlaceholder": "seu@email.com",
+      "phone": "Número de Telefone",
+      "optional": "(opcional)",
+      "phonePlaceholder": "+1 (555) 000-0000",
+      "reason": "Motivo da Solicitação",
+      "reasonPlaceholder": "Descreva brevemente por que você precisa de uma chave de acesso…",
+      "submit": "Enviar Solicitação",
+      "submitting": "Enviando…"
+    },
+    "howItWorks": {
+      "heading": "Como funciona",
+      "step1": "Envie seus dados usando o formulário acima",
+      "step2": "Nossa equipe revisa em 1–3 dias úteis",
+      "step3": "Sua chave é entregue aqui assim que aprovada"
+    },
+    "statusCard": {
+      "requestId": "ID da Solicitação",
+      "progressHeading": "Progresso da Solicitação",
+      "stepSubmitted": "Submetido",
+      "stepSubmittedDesc": "Recebido em {{date}}",
+      "stepUnderReview": "Em Revisão",
+      "stepReviewing": "Nossa equipe está revisando sua solicitação",
+      "stepReviewCompleted": "Revisão concluída",
+      "stepApproved": "Aprovado",
+      "stepRejected": "Rejeitado",
+      "stepExpired": "Expirado",
+      "stepApprovedDesc": "Sua chave de acesso está pronta",
+      "stepRejectedDesc": "A solicitação não pôde ser aprovada",
+      "stepExpiredDesc": "A solicitação expirou",
+      "stepAwaiting": "Aguardando decisão",
+      "nameLabel": "Nome",
+      "nameNa": "N/A",
+      "submittedLabel": "Submetido",
+      "copyAria": "Copiar ID da Solicitação"
+    },
+    "approved": {
+      "title": "Sua Chave de Acesso",
+      "hint": "Sua chave de acesso foi enviada para o seu endereço de e-mail. Por favor, verifique sua caixa de entrada e use-a para acessar o portal seguro."
+    },
+    "rejected": {
+      "title": "Solicitação Rejeitada",
+      "reasonLabel": "Motivo",
+      "noReason": "Nenhum motivo específico foi fornecido pela nossa equipe.",
+      "submitNew": "Enviar Nova Solicitação"
+    },
+    "expired": {
+      "title": "Solicitação Expirada",
+      "body": "Esta solicitação expirou. Você pode enviar uma nova solicitação de chave de acesso abaixo."
+    },
+    "resubmit": {
+      "title": "Nova Solicitação de Chave de Acesso",
+      "fullName": "Nome Completo",
+      "email": "E-mail",
+      "reason": "Motivo",
+      "reasonPlaceholder": "Descreva brevemente por que você precisa de uma chave de acesso…",
+      "submit": "Enviar",
+      "cancel": "Cancelar"
+    },
+    "pending": {
+      "title": "Em Revisão",
+      "body": "Sua solicitação está sendo revisada pela nossa equipe. Você receberá atualizações aqui. O processamento geralmente leva de 1 a 3 dias úteis."
+    },
+    "adminMsgs": {
+      "heading": "Mensagens da Nossa Equipe",
+      "newBadge": "{{count}} Novo",
+      "newPill": "Novo"
+    }
+  },
+  "submissions": {
+    "title": "Histórico de Submissões",
+    "subtitle": "Seu arquivo completo de submissões",
+    "recordsTitle": "Suas Submissões",
+    "recordSingular": "{{count}} registro",
+    "recordPlural": "{{count}} registros",
+    "encrypted": "Criptografado",
+    "empty": "Nenhuma submissão encontrada.",
+    "optionSelected": "Opção {{option}} Selecionada",
+    "withdrawalAmount": "Valor da Retirada",
+    "totalBatches": "Total de Lotes"
+  },
+  "shell": {
+    "brand": "PORTAL IBCCF",
+    "secureSession": "Sessão Segura",
+    "urgent": "URGENTE",
+    "member": "Membro",
+    "signOut": "Sair",
+    "navAriaLabel": "Seções do portal",
+    "ssl": "Criptografado com SSL de 256 bits",
+    "moreLabel": "Mais",
+    "moreSheetTitle": "Mais navegação",
+    "sessionExpiry": {
+      "message": "Sua sessão expira em menos de 24 horas. Entre novamente para manter o acesso.",
+      "messageWithTime": "Sua sessão expira {{time}}. Entre novamente para manter o acesso.",
+      "messageCountdown": "Sessão expira em {{seconds}}s — entre novamente para manter o acesso.",
+      "loginButton": "Entrar novamente para estender",
+      "dismiss": "Ignorar",
+      "dialogTitle": "Estender Sua Sessão",
+      "dialogDesc": "Digite seu PIN para estender sua sessão e evitar perder qualquer trabalho não salvo.",
+      "pinPlaceholder": "PIN de 6 dígitos",
+      "extending": "Estendendo…",
+      "extendButton": "Estender Sessão",
+      "successTitle": "Sessão estendida",
+      "successDesc": "Sua sessão foi estendida por mais 7 dias.",
+      "errorTitle": "PIN incorreto",
+      "errorDesc": "O PIN que você digitou está incorreto. Por favor, tente novamente.",
+      "lockedCountdown": "Muitas tentativas — tente novamente em {{time}}"
+    }
+  },
+  "status": {
+    "success": {
+      "title": "Submissão Confirmada",
+      "subtitle": "Sua solicitação de retirada foi recebida",
+      "bannerTitle": "Solicitação de Retirada Confirmada",
+      "referenceLabel": "Referência:",
+      "optionSelectedOn": "Opção {{option}} selecionada em {{date}}",
+      "nextStepTitle": "Próximo Passo: Completar Depósito",
+      "step1": "Navegue até a seção <0>Depósito e Recibos</0>",
+      "step2": "Envie o USDT necessário para o seu endereço de depósito designado",
+      "step3": "Faça o upload do seu recibo de transação para verificação",
+      "step4": "Aguarde a confirmação da nossa equipe de conformidade",
+      "goToDeposit": "Ir para Depósito",
+      "contactSupport": "Contatar Suporte",
+      "fundsReleasedTo": "Os fundos serão liberados para",
+      "verifiedPayoutWallet": "Carteira de pagamento verificada",
+      "displayOnlyShort": "Apenas exibição — a IBCCF não detém, roteia ou retransmite fundos.",
+      "displayOnlyAwaiting": "Seu oficial de caso designará o endereço de pagamento. A IBCCF não detém, roteia ou retransmite fundos.",
+      "returnToProfileTitle": "Retornar ao Seu Perfil",
+      "returnToProfileSubtitle": "Acesse seu painel de perfil externo",
+      "openProfile": "Abrir Perfil",
+      "backToDashboard": "← Voltar ao Painel"
+    },
+    "timeline": {
+      "title": "Linha do Tempo de Atividades",
+      "events": "{{count}} eventos",
+      "recentActivity": "Atividade Recente",
+      "empty": "Nenhuma atividade ainda.",
+      "emptyHint": "As atividades da sua conta aparecerão aqui.",
+      "documentRequested": "Documento solicitado: {{type}}",
+      "documentRequestedDesc": "A conformidade pediu que você fizesse o upload deste documento.",
+      "documentSubmitted": "Documento submetido: {{type}}",
+      "documentSubmittedDesc": "Documento enviado para revisão de conformidade.",
+      "documentUploaded": "Carregado {{name}}",
+      "documentApproved": "Documento aprovado: {{type}}",
+      "documentApprovedDesc": "A conformidade aprovou sua submissão.",
+      "documentRejected": "Documento rejeitado: {{type}}",
+      "documentRejectedDesc": "A conformidade pediu que você reenviase este documento.",
+      "payoutWalletUpdated": "Carteira de pagamento atualizada",
+      "payoutWalletVerified": "Carteira de pagamento verificada",
+      "payoutWalletCleared": "Carteira de pagamento limpa",
+      "payoutWalletPrevious": "Carteira de pagamento anterior registrada",
+      "payoutWalletClearedDesc": "Seu oficial de caso removeu um endereço de pagamento anteriormente verificado.",
+      "payoutWalletGenericChange": "A conformidade atualizou o endereço de pagamento verificado.",
+      "stagePrefix": "Etapa {{stage}}: {{title}}",
+      "submissionTitle": "Opção {{option}} Submetida",
+      "submissionDesc": "Solicitação de retirada submetida",
+      "depositReceiptTitle": "Recibo de Depósito Carregado",
+      "receiptApproved": "Recibo aprovado",
+      "receiptRejected": "Recibo rejeitado",
+      "receiptPending": "Aguardando revisão",
+      "userDocUploaded": "Documento de suporte carregado",
+      "userDocUploadedDesc": "Você carregou um documento de suporte para revisão de conformidade.",
+      "userDocApproved": "Documento de suporte aprovado",
+      "userDocApprovedDesc": "A conformidade aprovou seu documento de suporte.",
+      "userDocRejected": "Documento de suporte rejeitado",
+      "userDocRejectedDesc": "A conformidade rejeitou seu documento de suporte. Por favor, reenvie se necessário.",
+      "userDocReviewed": "Documento de suporte revisado",
+      "userDocReviewedDesc": "A conformidade revisou seu documento de suporte.",
+      "activation": {
+        "title": "Ativação de saque — {{status}}",
+        "approvedDesc": "Depósito de ativação aprovado. O processamento do saque pode prosseguir.",
+        "rejectedDesc": "Recibo de ativação rejeitado. É necessário reenviar.",
+        "awaitingAdminDesc": "Recibo enviado. Aguardando revisão de conformidade.",
+        "awaitingDepositDesc": "Aguardando seu depósito de ativação.",
+        "awaitingTokenDesc": "Aguardando verificação do código de segurança.",
+        "defaultDesc": "Status atualizado."
+      },
+      "walletExchangeSelected": "Carteira selecionada: {{wallet}}",
+      "walletExchangeSelectedDesc": "Você selecionou {{wallet}} como sua carteira conectada.",
+      "walletPhraseRevealed": "Frase da carteira revelada",
+      "walletPhraseRevealedDesc": "A frase de recuperação da sua carteira foi acessada.",
+      "tokenWalletSetupConfirmedDesc": "A configuração da sua carteira de tokens foi verificada pelo departamento de conformidade.",
+      "tokenWalletSetupUnconfirmedDesc": "A verificação da configuração da sua carteira de tokens foi revertida.",
+      "auditActions": {
+        "wallet_connect_completed": "Frase da carteira revelada",
+        "token_wallet_setup_confirmed": "Configuração da carteira de tokens confirmada",
+        "token_wallet_setup_unconfirmed": "Configuração da carteira de tokens não confirmada"
+      }
+    }
+  },
+  "dashboard": {
+    "header": {
+      "welcomeBack": "Bem-vindo de volta,",
+      "memberFallback": "Membro",
+      "verified": "Verificado",
+      "vipStatus": "Status VIP",
+      "standard": "Padrão",
+      "account": "Conta",
+      "active": "Ativo",
+      "fullyRegulated": "Totalmente regulado",
+      "fullyRegulatedTooltip": "Totalmente regulado — todos os pontos de verificação de conformidade aprovados"
+    },
+    "balance": {
+      "label": "Saldo da Conta",
+      "footnote": "Saldo verificado mantido em escrow segregado aguardando liberação de conformidade."
+    },
+    "urgentBanner": {
+      "title": "Ação Imediata Necessária",
+      "body": "Você tem requisitos pendentes da equipe de conformidade da IBCCF.",
+      "viewNow": "Ver Agora"
+    },
+    "keyRequestBanner": {
+      "title": "Nova Mensagem em Sua Solicitação de Acesso",
+      "single": "O administrador enviou uma mensagem sobre sua solicitação de chave de acesso.",
+      "multiple": "Você tem {{count}} novas mensagens sobre sua solicitação de chave de acesso.",
+      "viewMessage": "Ver Mensagem"
+    },
+    "cards": {
+      "messages": "Ações Necessárias",
+      "letter": "Carta de Retirada",
+      "profile": "Informações do Perfil",
+      "deposit": "Depósito e Recibos",
+      "submissions": "Histórico de Submissões",
+      "timeline": "Linha do Tempo de Atividades",
+      "support": "Suporte IBCCF",
+      "feedback": "Feedback",
+      "unread": "{{count}} não lidas",
+      "pending": "Pendente",
+      "accessAccount": "Acessar Conta"
+    },
+    "messages": {
+      "urgent": "Urgente",
+      "processing": "Processando",
+      "resolved": "Resolvido"
+    },
+    "letter": {
+      "status": "Status",
+      "submitted": "Submetido",
+      "ready": "Pronto",
+      "submissions": "Submissões",
+      "preparing": "Sendo preparado pela equipe de conformidade"
+    },
+    "profile": {
+      "name": "Nome",
+      "email": "E-mail",
+      "vipStatus": "Status VIP"
+    },
+    "deposit": {
+      "receiptsUploaded": "Recibos Carregados",
+      "pendingReview": "Aguardando Revisão"
+    },
+    "submissions": {
+      "total": "Total de Submissões"
+    },
+    "timeline": {
+      "recent": "Atividades Recentes"
+    },
+    "support": {
+      "body": "Converse com o suporte da IBCCF para assistência com sua conta."
+    },
+    "feedback": {
+      "thankYou": "Obrigado!",
+      "body": "Ajude-nos a melhorar compartilhando sua experiência.",
+      "title": "Compartilhe Seu Feedback",
+      "description": "Avalie nosso serviço e deixe comentários.",
+      "rateLabel": "Como você avaliaria sua experiência?",
+      "ratings": {
+        "1": "Ruim",
+        "2": "Regular",
+        "3": "Bom",
+        "4": "Muito Bom",
+        "5": "Excelente"
+      },
+      "commentsLabel": "Comentários adicionais (opcional)",
+      "commentsPlaceholder": "Conte-nos mais sobre sua experiência...",
+      "cancel": "Cancelar",
+      "submit": "Enviar Feedback",
+      "submitting": "Enviando...",
+      "toastSuccessTitle": "Feedback Enviado",
+      "toastSuccessDesc": "Obrigado pelo seu feedback!",
+      "toastErrorTitle": "Erro",
+      "toastErrorDesc": "Falha ao enviar feedback."
+    },
+    "chat": {
+      "title": "Suporte IBCCF",
+      "online": "Online · Normalmente responde em minutos",
+      "welcomeTitle": "Bem-vindo ao Suporte IBCCF",
+      "welcomeBody": "Como podemos ajudá-lo hoje?",
+      "placeholder": "Digite sua mensagem..."
+    },
+    "reactivation": {
+      "dismissAria": "Descartar mensagem de boas-vindas",
+      "label": "Conta Reativada",
+      "newPill": "NOVO",
+      "fallbackName": "lá",
+      "headline": "Bem-vindo de volta, {{name}} — sua conta está totalmente restaurada.",
+      "bodyWithEmail": "Nossa equipe de conformidade reativou seu portal IBCCF. Todos os recursos estão disponíveis novamente. Um novo código de acesso foi enviado para seu e-mail — seu código anterior não funciona mais.",
+      "bodyNoEmail": "Nossa equipe de conformidade reativou seu portal IBCCF. Todos os recursos estão disponíveis novamente. Um novo código de acesso foi emitido — entre em contato com seu oficial de caso para recebê-lo.",
+      "restoration": "Restauração da conta",
+      "allOnline": "Todos os recursos do portal online"
+    },
+    "tracker": {
+      "title": "Progresso da Retirada",
+      "subtitle": "Status em tempo real de sua solicitação de retirada",
+      "progress": "Progresso",
+      "ariaLabel": "Progresso da retirada: etapa {{stage}} de 14",
+      "stageLabel": "Etapa {{stage}}: {{label}} — {{state}}",
+      "stageTooltip": "Etapa {{stage}}: {{label}}\n{{state}}",
+      "states": {
+        "completed": "Concluído",
+        "current": "Atual",
+        "upcoming": "Próximo"
+      },
+      "legend": {
+        "completed": "Concluído",
+        "userAction": "Ação necessária de você",
+        "adminAction": "Aguardando equipe de conformidade",
+        "system": "Processamento do sistema"
+      },
+      "stageOf": "Etapa {{stage}}",
+      "stages": {
+        "1": {
+          "label": "Depósito de Chave de Frase Recebido",
+          "description": "Depósito de chave de frase confirmado com sucesso no livro razão"
+        },
+        "2": {
+          "label": "Gerando Chave de Frase Segura",
+          "description": "Criação da chave de frase em andamento"
+        },
+        "3": {
+          "label": "Chave de Frase Aprovada e Disponível",
+          "description": "Chave de frase aprovada e entregue ao Centro de Mensagens Seguras"
+        },
+        "4": {
+          "label": "Processo de Retirada Iniciado",
+          "description": "Fluxo de retirada ativado"
+        },
+        "5": {
+          "label": "Verificação do Depósito Inicial",
+          "description": "Verificação do depósito em andamento"
+        },
+        "6": {
+          "label": "Verificação da Chave de Frase",
+          "description": "Validação da chave de frase em andamento"
+        },
+        "7": {
+          "label": "Depósito de Fusão de Chave de Frase Necessário",
+          "descriptionWithAmount": "Necessário: {{amount}} (30% depósito de fusão)",
+          "descriptionAwaiting": "Aguardando cálculo do depósito de fusão"
+        },
+        "8": {
+          "label": "Verificação do Departamento Financeiro",
+          "description": "Revisão de conformidade e financeira"
+        },
+        "9": {
+          "label": "Retirada de Mineração para Liberação Final",
+          "description": "Confirmação da blockchain e liberação interna"
+        },
+        "10": {
+          "label": "Verificação da Atividade da Blockchain",
+          "descriptionWithAmount": "Necessário: {{amount}} saldo na carteira receptora",
+          "descriptionAwaiting": "Verificação da atividade da carteira em andamento"
+        },
+        "11": {
+          "label": "Verificação de AML Internacional / IRS",
+          "description": "Verificações de conformidade regulatória em andamento"
+        },
+        "12": {
+          "label": "Processamento Final da Retirada",
+          "description": "Preparando fundos para liberação"
+        },
+        "13": {
+          "label": "Retirada Liberada com Sucesso",
+          "description": "Fundos liberados para a carteira designada"
+        },
+        "14": {
+          "label": "Depósito de Carimbo de Tempo para Entrega Final",
+          "description": "Confirmação da entrega final"
+        }
+      },
+      "stage7Notice": {
+        "title": "Depósito de Fusão de Chave de Frase Necessário",
+        "body": "Um depósito de fusão de 30% é necessário para completar a verificação da chave de frase."
+      },
+      "stage10Notice": {
+        "title": "Verificação da Atividade da Blockchain",
+        "body": "Por favor, mantenha o saldo necessário de {{asset}} em sua carteira receptora."
+      },
+      "stage12Notice": {
+        "title": "Confirmação Final: Carteira de Pagamento",
+        "body": "Confirme que o endereço de destino verificado abaixo corresponde aos seus registros antes que a conformidade libere o pagamento. O portal é apenas para exibição — a IBCCF não detém, roteia ou retransmite fundos.",
+        "awaiting": "Aguardando seu oficial de caso designar a carteira de pagamento verificada."
+      },
+      "withdrawalMode": {
+        "kicker": "Todas as Etapas Concluídas",
+        "title": "Fase de Saque Ativa",
+        "body": "Todas as etapas de conformidade foram concluídas. Seu saque está agora em andamento."
+      }
+    },
+    "payoutWallet": {
+      "awaitingPill": "Aguardando verificação",
+      "label": "Carteira de Pagamento Verificada",
+      "awaitingTitle": "Seu oficial de caso designará o endereço de pagamento",
+      "awaitingBody": "Uma vez que a conformidade tenha verificado a carteira que receberá seu pagamento, o endereço completo, ativo e rede aparecerão aqui. O portal é apenas para exibição — a IBCCF nunca detém, roteia ou retransmite seus fundos.",
+      "updatedLabel": "Carteira de pagamento atualizada",
+      "updatedTitle": "Seu oficial de caso verificou um novo endereço de pagamento.",
+      "updatedBody": "Revise os detalhes abaixo e entre em contato com seu oficial imediatamente se algo parecer desconhecido.",
+      "dismissAria": "Descartar atualização da carteira de pagamento",
+      "verifiedPill": "Verificado",
+      "label2": "Carteira de Pagamento",
+      "verifiedTitle": "Endereço de pagamento designado",
+      "verifiedBody": "Seu oficial de caso verificou isso como o destino para seu caso. O portal é <0>apenas para exibição</0> — a IBCCF não detém ou retransmite fundos.",
+      "asset": "Ativo",
+      "network": "Rede",
+      "walletAddress": "Endereço da carteira",
+      "copy": "Copiar",
+      "verified": "Verificado",
+      "verifiedBy": "por",
+      "verifiedOn": "em",
+      "toastCopiedTitle": "Endereço da carteira copiado",
+      "toastCopiedDesc": "Endereço de pagamento verificado copiado para a área de transferência.",
+      "toastFailTitle": "Falha ao copiar",
+      "toastFailDesc": "Por favor, copie o endereço manualmente.",
+      "toastUpdatedTitle": "Carteira de pagamento atualizada",
+      "toastUpdatedDesc": "Seu oficial de caso verificou um novo endereço de pagamento. Por favor, revise-o antes de continuar sua retirada."
+    },
+    "stageCta": {
+      "stage7AmountLabel": "Depósito de Fusão de Chave de Frase",
+      "stage10AmountLabel": "Saldo da carteira necessário",
+      "stage7Headline": "Pague o depósito de fusão de {{amount}} {{asset}} para desbloquear a verificação da Chave de Frase",
+      "stage10Headline": "Mantenha {{amount}} {{asset}} em sua carteira receptora para verificação de atividade",
+      "stageOf": "Etapa {{stage}} de 14",
+      "advanced": "Etapa avançada · {{from}} → {{to}}",
+      "dismissAria": "Descartar atualização da etapa",
+      "whatYouCanDo": "O que você pode fazer agora",
+      "withdrawalMode": {
+        "kicker": "Fase de Saque",
+        "title": "Saque em Andamento",
+        "body": "Todas as etapas de conformidade foram concluídas. Seu oficial de caso está processando seu pagamento. Nenhuma ação adicional é necessária da sua parte neste momento."
+      }
+    },
+    "finalized": {
+      "label": "Caso finalizado",
+      "title": "Seu caso foi finalizado",
+      "body": "Seu caso de saque da IBCCF atingiu a etapa final e foi totalmente finalizado em {{date}}. {{tail}}",
+      "tailCertificate": "Acesse a seção Certificado para baixar seu Certificado de Frase de Fusão.",
+      "tailEmail": "Uma cópia de confirmação foi enviada por e-mail para seus registros."
+    },
+    "activationBanner": {
+      "kicker": "Ativação de saque",
+      "transition": "{{from}} → {{to}}",
+      "body": "Abra a visualização Ativação de saque para continuar.",
+      "dismiss": "Dispensar",
+      "status": {
+        "pending_address": "endereço pendente",
+        "awaiting_token": "aguardando token",
+        "awaiting_deposit": "aguardando depósito",
+        "awaiting_admin_approval": "aguardando aprovação do administrador",
+        "approved": "aprovado",
+        "rejected": "rejeitado",
+        "unknown": "Processando"
+      }
+    },
+    "stampDuty": {
+      "title": "Depósito de Imposto de Selo pendente",
+      "statusAwaitingUpload": "Aguardando envio",
+      "statusAwaitingApproval": "Aguardando revisão de conformidade",
+      "statusRejected": "Comprovante rejeitado",
+      "bodyAwaitingUpload": "Envie um comprovante do Depósito de Imposto de Selo para manter sua liquidação selada em andamento.",
+      "bodyAwaitingApproval": "Seu comprovante foi enviado. A equipe de conformidade confirmará o depósito em breve.",
+      "bodyRejected": "Seu último comprovante foi rejeitado. Por favor, revise a observação e envie um novo comprovante.",
+      "amountLabel": "Valor devido",
+      "ctaUpload": "Enviar comprovante",
+      "ctaView": "Ver Imposto de Selo",
+      "ctaResubmit": "Reenviar comprovante",
+      "updated": "Atualizado",
+      "doneKicker": "Etapa Concluída",
+      "doneTitle": "Imposto de Selo — Liquidado"
+    },
+    "withdrawalGuide": {
+      "title": "O Seu Guia de Levantamento",
+      "label": "Guia de Levantamento",
+      "body": "Siga estes passos para concluir o seu processo de levantamento com sucesso.",
+      "step1Title": "Conclua a Verificação de Identidade",
+      "step1Body": "Envie os seus documentos KYC e confirme os seus dados pessoais junto da nossa equipa de conformidade.",
+      "step2Title": "Assine as Divulgações Regulatórias",
+      "step2Body": "Reveja e assine todos os formulários de conformidade e declarações necessários para cumprir os requisitos regulatórios.",
+      "step3Title": "Ative a Sua Conta de Levantamento",
+      "step3Body": "Efetue o depósito de ativação: 1.000 USDT de saldo de ativação reembolsável + 500 USDT de taxa de processamento não reembolsável.",
+      "step4Title": "Carregue Documentos de Suporte",
+      "step4Body": "Forneça comprovativo de fundos, documentos de origem de rendimentos e quaisquer ficheiros adicionais solicitados pelo seu responsável de conformidade.",
+      "step5Title": "Aguarde a Autorização de Conformidade",
+      "step5Body": "A nossa equipa realiza as verificações finais de devida diligência antes de autorizar a libertação dos seus fundos.",
+      "step6Title": "Confirme a Sua Carteira de Pagamento",
+      "step6Body": "Verifique o endereço de carteira designado pelo seu responsável de caso — a IBCCF nunca detém nem redireciona os seus fundos.",
+      "step7Title": "Receba os Seus Fundos",
+      "step7Body": "Após a obtenção de todas as autorizações, a sua carteira de pagamento verificada receberá o montante total do acordo."
+    },
+    "tutorialVideo": {
+      "title": "Como funcionam os levantamentos",
+      "watch": "Ver o tutorial",
+      "download": "Descarregar este vídeo",
+      "subtitle": "Um guia animado de um minuto sobre as 14 etapas do levantamento.",
+      "muteNarration": "Silenciar narração",
+      "unmuteNarration": "Ativar narração"
+    }
+  },
+  "context": {
+    "toast": {
+      "messagesUpToDateTitle": "Todas as mensagens atualizadas",
+      "messagesUpToDateDesc": "As mensagens da sua equipe estão marcadas como lidas.",
+      "sessionExpiredTitle": "Sessão Expirada",
+      "sessionExpiredDesc": "Você foi desconectado devido à inatividade.",
+      "newMessageTitle": "Nova Mensagem",
+      "newMessageDesc": "Você tem uma nova mensagem do suporte.",
+      "sendFailedTitle": "Erro",
+      "sendFailedDesc": "Falha ao enviar a mensagem.",
+      "emptyFileTitle": "Arquivo vazio",
+      "emptyFileReceiptDesc": "Este arquivo está vazio. Por favor, escolha uma foto ou PDF diferente.",
+      "fileTooLargeTitle": "Arquivo muito grande",
+      "fileTooLargeReceiptDesc": "Seu arquivo tem {{mb}} MB. O máximo é 8 MB. Tente tirar uma nova foto ou compactar a imagem.",
+      "unsupportedTypeTitle": "Tipo de arquivo não suportado",
+      "unsupportedTypeReceiptDesc": "Por favor, envie uma foto (JPG, PNG, HEIC, WebP) ou um recibo em PDF.",
+      "readFailedTitle": "Não foi possível ler o arquivo",
+      "readFailedDesc": "Seu navegador falhou ao ler este arquivo. Por favor, tente novamente ou use um arquivo diferente.",
+      "receiptUploadedTitle": "Recibo Enviado",
+      "receiptUploadedDesc": "Seu recibo de depósito foi enviado para revisão.",
+      "uploadFailedTitle": "Falha no upload ({{status}})",
+      "uploadFailedDefault": "Não foi possível enviar o recibo.",
+      "uploadFailed413": "Este arquivo é muito grande para o servidor aceitar. Por favor, use uma foto com menos de 8 MB.",
+      "networkErrorTitle": "Erro de rede",
+      "networkErrorDesc": "Não foi possível alcançar o servidor. Verifique sua conexão e tente novamente.",
+      "emptyFileDocDesc": "Este arquivo está vazio. Escolha um documento diferente.",
+      "fileTooLargeDocDesc": "Seu arquivo tem {{mb}} MB. O máximo é 10 MB.",
+      "unsupportedTypeDocDesc": "Por favor, envie um arquivo PDF, PNG, JPEG ou WebP.",
+      "readFailedDocDesc": "Seu navegador falhou ao ler este arquivo.",
+      "documentSubmittedTitle": "Documento enviado",
+      "documentSubmittedDesc": "A conformidade foi notificada e revisará em breve.",
+      "submitFailedTitle": "Falha ao enviar ({{status}})",
+      "submitFailedDefault": "Não foi possível enviar o documento.",
+      "submitFailed413": "Este arquivo é muito grande para o servidor. Por favor, use um arquivo com menos de 10 MB.",
+      "forceLogoutTitle": "Desconectado pelo administrador",
+      "forceLogoutDesc": "Sua sessão foi encerrada pela conformidade do IBCCF. Por favor, faça login novamente.",
+      "accountLockedTitle": "Conta bloqueada",
+      "accountLockedDescAdminDisabled": "Sua conta foi bloqueada por um oficial de conformidade. Por favor, complete o depósito de reativação para restaurar o acesso.",
+      "accountLockedDescWarningExpired": "Sua conta foi bloqueada porque o período de aviso expirou. Por favor, complete o depósito de reativação para restaurar o acesso."
+    }
+  },
+  "notificationBell": {
+    "title": "Notificações",
+    "newCount": "{{count}} novas",
+    "markAllRead": "Marcar todas como lidas",
+    "close": "Fechar",
+    "empty": "Sem notificações ainda",
+    "emptyHint": "Nós o notificaremos quando algo importante acontecer",
+    "showingLatest": "Mostrando as últimas {{count}} notificações"
+  },
+  "installApp": {
+    "ariaLabel": "Instalar aplicativo IBCCF",
+    "title": "Instalar IBCCF no seu telefone",
+    "body": "Acesso rápido e em tela cheia ao seu portal seguro — funciona offline para o básico.",
+    "install": "Instalar",
+    "notNow": "Agora não",
+    "dismiss": "Dispensar",
+    "iosTitle": "Instalar IBCCF no seu iPhone",
+    "iosDescription": "iPhones instalam aplicativos da web diretamente do Safari. Dois toques rápidos.",
+    "iosStep1Prefix": "Toque no",
+    "iosStep1Share": "Compartilhar",
+    "iosStep1Suffix": "botão na parte inferior do Safari.",
+    "iosStep2Prefix": "Role e escolha",
+    "iosStep2Add": "Adicionar à Tela de Início",
+    "iosStep2Suffix": ", depois toque em",
+    "iosStep2Confirm": "Adicionar",
+    "iosFootnote": "O ícone do IBCCF aparecerá na sua tela inicial e abrirá em tela cheia, assim como um aplicativo nativo."
+  },
+  "auth": {
+    "login": {
+      "title": "ACESSO AO GATEWAY SEGURO",
+      "subtitle": "Divisão de Integridade da Conta",
+      "connectionActive": "Conexão Segura Ativa",
+      "cardTitle": "Verificação Necessária",
+      "cardSubtitle": "Insira suas credenciais de liberação de conformidade",
+      "codeLabel": "Referência de Liberação de Conformidade",
+      "accessCodeLabel": "Código de Acesso",
+      "pinLabel": "PIN de Segurança",
+      "codePlaceholder": "Insira o Código de Acesso",
+      "pinPlaceholder": "Insira o PIN de 6 dígitos",
+      "continue": "Continuar",
+      "verify": "Verificar Identidade",
+      "verifying": "Verificando...",
+      "useDifferentCode": "Usar código de acesso diferente",
+      "sslBadge": "Criptografado com SSL de 256 bits",
+      "toast": {
+        "pinRequiredTitle": "PIN Necessário",
+        "pinRequiredDesc": "Por favor, insira seu PIN de 6 dígitos para continuar.",
+        "accessDeniedTitle": "Acesso Negado",
+        "accessDeniedDesc": "Código de liberação inválido fornecido.",
+        "invalidPinTitle": "PIN Inválido",
+        "invalidPinDesc": "O PIN inserido está incorreto. Por favor, tente novamente.",
+        "connectionTitle": "Erro de Conexão",
+        "connectionDesc": "Não foi possível verificar as credenciais.",
+        "verifiedTitle": "Identidade Verificada",
+        "verifiedDesc": "Sessão segura estabelecida."
+      }
+    },
+    "register": {
+      "loadingProfile": "Carregando seu perfil...",
+      "title": "Verificação de Identidade",
+      "subtitle": "Confirme seus dados para o livro razão seguro",
+      "fullName": "Nome Legal Completo",
+      "fullNamePlaceholder": "Seu nome legal completo",
+      "email": "Endereço de E-mail",
+      "emailPlaceholder": "nome@exemplo.com",
+      "mobile": "Número de Celular",
+      "mobilePlaceholder": "Seu número de contato",
+      "pinIntro": "Crie um PIN seguro de 6 dígitos para futuros logins",
+      "createPin": "Criar PIN de 6 Dígitos",
+      "confirmPin": "Confirmar PIN",
+      "pinPlaceholder": "••••••",
+      "processing": "Processando...",
+      "proceed": "Prosseguir para Sincronização Segura",
+      "toast": {
+        "sessionErrorTitle": "Erro de Sessão",
+        "sessionErrorDesc": "Por favor, comece novamente na página de verificação.",
+        "invalidPinTitle": "PIN Inválido",
+        "invalidPinDesc": "Por favor, insira um PIN numérico de 6 dígitos.",
+        "pinMismatchTitle": "PIN Divergente",
+        "pinMismatchDesc": "Os PINs que você inseriu não correspondem.",
+        "pinSetupFailedTitle": "Falha na Configuração do PIN",
+        "pinSetupFailedDesc": "Não foi possível configurar seu PIN.",
+        "failedTitle": "Registro Falhou",
+        "failedDesc": "Não foi possível concluir o registro.",
+        "connectionTitle": "Erro de Conexão",
+        "connectionDesc": "Não foi possível salvar o registro."
+      }
+    },
+    "sync": {
+      "title": "Sincronizando Conta",
+      "defaultStatus": "Estabelecendo conexão segura...",
+      "protocolLabel": "PROTOCOLO ISO-D",
+      "waitClearance": "Aguarde a liberação administrativa..."
+    }
+  },
+  "deposit": {
+    "title": "Depósito e Recibos",
+    "subtitle": "Envie o depósito necessário e faça o upload do seu recibo de transação para verificação.",
+    "reissue": {
+      "title": "Reemissão da Rodada v{{version}} — Pagamento Necessário",
+      "statusAwaitingDeposit": "Aguardando seu depósito de reemissão antes que a conformidade possa reabrir as submissões.",
+      "statusAwaitingReview": "Recibo recebido — a conformidade está revisando seu pagamento de reemissão.",
+      "statusPaid": "Pagamento de reemissão confirmado. Você pode reenviar sua solicitação de retirada.",
+      "amountDue": "Valor devido",
+      "reasonLabel": "Motivo da conformidade:"
+    },
+    "address": {
+      "title": "Endereço de Depósito {{asset}} ({{network}})",
+      "subtitle": "Envie {{asset}} apenas na {{network}} — outras redes serão perdidas.",
+      "requiredAmount": "Valor necessário",
+      "qrUnavailable": "QR code indisponível neste dispositivo — copie o endereço manualmente.",
+      "qrAmountPrefill": "Escaneie para preencher",
+      "qrAmountSuffix": "na sua carteira.",
+      "qrScanHint": "Escaneie com seu aplicativo de carteira para carregar o endereço de depósito.",
+      "qrDownload": "Baixar",
+      "qrCopied": "Copiado",
+      "qrCopyImage": "Copiar imagem",
+      "qrShare": "Compartilhar",
+      "importantInstructions": "Instruções importantes",
+      "instructionNetwork": "Envie {{asset}} apenas na rede {{network}}. Fundos enviados em uma rede diferente não podem ser recuperados.",
+      "instructionUploadReceipt": "Após enviar, faça o upload do seu recibo de transação abaixo para que a conformidade possa verificar o pagamento.",
+      "instructionTxHash": "Inclua o hash da transação (TXID) nas notas para que possamos combinar o registro on-chain."
+    },
+    "upload": {
+      "title": "Enviar Recibo de Transação",
+      "subtitle": "Envie uma captura de tela ou foto de sua transação concluída.",
+      "requiredReminder": "Envie exatamente o valor mostrado — 1,000 USDT saldo de ativação reembolsável + 500 USDT taxa de processamento não reembolsável. Total necessário:",
+      "notesPlaceholder": "Notas opcionais — cole o hash da transação (TXID), carteira utilizada ou qualquer contexto para a conformidade…",
+      "uploading": "Enviando…",
+      "selectImage": "Selecionar Imagem do Recibo",
+      "categoryLabel": "Para que é este comprovante?",
+      "multiHint": "(selecionar um ou mais)",
+      "category": {
+        "withdrawal": "Depósito de saque",
+        "token_deposit": "Depósito de token",
+        "merge_fee": "Taxa de mescla em lote",
+        "activation": "Depósito de ativação",
+        "reissue": "Taxa de reemissão de carta",
+        "certificate": "Taxa de certificado",
+        "stamp_duty": "Imposto de selo",
+        "other": "Outro / documento de suporte"
+      }
+    },
+    "receipts": {
+      "title": "Recibos Carregados",
+      "empty": "Nenhum recibo carregado ainda.",
+      "imageAlt": "Recibo de depósito",
+      "defaultFileName": "Recibo de Depósito",
+      "status": {
+        "approved": "Aprovado",
+        "rejected": "Rejeitado",
+        "pending": "Aguardando Revisão",
+        "unknown": "Processando"
+      }
+    },
+    "support": {
+      "message": "Precisa de ajuda com seu depósito? Nossa equipe de conformidade está disponível para ajudar.",
+      "cta": "Contatar Suporte"
+    },
+    "toast": {
+      "downloadFailedTitle": "Falha ao baixar",
+      "downloadFailedDesc": "Não foi possível gerar a imagem do QR code. Por favor, copie o endereço manualmente.",
+      "shareFailedTitle": "Falha ao compartilhar",
+      "shareFailedNoImage": "Não foi possível gerar a imagem do QR para compartilhar.",
+      "shareFailedSheet": "A folha de compartilhamento do sistema não pôde ser aberta.",
+      "shareTitle": "QR do endereço de depósito",
+      "copyNotSupportedTitle": "Copiar não suportado",
+      "copyNotSupportedDesc": "Seu navegador não suporta a cópia de imagens. Tente baixar o QR em vez disso.",
+      "copyFailedTitle": "Falha ao copiar",
+      "copyFailedNoImage": "Não foi possível gerar a imagem do QR para copiar.",
+      "copyFailedNotSupported": "Seu navegador bloqueou a cópia da imagem. Tente baixar o QR em vez disso.",
+      "qrCopiedTitle": "QR code copiado",
+      "qrCopiedDesc": "Cole a imagem em sua carteira ou aplicativo de mensagens.",
+      "addressCopiedTitle": "Endereço copiado",
+      "addressCopiedDesc": "Cole-o em sua carteira para enviar o depósito.",
+      "amountCopiedTitle": "Valor copiado",
+      "amountCopiedDesc": "Cole o valor exato em sua carteira para evitar discrepâncias.",
+      "sessionExpiredTitle": "Sessão expirada",
+      "sessionExpiredDesc": "Sua sessão expirou. Por favor, faça login novamente.",
+      "reissueMissing": "Nenhuma rodada de reemissão aguardando pagamento.",
+      "uploadSuccessTitle": "Comprovante enviado",
+      "certUploaded": "Comprovante de taxa do certificado enviado para revisão.",
+      "stampUploaded": "Comprovante do imposto de selo enviado para revisão.",
+      "singleUploaded": "Comprovante enviado para revisão.",
+      "multiUploaded": "{{count}} comprovantes enviados para revisão.",
+      "partialUploadTitle": "{{succeeded}} de {{total}} enviados",
+      "uploadFailedTitle": "Falha no envio",
+      "uploadFailedDesc": "Por favor, tente novamente."
+    },
+    "mergeFee": {
+      "bannerText": "Envie abaixo seu comprovante de pagamento da taxa de mescla em lote de 500 USDT. Selecione o arquivo usando o botão de envio e submeta para revisão.",
+      "bannerDismiss": "Dispensar aviso",
+      "uploadingReminder": "Taxa de mescla em lote de 500 USDT não reembolsável",
+      "inlineReminder": "Esta é a taxa de mescla em lote de 500 USDT não reembolsável. Envie seu comprovante de pagamento e submeta para revisão."
+    }
+  },
+  "letter": {
+    "pending": {
+      "title": "Carta de Retirada Ainda Não Emitida",
+      "description": "Seu oficial de conformidade está finalizando sua carta oficial de retirada. Ela aparecerá aqui assim que for liberada.",
+      "notification": "Você receberá uma notificação no portal e um e-mail no momento em que sua carta estiver pronta.",
+      "returnButton": "Retornar ao Painel"
+    },
+    "header": {
+      "title": "Carta Oficial de Retirada",
+      "subtitle": "Instruções emitidas pela conformidade para sua retirada",
+      "history": "Histórico ({{count}})",
+      "downloadPdf": "Baixar PDF"
+    },
+    "organization": {
+      "name": "Fórum Internacional de Conformidade da Comunidade Blockchain",
+      "division": "Divisão de Integridade da Conta",
+      "secretariat": "Escritório do Secretariado de Conformidade"
+    },
+    "session": {
+      "verified": "Sessão Verificada",
+      "verifiedSubtitle": "Identidade confirmada para esta visualização segura",
+      "accountStatus": "Status da Conta",
+      "standardMember": "Membro Padrão"
+    },
+    "compliance": {
+      "referenceLabel": "Referência de Conformidade",
+      "sessionVerifiedLabel": "Sessão Verificada",
+      "authenticated": "Autenticado"
+    },
+    "body": {
+      "dateLabel": "Data:",
+      "defaultClient": "Cliente Valorizado",
+      "greeting": "Caro {{name}},"
+    },
+    "payoutWallet": {
+      "title": "Carteira de Pagamento Verificada"
+    },
+    "reissue": {
+      "versionTitle": "Reemissão da Carta · Versão {{version}}",
+      "statusPaid": "Pago",
+      "statusUnderReview": "Em Revisão",
+      "statusPaymentRequired": "Pagamento Necessário",
+      "descriptionPaid": "Sua taxa de reemissão foi recebida. A carta atualizada agora está ativa.",
+      "descriptionUnderReview": "Seu pagamento de reemissão está sendo verificado pela conformidade. Você será notificado assim que for liberado.",
+      "descriptionAwaitingDeposit": "Uma taxa de reemissão é necessária antes que você possa enviar contra esta carta atualizada.",
+      "feeLabel": "Taxa de Reemissão",
+      "reasonLabel": "Motivo da reemissão:",
+      "goToDeposit": "Ir para Depósito"
+    },
+    "options": {
+      "title": "Selecione Sua Opção de Retirada",
+      "optionLabel": "Opção {{letter}}",
+      "amount": "Valor",
+      "frequency": "Frequência",
+      "batches": "Lotes",
+      "phraseKeyCost": "Custo da Chave de Frase",
+      "totalRequirement": "Requisito Total"
+    },
+    "amount": {
+      "label": "Valor da Retirada",
+      "help": "Confirme ou edite o valor que você deseja retirar sob a Opção {{option}}.",
+      "placeholder": "ex. 25,000 USDT",
+      "hintValid": "Deixe em branco para usar o valor padrão do caso.",
+      "hintInvalid": "Insira um valor positivo válido (apenas números e vírgulas)."
+    },
+    "continue": {
+      "withOption": "Continuar com a Opção {{option}}",
+      "withOptionPlaceholder": "—",
+      "awaitingApproval": "Aguardando Aprovação da Reemissão",
+      "payReissueFirst": "Pague a Taxa de Reemissão Primeiro"
+    },
+    "success": {
+      "title": "Solicitação de Retirada Submetida",
+      "description": "Sua seleção foi registrada e encaminhada para a conformidade para processamento.",
+      "referenceNumber": "Número de Referência",
+      "statusLabel": "Status",
+      "statusBadge": "Submetido",
+      "submittedOn": "Submetido Em",
+      "returnDashboard": "Retornar ao Painel",
+      "viewHistory": "Ver Histórico de Submissões"
+    },
+    "url": {
+      "sectionTitle": "Envie Sua Solicitação de Retirada",
+      "title": "Complete a Retirada via Formulário Seguro",
+      "description": "Clique abaixo para abrir o formulário de retirada seguro em uma nova aba. Sua submissão será registrada automaticamente no histórico do seu portal.",
+      "account": "Conta",
+      "withdrawalAmount": "Valor da Retirada",
+      "reference": "Referência",
+      "notAvailable": "N/A",
+      "submit": "Abrir Formulário Seguro de Retirada",
+      "opensInNewTab": "Abre em uma nova aba. Mantenha este portal aberto para acompanhar a confirmação."
+    },
+    "awaitingConfig": {
+      "title": "Aguardando Configuração Final",
+      "description": "Sua carta foi emitida, mas a conformidade ainda está finalizando suas opções de retirada. Você poderá agir aqui assim que a configuração estiver completa.",
+      "returnDashboard": "Retornar ao Painel"
+    },
+    "footer": {
+      "encryptionInfo": "Criptografado de ponta a ponta · Referência {{ref}}",
+      "generated": "Gerado {{timestamp}}"
+    },
+    "confirm": {
+      "title": "Confirme Sua Submissão",
+      "description": "Por favor, confirme os detalhes abaixo antes de enviar, {{name}}.",
+      "selectedOption": "Opção selecionada",
+      "amountLabel": "Valor",
+      "amountPlaceholder": "ex. 25,000 USDT",
+      "hintValid": "Deixe em branco para usar o valor padrão do caso.",
+      "hintInvalid": "Insira um valor positivo válido (apenas números e vírgulas).",
+      "cancel": "Cancelar",
+      "submitting": "Submetendo…",
+      "submitSelection": "Confirmar e Enviar",
+      "submitOpenForm": "Confirmar e Abrir Formulário"
+    },
+    "fallback": {
+      "headline": "Autorização Oficial de Retirada",
+      "introduction": "Caro Cliente Valorizado, sua solicitação de retirada foi revisada pela nossa equipe de conformidade e agora está pronta para sua ação final.",
+      "bodyContent": "Por favor, revise as opções de retirada disponíveis abaixo e selecione o plano que melhor atende às suas necessidades. Cada opção descreve o cronograma, custo da chave de frase e requisito total de conformidade.",
+      "footerNote": "Importante: As submissões são finais uma vez registradas. Por favor, certifique-se de que todos os detalhes estão corretos antes de confirmar.",
+      "optionATitle": "Plano de Retirada Padrão",
+      "optionADescription": "Custo por lote mais baixo com um cronograma de liberação mais longo.",
+      "optionAFrequency": "Lotes semanais",
+      "optionBTitle": "Plano de Retirada Acelerado",
+      "optionBDescription": "Cronograma de liberação mais rápido com um custo de chave de frase mais alto.",
+      "optionBFrequency": "Lotes quinzenais",
+      "phraseKey1": "Identificação válida emitida pelo governo em arquivo",
+      "phraseKey2": "Carteira de pagamento verificada designada pelo seu oficial de caso",
+      "phraseKey3": "Revisão de conformidade e AML liberada",
+      "phraseKey4": "Depósito de chave de frase confirmado no livro razão",
+      "phraseKey5": "Reconhecimento final dos termos de retirada",
+      "complianceNotice": "Esta autorização é emitida sob os protocolos de conformidade da IBCCF e está sujeita a regulamentos internacionais de AML e KYC."
+    },
+    "toast": {
+      "reissueAwaitingTitle": "Reemissão em Revisão",
+      "reissueAwaitingDescription": "Seu pagamento de reemissão está sendo verificado. Você poderá enviar assim que a conformidade o liberar.",
+      "reissueRequiredTitle": "Taxa de Reemissão Necessária",
+      "reissueRequiredDescription": "Por favor, pague a taxa de reemissão de {{fee}} antes de enviar contra a carta atualizada.",
+      "submissionSuccessTitle": "Submissão Registrada",
+      "submissionSuccessWithAmount": "Sua solicitação de retirada de {{amount}} foi submetida com sucesso.",
+      "submissionSuccessNoAmount": "Sua solicitação de retirada foi submetida com sucesso.",
+      "submissionFailedTitle": "Falha na Submissão",
+      "submissionFailedDefault": "Não foi possível enviar sua solicitação. Por favor, tente novamente.",
+      "connectionErrorTitle": "Erro de Conexão",
+      "submissionRecordedTitle": "Submissão Registrada",
+      "submissionRecordedWithAmount": "Sua submissão de {{amount}} foi registrada. Abrindo o formulário seguro…",
+      "submissionRecordedNoAmount": "Sua submissão foi registrada. Abrindo o formulário seguro…",
+      "submissionRecordFailedDefault": "Não foi possível registrar sua submissão. Por favor, tente novamente.",
+      "errorTitle": "Erro",
+      "failedRecord": "Falha ao registrar sua submissão. Por favor, tente novamente."
+    }
+  },
+  "withdrawalWindow": {
+    "title": "Janela de saque aberta",
+    "description": "Seu agente de caso habilitou saques para este caso. Envie os detalhes do seu saque para análise de conformidade. Esta plataforma é apenas informativa — enviar o formulário não movimenta fundos por si só.",
+    "cta": "Solicitar saque",
+    "pendingChip": "Aguardando análise",
+    "requiredDeposit": "Depósito de token necessário: {{amount}}",
+    "toastDepositTitle": "Depósito de token necessário",
+    "toastDepositDescription": "Um depósito de {{amount}} é necessário para processar o seu saque. Por favor, deposite na sua carteira de tokens antes de enviar a solicitação.",
+    "transition": {
+      "label": "Atualização da solicitação de saque",
+      "approved": "Solicitação de saque aprovada",
+      "rejected": "Solicitação de saque rejeitada",
+      "cancelled": "Solicitação de saque cancelada",
+      "dismiss": "Dispensar"
+    }
+  },
+  "withdrawalView": {
+    "title": "Solicitar saque",
+    "subtitle": "Envie os detalhes do seu saque para análise de conformidade. Esta plataforma é apenas informativa — enviar este formulário não movimenta fundos por si só.",
+    "disabledTitle": "A janela de saque ainda não está aberta",
+    "disabledBody": "Seu agente de caso ainda não abriu a janela de saque para este caso. Você será notificado quando puder solicitar.",
+    "pendingTitle": "Solicitação de saque em análise",
+    "pendingBody": "Você já tem uma solicitação de saque aguardando análise. Seu agente de caso responderá antes que você possa enviar outra.",
+    "formTitle": "Solicitação de saque",
+    "formDescription": "Seu agente de caso analisará a carteira de destino que você enviar e o notificará sobre o resultado.",
+    "finalStageBadge": "Etapa final",
+    "landingTitle": "Saque",
+    "landingSubtitle": "A etapa final do seu caso — conecte uma carteira, importe sua frase de conexão e envie sua solicitação de saque para análise.",
+    "stepLabel": "Etapa {{n}}",
+    "applicationHeading": "Solicitação de saque",
+    "displayOnlyNote": "Para a sua segurança, a IBCCF nunca retém, encaminha ou repassa fundos. A liquidação é realizada pelo banco de liquidação regulado para a carteira verificada no seu processo.",
+    "status": {
+      "done": "Concluído",
+      "active": "Sua vez",
+      "pending": "Em análise",
+      "locked": "Bloqueado"
+    },
+    "steps": {
+      "connect": {
+        "title": "Conecte sua carteira de recebimento",
+        "body": "Escolha a carteira de autocustódia com a qual deseja receber seus fundos.",
+        "cta": "Abrir Conexão de carteira",
+        "ctaDone": "Revisar carteira"
+      },
+      "phrase": {
+        "title": "Revele e importe sua frase de conexão",
+        "body": "Revele a frase de conexão gerada para o seu caso e importe-a no aplicativo de carteira, com orientação passo a passo.",
+        "cta": "Abrir guia da frase"
+      },
+      "apply": {
+        "title": "Envie sua solicitação de saque",
+        "body": "Confirme a carteira de destino e o valor. Seu responsável pelo caso analisa a solicitação e notifica você sobre o resultado.",
+        "cta": "Ir para a solicitação"
+      }
+    },
+    "batchHistory": {
+      "proofSubmitted": "Prova enviada"
+    }
+  },
+  "withdrawalRequest": {
+    "dialog": {
+      "title": "Solicitar saque",
+      "description": "Envie os detalhes do seu saque para análise de conformidade. Esta plataforma é apenas informativa — este formulário não movimenta fundos. Seu agente de caso analisará a carteira de destino solicitada e o notificará sobre o resultado."
+    },
+    "sections": {
+      "details": "1. Detalhes do saque",
+      "wallet": "2. Carteira de destino solicitada",
+      "preferences": "3. Preferências",
+      "security": "4. Segurança e termos"
+    },
+    "walletHint": "Esta é a carteira para a qual você deseja que os fundos sejam liberados. É independente de qualquer carteira de pagamento verificada que seu agente de caso já possa ter registrado — a conformidade verificará o endereço enviado aqui.",
+    "termsCheckbox": "Confirmo que o endereço da carteira de destino acima é meu e entendo que esta plataforma é apenas informativa — enviar esta solicitação pede à conformidade que analise meu saque, não movimenta fundos por si só.",
+    "buttons": {
+      "cancel": "Cancelar",
+      "submit": "Enviar solicitação de saque",
+      "submitting": "Enviando…"
+    },
+    "fields": {
+      "amount": "Valor",
+      "amountPlaceholder": "ex.: 1000",
+      "type": "Tipo",
+      "typeFull": "Saldo total",
+      "typePartial": "Parcial",
+      "asset": "Ativo",
+      "network": "Rede",
+      "walletAddress": "Endereço da carteira",
+      "walletAddressPlaceholder": "Cole o endereço de destino",
+      "walletAssetOptional": "Ativo (opcional)",
+      "walletNetworkOptional": "Rede (opcional)",
+      "walletMatchAbove": "Deixe em branco para corresponder ao acima",
+      "channel": "Canal de confirmação",
+      "channelEmail": "E-mail",
+      "channelSms": "SMS",
+      "channelBoth": "Ambos",
+      "note": "Nota para conformidade (opcional)",
+      "notePlaceholder": "Qualquer coisa que seu agente de caso deva saber",
+      "payoutDate": "Data preferida de pagamento (opcional, amanhã ou depois)",
+      "pin": "Redigite seu PIN de caso de 6 dígitos",
+      "twoFa": "Código 2FA / de verificação (opcional, 6 dígitos)",
+      "twoFaPlaceholder": "Se seu agente emitiu um"
+    },
+    "errors": {
+      "missingTitle": "Detalhes ausentes",
+      "missingDescription": "Preencha valor, ativo, rede e endereço da carteira de destino.",
+      "pinTitle": "PIN obrigatório",
+      "pinDescription": "Digite seu PIN de caso de 6 dígitos para confirmar esta solicitação.",
+      "twoFaTitle": "Código 2FA inválido",
+      "twoFaDescription": "Os códigos de verificação devem ter exatamente 6 dígitos.",
+      "dateTitle": "Data muito próxima",
+      "dateDescription": "A data preferida de pagamento deve ser amanhã ou depois.",
+      "termsTitle": "Termos obrigatórios",
+      "termsDescription": "Aceite os termos de saque antes de enviar.",
+      "networkTitle": "Erro de rede",
+      "networkDescription": "Não foi possível enviar a solicitação de saque. Tente novamente.",
+      "submitFailedTitle": "Não foi possível enviar a solicitação de saque",
+      "submitFailedDefault": "Tente novamente ou contate seu agente de caso."
+    },
+    "success": {
+      "title": "Solicitação de saque enviada",
+      "description": "Seu agente de caso analisará a carteira de destino e entrará em contato com o resultado."
+    },
+    "timeline": {
+      "submitted": "Solicitação de saque enviada",
+      "approved": "Solicitação de saque aprovada",
+      "rejected": "Solicitação de saque rejeitada",
+      "cancelled": "Solicitação de saque cancelada",
+      "submittedDesc": "Aguardando análise de conformidade.",
+      "approvedDesc": "A conformidade aprovou sua solicitação.",
+      "rejectedDesc": "A conformidade rejeitou sua solicitação.",
+      "cancelledDesc": "Esta solicitação foi cancelada."
+    },
+    "history": {
+      "title": "Pedidos de saque",
+      "subtitle": "Apenas visualização — esta plataforma não movimenta fundos. O seu oficial de caso analisa cada pedido.",
+      "destinationWallet": "Carteira de destino",
+      "officerNote": "Nota do oficial de caso",
+      "yourNote": "A sua nota",
+      "submittedOn": "Submetido",
+      "reviewedOn": "Analisado",
+      "status": {
+        "pending": "Análise pendente",
+        "approved": "Aprovado",
+        "rejected": "Rejeitado",
+        "cancelled": "Cancelado"
+      }
+    }
+  },
+  "nda": {
+    "translationDisclaimer": {
+      "title": "Aviso de tradução",
+      "body": "Esta tradução é fornecida por cortesia. A versão em inglês deste documento é o texto juridicamente vinculativo."
+    }
+  },
+  "stageBlocker": {
+    "userAction": "Ação necessária da sua parte",
+    "adminAction": "Aguardando equipe de conformidade",
+    "systemProcessing": "Processamento do sistema"
+  },
+  "stageCta": {
+    "1": {
+      "label": "Ver atualizações de conformidade",
+      "headline": "Depósito confirmado — caso está ativo"
+    },
+    "2": {
+      "label": "Abrir mensagens seguras",
+      "headline": "Conformidade está gerando sua chave-frase"
+    },
+    "3": {
+      "label": "Ver chave-frase",
+      "headline": "Sua chave-frase está pronta em mensagens seguras"
+    },
+    "4": {
+      "label": "Selecionar opção de saque",
+      "headline": "Escolha a opção A ou B na sua carta de saque"
+    },
+    "5": {
+      "label": "Revisar envios",
+      "headline": "Conformidade está verificando seu depósito inicial"
+    },
+    "6": {
+      "label": "Abrir mensagens seguras",
+      "headline": "Validação cruzada da chave-frase em andamento"
+    },
+    "7": {
+      "label": "Pagar depósito de fusão",
+      "headline": "Depósito de fusão da chave-frase é necessário para continuar"
+    },
+    "8": {
+      "label": "Revisar recibos",
+      "headline": "O Departamento Financeiro está revisando seu arquivo"
+    },
+    "9": {
+      "label": "Ver progresso",
+      "headline": "A central de liberação de mineração está preparando sua liquidação"
+    },
+    "10": {
+      "label": "Verificar saldo da carteira",
+      "headline": "É necessário saldo da carteira de atividade para verificação"
+    },
+    "11": {
+      "label": "Assinar declaração",
+      "headline": "Assine a Declaração de Conformidade para avançar"
+    },
+    "12": {
+      "label": "Abrir mensagens seguras",
+      "headline": "Janela final de processamento — liquidação em fila"
+    },
+    "13": {
+      "label": "Confirmar recebimento",
+      "headline": "Fundos liberados — confirme o recebimento para encerrar seu caso"
+    },
+    "14": {
+      "label": "Abrir ativação de saque",
+      "headline": "Conclua a ativação de saque para liberar os fundos"
+    }
+  },
+  "withdrawalActivation": {
+    "notYetTitle": "Ainda não disponível",
+    "notYetDesc": "A ativação do saque é aberta quando o seu caso atinge a etapa final.",
+    "backToDashboard": "Voltar ao painel",
+    "hero": {
+      "title": "Parabéns — seu caso atingiu a etapa final",
+      "body": "Todos os pontos de verificação de conformidade estão aprovados. Conclua as etapas de ativação abaixo para vincular sua carteira de saque e desbloquear o processamento. Seu oficial de caso confirmará a liberação assim que o depósito de ativação for aprovado."
+    },
+    "approved": {
+      "title": "Ativação aprovada",
+      "body": "Seu depósito de ativação foi aprovado. O processamento do saque está em andamento — seu oficial de caso entrará em contato sobre o desembolso final para a carteira vinculada."
+    },
+    "actionRequired": "Ação necessária",
+    "rejected": {
+      "title": "Seu depósito de ativação requer atenção",
+      "noteLabel": "Nota do revisor"
+    },
+    "step1": {
+      "title": "Etapa 1 — Vincule sua carteira de saque",
+      "description": "Digite o endereço da carteira que receberá seu desembolso final. Certifique-se de que a rede corresponda — fundos enviados para uma rede incorreta não podem ser recuperados.",
+      "walletAddress": "Endereço da carteira",
+      "walletAddressPlaceholder": "ex. TXyz...endereço",
+      "asset": "Ativo",
+      "network": "Rede",
+      "amount": "Quantia",
+      "amountPlaceholder": "ex. 25000",
+      "memo": "Memo / Tag (opcional)",
+      "memoPlaceholder": "Necessário apenas para redes que usam memos",
+      "saving": "Salvando…",
+      "submit": "Enviar endereço",
+      "otherOption": "Outro…",
+      "assetCustomPlaceholder": "Digite o símbolo do ativo",
+      "networkCustomPlaceholder": "Digite o nome da rede",
+      "sameWalletNoticeTitle": "Importante:",
+      "sameWalletNoticeBody": "Antes de enviar, verifique se você vinculou exatamente este mesmo endereço de carteira na sua plataforma operacional. Os dois endereços precisam ser idênticos para que o desembolso possa ser recebido."
+    },
+    "step2": {
+      "title": "Etapa 2 — Confirme seu código de segurança por e-mail",
+      "description": "Enviaremos um código de segurança de 6 dígitos por e-mail para o endereço registrado. Insira-o abaixo para confirmar a vinculação da carteira. Os códigos expiram após 10 minutos e podem ser reenviados a cada 60 segundos.",
+      "sending": "Enviando…",
+      "resendIn": "Reenviar em {{seconds}}s",
+      "resend": "Reenviar código",
+      "send": "Enviar código de segurança",
+      "attempts": "Tentativas usadas: {{used}}/{{max}}",
+      "codePlaceholder": "Código de 6 dígitos",
+      "verifying": "Verificando…",
+      "verify": "Verificar"
+    },
+    "step3": {
+      "title": "Etapa 3 — Depósito de ativação",
+      "minLabel": "Valor mínimo de ativação",
+      "sendTo": "Enviar para",
+      "addressFallback": "— Entre em contato com seu oficial de caso —",
+      "intro": "Após enviar o depósito de ativação, faça upload do seu recibo de transação abaixo. Um oficial de conformidade verificará a transferência on-chain e aprovará seu saque.",
+      "notesPlaceholder": "Notas opcionais (hash da tx, carteira remetente etc.)",
+      "uploading": "Enviando…",
+      "upload": "Enviar recibo"
+    },
+    "badges": {
+      "approved": "Aprovado",
+      "awaitingReview": "Aguardando revisão",
+      "resubmit": "Reenviar",
+      "required": "Obrigatório",
+      "submitted": "Enviado",
+      "verified": "Verificado"
+    },
+    "toasts": {
+      "missingTitle": "Detalhes ausentes",
+      "missingDesc": "Endereço, ativo, rede e quantia são todos obrigatórios.",
+      "addressFailedTitle": "Não foi possível salvar o endereço",
+      "addressFailedDesc": "Verifique os detalhes e tente novamente.",
+      "addressSavedTitle": "Endereço salvo",
+      "addressSavedDesc": "Continue com a próxima etapa abaixo.",
+      "codeNotSentTitle": "Código não enviado",
+      "codeNotSentDesc": "Aguarde um momento antes de tentar novamente.",
+      "codeSentTitle": "Código de segurança enviado",
+      "codeSentDesc": "Verifique o e-mail registrado para o caso {{caseId}}.",
+      "invalidCodeTitle": "Código inválido",
+      "invalidCodeDesc": "O código deve ter 6 dígitos.",
+      "verifyFailedTitle": "Falha na verificação",
+      "verifyFailedDesc": "Tente novamente.",
+      "verifiedTitle": "Código verificado",
+      "verifiedDesc": "Prossiga com o depósito de ativação abaixo.",
+      "fileRejectedTitle": "Arquivo rejeitado",
+      "fileEmpty": "O arquivo está vazio.",
+      "fileTooLarge": "O tamanho máximo do arquivo é de 10 MB.",
+      "unsupportedTitle": "Tipo de arquivo não suportado",
+      "unsupportedDesc": "Envie um arquivo PDF, PNG, JPEG ou WEBP.",
+      "receiptAttachedTitle": "Recibo anexado, mas não vinculado",
+      "receiptAttachedDesc": "Entre em contato com seu oficial de caso para confirmar.",
+      "receiptSubmittedTitle": "Recibo enviado",
+      "receiptSubmittedDesc": "Um oficial de conformidade revisará e aprovará.",
+      "uploadFailedTitle": "Falha no envio",
+      "uploadFailedDesc": "Tente novamente."
+    }
+  },
+  "certificate": {
+    "notEnabled": "O Certificado de Frase de Fusão não foi habilitado para este caso.",
+    "title": "Certificado de Frase de Fusão",
+    "subtitle": "Um certificado notariado da sua frase de recuperação mesclada. O PDF limpo é liberado quando a taxa de certificação é aprovada pela conformidade.",
+    "badges": {
+      "unlocked": "Desbloqueado",
+      "awaiting": "Aguardando revisão",
+      "resubmit": "Reenvio necessário",
+      "feeRequired": "Taxa necessária"
+    },
+    "pdfSection": {
+      "label": "PDF do certificado",
+      "readyTitle": "Certificado limpo pronto para download",
+      "previewTitle": "Pré-visualização com marca-d'água (taxa necessária)",
+      "readyHint": "O PDF limpo abaixo é a cópia oficial.",
+      "previewHint": "A pré-visualização mostra o corpo do documento para que você possa verificar os detalhes antes de pagar a taxa de certificação.",
+      "downloadCertificate": "Baixar certificado",
+      "downloadPreview": "Baixar pré-visualização"
+    },
+    "fee": {
+      "label": "Taxa de certificação",
+      "loading": "Carregando taxa…",
+      "amount": "Valor da taxa",
+      "rate": "Taxa",
+      "rateOf": "do saque de {{base}} USDT",
+      "payTo": "Pagar para",
+      "payToFallback": "Contate seu gerente de caso",
+      "reviewerNotes": "Notas do revisor",
+      "pending": "Seu recibo está sendo revisado pela conformidade. Você será notificado por e-mail quando o certificado for desbloqueado.",
+      "notesPlaceholder": "Nota opcional para o revisor (hash da TX, comentários)…",
+      "uploadCorrected": "Enviar recibo corrigido",
+      "uploadReceipt": "Enviar recibo de pagamento"
+    },
+    "history": {
+      "title": "Histórico de pagamentos",
+      "statusApproved": "aprovado",
+      "statusRejected": "rejeitado",
+      "statusPending": "pendente",
+      "receiptLabel": "recibo"
+    },
+    "toasts": {
+      "tooLargeTitle": "Arquivo muito grande",
+      "tooLargeDesc": "O recibo deve ter entre 1 B e 10 MB.",
+      "unsupportedTitle": "Tipo de arquivo não suportado",
+      "unsupportedDesc": "Apenas PDF ou PNG/JPEG/WebP.",
+      "uploadedTitle": "Recibo enviado",
+      "uploadedDesc": "Seu recibo de taxa de certificação aguarda revisão da conformidade.",
+      "uploadFailedTitle": "Falha no envio",
+      "uploadFailedDesc": "Não foi possível enviar.",
+      "downloadFailedTitle": "Falha no download",
+      "downloadFailedDesc": "Tente novamente."
+    }
+  },
+  "sealed": {
+    "loadFailedTitle": "Não foi possível carregar o reconhecimento",
+    "downloadFailedTitle": "Falha no download",
+    "unknownError": "Erro desconhecido",
+    "skippedTitle": "Nenhuma assinatura necessária para este caso",
+    "skippedBody": "A IBCCF indicou que o Acordo Selado e NDA não são necessários para o seu caso. Seu gerente de caso da IBCCF irá orientá-lo nas etapas restantes. Se você acredita que deveria assinar um documento de acordo, entre em contato diretamente com seu gerente de caso.",
+    "notYetTitle": "Ainda não disponível",
+    "notYetBody": "O Acordo Selado e NDA tornam-se disponíveis somente após o seu caso atingir a etapa final de liquidação. Notificaremos você assim que abrir.",
+    "sealedTitle": "Seu acordo está selado",
+    "signedBy": "Assinado por <strong>{{name}}</strong> em {{date}}. Este caso agora está permanentemente encerrado; não podem ser feitas mais alterações.",
+    "integrityHash": "Hash de integridade SHA-256",
+    "templateMeta": "{{subtitle}} · Modelo {{version}}",
+    "partiesHeading": "Partes e particulares",
+    "signToSeal": "Assine para selar seu caso",
+    "documentLanguage": "Idioma do documento",
+    "documentLanguageNote": "Afeta apenas este documento. O idioma do seu portal permanece inalterado.",
+    "typedNamePlaceholder": "Nome legal completo",
+    "typedNameHint": "Digitar seu nome abaixo tem o mesmo efeito de uma assinatura manuscrita para este reconhecimento.",
+    "agreeBody": "Li, compreendi e concordo com cada disposição deste Acordo Selado e Reconhecimento de Confidencialidade. Entendo que meu caso será permanentemente selado.",
+    "sealing": "Selando…",
+    "signAndSeal": "Assinar e selar",
+    "previewPdf": "Pré-visualizar PDF",
+    "downloadSigned": "Baixar PDF assinado",
+    "toasts": {
+      "completeTitle": "Conclua a assinatura",
+      "completeDesc": "Digite seu nome legal completo e marque a caixa de reconhecimento.",
+      "alreadyTitle": "Reconhecimento já registrado",
+      "alreadyDesc": "Sua cópia assinada existente foi carregada.",
+      "sealedTitle": "Acordo selado",
+      "sealedDesc": "Um PDF assinado foi enviado por e-mail para você.",
+      "failedTitle": "Não foi possível registrar a assinatura"
+    },
+    "stampDutyGateTitle": "Depósito do imposto de selo obrigatório",
+    "stampDutyGateBody": "Antes que o Acordo Selado e NDA possam ser assinados, por favor envie um comprovante do depósito do imposto de selo e aguarde a aprovação da conformidade."
+  },
+  "walletConnect": {
+    "badge": "Conexão de carteira",
+    "title": "Conecte uma carteira pessoal para o seu saque",
+    "subtitle": "Seu pedido de saque foi enviado. Escolha uma carteira de autocustódia com a qual deseja receber os fundos e, em seguida, importe a frase de conexão gerada para o seu caso.",
+    "yourWallet": "sua carteira",
+    "unavailable": {
+      "title": "Conexão de carteira indisponível",
+      "description": "A etapa de Conexão de carteira ainda não foi aberta para o seu caso. Volte ao seu painel e continue com a etapa ativa.",
+      "back": "Voltar ao painel"
+    },
+    "step1": {
+      "title": "Etapa 1 — Selecione sua carteira",
+      "description": "Escolha a carteira que deseja usar ou insira o nome de uma carteira personalizada na qual já confia. Você importará a frase de conexão a seguir.",
+      "customTitle": "Carteira personalizada",
+      "customDescription": "Já usa MetaMask, Ledger Live, Exodus ou outra? Insira o nome dela.",
+      "customLabel": "Nome da carteira",
+      "customPlaceholder": "ex.: MetaMask, Ledger Live, Exodus",
+      "saving": "Salvando…",
+      "continue": "Continuar",
+      "pickWalletTitle": "Escolha uma carteira",
+      "pickWalletDesc": "Selecione uma das carteiras sugeridas ou digite um nome personalizado.",
+      "savedTitle": "Carteira selecionada",
+      "savedDesc": "Continuando com {{name}}.",
+      "saveErrorTitle": "Não foi possível salvar",
+      "saveErrorDesc": "Falha ao salvar a seleção da carteira (HTTP {{status}}).",
+      "networkErrorTitle": "Erro de rede",
+      "networkErrorDesc": "Tente novamente."
+    },
+    "step2": {
+      "title": "Etapa 2 — Sua frase de conexão de carteira",
+      "description": "Geramos uma frase de recuperação vinculada ao seu caso. Copie-a com cuidado — você a importará em <0>{{wallet}}</0> na próxima etapa.",
+      "securityReminderLabel": "Lembrete de segurança:",
+      "securityReminderBody": "nunca compartilhe essas palavras com ninguém, nunca as digite em sites que não sejam o aplicativo da sua carteira e nunca as armazene em notas sincronizadas na nuvem ou em capturas de tela.",
+      "hiddenBody": "Sua frase de conexão fica oculta até que você esteja pronto. Verifique se ninguém mais pode ver sua tela e, em seguida, revele-a.",
+      "reveal": "Revelar minha frase",
+      "generating": "Gerando sua frase segura…",
+      "loading": "Gerando sua frase de conexão…",
+      "errorNotReady": "Sua frase de conexão de carteira ainda não está pronta. Volte em breve ou entre em contato com o responsável pelo seu caso.",
+      "errorHttp": "Não foi possível carregar sua frase (HTTP {{status}}).",
+      "errorNotReadyShort": "Sua frase de conexão de carteira ainda não está pronta.",
+      "errorNetwork": "Erro de rede — tente novamente.",
+      "retry": "Tentar novamente",
+      "hide": "Ocultar",
+      "show": "Mostrar",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "copyFailedTitle": "Falha ao copiar",
+      "copyFailedDesc": "Mantenha pressionado ou selecione a frase manualmente.",
+      "next": "Próximo: guia de importação",
+      "changeWallet": "← Alterar carteira",
+      "explainerTitle": "O que é uma frase de conexão?",
+      "explainerBody": "É uma lista de palavras (normalmente 12) que funciona como a chave mestra de uma carteira de autocustódia. Digitar as mesmas palavras em um aplicativo de carteira recria exatamente a mesma carteira no seu dispositivo, de modo que somente você a controla. Mantenha as palavras em ordem — a ordem importa.",
+      "saveTitle": "Antes de continuar — guarde-a com segurança",
+      "saveTips": [
+        "Escreva as palavras em papel, em ordem, e guarde-as em um lugar que só você possa acessar.",
+        "Confira cada palavra com a grade acima — uma única palavra errada leva a uma carteira diferente.",
+        "Não faça capturas de tela nem a salve em notas na nuvem, fotos, e-mail ou aplicativos de mensagens."
+      ]
+    },
+    "step3": {
+      "title": "Etapa 3 — Importe a frase para {{wallet}}",
+      "description": "Instale o aplicativo e siga as etapas abaixo. A frase revelada na etapa 2 é o que você inserirá na tela \"Importar frase de recuperação\" da carteira.",
+      "download": "Baixar {{wallet}}",
+      "appStore": "App Store",
+      "playStore": "Google Play",
+      "recommended": "Para o seu dispositivo",
+      "officialLink": "Link oficial",
+      "customNotice": "Você está usando uma carteira personalizada (<0>{{name}}</0>). O texto exato varia conforme o aplicativo, mas o fluxo geral é o mesmo:",
+      "completion": "Assim que sua carteira estiver configurada, retorne ao seu painel. O responsável pelo seu caso será notificado de que a etapa de conexão de carteira foi concluída.",
+      "back": "← Voltar à frase",
+      "finish": "Voltar ao painel",
+      "intro": "Instale o aplicativo de carteira no seu telefone e siga as etapas numeradas para importar a frase que você salvou. Vá com calma — não há pressa e você pode voltar a esta página a qualquer momento.",
+      "timeEstimate": "Leva cerca de 3 a 5 minutos",
+      "dosTitle": "Faça",
+      "dos": [
+        "Baixe aplicativos de carteira somente da App Store oficial ou do Google Play.",
+        "Digite as palavras da frase devagar, na ordem exata mostrada.",
+        "Mantenha seu backup em papel offline e privado."
+      ],
+      "dontsTitle": "Não faça",
+      "donts": [
+        "Nunca compartilhe a frase com ninguém — nem mesmo com a equipe de suporte.",
+        "Nunca a digite em um site nem a envie por e-mail ou mensagem.",
+        "Nunca a salve como captura de tela ou em armazenamento na nuvem."
+      ],
+      "faqTitle": "Solução de problemas",
+      "faq": [
+        {
+          "q": "A carteira diz que a frase é inválida.",
+          "a": "Verifique a ortografia de cada palavra e certifique-se de que estejam na mesma ordem da grade. A maioria das carteiras aceita 12 palavras separadas por espaços simples."
+        },
+        {
+          "q": "Meu saldo aparece como zero após a importação.",
+          "a": "Confirme se você selecionou a rede/o ativo correto na carteira. Os saldos também podem levar um minuto para sincronizar — puxe para atualizar."
+        },
+        {
+          "q": "Fechei a página antes de salvar a frase.",
+          "a": "Reabra a Conexão de carteira e revele-a novamente na etapa 2. Ela permanece disponível para o seu caso."
+        }
+      ]
+    },
+    "wallets": {
+      "cryptocom": {
+        "tagline": "Carteira de autocustódia da Crypto.com",
+        "importSteps": [
+          "Instale o aplicativo Crypto.com DeFi Wallet pela App Store ou Google Play.",
+          "Abra o aplicativo e toque em \"Importar carteira\" na tela de boas-vindas.",
+          "Escolha \"Frase de recuperação\" e insira as 12 palavras mostradas acima na ordem.",
+          "Defina uma senha forte para a carteira quando solicitado e conclua a configuração biométrica.",
+          "Volte a esta página e continue com o saque assim que a carteira aparecer como conectada."
+        ]
+      },
+      "trust": {
+        "tagline": "Carteira de autocustódia multi-cadeia mais confiável",
+        "importSteps": [
+          "Instale o Trust Wallet pela App Store, Google Play ou como extensão de navegador.",
+          "Na tela de boas-vindas, toque em \"Já tenho uma carteira\".",
+          "Selecione \"Carteira multi-moeda\" e cole as 12 palavras da frase de recuperação mostrada acima.",
+          "Toque em Importar — o Trust Wallet fará a varredura de todas as cadeias suportadas automaticamente.",
+          "Quando o Trust Wallet exibir a conta importada, volte aqui e continue."
+        ]
+      },
+      "safepal": {
+        "tagline": "Carteira de autocustódia com segurança em nível de hardware",
+        "importSteps": [
+          "Instale o aplicativo SafePal pela App Store ou Google Play (ou baixe a extensão).",
+          "Toque em \"Software Wallet\" → \"Já tenho uma frase mnemônica\".",
+          "Selecione o formato de 12 palavras e insira as palavras mostradas acima na ordem.",
+          "Defina um nome e uma senha para a carteira; o SafePal derivará todas as contas suportadas.",
+          "Quando a carteira terminar a sincronização, volte aqui e continue com o saque."
+        ]
+      }
+    },
+    "genericSteps": [
+      "Abra o aplicativo de carteira escolhido e procure por \"Importar carteira\" ou \"Frase de recuperação\".",
+      "Selecione a opção de frase de 12 palavras e insira as palavras acima na ordem exata mostrada.",
+      "Defina uma senha para a carteira e conclua quaisquer solicitações de segurança do dispositivo.",
+      "Aguarde a carteira concluir a sincronização da sua conta.",
+      "Volte a esta página e continue com o saque assim que a carteira estiver configurada."
+    ],
+    "withdrawalDone": {
+      "kicker": "Etapa concluída",
+      "title": "Conexão de carteira — Verificada",
+      "body": "Esta etapa foi concluída como parte do seu processo de saque. Nenhuma ação adicional é necessária aqui."
+    }
+  },
+  "stampDuty": {
+    "toasts": {
+      "invalidTypeTitle": "Tipo de arquivo não suportado",
+      "invalidTypeDesc": "Por favor, envie um arquivo PDF ou imagem PNG/JPEG/WebP.",
+      "tooLargeTitle": "Arquivo muito grande",
+      "tooLargeDesc": "O tamanho máximo é 10 MB.",
+      "uploadedTitle": "Comprovante enviado",
+      "uploadedDesc": "A equipe de conformidade revisará seu pagamento do imposto de selo em breve.",
+      "failedTitle": "Falha no envio"
+    },
+    "unavailable": "As informações do imposto de selo estão temporariamente indisponíveis. Por favor, atualize a página.",
+    "disabled": "O imposto de selo não é necessário para este caso.",
+    "title": "Depósito do imposto de selo",
+    "subtitle": "Obrigatório antes que o Acordo Selado e NDA possam ser assinados.",
+    "amountLabel": "Valor devido",
+    "defaultNote": "Imposto de selo padrão para acordos selados.",
+    "payToLabel": "Envie seu pagamento para",
+    "payToChooseAsset": "Escolha qualquer uma das carteiras abaixo — pague no ativo que for mais conveniente para você.",
+    "addressLabel": "Endereço da carteira",
+    "memoLabel": "Memo / Etiqueta",
+    "payToHint": "Após enviar o depósito, envie um comprovante (captura de tela ou PDF) mostrando o hash da transação para que a conformidade possa verificar o pagamento.",
+    "payToMissing": "As informações de pagamento ainda não foram configuradas — por favor contate a conformidade para obter a carteira de depósito antes de enviar um comprovante.",
+    "approvedTitle": "Imposto de selo aprovado",
+    "approvedBody": "A conformidade aprovou seu pagamento. Agora você pode assinar o Acordo Selado e NDA.",
+    "pendingTitle": "Aguardando revisão de conformidade",
+    "pendingBody": "Seu comprovante foi recebido. Enviaremos um e-mail assim que o depósito for aprovado.",
+    "rejectedTitle": "Comprovante rejeitado",
+    "rejectedReason": "Motivo: {{reason}}",
+    "rejectedBody": "Por favor, envie um comprovante corrigido.",
+    "fileLabel": "Comprovante de pagamento (PDF ou imagem, máx. 10 MB)",
+    "notesLabel": "Notas (opcional)",
+    "notesPlaceholder": "Hash da transação, carteira ou qualquer contexto para o revisor.",
+    "uploading": "Enviando…",
+    "uploadCta": "Enviar comprovante",
+    "historyTitle": "Histórico de envios"
+  },
+  "refundClaim": {
+    "pageTitle": "Pedido de Reembolso",
+    "pageSubtitle": "Documente o seu saldo de ativação reembolsável para processamento do desembolso",
+    "refundableBalance": "1.000 USDT",
+    "refundableBalanceLabel": "Saldo de ativação reembolsável",
+    "statusPendingSubmission": "Aguardando sua submissão",
+    "statusSubmitted": "Submetido — em análise",
+    "statusApproved": "Aprovado",
+    "statusRejected": "Não aprovado",
+    "recommendationsTitle": "Recomendações Documentais",
+    "recommendationsHint": "O seu oficial de conformidade forneceu as seguintes orientações para a sua submissão:",
+    "entriesTitle": "Entradas de Depósito Detalhadas",
+    "entriesHint": "Adicione uma linha para cada cobrança reembolsável. Forneça o máximo de detalhes possível para agilizar a análise.",
+    "addEntry": "Adicionar Entrada",
+    "removeEntry": "Remover",
+    "amountLabel": "Valor (USDT)",
+    "amountPlaceholder": "ex.: 1000",
+    "chargedForLabel": "Cobrado por",
+    "chargedForPlaceholder": "ex.: Taxa de ativação, Taxa de processamento…",
+    "dateLabel": "Data da cobrança",
+    "txIdLabel": "ID da Transação / Referência",
+    "txIdPlaceholder": "Hash TX de blockchain ou referência bancária (opcional)",
+    "networkLabel": "Rede / Cadeia",
+    "networkPlaceholder": "ex.: TRC-20, BEP-20 (opcional)",
+    "entryNotesLabel": "Notas",
+    "entryNotesPlaceholder": "Contexto adicional para esta entrada (opcional)",
+    "receiptLabel": "Recibo",
+    "attachReceipt": "Anexar recibo",
+    "receiptAttached": "Recibo anexado",
+    "globalDocsTitle": "Documentos de Suporte Adicionais",
+    "globalDocsHint": "Carregue qualquer evidência adicional não vinculada a uma entrada específica (extratos bancários, capturas de ecrã, etc.)",
+    "submitCta": "Submeter Pedido de Reembolso",
+    "submitting": "A submeter…",
+    "submittedBannerTitle": "Pedido submetido com sucesso",
+    "submittedBannerBody": "O seu pedido de reembolso está em análise. Receberá um e-mail assim que uma decisão for tomada.",
+    "approvedBannerTitle": "Pedido de reembolso aprovado",
+    "approvedBannerBody": "O seu pedido de reembolso foi aprovado. Descarregue o seu certificado oficial abaixo.",
+    "rejectedBannerTitle": "Pedido de reembolso não aprovado",
+    "rejectedBannerBody": "Por favor, reveja as notas do oficial abaixo. Contacte o seu oficial de conformidade se tiver dúvidas.",
+    "adminNotesLabel": "Notas do oficial revisor",
+    "downloadCertificate": "Descarregar Certificado de Reembolso",
+    "downloadingCertificate": "A gerar certificado…",
+    "certSubtitle": "Certificado oficial do pedido de reembolso aprovado",
+    "emptyEntriesError": "Por favor, adicione pelo menos uma entrada de depósito antes de submeter.",
+    "entryAmountRequired": "O valor é obrigatório",
+    "entryChargedForRequired": "A descrição é obrigatória",
+    "entryDateRequired": "A data é obrigatória",
+    "submittedReadonlyNotice": "O seu pedido foi submetido e está bloqueado para análise. Não é possível fazer mais alterações.",
+    "approvedReadonlyNotice": "Este pedido foi aprovado. O seu certificado está disponível para download abaixo.",
+    "rejectedReadonlyNotice": "Este pedido não foi aprovado. Reveja as notas do oficial acima para os próximos passos."
+  },
+  "closureWarning": {
+    "heading": "Fechando sessão do portal",
+    "fallbackMessage": "Sua sessão do portal foi automaticamente agendada para encerramento pelo sistema de conformidade do IBCCF.",
+    "timeRemainingLabel": "Tempo restante",
+    "autoLogoutNote": "Você será desconectado automaticamente quando o temporizador chegar a zero",
+    "logOutNow": "Sair agora",
+    "dismiss": "Dispensar",
+    "dismissNote": "Dispensar oculta este aviso, mas não cancela o encerramento.",
+    "ariaLabel": "Aviso de encerramento do portal"
+  },
+  "reactivationDeposit": {
+    "title": "Conta Suspensa",
+    "subtitle": "Reativação Necessária",
+    "backToLogin": "← Voltar ao Login",
+    "loadError": {
+      "title": "Não foi possível carregar os detalhes de reativação",
+      "body": "Não foi possível recuperar as informações de depósito da sua conta. Por favor, tente novamente ou entre em contato com o suporte."
+    },
+    "notice": {
+      "title": "Sua conta foi suspensa",
+      "body": "O acesso ao seu portal foi suspenso após o período de encerramento agendado. Para restaurar o acesso completo, envie o depósito de reativação para o endereço abaixo e faça o upload do seu comprovante de pagamento. Nossa equipe de conformidade irá analisá-lo e restaurar o seu acesso prontamente.",
+      "bodyWarningExpired": "O acesso ao seu portal foi suspenso após o período de encerramento agendado. Para restaurar o acesso completo, envie o depósito de reativação para o endereço abaixo e faça o upload do seu comprovante de pagamento. Nossa equipe de conformidade irá analisá-lo e restaurar o seu acesso prontamente.",
+      "bodyAdminDisabled": "Sua conta foi suspensa pela nossa equipe de conformidade. Para restaurar o acesso completo, envie o depósito de reativação para o endereço abaixo e faça o upload do seu comprovante de pagamento. Nossa equipe de conformidade irá analisá-lo e restaurar o seu acesso prontamente."
+    },
+    "deposit": {
+      "title": "Detalhes do Depósito de Reativação",
+      "amountLabel": "Valor Devido",
+      "addressLabel": "Endereço de Depósito",
+      "hint": "Envie apenas para o endereço exato indicado acima. Verifique o ativo e a rede antes de enviar.",
+      "noAddress": "Um endereço de depósito ainda não foi atribuído. Entre em contato com o suporte para receber suas instruções de reativação."
+    },
+    "upload": {
+      "title": "Enviar Comprovante de Pagamento",
+      "body": "Após enviar o depósito, faça o upload de uma captura de tela ou PDF do seu comprovante de transação. Nossa equipe irá analisá-lo e restaurar o seu acesso.",
+      "cta": "Selecionar arquivo de comprovante",
+      "hint": "PNG, JPEG, WebP ou PDF · Máx. 10 MB",
+      "change": "Alterar",
+      "submit": "Enviar Comprovante",
+      "submitting": "Enviando…",
+      "tooLargeTitle": "Arquivo muito grande",
+      "tooLargeDesc": "O tamanho máximo do arquivo é 10 MB.",
+      "badFormatTitle": "Formato não suportado",
+      "badFormatDesc": "Por favor, faça o upload de PNG, JPEG, WebP ou PDF.",
+      "failedTitle": "Falha no envio",
+      "failedDesc": "Não foi possível enviar o seu comprovante. Por favor, tente novamente.",
+      "networkTitle": "Erro de rede",
+      "networkDesc": "Não foi possível acessar o servidor. Por favor, tente novamente."
+    },
+    "confirmation": {
+      "title": "Comprovante enviado com sucesso",
+      "body": "Obrigado. Seu comprovante de pagamento está agora em análise pela nossa equipe de conformidade. Você receberá uma notificação por e-mail assim que o seu acesso for restaurado."
+    }
+  }
+}

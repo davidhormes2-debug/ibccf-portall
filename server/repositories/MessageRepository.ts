@@ -1,4 +1,4 @@
-import { db } from "../db";
+import { db, type DbExecutor } from "../db";
 import { eq, desc, and, lt } from "drizzle-orm";
 import {
   chatMessages, adminMessages, scheduledMessages, 
@@ -43,8 +43,11 @@ export class MessageRepository {
     return messages.length;
   }
 
-  async createAdminMessage(data: InsertAdminMessage): Promise<AdminMessage> {
-    const [message] = await db.insert(adminMessages).values(data).returning();
+  async createAdminMessage(
+    data: InsertAdminMessage,
+    executor: DbExecutor = db,
+  ): Promise<AdminMessage> {
+    const [message] = await executor.insert(adminMessages).values(data).returning();
     return message;
   }
 

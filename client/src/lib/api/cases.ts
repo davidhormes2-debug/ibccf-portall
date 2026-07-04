@@ -6,7 +6,7 @@ import type {
   InsertCase, 
   UpdateCase,
   CaseLetter,
-  InsertCaseLetter,
+  
   UpdateCaseLetter,
   CaseSubmission,
   InsertCaseSubmission,

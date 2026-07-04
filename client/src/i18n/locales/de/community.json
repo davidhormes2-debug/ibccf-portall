@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "Community-Forum",
+    "subtitle": "Diskussionen, Unterstützung und gemeinsame Erfahrungen",
+    "back": "Zurück",
+    "home": "Startseite",
+    "brand": "IBCCF Community",
+    "live": "LIVE"
+  },
+  "actions": {
+    "newThread": "Eine Diskussion starten",
+    "newDiscussion": "Neue Diskussion",
+    "newShort": "Neu",
+    "signInToPost": "Anmelden, um zu posten",
+    "signInShort": "Anmelden",
+    "search": "Diskussionen suchen...",
+    "postReply": "Antwort posten",
+    "replyPlaceholder": "Teilen Sie Ihre Gedanken oder Erfahrungen...",
+    "submitReply": "Antwort posten",
+    "posting": "Wird gepostet...",
+    "backToDiscussions": "Zurück zu den Diskussionen"
+  },
+  "dialog": {
+    "title": "Eine neue Diskussion starten",
+    "department": "Abteilung",
+    "departmentPlaceholder": "Wählen Sie eine Abteilung aus",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Geben Sie Ihrer Diskussion einen klaren Titel",
+    "content": "Inhalt",
+    "contentPlaceholder": "Teilen Sie Ihre Erfahrung, stellen Sie eine Frage oder starten Sie eine Diskussion...",
+    "cancel": "Abbrechen",
+    "create": "Diskussion erstellen",
+    "creating": "Wird erstellt..."
+  },
+  "stats": {
+    "members": "Mitglieder",
+    "discussions": "Diskussionen",
+    "replies": "Antworten",
+    "departments": "Abteilungen"
+  },
+  "sidebar": {
+    "departments": "Abteilungen",
+    "allDiscussions": "Alle Diskussionen"
+  },
+  "thread": {
+    "locked": "Gesperrt",
+    "pinned": "Fixiert",
+    "moderator": "Moderator",
+    "you": "Sie",
+    "live": "Live",
+    "views": "Ansichten",
+    "replies": "Antworten",
+    "repliesCount": "Antworten ({{count}})",
+    "loading": "Antworten werden geladen...",
+    "noReplies": "Noch keine Antworten. Seien Sie der Erste, der antwortet!",
+    "postingAs": "Posten als",
+    "postingAsAnonymous": "Posten als anonymes Mitglied der Community",
+    "signInToReplyTitle": "Anmelden, um zu antworten",
+    "signInToReplyDesc": "Sie benötigen ein Portal-Konto, um an Diskussionen teilzunehmen.",
+    "signInToReply": "Anmelden, um zu antworten"
+  },
+  "empty": {
+    "noThreads": "Noch keine Diskussionen",
+    "ctaAuthed": "Seien Sie der Erste, der ein Gespräch beginnt!",
+    "ctaGuest": "Melden Sie sich an, um die erste Diskussion zu starten."
+  },
+  "guidelines": {
+    "title": "Gemeinschaftsrichtlinien",
+    "rule1": "Seien Sie respektvoll und unterstützend",
+    "rule2": "Teilen Sie Erfahrungen, keine persönlichen Details",
+    "rule3": "Kein Spam oder werbliche Inhalte",
+    "rule4": "Verdächtige Aktivitäten melden",
+    "rule5": "Schützen Sie Ihre Privatsphäre – verwenden Sie nur Pseudonyme"
+  },
+  "toast": {
+    "threadCreatedTitle": "Diskussion erstellt",
+    "threadCreatedDesc": "Ihr Diskussionsthread wurde gepostet.",
+    "replyPostedTitle": "Antwort gepostet",
+    "replyPostedDesc": "Ihre Antwort wurde zur Diskussion hinzugefügt.",
+    "errorTitle": "Fehler",
+    "createThreadFail": "Fehler beim Erstellen des Threads",
+    "postReplyFail": "Fehler beim Posten der Antwort",
+    "missingFieldsTitle": "Fehlende Felder",
+    "missingFieldsDesc": "Bitte füllen Sie alle Felder aus",
+    "rateLimitedTitle": "Langsam machen",
+    "rateLimitedDesc": "Du hast schnell gepostet. Bitte warte einen Moment und versuche es erneut."
+  },
+  "loading": "Diskussionen werden geladen..."
+}

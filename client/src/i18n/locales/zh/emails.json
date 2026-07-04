@@ -1,0 +1,511 @@
+{
+  "common": {
+    "greeting": "您好 {{name}}:",
+    "regards": "此致,",
+    "team": "IBCCF 合规团队",
+    "footer": "这是来自 International Blockchain Community Complaints Forum 的事务性通知。邮件回复由合规台监控。",
+    "viewInPortal": "在您的门户中查看",
+    "caseRef": "案件编号:{{case}}",
+    "securityNoticeLabel": "安全提示。",
+    "importantLabel": "重要",
+    "actionRequiredLabel": "需要采取行动",
+    "sectionWhatToDo": "您需要执行的操作",
+    "sectionWhatToExpect": "后续将发生什么",
+    "sectionStageSummary": "阶段概要",
+    "sectionDetailedExplanation": "详细说明",
+    "sectionWhyItMatters": "为何需要此步骤",
+    "sectionRegulatoryBasis": "监管依据",
+    "sectionNextSteps": "后续步骤:",
+    "sectionHowToAccess": "如何登录您的门户:",
+    "sectionHowToSignIn": "如何重新登录:",
+    "caseReferenceLabel": "案件编号",
+    "currentStageLabel": "当前阶段",
+    "declarationStatusLabel": "声明状态",
+    "openSecurePortalCta": "打开安全门户",
+    "copyLinkPrefix": "或复制此链接:"
+  },
+  "letterReady": {
+    "subject": "您的提款函已就绪 — 案件 {{case}}",
+    "headline": "您的提款函已就绪",
+    "body": "您的正式提款函已发出,可在门户中查看。请登录后查阅并下载。"
+  },
+  "letterReissued": {
+    "subject": "提款函已重发 (v{{version}}) — 案件 {{case}}",
+    "headline": "您的提款函已重发",
+    "body": "您的提款函新版本 (v{{version}}) 已发出,旧版本已被取代。请登录查看最新版本。"
+  },
+  "reissueApproved": {
+    "preheader": "您第 v{{version}} 轮的重发付款已获核准。",
+    "intro": "好消息——合规团队已核准您第 v{{version}} 轮（{{fee}}）的重发付款。您现在可以在门户中重新提交您的提款选项选择。",
+    "approvedFeeLabel": "已核准的重发费用",
+    "expectBody": "打开您的门户，返回提款函页面，选择一个选项并提交。处理将按标准时间表恢复。",
+    "cta": "重新提交选择",
+    "subject": "重发付款已核准 — 案件 {{case}}",
+    "headline": "您的重发付款已核准",
+    "body": "您的重发付款已核准。重发的提款函将很快发布。"
+  },
+  "reissueRejected": {
+    "preheader": "您的重发付款收据未获核准。",
+    "intro": "您最近的重发付款收据已经过审核但未能核准。请查看下方的审核员备注，并在您的门户中上传更正后的收据。",
+    "reviewerNotesLabel": "审核员备注",
+    "actionBody": "打开安全门户，前往当前重发轮次的存款页面，上传更清晰或更正后的收据以供审核。",
+    "cta": "上传更正后的收据",
+    "subject": "重发付款未能核准 — 案件 {{case}}",
+    "headline": "您的重发付款未能核准",
+    "body": "您的重发付款未能核准。请在门户中查看原因并重新提交。"
+  },
+  "declarationAssigned": {
+    "subject": "已分配一份合规声明 — 案件 {{case}}",
+    "headline": "已为您分配一份合规声明",
+    "body": "已为您的案件分配一份合规声明。请在门户的声明栏目中填写。"
+  },
+  "declarationApproved": {
+    "subject": "合规声明已通过 — 案件 {{case}}",
+    "headline": "您的声明已通过",
+    "body": "您的合规声明已通过。您的案件将进入下一阶段。"
+  },
+  "declarationRejected": {
+    "subject": "合规声明需要修改 — 案件 {{case}}",
+    "headline": "您的声明需要修改",
+    "body": "您的合规声明需要修改。请在门户中查看反馈意见并重新提交。"
+  },
+  "submissionReceived": {
+    "subject": "我们已收到您的提交 — 案件 {{case}}",
+    "headline": "我们已收到您的提交",
+    "body": "我们已收到您的提交,合规团队将很快进行审核。结果将在门户中通知您。"
+  },
+  "complianceMessage": {
+    "subject": "来自合规部的新消息 — {{title}}",
+    "headline": "您收到一条新的合规消息",
+    "body": "合规官员就您的案件向您发送了新消息。请登录查看。"
+  },
+  "documentRequested": {
+    "subject": "需要您提供文件 — 案件 {{case}}",
+    "headline": "已请求您提交文件",
+    "body": "合规官员就您的案件请求一份文件。请在门户的文件栏目中上传。"
+  },
+  "documentUnderReview": {
+    "subject": "文件审核中 — 案件 {{case}}",
+    "headline": "您的文件正在审核中",
+    "body": "合规官员已开始审核您提交的文件\"{{documentType}}\"。目前您无需进行任何操作 — 审核完成后我们将在门户中通知您。"
+  },
+  "documentApproved": {
+    "subject": "文件已通过 — 案件 {{case}}",
+    "headline": "您的文件已通过",
+    "body": "您提交的文件已通过合规审核。本次请求无需进一步操作。"
+  },
+  "documentRejected": {
+    "subject": "文件需要重新提交 — 案件 {{case}}",
+    "headline": "您的文件需要重新提交",
+    "body": "您提交的文件未能通过审核。请在门户中查看反馈并上传修正后的文件。"
+  },
+  "payoutWalletSet": {
+    "subject": "支付钱包已校准并绑定至您的 IBCCF 安全钱包 — 案件 {{case}}",
+    "headline": "您的支付钱包已校准并与您的 IBCCF 安全钱包完成绑定",
+    "body": "您的合规专员已校准您的支付钱包,并将其与您的 IBCCF 安全钱包完成绑定。该地址现已成为本案件最终发放的授权目的地址 — 请在门户中查看详情,并确认与合规专员沟通的内容一致。"
+  },
+  "payoutWalletChanged": {
+    "subject": "支付钱包已重新校准并重新绑定至您的 IBCCF 安全钱包 — 案件 {{case}}",
+    "headline": "您的支付钱包已重新校准并重新与您的 IBCCF 安全钱包完成绑定",
+    "body": "您的合规专员已重新校准您的支付钱包,并将其重新与您的 IBCCF 安全钱包完成绑定。只有该新地址现已获得最终发放授权 — 请在门户中仔细查看更新后的详情。"
+  },
+  "withdrawalRequestSubmitted": {
+    "subject": "已收到提现申请 — 案件 {{case}}",
+    "headline": "您的提现申请已收到",
+    "body": "我们已收到您 {{amount}} {{asset}}({{network}})的提现申请。您的案件官将审核所请求的目标钱包并通知您结果。本平台仅供展示,不转移任何资金。"
+  },
+  "withdrawalApproved": {
+    "subject": "提现申请已批准 — 案件 {{case}}",
+    "headline": "您的提现申请已获批准",
+    "body": "您 {{amount}} {{asset}} 的提现申请已由合规部批准。后续阶段推进至放款将由您的案件官手动处理。"
+  },
+  "withdrawalRejected": {
+    "subject": "提现申请未获批准 — 案件 {{case}}",
+    "headline": "您的提现申请需要修订",
+    "body": "您 {{amount}} {{asset}} 的提现申请目前无法获批。审核备注:{{note}}。请联系您的案件官或在门户中提交新的申请。"
+  },
+  "withdrawalCancelled": {
+    "subject": "提现申请已取消 — 案件 {{case}}",
+    "headline": "您的提现申请已取消",
+    "body": "您 {{amount}} {{asset}} 的提现申请已被取消。在提现窗口开放期间,您可以再次提交新的申请。"
+  },
+  "keyRequestConfirmation": {
+    "subject": "已收到访问密钥申请 — 编号 {{requestId}}",
+    "preheader": "您的访问密钥申请 {{requestId}} 已收到,正在审核中。",
+    "intro": "感谢您提交访问密钥申请。您的申请已安全收到,正在由我们的核验团队审核。",
+    "requestIdLabel": "您的申请编号",
+    "importantBody": "请妥善保管此申请编号。您将需要它来跟踪申请状态,并在获批后取回您的访问密钥。",
+    "verificationNote": "核验通常在 1 至 3 个工作日内完成。您可随时通过下方链接查看申请状态 — 无需登录。",
+    "cta": "查看申请状态",
+    "signoff": "如果您并未提交此申请,可放心忽略本邮件。"
+  },
+  "keyApproval": {
+    "subject": "IBCCF 访问密钥已签发 — 登录信息附后",
+    "preheader": "您的访问密钥已获批,可立即使用。",
+    "intro": "我们很高兴地通知您,您的访问密钥申请已获批准。您现在可以使用下方所示凭证登录安全门户。",
+    "accessKeyLabel": "您的访问密钥",
+    "step1": "前往安全核验门户",
+    "step2": "输入上方所示的访问密钥",
+    "step3": "完成个人资料设置",
+    "step4": "设置一个保密的 6 位 PIN",
+    "securityBody": "您的访问密钥属保密信息,请勿向任何人泄露。IBCCF 授权人员绝不会向您索取访问密钥或 PIN。",
+    "signoff": "如有任何疑问,我们的合规团队随时为您提供帮助。"
+  },
+  "accountReactivation": {
+    "subject": "IBCCF 门户访问已恢复 — 您的新登录代码",
+    "preheader": "您的 IBCCF 门户访问权限已重新启用。",
+    "intro": "好消息 — 您的 IBCCF 门户账户已由我们的合规团队重新启用。出于安全考虑,我们已为您签发了一个全新的访问代码,旧代码已失效。",
+    "accessCodeLabel": "您的新访问代码",
+    "step1": "打开 IBCCF 安全门户",
+    "step2": "输入上方所示的新访问代码",
+    "step3": "使用您现有的 6 位 PIN 完成登录",
+    "securityBody": "此新代码已取代旧代码。请勿向任何人泄露 — IBCCF 工作人员绝不会向您索取访问代码或 PIN。",
+    "signoff": "如果您并未预期收到此邮件,请立即联系我们的合规团队。"
+  },
+  "newDeclarationCode": {
+    "subject": "IBCCF 声明代码已签发 — 请完成您的声明",
+    "preheader": "已为您的案件签发新的声明访问代码。",
+    "intro": "我们的合规团队已为您的案件签发新的声明访问代码。您的旧代码已失效 — 请使用下方新代码完成《合规声明》。",
+    "accessCodeLabel": "您的新声明访问代码",
+    "step1": "照常登录您的 IBCCF 门户",
+    "step2": "打开《合规声明》",
+    "step3": "在提示时输入上方所示的访问代码",
+    "securityBody": "此代码已取代之前签发的所有声明代码。请勿向任何人泄露 — IBCCF 工作人员绝不会通过电话或聊天向您索取此代码。",
+    "signoff": "如果您并未预期收到此邮件,请立即联系我们的合规团队。"
+  },
+  "adminMessage": {
+    "subject": "关于您的申请 {{requestId}} 的新消息 — IBCCF",
+    "preheader": "关于申请 {{requestId}} 的新通信。",
+    "intro": "您收到来自 IBCCF 核验团队关于访问密钥申请 {{requestId}} 的新消息。",
+    "afterMessage": "请尽快查看您的案件,并通过安全门户回复。",
+    "cta": "查看您的申请",
+    "signoff": "这是一封自动通知邮件。回复此地址将无法送达核验团队 — 请在安全门户内回复。"
+  },
+  "rejection": {
+    "subject": "关于您的访问密钥申请 {{requestId}} 的更新 — IBCCF",
+    "preheader": "关于您的访问密钥申请 {{requestId}} 的更新。",
+    "intro": "感谢您提交访问密钥申请 {{requestId}}。经审慎审核,我们目前无法批准您的申请。",
+    "reasonLabel": "原因",
+    "body": "您可随时提交新的申请。点击下方按钮可打开预填写的重新申请表单,几秒内即可重新提交。",
+    "cta": "提交新申请",
+    "statusLink": "查看您的申请状态",
+    "statusLinkPrefix": "或者,",
+    "statusLinkSuffix": "。",
+    "signoff": "这是一封自动通知邮件。请勿直接回复本邮件。"
+  },
+  "expiry": {
+    "subject": "您的访问密钥申请 {{requestId}} 已过期 — IBCCF",
+    "preheader": "您的访问密钥申请 {{requestId}} 已过期。",
+    "intro": "您的访问密钥申请 {{requestId}} 已过期,因为未在规定时限内完成审核。系统未对您的申请采取任何措施。",
+    "body": "您可随时提交新的申请。点击下方按钮可打开预填写的重新申请表单,几秒内即可重新提交。",
+    "cta": "立即重新申请",
+    "statusLink": "查看已过期的申请",
+    "statusLinkPrefix": "或者,",
+    "statusLinkSuffix": "。",
+    "signoff": "这是一封自动通知邮件。请勿直接回复本邮件。"
+  },
+  "stageInstructions": {
+    "subjectTemplate": "第 {{stage}} 阶段(共 14 阶段):{{title}} — 案件 {{case}}",
+    "preheader": "第 {{stage}} 阶段(共 14 阶段):{{title}} — 案件 {{case}} 的操作说明。",
+    "intro": "以下是您案件 {{case}} 的详细更新。请仔细阅读阶段说明,并在安全门户内完成所需的操作。",
+    "stageOf": "第 {{stage}} 阶段(共 14 阶段)",
+    "regulatoryNote": "所列依据仅供透明参考。具体适用性取决于您的居住司法管辖区及所涉资产类别。",
+    "securityBody": "请始终在安全门户内完成存款和确认操作。IBCCF 绝不会通过电子邮件或聊天向您索取访问密钥、PIN 或助记短语。",
+    "signoff": "如有任何疑问,请使用门户内的安全消息面板,以便团队掌握完整的案件背景。"
+  },
+  "declarationAccess": {
+    "subject": "您的声明门户已开启 — 案件 {{case}}",
+    "preheaderShell": "您的声明门户已开启。访问代码:{{code}}。有效期 24 小时。",
+    "intro": "合规团队已为您的案件开启《合规声明》门户。请在接下来的 24 小时内按以下说明操作。",
+    "statusLabel": "门户已开启 — 等待您提交",
+    "accessCodeLabel": "您的声明访问代码",
+    "validUntil": "有效期至 {{expiry}} — 自签发起约 24 小时。",
+    "defaultIntroBody": "我们的合规团队已开启《合规声明》门户。请使用下方访问代码登录您的门户,审阅并签署声明。本访问代码自签发起 24 小时内有效 — 请在到期前完成声明。",
+    "todo1": "通过下方链接打开安全门户。",
+    "todo2": "在提示时输入本邮件中显示的访问代码。",
+    "todo3": "请仔细审阅《合规声明》的每个部分。",
+    "todo4": "确认所有必要的确认事项,并在 24 小时窗口关闭前提交。",
+    "todo5": "若窗口已过期,请联系您的合规专员以重新签发新代码。",
+    "defaultClosing": "出于安全考虑,本访问代码仅适用于此案件且为一次性使用,不得与任何人共享。如您并未预期收到此通知,请立即联系合规团队。",
+    "securityNoteLabel": "安全说明:",
+    "cta": "打开声明门户",
+    "signoff": "如有任何疑问,请使用门户内的安全消息面板,以便团队掌握完整的案件背景。"
+  },
+  "custom": {
+    "greeting": "尊敬的收件人:",
+    "intro": "以下是来自 IBCCF 团队的重要消息。",
+    "signoff": "如需后续跟进,请使用安全门户或回复至此地址。"
+  },
+  "withdrawalActivationAddressSubmitted": {
+    "subject": "已收到提款地址 — 案件 {{case}}",
+    "headline": "我们已收到您的提款地址",
+    "body": "您的提款地址({{asset}},网络 {{network}})已提交。请登录门户以继续激活流程。"
+  },
+  "withdrawalActivationTokenVerified": {
+    "subject": "安全验证码已通过验证 — 案件 {{case}}",
+    "headline": "您的安全验证码已通过验证",
+    "body": "您的提款安全验证码已成功通过验证。您现在可以在门户中上传激活押金的收据。"
+  },
+  "withdrawalActivationCode": {
+    "subject": "提款安全验证码 — 案件 {{case}}",
+    "headline": "您的提款安全验证码",
+    "body": "请使用以下验证码在 IBCCF 门户中确认您的提款地址。验证码:{{code}}(有效期 {{expiresInMinutes}} 分钟)。请勿向任何人透露此验证码——IBCCF 工作人员绝不会向您索取。"
+  },
+  "withdrawalActivationReceiptReceived": {
+    "subject": "已收到激活押金收据 — 案件 {{case}}",
+    "headline": "我们已收到您的激活押金收据",
+    "body": "我们已收到您的激活押金收据,合规专员将尽快审核。审核通过后,您将在门户内收到通知。"
+  },
+  "withdrawalActivationApproved": {
+    "subject": "提款激活已批准 — 案件 {{case}}",
+    "headline": "您的提款激活已获批准",
+    "body": "您的激活押金已获批准。提款处理将继续进行,您的案件专员将就最终拨付事宜与您联系。"
+  },
+  "withdrawalActivationRejected": {
+    "subject": "激活押金未能获批 — 案件 {{case}}",
+    "headline": "您的激活押金需要关注",
+    "body": "您的激活押金未能获批。审核员备注:{{reason}}。请在门户中查看消息并上传更正后的收据。"
+  },
+  "settlementSealed": {
+    "subject": "和解已封存 — 案件 {{case}}",
+    "headline": "您的和解已封存",
+    "body": "您的封存性和解与保密确认书已签署，案件现已永久封存。已签署的文件副本作为附件随附您留存。您可以使用门户中显示的完整性哈希值（SHA-256）验证所附 PDF 未被篡改。",
+    "greeting": "尊敬的 {{name}}：",
+    "caseReferenceLabel": "案件编号",
+    "integrityHashLabel": "SHA-256 完整性哈希",
+    "signedAtLabel": "签署时间：{{when}}"
+  },
+  "caseFinalized": {
+    "subject": "您的案件已完结 — 案件 {{case}}",
+    "headline": "您的案件已完结",
+    "body": "您的 IBCCF 提款案件已进入最终阶段并已全面完结。您可以随时登录门户下载您的封存档案。"
+  },
+  "certificateFeeReceived": {
+    "subject": "已收到认证费用收据 — 案件 {{case}}",
+    "headline": "我们已收到您的认证费用收据",
+    "body": "我们已收到您为合并助记词证书（{{amount}} USDT）提交的付款收据，合规团队正在审核。证书解锁后我们会通知您。"
+  },
+  "certificateUnlocked": {
+    "subject": "您的合并助记词证书已准备好 — 案件 {{case}}",
+    "headline": "您的合并助记词证书已解锁",
+    "body": "您的认证费用已获批准。清洁版合并助记词证书现已可在门户的证书板块下载。"
+  },
+  "certificateFeeRejected": {
+    "subject": "认证费用需重新提交 — 案件 {{case}}",
+    "headline": "您的认证费用未能获批",
+    "body": "您最近提交的认证费用收据未能获批。请在门户中查阅审核员备注，并上传更正后的收据。"
+  },
+  "stampDutyRequired": {
+    "subject": "需缴纳印花税保证金 — 案件 {{case}}",
+    "headline": "需缴纳印花税保证金",
+    "body": "在签署《封存和解协议与保密协议》之前，请在门户中上传印花税保证金（{{amount}} USDT）的缴款凭证。合规团队将进行审核并批准后方可签署。"
+  },
+  "stampDutyReceived": {
+    "subject": "已收到印花税凭证 — 案件 {{case}}",
+    "headline": "我们已收到您的印花税凭证",
+    "body": "我们已收到您的印花税保证金凭证（{{amount}} USDT），合规团队正在审核。审核通过后我们会通知您。"
+  },
+  "stampDutyApproved": {
+    "subject": "印花税已批准 — 案件 {{case}}",
+    "headline": "您的印花税保证金已获批准",
+    "body": "您的印花税保证金已获批准。您现在可以在门户中签署《封存和解协议与保密协议》。"
+  },
+  "stampDutyRejected": {
+    "subject": "印花税凭证需重新提交 — 案件 {{case}}",
+    "headline": "您的印花税凭证未能通过审核",
+    "body": "您最近提交的印花税保证金凭证未能通过审核。{{reason}} 请在门户的印花税板块上传修正后的凭证。"
+  },
+  "walletExchangeSelected": {
+    "subject": "钱包连接已更新 — 案件 {{case}}",
+    "headline": "您的钱包已被选择",
+    "body": "您已为案件 {{case}} 选择了 {{wallet}} 作为连接钱包。您现在可以在安全门户中获取您的钱包恢复助记词。"
+  },
+  "walletPhraseRevealed": {
+    "subject": "钱包恢复助记词已被访问 — 案件 {{case}}",
+    "headline": "您的钱包恢复助记词已被访问",
+    "body": "您案件 {{case}} 的钱包恢复助记词已通过安全门户被访问。如果您未进行此操作，请立即联系您的合规官员。"
+  },
+  "phraseCodeNotice": {
+    "subject": "需要操作：获取您的助记词并完成提现 — 案件 {{case}}",
+    "preheader": "登录您的安全门户以获取助记词并继续办理提现。",
+    "intro": "您的案件已可进入下一步。您的助记词现已在安全门户中提供，您可使用它来授权并完成提现。为保障安全，助记词绝不会通过电子邮件发送，请登录后查看。",
+    "retrieveTitle": "如何获取您的助记词",
+    "retrieveStep1": "使用下方按钮打开安全门户，并使用您的访问码登录。",
+    "retrieveStep2": "在菜单中进入“钱包连接”步骤。",
+    "retrieveStep3": "显示并仔细记录您的助记词，妥善保密保存。",
+    "withdrawTitle": "如何完成您的提现",
+    "withdrawStep1": "在“钱包连接”步骤确认您已验证的收款钱包信息。",
+    "withdrawStep2": "按照屏幕上的说明，使用您的助记词授权提现。",
+    "withdrawStep3": "在仪表板上跟踪剩余阶段，直至提现完成。",
+    "securityBody": "IBCCF 绝不会要求您通过电子邮件、电话或消息分享助记词。请仅在安全门户内输入。"
+  },
+  "unknownWallet": "未知钱包",
+  "walletConnectAlert": {
+    "subject": "[IBCCF] 钱包连接已完成 — 案件 {{caseId}}",
+    "preheader": "一名用户已完成案件 {{caseId}} 的钱包连接步骤。",
+    "greeting": "管理员提醒：钱包连接已完成",
+    "intro": "一名门户用户已完成案件 {{caseId}} 的钱包连接步骤。他们已披露其助记词代码，案件已准备好进行下一步合规操作。",
+    "caseLabel": "案件",
+    "walletLabel": "已选择钱包",
+    "cta": "在管理员控制台中打开案件",
+    "signoff": "IBCCF 合规监控",
+    "footerNote": "您收到此邮件是因为您的地址已配置为 IBCCF 管理员提醒接收者（ADMIN_ALERT_EMAIL / app_settings.admin_alert_email）。"
+  },
+  "documentUploadAlert": {
+    "subject": "[IBCCF] 用户已上传文件：\"{{documentType}}\" — 案件 {{caseId}}",
+    "subjectTest": "[TEST] [IBCCF] 用户已上传文件：\"{{documentType}}\" — 案件 {{caseId}}",
+    "preheader": "一名用户为案件 {{caseId}} 上传了\"{{documentType}}\"。",
+    "preheaderTest": "[TEST] 文件上传提醒投递验证。",
+    "greeting": "管理员提醒：用户已上传文件",
+    "greetingTest": "[TEST] 管理员提醒：用户已上传文件",
+    "intro": "一名门户用户为案件 {{caseId}} 上传了一份需要您审查的文件。",
+    "introTest": "这是由操作员发起的测试提醒。未上传真实文件。此消息确认您的文件上传提醒接收者已正确配置。",
+    "documentTypeLabel": "文件类型",
+    "fileNameLabel": "文件名",
+    "caseLabel": "案件",
+    "fileNameUnnamed": "（未命名）",
+    "cta": "在管理员控制台中审查",
+    "signoff": "IBCCF 文件监控",
+    "footerNote": "您收到此邮件是因为您的地址已配置为 IBCCF 文件上传提醒接收者（DOCUMENT_UPLOAD_ALERT_EMAIL / app_settings.document_upload_alert_email 或 ADMIN_ALERT_EMAIL 备选）。"
+  },
+  "tokenDepositInvoice": {
+    "subject": "提款处理已确认 — 案例 {{case}}",
+    "headline": "您的提款已获批准，正在处理中",
+    "body": "您的代币存款 {{paidAmount}} USDT 已通过验证，您的提款激活现已获批准。完整的处理确认及发票摘要如下所示。您的正式发票以 PDF 格式附于本邮件中。"
+  },
+  "refundClaimRequest": {
+    "subject": "需要操作：退款申请表 — 案件 {{case}}",
+    "preheader": "您的1,000 USDT可退还激活余额 — 立即完成您的退款申请",
+    "greeting": "您的退款申请表已就绪",
+    "intro": "您的案件已进入退款文件阶段。请在您的安全门户中填写退款申请表，以启动1,000 USDT可退还激活余额的退还程序。",
+    "balanceNote": "可退还激活余额：<strong>1,000 USDT</strong>（与不可退还的500 USDT处理费分开计算）。",
+    "recommendationsHeading": "合规部门的文件建议",
+    "instructionsHeading": "如何完成您的申请",
+    "step1": "使用您的访问代码登录安全门户。",
+    "step2": "在合规板块中进入<strong>退款申请</strong>。",
+    "step3": "添加每笔存款记录（金额、收费项目、日期及交易编号）。",
+    "step4": "为每条记录附上支持收据，然后点击<strong>提交退款申请</strong>。",
+    "cta": "打开退款申请表",
+    "signoff": "IBCCF国际执法部门",
+    "footerNote": "如果您未预期收到此邮件，请立即联系您的合规官员。"
+  },
+  "refundClaimApproved": {
+    "subject": "退款申请已批准 — 案件 {{case}}",
+    "preheader": "您的退款申请已审核并批准",
+    "greeting": "您的退款申请已获批准",
+    "intro": "我们很高兴地确认，您案件 {{case}} 的退款申请已由IBCCF国际执法部门审核并批准。",
+    "certNote": "您的官方退款批准证书现已在您的门户中提供。您可随时下载，作为已批准付款的证明。",
+    "adminNotesHeading": "官员备注",
+    "cta": "下载退款证书",
+    "signoff": "IBCCF国际执法部门",
+    "footerNote": "此电子邮件确认您的退款申请已获批准。付款将按结算时间表进行。"
+  },
+  "refundClaimRejected": {
+    "subject": "退款申请更新 — 案件 {{case}}",
+    "preheader": "关于您退款申请的更新",
+    "greeting": "退款申请更新",
+    "intro": "您案件 {{case}} 的退款申请已完成审核。目前，申请无法以当前形式获批。请查看下方官员备注，如适用请重新提交。",
+    "adminNotesHeading": "官员备注",
+    "nextSteps": "如对此结果有疑问或希望重新提交支持文件，请联系您的合规官员。",
+    "cta": "返回门户",
+    "signoff": "IBCCF国际执法部门",
+    "footerNote": "如果您认为此决定有误，请携带额外支持文件联系您的合规官员。"
+  },
+  "caseCreated": {
+    "subject": "您的案件已注册 — 案件 {{case}}",
+    "headline": "您的案件已注册",
+    "body": "您的案件已在IBCCF国际执法部门注册。我们的合规团队将审核您提交的资料，并就后续步骤与您联系。请妥善保管您的案件参考号 — 您需要它来访问您的安全门户。"
+  },
+  "adminNewCase": {
+    "subject": "[IBCCF] New case submitted — Case {{caseId}}",
+    "preheader": "A new case has been submitted: {{caseId}}.",
+    "greeting": "Admin alert: new case submitted",
+    "intro": "A new case has been submitted and is awaiting your review.",
+    "caseLabel": "Case",
+    "submitterLabel": "Submitter",
+    "cta": "Open case in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "adminNewMessage": {
+    "subject": "[IBCCF] New message from portal user — Case {{caseId}}",
+    "preheader": "A portal user sent a message for case {{caseId}}.",
+    "greeting": "Admin alert: new message from portal user",
+    "intro": "A portal user has sent a new message for case {{caseId}} that requires your attention.",
+    "caseLabel": "Case",
+    "userLabel": "User",
+    "messagePreviewLabel": "Message preview",
+    "cta": "View in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "portalWarning": {
+    "subject": "IBCCF门户通知 — 您的会话将在{{minuteLabel}}后关闭",
+    "noticeLabel": "会话关闭通知",
+    "closingIn": "您的门户将在{{minuteLabel}}后关闭",
+    "intro": "这是一条自动通知，您的IBCCF门户会话已被安排关闭。",
+    "body": "您的案例会话已由IBCCF合规系统自动安排关闭。这是一个系统发起的流程——未采取任何人工或管理员操作。会话关闭后，门户将不会自动重新开放。如需恢复访问权限，您必须联系IBCCF客户支持以完成重新激活流程。",
+    "cta": "返回门户",
+    "signoff": "IBCCF国际执法部门",
+    "footerNote": "这是一条自动合规通知。请保留此邮件以备记录。",
+    "minuteSingular": "1分钟",
+    "minutePlural": "{{count}}分钟"
+  },
+  "countdownOverride": {
+    "subject": "您的IBCCF门户会话已关闭 — 案件 {{case}}",
+    "preheader": "管理员已手动关闭案件 {{case}} 的门户会话。",
+    "intro": "管理员已手动关闭案件 {{case}} 的活跃门户会话。您的门户访问权限已暂停，提款进度已作为此合规操作的一部分重置。",
+    "actionHeading": "如何恢复您的访问权限",
+    "actionBody": "要恢复您的案件，需要进行重新激活存款。请打开您的安全门户，按照重新激活板块的屏幕说明操作。",
+    "cta": "打开安全门户",
+    "signoff": "如果您认为这是错误操作，请立即通过安全门户消息面板联系您的合规官员。"
+  },
+  "countdownExpired": {
+    "subject": "您的IBCCF门户会话已过期 — 案件 {{case}}",
+    "preheader": "案件 {{case}} 的门户会话倒计时已归零，您的访问权限已被锁定。",
+    "intro": "您案件 {{case}} 的IBCCF门户会话倒计时已归零，门户访问权限已自动暂停。提款进度已按照计划关闭程序重置。",
+    "actionHeading": "如何恢复您的访问权限",
+    "actionBody": "要继续您的案件，需要进行重新激活存款。请打开您的安全门户，按照重新激活板块的屏幕说明操作。",
+    "cta": "打开安全门户",
+    "signoff": "如果您未预期收到此通知，请立即通过安全门户消息面板联系您的合规官员。"
+  },
+  "reactivationRequired": {
+    "subject": "需要操作：需要门户重新激活存款 — 案件 {{case}}",
+    "preheader": "需要重新激活存款以恢复案件 {{case}} 的IBCCF门户访问权限。",
+    "intro": "案件 {{case}} 的IBCCF门户访问权限已暂停。要恢复访问并继续提款流程，请按以下说明完成重新激活存款。",
+    "depositAmountLabel": "所需重新激活存款",
+    "step1": "使用下方按钮打开安全门户，并使用您的访问代码登录。",
+    "step2": "进入仪表板上显示的重新激活板块。",
+    "step3": "上传您的重新激活存款收据以供合规审核。",
+    "securityBody": "请始终在安全门户内直接上传重新激活收据。IBCCF工作人员绝不会通过电子邮件或聊天要求付款确认。",
+    "cta": "打开安全门户",
+    "signoff": "一旦您的重新激活存款经过审核并获批准，您的门户访问权限和提款进度将完全恢复。"
+  },
+  "aiFailureAlert": {
+    "subject": "[IBCCF] AI服务降级 — 备用模式已激活",
+    "preheader": "OpenAI服务已故障，AI聊天机器人现在使用备用模板。",
+    "greeting": "运维警告：AI服务故障",
+    "intro": "IBCCF AI聊天机器人服务遇到错误，现正以备用模板模式运行。用户正在收到预先编写的回复，而非AI生成的回答。",
+    "errorLabel": "错误详情",
+    "timestampLabel": "首次检测时间",
+    "footerNote": "此警告最多每10分钟发送一次通知。您收到此邮件是因为您的地址已配置为IBCCF管理员警告接收者（ADMIN_ALERT_EMAIL / app_settings.admin_alert_email）。"
+  },
+  "healthCheckFailureAlert": {
+    "subject": "[IBCCF] 健康检查警告 — 服务降级",
+    "preheader": "内部健康探针检测到一个或多个IBCCF服务已降级。",
+    "greeting": "运维警告：检测到服务降级",
+    "intro": "IBCCF内部健康探针检测到一个或多个服务处于降级状态。建议立即调查。",
+    "degradedServicesLabel": "降级服务",
+    "timestampLabel": "检测时间",
+    "footerNote": "此警告在计划健康探针（每5分钟）检测到新降级服务时触发。您收到此邮件是因为您的地址已配置为IBCCF管理员警告接收者（ADMIN_ALERT_EMAIL / app_settings.admin_alert_email）。"
+  },
+  "healthCheckRecoveryAlert": {
+    "subject": "[IBCCF] 健康检查恢复 — 服务已恢复",
+    "preheader": "之前降级的IBCCF服务已被检测为正常。",
+    "greeting": "运维警告：服务恢复",
+    "intro": "IBCCF内部健康探针检测到之前降级的服务已恢复到健康状态。",
+    "recoveredServicesLabel": "已恢复的服务",
+    "timestampLabel": "检测时间",
+    "footerNote": "您收到此邮件是因为您的地址已配置为IBCCF管理员警告接收者（ADMIN_ALERT_EMAIL / app_settings.admin_alert_email）。"
+  }
+}

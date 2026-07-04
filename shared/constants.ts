@@ -68,69 +68,189 @@ export const API_ENDPOINTS = {
   translationsByLocale: (locale: string) => `/api/translations/${locale}`,
 } as const;
 
-export const CASE_STATUS_LABELS = {
+export const CASE_STATUSES = [
+  'created',
+  'registered',
+  'syncing',
+  'active',
+  'completed',
+] as const;
+
+export type CaseStatusValue = (typeof CASE_STATUSES)[number];
+
+export const CASE_STATUS_LABELS: Record<CaseStatusValue, string> = {
   created: 'Created',
   registered: 'Registered',
   syncing: 'Syncing',
   active: 'Active',
   completed: 'Completed',
-} as const;
+};
 
-export const CASE_STATUS_COLORS = {
+export const CASE_STATUS_COLORS: Record<CaseStatusValue, string> = {
   created: 'bg-gray-100 text-gray-800',
   registered: 'bg-blue-100 text-blue-800',
   syncing: 'bg-yellow-100 text-yellow-800',
   active: 'bg-green-100 text-green-800',
   completed: 'bg-purple-100 text-purple-800',
-} as const;
+};
 
-export const MESSAGE_CATEGORY_LABELS = {
+export const MESSAGE_CATEGORY_STATUSES = [
+  'urgent',
+  'processing',
+  'resolved',
+] as const;
+
+export type MessageCategoryValue = (typeof MESSAGE_CATEGORY_STATUSES)[number];
+
+export const MESSAGE_CATEGORY_LABELS: Record<MessageCategoryValue, string> = {
   urgent: 'Urgent',
   processing: 'Processing',
   resolved: 'Resolved',
-} as const;
+};
 
-export const MESSAGE_CATEGORY_COLORS = {
+export const MESSAGE_CATEGORY_COLORS: Record<MessageCategoryValue, string> = {
   urgent: 'bg-red-100 text-red-800 border-red-200',
   processing: 'bg-yellow-100 text-yellow-800 border-yellow-200',
   resolved: 'bg-green-100 text-green-800 border-green-200',
-} as const;
+};
 
-export const PRIORITY_LABELS = {
+export const PRIORITY_STATUSES = [
+  'high',
+  'medium',
+  'low',
+] as const;
+
+export type PriorityValue = (typeof PRIORITY_STATUSES)[number];
+
+export const PRIORITY_LABELS: Record<PriorityValue, string> = {
   high: 'High',
   medium: 'Medium',
   low: 'Low',
-} as const;
+};
 
-export const PRIORITY_COLORS = {
+export const PRIORITY_COLORS: Record<PriorityValue, string> = {
   high: 'bg-red-100 text-red-800',
   medium: 'bg-yellow-100 text-yellow-800',
   low: 'bg-green-100 text-green-800',
-} as const;
+};
 
-export const RECEIPT_STATUS_LABELS = {
+/**
+ * Canonical list of receipt status values accepted by the merged inbox.
+ * Used to derive the `?status=` Zod enum in `GET /api/deposits/all-receipts`
+ * so adding a new status here automatically expands the accepted filter values.
+ */
+export const RECEIPT_STATUSES = [
+  'pending',
+  'reviewed',
+  'approved',
+  'rejected',
+  'awaiting_admin_approval',
+] as const;
+
+export type ReceiptStatus = (typeof RECEIPT_STATUSES)[number];
+
+export const RECEIPT_STATUS_LABELS: Record<ReceiptStatus, string> = {
   pending: 'Pending Review',
   reviewed: 'Under Review',
   approved: 'Approved',
   rejected: 'Rejected',
+  awaiting_admin_approval: 'Awaiting Admin Approval',
 } as const;
 
-export const RECEIPT_STATUS_COLORS = {
+export const RECEIPT_STATUS_COLORS: Record<ReceiptStatus, string> = {
   pending: 'bg-yellow-100 text-yellow-800',
   reviewed: 'bg-blue-100 text-blue-800',
   approved: 'bg-green-100 text-green-800',
   rejected: 'bg-red-100 text-red-800',
+  awaiting_admin_approval: 'bg-yellow-100 text-yellow-800',
 } as const;
 
-export const WITHDRAWAL_STAGES = [
-  { stage: '1', label: 'Withdrawal Process Initiated', description: 'Your withdrawal request has been received and is being processed.' },
-  { stage: '2', label: 'First Stage Verification Completed', description: 'Initial verification of your account and withdrawal details is complete.' },
-  { stage: '3', label: 'Financial Department Verification', description: 'The financial department is reviewing your withdrawal request.' },
-  { stage: '4', label: 'Miners Department', description: 'Transaction is being prepared for blockchain processing.' },
-  { stage: '5', label: 'Money Laundry Funds Check', description: 'Compliance verification is in progress.' },
-  { stage: '6', label: 'Final Withdrawal Processing', description: 'Your withdrawal is in the final processing stage.' },
-  { stage: '7', label: 'Withdrawal Now Released', description: 'Congratulations! Your withdrawal has been released.' },
+/**
+ * Canonical list of certificate fee payment status values.
+ * Mirrors the set of values used for `cases.certificateFeeStatus` in the
+ * server routes and the portal context type.
+ */
+export const CERTIFICATE_FEE_STATUSES = [
+  'not_required',
+  'awaiting_admin_approval',
+  'approved',
+  'rejected',
 ] as const;
+
+export type CertificateFeeStatus = (typeof CERTIFICATE_FEE_STATUSES)[number];
+
+export const CERTIFICATE_FEE_STATUS_LABELS: Record<CertificateFeeStatus, string> = {
+  not_required: 'Not Required',
+  awaiting_admin_approval: 'Awaiting Approval',
+  approved: 'Approved',
+  rejected: 'Rejected',
+} as const;
+
+export const CERTIFICATE_FEE_STATUS_COLORS: Record<CertificateFeeStatus, string> = {
+  not_required: 'bg-slate-100 text-slate-800',
+  awaiting_admin_approval: 'bg-yellow-100 text-yellow-800',
+  approved: 'bg-green-100 text-green-800',
+  rejected: 'bg-red-100 text-red-800',
+} as const;
+
+/**
+ * Canonical list of stamp duty status values.
+ * Mirrors the set of values used for `cases.stampDutyStatus` in the server
+ * routes and `client/src/lib/stampDutyHistory.ts`.
+ */
+export const STAMP_DUTY_STATUSES = [
+  'awaiting_upload',
+  'awaiting_admin_approval',
+  'approved',
+  'rejected',
+] as const;
+
+export type SharedStampDutyStatus = (typeof STAMP_DUTY_STATUSES)[number];
+
+export const STAMP_DUTY_STATUS_LABELS: Record<SharedStampDutyStatus, string> = {
+  awaiting_upload: 'Awaiting Upload',
+  awaiting_admin_approval: 'Awaiting Approval',
+  approved: 'Approved',
+  rejected: 'Rejected',
+} as const;
+
+export const STAMP_DUTY_STATUS_COLORS: Record<SharedStampDutyStatus, string> = {
+  awaiting_upload: 'bg-amber-100 text-amber-800',
+  awaiting_admin_approval: 'bg-yellow-100 text-yellow-800',
+  approved: 'bg-green-100 text-green-800',
+  rejected: 'bg-red-100 text-red-800',
+} as const;
+
+/**
+ * Canonical list of document request status values.
+ * Covers the full lifecycle: admin creates (pending), portal user uploads
+ * (submitted), admin begins review (under_review), then approves or rejects.
+ */
+export const DOCUMENT_REQUEST_STATUSES = [
+  'pending',
+  'submitted',
+  'under_review',
+  'approved',
+  'rejected',
+] as const;
+
+export type DocumentRequestStatus = (typeof DOCUMENT_REQUEST_STATUSES)[number];
+
+export const DOCUMENT_REQUEST_STATUS_LABELS: Record<DocumentRequestStatus, string> = {
+  pending: 'Pending',
+  submitted: 'Submitted',
+  under_review: 'Under Review',
+  approved: 'Approved',
+  rejected: 'Rejected',
+} as const;
+
+export const DOCUMENT_REQUEST_STATUS_COLORS: Record<DocumentRequestStatus, string> = {
+  pending: 'bg-amber-100 text-amber-800',
+  submitted: 'bg-blue-100 text-blue-800',
+  under_review: 'bg-blue-100 text-blue-800',
+  approved: 'bg-green-100 text-green-800',
+  rejected: 'bg-red-100 text-red-800',
+} as const;
 
 export const SYNC_STATUS_MESSAGES = [
   'Initializing secure handshake...',
@@ -181,11 +301,10 @@ export const DOCUMENT_TYPES = [
 export const LOCALES = [
   { code: 'en', label: 'English' },
   { code: 'es', label: 'Spanish' },
-  { code: 'zh', label: 'Chinese' },
-  { code: 'ja', label: 'Japanese' },
-  { code: 'ko', label: 'Korean' },
-  { code: 'de', label: 'German' },
   { code: 'fr', label: 'French' },
+  { code: 'de', label: 'German' },
+  { code: 'pt', label: 'Portuguese' },
+  { code: 'zh', label: 'Chinese' },
 ] as const;
 
 export const VALIDATION = {
@@ -240,3 +359,12 @@ export const SUCCESS_MESSAGES = {
   caseUpdated: 'Case updated successfully.',
   submissionReceived: 'Submission received successfully.',
 } as const;
+
+/**
+ * The prefix written to a merge_fee deposit receipt's `notes` field.
+ * Notes are stored as `"${BATCH_FEE_NOTES_PREFIX}<amount>"` (e.g.
+ * `"Batch merge fee: 500 USDT"`).  `extractBatchAmountLabel` strips this
+ * prefix before displaying the amount in Batch History rows.  Keeping the
+ * string in one place means the producer and consumer can never silently drift.
+ */
+export const BATCH_FEE_NOTES_PREFIX = "Batch merge fee: " as const;

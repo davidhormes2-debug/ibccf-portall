@@ -1,0 +1,40 @@
+{
+  "locales": {
+    "en": {
+      "file": "withdrawal-tutorial-en.mp4",
+      "sourceFingerprint": "cfd069b5376e2daf43619d455979a269cbb09a70e9ab4cb05b871a92bc933778",
+      "narrationFingerprint": "5742f6375bb91b4683bf1c59dd2b3496bfed25ca88544530cee6199fe2e90464",
+      "recordedAt": "2026-06-11T13:31:13.084Z"
+    },
+    "es": {
+      "file": "withdrawal-tutorial-es.mp4",
+      "sourceFingerprint": "cfd069b5376e2daf43619d455979a269cbb09a70e9ab4cb05b871a92bc933778",
+      "narrationFingerprint": "ea8a962967481470375df5de6aadb0dfb24129c4c6329c3c899d8a87d7bc024e",
+      "recordedAt": "2026-06-11T13:33:01.686Z"
+    },
+    "fr": {
+      "file": "withdrawal-tutorial-fr.mp4",
+      "sourceFingerprint": "cfd069b5376e2daf43619d455979a269cbb09a70e9ab4cb05b871a92bc933778",
+      "narrationFingerprint": "baaaf1280fe4d2f743af2aa51a7418104ed687b35957b10eb42e0ff0cd2e9bd7",
+      "recordedAt": "2026-06-11T13:34:36.882Z"
+    },
+    "de": {
+      "file": "withdrawal-tutorial-de.mp4",
+      "sourceFingerprint": "cfd069b5376e2daf43619d455979a269cbb09a70e9ab4cb05b871a92bc933778",
+      "narrationFingerprint": "1a1e92056d959d916eff6976cb1852613ef6dfd82ca8dd7c1f8c2feb1f058f52",
+      "recordedAt": "2026-06-11T13:36:31.758Z"
+    },
+    "pt": {
+      "file": "withdrawal-tutorial-pt.mp4",
+      "sourceFingerprint": "cfd069b5376e2daf43619d455979a269cbb09a70e9ab4cb05b871a92bc933778",
+      "narrationFingerprint": "4b31b319f98f3a686e8bb4208406ebc109ee35e3df3cbe4200169729925d6fa2",
+      "recordedAt": "2026-06-11T13:38:04.225Z"
+    },
+    "zh": {
+      "file": "withdrawal-tutorial-zh.mp4",
+      "sourceFingerprint": "cfd069b5376e2daf43619d455979a269cbb09a70e9ab4cb05b871a92bc933778",
+      "narrationFingerprint": "c92fa5cab5fc1580b216844d57233bcc2a0bc040b2ceb1a8b559c4a58f31cdb5",
+      "recordedAt": "2026-06-11T13:40:04.758Z"
+    }
+  }
+}

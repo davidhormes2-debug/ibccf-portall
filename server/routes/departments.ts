@@ -2,6 +2,8 @@ import { Router } from "express";
 import { db } from "../db";
 import { departments, departmentStages } from "@shared/schema";
 import { eq, asc } from "drizzle-orm";
+import { checkAdminAuth } from "./middleware";
+import { warnOnce } from "../lib/warnOnce";
 
 export const departmentsRouter = Router();
 
@@ -16,7 +18,7 @@ departmentsRouter.get("/", async (req, res) => {
     
     res.json(allDepartments);
   } catch (error) {
-    console.error("Error fetching departments:", error);
+    warnOnce("dept:list", "[departments] Error fetching departments", error);
     res.status(500).json({ error: "Failed to fetch departments" });
   }
 });
@@ -36,7 +38,7 @@ departmentsRouter.get("/:id", async (req, res) => {
     
     res.json(department);
   } catch (error) {
-    console.error("Error fetching department:", error);
+    warnOnce("dept:get-by-id", "[departments] Error fetching department by id", error);
     res.status(500).json({ error: "Failed to fetch department" });
   }
 });
@@ -55,7 +57,7 @@ departmentsRouter.get("/key/:key", async (req, res) => {
     
     res.json(department);
   } catch (error) {
-    console.error("Error fetching department:", error);
+    warnOnce("dept:get-by-key", "[departments] Error fetching department by key", error);
     res.status(500).json({ error: "Failed to fetch department" });
   }
 });
@@ -72,13 +74,13 @@ departmentsRouter.get("/:id/stages", async (req, res) => {
     
     res.json(stages);
   } catch (error) {
-    console.error("Error fetching stages:", error);
+    warnOnce("dept:list-stages", "[departments] Error fetching stages", error);
     res.status(500).json({ error: "Failed to fetch stages" });
   }
 });
 
 // Admin: Create department
-departmentsRouter.post("/", async (req, res) => {
+departmentsRouter.post("/", checkAdminAuth, async (req, res) => {
   try {
     const { key, name, description, icon, color, displayOrder, workflowConfig } = req.body;
     
@@ -103,7 +105,7 @@ departmentsRouter.post("/", async (req, res) => {
 });
 
 // Admin: Update department
-departmentsRouter.patch("/:id", async (req, res) => {
+departmentsRouter.patch("/:id", checkAdminAuth, async (req, res) => {
   try {
     const departmentId = parseInt(req.params.id);
     const updates = req.body;
@@ -126,7 +128,7 @@ departmentsRouter.patch("/:id", async (req, res) => {
 });
 
 // Admin: Create stage for department
-departmentsRouter.post("/:id/stages", async (req, res) => {
+departmentsRouter.post("/:id/stages", checkAdminAuth, async (req, res) => {
   try {
     const departmentId = parseInt(req.params.id);
     const { name, description, stageOrder, slaDays } = req.body;
@@ -150,7 +152,7 @@ departmentsRouter.post("/:id/stages", async (req, res) => {
 });
 
 // Admin: Update stage
-departmentsRouter.patch("/stages/:stageId", async (req, res) => {
+departmentsRouter.patch("/stages/:stageId", checkAdminAuth, async (req, res) => {
   try {
     const stageId = parseInt(req.params.stageId);
     const updates = req.body;

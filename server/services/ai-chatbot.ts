@@ -1,9 +1,18 @@
 import OpenAI from "openai";
+import { getPublicAdminUrl } from "../lib/publicBaseUrl";
 
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
+    if (!apiKey) throw new Error("OpenAI API key not configured");
+    _openai = new OpenAI({
+      apiKey,
+      baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+    });
+  }
+  return _openai;
+}
 
 interface ChatContext {
   userName?: string;
@@ -43,6 +52,65 @@ ALWAYS:
 - Express empathy for their situation
 - Provide actionable next steps when possible`;
 
+// ---------------------------------------------------------------------------
+// AI failure alert — rate-limited to at most 1 per AI_FAILURE_ALERT_COOLDOWN_MS
+// to avoid flooding the admin inbox when the service degrades for an extended period.
+// ---------------------------------------------------------------------------
+const AI_FAILURE_ALERT_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes
+let _lastAiFailureAlertAt: number | null = null;
+
+/** Exposed for testing. */
+export function _resetAiFailureAlertTimerForTest(): void {
+  _lastAiFailureAlertAt = null;
+}
+
+async function sendAiFailureAlertIfDue(error: unknown): Promise<void> {
+  const now = Date.now();
+  if (_lastAiFailureAlertAt !== null && now - _lastAiFailureAlertAt < AI_FAILURE_ALERT_COOLDOWN_MS) {
+    return;
+  }
+  _lastAiFailureAlertAt = now;
+  try {
+    const { emailService } = await import("./EmailService");
+    const { storage } = await import("../storage");
+    const {
+      parseAdminAlertRecipients,
+      ADMIN_ALERT_EMAIL_SETTING_KEY,
+    } = await import("../nda-integrity-sweep");
+    const fromEnv = process.env.ADMIN_ALERT_EMAIL?.trim();
+    let recipients: string[];
+    if (fromEnv) {
+      recipients = parseAdminAlertRecipients(fromEnv);
+    } else {
+      const row = await storage.getAppSetting(ADMIN_ALERT_EMAIL_SETTING_KEY);
+      recipients = parseAdminAlertRecipients(row?.value);
+    }
+    if (recipients.length === 0) return;
+    const dashboardUrl = getPublicAdminUrl();
+    const errorMessage =
+      error instanceof Error ? error.message : String(error);
+    await emailService.sendAiFailureAlert({
+      to: recipients,
+      errorMessage,
+      detectedAt: new Date(now),
+      dashboardUrl,
+    });
+    try {
+      await storage.createAuditLog({
+        action: "email_ai_failure_alert",
+        adminUsername: "system",
+        targetType: "system",
+        targetId: "ai_chatbot",
+        newValue: `AI failure alert sent to ${recipients.join(", ")}: ${errorMessage.slice(0, 200)}`,
+      });
+    } catch {
+      /* best-effort */
+    }
+  } catch (alertErr) {
+    console.error("[ai-chatbot] failed to send AI failure alert:", alertErr);
+  }
+}
+
 export async function generateChatResponse(
   userMessage: string,
   context: ChatContext
@@ -60,8 +128,8 @@ User Information:
   })) || [];
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await getOpenAI().chat.completions.create({
+      model: "gpt-5-mini",
       messages: [
         { role: "system", content: SYSTEM_PROMPT + contextInfo },
         ...conversationHistory,
@@ -74,6 +142,8 @@ User Information:
     return response.choices[0]?.message?.content || getFallbackResponse(userMessage);
   } catch (error) {
     console.error("AI chatbot error:", error);
+    // Fire-and-forget ops alert (rate-limited to 1 per 10 minutes)
+    void sendAiFailureAlertIfDue(error);
     return getFallbackResponse(userMessage);
   }
 }
@@ -90,8 +160,8 @@ ${context.caseStatus ? `Case status: ${context.caseStatus}` : ''}
 Return exactly 3 suggestions, each on a new line, without numbering or bullets.`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await getOpenAI().chat.completions.create({
+      model: "gpt-5-mini",
       messages: [
         { role: "system", content: "You are a helpful assistant that generates customer support reply suggestions. Keep each suggestion under 50 words." },
         { role: "user", content: prompt }
@@ -130,8 +200,8 @@ Respond in this exact JSON format:
 }`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await getOpenAI().chat.completions.create({
+      model: "gpt-5-mini",
       messages: [
         { role: "system", content: "You are a message classifier. Respond only with valid JSON." },
         { role: "user", content: prompt }
@@ -147,7 +217,7 @@ Respond in this exact JSON format:
       urgency: parsed.urgency || 'medium',
       sentiment: parsed.sentiment || 'neutral'
     };
-  } catch (error) {
+  } catch (_e) {
     return { intent: 'general_question', urgency: 'medium', sentiment: 'neutral' };
   }
 }
@@ -236,8 +306,8 @@ Provide analysis in this exact JSON format:
 }`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await getOpenAI().chat.completions.create({
+      model: "gpt-5-mini",
       messages: [
         { 
           role: "system", 
@@ -322,8 +392,8 @@ Provide analysis in this JSON format:
 }`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await getOpenAI().chat.completions.create({
+      model: "gpt-5-mini",
       messages: [
         { 
           role: "system", 
@@ -369,8 +439,8 @@ export async function generateAutoResponse(
   };
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await getOpenAI().chat.completions.create({
+      model: "gpt-5-mini",
       messages: [
         { 
           role: "system", 

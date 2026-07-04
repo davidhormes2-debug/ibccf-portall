@@ -1,0 +1,680 @@
+{
+  "login": {
+    "headerTitle": "PANNEAU DE CONTRÔLE ADMINISTRATEUR",
+    "headerSubtitle": "Gestion de la conformité ISO-D",
+    "cardTitle": "Accès Administrateur",
+    "usernameLabel": "Nom d'utilisateur",
+    "usernamePlaceholder": "Entrez le nom d'utilisateur administrateur",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Entrez le mot de passe",
+    "submit": "Accéder au Panneau de Contrôle",
+    "authenticating": "Authentification…",
+    "footer": "Accès Restreint • Niveau de Conformité ISO-D 1"
+  },
+  "header": {
+    "title": "PORTAIL ADMINISTRATEUR IBCCF",
+    "status": "Système Actif • Niveau de Sécurité ISO-D 1",
+    "sessionLabel": "Session Administrateur",
+    "sessionRole": "Agent de Conformité",
+    "userPortal": "Portail Utilisateur",
+    "logout": "Déconnexion",
+    "notifications": "Notifications",
+    "noNotifications": "Aucune notification"
+  },
+  "tabs": {
+    "cases": "Dossiers",
+    "submissions": "Toutes les Soumissions",
+    "conversations": "Conversations",
+    "analytics": "Analytique",
+    "settings": "Paramètres",
+    "content": "Contenu",
+    "community": "Communauté",
+    "keyRequests": "Demandes de Clé",
+    "visitors": "Visiteurs",
+    "communications": "Communications",
+    "documents": "Documents"
+  },
+  "sections": {
+    "regulatoryDocuments": "Documents Réglementaires",
+    "accountSettings": "Paramètres du Compte",
+    "withdrawalProgress": "Progression du Retrait",
+    "communication": "Communication",
+    "caseNotes": "Notes de Dossier (Administrateur Seulement)",
+    "dangerZone": "Zone de Danger",
+    "messageHistory": "Historique des Messages",
+    "personalIdentification": "Identification Personnelle",
+    "sanctionsCompliance": "Conformité aux Sanctions",
+    "approvedAssetIncome": "Revenus d'Actifs Approuvés",
+    "internationalTerms": "Conditions Internationales & Frais de Traitement",
+    "regulatorySignature": "Réglementaire & Signature",
+    "complianceReview": "Examen de Conformité",
+    "optionCustomization": "Personnalisation des Options"
+  },
+  "dialogs": {
+    "createCase": {
+      "title": "Créer un Dossier d'Accès Sécurisé",
+      "description": "Générez un mot de passe unique pour que l'utilisateur accède au portail.",
+      "label": "Mot de Passe d'Accès",
+      "placeholder": "ex. 774982",
+      "submit": "Créer le Dossier"
+    },
+    "finalize": {
+      "title": "Finaliser la Réactivation du Compte",
+      "description": "Examinez et modifiez les détails de l'utilisateur et le contenu de la lettre avant d'activer le compte.",
+      "userDetailsTab": "Détails de l'Utilisateur",
+      "letterContentTab": "Contenu de la Lettre"
+    },
+    "editLetter": {
+      "title": "Modifier le Contenu de la Lettre",
+      "description": "Personnalisez la lettre de retrait pour {{name}}.",
+      "fallbackUser": "cet utilisateur"
+    },
+    "submissionHistory": {
+      "title": "Historique des Soumissions",
+      "description": "Soumissions précédentes pour {{name}}."
+    },
+    "chatTemplates": {
+      "title": "Gestionnaire de Modèles de Chat"
+    },
+    "declaration": {
+      "title": "Déclaration de Conformité — {{name}}"
+    },
+    "reissueLetter": {
+      "title": "Réémettre la Lettre"
+    },
+    "openDeclarationPortal": {
+      "title": "Ouvrir le Portail de Déclaration"
+    },
+    "stageEmail": {
+      "title": "Aperçu & Modifier l'Email de l'Étape {{stage}}"
+    },
+    "sendEmail": {
+      "title": "Envoyer un Email à {{name}}"
+    },
+    "depositReceipts": {
+      "title": "Reçus de Dépôt : {{name}}"
+    },
+    "editAccount": {
+      "title": "Modifier le Compte"
+    }
+  },
+  "actions": {
+    "refresh": "Rafraîchir",
+    "newCase": "Nouveau Dossier",
+    "createCase": "Créer un Dossier",
+    "generate": "Générer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "delete": "Supprimer",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "send": "Envoyer"
+  },
+  "caseList": {
+    "heading": "Gestion des Dossiers",
+    "subtitle": "Créer et gérer des codes d'accès utilisateur.",
+    "searchPlaceholder": "Rechercher par code, nom ou email…",
+    "filterPlaceholder": "Filtrer par statut",
+    "filterAll": "Tous les Statuts",
+    "tableAccessCode": "Code d'Accès",
+    "tableUser": "Utilisateur",
+    "tableStatus": "Statut",
+    "tableSubmissions": "Soumissions",
+    "tableLedger": "Registre",
+    "tableActions": "Actions",
+    "viewLedgerTooltip": "Voir le registre du dossier",
+    "empty": "Aucun dossier trouvé correspondant à vos critères.",
+    "createTitle": "Créer un Nouveau Dossier",
+    "createDescription": "Générez un code d'accès unique pour un nouvel utilisateur.",
+    "createPlaceholder": "Code d'accès"
+  },
+  "conversations": {
+    "heading": "Conversations Utilisateur",
+    "subtitle": "Voir et répondre aux messages des utilisateurs en temps réel.",
+    "activeChats": "Discussions Actives",
+    "noActiveChats": "Aucune conversation active",
+    "noMessages": "Aucun message pour le moment",
+    "selectConversationTitle": "Sélectionnez une conversation",
+    "selectConversationSubtitle": "Choisissez un utilisateur dans la liste pour commencer à discuter",
+    "inputPlaceholder": "Tapez votre message…",
+    "templates": "Modèles"
+  },
+  "analytics": {
+    "heading": "Tableau de Bord Analytique",
+    "subtitle": "Surveillez les indicateurs clés, les tendances et les performances.",
+    "totalCases": "Total des Dossiers",
+    "activeUsers": "Utilisateurs Actifs",
+    "totalSubmissions": "Total des Soumissions",
+    "pendingActions": "Actions en Attente",
+    "statusDistribution": "Distribution des Statuts des Dossiers",
+    "submissionBreakdown": "Répartition des Options de Soumission",
+    "recentActivity": "Activité Récente",
+    "noActivity": "Aucune activité récente",
+    "statusCreated": "Créé",
+    "statusSyncing": "Synchronisation",
+    "statusActive": "Actif",
+    "statusCompleted": "Terminé",
+    "statusRegistered": "Enregistré",
+    "statusLabel": "Statut",
+    "optionA": "Option A",
+    "optionB": "Option B"
+  },
+  "status": {
+    "created": "Créé",
+    "registered": "Enregistré",
+    "syncing": "Synchronisation",
+    "active": "Actif",
+    "completed": "Terminé"
+  },
+  "toasts": {
+    "errorTitle": "Erreur",
+    "successTitle": "Succès",
+    "networkError": "Une erreur réseau est survenue.",
+    "networkErrorTitle": "Erreur Réseau",
+    "networkErrorBody": "Impossible d'atteindre le serveur.",
+    "accessGranted": {
+      "title": "Accès Accordé",
+      "description": "Session administrateur établie."
+    },
+    "accessDenied": {
+      "title": "Accès Refusé",
+      "description": "Identifiants invalides."
+    },
+    "connectionError": {
+      "title": "Erreur de Connexion",
+      "description": "Impossible d'authentifier."
+    },
+    "loggedOut": {
+      "title": "Déconnecté",
+      "description": "Session administrateur terminée."
+    },
+    "newUserRegistered": {
+      "title": "Nouvel Utilisateur Enregistré",
+      "description": "{{name}} s'est enregistré{{extra}}"
+    },
+    "newSubmission": {
+      "title": "Nouvelle Soumission",
+      "description": "Option {{option}} soumise{{extra}}"
+    },
+    "newDocumentUploaded": {
+      "title": "Nouveau document justificatif téléchargé",
+      "description": "Le dossier {{caseId}} a soumis un document pour révision{{extra}}"
+    },
+    "refreshed": {
+      "title": "Rafraîchi",
+      "description": "Les données ont été mises à jour."
+    },
+    "refreshFailed": {
+      "description": "Échec de la mise à jour des données."
+    },
+    "templateNameRequired": {
+      "description": "Le nom et le contenu sont requis"
+    },
+    "templateCreated": {
+      "title": "Modèle Créé",
+      "description": "Nouveau modèle de chat ajouté."
+    },
+    "templateCreateFailed": {
+      "description": "Échec de la création du modèle"
+    },
+    "deleted": {
+      "title": "Supprimé"
+    },
+    "templateRemoved": {
+      "description": "Modèle supprimé."
+    },
+    "templateDeleteFailed": {
+      "description": "Échec de la suppression du modèle"
+    },
+    "noteAdded": {
+      "title": "Note Ajoutée",
+      "description": "Note de dossier créée."
+    },
+    "noteAddFailed": {
+      "description": "Échec de l'ajout de la note"
+    },
+    "noteRemoved": {
+      "description": "Note supprimée."
+    },
+    "noteDeleteFailed": {
+      "description": "Échec de la suppression de la note"
+    },
+    "togglePinFailed": {
+      "description": "Échec de l'activation/désactivation du pin"
+    },
+    "sessionRevoked": {
+      "title": "Session Révoquée",
+      "description": "La session administrateur a été terminée."
+    },
+    "scheduleRequiredFields": {
+      "description": "Le contenu et l'heure programmée sont requis"
+    },
+    "scheduled": {
+      "title": "Programmé",
+      "description": "Message programmé pour livraison."
+    },
+    "scheduleFailed": {
+      "description": "Échec de la programmation du message"
+    },
+    "cancelled": {
+      "title": "Annulé",
+      "description": "Message programmé annulé."
+    },
+    "scheduleCancelFailed": {
+      "description": "Échec de l'annulation du message"
+    },
+    "templateMsgCreated": {
+      "title": "Créé",
+      "description": "Modèle de message ajouté."
+    },
+    "templateMsgCreateFailed": {
+      "description": "Échec de la création du modèle"
+    },
+    "templateMsgRemoved": {
+      "description": "Modèle de message supprimé."
+    },
+    "templateMsgDeleteFailed": {
+      "description": "Échec de la suppression du modèle"
+    },
+    "helpRequired": {
+      "description": "Le titre et le contenu sont requis"
+    },
+    "helpCreated": {
+      "title": "Créé",
+      "description": "Article d'aide ajouté."
+    },
+    "helpCreateFailed": {
+      "description": "Échec de la création de l'article"
+    },
+    "helpDeleteFailed": {
+      "description": "Échec de la suppression de l'article"
+    },
+    "sessionEnded": {
+      "title": "Session Terminée",
+      "description": "La session utilisateur a été terminée."
+    },
+    "endSessionFailed": {
+      "description": "Échec de la fin de session"
+    },
+    "translationCreated": {
+      "title": "Traduction Créée",
+      "description": "Ajouté \"{{key}}\" pour {{locale}}"
+    },
+    "translationCreateFailed": {
+      "description": "Échec de la création de la traduction"
+    },
+    "translationDeleted": {
+      "title": "Traduction Supprimée",
+      "description": "Retiré \"{{key}}\""
+    },
+    "translationDeleteFailed": {
+      "description": "Échec de la suppression de la traduction"
+    },
+    "docRequestRequired": {
+      "description": "Le dossier et le type de document sont requis"
+    },
+    "docCreated": {
+      "title": "Créé",
+      "description": "Demande de document envoyée à l'utilisateur."
+    },
+    "docCreateFailed": {
+      "description": "Échec de la création de la demande"
+    },
+    "docApproved": {
+      "title": "Document Approuvé",
+      "description": "L'utilisateur a été notifié par email."
+    },
+    "docApproveFailed": {
+      "title": "Échec de l'Approbation ({{status}})"
+    },
+    "docToggleFailed": {
+      "title": "Échec de l'Activation/Désactivation ({{status}})"
+    },
+    "docRequestFailed": {
+      "title": "Demande échouée ({{status}})"
+    },
+    "docRejectFailed": {
+      "title": "Rejet échoué ({{status}})"
+    },
+    "notesRequired": {
+      "title": "Notes Requises",
+      "description": "Indiquez à l'utilisateur ce qui doit être corrigé."
+    },
+    "docRejected": {
+      "title": "Document Rejeté",
+      "description": "L'utilisateur a été invité à soumettre à nouveau."
+    },
+    "previewFailed": {
+      "title": "Preview failed"
+    },
+    "newMessageNotify": {
+      "title": "Nouveau Message",
+      "description": "Nouveau message de {{name}}"
+    },
+    "newMessageGeneric": {
+      "description": "L'utilisateur a envoyé un nouveau message"
+    },
+    "sendMessageFailed": {
+      "description": "Échec de l'envoi du message."
+    },
+    "sendMessageRetry": {
+      "description": "Échec de l'envoi du message. Veuillez réessayer."
+    },
+    "loadMessagesFailed": {
+      "description": "Échec du chargement des messages."
+    },
+    "loadAdminMessagesFailed": {
+      "description": "Échec du chargement des messages administrateurs."
+    },
+    "loadReceiptsFailed": {
+      "description": "Échec du chargement des reçus."
+    },
+    "resetToDefault": {
+      "title": "Réinitialiser par Défaut",
+      "description": "Le contenu de l'email a été restauré par défaut."
+    },
+    "subjectRequired": {
+      "title": "Sujet Requis",
+      "description": "Veuillez entrer un sujet d'email avant d'envoyer."
+    },
+    "regenerateCodeFailed": {
+      "title": "Impossible de régénérer le code d'accès"
+    },
+    "reissueCleared": {
+      "title": "Réémission clarifiée"
+    },
+    "reissueClearFailed": {
+      "title": "Impossible de clarifier la réémission"
+    },
+    "declarationCleared": {
+      "title": "Demande de déclaration clarifiée"
+    },
+    "declarationClearFailed": {
+      "title": "Impossible de clarifier la demande de déclaration"
+    },
+    "accountVerbFailed": {
+      "title": "Impossible de {{verb}} le compte"
+    },
+    "logoutFailed": {
+      "title": "Impossible de déconnecter l'utilisateur"
+    },
+    "userSignedOut": {
+      "title": "Utilisateur déconnecté",
+      "description": "{{name}} sera renvoyé à l'écran de connexion lors de son prochain rafraîchissement."
+    },
+    "accountUpdated": {
+      "title": "Compte Mis à Jour",
+      "description": "{{name}} enregistré."
+    },
+    "mirrorTokenMissing": {
+      "title": "Aucun jeton miroir retourné"
+    },
+    "messageSent": {
+      "title": "Message Envoyé",
+      "description": "Le message administrateur a été envoyé à l'utilisateur."
+    },
+    "messageSendFailed": {
+      "description": "Échec de l'envoi du message administrateur."
+    },
+    "messageStatusUpdateFailed": {
+      "description": "Échec de la mise à jour du statut du message."
+    },
+    "messageUnsent": {
+      "title": "Message Non Envoyé",
+      "description": "\"{{title}}\" a été retiré de la boîte de réception de l'utilisateur."
+    },
+    "unsendFailed": {
+      "title": "Échec de l'annulation de l'envoi"
+    },
+    "messageUnsendFailed": {
+      "description": "Échec de l'annulation de l'envoi du message."
+    },
+    "updated": {
+      "title": "Mis à Jour"
+    },
+    "depositUpdated": {
+      "description": "Les détails du dépôt ont été enregistrés."
+    },
+    "depositUpdateFailed": {
+      "description": "Échec de la mise à jour des détails du dépôt."
+    },
+    "depositUpdateHttpFailed": {
+      "description": "Échec de la mise à jour des détails du dépôt (HTTP {{status}})."
+    },
+    "payoutUpdateFailed": {
+      "description": "Échec de la mise à jour du portefeuille de paiement."
+    },
+    "profileRedirectUpdated": {
+      "description": "L'URL de redirection du profil a été enregistrée."
+    },
+    "profileRedirectFailed": {
+      "description": "Échec de la mise à jour de la redirection du profil."
+    },
+    "profileRedirectHttpFailed": {
+      "description": "Échec de la mise à jour de la redirection du profil (HTTP {{status}})."
+    },
+    "submissionUrlUpdated": {
+      "description": "L'URL de soumission a été enregistrée."
+    },
+    "submissionUrlFailed": {
+      "description": "Échec de la mise à jour de l'URL de soumission."
+    },
+    "submissionUrlHttpFailed": {
+      "description": "Échec de la mise à jour de l'URL de soumission (HTTP {{status}})."
+    },
+    "letterStatusFailed": {
+      "description": "Échec de la mise à jour du statut de la lettre."
+    },
+    "letterStatusHttpFailed": {
+      "description": "Échec de la mise à jour du statut de la lettre (HTTP {{status}})."
+    },
+    "landingPageUpdated": {
+      "description": "La page d'accueil utilisateur a été mise à jour."
+    },
+    "landingPageFailed": {
+      "description": "Échec de la mise à jour de la page d'accueil."
+    },
+    "landingPageHttpFailed": {
+      "description": "Échec de la mise à jour de la page d'accueil (HTTP {{status}})."
+    },
+    "withdrawalUpdated": {
+      "description": "Les paramètres de progression du retrait ont été enregistrés."
+    },
+    "withdrawalFailed": {
+      "description": "Échec de la mise à jour de la progression du retrait."
+    },
+    "withdrawalHttpFailed": {
+      "description": "Échec de la mise à jour de la progression du retrait (HTTP {{status}})."
+    },
+    "noCaseSelected": {
+      "title": "Aucun Dossier Sélectionné",
+      "description": "Veuillez sélectionner un dossier d'abord."
+    },
+    "finalStage": {
+      "title": "Dernière Étape",
+      "description": "Déjà à la dernière étape (14)."
+    },
+    "stageApproveFailed": {
+      "description": "Échec de l'approbation de l'étape."
+    },
+    "stageApproveHttpFailed": {
+      "description": "Échec de l'approbation de l'étape (HTTP {{status}})."
+    },
+    "noEmailOnFile": {
+      "title": "Aucun Email Enregistré",
+      "description": "Cet utilisateur n'a pas d'adresse email enregistrée."
+    },
+    "stageResetDefault": {
+      "description": "Le contenu de l'email a été restauré par défaut pour cette étape."
+    },
+    "stageEmailFailed": {
+      "description": "Échec de l'envoi de l'email de l'étape."
+    },
+    "receiptUpdated": {
+      "title": "Reçu Mis à Jour",
+      "description": "Le reçu a été {{status}}."
+    },
+    "receiptUpdateFailed": {
+      "description": "Échec de la mise à jour du statut du reçu."
+    },
+    "receiptUpdateHttpFailed": {
+      "description": "Échec de la mise à jour du statut du reçu (HTTP {{status}})."
+    },
+    "logsCleared": {
+      "title": "Logs Effacés",
+      "description": "Les journaux d'activité et l'historique des discussions ont été effacés. Les comptes utilisateurs sont préservés."
+    },
+    "logsClearFailed": {
+      "description": "Échec de l'effacement des journaux."
+    },
+    "accountDeleted": {
+      "title": "Compte Supprimé",
+      "description": "Le compte {{name}} a été définitivement supprimé."
+    },
+    "accountDeleteFailed": {
+      "description": "Échec de la suppression du compte."
+    },
+    "caseCreated": {
+      "title": "Dossier Créé",
+      "description": "Code d'Accès : {{code}}"
+    },
+    "caseCreateFailed": {
+      "description": "Échec de la création du dossier."
+    },
+    "letterSaved": {
+      "title": "Lettre Enregistrée",
+      "description": "Le contenu de la lettre personnalisée a été enregistré."
+    },
+    "letterSaveFailed": {
+      "description": "Échec de l'enregistrement de la lettre."
+    },
+    "letterContentSaveFailed": {
+      "description": "Échec de l'enregistrement du contenu de la lettre."
+    },
+    "accountActivated": {
+      "title": "Compte Activé",
+      "description": "L'utilisateur peut maintenant accéder à la lettre sécurisée."
+    },
+    "finalizeFailed": {
+      "description": "Échec de la finalisation du dossier."
+    },
+    "submissionDeleted": {
+      "title": "Soumission Supprimée",
+      "description": "La soumission a été retirée."
+    },
+    "submissionDeleteFailed": {
+      "description": "Échec de la suppression de la soumission."
+    },
+    "sealCleared": {
+      "title": "Sceau Clarifié",
+      "description": "Ce dossier peut maintenant être modifié."
+    },
+    "templateSent": {
+      "title": "Envoyé",
+      "description": "\"{{title}}\" livré à {{name}}."
+    },
+    "templateFailed": {
+      "title": "Échec",
+      "description": "Impossible d'envoyer le message."
+    },
+    "fallbackUser": "Utilisateur",
+    "tryAgain": "Veuillez réessayer.",
+    "serverError": "Erreur du serveur",
+    "unknownError": "Erreur inconnue",
+    "accountNeedsAuth": {
+      "title": "Le Compte Nécessite une Autorisation",
+      "description": "{{name}} attend la finalisation du compte{{extra}}"
+    },
+    "kycBundle": {
+      "title": "Ensemble d'ID KYC demandé",
+      "description": "Quatre documents KYC ont été demandés. L'utilisateur a été notifié."
+    },
+    "declarationRequestFailed": {
+      "title": "Impossible de demander la déclaration"
+    },
+    "declarationPortalOpened": {
+      "title": "Portail de Déclaration Ouvert",
+      "descriptionWithCode": "Code d'accès pour {{name}} : {{code}} (valide 24h).{{suffix}}",
+      "descriptionNoCode": "{{name}} verra le formulaire de déclaration lors de sa prochaine connexion.{{suffix}}"
+    },
+    "accessCodeRegenerated": {
+      "title": "Code d'accès régénéré"
+    },
+    "previousLetterFailed": {
+      "title": "Impossible de charger la lettre précédente",
+      "descriptionServer": "Le serveur a retourné {{status}}. Les champs ci-dessous sont vides — remplissez-les ou annulez.",
+      "descriptionNetwork": "Erreur réseau. Les champs ci-dessous sont vides — remplissez-les ou annulez."
+    },
+    "missingFee": {
+      "title": "Frais Manquants",
+      "description": "Des frais de réémission sont requis."
+    },
+    "reissueLetterFailed": {
+      "title": "Impossible de réémettre la lettre"
+    },
+    "letterReissued": {
+      "title": "Lettre Réémise",
+      "description": "{{name}} doit maintenant télécharger un reçu pour les frais de réémission de {{fee}} avant de soumettre à nouveau."
+    },
+    "accountLocked": {
+      "title": "Compte Verrouillé",
+      "description": "{{name}} ne peut pas se connecter tant que vous ne le déverrouillez pas."
+    },
+    "accountUnlocked": {
+      "title": "Compte Déverrouillé"
+    },
+    "accountSaveFailed": {
+      "title": "Impossible d'enregistrer les modifications du compte"
+    },
+    "reasonRequired": {
+      "title": "Raison Requise",
+      "description": "Veuillez entrer au moins 10 caractères décrivant pourquoi vous devez ouvrir le compte de cet utilisateur."
+    },
+    "mirrorOpenFailed": {
+      "title": "Impossible d'ouvrir le miroir de l'utilisateur"
+    },
+    "declarationStatusFailed": {
+      "title": "Impossible de mettre à jour le statut de la déclaration"
+    },
+    "declarationApproved": {
+      "title": "Déclaration Approuvée"
+    },
+    "declarationRejected": {
+      "title": "Déclaration Rejetée"
+    },
+    "emailSent": {
+      "title": "Email Envoyé",
+      "description": "Email envoyé avec succès à {{email}}"
+    },
+    "emailFailed": {
+      "title": "Échec de l'Envoi",
+      "description": "Impossible d'envoyer l'email",
+      "descriptionGeneric": "Échec de l'envoi de l'email"
+    },
+    "statusUpdated": {
+      "title": "Statut Mis à Jour",
+      "description": "Message déplacé vers {{category}}"
+    },
+    "statusUpdateFailed": {
+      "title": "Échec de la mise à jour du statut"
+    },
+    "stageApproved": {
+      "title": "Étape Approuvée",
+      "description": "Avancé à l'Étape {{stage}} de 14."
+    },
+    "stageEmailSent": {
+      "title": "Email de l'Étape Envoyé",
+      "description": "Email de l'Étape {{stage}} envoyé à {{email}}."
+    },
+    "stageEmailHttpFailed": {
+      "description": "Impossible d'envoyer l'email de l'étape (HTTP {{status}})."
+    },
+    "sealOverrideFailed": {
+      "title": "Impossible de remplacer le sceau"
+    },
+    "overrideFailed": {
+      "title": "Échec de la substitution"
+    }
+  }
+}

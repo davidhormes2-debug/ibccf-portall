@@ -1,0 +1,1841 @@
+{
+  "navGroups": {
+    "overview": "Overview",
+    "withdrawal": "Withdrawal",
+    "compliance": "Compliance",
+    "communication": "Communication",
+    "account": "Account"
+  },
+  "navItems": {
+    "dashboard": "Dashboard",
+    "timeline": "Activity Timeline",
+    "letter": "Withdrawal Letter",
+    "deposit": "Deposit & Receipts",
+    "submissions": "Submissions",
+    "declaration": "Declaration of Compliance",
+    "documents": "Documents",
+    "keyRequest": "Phrase Key Request",
+    "messages": "Messages",
+    "settings": "Settings",
+    "more": "More",
+    "sealed": "Sealed Settlement & NDA",
+    "sealedDone": "Sealed Settlement",
+    "withdrawalActivation": "Withdrawal Activation",
+    "withdrawalActivationDone": "Activation Approved",
+    "certificate": "Certificate",
+    "accountHistory": "Account History",
+    "walletConnect": "Wallet Connection",
+    "withdrawal": "Apply for Withdrawal",
+    "withdrawalHub": "Withdrawal",
+    "uploads": "Uploads",
+    "withdrawalGuide": "Withdrawal Guide",
+    "refundClaim": "Refund Claim"
+  },
+  "accountHistory": {
+    "title": "Account History",
+    "subtitle": "Credits and debits recorded against your case",
+    "recordsTitle": "Ledger Entries",
+    "entrySingular": "{{count}} entry",
+    "entryPlural": "{{count}} entries",
+    "displayOnly": "Display only",
+    "loading": "Loading your account history…",
+    "loadError": "We couldn't load your account history. Please try again later.",
+    "empty": "No ledger entries have been recorded on your case yet.",
+    "credit": "Credit",
+    "debit": "Debit",
+    "disclaimer": "IBCCF is display-only. These entries reflect your case officer's accounting record and do not move funds."
+  },
+  "header": {
+    "caseLabel": "Case",
+    "signOut": "Sign out"
+  },
+  "common": {
+    "noActiveCase": "No active case",
+    "loadingCase": "Loading your case…"
+  },
+  "messages": {
+    "title": "Secure Messages",
+    "subtitle": "Encrypted communications from IBCCF",
+    "unreadBadge": "{{count}} Unread",
+    "encryption": {
+      "title": "End-to-End Encrypted Communications",
+      "subtitle": "AES-256 encryption protocol"
+    },
+    "stats": {
+      "actionRequired": "Action Required",
+      "processing": "Processing",
+      "completed": "Completed"
+    },
+    "sections": {
+      "urgent": "Urgent Action Required",
+      "processing": "Processing Updates",
+      "completed": "Completed Notifications"
+    },
+    "empty": {
+      "title": "Secure Message Portal Empty",
+      "subtitle": "No encrypted messages at this time.",
+      "hint": "Messages will appear here when IBCCF sends updates about your case."
+    },
+    "dialog": {
+      "encryptedLabel": "Encrypted Message",
+      "close": "Close"
+    }
+  },
+  "documents": {
+    "header": {
+      "title": "Regulatory Document Center",
+      "subtitle": "Submit, track, and download regulatory documents requested by compliance.",
+      "awaiting": "{{count}} awaiting your action",
+      "refresh": "Refresh",
+      "refreshing": "Refreshing…"
+    },
+    "refreshError": {
+      "title": "Refresh failed",
+      "description": "Could not reload your documents. Please try again."
+    },
+    "complianceNote": "Documents are stored encrypted and reviewed only by IBCCF compliance officers. Submit promptly to keep your case moving — your assigned officer is automatically notified the moment you upload.",
+    "empty": {
+      "title": "No documents requested",
+      "subtitle": "You're all caught up. If compliance needs anything else, it will appear here and you'll receive an email."
+    },
+    "categories": {
+      "proofOfIncome": {
+        "label": "Proof of Income",
+        "description": "Recent payslips, employer letter, or tax return showing your income."
+      },
+      "sourceOfFunds": {
+        "label": "Source of Funds",
+        "description": "Bank statement or wallet record evidencing the origin of the funds."
+      },
+      "kyc": {
+        "label": "KYC Identity Verification",
+        "description": "Government-issued photo ID — passport, driver licence, or national ID card."
+      },
+      "fatca": {
+        "label": "FATCA / CRS Self-Certification",
+        "description": "Signed FATCA/CRS form declaring your tax residency."
+      },
+      "taxResidency": {
+        "label": "Tax Residency Declaration",
+        "description": "Confirm where you are tax-resident for the settlement record."
+      },
+      "beneficialOwnership": {
+        "label": "Beneficial Ownership / KYC Attestation",
+        "description": "Attest to the ultimate beneficial owner of the funds on this case."
+      },
+      "aml": {
+        "label": "AML Acknowledgement",
+        "description": "Acknowledge our anti-money-laundering and sanctions screening."
+      },
+      "settlementAuth": {
+        "label": "Settlement / Disbursement Authorization",
+        "description": "Authorize the compliance desk to release the settlement to your verified payout wallet."
+      },
+      "powerOfAttorney": {
+        "label": "Power of Attorney for Disbursement",
+        "description": "Grant the compliance desk a strictly-limited power of attorney for the release steps."
+      },
+      "custom": {
+        "description": "A custom document requested by the compliance team."
+      }
+    },
+    "status": {
+      "approved": "Approved",
+      "rejected": "Resubmission Required",
+      "submitted": "Submitted — Pending Review",
+      "underReview": "Under Review",
+      "actionRequired": "Action Required"
+    },
+    "card": {
+      "overdue": "Overdue",
+      "reference": "Reference: {{type}}",
+      "complianceNotes": "Compliance Notes",
+      "requested": "Requested",
+      "deadline": "Deadline",
+      "reviewerNotes": "Reviewer Notes",
+      "submittedOn": "Submitted {{date}}",
+      "preview": "Preview",
+      "hide": "Hide",
+      "download": "Download",
+      "archived": "Archived",
+      "uploadsPausedTitle": "Uploads paused",
+      "uploadsPausedBody": "Compliance has temporarily disabled submissions for this document. You'll be notified by email as soon as it reopens.",
+      "upload": "Upload Document",
+      "uploadCorrected": "Upload Corrected Document",
+      "uploading": "Uploading…",
+      "templateTitle": "Download pre-filled template",
+      "templateBody": "A pre-filled PDF template is available for this document. Download, sign offline, and upload the signed copy below.",
+      "templateDownloading": "Preparing…",
+      "templateDownload": "Download template",
+      "uploadHint": "PDF, PNG, JPEG or WebP · Max 10 MB · End-to-end encrypted in transit"
+    },
+    "supporting": {
+      "title": "Supporting Documents",
+      "description": "Upload any additional supporting documents (identification, transaction records, evidence files) that may assist your case review. Files are stored securely and reviewed by our compliance team.",
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Briefly describe what this document is or what it relates to (optional).",
+      "uploadButton": "Upload Document",
+      "emptyTitle": "No supporting documents yet",
+      "emptySubtitle": "Use the button above to upload your first document.",
+      "category": {
+        "general": "General",
+        "idProof": "ID / Identity Proof",
+        "transaction": "Transaction Record",
+        "evidence": "Evidence",
+        "unknown": "Other"
+      }
+    }
+  },
+  "settings": {
+    "title": "Profile & Settings",
+    "subtitle": "Account details and a live balance preview of your case",
+    "profile": {
+      "section": "Account Profile",
+      "fullName": "Full Name",
+      "email": "Email",
+      "mobile": "Mobile",
+      "accessCode": "Access Code"
+    },
+    "balance": {
+      "section": "Balance Preview",
+      "liveBadge": "Live · USDT",
+      "compiledLabel": "Compiled Deposit Amount",
+      "compiledHint": "Sum of activation, phrase-key, and merge components — refundable to your wallet on settlement.",
+      "activityLabel": "Activity Deposit",
+      "activityHelper": "Refundable activation balance",
+      "phraseKeyLabel": "Phrase-Key Deposit",
+      "phraseKeyHelper": "Wallet verification escrow",
+      "mergeLabel": "Phrase-Key Merge Deposit",
+      "mergeHelper": "30% merge component",
+      "walletRequirement": "Wallet Activity Requirement",
+      "withdrawalTotal": "Withdrawal Amount (Case Total)",
+      "footnote": "The compiled deposit is the sum of the activation, phrase-key, and merge components above. Amounts shown reflect the latest values set on your case by our settlement team — they update automatically when your case progresses."
+    }
+  },
+  "keyRequest": {
+    "back": "Back to Dashboard",
+    "header": {
+      "title": "Access Key Request",
+      "subtitle": "Request or view your access key status"
+    },
+    "status": {
+      "underReview": "Under Review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "expired": "Expired"
+    },
+    "toast": {
+      "copiedTitle": "Copied!",
+      "copiedDescription": "Request ID copied to clipboard.",
+      "notFoundTitle": "Not Found",
+      "notFoundDescription": "Could not load request status.",
+      "connectionTitle": "Connection Error",
+      "statusError": "Unable to load request status.",
+      "requiredFieldsTitle": "Required Fields",
+      "requiredFieldsDescription": "Please enter your name and email.",
+      "submissionFailedTitle": "Submission Failed",
+      "submissionFailedDefault": "Unable to submit your request. Please try again.",
+      "submitConnectionError": "Unable to submit your request."
+    },
+    "confirm": {
+      "title": "Request Submitted!",
+      "subtitle": "Our team will review it within 1–3 business days.",
+      "requestIdLabel": "Request ID",
+      "copyAria": "Copy Request ID",
+      "keepHint": "Keep this for your records",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "nextHeading": "What happens next",
+      "nextReview": "Our team reviews requests within",
+      "nextReviewDays": "1–3 business days",
+      "nextKey": "Your access key will appear here once approved",
+      "nextNotify": "You'll see a notification in your portal when there's an update",
+      "viewStatus": "View Request Status"
+    },
+    "form": {
+      "heading": "Request an Access Key",
+      "intro": "An access key lets you log back into your portal at any time without needing your original code. Fill in your details below and our team will review your request within 1–3 business days.",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone Number",
+      "optional": "(optional)",
+      "phonePlaceholder": "+1 (555) 000-0000",
+      "reason": "Reason for Request",
+      "reasonPlaceholder": "Briefly describe why you need an access key…",
+      "submit": "Submit Request",
+      "submitting": "Submitting…"
+    },
+    "howItWorks": {
+      "heading": "How it works",
+      "step1": "Submit your details using the form above",
+      "step2": "Our team reviews it within 1–3 business days",
+      "step3": "Your key is delivered here once approved"
+    },
+    "statusCard": {
+      "requestId": "Request ID",
+      "progressHeading": "Application Progress",
+      "stepSubmitted": "Submitted",
+      "stepSubmittedDesc": "Received on {{date}}",
+      "stepUnderReview": "Under Review",
+      "stepReviewing": "Our team is reviewing your request",
+      "stepReviewCompleted": "Review completed",
+      "stepApproved": "Approved",
+      "stepRejected": "Rejected",
+      "stepExpired": "Expired",
+      "stepApprovedDesc": "Your access key is ready",
+      "stepRejectedDesc": "Request could not be approved",
+      "stepExpiredDesc": "Request has expired",
+      "stepAwaiting": "Awaiting decision",
+      "nameLabel": "Name",
+      "nameNa": "N/A",
+      "submittedLabel": "Submitted",
+      "copyAria": "Copy Request ID"
+    },
+    "approved": {
+      "title": "Your Access Key",
+      "hint": "Your access key has been sent to your email address. Please check your inbox and use it to log in to the secure portal."
+    },
+    "rejected": {
+      "title": "Request Rejected",
+      "reasonLabel": "Reason",
+      "noReason": "No specific reason was provided by our team.",
+      "submitNew": "Submit New Request"
+    },
+    "expired": {
+      "title": "Request Expired",
+      "body": "This request has expired. You can submit a new access key request below."
+    },
+    "resubmit": {
+      "title": "New Access Key Request",
+      "fullName": "Full Name",
+      "email": "Email",
+      "reason": "Reason",
+      "reasonPlaceholder": "Briefly describe why you need an access key…",
+      "submit": "Submit",
+      "cancel": "Cancel"
+    },
+    "pending": {
+      "title": "Under Review",
+      "body": "Your request is being reviewed by our team. You'll receive updates here. Processing typically takes 1–3 business days."
+    },
+    "adminMsgs": {
+      "heading": "Messages from Our Team",
+      "newBadge": "{{count}} New",
+      "newPill": "New"
+    }
+  },
+  "submissions": {
+    "title": "Submission History",
+    "subtitle": "Your complete submission archive",
+    "recordsTitle": "Your Submissions",
+    "recordSingular": "{{count}} record",
+    "recordPlural": "{{count}} records",
+    "encrypted": "Encrypted",
+    "empty": "No submissions found.",
+    "optionSelected": "Option {{option}} Selected",
+    "withdrawalAmount": "Withdrawal Amount",
+    "totalBatches": "Total Batches"
+  },
+  "shell": {
+    "brand": "IBCCF PORTAL",
+    "secureSession": "Secure Session",
+    "urgent": "URGENT",
+    "member": "Member",
+    "signOut": "Sign Out",
+    "navAriaLabel": "Portal sections",
+    "ssl": "256-bit SSL Encrypted",
+    "moreLabel": "More",
+    "moreSheetTitle": "More navigation",
+    "sessionExpiry": {
+      "message": "Your session expires in less than 24 hours. Log in again to keep access.",
+      "messageWithTime": "Your session expires {{time}}. Log in again to keep access.",
+      "messageCountdown": "Session expires in {{seconds}}s — log in again to keep access.",
+      "loginButton": "Log in again to extend",
+      "dismiss": "Dismiss",
+      "dialogTitle": "Extend Your Session",
+      "dialogDesc": "Enter your PIN to extend your session and avoid losing any unsaved work.",
+      "pinPlaceholder": "6-digit PIN",
+      "extending": "Extending…",
+      "extendButton": "Extend Session",
+      "successTitle": "Session extended",
+      "successDesc": "Your session has been extended for another 7 days.",
+      "errorTitle": "Incorrect PIN",
+      "errorDesc": "The PIN you entered is incorrect. Please try again.",
+      "lockedCountdown": "Too many attempts — try again in {{time}}"
+    }
+  },
+  "status": {
+    "success": {
+      "title": "Submission Confirmed",
+      "subtitle": "Your withdrawal request has been received",
+      "bannerTitle": "Withdrawal Request Confirmed",
+      "referenceLabel": "Reference:",
+      "optionSelectedOn": "Option {{option}} selected on {{date}}",
+      "nextStepTitle": "Next Step: Complete Deposit",
+      "step1": "Navigate to the <0>Deposit & Receipts</0> section",
+      "step2": "Send the required USDT to your assigned deposit address",
+      "step3": "Upload your transaction receipt for verification",
+      "step4": "Wait for confirmation from our compliance team",
+      "goToDeposit": "Go to Deposit",
+      "contactSupport": "Contact Support",
+      "fundsReleasedTo": "Funds will be released to",
+      "verifiedPayoutWallet": "Verified payout wallet",
+      "displayOnlyShort": "Display only — IBCCF does not hold, route, or relay funds.",
+      "displayOnlyAwaiting": "Your case officer will designate the disbursement address. IBCCF does not hold, route, or relay funds.",
+      "returnToProfileTitle": "Return to Your Profile",
+      "returnToProfileSubtitle": "Access your external profile dashboard",
+      "openProfile": "Open Profile",
+      "backToDashboard": "← Back to Dashboard"
+    },
+    "timeline": {
+      "title": "Activity Timeline",
+      "events": "{{count}} events",
+      "recentActivity": "Recent Activity",
+      "empty": "No activity yet.",
+      "emptyHint": "Your account activities will appear here.",
+      "documentRequested": "Document requested: {{type}}",
+      "documentRequestedDesc": "Compliance asked you to upload this document.",
+      "documentSubmitted": "Document submitted: {{type}}",
+      "documentSubmittedDesc": "Document uploaded for compliance review.",
+      "documentUploaded": "Uploaded {{name}}",
+      "documentApproved": "Document approved: {{type}}",
+      "documentApprovedDesc": "Compliance approved your submission.",
+      "documentRejected": "Document rejected: {{type}}",
+      "documentRejectedDesc": "Compliance asked you to resubmit this document.",
+      "payoutWalletUpdated": "Payout wallet updated",
+      "payoutWalletVerified": "Payout wallet verified",
+      "payoutWalletCleared": "Payout wallet cleared",
+      "payoutWalletPrevious": "Previous payout wallet on file",
+      "payoutWalletClearedDesc": "Your case officer removed a previously-verified disbursement address.",
+      "payoutWalletGenericChange": "Compliance updated the verified disbursement address.",
+      "stagePrefix": "Stage {{stage}}: {{title}}",
+      "submissionTitle": "Option {{option}} Submitted",
+      "submissionDesc": "Withdrawal request submitted",
+      "depositReceiptTitle": "Deposit Receipt Uploaded",
+      "receiptApproved": "Receipt approved",
+      "receiptRejected": "Receipt rejected",
+      "receiptPending": "Pending review",
+      "userDocUploaded": "Supporting document uploaded",
+      "userDocUploadedDesc": "You uploaded a supporting document for compliance review.",
+      "userDocApproved": "Supporting document approved",
+      "userDocApprovedDesc": "Compliance has approved your supporting document.",
+      "userDocRejected": "Supporting document rejected",
+      "userDocRejectedDesc": "Compliance has rejected your supporting document. Please resubmit if required.",
+      "userDocReviewed": "Supporting document reviewed",
+      "userDocReviewedDesc": "Compliance has reviewed your supporting document.",
+      "activation": {
+        "title": "Withdrawal activation — {{status}}",
+        "approvedDesc": "Activation deposit approved. Withdrawal processing can now run.",
+        "rejectedDesc": "Activation receipt rejected. Re-upload required.",
+        "awaitingAdminDesc": "Receipt submitted. Awaiting compliance review.",
+        "awaitingDepositDesc": "Awaiting your activation deposit.",
+        "awaitingTokenDesc": "Awaiting security-code verification.",
+        "defaultDesc": "Status updated."
+      },
+      "walletExchangeSelected": "Wallet selected: {{wallet}}",
+      "walletExchangeSelectedDesc": "You selected {{wallet}} as your connected wallet.",
+      "walletPhraseRevealed": "Wallet phrase revealed",
+      "walletPhraseRevealedDesc": "Your wallet recovery phrase was accessed.",
+      "tokenWalletSetupConfirmedDesc": "Your token wallet setup has been verified by compliance.",
+      "tokenWalletSetupUnconfirmedDesc": "Your token wallet setup verification has been reversed.",
+      "auditActions": {
+        "wallet_connect_completed": "Wallet phrase revealed",
+        "token_wallet_setup_confirmed": "Token wallet setup confirmed",
+        "token_wallet_setup_unconfirmed": "Token wallet setup unconfirmed"
+      }
+    }
+  },
+  "dashboard": {
+    "header": {
+      "welcomeBack": "Welcome back,",
+      "memberFallback": "Member",
+      "verified": "Verified",
+      "vipStatus": "VIP Status",
+      "standard": "Standard",
+      "account": "Account",
+      "active": "Active",
+      "fullyRegulated": "Fully Regulated",
+      "fullyRegulatedTooltip": "Fully Regulated — every compliance checkpoint cleared"
+    },
+    "balance": {
+      "label": "Account Balance",
+      "footnote": "Verified balance held in segregated escrow pending compliance clearance."
+    },
+    "urgentBanner": {
+      "title": "Immediate Action Required",
+      "body": "You have pending requirements from IBCCF compliance team.",
+      "viewNow": "View Now"
+    },
+    "keyRequestBanner": {
+      "title": "New Message on Your Access Request",
+      "single": "The admin has sent you a message regarding your access key request.",
+      "multiple": "You have {{count}} new messages on your access key request.",
+      "viewMessage": "View Message"
+    },
+    "cards": {
+      "messages": "Required Actions",
+      "letter": "Withdrawal Letter",
+      "profile": "Profile Information",
+      "deposit": "Deposit & Receipts",
+      "submissions": "Submission History",
+      "timeline": "Activity Timeline",
+      "support": "IBCCF Support",
+      "feedback": "Feedback",
+      "unread": "{{count}} unread",
+      "pending": "Pending",
+      "accessAccount": "Access Account"
+    },
+    "messages": {
+      "urgent": "Urgent",
+      "processing": "Processing",
+      "resolved": "Resolved"
+    },
+    "letter": {
+      "status": "Status",
+      "submitted": "Submitted",
+      "ready": "Ready",
+      "submissions": "Submissions",
+      "preparing": "Being prepared by compliance team"
+    },
+    "profile": {
+      "name": "Name",
+      "email": "Email",
+      "vipStatus": "VIP Status"
+    },
+    "deposit": {
+      "receiptsUploaded": "Receipts Uploaded",
+      "pendingReview": "Pending Review"
+    },
+    "submissions": {
+      "total": "Total Submissions"
+    },
+    "timeline": {
+      "recent": "Recent Activities"
+    },
+    "support": {
+      "body": "Chat with IBCCF support for assistance with your account."
+    },
+    "feedback": {
+      "thankYou": "Thank you!",
+      "body": "Help us improve by sharing your experience.",
+      "title": "Share Your Feedback",
+      "description": "Rate our service and leave comments.",
+      "rateLabel": "How would you rate your experience?",
+      "ratings": {
+        "1": "Poor",
+        "2": "Fair",
+        "3": "Good",
+        "4": "Very Good",
+        "5": "Excellent"
+      },
+      "commentsLabel": "Additional comments (optional)",
+      "commentsPlaceholder": "Tell us more about your experience...",
+      "cancel": "Cancel",
+      "submit": "Submit Feedback",
+      "submitting": "Submitting...",
+      "toastSuccessTitle": "Feedback Submitted",
+      "toastSuccessDesc": "Thank you for your feedback!",
+      "toastErrorTitle": "Error",
+      "toastErrorDesc": "Failed to submit feedback."
+    },
+    "chat": {
+      "title": "IBCCF Support",
+      "online": "Online · Typically replies in minutes",
+      "welcomeTitle": "Welcome to IBCCF Support",
+      "welcomeBody": "How can we help you today?",
+      "placeholder": "Type your message..."
+    },
+    "reactivation": {
+      "dismissAria": "Dismiss welcome message",
+      "label": "Account Reactivated",
+      "newPill": "NEW",
+      "fallbackName": "there",
+      "headline": "Welcome back, {{name}} — your account is fully restored.",
+      "bodyWithEmail": "Our compliance team has reactivated your IBCCF portal. Every feature is available again. A fresh access code has been sent to your email — your previous code no longer works.",
+      "bodyNoEmail": "Our compliance team has reactivated your IBCCF portal. Every feature is available again. A fresh access code has been issued — please contact your case officer to receive it.",
+      "restoration": "Account restoration",
+      "allOnline": "All portal features online"
+    },
+    "tracker": {
+      "title": "Withdrawal Progress",
+      "subtitle": "Real-time status of your withdrawal request",
+      "progress": "Progress",
+      "ariaLabel": "Withdrawal progress: stage {{stage}} of 14",
+      "stageLabel": "Stage {{stage}}: {{label}} — {{state}}",
+      "stageTooltip": "Stage {{stage}}: {{label}}\n{{state}}",
+      "states": {
+        "completed": "Completed",
+        "current": "Current",
+        "upcoming": "Upcoming"
+      },
+      "legend": {
+        "completed": "Completed",
+        "userAction": "Action needed from you",
+        "adminAction": "Waiting on compliance team",
+        "system": "System processing"
+      },
+      "stageOf": "Stage {{stage}}",
+      "stages": {
+        "1": {
+          "label": "Phrase Key Deposit Received",
+          "description": "Phrase key deposit successfully confirmed on ledger"
+        },
+        "2": {
+          "label": "Generating Secure Phrase Key",
+          "description": "Phrase key creation underway"
+        },
+        "3": {
+          "label": "Phrase Key Approved & Available",
+          "description": "Phrase key approved and delivered to Secure Message Center"
+        },
+        "4": {
+          "label": "Withdrawal Process Initiated",
+          "description": "Withdrawal flow activated"
+        },
+        "5": {
+          "label": "Initial Deposit Verification",
+          "description": "Deposit verification in progress"
+        },
+        "6": {
+          "label": "Phrase Key Verification",
+          "description": "Phrase key validation in progress"
+        },
+        "7": {
+          "label": "Phrase Key Merge Deposit Required",
+          "descriptionWithAmount": "Required: {{amount}} (30% merge deposit)",
+          "descriptionAwaiting": "Awaiting merge deposit calculation"
+        },
+        "8": {
+          "label": "Financial Department Verification",
+          "description": "Compliance and financial review"
+        },
+        "9": {
+          "label": "Mining Withdrawal for Final Clearance",
+          "description": "Blockchain confirmation and internal clearance"
+        },
+        "10": {
+          "label": "Blockchain Activity Verification",
+          "descriptionWithAmount": "Required: {{amount}} balance in receiving wallet",
+          "descriptionAwaiting": "Wallet activity verification in progress"
+        },
+        "11": {
+          "label": "IRS / International AML Verification",
+          "description": "Regulatory compliance checks in progress"
+        },
+        "12": {
+          "label": "Final Withdrawal Processing",
+          "description": "Preparing funds for release"
+        },
+        "13": {
+          "label": "Withdrawal Successfully Released",
+          "description": "Funds released to designated wallet"
+        },
+        "14": {
+          "label": "Time-Stamp Deposit for Final Delivery",
+          "description": "Final delivery confirmation"
+        }
+      },
+      "stage7Notice": {
+        "title": "Phrase Key Merge Deposit Required",
+        "body": "A 30% merge deposit is required to complete phrase key verification."
+      },
+      "stage10Notice": {
+        "title": "Blockchain Activity Verification",
+        "body": "Please maintain the required {{asset}} balance in your receiving wallet."
+      },
+      "stage12Notice": {
+        "title": "Final Confirmation: Payout Wallet",
+        "body": "Confirm the verified destination address below matches your records before compliance releases the disbursement. The portal is display-only — IBCCF does not hold, route, or relay funds.",
+        "awaiting": "Awaiting your case officer to designate the verified payout wallet."
+      },
+      "withdrawalMode": {
+        "kicker": "All Stages Cleared",
+        "title": "Withdrawal Phase Active",
+        "body": "All compliance stages have been completed. Your withdrawal is now in progress."
+      }
+    },
+    "payoutWallet": {
+      "awaitingPill": "Awaiting verification",
+      "label": "Verified Payout Wallet",
+      "awaitingTitle": "Your case officer will designate the disbursement address",
+      "awaitingBody": "Once compliance has verified the wallet that will receive your payout, the full address, asset, and network appear here. The portal is display-only — IBCCF never holds, routes, or relays your funds.",
+      "updatedLabel": "Payout wallet updated",
+      "updatedTitle": "Your case officer has verified a new disbursement address.",
+      "updatedBody": "Review the details below and contact your officer immediately if anything looks unfamiliar.",
+      "dismissAria": "Dismiss payout wallet update",
+      "verifiedPill": "Verified",
+      "label2": "Payout Wallet",
+      "verifiedTitle": "Designated disbursement address",
+      "verifiedBody": "Your case officer has verified this as the destination for your case. The portal is <0>display only</0> — IBCCF does not hold or relay funds.",
+      "asset": "Asset",
+      "network": "Network",
+      "walletAddress": "Wallet address",
+      "copy": "Copy",
+      "verified": "Verified",
+      "verifiedBy": "by",
+      "verifiedOn": "on",
+      "toastCopiedTitle": "Wallet address copied",
+      "toastCopiedDesc": "Verified payout address copied to clipboard.",
+      "toastFailTitle": "Copy failed",
+      "toastFailDesc": "Please copy the address manually.",
+      "toastUpdatedTitle": "Payout wallet updated",
+      "toastUpdatedDesc": "Your case officer has verified a new disbursement address. Please review it before continuing your withdrawal."
+    },
+    "stageCta": {
+      "stage7AmountLabel": "Phrase Key Merge Deposit",
+      "stage10AmountLabel": "Required wallet balance",
+      "stage7Headline": "Pay the {{amount}} {{asset}} merge deposit to unlock Phrase Key verification",
+      "stage10Headline": "Maintain {{amount}} {{asset}} in your receiving wallet for activity verification",
+      "stageOf": "Stage {{stage}} of 14",
+      "advanced": "Stage advanced · {{from}} → {{to}}",
+      "dismissAria": "Dismiss stage update",
+      "whatYouCanDo": "What you can do now",
+      "withdrawalMode": {
+        "kicker": "Withdrawal Phase",
+        "title": "Withdrawal in Progress",
+        "body": "All compliance stages have been cleared. Your case officer is processing your disbursement. No further action is required from you at this time."
+      }
+    },
+    "finalized": {
+      "label": "Case Finalized",
+      "title": "Your case has been finalized",
+      "body": "Your IBCCF withdrawal case reached its final stage and has been fully finalized on {{date}}. {{tail}}",
+      "tailCertificate": "Visit the Certificate section to download your Merge Phrase Certificate.",
+      "tailEmail": "A confirmation copy has been emailed for your records."
+    },
+    "activationBanner": {
+      "kicker": "Withdrawal Activation",
+      "transition": "{{from}} → {{to}}",
+      "body": "Open the Withdrawal Activation view to continue.",
+      "dismiss": "Dismiss",
+      "status": {
+        "pending_address": "pending address",
+        "awaiting_token": "awaiting token",
+        "awaiting_deposit": "awaiting deposit",
+        "awaiting_admin_approval": "awaiting admin approval",
+        "approved": "approved",
+        "rejected": "rejected",
+        "unknown": "Processing"
+      }
+    },
+    "stampDuty": {
+      "title": "Stamp Duty Deposit pending",
+      "statusAwaitingUpload": "Awaiting upload",
+      "statusAwaitingApproval": "Awaiting compliance review",
+      "statusRejected": "Receipt rejected",
+      "bodyAwaitingUpload": "Upload a receipt for the Stamp Duty Deposit to keep your sealed settlement on track.",
+      "bodyAwaitingApproval": "Your receipt has been submitted. Compliance will confirm the deposit shortly.",
+      "bodyRejected": "Your last receipt was rejected. Please review the note and submit a new receipt.",
+      "amountLabel": "Amount due",
+      "ctaUpload": "Upload receipt",
+      "ctaView": "View Stamp Duty",
+      "ctaResubmit": "Resubmit receipt",
+      "updated": "Updated",
+      "doneKicker": "Step Completed",
+      "doneTitle": "Stamp Duty — Cleared"
+    },
+    "withdrawalGuide": {
+      "title": "Your Withdrawal Guide",
+      "label": "Withdrawal Guide",
+      "body": "Follow these steps to complete your withdrawal process successfully.",
+      "step1Title": "Complete Identity Verification",
+      "step1Body": "Submit your KYC documents and confirm your personal details with our compliance team.",
+      "step2Title": "Sign Regulatory Disclosures",
+      "step2Body": "Review and sign all required compliance forms and declarations to satisfy regulatory requirements.",
+      "step3Title": "Activate Your Withdrawal Account",
+      "step3Body": "Make the activation deposit — 1,000 USDT refundable activation balance + 500 USDT non-refundable processing fee.",
+      "step4Title": "Upload Supporting Documents",
+      "step4Body": "Provide proof of funds, source-of-income documents, and any additional files requested by your compliance officer.",
+      "step5Title": "Await Compliance Clearance",
+      "step5Body": "Our team performs final due-diligence checks before authorising the release of your funds.",
+      "step6Title": "Confirm Your Payout Wallet",
+      "step6Body": "Verify the wallet address designated by your case officer — IBCCF never holds or routes your funds.",
+      "step7Title": "Receive Your Funds",
+      "step7Body": "Once all clearances are obtained your verified payout wallet receives the full settlement amount."
+    },
+    "tutorialVideo": {
+      "title": "How withdrawals work",
+      "watch": "Watch the tutorial",
+      "download": "Download this video",
+      "subtitle": "A one-minute animated walkthrough of all 14 withdrawal stages.",
+      "muteNarration": "Mute narration",
+      "unmuteNarration": "Unmute narration"
+    }
+  },
+  "context": {
+    "toast": {
+      "messagesUpToDateTitle": "All messages up to date",
+      "messagesUpToDateDesc": "Your team messages are marked as read.",
+      "sessionExpiredTitle": "Session Expired",
+      "sessionExpiredDesc": "You have been logged out due to inactivity.",
+      "newMessageTitle": "New Message",
+      "newMessageDesc": "You have a new message from support.",
+      "sendFailedTitle": "Error",
+      "sendFailedDesc": "Failed to send message.",
+      "emptyFileTitle": "Empty file",
+      "emptyFileReceiptDesc": "This file is empty. Please choose a different photo or PDF.",
+      "fileTooLargeTitle": "File too large",
+      "fileTooLargeReceiptDesc": "Your file is {{mb}} MB. The maximum is 8 MB. Try taking a new photo or compressing the image.",
+      "unsupportedTypeTitle": "Unsupported file type",
+      "unsupportedTypeReceiptDesc": "Please upload a photo (JPG, PNG, HEIC, WebP) or a PDF receipt.",
+      "readFailedTitle": "Could not read file",
+      "readFailedDesc": "Your browser failed to read this file. Please try again or use a different file.",
+      "receiptUploadedTitle": "Receipt Uploaded",
+      "receiptUploadedDesc": "Your deposit receipt has been submitted for review.",
+      "uploadFailedTitle": "Upload failed ({{status}})",
+      "uploadFailedDefault": "Unable to upload receipt.",
+      "uploadFailed413": "This file is too large for the server to accept. Please use a photo under 8 MB.",
+      "networkErrorTitle": "Network error",
+      "networkErrorDesc": "Could not reach the server. Check your connection and try again.",
+      "emptyFileDocDesc": "This file is empty. Choose a different document.",
+      "fileTooLargeDocDesc": "Your file is {{mb}} MB. The maximum is 10 MB.",
+      "unsupportedTypeDocDesc": "Please upload a PDF, PNG, JPEG, or WebP file.",
+      "readFailedDocDesc": "Your browser failed to read this file.",
+      "documentSubmittedTitle": "Document submitted",
+      "documentSubmittedDesc": "Compliance has been notified and will review shortly.",
+      "submitFailedTitle": "Submit failed ({{status}})",
+      "submitFailedDefault": "Unable to submit document.",
+      "submitFailed413": "This file is too large for the server. Please use a file under 10 MB.",
+      "forceLogoutTitle": "Signed out by administrator",
+      "forceLogoutDesc": "Your session was ended by IBCCF compliance. Please sign in again.",
+      "accountLockedTitle": "Account locked",
+      "accountLockedDescAdminDisabled": "Your account has been locked by a compliance officer. Please complete the reactivation deposit to restore access.",
+      "accountLockedDescWarningExpired": "Your account was locked because the warning period expired. Please complete the reactivation deposit to restore access."
+    }
+  },
+  "notificationBell": {
+    "title": "Notifications",
+    "newCount": "{{count}} new",
+    "markAllRead": "Mark all read",
+    "close": "Close",
+    "empty": "No notifications yet",
+    "emptyHint": "We'll notify you when something important happens",
+    "showingLatest": "Showing latest {{count}} notifications"
+  },
+  "installApp": {
+    "ariaLabel": "Install IBCCF app",
+    "title": "Install IBCCF on your phone",
+    "body": "Quick, full-screen access to your secure portal — works offline for the basics.",
+    "install": "Install",
+    "notNow": "Not now",
+    "dismiss": "Dismiss",
+    "iosTitle": "Install IBCCF on your iPhone",
+    "iosDescription": "iPhones install web apps from Safari directly. Two quick taps.",
+    "iosStep1Prefix": "Tap the",
+    "iosStep1Share": "Share",
+    "iosStep1Suffix": "button at the bottom of Safari.",
+    "iosStep2Prefix": "Scroll and choose",
+    "iosStep2Add": "Add to Home Screen",
+    "iosStep2Suffix": ", then tap",
+    "iosStep2Confirm": "Add",
+    "iosFootnote": "The IBCCF icon will appear on your home screen and open full-screen, just like a native app."
+  },
+  "auth": {
+    "login": {
+      "title": "SECURE GATEWAY ACCESS",
+      "subtitle": "Account Integrity Division",
+      "connectionActive": "Secure Connection Active",
+      "cardTitle": "Verification Required",
+      "cardSubtitle": "Enter your compliance clearance credentials",
+      "codeLabel": "Compliance Clearance Reference",
+      "accessCodeLabel": "Access Code",
+      "pinLabel": "Security PIN",
+      "codePlaceholder": "Enter Access Code",
+      "pinPlaceholder": "Enter 6-digit PIN",
+      "continue": "Continue",
+      "verify": "Verify Identity",
+      "verifying": "Verifying...",
+      "useDifferentCode": "Use different access code",
+      "sslBadge": "256-bit SSL Encrypted",
+      "toast": {
+        "pinRequiredTitle": "PIN Required",
+        "pinRequiredDesc": "Please enter your 6-digit PIN to continue.",
+        "accessDeniedTitle": "Access Denied",
+        "accessDeniedDesc": "Invalid clearance code provided.",
+        "invalidPinTitle": "Invalid PIN",
+        "invalidPinDesc": "The PIN entered is incorrect. Please try again.",
+        "connectionTitle": "Connection Error",
+        "connectionDesc": "Unable to verify credentials.",
+        "verifiedTitle": "Identity Verified",
+        "verifiedDesc": "Secure session established."
+      }
+    },
+    "register": {
+      "loadingProfile": "Loading your profile...",
+      "title": "Identity Verification",
+      "subtitle": "Confirm your details for the secure ledger",
+      "fullName": "Full Legal Name",
+      "fullNamePlaceholder": "Your full legal name",
+      "email": "Email Address",
+      "emailPlaceholder": "name@example.com",
+      "mobile": "Mobile Number",
+      "mobilePlaceholder": "Your contact number",
+      "pinIntro": "Create a secure 6-digit PIN for future logins",
+      "createPin": "Create 6-Digit PIN",
+      "confirmPin": "Confirm PIN",
+      "pinPlaceholder": "••••••",
+      "processing": "Processing...",
+      "proceed": "Proceed to Secure Synchronization",
+      "toast": {
+        "sessionErrorTitle": "Session Error",
+        "sessionErrorDesc": "Please start over from the verification page.",
+        "invalidPinTitle": "Invalid PIN",
+        "invalidPinDesc": "Please enter a 6-digit numeric PIN.",
+        "pinMismatchTitle": "PIN Mismatch",
+        "pinMismatchDesc": "The PINs you entered do not match.",
+        "pinSetupFailedTitle": "PIN Setup Failed",
+        "pinSetupFailedDesc": "Unable to set your PIN.",
+        "failedTitle": "Registration Failed",
+        "failedDesc": "Unable to complete registration.",
+        "connectionTitle": "Connection Error",
+        "connectionDesc": "Unable to save registration."
+      }
+    },
+    "sync": {
+      "title": "Synchronizing Account",
+      "defaultStatus": "Establishing secure connection...",
+      "protocolLabel": "ISO-D PROTOCOL",
+      "waitClearance": "Wait for administrative clearance..."
+    }
+  },
+  "deposit": {
+    "title": "Deposit & Receipts",
+    "subtitle": "Send the required deposit and upload your transaction receipt for verification.",
+    "reissue": {
+      "title": "Reissue Round v{{version}} — Payment Required",
+      "statusAwaitingDeposit": "Awaiting your reissue deposit before compliance can re-open submissions.",
+      "statusAwaitingReview": "Receipt received — compliance is reviewing your reissue payment.",
+      "statusPaid": "Reissue payment confirmed. You may resubmit your withdrawal request.",
+      "amountDue": "Amount due",
+      "reasonLabel": "Reason from compliance:"
+    },
+    "address": {
+      "title": "{{asset}} Deposit Address ({{network}})",
+      "subtitle": "Send {{asset}} on {{network}} only — other networks will be lost.",
+      "requiredAmount": "Required amount",
+      "qrUnavailable": "QR code unavailable on this device — copy the address manually.",
+      "qrAmountPrefill": "Scan to prefill",
+      "qrAmountSuffix": "in your wallet.",
+      "qrScanHint": "Scan with your wallet app to load the deposit address.",
+      "qrDownload": "Download",
+      "qrCopied": "Copied",
+      "qrCopyImage": "Copy image",
+      "qrShare": "Share",
+      "importantInstructions": "Important instructions",
+      "instructionNetwork": "Send {{asset}} on the {{network}} network only. Funds sent on a different network cannot be recovered.",
+      "instructionUploadReceipt": "After sending, upload your transaction receipt below so compliance can verify the payment.",
+      "instructionTxHash": "Include the transaction hash (TXID) in the notes so we can match the on-chain record."
+    },
+    "upload": {
+      "title": "Upload Transaction Receipt",
+      "subtitle": "Submit a screenshot or photo of your completed transaction.",
+      "requiredReminder": "Send exactly the amount shown — 1,000 USDT refundable activation balance + 500 USDT non-refundable processing fee. Required total:",
+      "notesPlaceholder": "Optional notes — paste the transaction hash (TXID), wallet used, or any context for compliance…",
+      "uploading": "Uploading…",
+      "selectImage": "Select Receipt Image",
+      "categoryLabel": "What is this receipt for?",
+      "multiHint": "(select one or more)",
+      "category": {
+        "withdrawal": "Withdrawal deposit",
+        "token_deposit": "Token deposit",
+        "merge_fee": "Batch merge fee",
+        "activation": "Activation deposit",
+        "reissue": "Letter reissue fee",
+        "certificate": "Certificate fee",
+        "stamp_duty": "Stamp duty",
+        "other": "Other / supporting document"
+      }
+    },
+    "receipts": {
+      "title": "Uploaded Receipts",
+      "empty": "No receipts uploaded yet.",
+      "imageAlt": "Deposit receipt",
+      "defaultFileName": "Deposit Receipt",
+      "status": {
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "pending": "Pending Review",
+        "unknown": "Processing"
+      }
+    },
+    "support": {
+      "message": "Need help with your deposit? Our compliance team is available to assist.",
+      "cta": "Contact Support"
+    },
+    "toast": {
+      "downloadFailedTitle": "Download failed",
+      "downloadFailedDesc": "Could not generate the QR code image. Please copy the address manually.",
+      "shareFailedTitle": "Share failed",
+      "shareFailedNoImage": "Could not generate the QR image to share.",
+      "shareFailedSheet": "The system share sheet could not be opened.",
+      "shareTitle": "Deposit address QR",
+      "copyNotSupportedTitle": "Copy not supported",
+      "copyNotSupportedDesc": "Your browser does not support copying images. Try downloading the QR instead.",
+      "copyFailedTitle": "Copy failed",
+      "copyFailedNoImage": "Could not generate the QR image to copy.",
+      "copyFailedNotSupported": "Your browser blocked the image copy. Try downloading the QR instead.",
+      "qrCopiedTitle": "QR code copied",
+      "qrCopiedDesc": "Paste the image into your wallet or messaging app.",
+      "addressCopiedTitle": "Address copied",
+      "addressCopiedDesc": "Paste it into your wallet to send the deposit.",
+      "amountCopiedTitle": "Amount copied",
+      "amountCopiedDesc": "Paste the exact amount into your wallet to avoid mismatches.",
+      "sessionExpiredTitle": "Session expired",
+      "sessionExpiredDesc": "Your session has expired. Please log in again to continue.",
+      "reissueMissing": "No reissue round is awaiting payment.",
+      "uploadSuccessTitle": "Receipt uploaded",
+      "certUploaded": "Certificate fee receipt submitted for review.",
+      "stampUploaded": "Stamp-duty receipt submitted for review.",
+      "singleUploaded": "Receipt submitted for review.",
+      "multiUploaded": "{{count}} receipts submitted for review.",
+      "partialUploadTitle": "Uploaded {{succeeded}} of {{total}}",
+      "uploadFailedTitle": "Upload failed",
+      "uploadFailedDesc": "Please try again."
+    },
+    "mergeFee": {
+      "bannerText": "Upload your 500 USDT batch merge fee payment proof below. Select the file using the upload button, then submit for review.",
+      "bannerDismiss": "Dismiss notice",
+      "uploadingReminder": "500 USDT non-refundable batch merge fee",
+      "inlineReminder": "This is the 500 USDT non-refundable batch merge fee. Upload your payment proof then submit for review."
+    }
+  },
+  "letter": {
+    "pending": {
+      "title": "Withdrawal Letter Not Yet Issued",
+      "description": "Your compliance officer is finalising your official withdrawal letter. It will appear here as soon as it is released.",
+      "notification": "You will receive an in-portal notification and an email the moment your letter is ready.",
+      "returnButton": "Return to Dashboard"
+    },
+    "header": {
+      "title": "Official Withdrawal Letter",
+      "subtitle": "Compliance-issued instructions for your withdrawal",
+      "history": "History ({{count}})",
+      "downloadPdf": "Download PDF"
+    },
+    "organization": {
+      "name": "International Blockchain Community Compliance Forum",
+      "division": "Account Integrity Division",
+      "secretariat": "Office of the Compliance Secretariat"
+    },
+    "session": {
+      "verified": "Session Verified",
+      "verifiedSubtitle": "Identity confirmed for this secure view",
+      "accountStatus": "Account Status",
+      "standardMember": "Standard Member"
+    },
+    "compliance": {
+      "referenceLabel": "Compliance Reference",
+      "sessionVerifiedLabel": "Session Verified",
+      "authenticated": "Authenticated"
+    },
+    "body": {
+      "dateLabel": "Date:",
+      "defaultClient": "Valued Client",
+      "greeting": "Dear {{name}},"
+    },
+    "payoutWallet": {
+      "title": "Verified Payout Wallet"
+    },
+    "reissue": {
+      "versionTitle": "Letter Reissue · Version {{version}}",
+      "statusPaid": "Paid",
+      "statusUnderReview": "Under Review",
+      "statusPaymentRequired": "Payment Required",
+      "descriptionPaid": "Your reissue fee has been received. The updated letter is now active.",
+      "descriptionUnderReview": "Your reissue payment is being verified by compliance. You'll be notified once it clears.",
+      "descriptionAwaitingDeposit": "A reissue fee is required before you can submit against this updated letter.",
+      "feeLabel": "Reissue Fee",
+      "reasonLabel": "Reason for reissue:",
+      "goToDeposit": "Go to Deposit"
+    },
+    "options": {
+      "title": "Select Your Withdrawal Option",
+      "optionLabel": "Option {{letter}}",
+      "amount": "Amount",
+      "frequency": "Frequency",
+      "batches": "Batches",
+      "phraseKeyCost": "Phrase-Key Cost",
+      "totalRequirement": "Total Requirement"
+    },
+    "amount": {
+      "label": "Withdrawal Amount",
+      "help": "Confirm or edit the amount you want to withdraw under Option {{option}}.",
+      "placeholder": "e.g. 25,000 USDT",
+      "hintValid": "Leave blank to use the case default amount.",
+      "hintInvalid": "Enter a valid positive amount (numbers and commas only)."
+    },
+    "continue": {
+      "withOption": "Continue with Option {{option}}",
+      "withOptionPlaceholder": "—",
+      "awaitingApproval": "Awaiting Reissue Approval",
+      "payReissueFirst": "Pay Reissue Fee First"
+    },
+    "success": {
+      "title": "Withdrawal Request Submitted",
+      "description": "Your selection has been recorded and forwarded to compliance for processing.",
+      "referenceNumber": "Reference Number",
+      "statusLabel": "Status",
+      "statusBadge": "Submitted",
+      "submittedOn": "Submitted On",
+      "returnDashboard": "Return to Dashboard",
+      "viewHistory": "View Submission History"
+    },
+    "url": {
+      "sectionTitle": "Submit Your Withdrawal Request",
+      "title": "Complete Withdrawal via Secure Form",
+      "description": "Click below to open the secure withdrawal form in a new tab. Your submission will be recorded in your portal history automatically.",
+      "account": "Account",
+      "withdrawalAmount": "Withdrawal Amount",
+      "reference": "Reference",
+      "notAvailable": "N/A",
+      "submit": "Open Secure Withdrawal Form",
+      "opensInNewTab": "Opens in a new tab. Keep this portal open to track confirmation."
+    },
+    "awaitingConfig": {
+      "title": "Awaiting Final Configuration",
+      "description": "Your letter has been issued, but compliance is still finalising your withdrawal options. You will be able to take action here as soon as configuration is complete.",
+      "returnDashboard": "Return to Dashboard"
+    },
+    "footer": {
+      "encryptionInfo": "End-to-end encrypted · Reference {{ref}}",
+      "generated": "Generated {{timestamp}}"
+    },
+    "confirm": {
+      "title": "Confirm Your Submission",
+      "description": "Please confirm the details below before submitting, {{name}}.",
+      "selectedOption": "Selected option",
+      "amountLabel": "Amount",
+      "amountPlaceholder": "e.g. 25,000 USDT",
+      "hintValid": "Leave blank to use the case default amount.",
+      "hintInvalid": "Enter a valid positive amount (numbers and commas only).",
+      "cancel": "Cancel",
+      "submitting": "Submitting…",
+      "submitSelection": "Confirm & Submit",
+      "submitOpenForm": "Confirm & Open Form"
+    },
+    "fallback": {
+      "headline": "Official Withdrawal Authorisation",
+      "introduction": "Dear Valued Client, your withdrawal request has been reviewed by our compliance team and is now ready for your final action.",
+      "bodyContent": "Please review the available withdrawal options below and select the plan that best suits your requirements. Each option outlines the schedule, phrase-key cost, and total compliance requirement.",
+      "footerNote": "Important: Submissions are final once recorded. Please ensure all details are correct before confirming.",
+      "optionATitle": "Standard Withdrawal Plan",
+      "optionADescription": "Lower per-batch cost with a longer release schedule.",
+      "optionAFrequency": "Weekly batches",
+      "optionBTitle": "Accelerated Withdrawal Plan",
+      "optionBDescription": "Faster release schedule with a higher phrase-key cost.",
+      "optionBFrequency": "Bi-weekly batches",
+      "phraseKey1": "Valid government-issued identification on file",
+      "phraseKey2": "Verified payout wallet designated by your case officer",
+      "phraseKey3": "Cleared compliance and AML review",
+      "phraseKey4": "Phrase-key deposit confirmed on ledger",
+      "phraseKey5": "Final acknowledgement of withdrawal terms",
+      "complianceNotice": "This authorisation is issued under IBCCF compliance protocols and is bound by international AML and KYC regulations."
+    },
+    "toast": {
+      "reissueAwaitingTitle": "Reissue Under Review",
+      "reissueAwaitingDescription": "Your reissue payment is being verified. You'll be able to submit once compliance clears it.",
+      "reissueRequiredTitle": "Reissue Fee Required",
+      "reissueRequiredDescription": "Please pay the reissue fee of {{fee}} before submitting against the updated letter.",
+      "submissionSuccessTitle": "Submission Recorded",
+      "submissionSuccessWithAmount": "Your withdrawal request for {{amount}} has been submitted successfully.",
+      "submissionSuccessNoAmount": "Your withdrawal request has been submitted successfully.",
+      "submissionFailedTitle": "Submission Failed",
+      "submissionFailedDefault": "Unable to submit your request. Please try again.",
+      "connectionErrorTitle": "Connection Error",
+      "submissionRecordedTitle": "Submission Recorded",
+      "submissionRecordedWithAmount": "Your submission for {{amount}} has been recorded. Opening the secure form…",
+      "submissionRecordedNoAmount": "Your submission has been recorded. Opening the secure form…",
+      "submissionRecordFailedDefault": "Unable to record your submission. Please try again.",
+      "errorTitle": "Error",
+      "failedRecord": "Failed to record your submission. Please try again."
+    }
+  },
+  "withdrawalWindow": {
+    "title": "Withdrawal window is open",
+    "description": "Your case officer has enabled withdrawals for this case. Submit your withdrawal details for compliance review. This platform is display only — submitting the form does not itself move funds.",
+    "cta": "Request Withdrawal",
+    "pendingChip": "Pending review",
+    "requiredDeposit": "Required token deposit: {{amount}}",
+    "toastDepositTitle": "Token deposit required",
+    "toastDepositDescription": "A deposit of {{amount}} is required to process your withdrawal. Please deposit to your token wallet before requesting.",
+    "transition": {
+      "label": "Withdrawal request update",
+      "approved": "Withdrawal request approved",
+      "rejected": "Withdrawal request rejected",
+      "cancelled": "Withdrawal request cancelled",
+      "dismiss": "Dismiss"
+    }
+  },
+  "withdrawalView": {
+    "title": "Apply for Withdrawal",
+    "subtitle": "Submit your withdrawal details for compliance review. This platform is display only — submitting this form does not itself move funds.",
+    "disabledTitle": "Withdrawal window not open yet",
+    "disabledBody": "Your case officer has not opened the withdrawal window for this case yet. You will be notified when you can apply.",
+    "pendingTitle": "Withdrawal request under review",
+    "pendingBody": "You already have a withdrawal request awaiting review. Your case officer will respond before you can submit another.",
+    "formTitle": "Withdrawal application",
+    "formDescription": "Your case officer will review the destination wallet you submit and notify you of the outcome.",
+    "finalStageBadge": "Final stage",
+    "landingTitle": "Withdrawal",
+    "landingSubtitle": "The final stage of your case — connect a wallet, import your phrase code, then submit your withdrawal request for review.",
+    "stepLabel": "Step {{n}}",
+    "applicationHeading": "Withdrawal application",
+    "displayOnlyNote": "For your security, IBCCF never holds, routes, or relays funds. Settlement is performed by the regulated settlement bank to the verified wallet on your case file.",
+    "status": {
+      "done": "Done",
+      "active": "Your turn",
+      "pending": "Under review",
+      "locked": "Locked"
+    },
+    "steps": {
+      "connect": {
+        "title": "Connect your receiving wallet",
+        "body": "Choose the self-custody wallet you want to receive your funds with.",
+        "cta": "Open Wallet Connection",
+        "ctaDone": "Review wallet"
+      },
+      "phrase": {
+        "title": "Reveal & import your phrase code",
+        "body": "Reveal the connection phrase generated for your case and import it into your wallet app, guided step by step.",
+        "cta": "Open phrase guide"
+      },
+      "apply": {
+        "title": "Submit your withdrawal request",
+        "body": "Confirm the destination wallet and amount. Your case officer reviews the request and notifies you of the outcome.",
+        "cta": "Go to application"
+      }
+    },
+    "batchHistory": {
+      "proofSubmitted": "Proof submitted"
+    }
+  },
+  "withdrawalRequest": {
+    "dialog": {
+      "title": "Request Withdrawal",
+      "description": "Submit your withdrawal details for compliance review. This platform is display only — funds are not moved by this form. Your case officer will review your requested destination wallet and notify you of the outcome."
+    },
+    "sections": {
+      "details": "1. Withdrawal Details",
+      "wallet": "2. Requested Destination Wallet",
+      "preferences": "3. Preferences",
+      "security": "4. Security & Terms"
+    },
+    "walletHint": "This is the wallet you would like funds released to. It is independent of any verified payout wallet your case officer may already have on file — compliance will verify the address you submit here.",
+    "termsCheckbox": "I confirm the destination wallet address above is mine and I understand this platform is display-only — submitting this request asks compliance to review my withdrawal, it does not itself move funds.",
+    "buttons": {
+      "cancel": "Cancel",
+      "submit": "Submit withdrawal request",
+      "submitting": "Submitting…"
+    },
+    "fields": {
+      "amount": "Amount",
+      "amountPlaceholder": "e.g. 1000",
+      "type": "Type",
+      "typeFull": "Full balance",
+      "typePartial": "Partial",
+      "asset": "Asset",
+      "network": "Network",
+      "walletAddress": "Wallet address",
+      "walletAddressPlaceholder": "Paste destination address",
+      "walletAssetOptional": "Asset (optional)",
+      "walletNetworkOptional": "Network (optional)",
+      "walletMatchAbove": "Leave blank to match above",
+      "channel": "Confirmation channel",
+      "channelEmail": "Email",
+      "channelSms": "SMS",
+      "channelBoth": "Both",
+      "note": "Note for compliance (optional)",
+      "notePlaceholder": "Anything your case officer should know",
+      "payoutDate": "Preferred payout date (optional, tomorrow or later)",
+      "pin": "Re-enter your 6-digit case PIN",
+      "twoFa": "2FA / verification code (optional, 6 digits)",
+      "twoFaPlaceholder": "If your officer issued one"
+    },
+    "errors": {
+      "missingTitle": "Missing details",
+      "missingDescription": "Please fill in amount, asset, network, and destination wallet address.",
+      "pinTitle": "PIN required",
+      "pinDescription": "Please enter your 6-digit case PIN to confirm this request.",
+      "twoFaTitle": "Invalid 2FA code",
+      "twoFaDescription": "Verification codes must be exactly 6 digits.",
+      "dateTitle": "Date too soon",
+      "dateDescription": "Preferred payout date must be tomorrow or later.",
+      "termsTitle": "Terms required",
+      "termsDescription": "Please accept the withdrawal terms before submitting.",
+      "networkTitle": "Network error",
+      "networkDescription": "Unable to submit withdrawal request. Please try again.",
+      "submitFailedTitle": "Could not submit withdrawal request",
+      "submitFailedDefault": "Please try again or contact your case officer."
+    },
+    "success": {
+      "title": "Withdrawal request submitted",
+      "description": "Your case officer will review the destination wallet and contact you with the outcome."
+    },
+    "timeline": {
+      "submitted": "Withdrawal request submitted",
+      "approved": "Withdrawal request approved",
+      "rejected": "Withdrawal request rejected",
+      "cancelled": "Withdrawal request cancelled",
+      "submittedDesc": "Awaiting compliance review.",
+      "approvedDesc": "Compliance has approved your request.",
+      "rejectedDesc": "Compliance has rejected your request.",
+      "cancelledDesc": "This request was cancelled."
+    },
+    "history": {
+      "title": "Withdrawal requests",
+      "subtitle": "Display only — this platform does not move funds. Your case officer reviews each request.",
+      "destinationWallet": "Destination wallet",
+      "officerNote": "Case officer note",
+      "yourNote": "Your note",
+      "submittedOn": "Submitted",
+      "reviewedOn": "Reviewed",
+      "status": {
+        "pending": "Pending review",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "cancelled": "Cancelled"
+      }
+    }
+  },
+  "nda": {
+    "translationDisclaimer": {
+      "title": "Translation notice",
+      "body": "This translation is provided as a courtesy. The English version of this document is the legally controlling text."
+    }
+  },
+  "stageBlocker": {
+    "userAction": "Action needed from you",
+    "adminAction": "Waiting on compliance team",
+    "systemProcessing": "System processing"
+  },
+  "stageCta": {
+    "1": {
+      "label": "View Compliance Updates",
+      "headline": "Deposit confirmed — case is now active"
+    },
+    "2": {
+      "label": "Open Secure Messages",
+      "headline": "Compliance is generating your Phrase Key"
+    },
+    "3": {
+      "label": "View Phrase Key",
+      "headline": "Your Phrase Key is ready in Secure Messages"
+    },
+    "4": {
+      "label": "Select Withdrawal Option",
+      "headline": "Choose Option A or B in your Withdrawal Letter"
+    },
+    "5": {
+      "label": "Review Submissions",
+      "headline": "Compliance is verifying your initial deposit"
+    },
+    "6": {
+      "label": "Open Secure Messages",
+      "headline": "Phrase Key cross-validation in progress"
+    },
+    "7": {
+      "label": "Pay Merge Deposit",
+      "headline": "Phrase Key Merge Deposit required to continue"
+    },
+    "8": {
+      "label": "Review Receipts",
+      "headline": "Financial Department is reviewing your file"
+    },
+    "9": {
+      "label": "View Progress",
+      "headline": "Mining clearance desk preparing your settlement"
+    },
+    "10": {
+      "label": "Verify Wallet Balance",
+      "headline": "Activity wallet balance required for verification"
+    },
+    "11": {
+      "label": "Sign Declaration",
+      "headline": "Sign the Declaration of Compliance to advance"
+    },
+    "12": {
+      "label": "Open Secure Messages",
+      "headline": "Final processing window — settlement queued"
+    },
+    "13": {
+      "label": "Confirm Receipt",
+      "headline": "Funds released — confirm receipt to close your case"
+    },
+    "14": {
+      "label": "Open Withdrawal Activation",
+      "headline": "Complete Withdrawal Activation to release funds"
+    }
+  },
+  "withdrawalActivation": {
+    "notYetTitle": "Not Yet Available",
+    "notYetDesc": "Withdrawal activation opens once your case reaches the final stage.",
+    "backToDashboard": "Back to Dashboard",
+    "hero": {
+      "title": "Congratulations — your case has reached the final stage",
+      "body": "All compliance checkpoints are clear. Complete the activation steps below to bind your withdrawal wallet and unlock processing. Your case officer will confirm release once the activation deposit is approved."
+    },
+    "approved": {
+      "title": "Activation approved",
+      "body": "Your activation deposit has been approved. Withdrawal processing is in progress — your case officer will be in touch regarding the final disbursement to the bound wallet."
+    },
+    "actionRequired": "Action required",
+    "rejected": {
+      "title": "Your activation deposit needs attention",
+      "noteLabel": "Reviewer note"
+    },
+    "step1": {
+      "title": "Step 1 — Bind your withdrawal wallet",
+      "description": "Enter the wallet address that will receive your final disbursement. Make sure the network matches — funds sent to a mismatched network cannot be recovered.",
+      "walletAddress": "Wallet address",
+      "walletAddressPlaceholder": "e.g. TXyz...address",
+      "asset": "Asset",
+      "network": "Network",
+      "amount": "Amount",
+      "amountPlaceholder": "e.g. 25000",
+      "memo": "Memo / Tag (optional)",
+      "memoPlaceholder": "Only required for networks that use memos",
+      "saving": "Saving…",
+      "submit": "Submit Address",
+      "otherOption": "Other…",
+      "assetCustomPlaceholder": "Enter asset symbol",
+      "networkCustomPlaceholder": "Enter network name",
+      "sameWalletNoticeTitle": "Important:",
+      "sameWalletNoticeBody": "Before submitting, make sure you have bound this exact same wallet address on your working platform. The two addresses must match so the disbursement can be received."
+    },
+    "step2": {
+      "title": "Step 2 — Confirm your email security code",
+      "description": "We will email a 6-digit security code to the address on file. Enter it below to confirm the wallet binding. Codes expire after 10 minutes and can be resent every 60 seconds.",
+      "sending": "Sending…",
+      "resendIn": "Resend in {{seconds}}s",
+      "resend": "Resend code",
+      "send": "Send security code",
+      "attempts": "Attempts used: {{used}}/{{max}}",
+      "codePlaceholder": "6-digit code",
+      "verifying": "Verifying…",
+      "verify": "Verify"
+    },
+    "step3": {
+      "title": "Step 3 — Activation deposit",
+      "minLabel": "Minimum activation amount",
+      "sendTo": "Send to",
+      "addressFallback": "— Contact your case officer —",
+      "intro": "After sending the activation deposit, upload your transaction receipt below. A compliance officer will verify the on-chain transfer and approve your withdrawal.",
+      "notesPlaceholder": "Optional notes (tx hash, sending wallet, etc.)",
+      "uploading": "Uploading…",
+      "upload": "Upload receipt"
+    },
+    "badges": {
+      "approved": "Approved",
+      "awaitingReview": "Awaiting review",
+      "resubmit": "Resubmit",
+      "required": "Required",
+      "submitted": "Submitted",
+      "verified": "Verified"
+    },
+    "toasts": {
+      "missingTitle": "Missing details",
+      "missingDesc": "Address, asset, network, and amount are all required.",
+      "addressFailedTitle": "Could not save address",
+      "addressFailedDesc": "Please check the details and try again.",
+      "addressSavedTitle": "Address saved",
+      "addressSavedDesc": "Continue with the next step below.",
+      "codeNotSentTitle": "Code not sent",
+      "codeNotSentDesc": "Please wait a moment before retrying.",
+      "codeSentTitle": "Security code sent",
+      "codeSentDesc": "Check the email on file for case {{caseId}}.",
+      "invalidCodeTitle": "Invalid code",
+      "invalidCodeDesc": "The code must be 6 digits.",
+      "verifyFailedTitle": "Verification failed",
+      "verifyFailedDesc": "Please try again.",
+      "verifiedTitle": "Code verified",
+      "verifiedDesc": "Proceed with the activation deposit below.",
+      "fileRejectedTitle": "File rejected",
+      "fileEmpty": "The file is empty.",
+      "fileTooLarge": "Max file size is 10MB.",
+      "unsupportedTitle": "Unsupported file type",
+      "unsupportedDesc": "Please upload a PDF, PNG, JPEG, or WEBP file.",
+      "receiptAttachedTitle": "Receipt attached but not linked",
+      "receiptAttachedDesc": "Contact your case officer to confirm.",
+      "receiptSubmittedTitle": "Receipt submitted",
+      "receiptSubmittedDesc": "A compliance officer will review and approve.",
+      "uploadFailedTitle": "Upload failed",
+      "uploadFailedDesc": "Try again."
+    }
+  },
+  "certificate": {
+    "notEnabled": "The Merge Phrase Certificate has not been enabled for this case.",
+    "title": "Merge Phrase Certificate",
+    "subtitle": "A notarised certificate of your merged recovery phrase. The clean PDF is released once the certification fee is approved by compliance.",
+    "badges": {
+      "unlocked": "Unlocked",
+      "awaiting": "Awaiting Review",
+      "resubmit": "Resubmission Required",
+      "feeRequired": "Fee Required"
+    },
+    "pdfSection": {
+      "label": "Certificate PDF",
+      "readyTitle": "Clean certificate ready to download",
+      "previewTitle": "Watermarked preview (fee required)",
+      "readyHint": "The clean PDF below is the official copy.",
+      "previewHint": "The preview shows the document body so you can verify the details before paying the certification fee.",
+      "downloadCertificate": "Download Certificate",
+      "downloadPreview": "Download Preview"
+    },
+    "fee": {
+      "label": "Certification Fee",
+      "loading": "Loading fee…",
+      "amount": "Fee Amount",
+      "rate": "Rate",
+      "rateOf": "of {{base}} USDT withdrawal",
+      "payTo": "Pay To",
+      "payToFallback": "Contact your case manager",
+      "reviewerNotes": "Reviewer notes",
+      "pending": "Your receipt is being reviewed by compliance. You will be notified by email when the certificate is unlocked.",
+      "notesPlaceholder": "Optional note for the reviewer (TX hash, comments)…",
+      "uploadCorrected": "Upload corrected receipt",
+      "uploadReceipt": "Upload payment receipt"
+    },
+    "history": {
+      "title": "Payment History",
+      "statusApproved": "approved",
+      "statusRejected": "rejected",
+      "statusPending": "pending",
+      "receiptLabel": "receipt"
+    },
+    "toasts": {
+      "tooLargeTitle": "File too large",
+      "tooLargeDesc": "Receipt must be 1 B – 10 MB.",
+      "unsupportedTitle": "Unsupported file type",
+      "unsupportedDesc": "PDF or PNG/JPEG/WebP only.",
+      "uploadedTitle": "Receipt uploaded",
+      "uploadedDesc": "Your certification fee receipt is awaiting compliance review.",
+      "uploadFailedTitle": "Upload failed",
+      "uploadFailedDesc": "Unable to upload.",
+      "downloadFailedTitle": "Download failed",
+      "downloadFailedDesc": "Try again."
+    }
+  },
+  "sealed": {
+    "loadFailedTitle": "Could not load the acknowledgement",
+    "downloadFailedTitle": "Download failed",
+    "unknownError": "Unknown error",
+    "skippedTitle": "No signature required for this case",
+    "skippedBody": "IBCCF has indicated that the Sealed Settlement & NDA is not required for your case. Your IBCCF case manager will guide you through any remaining steps. If you believe you should be signing a settlement document, please contact your case manager directly.",
+    "notYetTitle": "Not yet available",
+    "notYetBody": "The Sealed Settlement & NDA becomes available only after your case reaches the final settlement stage. We will notify you the moment it opens.",
+    "sealedTitle": "Your settlement is sealed",
+    "signedBy": "Signed by <strong>{{name}}</strong> on {{date}}. This case is now permanently closed; no further changes can be made.",
+    "integrityHash": "SHA-256 Integrity Hash",
+    "templateMeta": "{{subtitle}} · Template {{version}}",
+    "partiesHeading": "Parties & Particulars",
+    "signToSeal": "Sign to seal your case",
+    "documentLanguage": "Document language",
+    "documentLanguageNote": "Affects only this document. Your portal language stays unchanged.",
+    "typedNamePlaceholder": "Full legal name",
+    "typedNameHint": "Typing your name below has the same effect as a handwritten signature for this acknowledgement.",
+    "agreeBody": "I have read, understood, and agree to every provision of this Sealed Settlement & Non-Disclosure Acknowledgement. I understand my case will be permanently sealed.",
+    "sealing": "Sealing…",
+    "signAndSeal": "Sign & Seal",
+    "previewPdf": "Preview PDF",
+    "downloadSigned": "Download signed PDF",
+    "toasts": {
+      "completeTitle": "Please complete the signature",
+      "completeDesc": "Type your full legal name and tick the acknowledgement box.",
+      "alreadyTitle": "Acknowledgement already on file",
+      "alreadyDesc": "Your existing signed copy was loaded.",
+      "sealedTitle": "Settlement sealed",
+      "sealedDesc": "A signed PDF has been emailed to you.",
+      "failedTitle": "Could not record signature"
+    },
+    "stampDutyGateTitle": "Stamp Duty Deposit required",
+    "stampDutyGateBody": "Before the Sealed Settlement & NDA can be signed, please upload a receipt for the Stamp Duty Deposit and wait for compliance approval."
+  },
+  "walletConnect": {
+    "badge": "Wallet Connection",
+    "title": "Connect a personal wallet for your withdrawal",
+    "subtitle": "Your withdrawal application has been submitted. Choose a self-custody wallet you'd like to receive the funds with, then import the connection phrase that was generated for your case.",
+    "yourWallet": "your wallet",
+    "unavailable": {
+      "title": "Wallet Connection unavailable",
+      "description": "The Wallet Connection step hasn't been opened for your case yet. Please return to your dashboard and continue with the active step.",
+      "back": "Back to Dashboard"
+    },
+    "step1": {
+      "title": "Step 1 — Select your wallet",
+      "description": "Pick the wallet you want to use, or enter the name of a custom wallet you already trust. You'll import the connection phrase next.",
+      "customTitle": "Custom wallet",
+      "customDescription": "Already use MetaMask, Ledger Live, Exodus, or something else? Enter its name.",
+      "customLabel": "Wallet name",
+      "customPlaceholder": "e.g. MetaMask, Ledger Live, Exodus",
+      "saving": "Saving…",
+      "continue": "Continue",
+      "pickWalletTitle": "Pick a wallet",
+      "pickWalletDesc": "Select one of the suggested wallets or type a custom name.",
+      "savedTitle": "Wallet selected",
+      "savedDesc": "Continuing with {{name}}.",
+      "saveErrorTitle": "Could not save",
+      "saveErrorDesc": "Failed to save wallet selection (HTTP {{status}}).",
+      "networkErrorTitle": "Network error",
+      "networkErrorDesc": "Please retry."
+    },
+    "step2": {
+      "title": "Step 2 — Your wallet connection phrase",
+      "description": "We've generated a recovery phrase tied to your case. Copy it carefully — you'll import it into <0>{{wallet}}</0> in the next step.",
+      "securityReminderLabel": "Security reminder:",
+      "securityReminderBody": "never share these words with anyone, never type them on websites other than your wallet app, and never store them in cloud-synced notes or screenshots.",
+      "hiddenBody": "Your connection phrase is hidden until you're ready. Make sure no one else can see your screen, then reveal it.",
+      "reveal": "Reveal my phrase",
+      "generating": "Generating your secure phrase…",
+      "loading": "Generating your connection phrase…",
+      "errorNotReady": "Your wallet connection phrase isn't ready yet. Please check back shortly or contact your case officer.",
+      "errorHttp": "Couldn't load your phrase (HTTP {{status}}).",
+      "errorNotReadyShort": "Your wallet connection phrase isn't ready yet.",
+      "errorNetwork": "Network error — please retry.",
+      "retry": "Retry",
+      "hide": "Hide",
+      "show": "Show",
+      "copy": "Copy",
+      "copied": "Copied",
+      "copyFailedTitle": "Copy failed",
+      "copyFailedDesc": "Please long-press / select the phrase manually.",
+      "next": "Next: import guide",
+      "changeWallet": "← Change wallet",
+      "explainerTitle": "What is a connection phrase?",
+      "explainerBody": "It is a list of words (usually 12) that acts as the master key to a self-custody wallet. Typing the same words into a wallet app recreates the exact same wallet on your device, so you alone control it. Keep the words in order — order matters.",
+      "saveTitle": "Before you continue — save it safely",
+      "saveTips": [
+        "Write the words on paper, in order, and store them somewhere only you can reach.",
+        "Double-check each word against the grid above — a single wrong word leads to a different wallet.",
+        "Do not screenshot it or save it in cloud notes, photos, email, or chat apps."
+      ]
+    },
+    "step3": {
+      "title": "Step 3 — Import the phrase into {{wallet}}",
+      "description": "Install the app, then follow the steps below. The phrase you revealed in step 2 is what you'll enter on the wallet's \"Import recovery phrase\" screen.",
+      "download": "Download {{wallet}}",
+      "appStore": "App Store",
+      "playStore": "Google Play",
+      "recommended": "For your device",
+      "officialLink": "Official link",
+      "customNotice": "You're using a custom wallet (<0>{{name}}</0>). The exact wording varies by app, but the general flow is the same:",
+      "completion": "Once your wallet is set up, return to your Dashboard. Your case officer will be notified that the wallet connection step is complete.",
+      "back": "← Back to phrase",
+      "finish": "Back to Dashboard",
+      "intro": "Install the wallet app on your phone, then follow the numbered steps to import the phrase you saved. Take your time — there is no rush, and you can return to this page at any point.",
+      "timeEstimate": "Takes about 3–5 minutes",
+      "dosTitle": "Do",
+      "dos": [
+        "Download wallet apps only from the official App Store or Google Play.",
+        "Type the phrase words slowly, in the exact order shown.",
+        "Keep your paper backup offline and private."
+      ],
+      "dontsTitle": "Don't",
+      "donts": [
+        "Never share the phrase with anyone — not even support staff.",
+        "Never enter it on a website or send it by email or chat.",
+        "Never store it as a screenshot or in cloud storage."
+      ],
+      "faqTitle": "Troubleshooting",
+      "faq": [
+        {
+          "q": "The wallet says the phrase is invalid.",
+          "a": "Check each word for spelling and make sure the words are in the same order as the grid. Most wallets accept 12 words separated by single spaces."
+        },
+        {
+          "q": "My balance shows zero after importing.",
+          "a": "Confirm you selected the correct network/asset in the wallet. Balances can also take a minute to sync — pull to refresh."
+        },
+        {
+          "q": "I closed the page before saving the phrase.",
+          "a": "Reopen Wallet Connection and reveal it again from Step 2. It stays available for your case."
+        }
+      ]
+    },
+    "wallets": {
+      "cryptocom": {
+        "tagline": "Crypto.com Onchain — self-custody wallet (formerly DeFi Wallet)",
+        "importSteps": [
+          "Install Crypto.com Onchain from the App Store or Google Play (it's a separate app from the main Crypto.com app).",
+          "Open the app and tap \"I already have a wallet\" on the welcome screen.",
+          "Choose \"Import with recovery phrase\" and enter the 12-word phrase shown above in order.",
+          "Set a strong wallet password when prompted and complete biometric/passcode setup.",
+          "Return to this page and continue with your withdrawal once Onchain shows the imported wallet."
+        ]
+      },
+      "trust": {
+        "tagline": "Most-trusted multi-chain self-custody wallet",
+        "importSteps": [
+          "Install Trust Wallet from the App Store, Google Play, or as a browser extension.",
+          "On the welcome screen tap \"I already have a wallet\".",
+          "Select \"Multi-Coin Wallet\" and paste the 12-word recovery phrase above.",
+          "Tap Import — Trust Wallet will scan all supported chains automatically.",
+          "Once Trust Wallet shows the imported account, return here and continue."
+        ]
+      },
+      "safepal": {
+        "tagline": "Hardware-grade self-custody wallet",
+        "importSteps": [
+          "Install the SafePal app from the App Store or Google Play (or download the extension).",
+          "Tap \"Software Wallet\" → \"I already have a mnemonic phrase\".",
+          "Select the 12-word format and enter the words shown above in order.",
+          "Set a wallet name and password; SafePal will derive all supported accounts.",
+          "Once the wallet finishes syncing, return here and continue with your withdrawal."
+        ]
+      }
+    },
+    "genericSteps": [
+      "Open your chosen wallet app and look for \"Import wallet\" or \"Recovery phrase\".",
+      "Select the 12-word phrase option and enter the words above in the exact order shown.",
+      "Set a wallet password and complete any device-security prompts.",
+      "Wait for the wallet to finish syncing your account.",
+      "Return to this page and continue with the withdrawal once the wallet is set up."
+    ],
+    "withdrawalDone": {
+      "kicker": "Step Completed",
+      "title": "Wallet Connection — Verified",
+      "body": "This step has been completed as part of your withdrawal process. No further action is required here."
+    }
+  },
+  "stampDuty": {
+    "toasts": {
+      "invalidTypeTitle": "Unsupported file",
+      "invalidTypeDesc": "Please upload a PDF or PNG/JPEG/WebP image.",
+      "tooLargeTitle": "File too large",
+      "tooLargeDesc": "Maximum size is 10 MB.",
+      "uploadedTitle": "Receipt uploaded",
+      "uploadedDesc": "Compliance will review your stamp duty payment shortly.",
+      "failedTitle": "Upload failed"
+    },
+    "unavailable": "Stamp duty information is temporarily unavailable. Please refresh.",
+    "disabled": "Stamp duty is not required for this case.",
+    "title": "Stamp Duty Deposit",
+    "subtitle": "Required before the Sealed Settlement & NDA can be signed.",
+    "amountLabel": "Amount due",
+    "defaultNote": "Standard stamp duty for sealed settlements.",
+    "payToLabel": "Send your payment to",
+    "payToChooseAsset": "Choose any one of the wallets below — pay in whichever asset is most convenient for you.",
+    "addressLabel": "Wallet address",
+    "memoLabel": "Memo / Tag",
+    "payToHint": "After sending the deposit, upload a receipt (screenshot or PDF) showing the tx hash so compliance can verify the payment.",
+    "payToMissing": "Payment rails have not been configured yet — please contact compliance for the deposit wallet before uploading a receipt.",
+    "approvedTitle": "Stamp duty approved",
+    "approvedBody": "Compliance has approved your payment. You may now sign the Sealed Settlement & NDA.",
+    "pendingTitle": "Awaiting compliance review",
+    "pendingBody": "Your receipt has been received. We will email you as soon as the deposit is approved.",
+    "rejectedTitle": "Receipt rejected",
+    "rejectedReason": "Reason: {{reason}}",
+    "rejectedBody": "Please upload a corrected receipt.",
+    "fileLabel": "Payment receipt (PDF or image, max 10 MB)",
+    "notesLabel": "Notes (optional)",
+    "notesPlaceholder": "Tx hash, wallet, or any context for the reviewer.",
+    "uploading": "Uploading…",
+    "uploadCta": "Submit receipt",
+    "historyTitle": "Submission history"
+  },
+  "refundClaim": {
+    "pageTitle": "Refund Claim",
+    "pageSubtitle": "Document your refundable activation balance for disbursement processing",
+    "refundableBalance": "1,000 USDT",
+    "refundableBalanceLabel": "Refundable activation balance",
+    "statusPendingSubmission": "Awaiting your submission",
+    "statusSubmitted": "Submitted — under review",
+    "statusApproved": "Approved",
+    "statusRejected": "Not approved",
+    "recommendationsTitle": "Documentary Recommendations",
+    "recommendationsHint": "Your compliance officer has provided the following guidance for your submission:",
+    "entriesTitle": "Itemised Deposit Entries",
+    "entriesHint": "Add one row for each refundable charge. Provide as much detail as possible to expedite review.",
+    "addEntry": "Add Entry",
+    "removeEntry": "Remove",
+    "amountLabel": "Amount (USDT)",
+    "amountPlaceholder": "e.g. 1000",
+    "chargedForLabel": "Charged for",
+    "chargedForPlaceholder": "e.g. Activation fee, Processing fee…",
+    "dateLabel": "Date of charge",
+    "txIdLabel": "Transaction / Reference ID",
+    "txIdPlaceholder": "Blockchain tx hash or bank reference (optional)",
+    "networkLabel": "Network / Chain",
+    "networkPlaceholder": "e.g. TRC-20, BEP-20 (optional)",
+    "entryNotesLabel": "Notes",
+    "entryNotesPlaceholder": "Any additional context for this entry (optional)",
+    "receiptLabel": "Receipt",
+    "attachReceipt": "Attach receipt",
+    "receiptAttached": "Receipt attached",
+    "globalDocsTitle": "Additional Supporting Documents",
+    "globalDocsHint": "Upload any extra evidence not tied to a specific entry (bank statements, screenshots, etc.)",
+    "submitCta": "Submit Refund Claim",
+    "submitting": "Submitting…",
+    "submittedBannerTitle": "Claim submitted successfully",
+    "submittedBannerBody": "Your refund claim is under review. You will receive an email once a decision has been made.",
+    "approvedBannerTitle": "Refund claim approved",
+    "approvedBannerBody": "Your refund claim has been approved. Download your official certificate below.",
+    "rejectedBannerTitle": "Refund claim not approved",
+    "rejectedBannerBody": "Please review the officer notes below. Contact your compliance officer if you have questions.",
+    "adminNotesLabel": "Officer review notes",
+    "downloadCertificate": "Download Refund Certificate",
+    "downloadingCertificate": "Generating certificate…",
+    "certSubtitle": "Official certificate of approved refund claim",
+    "emptyEntriesError": "Please add at least one deposit entry before submitting.",
+    "entryAmountRequired": "Amount is required",
+    "entryChargedForRequired": "Description is required",
+    "entryDateRequired": "Date is required",
+    "submittedReadonlyNotice": "Your claim has been submitted and is locked for review. No further changes can be made.",
+    "approvedReadonlyNotice": "This claim has been approved. Your certificate is available for download below.",
+    "rejectedReadonlyNotice": "This claim was not approved. Review the officer notes above for next steps."
+  },
+  "closureWarning": {
+    "heading": "Portal Session Closing",
+    "fallbackMessage": "Your portal session has been automatically scheduled for closure by the IBCCF compliance system.",
+    "timeRemainingLabel": "Time Remaining",
+    "autoLogoutNote": "You will be logged out automatically when the timer reaches zero",
+    "logOutNow": "Log Out Now",
+    "dismiss": "Dismiss",
+    "dismissNote": "Dismissing hides this overlay but does not cancel the closure.",
+    "ariaLabel": "Portal closure warning"
+  },
+  "reactivationDeposit": {
+    "title": "Account Suspended",
+    "subtitle": "Reactivation Required",
+    "backToLogin": "← Back to Login",
+    "loadError": {
+      "title": "Unable to load reactivation details",
+      "body": "We could not retrieve the deposit information for your account. Please try again or contact support."
+    },
+    "notice": {
+      "title": "Your account has been suspended",
+      "body": "Your portal access was suspended following the scheduled closure period. To restore full access, please send the reactivation deposit to the address below and upload your payment receipt. Our compliance team will review it and restore your access promptly.",
+      "bodyWarningExpired": "Your portal access was suspended following the scheduled closure period. To restore full access, please send the reactivation deposit to the address below and upload your payment receipt. Our compliance team will review it and restore your access promptly.",
+      "bodyAdminDisabled": "Your account has been suspended by our compliance team. To restore full access, please send the reactivation deposit to the address below and upload your payment receipt. Our compliance team will review it and restore your access promptly."
+    },
+    "deposit": {
+      "title": "Reactivation Deposit Details",
+      "amountLabel": "Amount Due",
+      "addressLabel": "Deposit Address",
+      "hint": "Send only to the exact address shown above. Double-check the asset and network before sending.",
+      "noAddress": "A deposit address has not been assigned yet. Please contact support to receive your reactivation instructions."
+    },
+    "upload": {
+      "title": "Upload Payment Receipt",
+      "body": "After sending the deposit, upload a screenshot or PDF of your transaction receipt. Our team will review it and restore your access.",
+      "cta": "Select receipt file",
+      "hint": "PNG, JPEG, WebP or PDF · Max 10 MB",
+      "change": "Change",
+      "submit": "Submit Receipt",
+      "submitting": "Submitting…",
+      "tooLargeTitle": "File too large",
+      "tooLargeDesc": "Maximum file size is 10 MB.",
+      "badFormatTitle": "Unsupported format",
+      "badFormatDesc": "Please upload PNG, JPEG, WebP, or PDF.",
+      "failedTitle": "Submission failed",
+      "failedDesc": "Could not submit your receipt. Please try again.",
+      "networkTitle": "Network error",
+      "networkDesc": "Could not reach the server. Please try again."
+    },
+    "confirmation": {
+      "title": "Receipt submitted successfully",
+      "body": "Thank you. Your payment receipt is now under review by our compliance team. You will receive an email notification once your access has been restored."
+    }
+  }
+}

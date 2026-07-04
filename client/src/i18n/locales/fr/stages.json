@@ -1,0 +1,122 @@
+{
+  "1": {
+    "title": "Dépôt de la Phrase Clé Reçu",
+    "summary": "Votre dépôt initial de la Phrase Clé a été confirmé sur le registre distribué. Votre dossier est maintenant actif et en attente de l'étape de conformité suivante.",
+    "detailedExplanation": "Le dépôt de la Phrase Clé est un collatéral remboursable, sur registre, qui ancre votre dossier à un hachage de transaction vérifiable sur la chaîne. Une fois qu'un minimum de trois confirmations de bloc est observé, notre pipeline de conformité ouvre un dossier d'exécution actif sous votre référence de dossier unique. À partir de ce moment, toute activité ultérieure (dépôts, déclarations, émission de clés) est cryptographiquement liée à cette transaction d'ouverture afin que la chaîne de custody puisse être reproduite de bout en bout lors de tout audit post-règlement.",
+    "whyItMatters": "Cette étape satisfait l'exigence de contrôle d'entrée de l'IBCCF, reflétant la Recommandation 10 du GAFI sur la Diligence Raisonnée du Client (CDD) : aucun pipeline de retrait ne peut être ouvert sans une attestation vérifiable, initiée par le bénéficiaire, liant le demandeur au portefeuille récepteur. Cela commence également la piste d'audit utilisée plus tard pour le rapport sur la Règle de Voyage du GAFI (Recommandation 16).",
+    "whatToDo": "Connectez-vous à votre portail sécurisé et confirmez que l'adresse de votre portefeuille récepteur enregistrée est correcte.\nGardez votre clé d'accès et votre code PIN à 6 chiffres en sécurité — ils sont requis pour chaque étape qui suit.\nN'initiez aucun nouveau transfert sortant depuis le portefeuille récepteur jusqu'à ce que votre dossier avance.",
+    "whatToExpect": "Un agent de conformité commencera à générer votre Phrase Clé Sécurisée. La génération prend généralement entre 6 et 24 heures en fonction de la profondeur de la file d'attente de révision."
+  },
+  "2": {
+    "title": "Génération de la Phrase Clé Sécurisée",
+    "summary": "Notre système de conformité génère une Phrase Clé unique et cryptée liée à votre dossier. Aucune action n'est requise de votre part à ce moment.",
+    "detailedExplanation": "La Phrase Clé Sécurisée est produite dans un environnement de cérémonie de clé isolé utilisant un calcul multipartite (MPC) réparti entre trois signataires de conformité indépendants. Chaque signataire détient uniquement une part partielle, et aucune partie — y compris le personnel de l'IBCCF — ne voit jamais la clé assemblée en texte clair. La clé est ensuite scellée sous une enveloppe protégée par HSM et liée à votre référence de dossier, votre portefeuille récepteur, et l'horodatage de votre dépôt de Phrase Clé.",
+    "whyItMatters": "La ségrégation des clés cryptographiques est mandatée pour tout dépositaire déplaçant des fonds clients à travers les frontières. Cette étape existe pour garantir que, même en cas de compromission interne, aucun opérateur individuel ne peut unilatéralement libérer votre retrait — respectant ainsi le principe de séparation des fonctions requis par ISO/IEC 27001 A.6.1.2 et le cadre d'attestation de garde de la SEC décrit dans le SAB 121.",
+    "whatToDo": "Restez disponible — vous pourriez être contacté via le panneau de messagerie sécurisé à l'intérieur de votre portail.\nNe partagez pas votre clé d'accès ou votre PIN avec quiconque, y compris le personnel de l'IBCCF.",
+    "whatToExpect": "Une fois la génération terminée, votre Phrase Clé sera libérée dans votre dossier de cas à l'étape suivante. Vous serez notifié à l'intérieur du portail."
+  },
+  "3": {
+    "title": "Phrase Clé Approuvée & Disponible",
+    "summary": "Votre Phrase Clé Sécurisée a été approuvée et émise. Elle est maintenant visible à l'intérieur du portail sécurisé sous votre dossier actif.",
+    "detailedExplanation": "Votre Phrase Clé a franchi le flux de travail d'approbation à double contrôle et est maintenant liée à votre dossier en tant qu'identité cryptographique utilisée pour chaque opération de signature en aval. La clé est affichée uniquement à l'intérieur d'une session de portail authentifiée via TLS 1.3, jamais transmise par email ou chat, et est automatiquement renouvelée si un accès anormal est détecté.",
+    "whyItMatters": "L'émission sous double contrôle avec divulgation uniquement dans le portail satisfait les exigences d'identification des clients de la loi USA PATRIOT §326 (Programme d'Identification des Clients) et le principe de divulgation en bande uniquement recommandé par le Manuel d'Examen IT du FFIEC (module d'authentification). Cela clôt également la boucle sur la chaîne de custody ouverte à l'Étape 1.",
+    "whatToDo": "Ouvrez votre portail et localisez votre Phrase Clé dans la section Sécurisée de votre tableau de bord.\nAccusez réception en consultant le message envoyé via le portail sécurisé.\nNe tapez jamais votre Phrase Clé dans un site web externe, un email, un chat ou un formulaire tiers.",
+    "whatToExpect": "Votre dossier progressera vers la phase d'Initiation de Retrait peu après que votre accusé de réception soit enregistré."
+  },
+  "4": {
+    "title": "Processus de Retrait Initié",
+    "summary": "Votre demande de retrait a été formellement initiée. Votre lettre de retrait finalisée est maintenant disponible dans le portail.",
+    "detailedExplanation": "La lettre de retrait est votre document de divulgation formel. Elle énumère les deux voies de règlement disponibles pour vous (Option A — Libération Accélérée, Option B — Libération Standard), le montant par lot, la fréquence des lots, le Coût de la Phrase Clé, et l'exigence totale pour chaque voie. Votre choix est enregistré comme une instruction client irrévocable (sous réserve des règles de réflexion divulguées dans le pied de page de la lettre) et constitue la base de chaque étape de vérification ultérieure.",
+    "whyItMatters": "La présentation d'un calendrier de règlement écrit, élu par le bénéficiaire, satisfait les exigences de divulgation précontractuelles de MiCA Titre II (Articles 6 et 13) et le principe des droits des consommateurs codifié dans la Directive 2002/65/CE sur la Commercialisation à Distance des Services Financiers de l'UE. L'enregistrement de votre choix crée le mandat client auditable requis avant que toute valeur puisse être libérée en votre nom.",
+    "whatToDo": "Ouvrez la section Retrait de votre portail et lisez attentivement votre lettre de retrait.\nSélectionnez votre option de retrait préférée (Option A — Accélérée, ou Option B — Standard).\nConfirmez votre sélection afin que la demande puisse passer à la vérification.",
+    "whatToExpect": "Une fois votre option sélectionnée, l'étape de Vérification du Dépôt Initial commence automatiquement."
+  },
+  "5": {
+    "title": "Vérification du Dépôt Initial",
+    "summary": "Votre dépôt initial est en cours de vérification par rapport à l'option que vous avez sélectionnée.",
+    "detailedExplanation": "La vérification croise chaque reçu que vous avez soumis avec l'enregistrement de transaction sur la chaîne (hauteur de bloc, valeur, actif, adresse d'envoi) et confirme que le montant correspond exactement au chiffre indiqué dans votre option sélectionnée. Toute discordance — même un décimal partiel — doit être réconciliée avant que le dossier puisse avancer, car les lots en aval sont dérivés de manière déterministe à partir de ce chiffre d'ouverture.",
+    "whyItMatters": "La vérification de la source des fonds au début du calendrier de règlement est la pierre angulaire de la Diligence Raisonnée Renforcée (EDD) selon la Recommandation 10 du GAFI et est également une condition préalable aux obligations de déclaration de transaction en espèces (CTR) de FinCEN chaque fois que la valeur totale des lots dépassera le seuil de déclaration de 10 000 USD.",
+    "whatToDo": "Soumettez tous les reçus de dépôt ou hachages de transaction demandés via le panneau de messagerie sécurisé.\nAssurez-vous que le montant du dépôt et la devise correspondent exactement aux chiffres indiqués dans votre lettre de retrait.",
+    "whatToExpect": "La vérification se termine généralement dans les 24 heures. Vous serez notifié à l'intérieur du portail lorsque le résultat sera enregistré."
+  },
+  "6": {
+    "title": "Vérification de la Phrase Clé",
+    "summary": "Votre Phrase Clé est en cours de validation croisée par l'équipe de conformité.",
+    "detailedExplanation": "La validation croisée redérive l'empreinte cryptographique de la Phrase Clé émise à l'Étape 3 et la compare à la copie scellée détenue sous garde HSM. Le défi cryptographique à deux facteurs confirme que la clé en votre possession est réellement celle émise pour votre dossier et n'a pas été dupliquée, divulguée ou substituée.",
+    "whyItMatters": "La ré-attestation du credential détenu par le client avant toute étape de transfert de valeur est requise pour répondre aux exigences de niveau d'assurance d'authentificateur 2 (AAL2) de NIST SP 800-63B et aux exigences d'authentification forte des clients (SCA) imposées aux prestataires de services de paiement sous PSD2 (Directive (UE) 2015/2366).",
+    "whatToDo": "Si demandé, reconfirmez votre Phrase Clé en la saisissant dans le portail — jamais par email ou chat.\nSurveillez les messages demandant des clarifications.",
+    "whatToExpect": "Une fois vérifiée, vous passerez à l'étape de Dépôt de Fusion de la Phrase Clé."
+  },
+  "7": {
+    "title": "Dépôt de Fusion de la Phrase Clé Requis",
+    "summary": "Un dépôt de fusion de 30 % de la Phrase Clé est requis pour compléter la fusion de votre Phrase Clé vérifiée avec le registre de retrait.",
+    "detailedExplanation": "Le dépôt de fusion est un collatéral remboursable, côté registre, qui permet à votre Phrase Clé vérifiée d'être fusionnée dans le registre de règlement principal en tant qu'entrée unique et continue plutôt que d'être réglée sous forme de micro-lots fragmentés. Sans fusion, votre retrait serait divisé en plusieurs petits transferts, chacun devant être réévalué séparément et entraînant des coûts supplémentaires de gaz, de glissement et de re-vérification AML. Le chiffre de 30 % reflète le ratio de couverture prudentiel utilisé pour le collatéral de règlement non grevé selon le cadre LCR de Bâle III.",
+    "whyItMatters": "Le dépôt de fusion garantit que le dossier de règlement reste un seul décaissement auditable, ce qui est requis pour répondre aux règles anti-fragmentation intégrées dans l'interdiction de structuration de FinCEN (31 USC §5324) et aux lignes directrices de l'EBA sur la prévention de la superposition des transactions. Cela court-circuite également toute augmentation AML qui serait autrement déclenchée par un schéma de règlement fragmenté.",
+    "whatToDo": "Examinez le montant du dépôt de fusion indiqué dans votre portail.\nEnvoyez le dépôt à l'adresse de portefeuille fournie dans votre portail — jamais à une adresse reçue par email.\nTéléchargez le reçu de transaction dans la section Dépôt du portail.",
+    "whatToExpect": "Après confirmation sur la blockchain, votre dossier avancera vers la Vérification du Département Financier."
+  },
+  "8": {
+    "title": "Vérification du Département Financier",
+    "summary": "Le Département Financier examine votre entrée de registre fusionnée et les dépôts de soutien.",
+    "detailedExplanation": "La révision financière réconcilie chaque mouvement de valeur attaché à votre dossier (dépôt initial, dépôt de fusion, décaissement projeté) avec le registre de banque approuvé et recherche toute anomalie qui pourrait indiquer une appropriation indue, un traitement en double ou un risque de contrepartie. L'agent de révision signe en utilisant un principe à quatre yeux, avec les deux signatures stockées dans le journal d'audit.",
+    "whyItMatters": "L'approbation financière indépendante met en œuvre le cadre de contrôle interne COSO 2013 et les normes d'audit dans l'ISA 600 (audits de groupe) et le PCAOB AS 2410 (transactions entre parties liées). C'est également une condition préalable au dépôt de tout Rapport d'Activité Suspecte (SAR) qui pourrait être déclenché en aval.",
+    "whatToDo": "Assurez-vous que tous les reçus téléchargés sont clairs et lisibles.\nRépondez rapidement à toute demande d'informations supplémentaires envoyées via la messagerie sécurisée.",
+    "whatToExpect": "Une fois approuvé, votre dossier passe à l'étape de vérification de retrait minier."
+  },
+  "9": {
+    "title": "Retrait Minier pour Clearance Finale",
+    "summary": "Votre retrait est en cours de préparation pour le traitement sur la blockchain par le bureau de clearance minière.",
+    "detailedExplanation": "Le bureau de clearance minière alloue un créneau réseau dédié, préfinance l'enveloppe de gaz et applique une protection MEV (Valeur Extractible par le Mineur) afin que votre transaction de règlement ne puisse pas être devancée, attaquée par sandwich ou réordonnée par un validateur opportuniste. Aucun dépôt n'est requis de votre part à ce stade.",
+    "whyItMatters": "L'exécution protégée par MEV est mandatée par les lignes directrices de l'ESMA sur la finalité du règlement pour les prestataires de services d'actifs cryptographiques et s'aligne sur les principes de marchés équitables et ordonnés énoncés dans l'Article 17 de MiFID II (sauvegardes de trading algorithmique étendues par analogie à l'exécution sur chaîne).",
+    "whatToDo": "Aucun dépôt n'est requis à ce stade — méfiez-vous de quiconque en demandant un en dehors du portail officiel.\nConfirmez une fois de plus l'adresse de votre portefeuille récepteur à l'intérieur du portail.",
+    "whatToExpect": "Lorsque la clearance est terminée, l'activité de votre portefeuille sera vérifiée sur la chaîne."
+  },
+  "10": {
+    "title": "Vérification de l'Activité Blockchain",
+    "summary": "Votre portefeuille récepteur doit détenir le solde d'activité requis afin que le règlement sur chaîne puisse être vérifié.",
+    "detailedExplanation": "La vérification de l'activité confirme que le portefeuille récepteur n'est pas dormant, est exempt de sanctions OFAC et capable d'accepter le règlement entrant sans le rejeter vers le réseau. Le solde requis agit comme un signal heuristique d'un bénéficiaire actif et réel et est examiné par les mêmes outils KYT (Connaître Votre Transaction) utilisés par les principaux dépositaires. Le solde reste 100 % sous votre contrôle à tout moment.",
+    "whyItMatters": "La vérification du portefeuille avant le règlement est requise pour se conformer aux obligations de filtrage SDN et SDGT de l'OFAC (50 USC §1701 et seq.) et à l'exigence d'attestation du bénéficiaire de la Règle de Voyage du GAFI. Cela empêche également que les fonds ne soient piégés dans une adresse dormante ou sanctionnée, ce qui entraînerait un gel imposé par un régulateur.",
+    "whatToDo": "Assurez-vous que le solde d'activité indiqué dans votre portail est présent et détenu dans votre portefeuille récepteur.\nNe déplacez pas de fonds hors du portefeuille récepteur jusqu'à ce que la vérification soit terminée.",
+    "whatToExpect": "Une fois l'activité sur chaîne confirmée, la vérification IRS / AML internationale commence."
+  },
+  "11": {
+    "title": "Vérification IRS / AML Internationale",
+    "summary": "Votre retrait subit des vérifications internationales de lutte contre le blanchiment d'argent et de déclaration fiscale.",
+    "detailedExplanation": "Cette étape effectue la réconciliation internationale des impôts et de l'AML : un contrôle de résidence FATCA / CRS, un alignement de déclaration d'actifs cryptographiques CARF de l'OCDE, un passage de filtrage FinCEN et (le cas échéant) la préparation de l'état de courtier IRS Form 1099-DA. Vous serez invité à signer numériquement la Déclaration de Conformité, qui enregistre votre reconnaissance que les fonds sont libérés sous votre résidence fiscale.",
+    "whyItMatters": "Les règlements transfrontaliers dépassant les seuils de minimis fixés par FATCA et CRS ne peuvent être libérés sans une déclaration signée du bénéficiaire. Cette étape vous protège d'une évaluation ultérieure de retenue punitive (jusqu'à 30 % selon l'IRC §1471) et garantit que le décaissement est déclarable dans votre juridiction d'origine selon le Cadre de Déclaration d'Actifs Cryptographiques de l'OCDE.",
+    "whatToDo": "Examinez et signez numériquement la Déclaration de Conformité présentée dans votre portail.\nFournissez toute documentation de résidence fiscale demandée via la messagerie sécurisée.",
+    "whatToExpect": "Une fois approuvé, votre dossier avance vers l'étape de Traitement Final de Retrait."
+  },
+  "12": {
+    "title": "Traitement Final de Retrait",
+    "summary": "Votre retrait est dans sa fenêtre de traitement final. Tous les dépôts, déclarations et vérifications doivent être complets.",
+    "detailedExplanation": "Le traitement final place votre dossier dans l'état en attente de règlement. Le décaissement est verrouillé à votre portefeuille récepteur, l'enveloppe de gaz est engagée et le compteur de maintien réglementaire commence. Pendant la fenêtre de maintien, toute dernière alerte de conformité peut être soulevée ; une fois la fenêtre fermée sans objection, les fonds sont libérés automatiquement.",
+    "whyItMatters": "La fenêtre de maintien obligatoire reflète la norme de règlement T+1 adoptée par la SEC pour les titres américains (amendements de la règle 15c6-1 effectifs en mai 2024) et les règles de finalité de règlement équivalentes sous la Directive de Finalité de Règlement de l'UE (Directive 98/26/CE). La fenêtre est ce qui rend le décaissement irrévocable une fois terminé.",
+    "whatToDo": "Confirmez une dernière fois que votre portefeuille récepteur est correct.\nRestez attentif à la demande d'horodatage de livraison finale qui pourrait suivre.",
+    "whatToExpect": "Les fonds sont programmés pour être libérés en attente du dépôt final d'horodatage (si applicable à votre option)."
+  },
+  "13": {
+    "title": "Retrait Libéré avec Succès",
+    "summary": "Félicitations — votre retrait a été libéré vers votre portefeuille récepteur.",
+    "detailedExplanation": "L'événement de libération est final et irrévocable. Une attestation de règlement a été écrite dans votre dossier contenant le hachage de transaction sur la chaîne, la hauteur de bloc de confirmation, l'horodatage de règlement et l'ID de conformité de l'agent signataire. Cette attestation est le document que vous devez conserver pour toute déclaration fiscale ou audit futur.",
+    "whyItMatters": "Une attestation de règlement signée est requise pour prouver la libération pour les rapports FATCA et CRS et pour décharger les obligations de tenue de dossiers de l'IBCCF selon la Recommandation 11 du GAFI (conservation de cinq ans) et le Règlement AML de l'UE (UE) 2024/1624 (normes de tenue de dossiers de l'Article 56).",
+    "whatToDo": "Confirmez la réception à l'intérieur de votre portail afin que le dossier puisse être officiellement clôturé.\nConservez une copie de votre lettre de retrait et de l'attestation de règlement pour vos dossiers.",
+    "whatToExpect": "Un email final de clôture de dossier suivra une fois que votre accusé de réception sera enregistré."
+  },
+  "14": {
+    "title": "Dépôt d'Horodatage pour Livraison Finale",
+    "summary": "Un petit dépôt d'horodatage est requis pour verrouiller le créneau de livraison sur chaîne réservé pour votre retrait.",
+    "detailedExplanation": "Le dépôt d'horodatage finance une transaction verrouillée dans le temps (analogue à BIP 65 CHECKLOCKTIMEVERIFY sur Bitcoin et aux opcodes de verrouillage équivalents sur les chaînes EVM) qui réserve la fenêtre de bloc exacte dans laquelle votre retrait sera libéré. Sans ce verrou, votre règlement rivaliserait dans le mempool ouvert avec chaque autre transaction dans cette fenêtre et pourrait être retardé indéfiniment. Le dépôt est consommé par le verrou temporel et n'est pas remboursable en espèces, mais il est entièrement crédité contre la réservation de gaz pour votre libération.",
+    "whyItMatters": "La réservation verrouillée dans le temps est requise par les lignes directrices de l'ESMA sur la finalité de règlement pour les décaissements d'actifs cryptographiques de grande valeur et est recommandée par les normes de messagerie ISO 20022 pour les transferts de valeur transfrontaliers, qui nécessitent toutes deux une fenêtre de règlement déterministe et pré-engagée.",
+    "whatToDo": "Examinez le montant du dépôt d'horodatage et le portefeuille de destination à l'intérieur de votre portail.\nEnvoyez le dépôt et téléchargez le hachage de transaction dans la section Dépôt.",
+    "whatToExpect": "Une fois l'horodatage validé, votre retrait sera libéré dans la fenêtre de livraison réservée."
+  },
+  "fields": {
+    "summary": "Résumé",
+    "details": "Explication détaillée",
+    "whyItMatters": "Pourquoi cela est important",
+    "regulatoryBasis": "Base réglementaire",
+    "whatToDo": "Ce que vous devez faire",
+    "whatToExpect": "Ce à quoi vous devez vous attendre ensuite"
+  }
+}

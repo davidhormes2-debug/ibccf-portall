@@ -1,0 +1,377 @@
+{
+  "back": "Zurück",
+  "sections": {
+    "coreFunctions": "Kernfunktionen",
+    "whatWeDo": "Was Wir Tun",
+    "caseTypes": "Falltypen",
+    "casesWeHandle": "Fälle, Die Wir Bearbeiten",
+    "ourProcess": "Unser Prozess",
+    "howItWorks": "Wie Es Funktioniert",
+    "getInTouch": "Nehmen Sie Kontakt Auf",
+    "contact": "Kontaktieren Sie {{name}}",
+    "otherDivisions": "Andere Abteilungen"
+  },
+  "contact": {
+    "email": "E-Mail",
+    "helpline": "Hilfetelefon",
+    "responseTime": "Antwortzeit"
+  },
+  "cta": {
+    "fileCase": "Zugang Anfordern & Einen Fall Einreichen",
+    "allDivisions": "Alle Abteilungen"
+  },
+  "notFound": {
+    "title": "Abteilung nicht gefunden",
+    "back": "Zurück zur Startseite"
+  },
+  "divisions": {
+    "aml": {
+      "title": "AML-Abteilung",
+      "subtitle": "Geldwäschebekämpfung",
+      "tagline": "Illegale Gelder stoppen, bevor sie in das Finanzsystem gelangen.",
+      "overview": "Die AML-Abteilung ist die erste Verteidigungslinie gegen Geldwäscheoperationen, die auf Kryptowährungen und traditionelle Finanzinfrastrukturen abzielen. Unser Team von zertifizierten AML-Spezialisten führt umfassende Transaktionsüberwachungen durch, erstellt Profile verdächtiger Aktivitäten und koordiniert mit globalen Finanzermittlungsbehörden, um illegale Geldflüsse in Echtzeit zu verfolgen und zu melden.",
+      "functions": {
+        "0": {
+          "title": "Transaktionsüberwachung",
+          "description": "Automatisierte und manuelle Überprüfung von hochvolumigen Blockchain-Transaktionen, die ungewöhnliche Muster, Strukturierungsverhalten und Schichtungstechniken kennzeichnen, die verwendet werden, um illegale Ursprünge zu verschleiern."
+        },
+        "1": {
+          "title": "Verdächtige Aktivitätenberichte (SAR)",
+          "description": "Einreichung und Koordination von SARs mit FinCEN, FCA und anderen Finanzbehörden, wenn Transaktionen die Schwelle für potenzielle Geldwäscheaktivitäten erreichen."
+        },
+        "2": {
+          "title": "Know Your Customer (KYC) Prüfung",
+          "description": "Überprüfung der Onboarding-Prozesse an Börsen und Verwahrstellen, um KYC-Lücken zu identifizieren, die es böswilligen Akteuren ermöglichen könnten, unbemerkt auf das Finanzsystem zuzugreifen."
+        },
+        "3": {
+          "title": "OFAC- und Sanktionsprüfung",
+          "description": "Abgleich von Wallet-Adressen und Gegenparteien mit OFAC-SDN-Listen, EU-Sanktionsdatenbanken und INTERPOLs Registern für Finanzkriminalität."
+        },
+        "4": {
+          "title": "Typologieforschung",
+          "description": "Laufende Studie und Katalogisierung von aufkommenden Geldwäschetypologien im Krypto-Bereich, einschließlich NFT-Waschhandel, DeFi-Exploits und Techniken zur Verschleierung durch Mixer."
+        }
+      },
+      "caseTypes": {
+        "0": "Kryptowährungsstrukturierung und -schichtung",
+        "1": "Börsenvermittelte Geldwäsche",
+        "2": "Mixer- und Tumbler-Fondsverschleierung",
+        "3": "NFT- und DeFi-basierte Geldwäsche",
+        "4": "Grenzüberschreitende illegale Geldtransfers",
+        "5": "Shell-Unternehmen Krypto-Transaktionen"
+      },
+      "process": {
+        "0": {
+          "step": "Reichen Sie Ihren Bericht ein",
+          "description": "Geben Sie Transaktions-IDs, Wallet-Adressen und alle unterstützenden Beweise über unser sicheres Intake-Portal an."
+        },
+        "1": {
+          "step": "Erste Triage (24–48 Std.)",
+          "description": "Ein AML-Analyst überprüft die Einreichung, verifiziert die Transaktionsdaten on-chain und bewertet das Dringlichkeitsniveau."
+        },
+        "2": {
+          "step": "Untersuchung & SAR-Einreichung",
+          "description": "Wo Schwellenwerte erreicht werden, werden formelle SARs bei den relevanten Finanzermittlungsbehörden eingereicht."
+        },
+        "3": {
+          "step": "Koordination & Ergebnis",
+          "description": "Sie erhalten eine Fallreferenz und regelmäßige Updates, während die Untersuchung über die regulatorischen Kanäle fortschreitet."
+        }
+      },
+      "contact": {
+        "responseTime": "24–48 Stunden",
+        "hours": "Montag–Freitag, 08:00–18:00 UTC"
+      }
+    },
+    "cyber": {
+      "title": "Cyberkriminalität & Digitale Forensik",
+      "subtitle": "Blockchain-Trace-Analyse",
+      "tagline": "Jeden Byte verfolgen — von der Blockchain bis zum Dark Web und darüber hinaus.",
+      "overview": "Die Abteilung für Cyberkriminalität & Digitale Forensik nutzt modernste Blockchain-Analytik und Open-Source-Intelligenz, um betrügerische Kryptowährungsflüsse zu verfolgen, Täter im Dark Web zu identifizieren und Beweispakete für die Strafverfolgung zu erstellen. Unsere forensischen Analysten sind in führenden Blockchain-Trace-Tools zertifiziert und arbeiten direkt mit globalen Cybercrime-Einsatzgruppen zusammen.",
+      "functions": {
+        "0": {
+          "title": "Blockchain-Forensik",
+          "description": "Vollständige On-Chain-Analyse von verdächtigen Wallets, Verfolgung von Geldflüssen über mehrere Hops, Brücken und Chains, um den letztendlichen wirtschaftlichen Eigentümer und Auszahlungsstellen zu identifizieren."
+        },
+        "1": {
+          "title": "Dark Web-Intelligenz",
+          "description": "Überwachung von Untergrundmarktplätzen, Foren und Telegram-Kanälen, in denen Krypto-Betrugspläne beworben, verkauft und koordiniert werden."
+        },
+        "2": {
+          "title": "Krypto-Tracking & Vermögenszuordnung",
+          "description": "Erstellung umfassender Vermögenskarten, die genau zeigen, wo gestohlene Gelder bewegt wurden — über Wallets, Börsen, Mixer und Auszahlungsstellen — in einem Format, das für Gerichtsverfahren geeignet ist."
+        },
+        "3": {
+          "title": "Börsenkooperation & Vorladungen",
+          "description": "Koordination mit regulierten Börsen, um verdächtige Konten einzufrieren und KYC-Daten über rechtmäßige Anfragen und gegenseitige Rechtshilfeverträge zu erhalten."
+        },
+        "4": {
+          "title": "Malware- & Phishing-Analyse",
+          "description": "Technische Rückverfolgung von Malware, die in Krypto-Diebstahlkampagnen verwendet wird, und Identifizierung von Phishing-Infrastrukturen, um Abschaltungen zu ermöglichen."
+        }
+      },
+      "caseTypes": {
+        "0": "Krypto-Börsen-Hacks und Diebstähle",
+        "1": "Phishing- und Social-Engineering-Betrügereien",
+        "2": "Ransomware-Zahlungsverfolgung",
+        "3": "DeFi-Protokoll-Exploits",
+        "4": "SIM-Swap-Kontoübernahme",
+        "5": "Anlagebetrug und Rug Pulls"
+      },
+      "process": {
+        "0": {
+          "step": "Beweismittel Einreichung",
+          "description": "Geben Sie alle Wallet-Adressen, Transaktions-Hashes, Kommunikationen und alle bekannten Details über den Täter an."
+        },
+        "1": {
+          "step": "Forensische Analyse (48–72 Std.)",
+          "description": "Unsere Analysten führen vollständige On-Chain-Traces durch und vergleichen diese mit bekannten Betrugsclustern und Dark-Web-Aktivitäten."
+        },
+        "2": {
+          "step": "Intelligenzpaket",
+          "description": "Ein forensischer Bericht wird erstellt, der Geldflüsse, wahrscheinliche Täter und Auszahlungsbörsen detailliert."
+        },
+        "3": {
+          "step": "Überweisung an die Strafverfolgung",
+          "description": "Wo ausreichende Beweise vorliegen, wird das Paket an Interpol, Europol oder nationale Cybercrime-Einheiten verwiesen."
+        }
+      },
+      "contact": {
+        "responseTime": "24–72 Stunden",
+        "hours": "24/7 für Notfälle"
+      }
+    },
+    "recovery": {
+      "title": "Vermögensrückgewinnungsstelle",
+      "subtitle": "Grenzüberschreitende Durchsetzung",
+      "tagline": "Gestohlene Vermögenswerte über Grenzen hinweg verfolgen, bis die Rückgewinnung erreicht ist.",
+      "overview": "Die Vermögensrückgewinnungsstelle ist auf den rechtlichen und logistischen Prozess der Lokalisierung, Einfrierung und Rückführung von Vermögenswerten spezialisiert, die durch Krypto-Betrug gestohlen wurden. In Zusammenarbeit mit Anwälten, internationalen Strafverfolgungsbehörden und Regulierungsbehörden in verschiedenen Jurisdiktionen navigiert unser Team durch die komplexen multinationalen rechtlichen Rahmenbedingungen, die erforderlich sind, um Vermögenswerte von raffinierten Betrügern zurückzugewinnen.",
+      "functions": {
+        "0": {
+          "title": "Vermögenssperren & Beschränkungsanordnungen",
+          "description": "Koordination mit Gerichten und Vollzugsbehörden zur Erlass von Notfrieranordnungen gegen identifizierte Wallets, Börsenkonten und Bankkonten, bevor Vermögenswerte dissipiert werden."
+        },
+        "1": {
+          "title": "Unterstützung bei Zivilklagen",
+          "description": "Vorbereitung von forensischen Beweispaketen, Expertenzeugenaussagen und Fallunterlagen zur Unterstützung von Opfern, die eine zivilrechtliche Rückgewinnung vor Gericht anstreben."
+        },
+        "2": {
+          "title": "Internationale Vermögensverfolgung",
+          "description": "Verfolgung von Vermögenswerten, während sie sich über mehrere Jurisdiktionen bewegen, Einbeziehung lokaler Anwälte und Behörden in jedem Land, um eine Dissipation zu verhindern."
+        },
+        "3": {
+          "title": "Verträge über gegenseitige Rechtshilfe (MLAT)",
+          "description": "Navigieren von MLAT-Anfragen, um Beweise, Einfrieranordnungen und Kooperationen von ausländischen Jurisdiktionen zu erhalten, in denen sich Verdächtige oder Vermögenswerte befinden."
+        },
+        "4": {
+          "title": "Koordination der Entschädigung für Opfer",
+          "description": "Verwaltung der Verteilung von zurückgewonnenen Vermögenswerten an verifizierte Opfer gemäß Gerichtsbeschlüssen und Compliance-Anforderungen."
+        }
+      },
+      "caseTypes": {
+        "0": "Rückgewinnung von großangelegtem Anlagebetrug",
+        "1": "Börseninsolvenzansprüche",
+        "2": "Opfer von Ponzi- und Pyramidensystemen",
+        "3": "Rückgewinnung von Vermögenswerten bei Romantikbetrug",
+        "4": "Entschädigung für betrügerische Broker",
+        "5": "Multi-Jurisdiktionaler Krypto-Diebstahl"
+      },
+      "process": {
+        "0": {
+          "step": "Fallbewertung (2–3 Tage)",
+          "description": "Unser Team bewertet die Durchführbarkeit der Vermögensrückgewinnung basierend auf dem verlorenen Betrag, der Beweisqualität und den beteiligten Jurisdiktionen."
+        },
+        "1": {
+          "step": "Vermögensverfolgung",
+          "description": "Vollständige Blockchain- und Finanzintelligenz wird eingesetzt, um Vermögenswerte zu lokalisieren und zu dokumentieren, die derzeit von Tätern gehalten werden."
+        },
+        "2": {
+          "step": "Koordination rechtlicher Schritte",
+          "description": "Wir koordinieren mit Partneranwälten und Vollzugsbehörden, um Einfrieranordnungen und Rechtsstreitigkeiten einzuleiten."
+        },
+        "3": {
+          "step": "Rückgewinnung & Entschädigung",
+          "description": "Wiedergewonnene Vermögenswerte werden gesammelt und an verifizierte Opfer durch gerichtsüberwachte Prozesse verteilt."
+        }
+      },
+      "contact": {
+        "responseTime": "2–3 Werktage",
+        "hours": "Montag–Freitag, 09:00–17:00 UTC"
+      }
+    },
+    "compliance": {
+      "title": "Compliance & Regulierungsangelegenheiten",
+      "subtitle": "FATF-Ausrichtung",
+      "tagline": "Ausrichtung des globalen Krypto-Ökosystems an regulatorischen Best Practices.",
+      "overview": "Die Abteilung für Compliance & Regulierungsangelegenheiten stellt sicher, dass die IBCCF-Operationen, Partnerbörsen und berichtende Stellen die höchsten internationalen regulatorischen Standards einhalten. Unsere Compliance-Beauftragten verfügen über aktuelles Fachwissen zu FATF-Empfehlungen, EU-AML-Rahmenbedingungen, FinCEN-Leitlinien und nationalen VASP-Vorschriften — und übersetzen komplexe Anforderungen in umsetzbare Compliance-Programme.",
+      "functions": {
+        "0": {
+          "title": "FATF-Jurisdiktionsberichterstattung",
+          "description": "Vorbereitung und Einreichung formeller Berichte an die FATF und angeschlossene Finanzermittlungsbehörden im Namen der berichtenden Stellen, um sicherzustellen, dass Fristen und Formatvorgaben eingehalten werden."
+        },
+        "1": {
+          "title": "Rechtsrahmen-Mapping",
+          "description": "Laufende Verfolgung regulatorischer Änderungen in über 40 Jurisdiktionen, um zeitnahe Hinweise zu geben, wie neue Gesetze die VASP-Operationen, Benutzerpflichten und Berichtspflichten beeinflussen."
+        },
+        "2": {
+          "title": "Regulatorische Lückenanalyse",
+          "description": "Prüfung bestehender Compliance-Programme an Börsen und Verwahrstellen, um Schwachstellen, veraltete Verfahren und Lücken zu identifizieren, die sie regulatorischen Sanktionen aussetzen könnten."
+        },
+        "3": {
+          "title": "VASP-Überwachung & -Leitlinien",
+          "description": "Unterstützung von Anbietern virtueller Vermögenswerte bei Lizenzanforderungen, der Umsetzung der Reisevorschrift und der laufenden Compliance-Überwachung in ihren Betriebsjurisdiktionen."
+        },
+        "4": {
+          "title": "Regulatorische Koordination",
+          "description": "Vermittlung zwischen IBCCF, nationalen zuständigen Behörden und internationalen Regulierungsbehörden, um den Austausch von Informationen und koordinierte Durchsetzung zu erleichtern."
+        }
+      },
+      "caseTypes": {
+        "0": "Unterstützung bei VASP-Lizenzierung und -Compliance",
+        "1": "Leitlinien zur Umsetzung der Reisevorschrift",
+        "2": "Unterstützung bei der Einreichung von SAR/STR",
+        "3": "Verteidigung gegen regulatorische Sanktionen",
+        "4": "Audit und Behebung von AML-Programmen",
+        "5": "Vorbereitung auf die gegenseitige Bewertung der FATF"
+      },
+      "process": {
+        "0": {
+          "step": "Erstberatung (1–2 Tage)",
+          "description": "Unsere Compliance-Beauftragten überprüfen Ihre Situation, Jurisdiktion und den anwendbaren regulatorischen Rahmen."
+        },
+        "1": {
+          "step": "Lückenanalyse",
+          "description": "Eine gründliche Prüfung der bestehenden Compliance-Verfahren wird durchgeführt und dokumentiert."
+        },
+        "2": {
+          "step": "Sanierungsplan",
+          "description": "Ein strukturierter Sanierungsfahrplan wird bereitgestellt, mit priorisierten Maßnahmen und Umsetzungszeitplänen."
+        },
+        "3": {
+          "step": "Laufende Überwachung",
+          "description": "Optionale laufende Compliance-Überwachungsdienste, um Programme aktuell mit sich entwickelnden Vorschriften zu halten."
+        }
+      },
+      "contact": {
+        "responseTime": "1–2 Werktage",
+        "hours": "Montag–Freitag, 08:00–18:00 UTC"
+      }
+    },
+    "intelligence": {
+      "title": "Intelligenz- & Bedrohungsanalyse",
+      "subtitle": "Profilierung von Bedrohungsakteuren",
+      "tagline": "Kartierung von Betrugsnetzwerken, bevor sie ihr nächstes Opfer fordern.",
+      "overview": "Die Abteilung für Intelligenz- & Bedrohungsanalyse fungiert als Frühwarnzentrum von IBCCF — proaktive Identifizierung, Kartierung und Neutralisierung aufkommender Krypto-Betrugsbedrohungen, bevor sie an Umfang gewinnen. Unsere Intelligenzanalysten kombinieren Open-Source-Intelligenz, Profilierung von Bedrohungsakteuren und Dark-Web-Überwachung, um umfassende Bilder von kriminellen Organisationen im Krypto-Bereich zu erstellen.",
+      "functions": {
+        "0": {
+          "title": "Kartierung von Betrugsnetzwerken",
+          "description": "Erstellung von Beziehungsdiagrammen betrügerischer Entitäten — Wallets, Websites, soziale Konten und Einzelpersonen — die zusammen koordinierte Betriebsoperationen bilden."
+        },
+        "1": {
+          "title": "Profilierung von Bedrohungsakteuren",
+          "description": "Erstellung detaillierter Profile bekannter und verdächtiger Krypto-Betrüger, einschließlich ihrer Techniken, Infrastrukturen, Zielgruppen und Betriebsabläufe."
+        },
+        "2": {
+          "title": "Frühwarnsystem",
+          "description": "Überwachung von sozialen Medien, Foren und Dark-Web-Kanälen, um neue Betrugsaktionen in ihrer Anfangsphase zu erkennen und Warnungen auszugeben, bevor sie sich weit verbreiten."
+        },
+        "3": {
+          "title": "Intelligenzaustausch",
+          "description": "Verteilung von bereinigten Bedrohungsintelligenzberichten an Partner-Strafverfolgungsbehörden, Börsen und Finanzinstitute, um koordinierte Abwehrmaßnahmen zu ermöglichen."
+        },
+        "4": {
+          "title": "Prädiktive Bedrohungsmodellierung",
+          "description": "Verwendung historischer Daten und Musteranalysen, um vorherzusagen, wo und wie die nächste Welle von Krypto-Betrug wahrscheinlich auftreten wird, um proaktive Gegenmaßnahmen zu ermöglichen."
+        }
+      },
+      "caseTypes": {
+        "0": "Betrugsaktionen mit 'Pig Butchering'",
+        "1": "Falsche Börseninfrastruktur",
+        "2": "Identitätsbetrug und Deepfake-Betrug",
+        "3": "Betrug durch Prominentenwerbung",
+        "4": "Koordinierte Pump-and-Dump-Schemata",
+        "5": "Grenzüberschreitende Betrugs-Syndikatsoperationen"
+      },
+      "process": {
+        "0": {
+          "step": "Einreichung des Bedrohungsberichts",
+          "description": "Reichen Sie Details des vermuteten Betrugs ein, einschließlich URLs, Wallets, Kommunikationen und aller anderen Beweise."
+        },
+        "1": {
+          "step": "OSINT-Analyse (48–72 Std.)",
+          "description": "Unser Intelligenzteam untersucht die Bedrohung mit offenen und geschlossenen Informationsquellen."
+        },
+        "2": {
+          "step": "Erstellung des Bedrohungsprofils",
+          "description": "Ein umfassendes Bedrohungsprofil wird erstellt und unserer Bedrohungsintelligenzdatenbank hinzugefügt."
+        },
+        "3": {
+          "step": "Alarm & Überweisung",
+          "description": "Relevante Warnungen werden an Partneragenturen ausgegeben und, wo angemessen, öffentliche Warnungen veröffentlicht."
+        }
+      },
+      "contact": {
+        "responseTime": "48–72 Stunden",
+        "hours": "24/7 Überwachung mit Tagesanalystenreaktion"
+      }
+    },
+    "support": {
+      "title": "Opferunterstützungsdienste",
+      "subtitle": "Fallaufnahme & Interessenvertretung",
+      "tagline": "An der Seite der Opfer von der ersten Kontaktaufnahme bis zur endgültigen Lösung.",
+      "overview": "Die Abteilung für Opferunterstützungsdienste bietet einen mitfühlenden, vertraulichen und strukturierten Unterstützungsweg für Personen, die durch Krypto-Betrug finanziellen und psychologischen Schaden erlitten haben. Unsere Fallvertreter arbeiten eins zu eins mit den Opfern zusammen, um ihre Erfahrungen zu dokumentieren, sie mit geeigneten Ermittlungs- und Rechtsressourcen zu verbinden und während des Rückgewinnungsprozesses fortlaufende emotionale und praktische Unterstützung zu bieten.",
+      "functions": {
+        "0": {
+          "title": "Sichere Fallaufnahme",
+          "description": "Vertraulicher, verschlüsselter Aufnahmeprozess, der alle relevanten Informationen über den Betrug, die Umstände des Opfers und vorhandene Dokumentationen oder Beweise erfasst."
+        },
+        "1": {
+          "title": "Opfervertretung",
+          "description": "Engagierte Fallvertreter, die die Interessen des Opfers während der Ermittlungen und des rechtlichen Prozesses vertreten, um sicherzustellen, dass ihre Stimme gehört wird und ihre Rechte geschützt sind."
+        },
+        "2": {
+          "title": "Überweisungen für psychologische Unterstützung",
+          "description": "Verbindungen zu geprüften Beratern und Selbsthilfegruppen, die auf die einzigartigen Traumata von Finanzbetrug spezialisiert sind — einschließlich der Scham, Isolation und Trauer, die er oft verursacht."
+        },
+        "3": {
+          "title": "Rechtliche Beratung & Überweisungen",
+          "description": "Beratung zu den rechtlichen Optionen der Opfer, Unterstützung bei der Vorbereitung von Dokumentationen für Strafverfolgungsbeschwerden und Überweisungen an Anwälte, die auf Krypto-Betrugsfälle spezialisiert sind."
+        },
+        "4": {
+          "title": "Navigation durch Entschädigungen",
+          "description": "Hilfe für Opfer, den Entschädigungsprozess zu verstehen und zu navigieren, einschließlich der Einreichung von Opfereinflussberichten und der Teilnahme an Rückverteilungen von Vermögenswerten."
+        }
+      },
+      "caseTypes": {
+        "0": "Opfer von Romantikbetrug",
+        "1": "Überlebende von Anlagebetrug",
+        "2": "Unterstützung für ältere und verletzliche Opfer",
+        "3": "Hilfe bei Identitätsdiebstahl",
+        "4": "Unterstützung bei familiären Auswirkungen",
+        "5": "Überweisungen für Krisenintervention"
+      },
+      "process": {
+        "0": {
+          "step": "Vertrauliche Aufnahme (Am selben Tag)",
+          "description": "Kontaktieren Sie uns über das sichere Formular oder das Hilfetelefon. Ein Fallvertreter wird am selben Geschäftstag antworten, um Ihre Aufnahme zu beginnen."
+        },
+        "1": {
+          "step": "Fallbewertung",
+          "description": "Ihr Vertreter überprüft Ihre Situation und verbindet Sie mit den entsprechenden Ermittlungsabteilungen und Ressourcen."
+        },
+        "2": {
+          "step": "Laufende Unterstützung",
+          "description": "Regelmäßige Check-ins halten Sie über den Fortschritt der Ermittlungen informiert, während Ihr Vertreter auf alle auftretenden Unterstützungsbedürfnisse eingeht."
+        },
+        "3": {
+          "step": "Lösung & Rückgewinnung",
+          "description": "Ihr Vertreter unterstützt Sie in den letzten Phasen, einschließlich aller rechtlichen Verfahren, Entschädigungen und der Planung nach dem Fall."
+        }
+      },
+      "contact": {
+        "responseTime": "Am selben Geschäftstag",
+        "hours": "Montag–Freitag, 08:00–20:00 UTC · Notruf 24/7"
+      }
+    }
+  }
+}

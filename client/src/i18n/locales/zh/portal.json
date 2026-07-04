@@ -1,0 +1,1841 @@
+{
+  "navGroups": {
+    "overview": "概览",
+    "withdrawal": "提款",
+    "compliance": "合规",
+    "communication": "沟通",
+    "account": "账户"
+  },
+  "navItems": {
+    "dashboard": "仪表板",
+    "timeline": "活动时间线",
+    "letter": "提款信",
+    "deposit": "存款与收据",
+    "submissions": "提交记录",
+    "declaration": "合规声明",
+    "documents": "文件",
+    "keyRequest": "短语密钥请求",
+    "messages": "消息",
+    "settings": "设置",
+    "more": "更多",
+    "sealed": "密封和解与保密协议",
+    "sealedDone": "密封和解",
+    "withdrawalActivation": "提款激活",
+    "withdrawalActivationDone": "激活已批准",
+    "certificate": "证书",
+    "accountHistory": "账户历史",
+    "walletConnect": "钱包连接",
+    "withdrawal": "申请提现",
+    "withdrawalHub": "提现",
+    "uploads": "上传文件",
+    "withdrawalGuide": "提现指南",
+    "refundClaim": "退款申请"
+  },
+  "accountHistory": {
+    "title": "账户历史",
+    "subtitle": "记入您案件的贷记和借记",
+    "recordsTitle": "分类账条目",
+    "entrySingular": "{{count}} 条记录",
+    "entryPlural": "{{count}} 条记录",
+    "displayOnly": "仅供显示",
+    "loading": "正在加载您的账户历史…",
+    "loadError": "无法加载您的账户历史，请稍后再试。",
+    "empty": "您的案件中尚未记录任何条目。",
+    "credit": "贷记",
+    "debit": "借记",
+    "disclaimer": "IBCCF 仅供显示。这些条目反映您案件官员的会计记录，不会转移任何资金。"
+  },
+  "header": {
+    "caseLabel": "案件",
+    "signOut": "登出"
+  },
+  "common": {
+    "noActiveCase": "没有活动案件",
+    "loadingCase": "正在加载您的案件…"
+  },
+  "messages": {
+    "title": "安全消息",
+    "subtitle": "来自 IBCCF 的加密通信",
+    "unreadBadge": "{{count}} 未读",
+    "encryption": {
+      "title": "端到端加密通信",
+      "subtitle": "AES-256 加密协议"
+    },
+    "stats": {
+      "actionRequired": "需要行动",
+      "processing": "处理中",
+      "completed": "已完成"
+    },
+    "sections": {
+      "urgent": "需要紧急行动",
+      "processing": "处理更新",
+      "completed": "已完成通知"
+    },
+    "empty": {
+      "title": "安全消息门户为空",
+      "subtitle": "目前没有加密消息。",
+      "hint": "当 IBCCF 发送有关您案件的更新时，消息将出现在这里。"
+    },
+    "dialog": {
+      "encryptedLabel": "加密消息",
+      "close": "关闭"
+    }
+  },
+  "documents": {
+    "header": {
+      "title": "监管文件中心",
+      "subtitle": "提交、跟踪和下载合规要求的监管文件。",
+      "awaiting": "{{count}} 等待您的操作",
+      "refresh": "刷新",
+      "refreshing": "刷新中…"
+    },
+    "refreshError": {
+      "title": "刷新失败",
+      "description": "无法重新加载您的文档。请重试。"
+    },
+    "complianceNote": "文件以加密形式存储，仅由 IBCCF 合规官员审核。请及时提交以保持案件进展 — 您的指定官员在您上传时会自动收到通知。",
+    "empty": {
+      "title": "没有请求的文件",
+      "subtitle": "您已全部跟进。如果合规需要其他任何东西，它将出现在这里，您将收到电子邮件。"
+    },
+    "categories": {
+      "proofOfIncome": {
+        "label": "收入证明",
+        "description": "最近的工资单、雇主信或显示您收入的税单。"
+      },
+      "sourceOfFunds": {
+        "label": "资金来源",
+        "description": "银行对账单或钱包记录，证明资金的来源。"
+      },
+      "kyc": {
+        "label": "KYC 身份验证",
+        "description": "政府签发的带照片的身份证明 — 护照、驾驶执照或国家身份证。"
+      },
+      "fatca": {
+        "label": "FATCA / CRS 自我认证",
+        "description": "签署的 FATCA/CRS 表格，声明您的税务居住地。"
+      },
+      "taxResidency": {
+        "label": "税务居民声明",
+        "description": "请确认您的税务居住地，用于结算记录。"
+      },
+      "beneficialOwnership": {
+        "label": "最终受益人 / KYC 确认",
+        "description": "声明本案款项的最终受益人。"
+      },
+      "aml": {
+        "label": "反洗钱确认",
+        "description": "确认我们的反洗钱与制裁筛查流程。"
+      },
+      "settlementAuth": {
+        "label": "结算 / 付款授权",
+        "description": "授权合规部门将结算款项发放至您已验证的收款钱包。"
+      },
+      "powerOfAttorney": {
+        "label": "付款授权委托书",
+        "description": "授予合规部门仅限于付款步骤的严格受限委托书。"
+      },
+      "custom": {
+        "description": "合规团队要求的自定义文件。"
+      }
+    },
+    "status": {
+      "approved": "已批准",
+      "rejected": "需要重新提交",
+      "submitted": "已提交 — 待审核",
+      "underReview": "审核中",
+      "actionRequired": "需要行动"
+    },
+    "card": {
+      "overdue": "逾期",
+      "reference": "参考: {{type}}",
+      "complianceNotes": "合规备注",
+      "requested": "已请求",
+      "deadline": "截止日期",
+      "reviewerNotes": "审核者备注",
+      "submittedOn": "提交于 {{date}}",
+      "preview": "预览",
+      "hide": "隐藏",
+      "download": "下载",
+      "archived": "已归档",
+      "uploadsPausedTitle": "上传已暂停",
+      "uploadsPausedBody": "合规已暂时禁用此文件的提交。您将通过电子邮件收到通知，一旦重新开放。",
+      "upload": "上传文件",
+      "uploadCorrected": "上传更正文件",
+      "uploading": "上传中…",
+      "templateTitle": "下载预填模板",
+      "templateBody": "此文件有可用的预填 PDF 模板。请下载、离线签署并在下方上传已签署的副本。",
+      "templateDownloading": "准备中…",
+      "templateDownload": "下载模板",
+      "uploadHint": "PDF、PNG、JPEG 或 WebP · 最大 10 MB · 在传输中端到端加密"
+    },
+    "supporting": {
+      "title": "支持文件",
+      "description": "上传任何可能有助于案件审查的额外支持文件（身份证明、交易记录、证据文件）。文件安全存储，由我们的合规团队审查。",
+      "descriptionLabel": "说明（可选）",
+      "descriptionPlaceholder": "简要描述此文件的内容或相关事项（可选）。",
+      "uploadButton": "上传文件",
+      "emptyTitle": "暂无支持文件",
+      "emptySubtitle": "使用上方按鈕上传您的第一份文件。",
+      "category": {
+        "general": "通用",
+        "idProof": "身份证明文件",
+        "transaction": "交易记录",
+        "evidence": "证据文件",
+        "unknown": "其他"
+      }
+    }
+  },
+  "settings": {
+    "title": "个人资料与设置",
+    "subtitle": "账户详情和您案件的实时余额预览",
+    "profile": {
+      "section": "账户资料",
+      "fullName": "全名",
+      "email": "电子邮件",
+      "mobile": "手机",
+      "accessCode": "访问代码"
+    },
+    "balance": {
+      "section": "余额预览",
+      "liveBadge": "实时 · USDT",
+      "compiledLabel": "汇总存款金额",
+      "compiledHint": "激活、短语密钥和合并组件的总和 — 在结算时可退还到您的钱包。",
+      "activityLabel": "活动存款",
+      "activityHelper": "可退还的激活余额",
+      "phraseKeyLabel": "短语密钥存款",
+      "phraseKeyHelper": "钱包验证托管",
+      "mergeLabel": "短语密钥合并存款",
+      "mergeHelper": "30% 合并组件",
+      "walletRequirement": "钱包活动要求",
+      "withdrawalTotal": "提款金额（案件总额）",
+      "footnote": "汇总存款是上述激活、短语密钥和合并组件的总和。显示的金额反映了我们结算团队在您的案件上设置的最新值 — 当您的案件进展时，它们会自动更新。"
+    }
+  },
+  "keyRequest": {
+    "back": "返回仪表板",
+    "header": {
+      "title": "访问密钥请求",
+      "subtitle": "请求或查看您的访问密钥状态"
+    },
+    "status": {
+      "underReview": "审核中",
+      "approved": "已批准",
+      "rejected": "已拒绝",
+      "expired": "已过期"
+    },
+    "toast": {
+      "copiedTitle": "已复制！",
+      "copiedDescription": "请求 ID 已复制到剪贴板。",
+      "notFoundTitle": "未找到",
+      "notFoundDescription": "无法加载请求状态。",
+      "connectionTitle": "连接错误",
+      "statusError": "无法加载请求状态。",
+      "requiredFieldsTitle": "必填字段",
+      "requiredFieldsDescription": "请输入您的姓名和电子邮件。",
+      "submissionFailedTitle": "提交失败",
+      "submissionFailedDefault": "无法提交您的请求。请再试一次。",
+      "submitConnectionError": "无法提交您的请求。"
+    },
+    "confirm": {
+      "title": "请求已提交！",
+      "subtitle": "我们的团队将在 1–3 个工作日内审核。",
+      "requestIdLabel": "请求 ID",
+      "copyAria": "复制请求 ID",
+      "keepHint": "保留此记录",
+      "nameLabel": "姓名",
+      "emailLabel": "电子邮件",
+      "nextHeading": "接下来会发生什么",
+      "nextReview": "我们的团队将在",
+      "nextReviewDays": "1–3 个工作日内审核请求",
+      "nextKey": "您的访问密钥将在批准后出现在这里",
+      "nextNotify": "当有更新时，您将在门户中看到通知",
+      "viewStatus": "查看请求状态"
+    },
+    "form": {
+      "heading": "请求访问密钥",
+      "intro": "访问密钥让您在任何时候无需原始代码即可重新登录到您的门户。请填写以下详细信息，我们的团队将在 1–3 个工作日内审核您的请求。",
+      "fullName": "全名",
+      "fullNamePlaceholder": "您的全名",
+      "email": "电子邮件地址",
+      "emailPlaceholder": "your@email.com",
+      "phone": "电话号码",
+      "optional": "(可选)",
+      "phonePlaceholder": "+1 (555) 000-0000",
+      "reason": "请求原因",
+      "reasonPlaceholder": "简要描述您需要访问密钥的原因…",
+      "submit": "提交请求",
+      "submitting": "提交中…"
+    },
+    "howItWorks": {
+      "heading": "工作原理",
+      "step1": "使用上面的表单提交您的详细信息",
+      "step2": "我们的团队将在 1–3 个工作日内审核",
+      "step3": "您的密钥在批准后将送达此处"
+    },
+    "statusCard": {
+      "requestId": "请求 ID",
+      "progressHeading": "申请进度",
+      "stepSubmitted": "已提交",
+      "stepSubmittedDesc": "于 {{date}} 收到",
+      "stepUnderReview": "审核中",
+      "stepReviewing": "我们的团队正在审核您的请求",
+      "stepReviewCompleted": "审核完成",
+      "stepApproved": "已批准",
+      "stepRejected": "已拒绝",
+      "stepExpired": "已过期",
+      "stepApprovedDesc": "您的访问密钥已准备好",
+      "stepRejectedDesc": "请求未能获得批准",
+      "stepExpiredDesc": "请求已过期",
+      "stepAwaiting": "等待决定",
+      "nameLabel": "姓名",
+      "nameNa": "不适用",
+      "submittedLabel": "已提交",
+      "copyAria": "复制请求 ID"
+    },
+    "approved": {
+      "title": "您的访问密钥",
+      "hint": "您的访问密钥已发送至您的电子邮件地址。请检查您的收件箱，并使用该密钥登录安全门户。"
+    },
+    "rejected": {
+      "title": "请求被拒绝",
+      "reasonLabel": "原因",
+      "noReason": "我们的团队未提供具体原因。",
+      "submitNew": "提交新请求"
+    },
+    "expired": {
+      "title": "请求已过期",
+      "body": "此请求已过期。您可以在下面提交新的访问密钥请求。"
+    },
+    "resubmit": {
+      "title": "新的访问密钥请求",
+      "fullName": "全名",
+      "email": "电子邮件",
+      "reason": "原因",
+      "reasonPlaceholder": "简要描述您需要访问密钥的原因…",
+      "submit": "提交",
+      "cancel": "取消"
+    },
+    "pending": {
+      "title": "审核中",
+      "body": "您的请求正在我们的团队审核中。您将在这里收到更新。处理通常需要 1–3 个工作日。"
+    },
+    "adminMsgs": {
+      "heading": "来自我们团队的消息",
+      "newBadge": "{{count}} 新",
+      "newPill": "新"
+    }
+  },
+  "submissions": {
+    "title": "提交历史",
+    "subtitle": "您的完整提交档案",
+    "recordsTitle": "您的提交",
+    "recordSingular": "{{count}} 条记录",
+    "recordPlural": "{{count}} 条记录",
+    "encrypted": "已加密",
+    "empty": "未找到提交记录。",
+    "optionSelected": "选项 {{option}} 已选择",
+    "withdrawalAmount": "提款金额",
+    "totalBatches": "总批次"
+  },
+  "shell": {
+    "brand": "IBCCF 门户",
+    "secureSession": "安全会话",
+    "urgent": "紧急",
+    "member": "会员",
+    "signOut": "登出",
+    "navAriaLabel": "门户部分",
+    "ssl": "256 位 SSL 加密",
+    "moreLabel": "更多",
+    "moreSheetTitle": "更多导航",
+    "sessionExpiry": {
+      "message": "您的会话将在不到24小时内过期。请重新登录以保持访问权限。",
+      "messageWithTime": "您的会话将在{{time}}过期。请重新登录以保持访问权限。",
+      "messageCountdown": "会话将在 {{seconds}} 秒后过期 — 请重新登录以保持访问权限。",
+      "loginButton": "重新登录以延长",
+      "dismiss": "关闭",
+      "dialogTitle": "延长您的会话",
+      "dialogDesc": "输入您的PIN码以延长会话，避免丢失任何未保存的工作。",
+      "pinPlaceholder": "6位PIN码",
+      "extending": "延长中…",
+      "extendButton": "延长会话",
+      "successTitle": "会话已延长",
+      "successDesc": "您的会话已延长7天。",
+      "errorTitle": "PIN码错误",
+      "errorDesc": "您输入的PIN码不正确。请重试。",
+      "lockedCountdown": "尝试次数过多 — 请在 {{time}} 后重试"
+    }
+  },
+  "status": {
+    "success": {
+      "title": "提交确认",
+      "subtitle": "您的提款请求已被接收",
+      "bannerTitle": "提款请求确认",
+      "referenceLabel": "参考：",
+      "optionSelectedOn": "选项 {{option}} 于 {{date}} 选择",
+      "nextStepTitle": "下一步：完成存款",
+      "step1": "导航到 <0>存款与收据</0> 部分",
+      "step2": "将所需的 USDT 发送到您指定的存款地址",
+      "step3": "上传您的交易收据以进行验证",
+      "step4": "等待我们的合规团队的确认",
+      "goToDeposit": "前往存款",
+      "contactSupport": "联系支持",
+      "fundsReleasedTo": "资金将释放到",
+      "verifiedPayoutWallet": "已验证的支付钱包",
+      "displayOnlyShort": "仅供显示 — IBCCF 不持有、路由或转发资金。",
+      "displayOnlyAwaiting": "您的案件官员将指定支付地址。IBCCF 不持有、路由或转发资金。",
+      "returnToProfileTitle": "返回您的个人资料",
+      "returnToProfileSubtitle": "访问您的外部个人资料仪表板",
+      "openProfile": "打开个人资料",
+      "backToDashboard": "← 返回仪表板"
+    },
+    "timeline": {
+      "title": "活动时间线",
+      "events": "{{count}} 个事件",
+      "recentActivity": "最近活动",
+      "empty": "尚无活动。",
+      "emptyHint": "您的账户活动将在这里显示。",
+      "documentRequested": "请求的文件：{{type}}",
+      "documentRequestedDesc": "合规要求您上传此文件。",
+      "documentSubmitted": "已提交文件：{{type}}",
+      "documentSubmittedDesc": "文件已上传以供合规审核。",
+      "documentUploaded": "已上传 {{name}}",
+      "documentApproved": "文件已批准：{{type}}",
+      "documentApprovedDesc": "合规已批准您的提交。",
+      "documentRejected": "文件被拒绝：{{type}}",
+      "documentRejectedDesc": "合规要求您重新提交此文件。",
+      "payoutWalletUpdated": "支付钱包已更新",
+      "payoutWalletVerified": "支付钱包已验证",
+      "payoutWalletCleared": "支付钱包已清除",
+      "payoutWalletPrevious": "档案中的先前支付钱包",
+      "payoutWalletClearedDesc": "您的案件官员已删除先前验证的支付地址。",
+      "payoutWalletGenericChange": "合规已更新验证的支付地址。",
+      "stagePrefix": "阶段 {{stage}}：{{title}}",
+      "submissionTitle": "选项 {{option}} 已提交",
+      "submissionDesc": "提款请求已提交",
+      "depositReceiptTitle": "存款收据已上传",
+      "receiptApproved": "收据已批准",
+      "receiptRejected": "收据被拒绝",
+      "receiptPending": "待审核",
+      "userDocUploaded": "支持文件已上传",
+      "userDocUploadedDesc": "您已上传一份支持文件以供合规审核。",
+      "userDocApproved": "支持文件已批准",
+      "userDocApprovedDesc": "合规已批准您的支持文件。",
+      "userDocRejected": "支持文件被拒绝",
+      "userDocRejectedDesc": "合规已拒绝您的支持文件。如有需要，请重新提交。",
+      "userDocReviewed": "支持文件已审核",
+      "userDocReviewedDesc": "合规已审核您的支持文件。",
+      "activation": {
+        "title": "提款激活 — {{status}}",
+        "approvedDesc": "激活存款已批准。可开始提款处理。",
+        "rejectedDesc": "激活凭证被拒绝。需要重新上传。",
+        "awaitingAdminDesc": "凭证已提交。等待合规审核。",
+        "awaitingDepositDesc": "等待您的激活存款。",
+        "awaitingTokenDesc": "等待安全代码验证。",
+        "defaultDesc": "状态已更新。"
+      },
+      "walletExchangeSelected": "已选择钱包：{{wallet}}",
+      "walletExchangeSelectedDesc": "您已选择 {{wallet}} 作为您连接的钱包。",
+      "walletPhraseRevealed": "钱包助记词已揭示",
+      "walletPhraseRevealedDesc": "您的钱包恢复助记词已被访问。",
+      "tokenWalletSetupConfirmedDesc": "您的代币钱包设置已由合规团队验证。",
+      "tokenWalletSetupUnconfirmedDesc": "您的代币钱包设置验证已被撤销。",
+      "auditActions": {
+        "wallet_connect_completed": "钱包助记词已揭示",
+        "token_wallet_setup_confirmed": "代币钱包设置已确认",
+        "token_wallet_setup_unconfirmed": "代币钱包设置未确认"
+      }
+    }
+  },
+  "dashboard": {
+    "header": {
+      "welcomeBack": "欢迎回来，",
+      "memberFallback": "会员",
+      "verified": "已验证",
+      "vipStatus": "VIP 状态",
+      "standard": "标准",
+      "account": "账户",
+      "active": "活跃",
+      "fullyRegulated": "全面受监管",
+      "fullyRegulatedTooltip": "全面受监管 — 所有合规检查点均已通过"
+    },
+    "balance": {
+      "label": "账户余额",
+      "footnote": "经验证的余额保留在隔离的托管中，待合规清除。"
+    },
+    "urgentBanner": {
+      "title": "需要立即行动",
+      "body": "您有来自 IBCCF 合规团队的待处理要求。",
+      "viewNow": "立即查看"
+    },
+    "keyRequestBanner": {
+      "title": "您的访问请求有新消息",
+      "single": "管理员已向您发送有关您的访问密钥请求的消息。",
+      "multiple": "您在访问密钥请求上有 {{count}} 条新消息。",
+      "viewMessage": "查看消息"
+    },
+    "cards": {
+      "messages": "需要的行动",
+      "letter": "提款信",
+      "profile": "个人资料信息",
+      "deposit": "存款与收据",
+      "submissions": "提交历史",
+      "timeline": "活动时间线",
+      "support": "IBCCF 支持",
+      "feedback": "反馈",
+      "unread": "{{count}} 未读",
+      "pending": "待处理",
+      "accessAccount": "访问账户"
+    },
+    "messages": {
+      "urgent": "紧急",
+      "processing": "处理中",
+      "resolved": "已解决"
+    },
+    "letter": {
+      "status": "状态",
+      "submitted": "已提交",
+      "ready": "已准备好",
+      "submissions": "提交记录",
+      "preparing": "正在由合规团队准备"
+    },
+    "profile": {
+      "name": "姓名",
+      "email": "电子邮件",
+      "vipStatus": "VIP 状态"
+    },
+    "deposit": {
+      "receiptsUploaded": "收据已上传",
+      "pendingReview": "待审核"
+    },
+    "submissions": {
+      "total": "总提交"
+    },
+    "timeline": {
+      "recent": "最近活动"
+    },
+    "support": {
+      "body": "与 IBCCF 支持聊天以获取账户帮助。"
+    },
+    "feedback": {
+      "thankYou": "谢谢您！",
+      "body": "通过分享您的经验帮助我们改进。",
+      "title": "分享您的反馈",
+      "description": "评价我们的服务并留下评论。",
+      "rateLabel": "您如何评价您的体验？",
+      "ratings": {
+        "1": "差",
+        "2": "一般",
+        "3": "好",
+        "4": "很好",
+        "5": "优秀"
+      },
+      "commentsLabel": "附加评论（可选）",
+      "commentsPlaceholder": "告诉我们更多关于您的体验……",
+      "cancel": "取消",
+      "submit": "提交反馈",
+      "submitting": "提交中……",
+      "toastSuccessTitle": "反馈已提交",
+      "toastSuccessDesc": "感谢您的反馈！",
+      "toastErrorTitle": "错误",
+      "toastErrorDesc": "提交反馈失败。"
+    },
+    "chat": {
+      "title": "IBCCF 支持",
+      "online": "在线 · 通常几分钟内回复",
+      "welcomeTitle": "欢迎来到 IBCCF 支持",
+      "welcomeBody": "我们今天能为您提供什么帮助？",
+      "placeholder": "输入您的消息……"
+    },
+    "reactivation": {
+      "dismissAria": "关闭欢迎消息",
+      "label": "账户已重新激活",
+      "newPill": "新",
+      "fallbackName": "那里",
+      "headline": "欢迎回来，{{name}} — 您的账户已完全恢复。",
+      "bodyWithEmail": "我们的合规团队已重新激活您的 IBCCF 门户。所有功能再次可用。新的访问代码已发送到您的电子邮件 — 您的原始代码不再有效。",
+      "bodyNoEmail": "我们的合规团队已重新激活您的 IBCCF 门户。所有功能再次可用。已发放新的访问代码 — 请联系您的案件官员以获取。",
+      "restoration": "账户恢复",
+      "allOnline": "所有门户功能在线"
+    },
+    "tracker": {
+      "title": "提款进度",
+      "subtitle": "您的提款请求的实时状态",
+      "progress": "进度",
+      "ariaLabel": "提款进度：第 {{stage}} 阶段，共 14 阶段",
+      "stageLabel": "阶段 {{stage}}：{{label}} — {{state}}",
+      "stageTooltip": "阶段 {{stage}}：{{label}}\n{{state}}",
+      "states": {
+        "completed": "已完成",
+        "current": "当前",
+        "upcoming": "即将到来"
+      },
+      "legend": {
+        "completed": "已完成",
+        "userAction": "需要您采取行动",
+        "adminAction": "等待合规团队",
+        "system": "系统处理中"
+      },
+      "stageOf": "第 {{stage}} 阶段",
+      "stages": {
+        "1": {
+          "label": "短语密钥存款已收到",
+          "description": "短语密钥存款已成功确认在账本上"
+        },
+        "2": {
+          "label": "生成安全短语密钥",
+          "description": "短语密钥创建进行中"
+        },
+        "3": {
+          "label": "短语密钥已批准并可用",
+          "description": "短语密钥已批准并送达安全消息中心"
+        },
+        "4": {
+          "label": "提款流程已启动",
+          "description": "提款流程已激活"
+        },
+        "5": {
+          "label": "初始存款验证",
+          "description": "存款验证进行中"
+        },
+        "6": {
+          "label": "短语密钥验证",
+          "description": "短语密钥验证进行中"
+        },
+        "7": {
+          "label": "需要短语密钥合并存款",
+          "descriptionWithAmount": "需要：{{amount}}（30% 合并存款）",
+          "descriptionAwaiting": "等待合并存款计算"
+        },
+        "8": {
+          "label": "财务部门验证",
+          "description": "合规和财务审核"
+        },
+        "9": {
+          "label": "最终清算的挖矿提款",
+          "description": "区块链确认和内部清算"
+        },
+        "10": {
+          "label": "区块链活动验证",
+          "descriptionWithAmount": "需要：{{amount}} 在接收钱包中的余额",
+          "descriptionAwaiting": "钱包活动验证进行中"
+        },
+        "11": {
+          "label": "IRS / 国际反洗钱验证",
+          "description": "监管合规检查进行中"
+        },
+        "12": {
+          "label": "最终提款处理",
+          "description": "准备释放资金"
+        },
+        "13": {
+          "label": "提款成功释放",
+          "description": "资金已释放到指定钱包"
+        },
+        "14": {
+          "label": "最终交付的时间戳存款",
+          "description": "最终交付确认"
+        }
+      },
+      "stage7Notice": {
+        "title": "需要短语密钥合并存款",
+        "body": "需要 30% 的合并存款以完成短语密钥验证。"
+      },
+      "stage10Notice": {
+        "title": "区块链活动验证",
+        "body": "请在您的接收钱包中保持所需的 {{asset}} 余额。"
+      },
+      "stage12Notice": {
+        "title": "最终确认：支付钱包",
+        "body": "在合规释放支付之前，请确认下面验证的目的地地址与您的记录匹配。门户仅供显示 — IBCCF 不持有、路由或转发资金。",
+        "awaiting": "等待您的案件官员指定验证的支付钱包。"
+      },
+      "withdrawalMode": {
+        "kicker": "所有阶段已完成",
+        "title": "提款阶段已激活",
+        "body": "所有合规阶段已完成。您的提款现在正在处理中。"
+      }
+    },
+    "payoutWallet": {
+      "awaitingPill": "等待验证",
+      "label": "已验证的支付钱包",
+      "awaitingTitle": "您的案件官员将指定支付地址",
+      "awaitingBody": "一旦合规验证了将接收您支付的的钱包，完整地址、资产和网络将在此处显示。门户仅供显示 — IBCCF 从不持有、路由或转发您的资金。",
+      "updatedLabel": "支付钱包已更新",
+      "updatedTitle": "您的案件官员已验证新的支付地址。",
+      "updatedBody": "请查看以下详细信息，如果有任何不熟悉的地方，请立即联系您的官员。",
+      "dismissAria": "关闭支付钱包更新",
+      "verifiedPill": "已验证",
+      "label2": "支付钱包",
+      "verifiedTitle": "指定的支付地址",
+      "verifiedBody": "您的案件官员已将其验证为您案件的目的地。门户是 <0>仅供显示</0> — IBCCF 不持有或转发资金。",
+      "asset": "资产",
+      "network": "网络",
+      "walletAddress": "钱包地址",
+      "copy": "复制",
+      "verified": "已验证",
+      "verifiedBy": "由",
+      "verifiedOn": "于",
+      "toastCopiedTitle": "钱包地址已复制",
+      "toastCopiedDesc": "已验证的支付地址已复制到剪贴板。",
+      "toastFailTitle": "复制失败",
+      "toastFailDesc": "请手动复制地址。",
+      "toastUpdatedTitle": "支付钱包已更新",
+      "toastUpdatedDesc": "您的案件官员已验证新的支付地址。请在继续提款之前查看。"
+    },
+    "stageCta": {
+      "stage7AmountLabel": "短语密钥合并存款",
+      "stage10AmountLabel": "所需钱包余额",
+      "stage7Headline": "支付 {{amount}} {{asset}} 合并存款以解锁短语密钥验证",
+      "stage10Headline": "在您的接收钱包中保持 {{amount}} {{asset}} 以进行活动验证",
+      "stageOf": "第 {{stage}} 阶段，共 14 阶段",
+      "advanced": "阶段已推进 · {{from}} → {{to}}",
+      "dismissAria": "关闭阶段更新",
+      "whatYouCanDo": "您现在可以做什么",
+      "withdrawalMode": {
+        "kicker": "提款阶段",
+        "title": "提款处理中",
+        "body": "所有合规阶段已通过。您的案件官员正在处理您的拨款。此时您无需采取任何进一步行动。"
+      }
+    },
+    "finalized": {
+      "label": "案件已完成",
+      "title": "您的案件已完成",
+      "body": "您的 IBCCF 提款案件已到达最终阶段，并已于 {{date}} 完全完成。{{tail}}",
+      "tailCertificate": "请访问\"证书\"部分下载您的合并短语证书。",
+      "tailEmail": "确认副本已通过电子邮件发送以供您存档。"
+    },
+    "activationBanner": {
+      "kicker": "提款激活",
+      "transition": "{{from}} → {{to}}",
+      "body": "请打开\"提款激活\"视图以继续。",
+      "dismiss": "关闭",
+      "status": {
+        "pending_address": "等待地址",
+        "awaiting_token": "等待令牌",
+        "awaiting_deposit": "等待存款",
+        "awaiting_admin_approval": "等待管理员批准",
+        "approved": "已批准",
+        "rejected": "已拒绝",
+        "unknown": "处理中"
+      }
+    },
+    "stampDuty": {
+      "title": "印花税押金待处理",
+      "statusAwaitingUpload": "等待上传",
+      "statusAwaitingApproval": "等待合规审核",
+      "statusRejected": "收据已拒绝",
+      "bodyAwaitingUpload": "请上传印花税押金的收据,以确保您的封存结算按计划进行。",
+      "bodyAwaitingApproval": "您的收据已提交。合规团队将很快确认押金。",
+      "bodyRejected": "您上次的收据被拒绝。请查看备注并提交新的收据。",
+      "amountLabel": "应付金额",
+      "ctaUpload": "上传收据",
+      "ctaView": "查看印花税",
+      "ctaResubmit": "重新提交收据",
+      "updated": "已更新",
+      "doneKicker": "步骤已完成",
+      "doneTitle": "印花税 — 已清缴"
+    },
+    "withdrawalGuide": {
+      "title": "您的提款指南",
+      "label": "提款指南",
+      "body": "请按照以下步骤顺利完成您的提款流程。",
+      "step1Title": "完成身份核实",
+      "step1Body": "提交您的KYC文件，并向我们的合规团队确认您的个人信息。",
+      "step2Title": "签署监管披露文件",
+      "step2Body": "审阅并签署所有必要的合规表格和声明，以满足监管要求。",
+      "step3Title": "激活您的提款账户",
+      "step3Body": "完成激活存款：1,000 USDT可退还激活余额 + 500 USDT不可退还手续费。",
+      "step4Title": "上传支持文件",
+      "step4Body": "提供资金证明、收入来源文件以及合规官员要求的任何其他文件。",
+      "step5Title": "等待合规审批",
+      "step5Body": "我们的团队在授权释放您的资金之前，将进行最终尽职调查。",
+      "step6Title": "确认您的付款钱包",
+      "step6Body": "核实由您的案件专员指定的钱包地址——IBCCF从不持有或转移您的资金。",
+      "step7Title": "接收您的资金",
+      "step7Body": "获得所有审批后，您经过验证的付款钱包将收到全额结算款项。"
+    },
+    "tutorialVideo": {
+      "title": "提款流程如何运作",
+      "watch": "观看教程",
+      "download": "下载此视频",
+      "subtitle": "一段一分钟的动画演示，介绍全部 14 个提款阶段。",
+      "muteNarration": "静音旁白",
+      "unmuteNarration": "开启旁白"
+    }
+  },
+  "context": {
+    "toast": {
+      "messagesUpToDateTitle": "所有消息已更新",
+      "messagesUpToDateDesc": "您的团队消息已标记为已读。",
+      "sessionExpiredTitle": "会话已过期",
+      "sessionExpiredDesc": "由于不活动，您已被注销。",
+      "newMessageTitle": "新消息",
+      "newMessageDesc": "您收到了一条来自支持的消息。",
+      "sendFailedTitle": "错误",
+      "sendFailedDesc": "发送消息失败。",
+      "emptyFileTitle": "空文件",
+      "emptyFileReceiptDesc": "该文件为空。请选择其他照片或 PDF。",
+      "fileTooLargeTitle": "文件过大",
+      "fileTooLargeReceiptDesc": "您的文件是 {{mb}} MB。最大为 8 MB。请尝试拍摄新照片或压缩图像。",
+      "unsupportedTypeTitle": "不支持的文件类型",
+      "unsupportedTypeReceiptDesc": "请上传照片（JPG、PNG、HEIC、WebP）或 PDF 收据。",
+      "readFailedTitle": "无法读取文件",
+      "readFailedDesc": "您的浏览器无法读取此文件。请重试或使用其他文件。",
+      "receiptUploadedTitle": "收据已上传",
+      "receiptUploadedDesc": "您的存款收据已提交审核。",
+      "uploadFailedTitle": "上传失败 ({{status}})",
+      "uploadFailedDefault": "无法上传收据。",
+      "uploadFailed413": "该文件对服务器来说太大。请使用小于 8 MB 的照片。",
+      "networkErrorTitle": "网络错误",
+      "networkErrorDesc": "无法连接到服务器。检查您的连接并重试。",
+      "emptyFileDocDesc": "该文件为空。选择其他文档。",
+      "fileTooLargeDocDesc": "您的文件是 {{mb}} MB。最大为 10 MB。",
+      "unsupportedTypeDocDesc": "请上传 PDF、PNG、JPEG 或 WebP 文件。",
+      "readFailedDocDesc": "您的浏览器无法读取此文件。",
+      "documentSubmittedTitle": "文档已提交",
+      "documentSubmittedDesc": "合规性已被通知，将尽快审核。",
+      "submitFailedTitle": "提交失败 ({{status}})",
+      "submitFailedDefault": "无法提交文档。",
+      "submitFailed413": "该文件对服务器来说太大。请使用小于 10 MB 的文件。",
+      "forceLogoutTitle": "管理员已注销",
+      "forceLogoutDesc": "您的会话已被 IBCCF 合规性结束。请重新登录。",
+      "accountLockedTitle": "账户已锁定",
+      "accountLockedDescAdminDisabled": "您的账户已被合规专员锁定。请完成重新激活存款以恢复访问权限。",
+      "accountLockedDescWarningExpired": "您的账户因警告期已到期而被锁定。请完成重新激活存款以恢复访问权限。"
+    }
+  },
+  "notificationBell": {
+    "title": "通知",
+    "newCount": "{{count}} 条新通知",
+    "markAllRead": "标记全部为已读",
+    "close": "关闭",
+    "empty": "尚无通知",
+    "emptyHint": "当发生重要事件时，我们会通知您",
+    "showingLatest": "显示最新 {{count}} 条通知"
+  },
+  "installApp": {
+    "ariaLabel": "安装 IBCCF 应用",
+    "title": "在您的手机上安装 IBCCF",
+    "body": "快速、全屏访问您的安全门户——基本功能离线可用。",
+    "install": "安装",
+    "notNow": "稍后再说",
+    "dismiss": "关闭",
+    "iosTitle": "在您的 iPhone 上安装 IBCCF",
+    "iosDescription": "iPhone 直接从 Safari 安装网络应用。只需两次快速点击。",
+    "iosStep1Prefix": "点击",
+    "iosStep1Share": "分享",
+    "iosStep1Suffix": "按钮在 Safari 底部。",
+    "iosStep2Prefix": "滚动并选择",
+    "iosStep2Add": "添加到主屏幕",
+    "iosStep2Suffix": "，然后点击",
+    "iosStep2Confirm": "添加",
+    "iosFootnote": "IBCCF 图标将出现在您的主屏幕上，并全屏打开，就像本地应用一样。"
+  },
+  "auth": {
+    "login": {
+      "title": "安全网关访问",
+      "subtitle": "账户完整性部门",
+      "connectionActive": "安全连接已激活",
+      "cardTitle": "需要验证",
+      "cardSubtitle": "输入您的合规清除凭证",
+      "codeLabel": "合规清除参考",
+      "accessCodeLabel": "访问代码",
+      "pinLabel": "安全 PIN",
+      "codePlaceholder": "输入访问代码",
+      "pinPlaceholder": "输入 6 位数字 PIN",
+      "continue": "继续",
+      "verify": "验证身份",
+      "verifying": "正在验证…",
+      "useDifferentCode": "使用不同的访问代码",
+      "sslBadge": "256 位 SSL 加密",
+      "toast": {
+        "pinRequiredTitle": "需要 PIN",
+        "pinRequiredDesc": "请输入您的 6 位数字 PIN 以继续。",
+        "accessDeniedTitle": "访问被拒绝",
+        "accessDeniedDesc": "提供的清除代码无效。",
+        "invalidPinTitle": "无效的 PIN",
+        "invalidPinDesc": "输入的 PIN 不正确。请再试一次。",
+        "connectionTitle": "连接错误",
+        "connectionDesc": "无法验证凭证。",
+        "verifiedTitle": "身份已验证",
+        "verifiedDesc": "已建立安全会话。"
+      }
+    },
+    "register": {
+      "loadingProfile": "正在加载您的个人资料…",
+      "title": "身份验证",
+      "subtitle": "确认您的详细信息以进行安全账本",
+      "fullName": "法定全名",
+      "fullNamePlaceholder": "您的法定全名",
+      "email": "电子邮件地址",
+      "emailPlaceholder": "name@example.com",
+      "mobile": "手机号码",
+      "mobilePlaceholder": "您的联系电话",
+      "pinIntro": "为将来的登录创建一个安全的 6 位 PIN",
+      "createPin": "创建 6 位 PIN",
+      "confirmPin": "确认 PIN",
+      "pinPlaceholder": "••••••",
+      "processing": "处理中…",
+      "proceed": "继续进行安全同步",
+      "toast": {
+        "sessionErrorTitle": "会话错误",
+        "sessionErrorDesc": "请从验证页面重新开始。",
+        "invalidPinTitle": "无效的 PIN",
+        "invalidPinDesc": "请输入 6 位数字 PIN。",
+        "pinMismatchTitle": "PIN 不匹配",
+        "pinMismatchDesc": "您输入的 PIN 不匹配。",
+        "pinSetupFailedTitle": "PIN 设置失败",
+        "pinSetupFailedDesc": "无法设置您的 PIN。",
+        "failedTitle": "注册失败",
+        "failedDesc": "无法完成注册。",
+        "connectionTitle": "连接错误",
+        "connectionDesc": "无法保存注册。"
+      }
+    },
+    "sync": {
+      "title": "同步账户",
+      "defaultStatus": "正在建立安全连接…",
+      "protocolLabel": "ISO-D 协议",
+      "waitClearance": "等待行政清除…"
+    }
+  },
+  "deposit": {
+    "title": "存款与收据",
+    "subtitle": "发送所需的存款并上传您的交易收据以进行验证。",
+    "reissue": {
+      "title": "重新发行轮次 v{{version}} — 需要付款",
+      "statusAwaitingDeposit": "在合规重新开放提交之前，等待您的重新发行存款。",
+      "statusAwaitingReview": "已收到收据 — 合规正在审核您的重新发行付款。",
+      "statusPaid": "重新发行付款已确认。您可以重新提交您的提款请求。",
+      "amountDue": "到期金额",
+      "reasonLabel": "合规原因："
+    },
+    "address": {
+      "title": "{{asset}} 存款地址 ({{network}})",
+      "subtitle": "仅在 {{network}} 上发送 {{asset}} — 其他网络将丢失。",
+      "requiredAmount": "所需金额",
+      "qrUnavailable": "此设备上无法使用 QR 代码 — 请手动复制地址。",
+      "qrAmountPrefill": "扫描以预填",
+      "qrAmountSuffix": "在您的钱包中。",
+      "qrScanHint": "使用您的钱包应用扫描以加载存款地址。",
+      "qrDownload": "下载",
+      "qrCopied": "已复制",
+      "qrCopyImage": "复制图像",
+      "qrShare": "分享",
+      "importantInstructions": "重要说明",
+      "instructionNetwork": "仅在 {{network}} 网络上发送 {{asset}}。在不同网络上发送的资金无法恢复。",
+      "instructionUploadReceipt": "发送后，请在下面上传您的交易收据，以便合规验证付款。",
+      "instructionTxHash": "在备注中包含交易哈希 (TXID)，以便我们可以匹配链上记录。"
+    },
+    "upload": {
+      "title": "上传交易收据",
+      "subtitle": "提交您完成交易的截图或照片。",
+      "requiredReminder": "发送确切显示的金额 — 1,000 USDT 可退还的激活余额 + 500 USDT 不可退还的处理费。所需总额：",
+      "notesPlaceholder": "可选备注 — 粘贴交易哈希 (TXID)、使用的钱包或任何合规上下文…",
+      "uploading": "上传中…",
+      "selectImage": "选择收据图像",
+      "categoryLabel": "此收据用于什么用途？",
+      "multiHint": "（可选择一项或多项）",
+      "category": {
+        "withdrawal": "提款压金",
+        "token_deposit": "代币存款",
+        "merge_fee": "批量合并费",
+        "activation": "激活压金",
+        "reissue": "信函补发费",
+        "certificate": "证书费",
+        "stamp_duty": "印花税",
+        "other": "其他 / 支持文件"
+      }
+    },
+    "receipts": {
+      "title": "已上传的收据",
+      "empty": "尚未上传收据。",
+      "imageAlt": "存款收据",
+      "defaultFileName": "存款收据",
+      "status": {
+        "approved": "已批准",
+        "rejected": "已拒绝",
+        "pending": "待审核",
+        "unknown": "处理中"
+      }
+    },
+    "support": {
+      "message": "需要帮助处理您的存款吗？我们的合规团队可以提供帮助。",
+      "cta": "联系支持"
+    },
+    "toast": {
+      "downloadFailedTitle": "下载失败",
+      "downloadFailedDesc": "无法生成 QR 代码图像。请手动复制地址。",
+      "shareFailedTitle": "分享失败",
+      "shareFailedNoImage": "无法生成要分享的 QR 图像。",
+      "shareFailedSheet": "系统分享表无法打开。",
+      "shareTitle": "存款地址 QR",
+      "copyNotSupportedTitle": "不支持复制",
+      "copyNotSupportedDesc": "您的浏览器不支持复制图像。请尝试下载 QR。",
+      "copyFailedTitle": "复制失败",
+      "copyFailedNoImage": "无法生成要复制的 QR 图像。",
+      "copyFailedNotSupported": "您的浏览器阻止了图像复制。请尝试下载 QR。",
+      "qrCopiedTitle": "QR 代码已复制",
+      "qrCopiedDesc": "将图像粘贴到您的钱包或消息应用中。",
+      "addressCopiedTitle": "地址已复制",
+      "addressCopiedDesc": "将其粘贴到您的钱包中以发送存款。",
+      "amountCopiedTitle": "金额已复制",
+      "amountCopiedDesc": "将确切金额粘贴到您的钱包中以避免不匹配。",
+      "sessionExpiredTitle": "会话已过期",
+      "sessionExpiredDesc": "您的会话已过期，请重新登录。",
+      "reissueMissing": "没有等待付款的补发轮次。",
+      "uploadSuccessTitle": "收据已上传",
+      "certUploaded": "证书费用收据已提交审核。",
+      "stampUploaded": "印花税收据已提交审核。",
+      "singleUploaded": "收据已提交审核。",
+      "multiUploaded": "{{count}} 张收据已提交审核。",
+      "partialUploadTitle": "已上传 {{succeeded}} / {{total}}",
+      "uploadFailedTitle": "上传失败",
+      "uploadFailedDesc": "请重试。"
+    },
+    "mergeFee": {
+      "bannerText": "请在下方上传您的 500 USDT 批量合并费支付凭证。使用上传按鈕选择文件，然后提交审核。",
+      "bannerDismiss": "关闭通知",
+      "uploadingReminder": "500 USDT 不可退款批量合并费",
+      "inlineReminder": "这是 500 USDT 不可退款的批量合并费。请上传您的付款凭证并提交审核。"
+    }
+  },
+  "letter": {
+    "pending": {
+      "title": "提款信尚未发出",
+      "description": "您的合规官正在最终确定您的正式提款信。它将在发布后立即出现在这里。",
+      "notification": "当您的信件准备好时，您将收到门户内通知和电子邮件。",
+      "returnButton": "返回仪表板"
+    },
+    "header": {
+      "title": "正式提款信",
+      "subtitle": "合规发出的提款指示",
+      "history": "历史 ({{count}})",
+      "downloadPdf": "下载 PDF"
+    },
+    "organization": {
+      "name": "国际区块链社区合规论坛",
+      "division": "账户完整性部门",
+      "secretariat": "合规秘书处办公室"
+    },
+    "session": {
+      "verified": "会话已验证",
+      "verifiedSubtitle": "身份已确认以进行此安全查看",
+      "accountStatus": "账户状态",
+      "standardMember": "标准会员"
+    },
+    "compliance": {
+      "referenceLabel": "合规参考",
+      "sessionVerifiedLabel": "会话已验证",
+      "authenticated": "已认证"
+    },
+    "body": {
+      "dateLabel": "日期：",
+      "defaultClient": "尊敬的客户",
+      "greeting": "亲爱的 {{name}}，"
+    },
+    "payoutWallet": {
+      "title": "已验证的支付钱包"
+    },
+    "reissue": {
+      "versionTitle": "信件重新发行 · 版本 {{version}}",
+      "statusPaid": "已支付",
+      "statusUnderReview": "待审核",
+      "statusPaymentRequired": "需要付款",
+      "descriptionPaid": "您的重新发行费用已收到。更新的信件现已生效。",
+      "descriptionUnderReview": "您的重新发行付款正在由合规审核。审核通过后您将收到通知。",
+      "descriptionAwaitingDeposit": "在您可以针对此更新的信件提交之前，需要支付重新发行费用。",
+      "feeLabel": "重新发行费用",
+      "reasonLabel": "重新发行原因：",
+      "goToDeposit": "前往存款"
+    },
+    "options": {
+      "title": "选择您的提款选项",
+      "optionLabel": "选项 {{letter}}",
+      "amount": "金额",
+      "frequency": "频率",
+      "batches": "批次",
+      "phraseKeyCost": "短语密钥费用",
+      "totalRequirement": "总要求"
+    },
+    "amount": {
+      "label": "提款金额",
+      "help": "确认或编辑您希望在选项 {{option}} 下提款的金额。",
+      "placeholder": "例如 25,000 USDT",
+      "hintValid": "留空以使用案件默认金额。",
+      "hintInvalid": "输入有效的正金额（仅限数字和逗号）。"
+    },
+    "continue": {
+      "withOption": "继续选项 {{option}}",
+      "withOptionPlaceholder": "—",
+      "awaitingApproval": "等待重新发行批准",
+      "payReissueFirst": "先支付重新发行费用"
+    },
+    "success": {
+      "title": "提款请求已提交",
+      "description": "您的选择已记录并转发给合规处理。",
+      "referenceNumber": "参考编号",
+      "statusLabel": "状态",
+      "statusBadge": "已提交",
+      "submittedOn": "提交于",
+      "returnDashboard": "返回仪表板",
+      "viewHistory": "查看提交历史"
+    },
+    "url": {
+      "sectionTitle": "提交您的提款请求",
+      "title": "通过安全表单完成提款",
+      "description": "点击下面以在新标签页中打开安全提款表单。您的提交将自动记录在您的门户历史中。",
+      "account": "账户",
+      "withdrawalAmount": "提款金额",
+      "reference": "参考",
+      "notAvailable": "不适用",
+      "submit": "打开安全提款表单",
+      "opensInNewTab": "在新标签页中打开。请保持此门户打开以跟踪确认。"
+    },
+    "awaitingConfig": {
+      "title": "等待最终配置",
+      "description": "您的信件已发出，但合规仍在最终确定您的提款选项。配置完成后，您将能够在此处采取行动。",
+      "returnDashboard": "返回仪表板"
+    },
+    "footer": {
+      "encryptionInfo": "端到端加密 · 参考 {{ref}}",
+      "generated": "生成于 {{timestamp}}"
+    },
+    "confirm": {
+      "title": "确认您的提交",
+      "description": "在提交之前，请确认以下详细信息，{{name}}。",
+      "selectedOption": "选择的选项",
+      "amountLabel": "金额",
+      "amountPlaceholder": "例如 25,000 USDT",
+      "hintValid": "留空以使用案件默认金额。",
+      "hintInvalid": "输入有效的正金额（仅限数字和逗号）。",
+      "cancel": "取消",
+      "submitting": "提交中…",
+      "submitSelection": "确认并提交",
+      "submitOpenForm": "确认并打开表单"
+    },
+    "fallback": {
+      "headline": "正式提款授权",
+      "introduction": "尊敬的客户，您的提款请求已由我们的合规团队审核，现在准备好进行您的最终操作。",
+      "bodyContent": "请查看以下可用的提款选项，并选择最适合您需求的计划。每个选项概述了时间表、短语密钥费用和总合规要求。",
+      "footerNote": "重要提示：提交一旦记录即为最终。请确保在确认之前所有详细信息均正确。",
+      "optionATitle": "标准提款计划",
+      "optionADescription": "每批成本较低，释放时间表较长。",
+      "optionAFrequency": "每周批次",
+      "optionBTitle": "加速提款计划",
+      "optionBDescription": "释放时间表较快，短语密钥费用较高。",
+      "optionBFrequency": "每两周批次",
+      "phraseKey1": "档案中有效的政府签发身份证明",
+      "phraseKey2": "由您的案件官员指定的已验证支付钱包",
+      "phraseKey3": "已清除合规和反洗钱审核",
+      "phraseKey4": "账本上确认的短语密钥存款",
+      "phraseKey5": "提款条款的最终确认",
+      "complianceNotice": "此授权根据 IBCCF 合规协议发出，并受国际反洗钱和客户尽职调查法规的约束。"
+    },
+    "toast": {
+      "reissueAwaitingTitle": "重新发行待审核",
+      "reissueAwaitingDescription": "您的重新发行付款正在审核。合规审核通过后，您将能够提交。",
+      "reissueRequiredTitle": "需要重新发行费用",
+      "reissueRequiredDescription": "请在针对更新的信件提交之前支付 {{fee}} 的重新发行费用。",
+      "submissionSuccessTitle": "提交已记录",
+      "submissionSuccessWithAmount": "您的 {{amount}} 的提款请求已成功提交。",
+      "submissionSuccessNoAmount": "您的提款请求已成功提交。",
+      "submissionFailedTitle": "提交失败",
+      "submissionFailedDefault": "无法提交您的请求。请再试一次。",
+      "connectionErrorTitle": "连接错误",
+      "submissionRecordedTitle": "提交已记录",
+      "submissionRecordedWithAmount": "您的 {{amount}} 的提交已记录。正在打开安全表单…",
+      "submissionRecordedNoAmount": "您的提交已记录。正在打开安全表单…",
+      "submissionRecordFailedDefault": "无法记录您的提交。请再试一次。",
+      "errorTitle": "错误",
+      "failedRecord": "记录您的提交失败。请再试一次。"
+    }
+  },
+  "withdrawalWindow": {
+    "title": "提现窗口已开启",
+    "description": "您的案件专员已为此案件启用提现。请提交您的提现详情以供合规审核。本平台仅为展示用途——提交表单本身不会划转资金。",
+    "cta": "申请提现",
+    "pendingChip": "等待审核",
+    "requiredDeposit": "所需代币存款：{{amount}}",
+    "toastDepositTitle": "需要代币存款",
+    "toastDepositDescription": "需要存入 {{amount}} 才能处理您的提现。请在申请之前先将资金存入您的代币钱包。",
+    "transition": {
+      "label": "提现申请更新",
+      "approved": "提现申请已批准",
+      "rejected": "提现申请已被拒绝",
+      "cancelled": "提现申请已取消",
+      "dismiss": "关闭"
+    }
+  },
+  "withdrawalView": {
+    "title": "申请提现",
+    "subtitle": "请提交您的提现详情以供合规审核。本平台仅为展示用途——提交本表单不会自行划转资金。",
+    "disabledTitle": "提现窗口尚未开放",
+    "disabledBody": "您的案件专员尚未为此案件开放提现窗口。当您可以申请时会通知您。",
+    "pendingTitle": "提现申请正在审核中",
+    "pendingBody": "您已有一项正在等待审核的提现申请。在您可以提交另一项之前，您的案件专员将会回复。",
+    "formTitle": "提现申请",
+    "formDescription": "您的案件专员将审核您提交的目标钱包并将结果通知您。",
+    "finalStageBadge": "最后阶段",
+    "landingTitle": "提现",
+    "landingSubtitle": "您案件的最后阶段——连接钱包，导入您的助记词，然后提交您的提现请求以供审核。",
+    "stepLabel": "第 {{n}} 步",
+    "applicationHeading": "提现申请",
+    "displayOnlyNote": "为了您的安全，IBCCF 绝不持有、转移或中转资金。结算由受监管的结算银行执行，款项将转入您案件档案中已验证的钱包。",
+    "status": {
+      "done": "已完成",
+      "active": "轮到您了",
+      "pending": "审核中",
+      "locked": "已锁定"
+    },
+    "steps": {
+      "connect": {
+        "title": "连接您的收款钱包",
+        "body": "选择您想用来接收资金的自托管钱包。",
+        "cta": "打开钱包连接",
+        "ctaDone": "查看钱包"
+      },
+      "phrase": {
+        "title": "显示并导入您的助记词",
+        "body": "显示为您的案件生成的连接助记词，并在分步引导下将其导入您的钱包应用。",
+        "cta": "打开助记词指南"
+      },
+      "apply": {
+        "title": "提交您的提现请求",
+        "body": "确认目标钱包和金额。您的案件专员将审核请求并通知您结果。",
+        "cta": "前往申请"
+      }
+    },
+    "batchHistory": {
+      "proofSubmitted": "已提交证明"
+    }
+  },
+  "withdrawalRequest": {
+    "dialog": {
+      "title": "申请提现",
+      "description": "请提交您的提现详情以供合规审核。本平台仅为展示用途——本表单不会划转资金。您的案件专员将审核所申请的目标钱包并将结果通知您。"
+    },
+    "sections": {
+      "details": "1. 提现详情",
+      "wallet": "2. 申请的目标钱包",
+      "preferences": "3. 偏好设置",
+      "security": "4. 安全与条款"
+    },
+    "walletHint": "这是您希望资金释放至的钱包。它与案件专员可能已存档的任何已验证支付钱包相互独立——合规将核验您在此处提交的地址。",
+    "termsCheckbox": "我确认上述目标钱包地址为本人所有，并理解本平台仅为展示用途——提交本申请仅为请求合规审核我的提现，并不会自行划转资金。",
+    "buttons": {
+      "cancel": "取消",
+      "submit": "提交提现申请",
+      "submitting": "提交中…"
+    },
+    "fields": {
+      "amount": "金额",
+      "amountPlaceholder": "例如 1000",
+      "type": "类型",
+      "typeFull": "全部余额",
+      "typePartial": "部分",
+      "asset": "资产",
+      "network": "网络",
+      "walletAddress": "钱包地址",
+      "walletAddressPlaceholder": "粘贴目标地址",
+      "walletAssetOptional": "资产（可选）",
+      "walletNetworkOptional": "网络（可选）",
+      "walletMatchAbove": "留空以与上方一致",
+      "channel": "确认渠道",
+      "channelEmail": "电子邮件",
+      "channelSms": "短信",
+      "channelBoth": "两者",
+      "note": "给合规的备注（可选）",
+      "notePlaceholder": "任何您的案件专员需要了解的信息",
+      "payoutDate": "首选支付日期（可选，最早为明天）",
+      "pin": "请重新输入您的 6 位案件 PIN 码",
+      "twoFa": "双因素 / 验证码（可选，6 位）",
+      "twoFaPlaceholder": "如您的专员已签发"
+    },
+    "errors": {
+      "missingTitle": "信息不完整",
+      "missingDescription": "请填写金额、资产、网络以及目标钱包地址。",
+      "pinTitle": "需要 PIN 码",
+      "pinDescription": "请输入您的 6 位案件 PIN 码以确认此申请。",
+      "twoFaTitle": "双因素验证码无效",
+      "twoFaDescription": "验证码必须为 6 位数字。",
+      "dateTitle": "日期过早",
+      "dateDescription": "首选支付日期必须为明天或之后。",
+      "termsTitle": "需接受条款",
+      "termsDescription": "请在提交前接受提现条款。",
+      "networkTitle": "网络错误",
+      "networkDescription": "无法提交提现申请。请重试。",
+      "submitFailedTitle": "无法提交提现申请",
+      "submitFailedDefault": "请重试或联系您的案件专员。"
+    },
+    "success": {
+      "title": "提现申请已提交",
+      "description": "您的案件专员将审核目标钱包并将结果与您联系。"
+    },
+    "timeline": {
+      "submitted": "提现申请已提交",
+      "approved": "提现申请已批准",
+      "rejected": "提现申请已被拒绝",
+      "cancelled": "提现申请已取消",
+      "submittedDesc": "等待合规审核。",
+      "approvedDesc": "合规已批准您的申请。",
+      "rejectedDesc": "合规已拒绝您的申请。",
+      "cancelledDesc": "此申请已被取消。"
+    },
+    "history": {
+      "title": "提款请求",
+      "subtitle": "仅供显示 — 本平台不转移资金。您的案件官员将审核每个请求。",
+      "destinationWallet": "目标钱包",
+      "officerNote": "案件官员备注",
+      "yourNote": "您的备注",
+      "submittedOn": "已提交",
+      "reviewedOn": "已审核",
+      "status": {
+        "pending": "等待审核",
+        "approved": "已批准",
+        "rejected": "已拒绝",
+        "cancelled": "已取消"
+      }
+    }
+  },
+  "nda": {
+    "translationDisclaimer": {
+      "title": "翻译说明",
+      "body": "本翻译仅供参考。本文件的英文版本为具有法律效力的正式文本。"
+    }
+  },
+  "stageBlocker": {
+    "userAction": "需要您采取行动",
+    "adminAction": "等待合规团队",
+    "systemProcessing": "系统处理中"
+  },
+  "stageCta": {
+    "1": {
+      "label": "查看合规更新",
+      "headline": "存款已确认 — 案件现已激活"
+    },
+    "2": {
+      "label": "打开安全消息",
+      "headline": "合规部正在生成您的短语密钥"
+    },
+    "3": {
+      "label": "查看短语密钥",
+      "headline": "您的短语密钥已在安全消息中准备就绪"
+    },
+    "4": {
+      "label": "选择提款方案",
+      "headline": "在提款信中选择方案 A 或 B"
+    },
+    "5": {
+      "label": "查看提交",
+      "headline": "合规部正在核实您的初始存款"
+    },
+    "6": {
+      "label": "打开安全消息",
+      "headline": "短语密钥交叉验证进行中"
+    },
+    "7": {
+      "label": "支付合并存款",
+      "headline": "继续操作需支付短语密钥合并存款"
+    },
+    "8": {
+      "label": "查看收据",
+      "headline": "财务部门正在审核您的文件"
+    },
+    "9": {
+      "label": "查看进度",
+      "headline": "挖矿清算部门正在准备您的结算"
+    },
+    "10": {
+      "label": "验证钱包余额",
+      "headline": "验证需要活动钱包余额"
+    },
+    "11": {
+      "label": "签署声明",
+      "headline": "签署合规声明以继续"
+    },
+    "12": {
+      "label": "打开安全消息",
+      "headline": "最终处理窗口 — 结算已排队"
+    },
+    "13": {
+      "label": "确认收款",
+      "headline": "资金已释放 — 确认收款以结案"
+    },
+    "14": {
+      "label": "打开提款激活",
+      "headline": "完成提款激活以释放资金"
+    }
+  },
+  "withdrawalActivation": {
+    "notYetTitle": "尚未开放",
+    "notYetDesc": "当您的案件到达最终阶段时，提款激活将开放。",
+    "backToDashboard": "返回仪表板",
+    "hero": {
+      "title": "恭喜 — 您的案件已到达最终阶段",
+      "body": "所有合规检查点均已通过。完成下面的激活步骤以绑定您的提款钱包并解锁处理。激活存款获批后，您的案件专员将确认放款。"
+    },
+    "approved": {
+      "title": "激活已批准",
+      "body": "您的激活存款已获批准。提款处理正在进行中 — 您的案件专员将就最终向绑定钱包的拨款与您联系。"
+    },
+    "actionRequired": "需要采取行动",
+    "rejected": {
+      "title": "您的激活存款需要处理",
+      "noteLabel": "审核员备注"
+    },
+    "step1": {
+      "title": "步骤 1 — 绑定您的提款钱包",
+      "description": "输入将接收您最终拨款的钱包地址。确保网络匹配 — 发送到错误网络的资金无法找回。",
+      "walletAddress": "钱包地址",
+      "walletAddressPlaceholder": "例如 TXyz...地址",
+      "asset": "资产",
+      "network": "网络",
+      "amount": "金额",
+      "amountPlaceholder": "例如 25000",
+      "memo": "备注 / 标签（可选）",
+      "memoPlaceholder": "仅适用于使用备注的网络",
+      "saving": "保存中…",
+      "submit": "提交地址",
+      "otherOption": "其他…",
+      "assetCustomPlaceholder": "输入资产代号",
+      "networkCustomPlaceholder": "输入网络名称",
+      "sameWalletNoticeTitle": "重要提示：",
+      "sameWalletNoticeBody": "在提交之前，请确认您已在您的工作平台上绑定了完全相同的钱包地址。两个地址必须一致，款项才能成功到账。"
+    },
+    "step2": {
+      "title": "步骤 2 — 确认您的邮件安全代码",
+      "description": "我们将向已登记的邮箱发送一个 6 位安全代码。在下方输入以确认钱包绑定。代码 10 分钟后过期，可每 60 秒重发一次。",
+      "sending": "发送中…",
+      "resendIn": "{{seconds}} 秒后重发",
+      "resend": "重新发送代码",
+      "send": "发送安全代码",
+      "attempts": "已使用次数：{{used}}/{{max}}",
+      "codePlaceholder": "6 位代码",
+      "verifying": "验证中…",
+      "verify": "验证"
+    },
+    "step3": {
+      "title": "步骤 3 — 激活存款",
+      "minLabel": "最低激活金额",
+      "sendTo": "发送至",
+      "addressFallback": "— 请联系您的案件专员 —",
+      "intro": "发送激活存款后，请在下方上传您的交易凭证。合规专员将核实链上转账并批准您的提款。",
+      "notesPlaceholder": "可选备注（交易哈希、发送钱包等）",
+      "uploading": "上传中…",
+      "upload": "上传凭证"
+    },
+    "badges": {
+      "approved": "已批准",
+      "awaitingReview": "等待审核",
+      "resubmit": "重新提交",
+      "required": "必填",
+      "submitted": "已提交",
+      "verified": "已验证"
+    },
+    "toasts": {
+      "missingTitle": "信息缺失",
+      "missingDesc": "地址、资产、网络和金额均为必填项。",
+      "addressFailedTitle": "无法保存地址",
+      "addressFailedDesc": "请检查详细信息并重试。",
+      "addressSavedTitle": "地址已保存",
+      "addressSavedDesc": "请继续下方的下一步。",
+      "codeNotSentTitle": "代码未发送",
+      "codeNotSentDesc": "请稍等片刻再重试。",
+      "codeSentTitle": "安全代码已发送",
+      "codeSentDesc": "请查看案件 {{caseId}} 登记的邮箱。",
+      "invalidCodeTitle": "无效代码",
+      "invalidCodeDesc": "代码必须为 6 位数字。",
+      "verifyFailedTitle": "验证失败",
+      "verifyFailedDesc": "请重试。",
+      "verifiedTitle": "代码已验证",
+      "verifiedDesc": "请继续完成下方的激活存款。",
+      "fileRejectedTitle": "文件被拒绝",
+      "fileEmpty": "文件为空。",
+      "fileTooLarge": "文件最大为 10MB。",
+      "unsupportedTitle": "不支持的文件类型",
+      "unsupportedDesc": "请上传 PDF、PNG、JPEG 或 WEBP 文件。",
+      "receiptAttachedTitle": "凭证已附加但未关联",
+      "receiptAttachedDesc": "请联系您的案件专员确认。",
+      "receiptSubmittedTitle": "凭证已提交",
+      "receiptSubmittedDesc": "合规专员将进行审核和批准。",
+      "uploadFailedTitle": "上传失败",
+      "uploadFailedDesc": "请重试。"
+    }
+  },
+  "certificate": {
+    "notEnabled": "该案件未启用合并短语证书。",
+    "title": "合并短语证书",
+    "subtitle": "您合并恢复短语的公证证书。一旦合规部批准认证费，将发放无水印 PDF。",
+    "badges": {
+      "unlocked": "已解锁",
+      "awaiting": "等待审核",
+      "resubmit": "需要重新提交",
+      "feeRequired": "需支付费用"
+    },
+    "pdfSection": {
+      "label": "证书 PDF",
+      "readyTitle": "无水印证书可供下载",
+      "previewTitle": "带水印的预览（需支付费用）",
+      "readyHint": "下方的无水印 PDF 即为正式副本。",
+      "previewHint": "预览显示文档正文，您可在支付认证费前核对详细信息。",
+      "downloadCertificate": "下载证书",
+      "downloadPreview": "下载预览"
+    },
+    "fee": {
+      "label": "认证费",
+      "loading": "正在加载费用…",
+      "amount": "费用金额",
+      "rate": "费率",
+      "rateOf": "提款金额 {{base}} USDT 的占比",
+      "payTo": "付款至",
+      "payToFallback": "请联系您的案件经理",
+      "reviewerNotes": "审核员备注",
+      "pending": "您的凭证正在由合规部审核。证书解锁后，我们将通过电子邮件通知您。",
+      "notesPlaceholder": "给审核员的可选备注（交易哈希、说明）…",
+      "uploadCorrected": "上传更正后的凭证",
+      "uploadReceipt": "上传付款凭证"
+    },
+    "history": {
+      "title": "付款历史",
+      "statusApproved": "已批准",
+      "statusRejected": "已拒绝",
+      "statusPending": "待处理",
+      "receiptLabel": "凭证"
+    },
+    "toasts": {
+      "tooLargeTitle": "文件过大",
+      "tooLargeDesc": "凭证必须在 1 B 至 10 MB 之间。",
+      "unsupportedTitle": "不支持的文件类型",
+      "unsupportedDesc": "仅支持 PDF 或 PNG/JPEG/WebP。",
+      "uploadedTitle": "凭证已上传",
+      "uploadedDesc": "您的认证费凭证正等待合规审核。",
+      "uploadFailedTitle": "上传失败",
+      "uploadFailedDesc": "无法上传。",
+      "downloadFailedTitle": "下载失败",
+      "downloadFailedDesc": "请重试。"
+    }
+  },
+  "sealed": {
+    "loadFailedTitle": "无法加载确认书",
+    "downloadFailedTitle": "下载失败",
+    "unknownError": "未知错误",
+    "skippedTitle": "本案件无需签字",
+    "skippedBody": "IBCCF 已表明本案件无需密封和解与保密协议。您的 IBCCF 案件经理将指导您完成剩余步骤。如您认为应当签署和解文件，请直接联系您的案件经理。",
+    "notYetTitle": "尚未开放",
+    "notYetBody": "密封和解与保密协议仅在您的案件进入最终结算阶段后开放。一旦开放我们将通知您。",
+    "sealedTitle": "您的和解已密封",
+    "signedBy": "由 <strong>{{name}}</strong> 于 {{date}} 签署。本案件已永久关闭，无法再作更改。",
+    "integrityHash": "SHA-256 完整性哈希",
+    "templateMeta": "{{subtitle}} · 模板 {{version}}",
+    "partiesHeading": "当事方与详情",
+    "signToSeal": "签字以密封您的案件",
+    "documentLanguage": "文件语言",
+    "documentLanguageNote": "仅影响该文档。您的门户语言保持不变。",
+    "typedNamePlaceholder": "法定全名",
+    "typedNameHint": "在下方键入您的姓名，其效力等同于该确认书的手写签名。",
+    "agreeBody": "我已阅读、理解并同意本密封和解与保密确认书的每一条款。我了解我的案件将被永久密封。",
+    "sealing": "密封中…",
+    "signAndSeal": "签字并密封",
+    "previewPdf": "预览 PDF",
+    "downloadSigned": "下载已签署的 PDF",
+    "toasts": {
+      "completeTitle": "请完成签名",
+      "completeDesc": "请输入您的法定全名并勾选确认框。",
+      "alreadyTitle": "确认书已存档",
+      "alreadyDesc": "已加载您现有的已签署副本。",
+      "sealedTitle": "和解已密封",
+      "sealedDesc": "已通过电子邮件向您发送签署后的 PDF。",
+      "failedTitle": "无法记录签名"
+    },
+    "stampDutyGateTitle": "需要缴纳印花税压金",
+    "stampDutyGateBody": "在签署密封协议和保密协议之前，请上传印花税压金收据并等待合规部门审批。"
+  },
+  "walletConnect": {
+    "badge": "钱包连接",
+    "title": "为您的提款连接个人钱包",
+    "subtitle": "您的提款申请已提交。请选择一个您希望用于接收资金的自托管钱包,然后导入为您的案件生成的连接短语。",
+    "yourWallet": "您的钱包",
+    "unavailable": {
+      "title": "钱包连接不可用",
+      "description": "您的案件尚未开放钱包连接步骤。请返回仪表板并继续当前步骤。",
+      "back": "返回仪表板"
+    },
+    "step1": {
+      "title": "第 1 步 — 选择您的钱包",
+      "description": "选择您希望使用的钱包,或输入您已经信任的自定义钱包名称。下一步您将导入连接短语。",
+      "customTitle": "自定义钱包",
+      "customDescription": "已经在使用 MetaMask、Ledger Live、Exodus 或其他钱包?请输入其名称。",
+      "customLabel": "钱包名称",
+      "customPlaceholder": "例如 MetaMask、Ledger Live、Exodus",
+      "saving": "保存中…",
+      "continue": "继续",
+      "pickWalletTitle": "请选择钱包",
+      "pickWalletDesc": "请选择推荐钱包中的一个,或输入自定义名称。",
+      "savedTitle": "已选择钱包",
+      "savedDesc": "继续使用 {{name}}。",
+      "saveErrorTitle": "无法保存",
+      "saveErrorDesc": "无法保存钱包选择(HTTP {{status}})。",
+      "networkErrorTitle": "网络错误",
+      "networkErrorDesc": "请重试。"
+    },
+    "step2": {
+      "title": "第 2 步 — 您的钱包连接短语",
+      "description": "我们已生成与您的案件绑定的助记短语。请仔细复制——下一步您将在 <0>{{wallet}}</0> 中导入它。",
+      "securityReminderLabel": "安全提示:",
+      "securityReminderBody": "切勿与任何人分享这些词语,切勿在您的钱包应用以外的网站上输入它们,也切勿将它们保存到云同步的笔记或截图中。",
+      "hiddenBody": "在您准备好之前,您的连接短语将保持隐藏。请确认没有他人能看到您的屏幕,然后再显示它。",
+      "reveal": "显示我的短语",
+      "generating": "正在生成您的安全助记词…",
+      "loading": "正在生成您的连接短语…",
+      "errorNotReady": "您的钱包连接短语尚未就绪。请稍后再查看,或联系您的案件专员。",
+      "errorHttp": "无法加载您的短语(HTTP {{status}})。",
+      "errorNotReadyShort": "您的钱包连接短语尚未就绪。",
+      "errorNetwork": "网络错误——请重试。",
+      "retry": "重试",
+      "hide": "隐藏",
+      "show": "显示",
+      "copy": "复制",
+      "copied": "已复制",
+      "copyFailedTitle": "复制失败",
+      "copyFailedDesc": "请长按或手动选择该短语。",
+      "next": "下一步:导入指南",
+      "changeWallet": "← 更改钱包",
+      "explainerTitle": "什么是连接助记词？",
+      "explainerBody": "这是一组单词（通常为 12 个），是自托管钱包的主密钥。在钱包应用中输入相同的单词会在您的设备上重新创建完全相同的钱包，因此只有您能控制它。请按顺序保存这些单词——顺序很重要。",
+      "saveTitle": "在继续之前——请妥善保存",
+      "saveTips": [
+        "将这些单词按顺序写在纸上，并存放在只有您能拿到的地方。",
+        "对照上方的网格逐一核对每个单词——一个单词错误就会导向不同的钱包。",
+        "请勿截图，也不要将其保存在云笔记、照片、电子邮件或聊天应用中。"
+      ]
+    },
+    "step3": {
+      "title": "第 3 步 — 将短语导入 {{wallet}}",
+      "description": "安装该应用,然后按照以下步骤操作。您在第 2 步中显示的短语,就是您将在钱包的“导入助记短语”界面中输入的内容。",
+      "download": "下载 {{wallet}}",
+      "appStore": "App Store",
+      "playStore": "Google Play",
+      "recommended": "适合您的设备",
+      "officialLink": "官方链接",
+      "customNotice": "您正在使用自定义钱包(<0>{{name}}</0>)。各应用的措辞略有不同,但总体流程相同:",
+      "completion": "钱包设置完成后,请返回您的仪表板。您的案件专员将收到钱包连接步骤已完成的通知。",
+      "back": "← 返回短语",
+      "finish": "返回仪表板",
+      "intro": "在手机上安装钱包应用，然后按照编号步骤导入您保存的助记词。请慢慢来——不必着急，您随时可以返回此页面。",
+      "timeEstimate": "大约需要 3–5 分钟",
+      "dosTitle": "应该做",
+      "dos": [
+        "仅从官方 App Store 或 Google Play 下载钱包应用。",
+        "按照显示的确切顺序，缓慢输入助记词。",
+        "将您的纸质备份离线、私密地保管。"
+      ],
+      "dontsTitle": "不要做",
+      "donts": [
+        "切勿与任何人分享助记词——即使是客服人员也不行。",
+        "切勿在网站上输入，也不要通过电子邮件或聊天发送。",
+        "切勿将其保存为截图或存储在云端。"
+      ],
+      "faqTitle": "故障排除",
+      "faq": [
+        {
+          "q": "钱包提示助记词无效。",
+          "a": "请检查每个单词的拼写，并确保单词顺序与网格一致。大多数钱包接受以单个空格分隔的 12 个单词。"
+        },
+        {
+          "q": "导入后我的余额显示为零。",
+          "a": "请确认您在钱包中选择了正确的网络/资产。余额同步也可能需要一分钟——下拉刷新。"
+        },
+        {
+          "q": "我在保存助记词之前关闭了页面。",
+          "a": "重新打开“钱包连接”，并在第 2 步中再次显示它。它会一直为您的案件保留。"
+        }
+      ]
+    },
+    "wallets": {
+      "cryptocom": {
+        "tagline": "Crypto.com 出品的自托管钱包",
+        "importSteps": [
+          "从 App Store 或 Google Play 安装 Crypto.com DeFi Wallet 应用。",
+          "打开应用,在欢迎界面点击“导入钱包”。",
+          "选择“助记短语”,按顺序输入上方显示的 12 个单词。",
+          "按提示设置高强度的钱包密码,并完成生物识别设置。",
+          "返回此页面,在钱包显示为已连接后继续您的提款流程。"
+        ]
+      },
+      "trust": {
+        "tagline": "最受信任的多链自托管钱包",
+        "importSteps": [
+          "从 App Store、Google Play 或作为浏览器扩展安装 Trust Wallet。",
+          "在欢迎界面点击“我已拥有钱包”。",
+          "选择“多币种钱包”并粘贴上方的 12 个助记词。",
+          "点击“导入”——Trust Wallet 将自动扫描所有支持的链。",
+          "Trust Wallet 显示导入的账户后,返回此处继续操作。"
+        ]
+      },
+      "safepal": {
+        "tagline": "硬件级安全的自托管钱包",
+        "importSteps": [
+          "从 App Store 或 Google Play 安装 SafePal 应用(或下载浏览器扩展)。",
+          "点击“软件钱包”→“我已拥有助记短语”。",
+          "选择 12 词格式,按顺序输入上方显示的单词。",
+          "设置钱包名称和密码;SafePal 将派生所有支持的账户。",
+          "钱包同步完成后,返回此处并继续您的提款流程。"
+        ]
+      }
+    },
+    "genericSteps": [
+      "打开您选择的钱包应用,查找“导入钱包”或“助记短语”选项。",
+      "选择 12 词短语选项,并按上方显示的确切顺序输入单词。",
+      "设置钱包密码并完成所有设备安全提示。",
+      "等待钱包完成您账户的同步。",
+      "返回此页面,在钱包设置完成后继续提款流程。"
+    ],
+    "withdrawalDone": {
+      "kicker": "步骤已完成",
+      "title": "钉包连接 — 已验证",
+      "body": "此步骤已作为您提款流程的一部分完成。此处无需进一步操作。"
+    }
+  },
+  "stampDuty": {
+    "toasts": {
+      "invalidTypeTitle": "不支持的文件类型",
+      "invalidTypeDesc": "请上传 PDF 或 PNG/JPEG/WebP 图片。",
+      "tooLargeTitle": "文件过大",
+      "tooLargeDesc": "最大文件大小为 10 MB。",
+      "uploadedTitle": "收据已上传",
+      "uploadedDesc": "合规团队将尽快审查您的印花税付款。",
+      "failedTitle": "上传失败"
+    },
+    "unavailable": "印花税信息暂时不可用，请刷新页面。",
+    "disabled": "此案件不需要缴纳印花税。",
+    "title": "印花税压金",
+    "subtitle": "在签署密封协议和保密协议之前为必要条件。",
+    "amountLabel": "应付金额",
+    "defaultNote": "密封协议的标准印花税。",
+    "payToLabel": "请将付款发送至",
+    "payToChooseAsset": "选择以下任意一个钉包 — 使用最方便的资产付款。",
+    "addressLabel": "钉包地址",
+    "memoLabel": "备注 / 标签",
+    "payToHint": "发送压金后，请上传包含交易哈希的收据（截图或 PDF），以便合规部门验证付款。",
+    "payToMissing": "付款方式尚未配置 — 上传收据前，请联系合规部门获取存款钉包地址。",
+    "approvedTitle": "印花税已批准",
+    "approvedBody": "合规部门已批准您的付款，您现在可以签署密封协议和保密协议。",
+    "pendingTitle": "等待合规审查",
+    "pendingBody": "您的收据已收到，一旦压金获批，我们将通过电子邮件通知您。",
+    "rejectedTitle": "收据已被拒绝",
+    "rejectedReason": "原因：{{reason}}",
+    "rejectedBody": "请上传更正后的收据。",
+    "fileLabel": "付款收据（PDF 或图片，最大 10 MB）",
+    "notesLabel": "备注（可选）",
+    "notesPlaceholder": "交易哈希、钉包地址或供审查员参考的任何背景信息。",
+    "uploading": "上传中…",
+    "uploadCta": "提交收据",
+    "historyTitle": "提交历史"
+  },
+  "refundClaim": {
+    "pageTitle": "退款申请",
+    "pageSubtitle": "记录您的可退还激活余额以进行付款处理",
+    "refundableBalance": "1,000 USDT",
+    "refundableBalanceLabel": "可退还激活余额",
+    "statusPendingSubmission": "等待您提交",
+    "statusSubmitted": "已提交 — 审核中",
+    "statusApproved": "已批准",
+    "statusRejected": "未获批准",
+    "recommendationsTitle": "文件建议",
+    "recommendationsHint": "您的合规官员就您的提交提供了以下指导：",
+    "entriesTitle": "逐项存款记录",
+    "entriesHint": "为每项可退还费用添加一行。提供尽可能详细的信息以加快审核。",
+    "addEntry": "添加记录",
+    "removeEntry": "删除",
+    "amountLabel": "金额（USDT）",
+    "amountPlaceholder": "例如：1000",
+    "chargedForLabel": "收费项目",
+    "chargedForPlaceholder": "例如：激活费、处理费…",
+    "dateLabel": "收费日期",
+    "txIdLabel": "交易 / 参考编号",
+    "txIdPlaceholder": "区块链交易哈希或银行参考（可选）",
+    "networkLabel": "网络 / 链",
+    "networkPlaceholder": "例如：TRC-20、BEP-20（可选）",
+    "entryNotesLabel": "备注",
+    "entryNotesPlaceholder": "此记录的其他说明（可选）",
+    "receiptLabel": "收据",
+    "attachReceipt": "附上收据",
+    "receiptAttached": "已附上收据",
+    "globalDocsTitle": "其他支持文件",
+    "globalDocsHint": "上传不属于特定记录的其他证据（银行对账单、截图等）",
+    "submitCta": "提交退款申请",
+    "submitting": "提交中…",
+    "submittedBannerTitle": "申请提交成功",
+    "submittedBannerBody": "您的退款申请正在审核中。审核结果将通过电子邮件通知您。",
+    "approvedBannerTitle": "退款申请已批准",
+    "approvedBannerBody": "您的退款申请已获批准。请在下方下载您的官方证书。",
+    "rejectedBannerTitle": "退款申请未获批准",
+    "rejectedBannerBody": "请查看下方官员备注。如有疑问，请联系您的合规官员。",
+    "adminNotesLabel": "官员审核备注",
+    "downloadCertificate": "下载退款证书",
+    "downloadingCertificate": "正在生成证书…",
+    "certSubtitle": "已批准退款申请的官方证书",
+    "emptyEntriesError": "请在提交前至少添加一条存款记录。",
+    "entryAmountRequired": "金额为必填项",
+    "entryChargedForRequired": "描述为必填项",
+    "entryDateRequired": "日期为必填项",
+    "submittedReadonlyNotice": "您的申请已提交，正在锁定审核中。无法再进行任何更改。",
+    "approvedReadonlyNotice": "此申请已获批准。您的证书可在下方下载。",
+    "rejectedReadonlyNotice": "此申请未获批准。请查看上方官员备注了解后续步骤。"
+  },
+  "closureWarning": {
+    "heading": "门户会话即将关闭",
+    "fallbackMessage": "您的门户会话已由IBCCF合规系统自动安排关闭。",
+    "timeRemainingLabel": "剩余时间",
+    "autoLogoutNote": "当计时器归零时，您将自动退出登录",
+    "logOutNow": "立即退出",
+    "dismiss": "忽略",
+    "dismissNote": "忽略将隐藏此提示，但不会取消关闭操作。",
+    "ariaLabel": "门户关闭警告"
+  },
+  "reactivationDeposit": {
+    "title": "账户已暂停",
+    "subtitle": "需要重新激活",
+    "backToLogin": "← 返回登录",
+    "loadError": {
+      "title": "无法加载重新激活详情",
+      "body": "我们无法检索您账户的存款信息。请重试或联系支持。"
+    },
+    "notice": {
+      "title": "您的账户已被暂停",
+      "body": "您的门户访问权限在预定关闭期后已被暂停。要恢复完整访问权限，请将重新激活存款发送至以下地址并上传您的付款收据。我们的合规团队将进行审核并及时恢复您的访问权限。",
+      "bodyWarningExpired": "您的门户访问权限在预定关闭期后已被暂停。要恢复完整访问权限，请将重新激活存款发送至以下地址并上传您的付款收据。我们的合规团队将进行审核并及时恢复您的访问权限。",
+      "bodyAdminDisabled": "您的账户已被我们的合规团队暂停。要恢复完整访问权限，请将重新激活存款发送至以下地址并上传您的付款收据。我们的合规团队将进行审核并及时恢复您的访问权限。"
+    },
+    "deposit": {
+      "title": "重新激活存款详情",
+      "amountLabel": "应付金额",
+      "addressLabel": "存款地址",
+      "hint": "请仅发送至上方显示的确切地址。发送前请仔细核实资产和网络。",
+      "noAddress": "尚未分配存款地址。请联系支持以获取重新激活说明。"
+    },
+    "upload": {
+      "title": "上传付款收据",
+      "body": "发送存款后，请上传您交易收据的截图或PDF。我们的团队将进行审核并恢复您的访问权限。",
+      "cta": "选择收据文件",
+      "hint": "PNG、JPEG、WebP 或 PDF · 最大 10 MB",
+      "change": "更换",
+      "submit": "提交收据",
+      "submitting": "提交中…",
+      "tooLargeTitle": "文件过大",
+      "tooLargeDesc": "文件最大为 10 MB。",
+      "badFormatTitle": "不支持的格式",
+      "badFormatDesc": "请上传 PNG、JPEG、WebP 或 PDF 格式的文件。",
+      "failedTitle": "提交失败",
+      "failedDesc": "无法提交您的收据。请重试。",
+      "networkTitle": "网络错误",
+      "networkDesc": "无法连接服务器。请重试。"
+    },
+    "confirmation": {
+      "title": "收据提交成功",
+      "body": "感谢您。您的付款收据现已由我们的合规团队审核。一旦您的访问权限恢复，您将收到电子邮件通知。"
+    }
+  }
+}

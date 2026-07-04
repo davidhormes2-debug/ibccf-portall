@@ -1,0 +1,511 @@
+{
+  "common": {
+    "greeting": "Hola {{name}},",
+    "regards": "Atentamente,",
+    "team": "Equipo de Cumplimiento de IBCCF",
+    "footer": "Esta es una notificación transaccional del Foro Internacional de Quejas de la Comunidad Blockchain. Las respuestas son monitoreadas por el departamento de cumplimiento.",
+    "viewInPortal": "Ver en su portal",
+    "caseRef": "Referencia del caso: {{case}}",
+    "securityNoticeLabel": "Aviso de seguridad.",
+    "importantLabel": "Importante",
+    "actionRequiredLabel": "Acción requerida",
+    "sectionWhatToDo": "Lo que debe hacer",
+    "sectionWhatToExpect": "Qué esperar a continuación",
+    "sectionStageSummary": "Resumen de la etapa",
+    "sectionDetailedExplanation": "Explicación detallada",
+    "sectionWhyItMatters": "Por qué se requiere este paso",
+    "sectionRegulatoryBasis": "Base regulatoria",
+    "sectionNextSteps": "Próximos pasos:",
+    "sectionHowToAccess": "Cómo acceder a su portal:",
+    "sectionHowToSignIn": "Cómo volver a iniciar sesión:",
+    "caseReferenceLabel": "Referencia del caso",
+    "currentStageLabel": "Etapa actual",
+    "declarationStatusLabel": "Estado de la declaración",
+    "openSecurePortalCta": "Abrir el portal seguro",
+    "copyLinkPrefix": "O copie este enlace:"
+  },
+  "letterReady": {
+    "subject": "Su carta de retiro está lista — Caso {{case}}",
+    "headline": "Su carta de retiro está lista",
+    "body": "Su carta de retiro formal ha sido emitida y ahora está disponible en su portal. Por favor, inicie sesión para revisarla y descargarla."
+  },
+  "letterReissued": {
+    "subject": "Carta de Retiro Reemitida (v{{version}}) — Caso {{case}}",
+    "headline": "Su carta de retiro ha sido reemitida",
+    "body": "Una nueva versión de su carta de retiro (v{{version}}) ha sido emitida. La versión anterior ha sido reemplazada. Por favor, inicie sesión para revisar la última copia."
+  },
+  "reissueApproved": {
+    "preheader": "Su pago de reemisión para la ronda v{{version}} ha sido aprobado.",
+    "intro": "Buenas noticias: su pago de reemisión para la ronda v{{version}} ({{fee}}) ha sido aprobado por el equipo de cumplimiento. Ya puede reenviar su selección de opción de retiro dentro de su portal.",
+    "approvedFeeLabel": "Tarifa de reemisión aprobada",
+    "expectBody": "Abra su portal, vuelva a la Carta de Retiro, elija una opción y envíela. El procesamiento se reanudará según el calendario estándar.",
+    "cta": "Reenviar selección",
+    "subject": "Pago de Reemisión Aprobado — Caso {{case}}",
+    "headline": "Su pago de reemisión ha sido aprobado",
+    "body": "Su pago de reemisión ha sido aprobado. La carta reemitida será liberada en breve."
+  },
+  "reissueRejected": {
+    "preheader": "Su recibo de pago de reemisión no fue aprobado.",
+    "intro": "Su recibo de pago de reemisión más reciente fue revisado y no pudo ser aprobado. Por favor, revise las notas del revisor a continuación y suba un recibo corregido en su portal.",
+    "reviewerNotesLabel": "Notas del revisor",
+    "actionBody": "Abra el portal seguro, navegue a la sección de depósitos de la ronda de reemisión activa y suba un recibo más claro o corregido para su revisión.",
+    "cta": "Subir recibo corregido",
+    "subject": "No Se Pudo Aprobar el Pago de Reemisión — Caso {{case}}",
+    "headline": "No se pudo aprobar su pago de reemisión",
+    "body": "No se pudo aprobar su pago de reemisión. Por favor, revise la razón en su portal y vuelva a enviar."
+  },
+  "declarationAssigned": {
+    "subject": "Se Ha Asignado una Declaración de Cumplimiento — Caso {{case}}",
+    "headline": "Se ha asignado una Declaración de Cumplimiento",
+    "body": "Se ha asignado una Declaración de Cumplimiento a su caso. Por favor, complétela en la sección de Declaración de su portal."
+  },
+  "declarationApproved": {
+    "subject": "Declaración de Cumplimiento Aprobada — Caso {{case}}",
+    "headline": "Su declaración fue aprobada",
+    "body": "Su Declaración de Cumplimiento fue aprobada. Su caso avanzará ahora a la siguiente etapa."
+  },
+  "declarationRejected": {
+    "subject": "La Declaración de Cumplimiento Requiere Revisión — Caso {{case}}",
+    "headline": "Su declaración necesita revisión",
+    "body": "Su Declaración de Cumplimiento requiere revisión. Por favor, revise los comentarios en su portal y vuelva a enviar."
+  },
+  "submissionReceived": {
+    "subject": "Hemos Recibido Su Envío — Caso {{case}}",
+    "headline": "Hemos recibido su envío",
+    "body": "Hemos recibido su envío y nuestro equipo de cumplimiento lo revisará en breve. Se le notificará dentro del portal sobre el resultado."
+  },
+  "complianceMessage": {
+    "subject": "Nuevo Mensaje de Cumplimiento — {{title}}",
+    "headline": "Usted tiene un nuevo mensaje de cumplimiento",
+    "body": "Un oficial de cumplimiento le ha enviado un nuevo mensaje respecto a su caso. Por favor, inicie sesión para leerlo."
+  },
+  "documentRequested": {
+    "subject": "Documento Solicitado — Caso {{case}}",
+    "headline": "Se ha solicitado un documento",
+    "body": "Un oficial de cumplimiento ha solicitado un documento para su caso. Por favor, súbalo en la sección de Documentos de su portal."
+  },
+  "documentUnderReview": {
+    "subject": "Documento En Revisión — Caso {{case}}",
+    "headline": "Su documento está ahora en revisión",
+    "body": "Un oficial de cumplimiento ha comenzado a revisar el documento que envió \"{{documentType}}\". No se requiere ninguna acción de su parte en este momento — le notificaremos en el portal en cuanto se complete la revisión."
+  },
+  "documentApproved": {
+    "subject": "Documento Aprobado — Caso {{case}}",
+    "headline": "Su documento fue aprobado",
+    "body": "Su documento presentado fue aprobado por cumplimiento. No se requiere ninguna acción adicional para esta solicitud."
+  },
+  "documentRejected": {
+    "subject": "Documento Necesita Reenvío — Caso {{case}}",
+    "headline": "Su documento necesita reenvío",
+    "body": "Su documento presentado no pudo ser aprobado. Por favor, revise los comentarios en su portal y suba un archivo corregido."
+  },
+  "payoutWalletSet": {
+    "subject": "Billetera de pago calibrada y vinculada a su billetera segura IBCCF — Caso {{case}}",
+    "headline": "Su billetera de pago ha sido calibrada y vinculada con su billetera segura IBCCF",
+    "body": "Su oficial de cumplimiento ha calibrado su billetera de pago y la ha vinculado con su billetera segura IBCCF. Este es ahora el destino autorizado para el desembolso final de su caso — por favor revise los detalles en su portal y confirme que coinciden con lo conversado con su oficial."
+  },
+  "payoutWalletChanged": {
+    "subject": "Billetera de pago recalibrada y re-vinculada a su billetera segura IBCCF — Caso {{case}}",
+    "headline": "Su billetera de pago ha sido recalibrada y re-vinculada con su billetera segura IBCCF",
+    "body": "Su oficial de cumplimiento ha recalibrado su billetera de pago y la ha re-vinculado con su billetera segura IBCCF. Solo esta nueva dirección está ahora autorizada para su desembolso final — por favor revise cuidadosamente los detalles actualizados en su portal."
+  },
+  "withdrawalRequestSubmitted": {
+    "subject": "Solicitud de Retiro Recibida — Caso {{case}}",
+    "headline": "Hemos recibido su solicitud de retiro",
+    "body": "Hemos recibido su solicitud de retiro de {{amount}} {{asset}} ({{network}}). Su oficial de caso revisará la billetera de destino solicitada y le notificará el resultado. La plataforma es solo informativa y no transfiere fondos."
+  },
+  "withdrawalApproved": {
+    "subject": "Solicitud de Retiro Aprobada — Caso {{case}}",
+    "headline": "Su solicitud de retiro ha sido aprobada",
+    "body": "Su solicitud de retiro de {{amount}} {{asset}} ha sido aprobada por cumplimiento. La progresión de etapa hasta la liberación será gestionada manualmente por su oficial de caso."
+  },
+  "withdrawalRejected": {
+    "subject": "La Solicitud de Retiro No Pudo Ser Aprobada — Caso {{case}}",
+    "headline": "Su solicitud de retiro requiere revisión",
+    "body": "Su solicitud de retiro de {{amount}} {{asset}} no pudo ser aprobada en este momento. Nota del revisor: {{note}}. Por favor contacte a su oficial de caso o envíe una nueva solicitud desde el portal."
+  },
+  "withdrawalCancelled": {
+    "subject": "Solicitud de Retiro Cancelada — Caso {{case}}",
+    "headline": "Su solicitud de retiro ha sido cancelada",
+    "body": "Su solicitud de retiro de {{amount}} {{asset}} ha sido cancelada. Puede enviar una nueva solicitud mientras la ventana de retiro esté abierta."
+  },
+  "keyRequestConfirmation": {
+    "subject": "Solicitud de clave de acceso recibida — Referencia {{requestId}}",
+    "preheader": "Su solicitud de clave de acceso {{requestId}} ha sido recibida y está en revisión.",
+    "intro": "Gracias por enviar su solicitud de clave de acceso. Su solicitud ha sido recibida de forma segura y está siendo revisada por nuestro equipo de verificación.",
+    "requestIdLabel": "Su ID de solicitud",
+    "importantBody": "Conserve este ID de solicitud. Lo necesitará para hacer seguimiento del estado de su solicitud y para recuperar su clave de acceso una vez aprobada.",
+    "verificationNote": "La verificación normalmente se completa en 1 a 3 días hábiles. Puede consultar el estado de su solicitud en cualquier momento mediante el enlace siguiente — sin necesidad de iniciar sesión.",
+    "cta": "Consultar estado de la solicitud",
+    "signoff": "Si usted no envió esta solicitud, puede ignorar este mensaje."
+  },
+  "keyApproval": {
+    "subject": "Clave de acceso de IBCCF emitida — datos de inicio de sesión adjuntos",
+    "preheader": "Su clave de acceso ha sido aprobada y está lista para usarse.",
+    "intro": "Nos complace informarle que su solicitud de clave de acceso ha sido aprobada. Ya puede acceder al portal seguro utilizando la credencial emitida a continuación.",
+    "accessKeyLabel": "Su clave de acceso",
+    "step1": "Acceda al portal seguro de verificación",
+    "step2": "Ingrese la clave de acceso mostrada arriba",
+    "step3": "Complete la configuración de su perfil",
+    "step4": "Establezca un PIN confidencial de 6 dígitos",
+    "securityBody": "Su clave de acceso es confidencial. No la comparta con nadie. El personal autorizado de IBCCF nunca le solicitará su clave de acceso ni su PIN.",
+    "signoff": "Si tiene alguna pregunta, nuestro equipo de cumplimiento está disponible para ayudarle."
+  },
+  "accountReactivation": {
+    "subject": "Acceso al portal de IBCCF restablecido — su nuevo código de inicio de sesión",
+    "preheader": "Su acceso al portal de IBCCF ha sido reactivado.",
+    "intro": "Buenas noticias: su cuenta del portal de IBCCF ha sido reactivada por nuestro equipo de cumplimiento. Por su seguridad, le hemos emitido un nuevo código de acceso; su código anterior ya no es válido.",
+    "accessCodeLabel": "Su nuevo código de acceso",
+    "step1": "Abra el portal seguro de IBCCF",
+    "step2": "Ingrese el nuevo código de acceso mostrado arriba",
+    "step3": "Use su PIN existente de 6 dígitos para completar el inicio de sesión",
+    "securityBody": "Este nuevo código reemplaza al anterior. No lo comparta con nadie — el personal de IBCCF nunca le solicitará su código de acceso ni su PIN.",
+    "signoff": "Si no esperaba este correo, contacte de inmediato a nuestro equipo de cumplimiento."
+  },
+  "newDeclarationCode": {
+    "subject": "Código de declaración de IBCCF emitido — complete su declaración",
+    "preheader": "Se ha emitido un nuevo código de acceso a la declaración para su caso.",
+    "intro": "Nuestro equipo de cumplimiento ha emitido un nuevo código de acceso a la declaración para su caso. Su código anterior ya no es válido — utilice el nuevo código a continuación para completar la Declaración de Cumplimiento.",
+    "accessCodeLabel": "Su nuevo código de acceso a la declaración",
+    "step1": "Inicie sesión en su portal de IBCCF como de costumbre",
+    "step2": "Abra la Declaración de Cumplimiento",
+    "step3": "Cuando se le solicite, ingrese el código de acceso mostrado arriba",
+    "securityBody": "Este código reemplaza cualquier código de declaración emitido anteriormente. No lo comparta con nadie — el personal de IBCCF nunca le solicitará este código por teléfono ni por chat.",
+    "signoff": "Si no esperaba este correo, contacte de inmediato a nuestro equipo de cumplimiento."
+  },
+  "adminMessage": {
+    "subject": "Nuevo mensaje sobre su solicitud {{requestId}} — IBCCF",
+    "preheader": "Nueva correspondencia sobre la solicitud {{requestId}}.",
+    "intro": "Ha recibido un nuevo mensaje del equipo de verificación de IBCCF respecto a la solicitud de clave de acceso {{requestId}}.",
+    "afterMessage": "Revise su caso y responda a la mayor brevedad utilizando el portal seguro.",
+    "cta": "Ver su solicitud",
+    "signoff": "Esta es una notificación automática. Las respuestas enviadas a esta dirección no llegarán al equipo de verificación — responda dentro del portal seguro."
+  },
+  "rejection": {
+    "subject": "Actualización sobre su solicitud de clave de acceso {{requestId}} — IBCCF",
+    "preheader": "Actualización sobre su solicitud de clave de acceso {{requestId}}.",
+    "intro": "Gracias por enviar la solicitud de clave de acceso {{requestId}}. Tras una revisión cuidadosa, no podemos aprobar su solicitud en este momento.",
+    "reasonLabel": "Motivo",
+    "body": "Puede enviar una nueva solicitud en cualquier momento. El botón siguiente abre un formulario de reenvío precargado para que pueda volver a presentarla en segundos.",
+    "cta": "Enviar una nueva solicitud",
+    "statusLink": "ver el estado de su solicitud",
+    "statusLinkPrefix": "Alternativamente,",
+    "statusLinkSuffix": ".",
+    "signoff": "Esta es una notificación automática. Por favor, no responda directamente a este correo."
+  },
+  "expiry": {
+    "subject": "Su solicitud de clave de acceso {{requestId}} ha caducado — IBCCF",
+    "preheader": "Su solicitud de clave de acceso {{requestId}} ha caducado.",
+    "intro": "Su solicitud de clave de acceso {{requestId}} ha caducado porque no fue revisada dentro del plazo asignado. No se tomó ninguna acción sobre su solicitud.",
+    "body": "Puede enviar una nueva solicitud en cualquier momento. El botón siguiente abre un formulario de reenvío precargado para que pueda volver a presentarla en segundos.",
+    "cta": "Volver a solicitar ahora",
+    "statusLink": "ver la solicitud caducada",
+    "statusLinkPrefix": "Alternativamente,",
+    "statusLinkSuffix": ".",
+    "signoff": "Esta es una notificación automática. Por favor, no responda directamente a este correo."
+  },
+  "stageInstructions": {
+    "subjectTemplate": "Etapa {{stage}} de 14: {{title}} — Caso {{case}}",
+    "preheader": "Etapa {{stage}} de 14: {{title}} — instrucciones para el caso {{case}}.",
+    "intro": "A continuación encontrará una actualización detallada de su caso {{case}}. Revise cuidadosamente las instrucciones de la etapa y complete cualquier acción requerida dentro de su portal seguro.",
+    "stageOf": "Etapa {{stage}} de 14",
+    "regulatoryNote": "Las referencias se proporcionan con fines de transparencia. La aplicabilidad específica depende de su jurisdicción de residencia y del tipo de activo involucrado.",
+    "securityBody": "Realice siempre los depósitos y confirmaciones desde dentro de su portal seguro. IBCCF nunca le solicitará su clave de acceso, PIN o Frase Clave por correo o chat.",
+    "signoff": "Para cualquier consulta, utilice el panel de mensajería segura dentro de su portal para que el equipo cuente con todo el contexto del caso."
+  },
+  "declarationAccess": {
+    "subject": "Su portal de declaración ha sido habilitado — Caso {{case}}",
+    "preheaderShell": "Su portal de declaración está abierto. Código de acceso: {{code}}. Válido por 24 horas.",
+    "intro": "El equipo de cumplimiento ha habilitado el portal de la Declaración de Cumplimiento para su caso. Siga las instrucciones a continuación dentro de las próximas 24 horas.",
+    "statusLabel": "Portal habilitado — En espera de su envío",
+    "accessCodeLabel": "Su código de acceso a la declaración",
+    "validUntil": "Válido hasta {{expiry}} — aproximadamente 24 horas desde la emisión.",
+    "defaultIntroBody": "Nuestro equipo de cumplimiento ha habilitado el portal de la Declaración de Cumplimiento. Para revisar y firmar su declaración, utilice el código de acceso a continuación para iniciar sesión en su portal. Este código de acceso es válido por 24 horas desde su emisión — complete la declaración antes de que caduque.",
+    "todo1": "Abra el portal seguro mediante el enlace siguiente.",
+    "todo2": "Cuando se le solicite, ingrese el código de acceso mostrado en este correo.",
+    "todo3": "Revise cuidadosamente cada sección de la Declaración de Cumplimiento.",
+    "todo4": "Confirme todos los reconocimientos requeridos y envíela antes de que se cierre la ventana de 24 horas.",
+    "todo5": "Si la ventana caduca, contacte a su oficial de cumplimiento para emitir un nuevo código.",
+    "defaultClosing": "Por motivos de seguridad, este código de acceso es de un solo uso para este expediente y no debe compartirse con nadie. Si no esperaba esta notificación, contacte de inmediato a cumplimiento.",
+    "securityNoteLabel": "Nota de seguridad:",
+    "cta": "Abrir el portal de declaración",
+    "signoff": "Si tiene alguna pregunta, utilice el panel de mensajería segura dentro del portal para que el equipo cuente con todo el contexto del caso."
+  },
+  "custom": {
+    "greeting": "Estimado destinatario:",
+    "intro": "A continuación encontrará un mensaje importante del equipo de IBCCF.",
+    "signoff": "Para cualquier seguimiento, utilice el portal seguro o responda a esta dirección."
+  },
+  "withdrawalActivationAddressSubmitted": {
+    "subject": "Dirección de retiro recibida — Caso {{case}}",
+    "headline": "Hemos recibido su dirección de retiro",
+    "body": "Su dirección de retiro ({{asset}} en {{network}}) ha sido enviada. Inicie sesión en su portal para continuar con el flujo de activación."
+  },
+  "withdrawalActivationTokenVerified": {
+    "subject": "Código de seguridad verificado — Caso {{case}}",
+    "headline": "Su código de seguridad ha sido verificado",
+    "body": "Su código de seguridad de retiro se verificó correctamente. Ya puede cargar el recibo del depósito de activación dentro del portal."
+  },
+  "withdrawalActivationCode": {
+    "subject": "Código de seguridad de retiro — Caso {{case}}",
+    "headline": "Su código de seguridad de retiro",
+    "body": "Use el código a continuación para confirmar su dirección de retiro dentro del portal IBCCF. Código: {{code}} (válido por {{expiresInMinutes}} minutos). No comparta este código con nadie — el personal de IBCCF nunca se lo pedirá."
+  },
+  "withdrawalActivationReceiptReceived": {
+    "subject": "Recibo del depósito de activación recibido — Caso {{case}}",
+    "headline": "Hemos recibido su recibo del depósito de activación",
+    "body": "Hemos recibido su recibo del depósito de activación y un oficial de cumplimiento lo revisará en breve. Será notificado dentro del portal una vez que sea aprobado."
+  },
+  "withdrawalActivationApproved": {
+    "subject": "Activación de retiro aprobada — Caso {{case}}",
+    "headline": "Su activación de retiro ha sido aprobada",
+    "body": "Su depósito de activación ha sido aprobado. El procesamiento del retiro continuará y su oficial de caso se comunicará con usted respecto al desembolso final."
+  },
+  "withdrawalActivationRejected": {
+    "subject": "El depósito de activación no pudo ser aprobado — Caso {{case}}",
+    "headline": "Su depósito de activación requiere atención",
+    "body": "Su depósito de activación no pudo ser aprobado. Nota del revisor: {{reason}}. Revise el mensaje dentro de su portal y cargue un recibo corregido."
+  },
+  "settlementSealed": {
+    "subject": "Liquidación sellada — Caso {{case}}",
+    "headline": "Su liquidación ha sido sellada",
+    "body": "Su Reconocimiento de Liquidación y Confidencialidad ha sido firmado y su caso queda permanentemente sellado. Se adjunta una copia firmada del documento para sus registros. El hash de integridad (SHA-256) que aparece en su portal permite verificar que el PDF adjunto no ha sido alterado.",
+    "greeting": "Estimado/a {{name}}:",
+    "caseReferenceLabel": "Referencia del caso",
+    "integrityHashLabel": "Hash de integridad SHA-256",
+    "signedAtLabel": "Firmado el {{when}}"
+  },
+  "caseFinalized": {
+    "subject": "Su Caso Ha Sido Finalizado — Caso {{case}}",
+    "headline": "Su caso ha sido finalizado",
+    "body": "Su caso de retiro de IBCCF ha alcanzado su etapa final y ha sido completamente finalizado. Puede iniciar sesión en su portal en cualquier momento para descargar sus registros sellados."
+  },
+  "certificateFeeReceived": {
+    "subject": "Recibo de Tarifa de Certificación Recibido — Caso {{case}}",
+    "headline": "Hemos recibido su recibo de tarifa de certificación",
+    "body": "Hemos recibido su recibo de pago por el Certificado de Frase de Fusión ({{amount}} USDT) y nuestro equipo de cumplimiento lo está revisando. Será notificado una vez que el certificado limpio esté desbloqueado."
+  },
+  "certificateUnlocked": {
+    "subject": "Su Certificado de Frase de Fusión Está Listo — Caso {{case}}",
+    "headline": "Su Certificado de Frase de Fusión está desbloqueado",
+    "body": "Su tarifa de certificación ha sido aprobada. El Certificado de Frase de Fusión limpio ahora está disponible para descargar en la sección Certificado de su portal."
+  },
+  "certificateFeeRejected": {
+    "subject": "La Tarifa de Certificación Requiere Reenvío — Caso {{case}}",
+    "headline": "Su tarifa de certificación no pudo aprobarse",
+    "body": "Su recibo de tarifa de certificación más reciente no pudo ser aprobado. Por favor, revise las notas del revisor en su portal y cargue un recibo corregido."
+  },
+  "stampDutyRequired": {
+    "subject": "Depósito de Timbre Requerido — Caso {{case}}",
+    "headline": "Se requiere el Depósito de Timbre",
+    "body": "Antes de poder firmar el Acuerdo Sellado y NDA, por favor cargue un comprobante del Depósito de Timbre ({{amount}} USDT) en su portal. Cumplimiento lo revisará y aprobará antes de habilitar la firma."
+  },
+  "stampDutyReceived": {
+    "subject": "Comprobante de Timbre Recibido — Caso {{case}}",
+    "headline": "Hemos recibido su comprobante de timbre",
+    "body": "Hemos recibido su comprobante del Depósito de Timbre ({{amount}} USDT) y nuestro equipo de cumplimiento lo está revisando. Le notificaremos cuando se apruebe."
+  },
+  "stampDutyApproved": {
+    "subject": "Depósito de Timbre Aprobado — Caso {{case}}",
+    "headline": "Su Depósito de Timbre fue aprobado",
+    "body": "Su Depósito de Timbre ha sido aprobado. Ya puede firmar el Acuerdo Sellado y NDA en su portal."
+  },
+  "stampDutyRejected": {
+    "subject": "Comprobante de Timbre Requiere Reenvío — Caso {{case}}",
+    "headline": "Su comprobante de timbre no pudo aprobarse",
+    "body": "Su comprobante más reciente del Depósito de Timbre no pudo ser aprobado. {{reason}} Por favor cargue un comprobante corregido en la sección Timbre de su portal."
+  },
+  "walletExchangeSelected": {
+    "subject": "Conexión de Billetera Actualizada — Caso {{case}}",
+    "headline": "Su billetera ha sido seleccionada",
+    "body": "Ha seleccionado {{wallet}} como su billetera conectada para el caso {{case}}. Ahora puede continuar para recuperar su frase de recuperación de billetera en el portal seguro."
+  },
+  "walletPhraseRevealed": {
+    "subject": "Frase de Recuperación de Billetera Accedida — Caso {{case}}",
+    "headline": "Se accedió a su frase de recuperación de billetera",
+    "body": "Se accedió a su frase de recuperación de billetera para el caso {{case}} a través del portal seguro. Si usted no realizó esta acción, comuníquese de inmediato con su oficial de cumplimiento."
+  },
+  "phraseCodeNotice": {
+    "subject": "Acción Requerida: Recupere su Clave de Frase y Complete su Retiro — Caso {{case}}",
+    "preheader": "Inicie sesión en su portal seguro para recuperar su clave de frase y continuar con su retiro.",
+    "intro": "Su caso está listo para el siguiente paso. Su clave de frase ya está disponible en su portal seguro y puede utilizarla para autorizar y completar su retiro. Por su seguridad, la clave de frase nunca se envía por correo electrónico; inicie sesión para verla.",
+    "retrieveTitle": "Cómo recuperar su clave de frase",
+    "retrieveStep1": "Abra su portal seguro con el botón de abajo e inicie sesión con su código de acceso.",
+    "retrieveStep2": "Vaya al paso “Conexión de billetera” en el menú.",
+    "retrieveStep3": "Revele y anote cuidadosamente su clave de frase, manteniéndola privada y segura.",
+    "withdrawTitle": "Cómo completar su retiro",
+    "withdrawStep1": "Confirme los datos de su billetera de pago verificada en el paso “Conexión de billetera”.",
+    "withdrawStep2": "Siga las instrucciones en pantalla para autorizar su retiro con su clave de frase.",
+    "withdrawStep3": "Siga las etapas restantes en su panel hasta que su retiro se finalice.",
+    "securityBody": "IBCCF nunca le pedirá que comparta su clave de frase por correo electrónico, teléfono o mensaje. Introdúzcala únicamente dentro de su portal seguro."
+  },
+  "unknownWallet": "Billetera desconocida",
+  "walletConnectAlert": {
+    "subject": "[IBCCF] Conexión de billetera completada — Caso {{caseId}}",
+    "preheader": "Un usuario completó el paso de conexión de billetera para el caso {{caseId}}.",
+    "greeting": "Alerta de administrador: conexión de billetera completada",
+    "intro": "Un usuario del portal ha completado el paso de conexión de billetera para el caso {{caseId}}. Ha revelado su código de frase y el caso está listo para la siguiente acción de cumplimiento.",
+    "caseLabel": "Caso",
+    "walletLabel": "Billetera seleccionada",
+    "cta": "Abrir caso en el panel de administración",
+    "signoff": "Monitor de cumplimiento IBCCF",
+    "footerNote": "Recibe este mensaje porque su dirección está configurada como destinatario de alertas de administrador de IBCCF (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "documentUploadAlert": {
+    "subject": "[IBCCF] Documento de usuario subido: \"{{documentType}}\" — Caso {{caseId}}",
+    "subjectTest": "[TEST] [IBCCF] Documento de usuario subido: \"{{documentType}}\" — Caso {{caseId}}",
+    "preheader": "Un usuario subió \"{{documentType}}\" para el caso {{caseId}}.",
+    "preheaderTest": "[TEST] Verificación de entrega de alerta de carga de documento.",
+    "greeting": "Alerta de administrador: documento de usuario subido",
+    "greetingTest": "[TEST] Alerta de administrador: documento de usuario subido",
+    "intro": "Un usuario del portal ha subido un documento para el caso {{caseId}} que requiere su revisión.",
+    "introTest": "Esta es una alerta de prueba iniciada por el operador. No se ha subido ningún documento real. Este mensaje confirma que el destinatario de alertas de carga de documentos está correctamente configurado.",
+    "documentTypeLabel": "Tipo de documento",
+    "fileNameLabel": "Nombre del archivo",
+    "caseLabel": "Caso",
+    "fileNameUnnamed": "(sin nombre)",
+    "cta": "Revisar en el panel de administración",
+    "signoff": "Monitor de documentos IBCCF",
+    "footerNote": "Recibe este mensaje porque su dirección está configurada como destinatario de alertas de carga de documentos IBCCF (DOCUMENT_UPLOAD_ALERT_EMAIL / app_settings.document_upload_alert_email o el respaldo ADMIN_ALERT_EMAIL)."
+  },
+  "tokenDepositInvoice": {
+    "subject": "Retiro en proceso — Caso {{case}}",
+    "headline": "Su retiro ha sido aprobado y está en proceso",
+    "body": "Su depósito de tokens de {{paidAmount}} USDT ha sido verificado y su activación de retiro está ahora aprobada. A continuación se muestra una confirmación completa del proceso y un resumen de la factura. Su factura oficial está adjunta a este correo en formato PDF."
+  },
+  "refundClaimRequest": {
+    "subject": "Acción requerida: Formulario de solicitud de reembolso — Caso {{case}}",
+    "preheader": "Su saldo de activación reembolsable de 1.000 USDT — complete su solicitud de reembolso ahora",
+    "greeting": "Su formulario de solicitud de reembolso está listo",
+    "intro": "Su caso ha alcanzado la etapa de documentación de reembolso. Por favor, complete el formulario de solicitud de reembolso en su portal seguro para iniciar la devolución de su saldo de activación reembolsable de 1.000 USDT.",
+    "balanceNote": "Saldo de activación reembolsable: <strong>1.000 USDT</strong> (separado de la tarifa de procesamiento no reembolsable de 500 USDT).",
+    "recommendationsHeading": "Recomendaciones documentales del departamento de cumplimiento",
+    "instructionsHeading": "Cómo completar su solicitud",
+    "step1": "Inicie sesión en su portal seguro usando su código de acceso.",
+    "step2": "Navegue a <strong>Solicitud de Reembolso</strong> en la sección de Cumplimiento.",
+    "step3": "Añada cada entrada de depósito (importe, para qué se cobró, fecha e ID de transacción).",
+    "step4": "Adjunte los recibos de respaldo para cada entrada, luego haga clic en <strong>Enviar Solicitud de Reembolso</strong>.",
+    "cta": "Abrir formulario de solicitud de reembolso",
+    "signoff": "IBCCF División Internacional de Aplicación",
+    "footerNote": "Si no esperaba este mensaje, póngase en contacto inmediatamente con su oficial de cumplimiento asignado."
+  },
+  "refundClaimApproved": {
+    "subject": "Solicitud de reembolso aprobada — Caso {{case}}",
+    "preheader": "Su solicitud de reembolso ha sido revisada y aprobada",
+    "greeting": "Su solicitud de reembolso ha sido aprobada",
+    "intro": "Nos complace confirmar que su solicitud de reembolso para el caso {{case}} ha sido revisada y aprobada por la IBCCF División Internacional de Aplicación.",
+    "certNote": "Su Certificado Oficial de Aprobación de Reembolso ya está disponible en su portal. Puede descargarlo en cualquier momento como prueba del desembolso aprobado.",
+    "adminNotesHeading": "Notas del oficial",
+    "cta": "Descargar Certificado de Reembolso",
+    "signoff": "IBCCF División Internacional de Aplicación",
+    "footerNote": "Este correo electrónico confirma la aprobación de su solicitud de reembolso. El desembolso se realizará conforme al calendario de liquidación."
+  },
+  "refundClaimRejected": {
+    "subject": "Actualización de solicitud de reembolso — Caso {{case}}",
+    "preheader": "Una actualización sobre su solicitud de reembolso",
+    "greeting": "Actualización de solicitud de reembolso",
+    "intro": "Su solicitud de reembolso para el caso {{case}} ha sido revisada. En este momento, la solicitud no pudo ser aprobada en su forma actual. Por favor, revise las notas del oficial a continuación y vuelva a presentarla si corresponde.",
+    "adminNotesHeading": "Notas del oficial",
+    "nextSteps": "Por favor, póngase en contacto con su oficial de cumplimiento asignado si tiene preguntas sobre este resultado o desea volver a presentar documentación de respaldo.",
+    "cta": "Volver al portal",
+    "signoff": "IBCCF División Internacional de Aplicación",
+    "footerNote": "Si cree que esta decisión fue tomada por error, póngase en contacto con su oficial de cumplimiento con documentación de respaldo adicional."
+  },
+  "caseCreated": {
+    "subject": "Su caso ha sido registrado — Caso {{case}}",
+    "headline": "Su caso ha sido registrado",
+    "body": "Su caso ha sido registrado en la División Internacional de Aplicación de la IBCCF. Nuestro equipo de cumplimiento revisará su solicitud y se pondrá en contacto con usted para indicarle los próximos pasos. Por favor, conserve su referencia de caso de forma segura — la necesitará para acceder a su portal seguro."
+  },
+  "adminNewCase": {
+    "subject": "[IBCCF] New case submitted — Case {{caseId}}",
+    "preheader": "A new case has been submitted: {{caseId}}.",
+    "greeting": "Admin alert: new case submitted",
+    "intro": "A new case has been submitted and is awaiting your review.",
+    "caseLabel": "Case",
+    "submitterLabel": "Submitter",
+    "cta": "Open case in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "adminNewMessage": {
+    "subject": "[IBCCF] New message from portal user — Case {{caseId}}",
+    "preheader": "A portal user sent a message for case {{caseId}}.",
+    "greeting": "Admin alert: new message from portal user",
+    "intro": "A portal user has sent a new message for case {{caseId}} that requires your attention.",
+    "caseLabel": "Case",
+    "userLabel": "User",
+    "messagePreviewLabel": "Message preview",
+    "cta": "View in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "portalWarning": {
+    "subject": "Aviso de portal IBCCF — Su sesión se cerrará en {{minuteLabel}}",
+    "noticeLabel": "AVISO DE CIERRE DE SESIÓN",
+    "closingIn": "Su portal se cerrará en {{minuteLabel}}",
+    "intro": "Este es un aviso automático de que su sesión del portal IBCCF ha sido programada para cerrarse.",
+    "body": "Su sesión de caso ha sido programada automáticamente para su cierre por el sistema de cumplimiento de IBCCF. Este es un proceso iniciado por el sistema — no se ha tomado ninguna acción manual o administrativa. Una vez que su sesión se cierre, el portal no se reabrirá automáticamente. Para restaurar el acceso, debe completar el proceso de reactivación contactando al Servicio de Atención al Cliente de IBCCF.",
+    "cta": "Volver al portal",
+    "signoff": "División Internacional de Cumplimiento IBCCF",
+    "footerNote": "Esta es una notificación de cumplimiento automatizada. Por favor, conserve este mensaje para sus registros.",
+    "minuteSingular": "1 minuto",
+    "minutePlural": "{{count}} minutos"
+  },
+  "countdownOverride": {
+    "subject": "Su sesión del portal IBCCF ha sido cerrada — Caso {{case}}",
+    "preheader": "Un administrador ha cerrado manualmente su sesión del portal para el caso {{case}}.",
+    "intro": "Un administrador ha cerrado manualmente su sesión activa del portal para el caso {{case}}. Su acceso al portal ha sido suspendido y su progreso de retiro ha sido reiniciado como parte de esta acción de cumplimiento.",
+    "actionHeading": "Cómo restaurar su acceso",
+    "actionBody": "Para reanudar su caso, se requiere un depósito de reactivación. Por favor, abra su portal seguro y siga las instrucciones en pantalla en la sección de Reactivación.",
+    "cta": "Abrir portal seguro",
+    "signoff": "Si cree que esto fue hecho por error, póngase en contacto inmediatamente con su oficial de cumplimiento asignado usando el panel de mensajes del portal seguro."
+  },
+  "countdownExpired": {
+    "subject": "Su sesión del portal IBCCF ha expirado — Caso {{case}}",
+    "preheader": "La cuenta regresiva de la sesión de su portal para el caso {{case}} llegó a cero y su acceso ha sido bloqueado.",
+    "intro": "La cuenta regresiva de la sesión del portal IBCCF para el caso {{case}} llegó a cero y su acceso al portal ha sido automáticamente suspendido. Su progreso de retiro ha sido reiniciado de acuerdo con el procedimiento de cierre programado.",
+    "actionHeading": "Cómo restaurar su acceso",
+    "actionBody": "Para continuar con su caso, se requiere un depósito de reactivación. Por favor, abra su portal seguro y siga las instrucciones en pantalla en la sección de Reactivación.",
+    "cta": "Abrir portal seguro",
+    "signoff": "Si no esperaba este aviso, póngase en contacto inmediatamente con su oficial de cumplimiento asignado usando el panel de mensajes del portal seguro."
+  },
+  "reactivationRequired": {
+    "subject": "Acción requerida: Se necesita depósito de reactivación del portal — Caso {{case}}",
+    "preheader": "Se requiere un depósito de reactivación para restaurar su acceso al portal IBCCF para el caso {{case}}.",
+    "intro": "Su acceso al portal IBCCF para el caso {{case}} ha sido suspendido. Para restaurar su acceso y continuar su proceso de retiro, por favor complete un depósito de reactivación como se describe a continuación.",
+    "depositAmountLabel": "Depósito de reactivación requerido",
+    "step1": "Abra su portal seguro usando el botón de abajo e inicie sesión con su código de acceso.",
+    "step2": "Navegue a la sección de Reactivación que se muestra en su panel de control.",
+    "step3": "Suba su recibo del depósito de reactivación para revisión de cumplimiento.",
+    "securityBody": "Siempre suba su recibo de reactivación directamente dentro del portal seguro. El personal de IBCCF nunca solicitará confirmaciones de pago por correo electrónico o chat.",
+    "cta": "Abrir portal seguro",
+    "signoff": "Una vez que su depósito de reactivación haya sido revisado y aprobado, su acceso al portal y su progreso de retiro serán completamente restaurados."
+  },
+  "aiFailureAlert": {
+    "subject": "[IBCCF] Servicio de IA degradado — Modo de contingencia activo",
+    "preheader": "El servicio de OpenAI ha fallado y el chatbot de IA ahora usa plantillas de contingencia.",
+    "greeting": "Alerta de operaciones: Fallo del servicio de IA",
+    "intro": "El servicio de chatbot de IA de IBCCF ha encontrado un error y ahora opera en modo de plantilla de contingencia. Los usuarios están recibiendo respuestas predefinidas en lugar de respuestas generadas por IA.",
+    "errorLabel": "Detalles del error",
+    "timestampLabel": "Detectado por primera vez",
+    "footerNote": "Esta alerta está limitada a un máximo de una notificación cada 10 minutos. Está recibiendo esto porque su dirección está configurada como destinatario de alertas de administrador de IBCCF (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "healthCheckFailureAlert": {
+    "subject": "[IBCCF] Alerta de verificación de salud — Servicio degradado",
+    "preheader": "La sonda de salud interna ha detectado que uno o más servicios de IBCCF están degradados.",
+    "greeting": "Alerta de operaciones: Degradación de servicio detectada",
+    "intro": "La sonda de salud interna de IBCCF ha detectado que uno o más servicios están en estado degradado. Se recomienda una investigación inmediata.",
+    "degradedServicesLabel": "Servicios degradados",
+    "timestampLabel": "Detectado a las",
+    "footerNote": "Esta alerta se activa cuando una sonda de salud programada (cada 5 minutos) detecta un servicio recién degradado. Está recibiendo esto porque su dirección está configurada como destinatario de alertas de administrador de IBCCF (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "healthCheckRecoveryAlert": {
+    "subject": "[IBCCF] Recuperación de verificación de salud — Servicios restaurados",
+    "preheader": "Los servicios de IBCCF previamente degradados han sido detectados como saludables nuevamente.",
+    "greeting": "Alerta de operaciones: Recuperación de servicio",
+    "intro": "La sonda de salud interna de IBCCF ha detectado que los servicios previamente degradados han vuelto a un estado saludable.",
+    "recoveredServicesLabel": "Servicios recuperados",
+    "timestampLabel": "Detectado a las",
+    "footerNote": "Está recibiendo esto porque su dirección está configurada como destinatario de alertas de administrador de IBCCF (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  }
+}

@@ -1,0 +1,56 @@
+# IBCCF — International Blockchain Complaints Forum
+
+> IBCCF is a public fraud-prevention and blockchain-platform verification portal.
+> It publishes complaint intake and case-management guidance, platform
+> verification tools, a moderated community forum, and legal/regulatory
+> resources for victims of blockchain and crypto-related fraud.
+
+Canonical domain: https://ibccf.site/
+
+This file follows the llms.txt convention (https://llmstxt.org/) to help
+AI assistants and retrieval-augmented systems prioritize the site's public,
+citable content. It complements, and does not replace, /robots.txt and
+/sitemap.xml.
+
+## Primary Content
+
+- [Home](https://ibccf.site/): Overview of IBCCF's mission, services, and how
+  to report or verify blockchain-related fraud.
+- [Platform Verification](https://ibccf.site/verify): Look up and verify
+  whether a blockchain/crypto platform is recognized, flagged, or under
+  review.
+- [Community Forum](https://ibccf.site/community): Public discussion threads
+  where fraud victims and community members share experiences and guidance.
+- [Request Access](https://ibccf.site/request-access): How to request a case
+  access key to begin a complaint or recovery case.
+- [Legal Resources](https://ibccf.site/legal-resources): Regulatory and legal
+  guidance related to blockchain fraud complaints.
+- [Withdrawal Guide](https://ibccf.site/withdrawal-guide): Step-by-step
+  guidance on the fund withdrawal process for verified cases.
+- [Divisions](https://ibccf.site/divisions/aml): Overview pages for IBCCF's
+  operating divisions, including AML, cyber, recovery, compliance,
+  intelligence, and support (see /divisions/<id> for each).
+- [Contact Admin](https://ibccf.site/contact-admin): How to reach IBCCF
+  administrators with questions not covered elsewhere.
+
+## Policies
+
+- [Privacy Policy](https://ibccf.site/privacy-policy)
+- [Terms of Use](https://ibccf.site/terms-of-use)
+
+## Machine-Readable Discovery
+
+- [Sitemap](https://ibccf.site/sitemap.xml)
+- [Robots](https://ibccf.site/robots.txt)
+
+## Exclude
+
+The following areas require authentication, contain private case data, or
+are operational/administrative surfaces. They are not intended for AI
+crawling, citation, or summarization:
+
+- /portal — authenticated case-holder portal (private case data)
+- /dashboard — authenticated secure portal entry point
+- /admin — administrative dashboard and all sub-paths (/admin/mirror,
+  /admin/mobile, /admin/support)
+- /api/ — application programming interfaces, not human- or AI-readable content

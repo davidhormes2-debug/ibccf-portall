@@ -1,0 +1,123 @@
+{
+  "back": "Back",
+  "accessPortal": "Access Portal",
+  "legalDoc": "Legal Documentation",
+  "title": "Privacy Policy",
+  "subtitle": "How IBCCF collects, uses, and protects your personal data in connection with our blockchain complaint management and fraud-prevention services.",
+  "lastUpdated": "Last updated:",
+  "contents": "Contents",
+  "termsLink": "Terms of Use",
+  "legalResourcesLink": "Legal Resources",
+  "reviewerNote": {
+    "label": "Note for legal reviewers:",
+    "text": "This document is a working draft prepared for platform launch. It should be reviewed and finalised by a qualified legal professional before the platform processes personal data from users in regulated jurisdictions."
+  },
+  "sections": {
+    "overview": {
+      "title": "1. Overview",
+      "p1Pre": "The International Blockchain Complaints Forum (",
+      "p1Brand": "\"IBCCF\"",
+      "p1Post": ", \"we\", \"us\", or \"our\") operates this web portal as a case-management and fraud-prevention service for blockchain-related complaints.",
+      "p2": "This Privacy Policy explains what personal information we collect when you visit our website or submit a complaint case, how we use and protect that information, and the rights you have over it."
+    },
+    "dataCollected": {
+      "title": "2. Information We Collect",
+      "intro": "We may collect the following categories of personal information:",
+      "items": [
+        { "label": "Identity & Contact Data", "detail": "Full name, email address, phone number, and country of residence provided when you submit a complaint or create a portal account." },
+        { "label": "Case & Transaction Data", "detail": "Details about blockchain transactions, wallet addresses, platform names, and financial amounts relevant to your complaint." },
+        { "label": "Uploaded Documents", "detail": "Regulatory and compliance documents you voluntarily upload (e.g. proof of income, KYC/ID, FATCA/CRS declarations, deposit receipts). These are stored securely and reviewed only by authorised staff." },
+        { "label": "Communications", "detail": "Messages you send through our portal, support chat, or contact forms, including any chat transcripts generated through our AI-assisted support tools." },
+        { "label": "Technical & Usage Data", "detail": "IP address, browser type, device identifiers, pages visited, time on site, and session activity collected automatically for security and operational monitoring." },
+        { "label": "Cookies & Local Storage", "detail": "We use strictly necessary session cookies and browser local storage to maintain your authenticated portal session and remember your language preference. Optional analytics cookies are set only with your consent." }
+      ]
+    },
+    "howWeUse": {
+      "title": "3. How We Use Your Information",
+      "intro": "We process your personal information for the following purposes:",
+      "items": [
+        "To register and manage your complaint case through its resolution lifecycle.",
+        "To verify platform activity and assess reported fraudulent conduct.",
+        "To fulfill regulatory compliance obligations, including AML/CFT identity verification requirements.",
+        "To communicate with you about case updates, document requests, and platform notifications.",
+        "To provide AI-assisted community responses and support chat functionality.",
+        "To monitor and improve platform security, detect abuse, and enforce our Terms of Use.",
+        "To maintain audit logs required for compliance and legal accountability.",
+        "To send transactional emails relating to your case (never unsolicited marketing without consent)."
+      ]
+    },
+    "legalBasis": {
+      "title": "4. Legal Basis for Processing",
+      "intro": "Where applicable data-protection law requires a legal basis (e.g. under the EU GDPR or UK GDPR), we rely on the following:",
+      "items": [
+        { "basis": "Contract performance", "detail": "Processing necessary to provide the complaint-management service you have requested." },
+        { "basis": "Legal obligation", "detail": "Processing required to comply with AML/CFT, KYC, and financial-crime-prevention laws." },
+        { "basis": "Legitimate interests", "detail": "Security monitoring, fraud prevention, platform integrity, and aggregate analytics — balanced against your interests and rights." },
+        { "basis": "Consent", "detail": "Optional analytics cookies and any processing not covered by the above bases." }
+      ]
+    },
+    "sharing": {
+      "title": "5. Sharing of Information",
+      "intro": "We do not sell personal data. We may share information in the following limited circumstances:",
+      "items": [
+        "With regulated authorities or law-enforcement agencies where legally required or in response to a valid legal process.",
+        "With trusted service providers who process data on our behalf under appropriate data-processing agreements (e.g. cloud hosting, email delivery, error monitoring).",
+        "With OpenAI, Inc. for AI-assisted community and support features — data is transmitted via API under OpenAI's data-processing terms.",
+        "In the event of a merger, acquisition, or asset sale, where case data may be transferred to the successor entity subject to equivalent privacy protections."
+      ]
+    },
+    "retention": {
+      "title": "6. Data Retention",
+      "intro": "We retain personal data only as long as necessary for the purposes set out in this policy or as required by applicable law:",
+      "items": [
+        "Active case records are retained for the duration of the case plus a minimum of five (5) years for compliance audit purposes.",
+        "Uploaded regulatory documents (KYC, FATCA/CRS, source-of-funds) are retained for at least five (5) years after case closure in line with AML record-keeping obligations.",
+        "Visitor and session logs are retained for up to ninety (90) days.",
+        "Email audit logs are retained for two (2) years.",
+        "You may request earlier deletion of certain data where no legal retention obligation applies — see Section 8."
+      ]
+    },
+    "security": {
+      "title": "7. Security",
+      "intro": "We implement appropriate technical and organisational security measures to protect your personal data against unauthorised access, loss, or disclosure, including:",
+      "items": [
+        "TLS encryption for all data in transit.",
+        "Encrypted database storage with access restricted to authorised platform personnel.",
+        "Session-based authentication with forced-logout controls for portal accounts.",
+        "Audit logging of all administrative actions affecting case records.",
+        "Rate limiting and IP-blocking controls to mitigate abuse."
+      ],
+      "outro": "No method of transmission over the internet is 100% secure. While we strive to protect your data, we cannot guarantee absolute security."
+    },
+    "rights": {
+      "title": "8. Your Rights",
+      "intro": "Depending on your jurisdiction, you may have the following rights regarding your personal data:",
+      "items": [
+        { "right": "Access", "detail": "Request a copy of the personal data we hold about you." },
+        { "right": "Rectification", "detail": "Request correction of inaccurate or incomplete data." },
+        { "right": "Erasure", "detail": "Request deletion of your data where no legal obligation to retain it applies ('right to be forgotten')." },
+        { "right": "Restriction", "detail": "Request that we restrict processing of your data in certain circumstances." },
+        { "right": "Portability", "detail": "Receive your data in a structured, machine-readable format where technically feasible." },
+        { "right": "Objection", "detail": "Object to processing based on legitimate interests or for direct marketing." },
+        { "right": "Withdraw consent", "detail": "Withdraw any consent previously given without affecting the lawfulness of prior processing." }
+      ],
+      "outro": "To exercise any of these rights, contact us at the address in Section 10. We will respond within 30 days. We may need to verify your identity before acting on a request."
+    },
+    "international": {
+      "title": "9. International Transfers",
+      "p1": "Your data may be transferred to and processed in countries outside your country of residence, including countries that may not provide the same level of data protection as your home jurisdiction. Where such transfers occur, we implement appropriate safeguards such as standard contractual clauses or equivalent mechanisms recognised by applicable data-protection authorities.",
+      "p2Pre": "For more information on the international regulatory framework applicable to this platform, see our",
+      "p2LinkText": "Legal Resources",
+      "p2Post": "directory."
+    },
+    "contact": {
+      "title": "10. Contact & Complaints",
+      "p1": "For privacy-related inquiries, data subject requests, or to raise a concern about how we handle personal data, please contact us through the support portal or the contact form on the main site.",
+      "p2": "If you are located in the EU or UK and are not satisfied with our response, you have the right to lodge a complaint with your local data-protection supervisory authority."
+    },
+    "updates": {
+      "title": "11. Updates to This Policy",
+      "p1": "We may update this Privacy Policy from time to time. When we do, we will revise the \"Last Updated\" date at the top of this page. For material changes, we will notify active case holders via their registered email address or a prominent notice on the portal. Continued use of the platform after the effective date constitutes acceptance of the revised policy."
+    }
+  }
+}

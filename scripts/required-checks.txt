@@ -1,0 +1,123 @@
+Smoke Test / Build
+Smoke Test / Smoke Test
+
+Unit Tests / Vitest
+Unit Tests / Recording Validation
+Unit Tests / Narration Freshness
+Unit Tests / Tutorial Video Route Tests
+Unit Tests / i18n Namespace Doc Check
+Unit Tests / i18n Date Guard
+Unit Tests / Skip-Guard Coverage
+Unit Tests / Narration Path Filter Sync
+Unit Tests / Recordings Path Filter Sync
+Unit Tests / Skip Pattern Self Test
+Unit Tests / Protection Checks Sync
+Unit Tests / Admin Login Rate Limit
+Unit Tests / Admin Emergency Reset Tests
+Unit Tests / Public GET Rate Limit Tests
+Unit Tests / Security Flags Shape Tests
+Unit Tests / Cross-Tab Sync Hook Tests
+Unit Tests / Expandable Failure List Tests
+Unit Tests / SMTP SSL Detection Tests
+Unit Tests / ESLint
+Unit Tests / Pre-Push Hook Install
+Unit Tests / Community Thread Views Cleanup Tests
+Unit Tests / Community View Cache Throttle Tests
+Unit Tests / Community Keyword Moderation Tests
+Unit Tests / Community Moderation Cache Invalidation Tests
+Unit Tests / Community Flagged Selection Pruning Tests
+Unit Tests / Keyword Disable Toggle Fail Tests
+Unit Tests / Keyword Toggle Success Tests
+Unit Tests / Community Flagged Select All Filter Tests
+Unit Tests / Portal Closure Warning Tests
+Unit Tests / Bulk Broadcast RBAC Tests
+Unit Tests / Portal Auto-Logout Tests
+Unit Tests / Portal Lockout Toast Once Tests
+Unit Tests / Portal Lockout Toast Message Tests
+Unit Tests / Portal Warning Expiry Sweep Tests
+Unit Tests / Pathway Reset Tests
+Unit Tests / Secure Portal Lockout Guard Tests
+Unit Tests / Disabled Access 403 Tests
+Unit Tests / Cases Tab Reactivation Badge Tests
+Unit Tests / Reactivation Pill Sync Tests
+Unit Tests / Reactivation Pill Sync Integration Tests
+Unit Tests / Deposit Receipts Dialog Actioned Tests
+Unit Tests / Reactivation Receipt Alert Muted Tests
+Unit Tests / Reactivation Page Message Tests
+Unit Tests / All Receipts Tab Category Filter Tests
+Unit Tests / All Receipts Tab Inbox Reactivation Tests
+Unit Tests / All Receipts Tab Status Chip Tests
+Unit Tests / All Receipts Tab Reactivation Approval Toast Tests
+Unit Tests / App Stage History Source Assertion Tests
+Unit Tests / App Payout Wallet History Source Assertion Tests
+Unit Tests / App Wallet Cleanup Source Assertion Tests
+Unit Tests / Sentinel Comment Guard
+Unit Tests / Sentinel Self Test
+Unit Tests / Action Job Coverage
+Unit Tests / Access Key Requests Admin List Tests
+Unit Tests / Key Requests Management Auth Header Tests
+Unit Tests / No Recipient Email Skip Tests
+Unit Tests / Community Flagged Bulk Action Tests
+Unit Tests / Community Flagged CSV Export Tests
+Unit Tests / Community Flagged Auth Guard Tests
+Unit Tests / Sub-Admin Login And Users Tests
+Unit Tests / Replit.md Annotation Coverage
+Unit Tests / CI Checks Doc Coverage
+Unit Tests / Portal Warning Email Retry Tests
+Unit Tests / Public POST Rate Limit Tests
+Unit Tests / Sub-Admin Session Revocation Tests
+Unit Tests / Testimonials Saving Tests
+
+Security Lint / Security Lint
+
+i18n Key Consistency / i18n Key Consistency
+i18n Key Consistency / Untranslated Stub Guard (strict)
+i18n Key Consistency / Emails Namespace Untranslated Guard
+i18n Key Consistency / seo.json Structural Guard
+
+Narration Freshness / Narration Freshness Check
+Narration Freshness / Tutorial Recording Clips Freshness Check
+Unit Tests / Test Suite Type Check
+
+E2E Tests / Playwright E2E — Prod Escape-Hatch Banner
+E2E Tests / Playwright E2E — Portal Warning
+E2E Tests / Playwright E2E — Reactivation Deposit
+E2E Tests / Playwright E2E — Portal Warning Contact Support
+E2E Tests / Playwright E2E — Reactivation Receipt Approval
+E2E Tests / Playwright E2E — Cases Pagination Live DB
+E2E Tests / Playwright E2E — Case Creation Emails
+E2E Tests / Playwright E2E — Refund Claim Admin-Only Guard
+E2E Tests / Playwright E2E — Refund Claim Certificate Guard
+E2E Tests / Playwright E2E — Certificate Fee & Stamp Duty Mirror Guard
+E2E Tests / Playwright E2E — Portal Warning Expiry Notification
+E2E Tests / Playwright E2E — Stage Transition Guard
+E2E Tests / Playwright E2E — Stage Override UI Guard
+E2E Tests / Playwright E2E — Health AI Status
+E2E Tests / Playwright E2E — Service Health Panel
+E2E Tests / Playwright E2E — All Receipts Reactivation Filter
+E2E Tests / Playwright E2E — Community Keyword Moderation
+E2E Tests / Playwright E2E — Reactivation Badge Count Sync
+E2E Tests / Playwright E2E — Reactivation Nav Badge From Other Tabs
+E2E Tests / Playwright E2E — Reactivation Badge Mobile Nav
+E2E Tests / Playwright E2E — Reactivation Page Message
+E2E Tests / Playwright E2E — Active Warnings Badge
+E2E Tests / Playwright E2E — Access Code Export Failures
+E2E Tests / Playwright E2E — Admin Emergency Reset
+E2E Tests / Playwright E2E — Admin Doc Preview Popover Toast Messages
+E2E Tests / Playwright E2E — Admin Service Degraded Banner
+Unit Tests / Cases Tab Refund Claim Filter Chip Tests
+Unit Tests / Active Warnings Tests
+Unit Tests / AI Chat Global Budget Snapshot Tests
+Unit Tests / AI Chat Global Budget Window Snapshot Tests
+Unit Tests / AI Chat Per-IP Rate Limit Snapshot Tests
+Unit Tests / Communications Active Warnings Badge Tests
+Unit Tests / Emails Translations Stub Guard Tests
+Unit Tests / Service Degraded Banner Tests
+Unit Tests / Audit Email Tag Coverage Tests
+Unit Tests / Case Created Email Patch Tests
+Unit Tests / Allowlist Staleness Check
+Unit Tests / Chat Template Quick Send Tests
+Unit Tests / Satisfaction Token Tests
+Unit Tests / Bot Response Generator Tests
+Unit Tests / Schema Drift Guard
+Unit Tests / Admin Tab Search Clear Tests

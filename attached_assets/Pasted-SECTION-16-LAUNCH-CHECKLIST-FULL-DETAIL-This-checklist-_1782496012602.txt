@@ -1,0 +1,553 @@
+SECTION 16 — LAUNCH CHECKLIST (FULL DETAIL)
+This checklist defines the mandatory conditions that must be met before IBCCF can be deployed into production.
+No item may be skipped.
+No item may be marked complete without verification.
+
+16.1 Functional Completion Checklist
+Portal
+All 14 stages fully functional
+
+All document uploads functional
+
+Declaration of Compliance fully functional
+
+Case Letter view functional
+
+Messaging system functional
+
+Countdown display functional
+
+Reactivation page functional
+
+Wallet verification functional
+
+Timeline functional
+
+Admin Dashboard
+Case search & filtering
+
+Stage management
+
+Document review
+
+Receipt review
+
+Email system
+
+Announcements
+
+Audit logs
+
+IP blocking
+
+User impersonation
+
+Countdown control
+
+Reactivation control
+
+Analytics
+
+AI Forum
+Bot profiles loaded
+
+AI replies functional
+
+Moderation functional
+
+Fallback templates functional
+
+16.2 Automated Email Checklist
+Mandatory Emails
+Case Created (GAP 1)
+
+New Case Submitted (GAP 2)
+
+Access Code Issued
+
+Stage Change
+
+Document Requested
+
+Document Approved
+
+Document Rejected
+
+Receipt Approved
+
+Receipt Rejected
+
+Case Letter Issued
+
+Countdown Activated
+
+Countdown Override (missing)
+
+Countdown Expired (missing)
+
+Portal Reset (missing)
+
+Reactivation Required (missing)
+
+Reactivation Completed
+
+User Message → Admin (GAP 3)
+
+Admin Message → User (missing)
+
+NDA Integrity Alerts
+
+Email Failure Alerts
+
+AI Failure Alerts (missing)
+
+Health Check Failure Alerts (missing)
+
+All templates must be:
+
+Localized
+
+Logged
+
+Versioned
+
+Audited
+
+16.3 Security Checklist
+RBAC (GAP 4)
+super_admin → full access
+
+admin → case/document management
+
+agent → limited support
+
+viewer → read‑only
+
+Authentication
+Secure cookies
+
+Session timeout
+
+Token rotation
+
+Admin login rate limiting
+
+Input Validation
+Zod validation
+
+XSS sanitization
+
+SQL injection protection
+
+File validation
+
+Audit Logging
+Stage changes
+
+Document approvals
+
+Countdown actions
+
+Reactivation approvals
+
+Admin impersonation
+
+16.4 Compliance Checklist
+GDPR‑aligned data handling
+
+Immutable timeline
+
+Declaration signature immutability
+
+NDA integrity sweep
+
+Withdrawal reset compliance
+
+16.5 Monitoring Checklist
+Sentry integrated
+
+Unified /health endpoint (GAP 6)
+
+AI availability monitoring
+
+Email queue monitoring
+
+Cron job monitoring
+
+Performance monitoring
+
+SECTION 17 — POST‑LAUNCH MONITORING PLAN
+This plan ensures IBCCF remains stable, compliant, and secure after deployment.
+
+17.1 Daily Monitoring
+System Health
+Check /health endpoint
+
+Check DB latency
+
+Check email queue
+
+Check AI service availability
+
+Security
+Review audit logs
+
+Review blocked IP list
+
+Review admin login attempts
+
+Compliance
+NDA integrity sweep
+
+Declaration integrity sweep
+
+17.2 Weekly Monitoring
+Performance
+Slow query analysis
+
+Endpoint latency review
+
+Error rate review
+
+Operational
+Case backlog review
+
+Document review backlog
+
+Stage progression anomalies
+
+AI Forum
+Moderation queue
+
+Flagged content review
+
+17.3 Monthly Monitoring
+Compliance
+Full audit log export
+
+Data retention checks
+
+Access control review
+
+Security
+Penetration test (automated)
+
+Vulnerability scan
+
+Role permission review
+
+Business
+Case volume trends
+
+Withdrawal completion rates
+
+Reactivation frequency
+
+SECTION 18 — DEVELOPER CONFIRMATION CHECKLIST
+The developer must provide a written, point‑by‑point confirmation addressing each item below.
+
+18.1 Functional Confirmation
+All portal flows implemented
+
+All admin flows implemented
+
+All automated emails implemented
+
+All countdown flows implemented
+
+All reactivation flows implemented
+
+All stage transitions validated
+
+All document flows implemented
+
+18.2 Security Confirmation
+RBAC enforced
+
+Session security implemented
+
+File validation implemented
+
+Rate limiting implemented
+
+Audit logging implemented
+
+18.3 Compliance Confirmation
+Declaration immutability
+
+NDA integrity
+
+Withdrawal reset logic
+
+Timeline immutability
+
+18.4 Monitoring Confirmation
+Sentry integrated
+
+Unified health endpoint implemented
+
+AI monitoring implemented
+
+Email monitoring implemented
+
+18.5 Gap Closure Confirmation
+Developer must confirm closure of:
+
+Case Created Email
+
+Admin New Case Email
+
+Admin New Message Email
+
+RBAC enforcement
+
+Banned keyword moderation
+
+Unified health endpoint
+
+Stage transition validation
+
+Tawk.to integration
+
+SECTION 19 — MILESTONE‑BASED PAYMENT STRUCTURE
+This structure ensures payment is tied to verified delivery, not promises.
+
+Milestone 1 — Core Portal (20%)
+Deliverables:
+
+Dashboard
+
+Uploads
+
+Declaration
+
+Messaging
+
+Timeline
+
+Wallet
+
+Acceptance Criteria:
+
+All flows functional
+
+All validations working
+
+Milestone 2 — Admin Dashboard (20%)
+Deliverables:
+
+Case management
+
+Document review
+
+Email system
+
+Announcements
+
+Audit logs
+
+IP blocking
+
+Acceptance Criteria:
+
+All admin actions logged
+
+All email triggers functional
+
+Milestone 3 — Countdown & Reactivation (20%)
+Deliverables:
+
+Countdown activation
+
+Countdown override
+
+Countdown expiry
+
+Reset logic
+
+Reactivation page
+
+Reactivation approval
+
+Acceptance Criteria:
+
+Zero bypasses
+
+All emails functional
+
+Milestone 4 — Security & Compliance (20%)
+Deliverables:
+
+RBAC
+
+Audit logs
+
+File validation
+
+Rate limiting
+
+NDA integrity
+
+Declaration immutability
+
+Acceptance Criteria:
+
+Security audit passed
+
+Compliance audit passed
+
+Milestone 5 — Monitoring, AI, Final QA (20%)
+Deliverables:
+
+Unified health endpoint
+
+Sentry
+
+AI fallback
+
+Moderation
+
+QA test suite
+
+Launch checklist complete
+
+Acceptance Criteria:
+
+All tests passed
+
+All gaps closed
+
+System ready for production
+
+SECTION 20 — CONTRACT ADDENDUM (MAXIMUM PROTECTION)
+This section defines the legal obligations of the developer.
+
+20.1 Intellectual Property
+All code, documentation, and assets produced are the exclusive property of the project owner (Smith).
+
+Developer retains no rights.
+
+20.2 Confidentiality
+Developer must not:
+
+Disclose system details
+
+Share code
+
+Reuse components
+
+Discuss architecture
+
+Store data outside approved systems
+
+20.3 Delivery Obligations
+Developer must:
+
+Deliver all milestones
+
+Close all gaps
+
+Provide written confirmations
+
+Fix defects within 48 hours
+
+Maintain code quality standards
+
+20.4 Acceptance Criteria
+Work is accepted only when:
+
+All tests pass
+
+All checklists complete
+
+All gaps closed
+
+All confirmations submitted
+
+20.5 Penalties
+If developer fails to deliver:
+
+Payment may be withheld
+
+Contract may be terminated
+
+Developer may be liable for damages
+
+20.6 Non‑Circumvention
+Developer may not:
+
+Contact users
+
+Contact partners
+
+Contact investors
+
+Replicate system
+
+20.7 Data Handling
+Developer must:
+
+Not store user data locally
+
+Not export data
+
+Not use data for training
+
+Follow GDPR‑aligned practices
+
+SECTION 21 — ROADMAP (90‑DAY PLAN)
+Phase 1 (Days 1–20)
+Portal completion
+
+Admin dashboard completion
+
+Email system completion
+
+Phase 2 (Days 21–40)
+Countdown system
+
+Reactivation system
+
+Stage validation
+
+Phase 3 (Days 41–60)
+Security hardening
+
+RBAC
+
+Audit logs
+
+Compliance checks
+
+Phase 4 (Days 61–80)
+Monitoring
+
+AI forum
+
+Moderation
+
+Health endpoint
+
+Phase 5 (Days 81–90)
+QA
+
+Load testing
+
+Launch checklist
+
+Production deployment
+
+SECTION 22 — APPENDIX
+Includes:
+
+Glossary
+
+Stage definitions
+
+Document definitions
+
+Compliance definitions
+
+Email template keys
+
+Error code catalog

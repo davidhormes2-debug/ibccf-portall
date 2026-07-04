@@ -1,0 +1,215 @@
+{
+  "back": "Back",
+  "sections": {
+    "coreFunctions": "Core Functions",
+    "whatWeDo": "What We Do",
+    "caseTypes": "Case Types",
+    "casesWeHandle": "Cases We Handle",
+    "ourProcess": "Our Process",
+    "howItWorks": "How It Works",
+    "getInTouch": "Get In Touch",
+    "contact": "Contact {{name}}",
+    "otherDivisions": "Other Divisions"
+  },
+  "contact": {
+    "email": "Email",
+    "helpline": "Helpline",
+    "responseTime": "Response Time"
+  },
+  "cta": {
+    "fileCase": "Request Access & File a Case",
+    "allDivisions": "All Divisions"
+  },
+  "notFound": {
+    "title": "Division not found",
+    "back": "Back to home"
+  },
+  "divisions": {
+    "aml": {
+      "title": "AML Division",
+      "subtitle": "Anti-Money Laundering",
+      "tagline": "Stopping illicit funds before they enter the financial system.",
+      "overview": "The AML Division is the frontline defense against money laundering operations targeting cryptocurrency and traditional financial infrastructure. Our team of certified AML specialists conducts in-depth transaction monitoring, builds suspicious activity profiles, and coordinates with global financial intelligence units to trace and report illicit fund flows in real time.",
+      "functions": {
+        "0": { "title": "Transaction Monitoring", "description": "Automated and manual review of high-volume blockchain transactions, flagging unusual patterns, structuring behaviors, and layering techniques used to obscure illicit origins." },
+        "1": { "title": "Suspicious Activity Reports (SAR)", "description": "Filing and coordinating SARs with FinCEN, FCA, and other financial authorities when transactions meet the threshold for potential money laundering activity." },
+        "2": { "title": "Know Your Customer (KYC) Auditing", "description": "Reviewing onboarding processes at exchanges and custodians to identify KYC gaps that may allow bad actors to access the financial system undetected." },
+        "3": { "title": "OFAC & Sanctions Screening", "description": "Cross-referencing wallet addresses and counterparties against OFAC SDN lists, EU sanctions databases, and INTERPOL's financial crime registries." },
+        "4": { "title": "Typology Research", "description": "Ongoing study and cataloging of emerging money laundering typologies in crypto, including NFT wash trading, DeFi exploit laundering, and mixer obfuscation techniques." }
+      },
+      "caseTypes": {
+        "0": "Cryptocurrency structuring and layering",
+        "1": "Exchange-facilitated laundering",
+        "2": "Mixer and tumbler fund obfuscation",
+        "3": "NFT and DeFi-based laundering",
+        "4": "Cross-border illicit fund transfers",
+        "5": "Shell company crypto transactions"
+      },
+      "process": {
+        "0": { "step": "Submit Your Report", "description": "Provide transaction IDs, wallet addresses, and any supporting evidence through our secure intake portal." },
+        "1": { "step": "Initial Triage (24–48 hrs)", "description": "An AML analyst reviews the submission, verifies transaction data on-chain, and assesses urgency level." },
+        "2": { "step": "Investigation & SAR Filing", "description": "Where thresholds are met, formal SARs are filed with the relevant financial intelligence units." },
+        "3": { "step": "Coordination & Outcome", "description": "You receive a case reference and regular updates as the investigation progresses through regulatory channels." }
+      },
+      "contact": {
+        "responseTime": "24–48 hours",
+        "hours": "Monday–Friday, 08:00–18:00 UTC"
+      }
+    },
+    "cyber": {
+      "title": "Cybercrime & Digital Forensics",
+      "subtitle": "Blockchain Trace Analysis",
+      "tagline": "Following every byte — from blockchain to dark web and beyond.",
+      "overview": "The Cybercrime & Digital Forensics Division leverages cutting-edge blockchain analytics and open-source intelligence to trace fraudulent cryptocurrency flows, identify perpetrators operating on the dark web, and build evidentiary packages for law enforcement prosecution. Our forensic analysts are certified in leading blockchain tracing tools and collaborate directly with global cybercrime task forces.",
+      "functions": {
+        "0": { "title": "Blockchain Forensics", "description": "Full on-chain analysis of suspect wallets, tracing fund flows across multiple hops, bridges, and chains to identify ultimate beneficial ownership and cash-out points." },
+        "1": { "title": "Dark Web Intelligence", "description": "Monitoring underground marketplaces, forums, and Telegram channels where crypto fraud schemes are advertised, sold, and coordinated." },
+        "2": { "title": "Crypto-Tracing & Asset Mapping", "description": "Building comprehensive asset maps showing exactly where stolen funds moved — across wallets, exchanges, mixers, and off-ramps — in a format suitable for court use." },
+        "3": { "title": "Exchange Cooperation & Subpoenas", "description": "Coordinating with regulated exchanges to freeze suspect accounts and obtain KYC records through lawful process requests and mutual legal assistance treaties." },
+        "4": { "title": "Malware & Phishing Analysis", "description": "Technical reverse-engineering of malware used in crypto theft campaigns and identification of phishing infrastructure to enable takedowns." }
+      },
+      "caseTypes": {
+        "0": "Crypto exchange hacks and theft",
+        "1": "Phishing and social engineering scams",
+        "2": "Ransomware payment tracing",
+        "3": "DeFi protocol exploits",
+        "4": "SIM-swap account takeover",
+        "5": "Investment fraud and rug pulls"
+      },
+      "process": {
+        "0": { "step": "Evidence Submission", "description": "Provide all wallet addresses, transaction hashes, communications, and any known details about the perpetrator." },
+        "1": { "step": "Forensic Analysis (48–72 hrs)", "description": "Our analysts run full on-chain traces and cross-reference against known fraud clusters and dark web activity." },
+        "2": { "step": "Intelligence Package", "description": "A forensic report is compiled detailing fund flows, likely perpetrators, and off-ramp exchanges." },
+        "3": { "step": "Law Enforcement Referral", "description": "Where sufficient evidence exists, the package is referred to Interpol, Europol, or national cybercrime units." }
+      },
+      "contact": {
+        "responseTime": "24–72 hours",
+        "hours": "24/7 for emergency escalations"
+      }
+    },
+    "recovery": {
+      "title": "Asset Recovery Unit",
+      "subtitle": "Cross-Border Enforcement",
+      "tagline": "Pursuing stolen assets across borders until recovery is achieved.",
+      "overview": "The Asset Recovery Unit specializes in the legal and logistical process of locating, freezing, and repatriating assets stolen through crypto fraud. Working in partnership with attorneys, international law enforcement agencies, and regulatory bodies across jurisdictions, our team navigates the complex multi-national legal frameworks required to recover assets from sophisticated fraudsters.",
+      "functions": {
+        "0": { "title": "Asset Freeze & Restraint Orders", "description": "Coordinating with courts and enforcement agencies to issue emergency freezing orders against identified wallets, exchange accounts, and bank accounts before assets are dissipated." },
+        "1": { "title": "Civil Litigation Support", "description": "Preparing forensic evidence packages, expert witness testimony, and case documentation to support victims pursuing civil recovery through the courts." },
+        "2": { "title": "International Asset Tracing", "description": "Following assets as they move across multiple jurisdictions, engaging local counsel and authorities in each country to prevent dissipation." },
+        "3": { "title": "Mutual Legal Assistance Treaties (MLAT)", "description": "Navigating MLAT requests to obtain evidence, freeze orders, and cooperation from foreign jurisdictions where suspects or assets are located." },
+        "4": { "title": "Victim Restitution Coordination", "description": "Managing the distribution of recovered assets back to verified victims in accordance with court orders and compliance requirements." }
+      },
+      "caseTypes": {
+        "0": "Large-scale investment fraud recovery",
+        "1": "Exchange insolvency claims",
+        "2": "Ponzi and pyramid scheme victims",
+        "3": "Romance scam asset recovery",
+        "4": "Fraudulent broker restitution",
+        "5": "Multi-jurisdictional crypto theft"
+      },
+      "process": {
+        "0": { "step": "Case Assessment (2–3 days)", "description": "Our team evaluates the viability of asset recovery based on the amount lost, evidence quality, and jurisdictions involved." },
+        "1": { "step": "Asset Tracing", "description": "Full blockchain and financial intelligence is deployed to locate and document assets currently held by perpetrators." },
+        "2": { "step": "Legal Action Coordination", "description": "We coordinate with partner attorneys and enforcement agencies to initiate freezing orders and litigation." },
+        "3": { "step": "Recovery & Restitution", "description": "Recovered assets are marshaled and distributed to verified victims through court-supervised processes." }
+      },
+      "contact": {
+        "responseTime": "2–3 business days",
+        "hours": "Monday–Friday, 09:00–17:00 UTC"
+      }
+    },
+    "compliance": {
+      "title": "Compliance & Regulatory Affairs",
+      "subtitle": "FATF Alignment",
+      "tagline": "Aligning the global crypto ecosystem with regulatory best practice.",
+      "overview": "The Compliance & Regulatory Affairs Division ensures that IBCCF operations, partner exchanges, and reporting entities adhere to the highest international regulatory standards. Our compliance officers maintain up-to-date expertise across FATF recommendations, EU AMLD frameworks, FinCEN guidance, and national VASP regulations — translating complex requirements into actionable compliance programs.",
+      "functions": {
+        "0": { "title": "FATF Jurisdictional Reporting", "description": "Preparing and submitting formal reports to FATF and affiliated financial intelligence units on behalf of reporting entities, ensuring deadlines and format requirements are met." },
+        "1": { "title": "Legal Framework Mapping", "description": "Continuously tracking regulatory changes across 40+ jurisdictions to provide timely guidance on how new laws affect VASP operations, user obligations, and reporting requirements." },
+        "2": { "title": "Regulatory Gap Analysis", "description": "Auditing existing compliance programs at exchanges and custodians to identify vulnerabilities, outdated procedures, and gaps that could expose them to regulatory sanctions." },
+        "3": { "title": "VASP Oversight & Guidance", "description": "Supporting Virtual Asset Service Providers with licensing requirements, travel rule implementation, and ongoing compliance monitoring in their operating jurisdictions." },
+        "4": { "title": "Regulatory Coordination", "description": "Acting as a liaison between IBCCF, national competent authorities, and international regulatory bodies to facilitate information sharing and coordinated enforcement." }
+      },
+      "caseTypes": {
+        "0": "VASP licensing and compliance support",
+        "1": "Travel Rule implementation guidance",
+        "2": "SAR/STR filing assistance",
+        "3": "Regulatory sanction defense",
+        "4": "AML program audit and remediation",
+        "5": "FATF mutual evaluation preparation"
+      },
+      "process": {
+        "0": { "step": "Initial Consultation (1–2 days)", "description": "Our compliance officers review your situation, jurisdiction, and applicable regulatory framework." },
+        "1": { "step": "Gap Analysis", "description": "A thorough audit of existing compliance procedures is conducted and documented." },
+        "2": { "step": "Remediation Plan", "description": "A structured remediation roadmap is provided with prioritized actions and implementation timelines." },
+        "3": { "step": "Ongoing Monitoring", "description": "Optional ongoing compliance monitoring service to keep programs current with evolving regulations." }
+      },
+      "contact": {
+        "responseTime": "1–2 business days",
+        "hours": "Monday–Friday, 08:00–18:00 UTC"
+      }
+    },
+    "intelligence": {
+      "title": "Intelligence & Threat Analysis",
+      "subtitle": "Threat Actor Profiling",
+      "tagline": "Mapping scam networks before they claim their next victim.",
+      "overview": "The Intelligence & Threat Analysis Division operates as IBCCF's early warning center — proactively identifying, mapping, and neutralizing emerging crypto fraud threats before they reach scale. Our intelligence analysts combine open-source intelligence, threat actor profiling, and dark web monitoring to build comprehensive pictures of criminal organizations operating in the crypto space.",
+      "functions": {
+        "0": { "title": "Scam Network Mapping", "description": "Building relationship graphs of fraudulent entities — wallets, websites, social accounts, and individuals — that together form coordinated scam operations." },
+        "1": { "title": "Threat Actor Profiling", "description": "Creating detailed profiles of known and suspected crypto fraud operators, including their techniques, infrastructure, target demographics, and operational patterns." },
+        "2": { "title": "Early Warning System", "description": "Monitoring social media, forums, and dark web channels to detect new scam campaigns in their infancy and issue alerts before they spread widely." },
+        "3": { "title": "Intelligence Sharing", "description": "Distributing sanitized threat intelligence reports to partner law enforcement agencies, exchanges, and financial institutions to enable coordinated defensive action." },
+        "4": { "title": "Predictive Threat Modeling", "description": "Using historical data and pattern analysis to forecast where and how the next wave of crypto fraud is likely to emerge, enabling proactive countermeasures." }
+      },
+      "caseTypes": {
+        "0": "Pig butchering scam campaigns",
+        "1": "Fake exchange infrastructure",
+        "2": "Impersonation and deepfake fraud",
+        "3": "Celebrity endorsement scams",
+        "4": "Coordinated pump-and-dump schemes",
+        "5": "Cross-border fraud syndicate operations"
+      },
+      "process": {
+        "0": { "step": "Threat Report Submission", "description": "Submit details of the suspected scam, including URLs, wallets, communications, and any other evidence." },
+        "1": { "step": "OSINT Analysis (48–72 hrs)", "description": "Our intelligence team investigates the threat using open and closed-source intelligence methods." },
+        "2": { "step": "Threat Profile Creation", "description": "A comprehensive threat profile is compiled and added to our threat intelligence database." },
+        "3": { "step": "Alert & Referral", "description": "Relevant alerts are issued to partner agencies and, where appropriate, public warnings are published." }
+      },
+      "contact": {
+        "responseTime": "48–72 hours",
+        "hours": "24/7 monitoring with daytime analyst response"
+      }
+    },
+    "support": {
+      "title": "Victim Support Services",
+      "subtitle": "Case Intake & Advocacy",
+      "tagline": "Standing with victims from first contact to final resolution.",
+      "overview": "The Victim Support Services Division provides a compassionate, confidential, and structured support pathway for individuals who have suffered financial and psychological harm through crypto fraud. Our case advocates work one-on-one with victims to document their experience, connect them with appropriate investigative and legal resources, and provide ongoing emotional and practical support throughout the recovery process.",
+      "functions": {
+        "0": { "title": "Secure Case Intake", "description": "Confidential, encrypted intake process that collects all relevant information about the fraud, the victim's circumstances, and any existing documentation or evidence." },
+        "1": { "title": "Victim Advocacy", "description": "Dedicated case advocates who represent the victim's interests throughout the investigation and legal process, ensuring their voice is heard and their rights are protected." },
+        "2": { "title": "Psychological Support Referrals", "description": "Connections to vetted counselors and support groups specializing in the unique trauma of financial fraud — including the shame, isolation, and grief it often causes." },
+        "3": { "title": "Legal Guidance & Referrals", "description": "Guidance on victims' legal options, assistance preparing documentation for law enforcement complaints, and referrals to attorneys experienced in crypto fraud cases." },
+        "4": { "title": "Restitution Navigation", "description": "Helping victims understand and navigate the restitution process, including filing victim impact statements and participating in asset recovery distributions." }
+      },
+      "caseTypes": {
+        "0": "Romance scam victims",
+        "1": "Investment fraud survivors",
+        "2": "Elderly and vulnerable victim support",
+        "3": "Identity theft recovery assistance",
+        "4": "Family impact support",
+        "5": "Crisis intervention referrals"
+      },
+      "process": {
+        "0": { "step": "Confidential Intake (Same Day)", "description": "Contact us via the secure form or helpline. A case advocate will respond the same business day to begin your intake." },
+        "1": { "step": "Case Assessment", "description": "Your advocate reviews your situation and connects you with the appropriate investigative divisions and resources." },
+        "2": { "step": "Ongoing Support", "description": "Regular check-ins keep you informed of investigation progress while your advocate addresses any support needs that arise." },
+        "3": { "step": "Resolution & Recovery", "description": "Your advocate supports you through the final stages, including any legal proceedings, restitution, and post-case recovery planning." }
+      },
+      "contact": {
+        "responseTime": "Same business day",
+        "hours": "Monday–Friday, 08:00–20:00 UTC · Emergency line 24/7"
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getPortalToken } from '@/lib/portalSession';
+import { playNotificationSound } from '@/hooks/useNotificationSound';
 
 export interface Notification {
   id: number;
@@ -30,12 +32,6 @@ export function useNotifications({
   const queryClient = useQueryClient();
   const [hasNewNotification, setHasNewNotification] = useState(false);
   const prevCountRef = useRef<number>(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    audioRef.current = new Audio('/notification.mp3');
-    audioRef.current.volume = 0.5;
-  }, []);
 
   const endpoint = recipientType === 'admin' 
     ? '/api/notifications/admin'
@@ -49,7 +45,12 @@ export function useNotifications({
     queryKey: ['notifications', recipientType, recipientId],
     queryFn: async () => {
       if (recipientType === 'user' && !recipientId) return [];
-      const res = await fetch(endpoint);
+      const headers: HeadersInit = {};
+      if (recipientType === 'user') {
+        const token = getPortalToken();
+        if (token) headers['x-portal-session-token'] = token;
+      }
+      const res = await fetch(endpoint, { headers });
       if (!res.ok) throw new Error('Failed to fetch notifications');
       return res.json();
     },
@@ -78,8 +79,8 @@ export function useNotifications({
   useEffect(() => {
     if (unreadCount > prevCountRef.current) {
       setHasNewNotification(true);
-      if (soundEnabled && audioRef.current) {
-        audioRef.current.play().catch(() => {});
+      if (soundEnabled) {
+        void playNotificationSound('alert');
       }
       if ('Notification' in window && Notification.permission === 'granted') {
         const latest = notifications.find(n => !n.isRead);
@@ -95,10 +96,19 @@ export function useNotifications({
     prevCountRef.current = unreadCount;
   }, [unreadCount, notifications, soundEnabled]);
 
+  const buildReadHeaders = (): HeadersInit => {
+    if (recipientType === 'user') {
+      const token = getPortalToken();
+      if (token) return { 'x-portal-session-token': token };
+    }
+    return {};
+  };
+
   const markAsReadMutation = useMutation({
     mutationFn: async (notificationId: number) => {
       const res = await fetch(`/api/notifications/${notificationId}/read`, {
-        method: 'POST'
+        method: 'POST',
+        headers: buildReadHeaders(),
       });
       if (!res.ok) throw new Error('Failed to mark as read');
     },
@@ -111,9 +121,10 @@ export function useNotifications({
   const markAllAsReadMutation = useMutation({
     mutationFn: async () => {
       const unreadNotifications = notifications.filter(n => !n.isRead);
+      const headers = buildReadHeaders();
       await Promise.all(
         unreadNotifications.map(n => 
-          fetch(`/api/notifications/${n.id}/read`, { method: 'POST' })
+          fetch(`/api/notifications/${n.id}/read`, { method: 'POST', headers })
         )
       );
     },

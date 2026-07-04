@@ -1,21 +1,17 @@
-modules = ["nodejs-20", "web", "postgresql-16"]
-run = "npm run dev"
-hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
-
+modules = ["nodejs-20", "python-3.11", "postgresql-16"]
 [nix]
-channel = "stable-24_05"
+channel = "stable-25_05"
 
-[deployment]
-deploymentTarget = "autoscale"
-build = ["npm", "run", "build"]
-run = ["npm", "run", "start"]
+[agent]
+expertMode = true
+integrations = ["javascript_openai_ai_integrations:2.0.0", "github:1.0.0"]
 
-[[ports]]
-localPort = 5000
-externalPort = 80
+[userenv]
 
-[env]
-PORT = "5000"
+[userenv.shared]
+NODE_ENV = "development"
+APP_BASE_URL = "https://ibccf.site"
+APP_URL = "https://d1886c07-eb59-44ee-a440-c66e8ae6a5d9-00-26oyfm716phkv.sisko.replit.dev"
 
 [workflows]
 runButton = "Project"
@@ -29,6 +25,34 @@ author = "agent"
 task = "workflow.run"
 args = "Start application"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "spam-protection"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "typecheck"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Withdrawal Tutorial Video"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "unit-tests"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "lint"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "client-tests"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "script-tests"
+
 [[workflows.workflow]]
 name = "Start application"
 author = "agent"
@@ -38,6 +62,167 @@ task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
 
-[agent]
-mockupState = "FULLSTACK"
-integrations = ["javascript_database:1.0.0", "javascript_openai_ai_integrations:1.0.0"]
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "spam-protection"
+author = "agent"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "grep -q \"returns 429 on the 6th rapid POST from the same IP\" server/__tests__/publicPostRateLimit.test.ts && npx vitest run server/__tests__/publicPostRateLimit.test.ts"
+
+[[workflows.workflow]]
+name = "typecheck"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run check"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "Withdrawal Tutorial Video"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=5173 npx vite --config video/vite.config.ts"
+waitForPort = 5173
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "server-tests"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm test"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "unit-tests"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm test"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "lint"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run lint"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "client-tests"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx vitest run client/"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "script-tests"
+author = "agent"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx vitest run --config vitest.scripts.config.ts"
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 180000
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["npm", "start"]
+build = ["npm", "run", "build"]
+
+[[ports]]
+localPort = 5000
+externalPort = 8008
+
+[[ports]]
+localPort = 5173
+externalPort = 80
+
+[[ports]]
+localPort = 20205
+externalPort = 3001
+
+[[ports]]
+localPort = 20274
+externalPort = 3003
+
+[[ports]]
+localPort = 20839
+externalPort = 9000
+
+[[ports]]
+localPort = 21046
+externalPort = 5173
+
+[[ports]]
+localPort = 21150
+externalPort = 3000
+
+[[ports]]
+localPort = 21708
+externalPort = 8000
+
+[[ports]]
+localPort = 22357
+externalPort = 8081
+
+[[ports]]
+localPort = 23080
+externalPort = 6800
+
+[[ports]]
+localPort = 23957
+externalPort = 8080
+
+[[ports]]
+localPort = 26626
+externalPort = 4200
+
+[[ports]]
+localPort = 28838
+externalPort = 8099
+
+[[ports]]
+localPort = 29459
+externalPort = 5000
+
+[[ports]]
+localPort = 31992
+externalPort = 6000
+
+[[ports]]
+localPort = 32023
+externalPort = 3002

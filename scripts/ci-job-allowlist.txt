@@ -1,0 +1,51 @@
+# scripts/ci-job-allowlist.txt
+#
+# CI jobs that are intentionally NOT listed in required-checks.txt.
+# Every "Workflow Name / Job Name" context string derived from a
+# .github/workflows/*.yml file must appear in either required-checks.txt
+# (enforced gate) or here (explicitly opted out).
+#
+# Adding a new CI job without updating one of these two files causes the
+# "Protection Checks Sync" CI job to fail, forcing a conscious decision.
+#
+# Allowlist categories:
+#   [utility]    orchestration / path-filter / notification jobs
+#   [optional]   opt-in or strict-mode gates not yet promoted to required
+#   [scheduled]  jobs that run on a schedule, not on every PR
+#   [e2e]        end-to-end tests kept separate from required PR gates
+#   [manual]     workflow_dispatch-only jobs that never run on a PR
+
+# --- Branch Protection Check workflow ---
+Branch Protection Check / Auto-Apply Branch Protection   [utility]
+Branch Protection Check / Verify Branch Protection       [utility]
+Branch Protection Check / Self-Heal Branch Protection    [scheduled]
+Branch Protection Check / Verify seo.json Guard Context Registered  [utility]
+Branch Protection Check / Notify on Failure              [utility]
+Branch Protection Check / Check PROTECTION_SETUP_TOKEN Expiry  [scheduled]
+Branch Protection Check / Notify on PAT Expiry Warning   [utility]
+
+# --- CI Secrets Sync Check workflow ---
+CI Secrets Sync Check / Check secrets are in sync across CI_SETUP.md, smoke-test.yml, and server/env.ts  [utility]
+CI Secrets Sync Check / Notify on Failure              [utility]
+
+# --- E2E Tests workflow ---
+E2E Tests / Playwright E2E                               [e2e]
+
+
+# --- Smoke Test workflow ---
+Smoke Test / Validate Required Secrets                   [utility]
+Smoke Test / Validate Secret Connectivity                [utility]
+Smoke Test / Notify on Failure                           [utility]
+
+# --- Unit Tests workflow ---
+Unit Tests / Detect Changed Paths                        [utility]
+Unit Tests / Tutorial Recordings Freshness               [utility]
+Unit Tests / Community Thread Views Cleanup Tests        [optional]
+
+# --- ElevenLabs Voice ID Check workflow ---
+ElevenLabs Voice ID Check / Assert George voice ID is unchanged  [scheduled]
+
+# --- E2E Tawk.to Live Widget Staging workflow ---
+# workflow_dispatch-only staging check against real Tawk.to credentials; never
+# runs on PRs, so it is intentionally not a required branch protection check.
+E2E Tawk.to Live Widget Staging / Playwright E2E — Tawk.to Live Widget  [manual]

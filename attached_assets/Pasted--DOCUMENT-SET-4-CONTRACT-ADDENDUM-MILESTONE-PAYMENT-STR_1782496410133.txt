@@ -1,0 +1,376 @@
+# **📘 DOCUMENT SET 4 — CONTRACT ADDENDUM + MILESTONE PAYMENT STRUCTURE**  
+### *Version 1.0 — 26 June 2026*  
+### *Governing Document: IBCCF Master Specification (Document Set 1)*
+
+---
+
+# **SECTION 1 — PURPOSE OF THIS ADDENDUM**
+
+This Contract Addendum supplements and overrides any prior agreements between:
+
+**Client (Project Owner):** Smith  
+**Developer (Contractor):** [Developer Name]
+
+This Addendum establishes:
+
+- Intellectual property ownership  
+- Confidentiality obligations  
+- Delivery requirements  
+- Milestone‑based payment structure  
+- Acceptance criteria  
+- Penalties for non‑delivery  
+- Termination rights  
+- Compliance obligations  
+- Security obligations  
+- Data handling obligations  
+
+This Addendum is legally binding and enforceable.
+
+---
+
+# **SECTION 2 — DEFINITIONS**
+
+### **2.1 “Project”**  
+Refers to the IBCCF system as defined in the Master Specification.
+
+### **2.2 “Deliverables”**  
+All code, documentation, configurations, assets, and materials produced by the Developer.
+
+### **2.3 “Milestones”**  
+The five delivery checkpoints defined in Section 7.
+
+### **2.4 “Acceptance”**  
+Formal written confirmation by the Client that a Milestone meets all requirements.
+
+### **2.5 “Defect”**  
+Any deviation from the Master Specification, SRS, or expected system behavior.
+
+### **2.6 “Gap”**  
+Any missing feature, missing email, missing validation, missing security control, or missing workflow identified in the Master Specification.
+
+---
+
+# **SECTION 3 — INTELLECTUAL PROPERTY OWNERSHIP**
+
+### **3.1 Full Assignment of Rights**
+All Deliverables produced under this contract are the **exclusive property of the Client**.
+
+Developer assigns to the Client:
+
+- All copyrights  
+- All code ownership  
+- All design rights  
+- All documentation rights  
+- All derivative rights  
+- All deployment rights  
+- All commercial rights  
+
+### **3.2 No Retained Rights**
+Developer retains **no rights** to:
+
+- Reuse code  
+- Resell components  
+- Repurpose architecture  
+- Publish system details  
+- Claim authorship  
+
+### **3.3 Work‑for‑Hire**
+All Deliverables are classified as **work‑for‑hire**.
+
+---
+
+# **SECTION 4 — CONFIDENTIALITY & NON‑DISCLOSURE**
+
+### **4.1 Confidential Information**
+Includes:
+
+- System architecture  
+- Codebase  
+- Database schema  
+- Compliance logic  
+- Withdrawal logic  
+- Countdown logic  
+- Reactivation logic  
+- Email templates  
+- Admin workflows  
+- User workflows  
+- AI logic  
+- Monitoring logic  
+- All documents in Sets 1–5  
+
+### **4.2 Developer Obligations**
+Developer must not:
+
+- Disclose any confidential information  
+- Share screenshots  
+- Share code snippets  
+- Discuss system logic  
+- Store data outside approved systems  
+- Upload code to public repositories  
+- Use project data for training or testing  
+
+### **4.3 Duration**
+Confidentiality obligations last **indefinitely**, even after contract termination.
+
+---
+
+# **SECTION 5 — NON‑CIRCUMVENTION**
+
+Developer agrees not to:
+
+- Contact users  
+- Contact case holders  
+- Contact partners  
+- Contact investors  
+- Contact any third party connected to the project  
+- Replicate the system for another client  
+- Build a competing system  
+
+Violation constitutes immediate breach.
+
+---
+
+# **SECTION 6 — DELIVERY OBLIGATIONS**
+
+Developer must:
+
+- Deliver all Milestones on time  
+- Close all Gaps  
+- Implement all automated emails  
+- Implement all countdown logic  
+- Implement all reactivation logic  
+- Implement all admin workflows  
+- Implement all user workflows  
+- Implement all security controls  
+- Implement all monitoring endpoints  
+- Provide written confirmations for each checklist  
+
+### **6.1 No Partial Delivery**
+Partial delivery is not acceptable.
+
+### **6.2 No Substitutions**
+Developer may not replace required features with alternatives.
+
+### **6.3 No Deviation**
+All implementation must match the Master Specification exactly.
+
+---
+
+# **SECTION 7 — MILESTONE‑BASED PAYMENT STRUCTURE**
+
+Payments are tied to **verified delivery**, not effort or time.
+
+Each Milestone must be:
+
+- Fully delivered  
+- Fully tested  
+- Fully compliant  
+- Fully validated  
+- Fully confirmed in writing  
+
+Only then is payment released.
+
+---
+
+## **Milestone 1 — Core Portal (20%)**
+
+### **Deliverables**
+- Dashboard  
+- Document uploads  
+- Declaration of Compliance  
+- Messaging  
+- Timeline  
+- Wallet verification  
+
+### **Acceptance Criteria**
+- All flows functional  
+- All validations implemented  
+- No missing fields  
+- No missing screens  
+- No console errors  
+- No broken links  
+
+---
+
+## **Milestone 2 — Admin Dashboard (20%)**
+
+### **Deliverables**
+- Case management  
+- Document review  
+- Email system  
+- Announcements  
+- Audit logs  
+- IP blocking  
+- User impersonation  
+
+### **Acceptance Criteria**
+- All admin actions logged  
+- All email triggers functional  
+- No missing admin screens  
+- No missing filters  
+- No missing search functions  
+
+---
+
+## **Milestone 3 — Countdown & Reactivation (20%)**
+
+### **Deliverables**
+- Countdown activation  
+- Countdown override  
+- Countdown expiry  
+- Reset logic  
+- Lockout logic  
+- Reactivation page  
+- Reactivation approval  
+
+### **Acceptance Criteria**
+- Zero bypasses  
+- Zero timing drift  
+- All emails implemented  
+- All resets logged  
+- All reactivation flows functional  
+
+---
+
+## **Milestone 4 — Security & Compliance (20%)**
+
+### **Deliverables**
+- RBAC  
+- Audit logs  
+- File validation  
+- Rate limiting  
+- NDA integrity  
+- Declaration immutability  
+- Withdrawal reset compliance  
+
+### **Acceptance Criteria**
+- Security audit passed  
+- Compliance audit passed  
+- No missing logs  
+- No missing validations  
+
+---
+
+## **Milestone 5 — Monitoring, AI, Final QA (20%)**
+
+### **Deliverables**
+- Unified health endpoint  
+- Sentry integration  
+- AI fallback  
+- Moderation  
+- QA test suite  
+- Launch checklist completion  
+
+### **Acceptance Criteria**
+- All tests passed  
+- All gaps closed  
+- System ready for production  
+
+---
+
+# **SECTION 8 — ACCEPTANCE CRITERIA**
+
+A Milestone is accepted only when:
+
+- All features delivered  
+- All tests passed  
+- All checklists completed  
+- All Gaps closed  
+- All emails implemented  
+- All security controls enforced  
+- All monitoring active  
+- All documentation updated  
+- Developer provides written confirmation  
+
+Client has sole authority to determine acceptance.
+
+---
+
+# **SECTION 9 — PENALTIES FOR NON‑DELIVERY**
+
+If Developer fails to deliver:
+
+### **9.1 Payment Withholding**
+Client may withhold payment for incomplete Milestones.
+
+### **9.2 Contract Termination**
+Client may terminate contract immediately.
+
+### **9.3 Liability for Damages**
+Developer may be held liable for:
+
+- Lost time  
+- Lost revenue  
+- Replacement developer costs  
+- Compliance risks  
+
+### **9.4 No Refund of Completed Milestones**
+Completed Milestones remain property of the Client.
+
+---
+
+# **SECTION 10 — TERMINATION RIGHTS**
+
+Client may terminate contract if:
+
+- Developer misses deadlines  
+- Developer fails to close Gaps  
+- Developer violates confidentiality  
+- Developer violates non‑circumvention  
+- Developer delivers defective work  
+- Developer refuses to fix defects  
+
+Upon termination:
+
+- Developer must hand over all code  
+- Developer must revoke all access  
+- Developer must transfer all credentials  
+- Developer must provide final documentation  
+
+---
+
+# **SECTION 11 — SECURITY OBLIGATIONS**
+
+Developer must:
+
+- Enforce RBAC  
+- Validate all inputs  
+- Sanitize all content  
+- Protect against XSS  
+- Protect against SQL injection  
+- Implement rate limiting  
+- Log all admin actions  
+- Never store user data locally  
+
+---
+
+# **SECTION 12 — DATA HANDLING OBLIGATIONS**
+
+Developer must:
+
+- Not export data  
+- Not store data outside approved systems  
+- Not use data for training  
+- Not share data with third parties  
+- Follow GDPR‑aligned practices  
+
+---
+
+# **SECTION 13 — FINAL SIGNATURES**
+
+**Client (Smith):**  
+Signature: ____________________  
+Date: _________________________  
+
+**Developer:**  
+Name: _________________________  
+Signature: ____________________  
+Date: _________________________  
+
+---
+
+# **📘 DOCUMENT SET 4 COMPLETE**
+
+Next:
+
+### **📘 DOCUMENT SET 5 — Roadmap + Delivery Plan**

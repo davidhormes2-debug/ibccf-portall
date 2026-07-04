@@ -1,8 +1,9 @@
-import { db } from "../db";
+import { db, type DbExecutor } from "../db";
 import { eq, desc } from "drizzle-orm";
 import {
   cases, caseLetters, caseSubmissions, caseNotes,
   chatMessages, adminMessages, depositReceipts,
+  communityParticipants,
   type Case, type InsertCase, type UpdateCase,
   type CaseLetter, type UpdateCaseLetter,
   type CaseSubmission, type InsertCaseSubmission,
@@ -29,8 +30,12 @@ export class CaseRepository {
     return await db.select().from(cases).orderBy(desc(cases.createdAt));
   }
 
-  async update(id: string, data: UpdateCase): Promise<Case | undefined> {
-    const [updated] = await db
+  async update(
+    id: string,
+    data: UpdateCase,
+    executor: DbExecutor = db,
+  ): Promise<Case | undefined> {
+    const [updated] = await executor
       .update(cases)
       .set({ ...data, updatedAt: new Date() })
       .where(eq(cases.id, id))
@@ -38,13 +43,20 @@ export class CaseRepository {
     return updated;
   }
 
-  async delete(id: string): Promise<void> {
-    await db.delete(depositReceipts).where(eq(depositReceipts.caseId, id));
-    await db.delete(adminMessages).where(eq(adminMessages.caseId, id));
-    await db.delete(chatMessages).where(eq(chatMessages.caseId, id));
-    await db.delete(caseSubmissions).where(eq(caseSubmissions.caseId, id));
-    await db.delete(caseLetters).where(eq(caseLetters.caseId, id));
-    await db.delete(cases).where(eq(cases.id, id));
+  async delete(id: string, executor: DbExecutor = db): Promise<void> {
+    await executor.delete(depositReceipts).where(eq(depositReceipts.caseId, id));
+    await executor.delete(adminMessages).where(eq(adminMessages.caseId, id));
+    await executor.delete(chatMessages).where(eq(chatMessages.caseId, id));
+    await executor.delete(caseSubmissions).where(eq(caseSubmissions.caseId, id));
+    await executor.delete(caseLetters).where(eq(caseLetters.caseId, id));
+    // Task #126 — explicitly drop the community participant row before
+    // the case itself goes away. The FK now has ON DELETE CASCADE
+    // (migration 0013) so this is belt-and-braces, but doing it
+    // explicitly keeps the behaviour resilient on DBs that haven't yet
+    // had the migration applied, and the cascade still handles
+    // community_reactions / earned_badges off the participant row.
+    await executor.delete(communityParticipants).where(eq(communityParticipants.caseId, id));
+    await executor.delete(cases).where(eq(cases.id, id));
   }
 
   async getLetter(caseId: string): Promise<CaseLetter | undefined> {

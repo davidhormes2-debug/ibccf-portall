@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useRef, useMemo, ReactNode, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "@/App";
 
@@ -13,6 +14,7 @@ export interface AdminData {
 export interface Case {
   id: string;
   accessCode: string;
+  caseRef?: string | null;
   status: 'created' | 'registered' | 'syncing' | 'active' | 'completed';
   userName?: string;
   userEmail?: string;
@@ -41,6 +43,15 @@ export interface Case {
   submissionUrl?: string;
   createdAt: string;
   updatedAt: string;
+  // Sealed Settlement & NDA — when set, the case is permanently locked.
+  // PATCH /api/cases/:id returns 423 until cleared via Override Seal.
+  sealedAt?: string | null;
+  sealedBy?: string | null;
+  // Preferred locale for transactional emails (BCP-47 base: en/es/fr/de/pt/zh).
+  // Set by the portal on language switch and by admins via PATCH /api/cases/:id;
+  // consumed by `resolveRecipientLocale` so admin-triggered sends reach the
+  // user in their language even though the request comes from the admin.
+  preferredLocale?: string | null;
 }
 
 export interface AdminMessage {
@@ -146,6 +157,8 @@ export interface AuditLog {
   description: string;
   ipAddress?: string;
   userAgent?: string;
+  newValue?: string | null;
+  oldValue?: string | null;
   createdAt: string;
 }
 
@@ -232,25 +245,12 @@ export interface DocumentRequest {
   createdAt: string;
 }
 
-export type SettingsView = 'main' | 'audit' | 'sessions' | 'scheduled' | 'templates' | 'help' | 'feedback' | 'documents' | '2fa' | 'admin-users' | 'user-sessions' | 'translations';
+export type SettingsView = 'main' | 'audit' | 'sessions' | 'scheduled' | 'templates' | 'help' | 'feedback' | 'documents' | '2fa' | 'admin-users' | 'user-sessions' | 'translations' | 'sound' | 'sub-2fa';
 
-export const playNotificationSound = () => {
-  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
-  oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.1);
-  oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.2);
-  
-  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-  
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.3);
+export const playNotificationSound = (
+  type: import('@/hooks/useNotificationSound').NotificationSoundType = 'alert',
+): Promise<void> => {
+  return import('@/hooks/useNotificationSound').then(m => m.playNotificationSound(type));
 };
 
 interface AdminContextType {
@@ -390,6 +390,7 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
   
   const { toast } = useToast();
   const { theme, toggleTheme } = useTheme();
+  const { t } = useTranslation("admin");
   
   const filteredCases = useMemo(() => {
     return cases.filter(c => {
@@ -422,9 +423,11 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
           const newCount = currentRegisteredCount - lastRegisteredCountRef.current;
           const newCase = registeredCases[registeredCases.length - 1];
           playNotificationSound();
-          toast({ 
-            title: "New User Registered", 
-            description: `${newCase?.userName || 'A user'} has registered${newCount > 1 ? ` (+${newCount} total)` : ''}`
+          toast({
+            title: t("toasts.newUserRegistered.title"),
+            description: newCount > 1
+              ? t("toasts.newUserRegisteredMulti.description", { name: newCase?.userName || t("toasts.aUser", { defaultValue: "A user" }), count: newCount })
+              : t("toasts.newUserRegistered.description", { name: newCase?.userName || t("toasts.aUser", { defaultValue: "A user" }) })
           });
         }
         lastRegisteredCountRef.current = currentRegisteredCount;
@@ -439,9 +442,11 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
           const newCount = currentSubmissionsCount - lastSubmissionsCountRef.current;
           const newSubmission = data[data.length - 1];
           playNotificationSound();
-          toast({ 
-            title: "New Submission", 
-            description: `Option ${newSubmission?.selectedOption || ''} submitted${newCount > 1 ? ` (+${newCount} total)` : ''}`
+          toast({
+            title: t("toasts.newSubmission.title"),
+            description: newCount > 1
+              ? t("toasts.newSubmissionMulti.description", { option: newSubmission?.selectedOption || '', count: newCount })
+              : t("toasts.newSubmission.description", { option: newSubmission?.selectedOption || '' })
           });
         }
         lastSubmissionsCountRef.current = currentSubmissionsCount;
@@ -453,16 +458,16 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
       }
       
       if (showToast) {
-        toast({ title: "Refreshed", description: "Data has been updated." });
+        toast({ title: t("toasts.refreshed.title"), description: t("toasts.refreshed.description") });
       }
-    } catch (error) {
+    } catch (_e) {
       if (showToast) {
-        toast({ variant: "destructive", title: "Error", description: "Failed to refresh data." });
+        toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.refreshFailed.description") });
       }
     } finally {
       setIsDataLoading(false);
     }
-  }, [toast, authToken]);
+  }, [toast, authToken, t]);
 
   const loadChatTemplates = useCallback(async () => {
     try {
@@ -495,8 +500,8 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
           if (latestMessage?.sender === 'user') {
             playNotificationSound();
             toast({
-              title: "New Message",
-              description: `User sent a new message`
+              title: t("toasts.newMessageNotify.title"),
+              description: t("toasts.newMessageGeneric.description")
             });
           }
         }
@@ -509,7 +514,7 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
     } catch (error) {
       console.error('Failed to load chat messages:', error);
     }
-  }, [toast, authToken]);
+  }, [toast, authToken, t]);
 
   const sendChatMessage = useCallback(async (caseId: string, message: string) => {
     try {
@@ -521,10 +526,10 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
       if (res.ok) {
         await loadChatMessages(caseId);
       }
-    } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to send message" });
+    } catch (_e) {
+      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.sendMessageFailed.description") });
     }
-  }, [loadChatMessages, toast, authToken]);
+  }, [loadChatMessages, toast, authToken, t]);
 
   const loadCaseNotes = useCallback(async (caseId: string) => {
     try {
@@ -551,13 +556,13 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
         body: JSON.stringify({ content, adminUsername: 'Admin2025' })
       });
       if (res.ok) {
-        toast({ title: "Note Added", description: "Case note created." });
+        toast({ title: t("toasts.noteAdded.title"), description: t("toasts.noteAdded.description") });
         await loadCaseNotes(caseId);
       }
-    } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to add note" });
+    } catch (_e) {
+      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.noteAddFailed.description") });
     }
-  }, [authToken, loadCaseNotes, toast]);
+  }, [authToken, loadCaseNotes, toast, t]);
 
   const deleteCaseNote = useCallback(async (noteId: number, caseId: string) => {
     try {
@@ -565,12 +570,12 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${authToken}` }
       });
-      toast({ title: "Deleted", description: "Note removed." });
+      toast({ title: t("toasts.deleted.title"), description: t("toasts.noteRemoved.description") });
       await loadCaseNotes(caseId);
-    } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to delete note" });
+    } catch (_e) {
+      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.noteDeleteFailed.description") });
     }
-  }, [authToken, loadCaseNotes, toast]);
+  }, [authToken, loadCaseNotes, toast, t]);
 
   const toggleNotePin = useCallback(async (noteId: number, caseId: string) => {
     try {
@@ -579,14 +584,14 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
         headers: { 'Authorization': `Bearer ${authToken}` }
       });
       await loadCaseNotes(caseId);
-    } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to toggle pin" });
+    } catch (_e) {
+      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.togglePinFailed.description") });
     }
-  }, [authToken, loadCaseNotes, toast]);
+  }, [authToken, loadCaseNotes, toast, t]);
 
   const createChatTemplate = useCallback(async (template: { name: string; content: string; category?: string }) => {
     if (!template.name.trim() || !template.content.trim()) {
-      toast({ variant: "destructive", title: "Error", description: "Name and content are required" });
+      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.templateNameRequired.description") });
       return;
     }
     try {
@@ -599,13 +604,13 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
         body: JSON.stringify(template)
       });
       if (res.ok) {
-        toast({ title: "Template Created", description: "New chat template added." });
+        toast({ title: t("toasts.templateCreated.title"), description: t("toasts.templateCreated.description") });
         await loadChatTemplates();
       }
-    } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to create template" });
+    } catch (_e) {
+      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.templateCreateFailed.description") });
     }
-  }, [authToken, loadChatTemplates, toast]);
+  }, [authToken, loadChatTemplates, toast, t]);
 
   const deleteChatTemplate = useCallback(async (id: number) => {
     try {
@@ -613,12 +618,12 @@ export function AdminProvider({ children, authToken, setAuthToken }: AdminProvid
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${authToken}` }
       });
-      toast({ title: "Deleted", description: "Template removed." });
+      toast({ title: t("toasts.deleted.title"), description: t("toasts.templateRemoved.description") });
       await loadChatTemplates();
-    } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to delete template" });
+    } catch (_e) {
+      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.templateDeleteFailed.description") });
     }
-  }, [authToken, loadChatTemplates, toast]);
+  }, [authToken, loadChatTemplates, toast, t]);
 
   useEffect(() => {
     if (authToken) {

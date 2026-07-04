@@ -6,9 +6,8 @@ import type {
   AdminLoginResponse,
   AuditLog,
   AdminSession,
-  UserSession,
-  AdminUser,
-  InsertAdminUser,
+  
+  
   Notification,
   UserFeedback,
   DocumentRequest,
@@ -22,7 +21,6 @@ export const adminKeys = {
   all: ['admin'] as const,
   auditLogs: () => [...adminKeys.all, 'audit'] as const,
   sessions: () => [...adminKeys.all, 'sessions'] as const,
-  userSessions: () => [...adminKeys.all, 'user-sessions'] as const,
   users: () => [...adminKeys.all, 'users'] as const,
   notifications: () => [...adminKeys.all, 'notifications'] as const,
   feedback: () => [...adminKeys.all, 'feedback'] as const,
@@ -72,25 +70,6 @@ export function useAdminSessions() {
   return useQuery({
     queryKey: adminKeys.sessions(),
     queryFn: () => apiClient.get<AdminSession[]>(API_ENDPOINTS.adminSessions),
-  });
-}
-
-export function useRevokeAdminSession() {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: (id: string) =>
-      apiClient.delete<void>(`${API_ENDPOINTS.adminSessions}/${id}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: adminKeys.sessions() });
-    },
-  });
-}
-
-export function useUserSessions() {
-  return useQuery({
-    queryKey: adminKeys.userSessions(),
-    queryFn: () => apiClient.get<UserSession[]>(API_ENDPOINTS.userSessions),
   });
 }
 

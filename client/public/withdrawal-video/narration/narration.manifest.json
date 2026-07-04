@@ -1,0 +1,178 @@
+{
+  "locales": {
+    "en": {
+      "scenes": {
+        "intro": {
+          "file": "en/intro.mp3",
+          "scriptFingerprint": "f73931ec0213ba8f33f0e9bf5f7155a8bed6361fc414357e54a5ac66f8ac00fe",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase1": {
+          "file": "en/phase1.mp3",
+          "scriptFingerprint": "5d3cb1e5ea92b4b50f67a6d36473c5b751200ff08ab85867fa779e189bd4f766",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase2": {
+          "file": "en/phase2.mp3",
+          "scriptFingerprint": "790bcff94910afde0f16a50e630b27eb0a8d4bdedac5e0f73109b4b60087c315",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase3": {
+          "file": "en/phase3.mp3",
+          "scriptFingerprint": "0f8b67cd6aebaf54aaf47845850c27f0b71626f97fef54ec776e6d8332153f29",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase4": {
+          "file": "en/phase4.mp3",
+          "scriptFingerprint": "01363e850609579f6e31322b70d0bec7572a615f2ec61308a19c49d499c1ef92",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        }
+      }
+    },
+    "es": {
+      "scenes": {
+        "intro": {
+          "file": "es/intro.mp3",
+          "scriptFingerprint": "92d67259e53936bc80e071fd47c2db7a52c5af5565ebea7c972734ddb01eb3e8",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase1": {
+          "file": "es/phase1.mp3",
+          "scriptFingerprint": "4cddd7d54f5181743bd5b266f7547c02f358bd65e6606699aa8884f33b2a910f",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase2": {
+          "file": "es/phase2.mp3",
+          "scriptFingerprint": "cbb1e0da6fd27c7cdd5154507efb3e91586380abd88c7145706e1d8a67599341",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase3": {
+          "file": "es/phase3.mp3",
+          "scriptFingerprint": "d4ae3b61e68c0a4f030193731d6f891556522ec5eb470575331a5bdcd59dca37",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase4": {
+          "file": "es/phase4.mp3",
+          "scriptFingerprint": "39b134f97762c8027467805a10d077f1b4cece13290a8a7eba23b586778bdb74",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        }
+      }
+    },
+    "fr": {
+      "scenes": {
+        "intro": {
+          "file": "fr/intro.mp3",
+          "scriptFingerprint": "9a3e8fedb74238e8e40148d537a8077ab3d2fe99ffcc02b4b29b293cb60d2948",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase1": {
+          "file": "fr/phase1.mp3",
+          "scriptFingerprint": "71e09518e1c35058e47785b53fdf84199a3e66321d59d509ce073c1a94980ccf",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase2": {
+          "file": "fr/phase2.mp3",
+          "scriptFingerprint": "90192777e7454b3f7ff4c64067035461a751f8ab031573943d068e2c1441304b",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase3": {
+          "file": "fr/phase3.mp3",
+          "scriptFingerprint": "c1f940b38b6d31944104f554f0a67f4247ed34002e6e0551d8bb1ad313ef95b9",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase4": {
+          "file": "fr/phase4.mp3",
+          "scriptFingerprint": "709fe0336a39ec1da25bca3a44147b919d21e5c205cb8b76cb521248f7be5e4c",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        }
+      }
+    },
+    "de": {
+      "scenes": {
+        "intro": {
+          "file": "de/intro.mp3",
+          "scriptFingerprint": "df295ab674d630cdd131ce268ea07037d79408e7d73746a60430a70def73e7db",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase1": {
+          "file": "de/phase1.mp3",
+          "scriptFingerprint": "94b6aa04c01cdb0c825361f52f528cd881f0b7af8190cf85540aeceee5f8cac2",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase2": {
+          "file": "de/phase2.mp3",
+          "scriptFingerprint": "dd338fbedd2aaa56e470289abf2e157440f1f434dbad74e09fe060d20cfb1a93",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase3": {
+          "file": "de/phase3.mp3",
+          "scriptFingerprint": "ff43043cb342dfae56ce1c69236a1e66e14a7200bcb78ab19d2ab19bd5dab487",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase4": {
+          "file": "de/phase4.mp3",
+          "scriptFingerprint": "ecc2524a8530b6ba04fc91e87d758aa0572592a7f66acd7daf2090d717a84a4d",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        }
+      }
+    },
+    "pt": {
+      "scenes": {
+        "intro": {
+          "file": "pt/intro.mp3",
+          "scriptFingerprint": "849c830ea2f79c3d3cb0f90531538c496a0932679b0332bea7880b7760dc76a4",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase1": {
+          "file": "pt/phase1.mp3",
+          "scriptFingerprint": "532dfa17605628f881aba80df5292b44d604730cd05c4b8d1dc39e7486cf6c52",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase2": {
+          "file": "pt/phase2.mp3",
+          "scriptFingerprint": "877c902b01c6202f96c4293cdd9982e8bde1a25b8437fccdc6aa86df98641a26",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase3": {
+          "file": "pt/phase3.mp3",
+          "scriptFingerprint": "998a6cbf6520d8522a248f44857716b894123f71c133c60d0d74396ccddc7429",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase4": {
+          "file": "pt/phase4.mp3",
+          "scriptFingerprint": "971464b6b838b547ac35f96a9633aa17d75d4c5ec73267f10b32edce3f59d768",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        }
+      }
+    },
+    "zh": {
+      "scenes": {
+        "intro": {
+          "file": "zh/intro.mp3",
+          "scriptFingerprint": "5d40351ee03fe21249987dc7da15391056f3c2305070ff78fcaecdbeaf93bf77",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase1": {
+          "file": "zh/phase1.mp3",
+          "scriptFingerprint": "78ef71ff23cea329803e32c8cdad2a17555e530d5f024ab1afb2d34a4e44ca4f",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase2": {
+          "file": "zh/phase2.mp3",
+          "scriptFingerprint": "4a11580bd74188a6a733acebf8d39b5a3dde09b2167266e44ca0ddcd494ca5f4",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase3": {
+          "file": "zh/phase3.mp3",
+          "scriptFingerprint": "18dd2cc140e0bfb24226ba846c19c1f59a7159b92641f4387c2b3802c5ccc7be",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        },
+        "phase4": {
+          "file": "zh/phase4.mp3",
+          "scriptFingerprint": "124c793223ccd6ddc2f0c5e273ec8b2b8a65f61dc2dc92690703eed47c53bc71",
+          "generatedAt": "2026-06-06T19:48:01.456Z"
+        }
+      }
+    }
+  }
+}

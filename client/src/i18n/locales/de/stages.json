@@ -1,0 +1,122 @@
+{
+  "1": {
+    "title": "Phrase Key Einzahlung Erhalten",
+    "summary": "Ihre ursprüngliche Phrase Key Einzahlung wurde im verteilten Ledger bestätigt. Ihr Fall ist jetzt aktiv und für den nächsten Compliance-Schritt eingeplant.",
+    "detailedExplanation": "Die Phrase Key Einzahlung ist eine rückzahlbare, on-ledger Sicherheit, die Ihren Fall mit einem verifizierbaren On-Chain-Transaktionshash verknüpft. Sobald mindestens drei Blockbestätigungen beobachtet werden, öffnet unsere Compliance-Pipeline eine aktive Durchsetzungsakte unter Ihrer einzigartigen Fallreferenz. Ab diesem Moment ist jede nachfolgende Aktivität (Einzahlungen, Erklärungen, Schlüsselvergabe) kryptografisch mit dieser Eröffnungs-Transaktion verknüpft, sodass die Kette der Aufbewahrung von Anfang bis Ende während einer nachträglichen Prüfung reproduziert werden kann.",
+    "whyItMatters": "Dieser Schritt erfüllt die Zugangskontrollanforderung von IBCCF und spiegelt die FATF-Empfehlung 10 zur Kundenprüfung (CDD) wider: Es darf keine Abhebungs-Pipeline geöffnet werden, ohne dass eine verifizierbare, vom Begünstigten initiierte On-Chain-Bestätigung vorliegt, die den Antragsteller mit der empfangenden Wallet verknüpft. Er eröffnet auch die Prüfspur, die später für die FATF-Reisevorschrift (Empfehlung 16) Berichterstattung verwendet wird.",
+    "whatToDo": "Melden Sie sich in Ihrem sicheren Portal an und bestätigen Sie, dass Ihre registrierte empfangende Wallet-Adresse korrekt ist.\nBewahren Sie Ihren Zugangsschlüssel und Ihre 6-stellige PIN sicher auf — sie sind für jeden folgenden Schritt erforderlich.\nInitiieren Sie keine neuen Auslandsüberweisungen von der empfangenden Wallet, bis Ihr Fall voranschreitet.",
+    "whatToExpect": "Ein Compliance-Beauftragter wird beginnen, Ihren sicheren Phrase Key zu generieren. Die Generierung dauert in der Regel zwischen 6 und 24 Stunden, abhängig von der Tiefe der Überprüfungsschlange."
+  },
+  "2": {
+    "title": "Sicheren Phrase Key Generieren",
+    "summary": "Unser Compliance-System generiert einen einzigartigen, verschlüsselten Phrase Key, der mit Ihrem Fall verbunden ist. Zu diesem Zeitpunkt sind keine Maßnahmen von Ihnen erforderlich.",
+    "detailedExplanation": "Der sichere Phrase Key wird in einer isolierten Schlüsselzeremonie-Umgebung unter Verwendung einer Multi-Party-Computing (MPC) aufgeteilt auf drei unabhängige Compliance-Unterzeichner produziert. Jeder Unterzeichner hält nur einen Teilanteil, und keine einzelne Partei — einschließlich des IBCCF-Personals — sieht jemals den zusammengebauten Schlüssel im Klartext. Der Schlüssel wird dann unter einem HSM-geschützten Umschlag versiegelt und mit Ihrer Fallreferenz, Ihrer empfangenden Wallet und dem Zeitstempel Ihrer Phrase Key Einzahlung verknüpft.",
+    "whyItMatters": "Die kryptografische Schlüsseltrennung ist für jeden Treuhänder, der Kundenmittel über Grenzen hinweg bewegt, vorgeschrieben. Diese Phase dient dazu, sicherzustellen, dass selbst im Falle eines internen Kompromisses kein einzelner Betreiber unilateral Ihre Abhebung freigeben kann — dies erfüllt das Prinzip der Trennung der Aufgaben, das von ISO/IEC 27001 A.6.1.2 und dem SEC-Bestätigungsrahmen für Treuhandverhältnisse, der in SAB 121 skizziert ist, gefordert wird.",
+    "whatToDo": "Bleiben Sie verfügbar — Sie könnten über das sichere Nachrichtenpanel in Ihrem Portal kontaktiert werden.\nTeilen Sie Ihren Zugangsschlüssel oder Ihre PIN mit niemandem, einschließlich des IBCCF-Personals.",
+    "whatToExpect": "Sobald die Generierung abgeschlossen ist, wird Ihr Phrase Key in Ihrer Fallakte in der nächsten Phase freigegeben. Sie werden im Portal benachrichtigt."
+  },
+  "3": {
+    "title": "Phrase Key Genehmigt & Verfügbar",
+    "summary": "Ihr sicherer Phrase Key wurde genehmigt und ausgegeben. Er ist jetzt im sicheren Portal unter Ihrem aktiven Fall sichtbar.",
+    "detailedExplanation": "Ihr Phrase Key hat den Genehmigungsworkflow mit doppelter Kontrolle durchlaufen und ist jetzt mit Ihrem Fall als kryptografische Identität verbunden, die für jede nachfolgende Unterzeichnungsoperation verwendet wird. Der Schlüssel wird nur innerhalb einer authentifizierten Portal-Sitzung über TLS 1.3 angezeigt, niemals per E-Mail oder Chat übertragen und wird automatisch rotiert, wenn ein anomaler Zugriff festgestellt wird.",
+    "whyItMatters": "Die Ausgabe unter doppelter Kontrolle mit nur in-Portal-offenlegungen erfüllt die Anforderungen zur Kundenidentifikation des USA PATRIOT Act §326 (Kundenidentifikationsprogramm) und das Prinzip der Offenlegung nur im Band, das im FFIEC IT Examination Handbook (Authentifizierungsmodul) empfohlen wird. Es schließt auch den Kreis der Kette der Aufbewahrung, die in Phase 1 eröffnet wurde.",
+    "whatToDo": "Öffnen Sie Ihr Portal und suchen Sie Ihren Phrase Key im sicheren Bereich Ihres Dashboards.\nBestätigen Sie den Erhalt, indem Sie die Nachricht überprüfen, die über das sichere Portal gesendet wurde.\nGeben Sie Ihren Phrase Key niemals in eine externe Website, E-Mail, Chat oder ein Drittanbieterformular ein.",
+    "whatToExpect": "Ihr Fall wird kurz nach der Aufzeichnung Ihrer Bestätigung in die Phase der Abhebungsinitiierung übergehen."
+  },
+  "4": {
+    "title": "Abhebungsprozess Eingeleitet",
+    "summary": "Ihre Abhebungsanfrage wurde formell eingeleitet. Ihr finalisierter Abhebungsbrief ist jetzt im Portal verfügbar.",
+    "detailedExplanation": "Der Abhebungsbrief ist Ihr formelles Offenlegungsdokument. Er zählt die beiden Ihnen zur Verfügung stehenden Abwicklungspfade auf (Option A — Beschleunigte Freigabe, Option B — Standardfreigabe), den Betrag pro Charge, die Chargenfrequenz, die Kosten für den Phrase Key und die Gesamterfordernis für jeden Pfad. Ihre Wahl wird als unwiderrufliche Kundenanweisung aufgezeichnet (unterliegt den Rücktrittsregeln, die im Fußbereich des Briefes offengelegt sind) und bildet die Grundlage für jeden nachfolgenden Verifizierungsschritt.",
+    "whyItMatters": "Die Vorlage eines schriftlichen, vom Begünstigten gewählten Abwicklungsschemas erfüllt die vorvertraglichen Offenlegungsanforderungen von MiCA Titel II (Artikel 6 und 13) und das Prinzip der Verbraucherrechte, das in der EU-Richtlinie über den Fernabsatz von Finanzdienstleistungen 2002/65/EG kodifiziert ist. Die Aufzeichnung Ihrer Wahl schafft das prüfbare Kundenmandat, das erforderlich ist, bevor ein Wert in Ihrem Namen freigegeben werden kann.",
+    "whatToDo": "Öffnen Sie den Abhebungsbereich Ihres Portals und lesen Sie Ihren Abhebungsbrief sorgfältig.\nWählen Sie Ihre bevorzugte Abhebungsoption (Option A — Beschleunigt oder Option B — Standard).\nBestätigen Sie Ihre Auswahl, damit die Anfrage zur Verifizierung weitergeleitet werden kann.",
+    "whatToExpect": "Sobald Ihre Option ausgewählt ist, beginnt automatisch die Phase der Überprüfung der ursprünglichen Einzahlung."
+  },
+  "5": {
+    "title": "Überprüfung der ursprünglichen Einzahlung",
+    "summary": "Ihre ursprüngliche Einzahlung wird gegen die von Ihnen ausgewählte Option überprüft.",
+    "detailedExplanation": "Die Überprüfung vergleicht jeden Beleg, den Sie eingereicht haben, mit dem On-Chain-Transaktionsprotokoll (Blockhöhe, Wert, Vermögenswert, Absenderadresse) und bestätigt, dass der Betrag genau mit der in Ihrer ausgewählten Option angegebenen Zahl übereinstimmt. Jede Abweichung — selbst eine teilweise Dezimalstelle — muss geklärt werden, bevor der Fall voranschreiten kann, da die nachfolgenden Chargen deterministisch aus dieser Eröffnungszahl abgeleitet werden.",
+    "whyItMatters": "Die Überprüfung der Herkunft der Mittel zu Beginn des Abwicklungsschemas ist das Fundament der erweiterten Sorgfaltspflicht (EDD) gemäß FATF-Empfehlung 10 und ist auch eine Voraussetzung für die Berichtspflichten von FinCEN zur Währungsübertragung (CTR), wann immer der aggregierte Chargenwert die USD 10.000-Berichtsschwelle überschreiten wird.",
+    "whatToDo": "Reichen Sie alle angeforderten Einzahlungsbelege oder Transaktionshashes über das sichere Nachrichtenpanel ein.\nStellen Sie sicher, dass der Einzahlungsbetrag und die Währung genau mit den in Ihrem Abhebungsbrief angegebenen Zahlen übereinstimmen.",
+    "whatToExpect": "Die Überprüfung wird in der Regel innerhalb von 24 Stunden abgeschlossen. Sie werden im Portal benachrichtigt, wenn das Ergebnis aufgezeichnet ist."
+  },
+  "6": {
+    "title": "Überprüfung des Phrase Key",
+    "summary": "Ihr Phrase Key wird vom Compliance-Team überprüft.",
+    "detailedExplanation": "Die Überprüfung leitet den kryptografischen Fingerabdruck des in Phase 3 ausgegebenen Phrase Keys erneut ab und vergleicht ihn mit der versiegelten Kopie, die unter HSM-Aufbewahrung gehalten wird. Die kryptografische Herausforderung mit zwei Faktoren bestätigt, dass der Schlüssel in Ihrem Besitz tatsächlich derjenige ist, der Ihrem Fall zugewiesen wurde, und nicht dupliziert, geleakt oder ersetzt wurde.",
+    "whyItMatters": "Die erneute Bestätigung des vom Kunden gehaltenen Nachweises vor jedem Wertübertragungs-Schritt ist erforderlich, um den Anforderungen an das Authentifizierungsniveau 2 (AAL2) gemäß NIST SP 800-63B und den Anforderungen an die starke Kundenauthentifizierung (SCA) zu entsprechen, die von Zahlungsdienstleistern gemäß PSD2 (Richtlinie (EU) 2015/2366) auferlegt werden.",
+    "whatToDo": "Wenn Sie gefragt werden, bestätigen Sie Ihren Phrase Key erneut, indem Sie ihn im Portal eingeben — niemals per E-Mail oder Chat.\nAchten Sie auf Nachrichten, die um Klarstellung bitten.",
+    "whatToExpect": "Sobald verifiziert, werden Sie zur Phase der Phrase Key Merge Einzahlung übergehen."
+  },
+  "7": {
+    "title": "Phrase Key Merge Einzahlung Erforderlich",
+    "summary": "Eine 30% Phrase Key Merge Einzahlung ist erforderlich, um die Zusammenführung Ihres verifizierten Phrase Keys mit dem Abhebungs-Ledger abzuschließen.",
+    "detailedExplanation": "Die Merge Einzahlung ist eine rückzahlbare, ledgerseitige Sicherheit, die es ermöglicht, Ihren verifizierten Phrase Key in das Hauptabwicklungslager als einen einzigen zusammenhängenden Eintrag zu integrieren, anstatt als fragmentierte Mikrobatches abgerechnet zu werden. Ohne die Zusammenführung würde Ihre Abhebung auf viele kleine Überweisungen aufgeteilt, von denen jede separat erneut überprüft werden müsste und zusätzliche Kosten für Gas, Slippage und AML-Neuüberprüfung verursachen würde. Die 30%-Zahl spiegelt das prudenzielle Deckungsverhältnis wider, das für unbeschränkte Abwicklungssicherheiten im Rahmen des Basel III LCR-Rahmens verwendet wird.",
+    "whyItMatters": "Die Merge Einzahlung stellt sicher, dass die Abwicklungsakte eine einzige, prüfbare Auszahlung bleibt, was erforderlich ist, um die Anti-Fragmentierungsregeln zu erfüllen, die in FinCENs Verbot der Strukturierung (31 USC §5324) und den EBA-Richtlinien zur Verhinderung von Transaktionsschichtung verankert sind. Sie umgeht auch jede AML-Erhöhung, die andernfalls durch ein fragmentiertes Abwicklungsmuster ausgelöst werden würde.",
+    "whatToDo": "Überprüfen Sie den im Portal angezeigten Betrag der Merge Einzahlung.\nÜberweisen Sie die Einzahlung an die im Portal angegebene Wallet-Adresse — niemals an eine Adresse, die Sie per E-Mail erhalten haben.\nLaden Sie den Transaktionsbeleg im Einzahlungsbereich des Portals hoch.",
+    "whatToExpect": "Nach der Bestätigung auf der Blockchain wird Ihr Fall zur Überprüfung durch die Finanzabteilung weitergeleitet."
+  },
+  "8": {
+    "title": "Überprüfung der Finanzabteilung",
+    "summary": "Die Finanzabteilung überprüft Ihren zusammengeführten Ledger-Eintrag und die unterstützenden Einzahlungen.",
+    "detailedExplanation": "Die finanzielle Überprüfung gleicht jede Wertbewegung, die mit Ihrem Fall verbunden ist (ursprüngliche Einzahlung, Merge Einzahlung, prognostizierte Auszahlung), mit dem bereinigten Bank-Ledger ab und sucht nach Anomalien, die auf Unterschlagung, doppelte Verarbeitung oder Gegenparteirisiko hindeuten könnten. Der prüfende Beamte genehmigt die Überprüfung unter Anwendung des Vier-Augen-Prinzips, wobei beide Unterschriften im Prüfprotokoll gespeichert werden.",
+    "whyItMatters": "Die unabhängige finanzielle Genehmigung implementiert das COSO 2013 interne Kontrollrahmenwerk und die Prüfstandards in ISA 600 (Gruppenprüfungen) und PCAOB AS 2410 (Transaktionen mit nahestehenden Parteien). Sie ist auch eine Voraussetzung für die Einreichung eines Verdachtsberichtes (SAR), der möglicherweise später ausgelöst wird.",
+    "whatToDo": "Stellen Sie sicher, dass alle hochgeladenen Belege klar und leserlich sind.\nReagieren Sie umgehend auf Anfragen nach zusätzlichen Informationen, die über sichere Nachrichten gesendet werden.",
+    "whatToExpect": "Bei Genehmigung schreitet Ihr Fall zum Schritt der Mining-Abhebungsfreigabe voran."
+  },
+  "9": {
+    "title": "Mining-Abhebung zur endgültigen Freigabe",
+    "summary": "Ihre Abhebung wird von der Mining-Freigabestelle für die Blockchain-Verarbeitung vorbereitet.",
+    "detailedExplanation": "Die Mining-Freigabestelle weist einen dedizierten Netzwerk-Slot zu, finanziert das Gas-Umschlag vor und wendet MEV (Miner Extractable Value) Schutz an, sodass Ihre Abwicklungstransaktion nicht vorgezogen, in ein Sandwich-Angriff verwickelt oder von einem opportunistischen Validator umsortiert werden kann. Zu diesem Zeitpunkt ist keine Einzahlung von Ihnen erforderlich.",
+    "whyItMatters": "Die MEV-geschützte Ausführung ist durch die ESMA-Richtlinien zur Abwicklungsendgültigkeit für Krypto-Asset-Dienstleister vorgeschrieben und entspricht den Prinzipien fairer und ordnungsgemäßer Märkte, die in MiFID II Artikel 17 (Algorithmic-Trading-Schutzmaßnahmen, die analog auf On-Chain-Ausführungen ausgeweitet werden) festgelegt sind.",
+    "whatToDo": "Zu diesem Zeitpunkt ist keine Einzahlung erforderlich — seien Sie vorsichtig bei Personen, die außerhalb des offiziellen Portals eine verlangen.\nBestätigen Sie Ihre empfangende Wallet-Adresse ein weiteres Mal im Portal.",
+    "whatToExpect": "Wenn die Freigabe abgeschlossen ist, wird Ihre Wallet-Aktivität On-Chain überprüft."
+  },
+  "10": {
+    "title": "Überprüfung der Blockchain-Aktivität",
+    "summary": "Ihre empfangende Wallet muss den erforderlichen Aktivitätsbetrag halten, damit die On-Chain-Abwicklung überprüft werden kann.",
+    "detailedExplanation": "Die Aktivitätsüberprüfung bestätigt, dass die empfangende Wallet nicht inaktiv, OFAC-frei und in der Lage ist, die eingehende Abwicklung zu akzeptieren, ohne sie zurück ins Netzwerk zu verwerfen. Der erforderliche Betrag dient als heuristisches Signal eines aktiven, echten Begünstigten und wird mit denselben KYT (Know Your Transaction) Werkzeugen überprüft, die von großen Treuhändern verwendet werden. Der Betrag bleibt jederzeit zu 100% unter Ihrer Kontrolle.",
+    "whyItMatters": "Die Überprüfung der Wallet vor der Abwicklung ist erforderlich, um den Verpflichtungen zur SDN- und SDGT-Überprüfung von OFAC (50 USC §1701 et seq.) und den Anforderungen der FATF-Reisevorschrift zur Bestätigung des Begünstigten zu entsprechen. Sie verhindert auch, dass die Mittel in einer inaktiven oder sanktionierten Adresse gefangen sind, was eine regulatorisch angeordnete Sperre zur Folge hätte.",
+    "whatToDo": "Stellen Sie sicher, dass der im Portal angezeigte Aktivitätsbetrag vorhanden ist und in Ihrer empfangenden Wallet gehalten wird.\nBewegen Sie keine Mittel aus der empfangenden Wallet, bis die Überprüfung abgeschlossen ist.",
+    "whatToExpect": "Sobald die On-Chain-Aktivität bestätigt ist, beginnt die IRS / internationale AML-Überprüfung."
+  },
+  "11": {
+    "title": "IRS / Internationale AML-Überprüfung",
+    "summary": "Ihre Abhebung unterliegt internationalen Anti-Geldwäsche- und Steuerberichterstattungsprüfungen.",
+    "detailedExplanation": "Diese Phase führt die internationale Steuer- und AML-Abstimmung durch: eine FATCA / CRS Wohnsitzprüfung, eine OECD CARF-Krypto-Asset-Berichterstattungsanpassung, eine FinCEN-Überprüfung und (wo zutreffend) die Vorbereitung des IRS-Formulars 1099-DA Broker-Erklärung. Sie werden gebeten, die Erklärung zur Einhaltung digital zu unterzeichnen, die Ihre Bestätigung aufzeichnet, dass die Mittel unter Ihrem Steuerwohnsitz freigegeben werden.",
+    "whyItMatters": "Grenzüberschreitende Abwicklungen über den von FATCA und CRS festgelegten de-minimis-Schwellenwert können nicht ohne eine unterzeichnete Begünstigten-Erklärung freigegeben werden. Diese Phase schützt Sie davor, später einer strafrechtlichen Einbehaltung (bis zu 30% gemäß IRC §1471) unterzogen zu werden, und stellt sicher, dass die Auszahlung in Ihrer Heimatgerichtsbarkeit gemäß dem OECD-Krypto-Asset-Berichterstattungsrahmen berichtspflichtig ist.",
+    "whatToDo": "Überprüfen und unterzeichnen Sie die Erklärung zur Einhaltung, die in Ihrem Portal angezeigt wird, digital.\nStellen Sie alle angeforderten Dokumente zum Steuerwohnsitz über sichere Nachrichten zur Verfügung.",
+    "whatToExpect": "Sobald die Prüfung abgeschlossen ist, schreitet Ihr Fall zur endgültigen Abhebungsverarbeitung voran."
+  },
+  "12": {
+    "title": "Endgültige Abhebungsverarbeitung",
+    "summary": "Ihre Abhebung befindet sich im letzten Verarbeitungsfenster. Alle Einzahlungen, Erklärungen und Überprüfungen müssen abgeschlossen sein.",
+    "detailedExplanation": "Die endgültige Verarbeitung versetzt Ihren Fall in den Status der Warteschlange zur Abwicklung. Die Auszahlung wird an Ihre empfangende Wallet gesperrt, das Gas-Umschlag wird festgelegt und der regulatorische Halt-Zähler beginnt. Während des Haltfensters können alle letzten Compliance-Flaggen erhoben werden; sobald das Fenster ohne Einwände schließt, werden die Mittel automatisch freigegeben.",
+    "whyItMatters": "Das obligatorische Haltfenster spiegelt den T+1-Abwicklungsstandard wider, der von der SEC für US-Wertpapiere (Änderungen der Regel 15c6-1, die ab Mai 2024 wirksam werden) und die entsprechenden Abwicklungsendgültigkeitsregeln gemäß der EU-Richtlinie über die Abwicklungsendgültigkeit (Richtlinie 98/26/EG) angenommen wurde. Das Fenster macht die Auszahlung unwiderruflich, sobald sie abgeschlossen ist.",
+    "whatToDo": "Bestätigen Sie ein letztes Mal, dass Ihre empfangende Wallet korrekt ist.\nBleiben Sie wachsam für die Anfrage nach dem endgültigen Zeitstempel, die folgen kann.",
+    "whatToExpect": "Die Mittel sind zur Freigabe geplant, abhängig von der endgültigen Zeitstempel-Einzahlung (sofern dies für Ihre Option zutrifft)."
+  },
+  "13": {
+    "title": "Abhebung Erfolgreich Freigegeben",
+    "summary": "Herzlichen Glückwunsch — Ihre Abhebung wurde an Ihre empfangende Wallet freigegeben.",
+    "detailedExplanation": "Das Freigabeereignis ist endgültig und unwiderruflich. Eine Abwicklungsbestätigung wurde in Ihrer Fallakte verfasst, die den On-Chain-Transaktionshash, die Blockhöhe der Bestätigung, den Abwicklung-Zeitstempel und die Compliance-ID des unterzeichnenden Beamten enthält. Diese Bestätigung ist das Dokument, das Sie für zukünftige Steuererklärungen oder Prüfungen aufbewahren sollten.",
+    "whyItMatters": "Eine unterzeichnete Abwicklungsbestätigung ist erforderlich, um die Freigabe für FATCA- und CRS-Berichterstattung nachzuweisen und um die Aufbewahrungspflichten von IBCCF gemäß FATF-Empfehlung 11 (fünfjährige Aufbewahrung) und der EU-AML-Verordnung (EU) 2024/1624 (Artikel 56 Aufbewahrungsstandards) zu erfüllen.",
+    "whatToDo": "Bestätigen Sie den Erhalt in Ihrem Portal, damit der Fall offiziell geschlossen werden kann.\nBewahren Sie eine Kopie Ihres Abhebungsbriefes und der Abwicklungsbestätigung für Ihre Unterlagen auf.",
+    "whatToExpect": "Eine endgültige E-Mail zur Fallschließung wird folgen, sobald Ihre Bestätigung aufgezeichnet ist."
+  },
+  "14": {
+    "title": "Zeitstempel-Einzahlung für die endgültige Lieferung",
+    "summary": "Eine kleine Zeitstempel-Einzahlung ist erforderlich, um den On-Chain-Lieferzeitraum zu sperren, der für Ihre Abhebung reserviert ist.",
+    "detailedExplanation": "Die Zeitstempel-Einzahlung finanziert eine zeitlich gesperrte Transaktion (analog zu BIP 65 CHECKLOCKTIMEVERIFY auf Bitcoin und entsprechenden Locktime-Op-Codes auf EVM-Ketten), die das genaue Blockfenster reserviert, in dem Ihre Abhebung freigegeben wird. Ohne diese Sperre würde Ihre Abwicklung im offenen Mempool mit jeder anderen Transaktion in diesem Fenster konkurrieren und könnte unbegrenzt verzögert werden. Die Einzahlung wird durch die Zeit-Sperre verbraucht und ist nicht in bar rückzahlbar, wird jedoch vollständig auf die Gasreservierung für Ihre Freigabe angerechnet.",
+    "whyItMatters": "Die zeitlich gesperrte Reservierung ist durch die ESMA-Richtlinien zur Abwicklungsendgültigkeit für hochpreisige Krypto-Asset-Auszahlungen vorgeschrieben und wird von den ISO 20022-Nachrichtenstandards für grenzüberschreitende Wertübertragungen empfohlen, die beide ein deterministisches, vorab festgelegtes Abwicklungsfenster erfordern.",
+    "whatToDo": "Überprüfen Sie den Betrag der Zeitstempel-Einzahlung und die Ziel-Wallet in Ihrem Portal.\nÜberweisen Sie die Einzahlung und laden Sie den Transaktionshash im Einzahlungsbereich hoch.",
+    "whatToExpect": "Sobald der Zeitstempel genehmigt ist, wird Ihre Abhebung innerhalb des reservierten Lieferfensters freigegeben."
+  },
+  "fields": {
+    "summary": "Zusammenfassung",
+    "details": "Detaillierte Erklärung",
+    "whyItMatters": "Warum das wichtig ist",
+    "regulatoryBasis": "Regulatorische Grundlage",
+    "whatToDo": "Was Sie tun sollten",
+    "whatToExpect": "Was als Nächstes zu erwarten ist"
+  }
+}

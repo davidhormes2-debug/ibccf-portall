@@ -1,0 +1,168 @@
+1. Global functional requirements
+No dead features: Every feature listed in the spec must be fully implemented, wired to the UI, and reachable via normal user/admin flows.
+
+No mock data in production: All data must come from the database or APIs, not hardcoded.
+
+Graceful failure: If any external service (AI, email, Tawk.to, etc.) fails, the app must:
+
+Log the error
+
+Show a friendly fallback message
+
+Never crash the user’s session
+
+2. Automated email flows (must-have)
+For case holders, the system must automatically send emails for:
+
+Case creation: “Your case has been registered.”
+
+Access code issued: Instructions to log into the portal.
+
+Stage change: Each of the 14 withdrawal stages triggers a stage update email.
+
+Document status: When KYC/SOF/receipts are approved or rejected.
+
+Case letter issued: Email with notice that the letter is available in the portal.
+
+Countdown activated: Warning email with countdown details.
+
+Countdown ended / lockout: Email explaining reset and reactivation requirement.
+
+Reactivation deposit requested: Email with amount and link to reactivation page.
+
+Reactivation completed: Confirmation that access is restored.
+
+For admins, automated emails or notifications for:
+
+New case submitted
+
+New document uploaded
+
+New message from user
+
+Countdown started / overridden / completed
+
+Reactivation payment completed
+
+All emails must:
+
+Use templates (per locale)
+
+Be audit-logged with:
+
+Recipient
+
+Template key
+
+Timestamp
+
+Status (sent/failed)
+
+3. Validation & data integrity
+Form validation: All user inputs validated via Zod on backend and appropriate checks on frontend.
+
+File uploads:
+
+Allowed types: PDF, JPG, PNG (configurable)
+
+Max size (e.g. 10MB, configurable)
+
+Reject dangerous MIME types
+
+Stage transitions:
+
+Only valid transitions allowed (no skipping critical stages)
+
+Admin actions logged (who changed what, when, from → to)
+
+Reactivation logic:
+
+Reactivation cannot be marked “paid” without a valid payment event.
+
+User status must change from reactivation_required → active only after success.
+
+4. Security & access control
+Role-based access control (RBAC):
+
+Case holder: only own case and documents
+
+Support admin: case management, messaging
+
+Compliance admin: documents, declarations, withdrawals
+
+Super admin: all, including IP blocking and system settings
+
+Session security:
+
+Session timeout for portal users
+
+Secure cookies (httpOnly, sameSite, secure in production)
+
+Admin API protection:
+
+Bearer tokens with expiry
+
+No admin endpoints exposed without auth
+
+Audit logging:
+
+Log all sensitive actions:
+
+Stage changes
+
+Document approvals/rejections
+
+Countdown activation/override
+
+Reactivation status changes
+
+IP blocks
+
+5. Monitoring & observability
+Sentry: Must capture:
+
+Frontend errors
+
+Backend errors
+
+Tagged with user ID (where safe) and case ID
+
+Health checks:
+
+Endpoint like /health returning DB, email, AI status
+
+Performance:
+
+Track slow queries and slow endpoints
+
+Cron / scheduled jobs (if used):
+
+Any background countdown or cleanup job must be monitored and logged.
+
+6. AI forum safeguards
+Rate limiting on:
+
+Thread creation
+
+AI reply generation
+
+Fallback:
+
+If OpenAI fails, use static replies
+
+Moderation:
+
+Flag and log any content that matches banned keywords (configurable list).
+
+7. Developer confirmation checklist
+Ask your developer to explicitly confirm:
+
+All features in the master spec + this add-on are implemented or planned.
+
+Every automated email trigger is mapped to a concrete event in the code.
+
+Every admin action is logged.
+
+Every user-facing error has a friendly message + a logged technical error.
+
+Security, validation, and monitoring are in place, not “to be done later.”

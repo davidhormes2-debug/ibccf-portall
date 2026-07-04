@@ -1,0 +1,130 @@
+{
+  "back": "Back",
+  "accessPortal": "Access Portal",
+  "legalDoc": "Legal Documentation",
+  "title": "Terms of Use",
+  "subtitle": "The rules and conditions governing your access to and use of the IBCCF platform, portal, and associated services.",
+  "lastUpdated": "Last updated:",
+  "contents": "Contents",
+  "privacyLink": "Privacy Policy",
+  "legalResourcesLink": "Legal Resources",
+  "reviewerNote": {
+    "label": "Note for legal reviewers:",
+    "text": "This document is a working draft. It should be reviewed and finalised by a qualified legal professional before the Platform processes data from users in regulated jurisdictions."
+  },
+  "sections": {
+    "acceptance": {
+      "title": "1. Acceptance of Terms",
+      "p1Pre": "By accessing or using the International Blockchain Complaints Forum website and portal (",
+      "p1Brand": "\"IBCCF\"",
+      "p1Mid": ", \"the Platform\", \"we\", \"us\", or \"our\"), you agree to be bound by these Terms of Use (",
+      "p1Terms": "\"Terms\"",
+      "p1Post": "). If you do not agree, you must not use the Platform.",
+      "p2": "These Terms apply to all visitors, registered case holders, and any other persons who access or use any part of the Platform."
+    },
+    "services": {
+      "title": "2. Description of Services",
+      "p1": "IBCCF provides a web-based case-management portal designed to assist individuals in documenting, tracking, and pursuing resolution of complaints related to blockchain platforms and cryptocurrency transactions. The Platform also includes:",
+      "items": [
+        "A platform verification directory for checking the legitimacy status of blockchain services.",
+        "An AI-assisted community forum for sharing fraud-prevention knowledge and peer support.",
+        "A regulatory document management system for compliance-related submissions.",
+        "Informational resources including the Legal Resources directory."
+      ],
+      "p2": "IBCCF is an information and case-management service only. We do not provide legal advice, financial advice, or regulated legal services. Nothing on the Platform constitutes a solicitor-client or attorney-client relationship."
+    },
+    "eligibility": {
+      "title": "3. Eligibility & Registration",
+      "intro": "To use the authenticated portal, you must:",
+      "items": [
+        "Be at least 18 years of age (or the age of majority in your jurisdiction, if higher).",
+        "Provide accurate, complete, and up-to-date information when submitting a complaint or registering.",
+        "Hold an active case reference code issued by IBCCF.",
+        "Not be prohibited from using the Platform under the laws of your jurisdiction."
+      ],
+      "outro": "You are responsible for maintaining the confidentiality of your case access code and PIN and for all activity that occurs under your portal session."
+    },
+    "conduct": {
+      "title": "4. Acceptable Use",
+      "intro": "You agree to use the Platform only for lawful purposes. You must not:",
+      "items": [
+        "Submit false, misleading, or fabricated complaint information or documentation.",
+        "Impersonate another person or entity, or misrepresent your identity or affiliation.",
+        "Upload documents containing malicious code, viruses, or active executable content.",
+        "Attempt to gain unauthorised access to other users' cases or to the administrative system.",
+        "Use automated tools, bots, or scripts to interact with the Platform outside normal portal use.",
+        "Engage in any activity that could damage, overload, or impair the Platform's infrastructure.",
+        "Use the community forum or AI chat to spread fraudulent schemes, spam, or harmful content.",
+        "Harvest or scrape personal data about other users from the Platform."
+      ],
+      "outro": "Violation of these rules may result in immediate suspension or termination of your portal access and, where appropriate, referral to relevant law-enforcement authorities."
+    },
+    "uploads": {
+      "title": "5. Uploaded Content & Documents",
+      "intro": "When you upload documents or submit content through the Platform, you represent and warrant that:",
+      "items": [
+        "You own or have all necessary rights to submit the content.",
+        "The content is accurate and not fraudulent or misleading.",
+        "The content does not violate any applicable law, third-party rights, or these Terms.",
+        "Uploaded files do not contain viruses, malware, or any harmful code."
+      ],
+      "outro": "Accepted upload formats are PDF and common image types (PNG, JPEG, WebP). Maximum file size is 10 MB per document. We reserve the right to reject or remove any uploaded content that violates these Terms."
+    },
+    "financial": {
+      "title": "6. Financial Matters & No Guarantee of Recovery",
+      "p1": "IBCCF does not guarantee the recovery of any funds lost through blockchain fraud or platform misconduct. The Platform facilitates complaint documentation and regulatory coordination; actual fund recovery depends on factors entirely outside our control.",
+      "p2": "Where the Platform requires payment of compliance fees or processing charges as part of a regulated case-management workflow, the following applies:",
+      "items": [
+        "Fees are disclosed before they are charged. You should not pay any amount not clearly described in your case portal.",
+        "Certain fees are non-refundable processing charges once the associated administrative work has commenced.",
+        "No fee payment guarantees any particular outcome for your case.",
+        "If you have concerns about any fee request, contact IBCCF support before paying."
+      ]
+    },
+    "ip": {
+      "title": "7. Intellectual Property",
+      "p1": "All content on the Platform — including text, graphics, logos, software, and the Platform design — is owned by or licensed to IBCCF and is protected by applicable intellectual property laws. You may not reproduce, distribute, modify, or create derivative works without our prior written consent.",
+      "p2": "The Legal Resources directory contains links to third-party publications and regulatory documents. Those materials are owned by their respective organisations; we provide links for reference only and do not claim ownership."
+    },
+    "disclaimer": {
+      "title": "8. Disclaimers",
+      "introPreAsIs": "The Platform is provided ",
+      "introAsIs": "\"as is\"",
+      "introMid": " and ",
+      "introAsAvailable": "\"as available\"",
+      "introPost": " without warranty of any kind. To the fullest extent permitted by law, IBCCF disclaims all warranties, express or implied, including:",
+      "items": [
+        "Merchantability, fitness for a particular purpose, or non-infringement.",
+        "That the Platform will be uninterrupted, error-free, or free of harmful components.",
+        "The accuracy, completeness, or currency of any information on the Platform, including community-generated and AI-generated content.",
+        "That use of the Platform will result in the recovery of any lost funds."
+      ],
+      "outro": "AI-generated responses in the community forum and support chat are provided for informational purposes only and do not constitute legal, financial, or professional advice."
+    },
+    "liability": {
+      "title": "9. Limitation of Liability",
+      "p1": "To the fullest extent permitted by applicable law, IBCCF and its officers, employees, and licensors shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of funds, loss of data, loss of goodwill, or loss of profits arising out of or in connection with your use of the Platform, even if advised of the possibility of such damages.",
+      "p2": "Some jurisdictions do not allow the exclusion of certain warranties or the limitation of certain damages. In those jurisdictions, liability is limited to the maximum extent permitted by law."
+    },
+    "termination": {
+      "title": "10. Suspension & Termination",
+      "p1": "We reserve the right to suspend or terminate your access to the Platform at any time if we reasonably believe you have violated these Terms, engaged in fraudulent activity, or if required to do so by law.",
+      "p2": "Upon termination, your right to access the portal ceases immediately. Clauses that by their nature should survive termination (including Sections 7, 8, 9, and 11) shall continue to apply."
+    },
+    "governingLaw": {
+      "title": "11. Governing Law & Jurisdiction",
+      "p1": "These Terms and any dispute arising from your use of the Platform shall be governed by and construed in accordance with applicable law. The specific governing jurisdiction will be determined at the time of legal finalisation by qualified counsel and disclosed in the final published version of these Terms.",
+      "p2Pre": "For information about the international regulatory frameworks relevant to blockchain complaint matters, see our",
+      "p2LinkText": "Legal Resources",
+      "p2Post": "directory."
+    },
+    "changes": {
+      "title": "12. Changes to These Terms",
+      "p1": "We may revise these Terms at any time. When we do, we will update the \"Last Updated\" date at the top of this page. For material changes, we will notify active case holders by email or through a prominent portal notice. Continued use of the Platform after the effective date of revised Terms constitutes your acceptance of those Terms."
+    },
+    "contact": {
+      "title": "13. Contact",
+      "p1": "Questions about these Terms should be directed to IBCCF through the support portal or the contact form available on the main website. We aim to respond to all inquiries within five (5) business days."
+    }
+  }
+}

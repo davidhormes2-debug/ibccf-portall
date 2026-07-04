@@ -1,0 +1,511 @@
+{
+  "common": {
+    "greeting": "Hello {{name}},",
+    "regards": "Regards,",
+    "team": "IBCCF Compliance Team",
+    "footer": "This is a transactional notification from the International Blockchain Community Complaints Forum. Replies are monitored by the compliance desk.",
+    "viewInPortal": "View in your portal",
+    "caseRef": "Case reference: {{case}}",
+    "securityNoticeLabel": "Security Notice.",
+    "importantLabel": "Important",
+    "actionRequiredLabel": "Action Required",
+    "sectionWhatToDo": "What You Need To Do",
+    "sectionWhatToExpect": "What To Expect Next",
+    "sectionStageSummary": "Stage Summary",
+    "sectionDetailedExplanation": "Detailed Explanation",
+    "sectionWhyItMatters": "Why This Step Is Needed",
+    "sectionRegulatoryBasis": "Regulatory Basis",
+    "sectionNextSteps": "Next steps:",
+    "sectionHowToAccess": "How to access your portal:",
+    "sectionHowToSignIn": "How to sign back in:",
+    "caseReferenceLabel": "Case Reference",
+    "currentStageLabel": "Current Stage",
+    "declarationStatusLabel": "Declaration Status",
+    "openSecurePortalCta": "Open Secure Portal",
+    "copyLinkPrefix": "Or copy this link:"
+  },
+  "letterReady": {
+    "subject": "Your Withdrawal Letter Is Ready — Case {{case}}",
+    "headline": "Your withdrawal letter is ready",
+    "body": "Your formal withdrawal letter has been issued and is now available in your portal. Please sign in to review and download it."
+  },
+  "letterReissued": {
+    "subject": "Withdrawal Letter Reissued (v{{version}}) — Case {{case}}",
+    "headline": "Your withdrawal letter has been reissued",
+    "body": "A new version of your withdrawal letter (v{{version}}) has been issued. The previous version is superseded. Please sign in to review the latest copy."
+  },
+  "reissueApproved": {
+    "subject": "Reissue Payment Approved — Case {{case}}",
+    "headline": "Your reissue payment has been approved",
+    "body": "Your reissue payment has been approved. The reissued letter will be released shortly.",
+    "preheader": "Your reissue payment for round v{{version}} has been approved.",
+    "intro": "Good news — your reissue payment for round v{{version}} ({{fee}}) has been approved by the compliance team. You may now resubmit your withdrawal option selection inside your portal.",
+    "approvedFeeLabel": "Approved Reissue Fee",
+    "expectBody": "Open your portal, return to the Withdrawal Letter, choose an option, and submit. Processing will resume on the standard timeline.",
+    "cta": "Resubmit Selection"
+  },
+  "reissueRejected": {
+    "subject": "Reissue Payment Could Not Be Approved — Case {{case}}",
+    "headline": "Your reissue payment could not be approved",
+    "body": "Your reissue payment could not be approved. Please review the reason in your portal and resubmit.",
+    "preheader": "Your reissue payment receipt was not approved.",
+    "intro": "Your most recent reissue payment receipt was reviewed and could not be approved. Please review the reviewer notes below and upload a corrected receipt inside your portal.",
+    "reviewerNotesLabel": "Reviewer Notes",
+    "actionBody": "Open the secure portal, navigate to the deposit section for the active reissue round, and upload a clearer or corrected receipt for review.",
+    "cta": "Upload Corrected Receipt"
+  },
+  "declarationAssigned": {
+    "subject": "A Declaration of Compliance Has Been Assigned — Case {{case}}",
+    "headline": "A Declaration of Compliance has been assigned",
+    "body": "A Declaration of Compliance has been assigned to your case. Please complete it in the Declaration section of your portal."
+  },
+  "declarationApproved": {
+    "subject": "Declaration of Compliance Approved — Case {{case}}",
+    "headline": "Your declaration was approved",
+    "body": "Your Declaration of Compliance was approved. Your case will now advance to the next stage."
+  },
+  "declarationRejected": {
+    "subject": "Declaration of Compliance Requires Revision — Case {{case}}",
+    "headline": "Your declaration needs revision",
+    "body": "Your Declaration of Compliance requires revision. Please review the comments in your portal and resubmit."
+  },
+  "submissionReceived": {
+    "subject": "We've Received Your Submission — Case {{case}}",
+    "headline": "We've received your submission",
+    "body": "We've received your submission and our compliance team will review it shortly. You will be notified inside the portal of the result."
+  },
+  "complianceMessage": {
+    "subject": "New Message from Compliance — {{title}}",
+    "headline": "You have a new compliance message",
+    "body": "A compliance officer has sent you a new message regarding your case. Please sign in to read it."
+  },
+  "documentRequested": {
+    "subject": "Document Requested — Case {{case}}",
+    "headline": "A document has been requested",
+    "body": "A compliance officer has requested a document for your case. Please upload it in the Documents section of your portal."
+  },
+  "documentUnderReview": {
+    "subject": "Document Under Review — Case {{case}}",
+    "headline": "Your document is now under review",
+    "body": "A compliance officer has started reviewing your submitted document \"{{documentType}}\". No action is required from you right now — we'll notify you in the portal as soon as the review is complete."
+  },
+  "documentApproved": {
+    "subject": "Document Approved — Case {{case}}",
+    "headline": "Your document was approved",
+    "body": "Your submitted document was approved by compliance. No further action is required for this request."
+  },
+  "documentRejected": {
+    "subject": "Document Needs Resubmission — Case {{case}}",
+    "headline": "Your document needs resubmission",
+    "body": "Your submitted document could not be approved. Please review the comments in your portal and upload a corrected file."
+  },
+  "payoutWalletSet": {
+    "subject": "Payout Wallet Calibrated & Bound to IBCCF Secure Wallet — Case {{case}}",
+    "headline": "Your payout wallet has been calibrated and bound with your IBCCF secure wallet",
+    "body": "Your compliance officer has calibrated your payout wallet and bound it with your IBCCF secure wallet. This is now the authorised destination for the final disbursement on your case — please review the details in your portal and confirm they match what was discussed with your officer."
+  },
+  "payoutWalletChanged": {
+    "subject": "Payout Wallet Recalibrated & Re-bound to IBCCF Secure Wallet — Case {{case}}",
+    "headline": "Your payout wallet has been recalibrated and re-bound with your IBCCF secure wallet",
+    "body": "Your compliance officer has recalibrated your payout wallet and re-bound it with your IBCCF secure wallet. Only this new address is now authorised for your final disbursement — please review the updated details in your portal carefully."
+  },
+  "withdrawalRequestSubmitted": {
+    "subject": "Withdrawal Request Received — Case {{case}}",
+    "headline": "Your withdrawal request has been received",
+    "body": "We've received your withdrawal request for {{amount}} {{asset}} ({{network}}). Your case officer will review the requested destination wallet and notify you of the outcome. The platform is display-only and does not move funds."
+  },
+  "withdrawalApproved": {
+    "subject": "Withdrawal Request Approved — Case {{case}}",
+    "headline": "Your withdrawal request has been approved",
+    "body": "Your withdrawal request for {{amount}} {{asset}} has been approved by compliance. Stage progression to release will be handled manually by your case officer."
+  },
+  "withdrawalRejected": {
+    "subject": "Withdrawal Request Could Not Be Approved — Case {{case}}",
+    "headline": "Your withdrawal request needs revision",
+    "body": "Your withdrawal request for {{amount}} {{asset}} could not be approved at this time. Reviewer note: {{note}}. Please contact your case officer or submit a new request inside the portal."
+  },
+  "withdrawalCancelled": {
+    "subject": "Withdrawal Request Cancelled — Case {{case}}",
+    "headline": "Your withdrawal request has been cancelled",
+    "body": "Your withdrawal request for {{amount}} {{asset}} has been cancelled. You may submit a new request whenever the withdrawal window is open."
+  },
+  "keyRequestConfirmation": {
+    "subject": "Access Key Request Received — Reference {{requestId}}",
+    "preheader": "Your access key request {{requestId}} has been received and is under review.",
+    "intro": "Thank you for submitting your access key request. Your application has been securely received and is now under review by our verification team.",
+    "requestIdLabel": "Your Request ID",
+    "importantBody": "Please retain this Request ID. You will need it to track the status of your application and to retrieve your access key once approved.",
+    "verificationNote": "Verification typically completes within 1–3 business days. You can review your application status at any time using the link below — no login required.",
+    "cta": "Check Request Status",
+    "signoff": "If you did not submit this request, you may safely disregard this message."
+  },
+  "keyApproval": {
+    "subject": "IBCCF access key issued — sign-in details enclosed",
+    "preheader": "Your access key has been approved and is ready to use.",
+    "intro": "We are pleased to inform you that your access key request has been approved. You may now access the secure portal using the credential issued below.",
+    "accessKeyLabel": "Your Access Key",
+    "step1": "Visit the secure verification portal",
+    "step2": "Enter the access key shown above",
+    "step3": "Complete your profile setup",
+    "step4": "Set a confidential 6-digit PIN",
+    "securityBody": "Your access key is confidential. Do not share it with anyone. Authorised IBCCF personnel will never request your access key or PIN.",
+    "signoff": "If you have any questions, our compliance team is available to assist."
+  },
+  "accountReactivation": {
+    "subject": "IBCCF portal access restored — your new sign-in code",
+    "preheader": "Your IBCCF portal access has been reactivated.",
+    "intro": "Good news — your IBCCF portal account has been reactivated by our compliance team. For your security we have issued you a brand new access code; your previous code is no longer valid.",
+    "accessCodeLabel": "Your New Access Code",
+    "step1": "Open the IBCCF secure portal",
+    "step2": "Enter the new access code shown above",
+    "step3": "Use your existing 6-digit PIN to complete sign-in",
+    "securityBody": "This new code replaces your previous one. Do not share it with anyone — IBCCF staff will never ask you for your access code or PIN.",
+    "signoff": "If you did not expect this email, please contact our compliance team immediately."
+  },
+  "newDeclarationCode": {
+    "subject": "IBCCF declaration code issued — please complete your declaration",
+    "preheader": "A new declaration access code has been issued for your case.",
+    "intro": "Our compliance team has issued a new declaration access code for your case. Your previous code is no longer valid — please use the new code below to complete the Declaration of Compliance.",
+    "accessCodeLabel": "Your New Declaration Access Code",
+    "step1": "Sign in to your IBCCF portal as usual",
+    "step2": "Open the Declaration of Compliance",
+    "step3": "Enter the access code shown above when prompted",
+    "securityBody": "This code replaces any previously issued declaration code. Do not share it with anyone — IBCCF staff will never ask you for this code over the phone or via chat.",
+    "signoff": "If you did not expect this email, please contact our compliance team immediately."
+  },
+  "adminMessage": {
+    "subject": "New Message Regarding Your Request {{requestId}} — IBCCF",
+    "preheader": "New correspondence regarding request {{requestId}}.",
+    "intro": "You have received a new message from the IBCCF verification team regarding access key request {{requestId}}.",
+    "afterMessage": "Please review your case and respond at your earliest convenience using the secure portal.",
+    "cta": "View Your Request",
+    "signoff": "This is an automated notification. Replies sent to this address will not reach the verification team — please respond inside the secure portal."
+  },
+  "rejection": {
+    "subject": "Update on Your Access Key Request {{requestId}} — IBCCF",
+    "preheader": "Update on your access key request {{requestId}}.",
+    "intro": "Thank you for submitting access key request {{requestId}}. Following careful review, we are unable to approve your application at this time.",
+    "reasonLabel": "Reason",
+    "body": "You are welcome to submit a new application at any time. The button below opens a pre-filled reapplication form so you can resubmit in seconds.",
+    "cta": "Submit a New Application",
+    "statusLink": "view your request status",
+    "statusLinkPrefix": "Alternatively,",
+    "statusLinkSuffix": ".",
+    "signoff": "This is an automated notification. Please do not reply directly to this email."
+  },
+  "expiry": {
+    "subject": "Your Access Key Request {{requestId}} Has Expired — IBCCF",
+    "preheader": "Your access key request {{requestId}} has expired.",
+    "intro": "Your access key request {{requestId}} has expired because it was not reviewed within the allotted window. No action was taken on your application.",
+    "body": "You may submit a new application at any time. The button below opens a pre-filled reapplication form so you can resubmit in seconds.",
+    "cta": "Reapply Now",
+    "statusLink": "view the expired request",
+    "statusLinkPrefix": "Alternatively,",
+    "statusLinkSuffix": ".",
+    "signoff": "This is an automated notification. Please do not reply directly to this email."
+  },
+  "stageInstructions": {
+    "subjectTemplate": "Stage {{stage}} of 14: {{title}} — Case {{case}}",
+    "preheader": "Stage {{stage}} of 14: {{title}} — instructions for case {{case}}.",
+    "intro": "Below is a detailed update for your case {{case}}. Please review the stage instructions carefully and complete any required actions inside your secure portal.",
+    "stageOf": "Stage {{stage}} of 14",
+    "regulatoryNote": "References are provided for transparency. Specific applicability depends on your jurisdiction of residency and the asset class involved.",
+    "securityBody": "Always perform deposits and confirmations from inside your secure portal. IBCCF will never ask for your access key, PIN or Phrase Key by email or chat.",
+    "signoff": "For any questions, please use the secure messaging panel inside your portal so the team has full case context."
+  },
+  "declarationAccess": {
+    "subject": "Your Declaration Portal Has Been Opened — Case {{case}}",
+    "preheaderShell": "Your declaration portal is open. Access code: {{code}}. Valid 24 hours.",
+    "intro": "The compliance team has opened the Declaration of Compliance portal for your case. Please follow the instructions below within the next 24 hours.",
+    "statusLabel": "Portal Opened — Awaiting Your Submission",
+    "accessCodeLabel": "Your Declaration Access Code",
+    "validUntil": "Valid until {{expiry}} — approximately 24 hours from issue.",
+    "defaultIntroBody": "Your Declaration of Compliance portal has been opened by our compliance team. To review and sign your declaration, please use the access code below to log in to your portal. This access code is valid for 24 hours from the time of issue — please complete your declaration before it expires.",
+    "todo1": "Open the secure portal using the link below.",
+    "todo2": "Enter the access code shown in this email when prompted.",
+    "todo3": "Carefully review every section of the Declaration of Compliance.",
+    "todo4": "Confirm all required acknowledgements and submit before the 24-hour window closes.",
+    "todo5": "If the window expires, contact your compliance officer to issue a fresh code.",
+    "defaultClosing": "For security reasons, this access code is single-use against this case file and must not be shared with anyone. If you did not expect this notification, contact compliance immediately.",
+    "securityNoteLabel": "Security note:",
+    "cta": "Open Declaration Portal",
+    "signoff": "If you have any questions, use the secure messaging panel inside the portal so the team has full case context."
+  },
+  "custom": {
+    "greeting": "Dear Recipient,",
+    "intro": "Please find an important message from the IBCCF team below.",
+    "signoff": "For any follow-up, please use the secure portal or reply to this address."
+  },
+  "withdrawalActivationAddressSubmitted": {
+    "subject": "Withdrawal Address Received — Case {{case}}",
+    "headline": "We've received your withdrawal address",
+    "body": "Your withdrawal address ({{asset}} on {{network}}) has been submitted. Sign in to your portal to continue with the activation flow."
+  },
+  "withdrawalActivationTokenVerified": {
+    "subject": "Security Code Verified — Case {{case}}",
+    "headline": "Your security code has been verified",
+    "body": "Your withdrawal security code was verified successfully. You can now upload your activation deposit receipt inside the portal."
+  },
+  "withdrawalActivationCode": {
+    "subject": "Withdrawal Security Code — Case {{case}}",
+    "headline": "Your withdrawal security code",
+    "body": "Use the code below to confirm your withdrawal address inside the IBCCF portal. Code: {{code}} (valid for {{expiresInMinutes}} minutes). Do not share this code with anyone — IBCCF staff will never ask for it."
+  },
+  "withdrawalActivationReceiptReceived": {
+    "subject": "Activation Deposit Receipt Received — Case {{case}}",
+    "headline": "We've received your activation deposit receipt",
+    "body": "We've received your activation deposit receipt and a compliance officer will review it shortly. You will be notified inside the portal once it has been approved."
+  },
+  "withdrawalActivationApproved": {
+    "subject": "Withdrawal Activation Approved — Case {{case}}",
+    "headline": "Your withdrawal activation has been approved",
+    "body": "Your activation deposit has been approved. Withdrawal processing will now proceed and your case officer will be in touch regarding final disbursement."
+  },
+  "withdrawalActivationRejected": {
+    "subject": "Activation Deposit Could Not Be Approved — Case {{case}}",
+    "headline": "Your activation deposit needs attention",
+    "body": "Your activation deposit could not be approved. Reviewer note: {{reason}}. Please review the message inside your portal and upload a corrected receipt."
+  },
+  "settlementSealed": {
+    "subject": "Settlement Sealed — Case {{case}}",
+    "headline": "Your settlement has been sealed",
+    "body": "Your Sealed Settlement & Non-Disclosure Acknowledgement has been signed and your case is now permanently sealed. A signed copy of the document is attached for your records. The integrity hash (SHA-256) shown in your portal can be used to verify that the attached PDF has not been altered.",
+    "greeting": "Dear {{name}},",
+    "caseReferenceLabel": "Case Reference",
+    "integrityHashLabel": "SHA-256 Integrity Hash",
+    "signedAtLabel": "Signed at {{when}}"
+  },
+  "caseFinalized": {
+    "subject": "Your Case Has Been Finalized — Case {{case}}",
+    "headline": "Your case has been finalized",
+    "body": "Your IBCCF withdrawal case has reached its final stage and has been fully finalized. You may sign in to your portal at any time to download your sealed records."
+  },
+  "certificateFeeReceived": {
+    "subject": "Certificate Fee Receipt Received — Case {{case}}",
+    "headline": "We've received your certification fee receipt",
+    "body": "We've received your payment receipt for the Merge Phrase Certificate ({{amount}} USDT) and our compliance team is reviewing it. You will be notified once the clean certificate is unlocked."
+  },
+  "certificateUnlocked": {
+    "subject": "Your Merge Phrase Certificate Is Ready — Case {{case}}",
+    "headline": "Your Merge Phrase Certificate is unlocked",
+    "body": "Your certification fee has been approved. The clean Merge Phrase Certificate is now available for download in the Certificate section of your portal."
+  },
+  "certificateFeeRejected": {
+    "subject": "Certification Fee Needs Resubmission — Case {{case}}",
+    "headline": "Your certification fee could not be approved",
+    "body": "Your most recent certification fee receipt could not be approved. Please review the reviewer notes in your portal and upload a corrected receipt."
+  },
+  "stampDutyRequired": {
+    "subject": "Stamp Duty Deposit Required — Case {{case}}",
+    "headline": "Stamp Duty Deposit required",
+    "body": "Before the Sealed Settlement & NDA can be signed, please upload a receipt for the Stamp Duty Deposit ({{amount}} USDT) in your portal. Compliance will review and approve it before NDA sealing is unlocked."
+  },
+  "stampDutyReceived": {
+    "subject": "Stamp Duty Receipt Received — Case {{case}}",
+    "headline": "We've received your stamp duty receipt",
+    "body": "We've received your Stamp Duty Deposit receipt ({{amount}} USDT) and our compliance team is reviewing it. You will be notified once it is approved and NDA sealing is unlocked."
+  },
+  "stampDutyApproved": {
+    "subject": "Stamp Duty Approved — Case {{case}}",
+    "headline": "Your Stamp Duty Deposit is approved",
+    "body": "Your Stamp Duty Deposit has been approved. You may now sign the Sealed Settlement & NDA in your portal."
+  },
+  "stampDutyRejected": {
+    "subject": "Stamp Duty Receipt Needs Resubmission — Case {{case}}",
+    "headline": "Your stamp duty receipt could not be approved",
+    "body": "Your most recent Stamp Duty Deposit receipt could not be approved. {{reason}} Please upload a corrected receipt in the Stamp Duty section of your portal."
+  },
+  "walletExchangeSelected": {
+    "subject": "Wallet Connection Updated — Case {{case}}",
+    "headline": "Your wallet has been selected",
+    "body": "You selected {{wallet}} as your connected wallet for case {{case}}. You can now proceed to retrieve your wallet recovery phrase in the secure portal."
+  },
+  "walletPhraseRevealed": {
+    "subject": "Wallet Recovery Phrase Accessed — Case {{case}}",
+    "headline": "Your wallet recovery phrase was accessed",
+    "body": "Your wallet recovery phrase for case {{case}} was accessed through the secure portal. If you did not do this, please contact your compliance officer immediately."
+  },
+  "phraseCodeNotice": {
+    "subject": "Action Required: Retrieve Your Phrase Key & Complete Your Withdrawal — Case {{case}}",
+    "preheader": "Sign in to your secure portal to retrieve your phrase key and continue your withdrawal.",
+    "intro": "Your case is ready for the next step. Your phrase key is now available in your secure portal, and you can use it to authorise and complete your withdrawal. For your security, the phrase key is never sent by email — please sign in to view it.",
+    "retrieveTitle": "How to retrieve your phrase key",
+    "retrieveStep1": "Open your secure portal using the button below and sign in with your access code.",
+    "retrieveStep2": "Go to the “Wallet Connection” step in the menu.",
+    "retrieveStep3": "Reveal and carefully record your phrase key, keeping it private and secure.",
+    "withdrawTitle": "How to complete your withdrawal",
+    "withdrawStep1": "Confirm your verified payout wallet details on the “Wallet Connection” step.",
+    "withdrawStep2": "Follow the on-screen instructions to authorise your withdrawal using your phrase key.",
+    "withdrawStep3": "Track the remaining stages on your dashboard until your withdrawal is finalised.",
+    "securityBody": "IBCCF will never ask you to share your phrase key by email, phone, or message. Only ever enter it inside your secure portal."
+  },
+  "unknownWallet": "Unknown wallet",
+  "walletConnectAlert": {
+    "subject": "[IBCCF] Wallet connection completed — Case {{caseId}}",
+    "preheader": "A user completed the wallet connection step for case {{caseId}}.",
+    "greeting": "Admin alert: wallet connection completed",
+    "intro": "A portal user has completed the wallet connection step for case {{caseId}}. They have revealed their phrase code and the case is ready for the next compliance action.",
+    "caseLabel": "Case",
+    "walletLabel": "Wallet selected",
+    "cta": "Open case in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "documentUploadAlert": {
+    "subject": "[IBCCF] User document uploaded: \"{{documentType}}\" — Case {{caseId}}",
+    "subjectTest": "[TEST] [IBCCF] User document uploaded: \"{{documentType}}\" — Case {{caseId}}",
+    "preheader": "A user uploaded \"{{documentType}}\" for case {{caseId}}.",
+    "preheaderTest": "[TEST] Document upload alert delivery verification.",
+    "greeting": "Admin alert: user document uploaded",
+    "greetingTest": "[TEST] Admin alert: user document uploaded",
+    "intro": "A portal user has uploaded a document for case {{caseId}} that requires your review.",
+    "introTest": "This is an operator-initiated test alert. No real document has been uploaded. This message confirms that your document upload alert email recipient is correctly configured.",
+    "documentTypeLabel": "Document type",
+    "fileNameLabel": "File name",
+    "caseLabel": "Case",
+    "fileNameUnnamed": "(unnamed)",
+    "cta": "Review in admin dashboard",
+    "signoff": "IBCCF document monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF document upload alert recipient (DOCUMENT_UPLOAD_ALERT_EMAIL / app_settings.document_upload_alert_email or the ADMIN_ALERT_EMAIL fallback)."
+  },
+  "tokenDepositInvoice": {
+    "subject": "Withdrawal Processing Confirmed — Case {{case}}",
+    "headline": "Your withdrawal has been approved and is now processing",
+    "body": "Your token deposit of {{paidAmount}} USDT has been verified and your withdrawal activation is now approved. A full processing confirmation and invoice summary are shown below. Your official invoice is attached to this email as a PDF."
+  },
+  "refundClaimRequest": {
+    "subject": "Action Required: Refund Claim Form — Case {{case}}",
+    "preheader": "Your 1,000 USDT refundable activation balance — complete your refund claim now",
+    "greeting": "Your Refund Claim Form Is Ready",
+    "intro": "Your case has reached the refund documentation stage. Please complete the refund claim form in your secure portal to initiate the return of your 1,000 USDT refundable activation balance.",
+    "balanceNote": "Refundable activation balance: <strong>1,000 USDT</strong> (separate from the non-refundable 500 USDT processing fee).",
+    "recommendationsHeading": "Documentary Recommendations from Compliance",
+    "instructionsHeading": "How to Complete Your Claim",
+    "step1": "Log in to your secure portal using your access code.",
+    "step2": "Navigate to <strong>Refund Claim</strong> in the Compliance section.",
+    "step3": "Add each deposit entry (amount, what it was charged for, date, and transaction ID).",
+    "step4": "Attach supporting receipts for each entry, then click <strong>Submit Refund Claim</strong>.",
+    "cta": "Open Refund Claim Form",
+    "signoff": "IBCCF International Enforcement Division",
+    "footerNote": "If you did not expect this message, please contact your assigned compliance officer immediately."
+  },
+  "refundClaimApproved": {
+    "subject": "Refund Claim Approved — Case {{case}}",
+    "preheader": "Your refund claim has been reviewed and approved",
+    "greeting": "Your Refund Claim Has Been Approved",
+    "intro": "We are pleased to confirm that your refund claim for case {{case}} has been reviewed and approved by the IBCCF International Enforcement Division.",
+    "certNote": "Your official Refund Approval Certificate is now available in your portal. You may download it at any time as proof of the approved disbursement.",
+    "adminNotesHeading": "Officer Notes",
+    "cta": "Download Refund Certificate",
+    "signoff": "IBCCF International Enforcement Division",
+    "footerNote": "This email confirms the approval of your refund claim. Disbursement will follow in accordance with the settlement schedule."
+  },
+  "refundClaimRejected": {
+    "subject": "Refund Claim Update — Case {{case}}",
+    "preheader": "An update regarding your refund claim",
+    "greeting": "Refund Claim Update",
+    "intro": "Your refund claim for case {{case}} has been reviewed. At this time, the claim could not be approved in its current form. Please review the officer notes below and resubmit if applicable.",
+    "adminNotesHeading": "Officer Notes",
+    "nextSteps": "Please contact your assigned compliance officer if you have questions about this outcome or would like to resubmit supporting documentation.",
+    "cta": "Return to Portal",
+    "signoff": "IBCCF International Enforcement Division",
+    "footerNote": "If you believe this decision was made in error, please contact your compliance officer with additional supporting documentation."
+  },
+  "caseCreated": {
+    "subject": "Your Case Has Been Registered — Case {{case}}",
+    "headline": "Your case has been registered",
+    "body": "Your case has been registered with the IBCCF International Enforcement Division. Our compliance team will review your submission and will be in touch with the next steps. Please keep your case reference safe — you will need it to access your secure portal."
+  },
+  "adminNewCase": {
+    "subject": "[IBCCF] New case submitted — Case {{caseId}}",
+    "preheader": "A new case has been submitted: {{caseId}}.",
+    "greeting": "Admin alert: new case submitted",
+    "intro": "A new case has been submitted and is awaiting your review.",
+    "caseLabel": "Case",
+    "submitterLabel": "Submitter",
+    "cta": "Open case in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "adminNewMessage": {
+    "subject": "[IBCCF] New message from portal user — Case {{caseId}}",
+    "preheader": "A portal user sent a message for case {{caseId}}.",
+    "greeting": "Admin alert: new message from portal user",
+    "intro": "A portal user has sent a new message for case {{caseId}} that requires your attention.",
+    "caseLabel": "Case",
+    "userLabel": "User",
+    "messagePreviewLabel": "Message preview",
+    "cta": "View in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "portalWarning": {
+    "subject": "IBCCF Portal Notice — Your session will close in {{minuteLabel}}",
+    "noticeLabel": "SESSION CLOSURE NOTICE",
+    "closingIn": "Your portal will close in {{minuteLabel}}",
+    "intro": "This is an automated notice that your IBCCF portal session has been scheduled for closure.",
+    "body": "Your case session has been automatically scheduled for closure by the IBCCF compliance system. This is a system-initiated process — no manual or admin action has been taken. Once your session closes, your portal will not reopen automatically. To restore access you must complete the reactivation process by contacting IBCCF Customer Support.",
+    "cta": "Return to Portal",
+    "signoff": "IBCCF International Enforcement Division",
+    "footerNote": "This is an automated compliance notification. Please retain this message for your records.",
+    "minuteSingular": "1 minute",
+    "minutePlural": "{{count}} minutes"
+  },
+  "countdownOverride": {
+    "subject": "Your IBCCF Portal Session Has Been Closed — Case {{case}}",
+    "preheader": "An administrator has manually closed your portal session for case {{case}}.",
+    "intro": "An administrator has manually closed your active portal session for case {{case}}. Your portal access has been suspended and your withdrawal progress has been reset as part of this compliance action.",
+    "actionHeading": "How to Restore Your Access",
+    "actionBody": "To resume your case, a reactivation deposit is required. Please open your secure portal and follow the on-screen instructions in the Reactivation section.",
+    "cta": "Open Secure Portal",
+    "signoff": "If you believe this was done in error, please contact your assigned compliance officer immediately using the secure portal messaging panel."
+  },
+  "countdownExpired": {
+    "subject": "Your IBCCF Portal Session Has Expired — Case {{case}}",
+    "preheader": "Your portal session countdown for case {{case}} reached zero and your access has been locked.",
+    "intro": "Your IBCCF portal session countdown for case {{case}} reached zero and your portal access has been automatically suspended. Your withdrawal progress has been reset in accordance with the scheduled closure procedure.",
+    "actionHeading": "How to Restore Your Access",
+    "actionBody": "To continue with your case, a reactivation deposit is required. Please open your secure portal and follow the on-screen instructions in the Reactivation section.",
+    "cta": "Open Secure Portal",
+    "signoff": "If you did not expect this notice, please contact your assigned compliance officer immediately using the secure portal messaging panel."
+  },
+  "reactivationRequired": {
+    "subject": "Action Required: Portal Reactivation Deposit Needed — Case {{case}}",
+    "preheader": "A reactivation deposit is required to restore your IBCCF portal access for case {{case}}.",
+    "intro": "Your IBCCF portal access for case {{case}} has been suspended. To restore your access and continue your withdrawal process, please complete a reactivation deposit as described below.",
+    "depositAmountLabel": "Reactivation Deposit Required",
+    "step1": "Open your secure portal using the button below and sign in with your access code.",
+    "step2": "Navigate to the Reactivation section shown on your dashboard.",
+    "step3": "Upload your reactivation deposit receipt for compliance review.",
+    "securityBody": "Always upload your reactivation receipt directly inside the secure portal. IBCCF staff will never ask for payment confirmations by email or chat.",
+    "cta": "Open Secure Portal",
+    "signoff": "Once your reactivation deposit has been reviewed and approved, your portal access and withdrawal progress will be fully restored."
+  },
+  "aiFailureAlert": {
+    "subject": "[IBCCF] AI Service Degraded — Fallback Mode Active",
+    "preheader": "The OpenAI service has failed and the AI chatbot is now using fallback templates.",
+    "greeting": "Ops alert: AI service failure",
+    "intro": "The IBCCF AI chatbot service has encountered an error and is now operating in fallback template mode. Users are receiving pre-written responses instead of AI-generated replies.",
+    "errorLabel": "Error details",
+    "timestampLabel": "First detected",
+    "footerNote": "This alert is throttled to at most one notification per 10 minutes. You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "healthCheckFailureAlert": {
+    "subject": "[IBCCF] Health Check Alert — Service Degraded",
+    "preheader": "One or more IBCCF services have been detected as degraded by the internal health probe.",
+    "greeting": "Ops alert: service degradation detected",
+    "intro": "The IBCCF internal health probe has detected that one or more services are in a degraded state. Immediate investigation is recommended.",
+    "degradedServicesLabel": "Degraded services",
+    "timestampLabel": "Detected at",
+    "footerNote": "This alert fires when a scheduled health probe (every 5 minutes) detects a newly degraded service. You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "healthCheckRecoveryAlert": {
+    "subject": "[IBCCF] Health Check Recovery — Services Restored",
+    "preheader": "Previously degraded IBCCF services have been detected as healthy again.",
+    "greeting": "Ops alert: service recovery",
+    "intro": "The IBCCF internal health probe has detected that previously degraded services have returned to a healthy state.",
+    "recoveredServicesLabel": "Recovered services",
+    "timestampLabel": "Detected at",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  }
+}

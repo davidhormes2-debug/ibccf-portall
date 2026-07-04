@@ -1,0 +1,95 @@
+{
+  "site": {
+    "name": "IBCCF",
+    "fullName": "International Blockchain Community Complaints Forum",
+    "tagline": "Recover what was taken. Verify before you trust."
+  },
+  "routes": {
+    "home": {
+      "title": "IBCCF — International Blockchain Community Complaints Forum",
+      "description": "Report cryptocurrency fraud, verify suspicious platforms, and track your case with the trusted International Blockchain Community Complaints Forum. 24/7 secure support across 120+ jurisdictions.",
+      "h1": "Recover what was taken. Verify before you trust.",
+      "intro": "We help victims of cryptocurrency fraud open formal cases, verify suspicious platforms, and trace stolen assets under a transparent regulatory framework. Authoritative blockchain trace analysis, asset recovery, and compliance for individuals, law firms, and institutions across 180+ jurisdictions."
+    },
+    "verify": {
+      "title": "Verify a Blockchain Platform — IBCCF",
+      "description": "Check whether a cryptocurrency exchange, wallet, or platform is verified by IBCCF. Independent due-diligence reports, fraud alerts, and compliance status for blockchain services worldwide.",
+      "h1": "Verify a Blockchain Platform",
+      "intro": "Search the IBCCF registry to confirm whether a cryptocurrency exchange, wallet, custodian, or recovery service has been independently reviewed. Each verification includes fraud history, jurisdictional licensing, and compliance posture."
+    },
+    "community": {
+      "title": "Community Forum — IBCCF",
+      "description": "Join thousands of victims, advocates, and investigators sharing experiences, support, and intelligence on cryptocurrency fraud, recovery, and platform safety in the IBCCF Community.",
+      "h1": "Community Forum",
+      "intro": "Discussions, peer support, and shared experiences from victims, advocates, and investigators across the global blockchain-fraud response community. Browse open threads or sign in to start a new discussion."
+    },
+    "requestAccess": {
+      "title": "Request Portal Access — IBCCF",
+      "description": "Apply for a secure access key to the IBCCF case portal. Submit a confidential request and our compliance team will review your application and issue credentials once approved.",
+      "h1": "Request Access Key",
+      "intro": "Submit a request to receive an access key for the secure IBCCF portal. Our team will review your application and contact you with next steps. All requests are handled confidentially."
+    },
+    "legalResources": {
+      "title": "Legal Resources & Regulatory Intelligence — IBCCF",
+      "description": "International financial law, AML/CFT regulations, FATF travel rule, MiCA, Basel III, and cross-border cryptocurrency compliance frameworks — curated by IBCCF for victims, counsel, and institutions.",
+      "h1": "Regulatory Intelligence",
+      "intro": "The definitive briefing room for international financial law, AML/CFT regulations, and cross-border cryptocurrency compliance frameworks. Track FATF, MiCA, Basel III, OFAC and OECD CARF developments in one place."
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy — IBCCF",
+      "description": "Read the IBCCF Privacy Policy to understand how we collect, use, and protect your personal data in compliance with international data protection standards.",
+      "h1": "Privacy Policy",
+      "intro": "This policy explains what personal information IBCCF collects, how it is used, and the rights you have regarding your data. We are committed to protecting your privacy in accordance with applicable data protection laws."
+    },
+    "termsOfUse": {
+      "title": "Terms of Use — IBCCF",
+      "description": "Review the IBCCF Terms of Use governing access to our platform, case portal, community forum, and all associated services.",
+      "h1": "Terms of Use",
+      "intro": "These terms govern your access to and use of the IBCCF platform, including the case portal, community forum, and verification services. By using our services you agree to these terms."
+    },
+    "withdrawalGuide": {
+      "title": "Withdrawal Guide — IBCCF",
+      "description": "Step-by-step guide to the IBCCF withdrawal process. Understand each compliance stage, required documents, and timelines for releasing your recovered assets.",
+      "h1": "Withdrawal Guide",
+      "intro": "A complete walkthrough of the IBCCF withdrawal process — from case approval through final disbursement. Learn what is required at each compliance stage, what documents to prepare, and how to track the status of your recovery."
+    }
+  },
+  "divisions": {
+    "aml": {
+      "title": "AML Division — Anti-Money Laundering — IBCCF",
+      "description": "Transaction monitoring, suspicious activity reports, KYC auditing, and sanctions screening for cryptocurrency-related money laundering investigations.",
+      "h1": "AML Division",
+      "intro": "Stopping illicit funds before they enter the financial system. The IBCCF AML Division conducts in-depth transaction monitoring, builds suspicious activity profiles, and coordinates with global financial intelligence units."
+    },
+    "cyber": {
+      "title": "Cybercrime & Digital Forensics — IBCCF",
+      "description": "Wallet forensics, blockchain trace analysis, dark-web surveillance, and advanced crypto-tracing for victims of cyber-enabled financial crime.",
+      "h1": "Cybercrime & Digital Forensics",
+      "intro": "Blockchain trace analysis and digital forensics for victims of cyber-enabled financial crime. Wallet attribution, mixer de-anonymisation, and dark-web intelligence support recovery and prosecution."
+    },
+    "recovery": {
+      "title": "Asset Recovery Unit — Cross-Border Enforcement — IBCCF",
+      "description": "Civil litigation support, frozen-asset tracking, and global recovery operations for high-value cryptocurrency theft, fraud, and exchange collapses.",
+      "h1": "Asset Recovery Unit",
+      "intro": "Cross-border enforcement and recovery of stolen digital assets. We coordinate with law enforcement, regulators, and counsel worldwide to freeze, trace, and return funds to verified victims."
+    },
+    "compliance": {
+      "title": "Compliance & Regulatory Affairs — IBCCF",
+      "description": "FATF alignment, jurisdictional reporting, MiCA and Basel III implementation, and regulatory coordination for crypto businesses and institutional clients.",
+      "h1": "Compliance & Regulatory Affairs",
+      "intro": "Jurisdictional reporting, legal framework adherence, and regulatory coordination. The IBCCF compliance practice helps exchanges, custodians, and counsel meet FATF, MiCA, and Basel III obligations."
+    },
+    "intelligence": {
+      "title": "Intelligence & Threat Analysis — IBCCF",
+      "description": "Scam network mapping, threat-actor profiling, and early-warning intelligence on emerging cryptocurrency fraud schemes and laundering typologies.",
+      "h1": "Intelligence & Threat Analysis",
+      "intro": "Threat-actor profiling and scam-network mapping. The IBCCF intelligence team publishes early-warning briefings on emerging crypto-fraud typologies and laundering methodologies."
+    },
+    "support": {
+      "title": "Victim Support Services — IBCCF",
+      "description": "Secure case intake, victim advocacy, and holistic recovery counselling for individuals and families affected by cryptocurrency fraud and platform collapses.",
+      "h1": "Victim Support Services",
+      "intro": "Secure case intake, victim advocacy, and recovery counselling. The IBCCF support team is the first point of contact for individuals and families affected by cryptocurrency fraud."
+    }
+  }
+}

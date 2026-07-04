@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
   Brain, Sparkles, TrendingUp, AlertCircle, CheckCircle2, 
-  Clock, Shield, Zap, ArrowRight, LightbulbIcon
+  Clock, Shield, Zap, LightbulbIcon
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -26,8 +26,7 @@ export function AIInsightsCard({
   caseStatus, 
   withdrawalStage, 
   hasRequirements, 
-  submissionsCount = 0,
-  messagesCount = 0 
+  submissionsCount = 0
 }: AIInsightsCardProps) {
   const [currentInsight, setCurrentInsight] = useState(0);
   const [isThinking, setIsThinking] = useState(true);
@@ -234,7 +233,7 @@ export function QuickStatsCard({
         { label: 'Messages', value: messagesCount.toString(), icon: CheckCircle2, color: 'from-emerald-500 to-green-500' },
         { label: 'Submissions', value: submissionsCount.toString(), icon: Clock, color: 'from-purple-500 to-violet-500' },
         { label: 'Documents', value: receiptsCount.toString(), icon: Shield, color: 'from-amber-500 to-orange-500' }
-      ].map((stat, idx) => (
+      ].map((stat, _idx) => (
         <motion.div
           key={stat.label}
           whileHover={{ scale: 1.02, y: -2 }}

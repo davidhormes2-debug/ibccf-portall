@@ -1,0 +1,511 @@
+{
+  "common": {
+    "greeting": "Bonjour {{name}},",
+    "regards": "Cordialement,",
+    "team": "Équipe de conformité IBCCF",
+    "footer": "Ceci est une notification transactionnelle du Forum international des plaintes de la communauté blockchain. Les réponses sont surveillées par le bureau de conformité.",
+    "viewInPortal": "Voir dans votre portail",
+    "caseRef": "Référence du dossier : {{case}}",
+    "securityNoticeLabel": "Avis de sécurité.",
+    "importantLabel": "Important",
+    "actionRequiredLabel": "Action requise",
+    "sectionWhatToDo": "Ce que vous devez faire",
+    "sectionWhatToExpect": "Ce à quoi s'attendre ensuite",
+    "sectionStageSummary": "Résumé de l'étape",
+    "sectionDetailedExplanation": "Explication détaillée",
+    "sectionWhyItMatters": "Pourquoi cette étape est nécessaire",
+    "sectionRegulatoryBasis": "Fondement réglementaire",
+    "sectionNextSteps": "Étapes suivantes :",
+    "sectionHowToAccess": "Comment accéder à votre portail :",
+    "sectionHowToSignIn": "Comment vous reconnecter :",
+    "caseReferenceLabel": "Référence du dossier",
+    "currentStageLabel": "Étape actuelle",
+    "declarationStatusLabel": "Statut de la déclaration",
+    "openSecurePortalCta": "Ouvrir le portail sécurisé",
+    "copyLinkPrefix": "Ou copiez ce lien :"
+  },
+  "letterReady": {
+    "subject": "Votre lettre de retrait est prête — Dossier {{case}}",
+    "headline": "Votre lettre de retrait est prête",
+    "body": "Votre lettre de retrait formelle a été émise et est maintenant disponible dans votre portail. Veuillez vous connecter pour la consulter et la télécharger."
+  },
+  "letterReissued": {
+    "subject": "Lettre de retrait réémise (v{{version}}) — Dossier {{case}}",
+    "headline": "Votre lettre de retrait a été réémise",
+    "body": "Une nouvelle version de votre lettre de retrait (v{{version}}) a été émise. La version précédente est annulée. Veuillez vous connecter pour consulter la dernière copie."
+  },
+  "reissueApproved": {
+    "preheader": "Votre paiement de réémission pour la ronde v{{version}} a été approuvé.",
+    "intro": "Bonne nouvelle — votre paiement de réémission pour la ronde v{{version}} ({{fee}}) a été approuvé par l'équipe de conformité. Vous pouvez maintenant resoumettre la sélection de votre option de retrait dans votre portail.",
+    "approvedFeeLabel": "Frais de réémission approuvés",
+    "expectBody": "Ouvrez votre portail, revenez à la Lettre de Retrait, choisissez une option et soumettez. Le traitement reprendra selon le calendrier standard.",
+    "cta": "Resoumettre la sélection",
+    "subject": "Paiement de réémission approuvé — Dossier {{case}}",
+    "headline": "Votre paiement de réémission a été approuvé",
+    "body": "Votre paiement de réémission a été approuvé. La lettre réémise sera publiée sous peu."
+  },
+  "reissueRejected": {
+    "preheader": "Votre reçu de paiement de réémission n'a pas été approuvé.",
+    "intro": "Votre reçu de paiement de réémission le plus récent a été examiné et n'a pas pu être approuvé. Veuillez consulter les notes du relecteur ci-dessous et téléverser un reçu corrigé dans votre portail.",
+    "reviewerNotesLabel": "Notes du relecteur",
+    "actionBody": "Ouvrez le portail sécurisé, accédez à la section de dépôt de la ronde de réémission en cours et téléversez un reçu plus clair ou corrigé pour examen.",
+    "cta": "Téléverser le reçu corrigé",
+    "subject": "Le paiement de réémission n'a pas pu être approuvé — Dossier {{case}}",
+    "headline": "Votre paiement de réémission n'a pas pu être approuvé",
+    "body": "Votre paiement de réémission n'a pas pu être approuvé. Veuillez consulter la raison dans votre portail et le soumettre à nouveau."
+  },
+  "declarationAssigned": {
+    "subject": "Une déclaration de conformité a été assignée — Dossier {{case}}",
+    "headline": "Une déclaration de conformité a été assignée",
+    "body": "Une déclaration de conformité a été assignée à votre dossier. Veuillez la compléter dans la section Déclaration de votre portail."
+  },
+  "declarationApproved": {
+    "subject": "Déclaration de conformité approuvée — Dossier {{case}}",
+    "headline": "Votre déclaration a été approuvée",
+    "body": "Votre déclaration de conformité a été approuvée. Votre dossier avancera maintenant à l'étape suivante."
+  },
+  "declarationRejected": {
+    "subject": "La déclaration de conformité nécessite une révision — Dossier {{case}}",
+    "headline": "Votre déclaration nécessite une révision",
+    "body": "Votre déclaration de conformité nécessite une révision. Veuillez consulter les commentaires dans votre portail et le soumettre à nouveau."
+  },
+  "submissionReceived": {
+    "subject": "Nous avons reçu votre soumission — Dossier {{case}}",
+    "headline": "Nous avons reçu votre soumission",
+    "body": "Nous avons reçu votre soumission et notre équipe de conformité l'examinera sous peu. Vous serez informé à l'intérieur du portail du résultat."
+  },
+  "complianceMessage": {
+    "subject": "Nouveau message de conformité — {{title}}",
+    "headline": "Vous avez un nouveau message de conformité",
+    "body": "Un agent de conformité vous a envoyé un nouveau message concernant votre dossier. Veuillez vous connecter pour le lire."
+  },
+  "documentRequested": {
+    "subject": "Document demandé — Dossier {{case}}",
+    "headline": "Un document a été demandé",
+    "body": "Un agent de conformité a demandé un document pour votre dossier. Veuillez le télécharger dans la section Documents de votre portail."
+  },
+  "documentUnderReview": {
+    "subject": "Document en cours d'examen — Dossier {{case}}",
+    "headline": "Votre document est en cours d'examen",
+    "body": "Un agent de conformité a commencé à examiner le document que vous avez soumis \"{{documentType}}\". Aucune action n'est requise de votre part pour le moment — nous vous informerons dans le portail dès la fin de l'examen."
+  },
+  "documentApproved": {
+    "subject": "Document approuvé — Dossier {{case}}",
+    "headline": "Votre document a été approuvé",
+    "body": "Votre document soumis a été approuvé par la conformité. Aucune autre action n'est requise pour cette demande."
+  },
+  "documentRejected": {
+    "subject": "Document nécessite une nouvelle soumission — Dossier {{case}}",
+    "headline": "Votre document nécessite une nouvelle soumission",
+    "body": "Votre document soumis n'a pas pu être approuvé. Veuillez consulter les commentaires dans votre portail et télécharger un fichier corrigé."
+  },
+  "payoutWalletSet": {
+    "subject": "Portefeuille de paiement calibré et lié à votre portefeuille sécurisé IBCCF — Dossier {{case}}",
+    "headline": "Votre portefeuille de paiement a été calibré et lié à votre portefeuille sécurisé IBCCF",
+    "body": "Votre responsable conformité a calibré votre portefeuille de paiement et l'a lié à votre portefeuille sécurisé IBCCF. C'est désormais la destination autorisée pour le versement final de votre dossier — veuillez vérifier les détails dans votre portail et confirmer qu'ils correspondent à ce qui a été convenu avec votre responsable."
+  },
+  "payoutWalletChanged": {
+    "subject": "Portefeuille de paiement recalibré et re-lié à votre portefeuille sécurisé IBCCF — Dossier {{case}}",
+    "headline": "Votre portefeuille de paiement a été recalibré et re-lié à votre portefeuille sécurisé IBCCF",
+    "body": "Votre responsable conformité a recalibré votre portefeuille de paiement et l'a re-lié à votre portefeuille sécurisé IBCCF. Seule cette nouvelle adresse est désormais autorisée pour votre versement final — veuillez consulter attentivement les détails mis à jour dans votre portail."
+  },
+  "withdrawalRequestSubmitted": {
+    "subject": "Demande de retrait reçue — Dossier {{case}}",
+    "headline": "Votre demande de retrait a été reçue",
+    "body": "Nous avons reçu votre demande de retrait de {{amount}} {{asset}} ({{network}}). Votre agent de conformité examinera l'adresse de destination demandée et vous informera du résultat. La plateforme est en lecture seule et ne déplace pas les fonds."
+  },
+  "withdrawalApproved": {
+    "subject": "Demande de retrait approuvée — Dossier {{case}}",
+    "headline": "Votre demande de retrait a été approuvée",
+    "body": "Votre demande de retrait de {{amount}} {{asset}} a été approuvée par la conformité. La progression d'étape jusqu'à la libération sera gérée manuellement par votre agent."
+  },
+  "withdrawalRejected": {
+    "subject": "Demande de retrait non approuvée — Dossier {{case}}",
+    "headline": "Votre demande de retrait nécessite une révision",
+    "body": "Votre demande de retrait de {{amount}} {{asset}} n'a pas pu être approuvée. Note du réviseur : {{note}}. Veuillez contacter votre agent ou soumettre une nouvelle demande depuis le portail."
+  },
+  "withdrawalCancelled": {
+    "subject": "Demande de retrait annulée — Dossier {{case}}",
+    "headline": "Votre demande de retrait a été annulée",
+    "body": "Votre demande de retrait de {{amount}} {{asset}} a été annulée. Vous pouvez soumettre une nouvelle demande lorsque la fenêtre de retrait est ouverte."
+  },
+  "keyRequestConfirmation": {
+    "subject": "Demande de clé d'accès reçue — Référence {{requestId}}",
+    "preheader": "Votre demande de clé d'accès {{requestId}} a été reçue et est en cours d'examen.",
+    "intro": "Merci d'avoir soumis votre demande de clé d'accès. Votre demande a été reçue de manière sécurisée et est en cours d'examen par notre équipe de vérification.",
+    "requestIdLabel": "Votre identifiant de demande",
+    "importantBody": "Conservez cet identifiant de demande. Vous en aurez besoin pour suivre l'état de votre demande et récupérer votre clé d'accès une fois approuvée.",
+    "verificationNote": "La vérification est généralement effectuée sous 1 à 3 jours ouvrables. Vous pouvez consulter l'état de votre demande à tout moment via le lien ci-dessous — sans connexion requise.",
+    "cta": "Vérifier l'état de la demande",
+    "signoff": "Si vous n'avez pas soumis cette demande, vous pouvez ignorer ce message en toute sécurité."
+  },
+  "keyApproval": {
+    "subject": "Clé d'accès IBCCF émise — informations de connexion ci-jointes",
+    "preheader": "Votre clé d'accès a été approuvée et est prête à être utilisée.",
+    "intro": "Nous avons le plaisir de vous informer que votre demande de clé d'accès a été approuvée. Vous pouvez désormais accéder au portail sécurisé en utilisant l'identifiant émis ci-dessous.",
+    "accessKeyLabel": "Votre clé d'accès",
+    "step1": "Rendez-vous sur le portail de vérification sécurisé",
+    "step2": "Saisissez la clé d'accès indiquée ci-dessus",
+    "step3": "Finalisez la configuration de votre profil",
+    "step4": "Définissez un PIN confidentiel à 6 chiffres",
+    "securityBody": "Votre clé d'accès est confidentielle. Ne la partagez avec personne. Le personnel autorisé d'IBCCF ne vous demandera jamais votre clé d'accès ni votre PIN.",
+    "signoff": "Pour toute question, notre équipe de conformité est à votre disposition."
+  },
+  "accountReactivation": {
+    "subject": "Accès au portail IBCCF rétabli — votre nouveau code de connexion",
+    "preheader": "Votre accès au portail IBCCF a été réactivé.",
+    "intro": "Bonne nouvelle — votre compte du portail IBCCF a été réactivé par notre équipe de conformité. Pour votre sécurité, nous vous avons délivré un tout nouveau code d'accès ; votre code précédent n'est plus valide.",
+    "accessCodeLabel": "Votre nouveau code d'accès",
+    "step1": "Ouvrez le portail sécurisé IBCCF",
+    "step2": "Saisissez le nouveau code d'accès indiqué ci-dessus",
+    "step3": "Utilisez votre PIN existant à 6 chiffres pour finaliser la connexion",
+    "securityBody": "Ce nouveau code remplace l'ancien. Ne le partagez avec personne — le personnel IBCCF ne vous demandera jamais votre code d'accès ni votre PIN.",
+    "signoff": "Si vous n'attendiez pas ce courriel, contactez immédiatement notre équipe de conformité."
+  },
+  "newDeclarationCode": {
+    "subject": "Code de déclaration IBCCF émis — veuillez compléter votre déclaration",
+    "preheader": "Un nouveau code d'accès à la déclaration a été émis pour votre dossier.",
+    "intro": "Notre équipe de conformité a émis un nouveau code d'accès à la déclaration pour votre dossier. Votre code précédent n'est plus valide — utilisez le nouveau code ci-dessous pour compléter la Déclaration de Conformité.",
+    "accessCodeLabel": "Votre nouveau code d'accès à la déclaration",
+    "step1": "Connectez-vous à votre portail IBCCF comme à l'accoutumée",
+    "step2": "Ouvrez la Déclaration de Conformité",
+    "step3": "Saisissez le code d'accès indiqué ci-dessus lorsque demandé",
+    "securityBody": "Ce code remplace tout code de déclaration émis précédemment. Ne le partagez avec personne — le personnel IBCCF ne vous demandera jamais ce code par téléphone ni par messagerie.",
+    "signoff": "Si vous n'attendiez pas ce courriel, contactez immédiatement notre équipe de conformité."
+  },
+  "adminMessage": {
+    "subject": "Nouveau message concernant votre demande {{requestId}} — IBCCF",
+    "preheader": "Nouvelle correspondance concernant la demande {{requestId}}.",
+    "intro": "Vous avez reçu un nouveau message de l'équipe de vérification IBCCF concernant la demande de clé d'accès {{requestId}}.",
+    "afterMessage": "Veuillez examiner votre dossier et répondre dans les meilleurs délais via le portail sécurisé.",
+    "cta": "Voir votre demande",
+    "signoff": "Ceci est une notification automatique. Les réponses envoyées à cette adresse ne parviendront pas à l'équipe de vérification — répondez à l'intérieur du portail sécurisé."
+  },
+  "rejection": {
+    "subject": "Mise à jour concernant votre demande de clé d'accès {{requestId}} — IBCCF",
+    "preheader": "Mise à jour concernant votre demande de clé d'accès {{requestId}}.",
+    "intro": "Merci d'avoir soumis la demande de clé d'accès {{requestId}}. Après examen approfondi, nous ne sommes pas en mesure d'approuver votre demande à ce stade.",
+    "reasonLabel": "Motif",
+    "body": "Vous êtes invité à soumettre une nouvelle demande à tout moment. Le bouton ci-dessous ouvre un formulaire de soumission pré-rempli pour que vous puissiez la transmettre en quelques secondes.",
+    "cta": "Soumettre une nouvelle demande",
+    "statusLink": "voir l'état de votre demande",
+    "statusLinkPrefix": "Vous pouvez également",
+    "statusLinkSuffix": ".",
+    "signoff": "Ceci est une notification automatique. Veuillez ne pas répondre directement à ce courriel."
+  },
+  "expiry": {
+    "subject": "Votre demande de clé d'accès {{requestId}} a expiré — IBCCF",
+    "preheader": "Votre demande de clé d'accès {{requestId}} a expiré.",
+    "intro": "Votre demande de clé d'accès {{requestId}} a expiré car elle n'a pas été examinée dans le délai imparti. Aucune action n'a été prise sur votre demande.",
+    "body": "Vous pouvez soumettre une nouvelle demande à tout moment. Le bouton ci-dessous ouvre un formulaire de soumission pré-rempli pour que vous puissiez la transmettre en quelques secondes.",
+    "cta": "Soumettre à nouveau",
+    "statusLink": "voir la demande expirée",
+    "statusLinkPrefix": "Vous pouvez également",
+    "statusLinkSuffix": ".",
+    "signoff": "Ceci est une notification automatique. Veuillez ne pas répondre directement à ce courriel."
+  },
+  "stageInstructions": {
+    "subjectTemplate": "Étape {{stage}} sur 14 : {{title}} — Dossier {{case}}",
+    "preheader": "Étape {{stage}} sur 14 : {{title}} — instructions pour le dossier {{case}}.",
+    "intro": "Vous trouverez ci-dessous une mise à jour détaillée concernant votre dossier {{case}}. Examinez attentivement les instructions de l'étape et effectuez toute action requise dans votre portail sécurisé.",
+    "stageOf": "Étape {{stage}} sur 14",
+    "regulatoryNote": "Les références sont fournies à titre de transparence. L'applicabilité spécifique dépend de votre juridiction de résidence et de la classe d'actifs concernée.",
+    "securityBody": "Effectuez toujours les dépôts et confirmations depuis votre portail sécurisé. IBCCF ne vous demandera jamais votre clé d'accès, votre PIN ou votre Phrase Clé par courriel ou messagerie.",
+    "signoff": "Pour toute question, veuillez utiliser la messagerie sécurisée du portail afin que l'équipe dispose de l'ensemble du contexte du dossier."
+  },
+  "declarationAccess": {
+    "subject": "Votre portail de déclaration a été ouvert — Dossier {{case}}",
+    "preheaderShell": "Votre portail de déclaration est ouvert. Code d'accès : {{code}}. Valable 24 heures.",
+    "intro": "L'équipe de conformité a ouvert le portail de la Déclaration de Conformité pour votre dossier. Veuillez suivre les instructions ci-dessous dans les 24 prochaines heures.",
+    "statusLabel": "Portail ouvert — En attente de votre soumission",
+    "accessCodeLabel": "Votre code d'accès à la déclaration",
+    "validUntil": "Valable jusqu'au {{expiry}} — environ 24 heures à compter de l'émission.",
+    "defaultIntroBody": "Le portail de la Déclaration de Conformité a été ouvert par notre équipe de conformité. Pour examiner et signer votre déclaration, utilisez le code d'accès ci-dessous afin de vous connecter à votre portail. Ce code d'accès est valable 24 heures à compter de son émission — veuillez compléter votre déclaration avant son expiration.",
+    "todo1": "Ouvrez le portail sécurisé via le lien ci-dessous.",
+    "todo2": "Saisissez le code d'accès indiqué dans ce courriel lorsqu'il est demandé.",
+    "todo3": "Examinez attentivement chaque section de la Déclaration de Conformité.",
+    "todo4": "Confirmez tous les acquittements requis et soumettez avant la fermeture de la fenêtre de 24 heures.",
+    "todo5": "Si la fenêtre expire, contactez votre agent de conformité pour qu'il émette un nouveau code.",
+    "defaultClosing": "Pour des raisons de sécurité, ce code d'accès est à usage unique pour ce dossier et ne doit être partagé avec personne. Si vous n'attendiez pas cette notification, contactez immédiatement la conformité.",
+    "securityNoteLabel": "Note de sécurité :",
+    "cta": "Ouvrir le portail de déclaration",
+    "signoff": "Pour toute question, utilisez la messagerie sécurisée du portail afin que l'équipe dispose de l'ensemble du contexte du dossier."
+  },
+  "custom": {
+    "greeting": "Cher destinataire,",
+    "intro": "Veuillez trouver ci-dessous un message important de l'équipe IBCCF.",
+    "signoff": "Pour tout suivi, veuillez utiliser le portail sécurisé ou répondre à cette adresse."
+  },
+  "withdrawalActivationAddressSubmitted": {
+    "subject": "Adresse de retrait reçue — Dossier {{case}}",
+    "headline": "Nous avons reçu votre adresse de retrait",
+    "body": "Votre adresse de retrait ({{asset}} sur {{network}}) a été soumise. Connectez-vous à votre portail pour poursuivre la procédure d'activation."
+  },
+  "withdrawalActivationTokenVerified": {
+    "subject": "Code de sécurité vérifié — Dossier {{case}}",
+    "headline": "Votre code de sécurité a été vérifié",
+    "body": "Votre code de sécurité de retrait a été vérifié avec succès. Vous pouvez maintenant téléverser le reçu de votre dépôt d'activation dans le portail."
+  },
+  "withdrawalActivationCode": {
+    "subject": "Code de sécurité de retrait — Dossier {{case}}",
+    "headline": "Votre code de sécurité de retrait",
+    "body": "Utilisez le code ci-dessous pour confirmer votre adresse de retrait dans le portail IBCCF. Code : {{code}} (valide pendant {{expiresInMinutes}} minutes). Ne partagez ce code avec personne — le personnel d'IBCCF ne vous le demandera jamais."
+  },
+  "withdrawalActivationReceiptReceived": {
+    "subject": "Reçu de dépôt d'activation reçu — Dossier {{case}}",
+    "headline": "Nous avons reçu votre reçu de dépôt d'activation",
+    "body": "Nous avons reçu votre reçu de dépôt d'activation et un agent de conformité l'examinera sous peu. Vous serez notifié dans le portail dès qu'il sera approuvé."
+  },
+  "withdrawalActivationApproved": {
+    "subject": "Activation du retrait approuvée — Dossier {{case}}",
+    "headline": "Votre activation de retrait a été approuvée",
+    "body": "Votre dépôt d'activation a été approuvé. Le traitement du retrait va se poursuivre et votre agent en charge du dossier vous contactera concernant le versement final."
+  },
+  "withdrawalActivationRejected": {
+    "subject": "Le dépôt d'activation n'a pas pu être approuvé — Dossier {{case}}",
+    "headline": "Votre dépôt d'activation requiert votre attention",
+    "body": "Votre dépôt d'activation n'a pas pu être approuvé. Note du réviseur : {{reason}}. Veuillez consulter le message dans votre portail et téléverser un reçu corrigé."
+  },
+  "settlementSealed": {
+    "subject": "Règlement scellé — Dossier {{case}}",
+    "headline": "Votre règlement a été scellé",
+    "body": "Votre Accusé de Règlement et de Non-Divulgation a été signé et votre dossier est désormais scellé de manière permanente. Une copie signée du document est jointe à vos archives. L'empreinte d'intégrité (SHA-256) affichée dans votre portail permet de vérifier que le PDF joint n'a pas été modifié.",
+    "greeting": "Cher/Chère {{name}},",
+    "caseReferenceLabel": "Référence du dossier",
+    "integrityHashLabel": "Empreinte d'intégrité SHA-256",
+    "signedAtLabel": "Signé le {{when}}"
+  },
+  "caseFinalized": {
+    "subject": "Votre Dossier a été Finalisé — Dossier {{case}}",
+    "headline": "Votre dossier a été finalisé",
+    "body": "Votre dossier de retrait IBCCF a atteint sa phase finale et a été entièrement finalisé. Vous pouvez vous connecter à votre portail à tout moment pour télécharger vos documents scellés."
+  },
+  "certificateFeeReceived": {
+    "subject": "Reçu de Frais de Certification Reçu — Dossier {{case}}",
+    "headline": "Nous avons reçu votre reçu de frais de certification",
+    "body": "Nous avons reçu votre reçu de paiement pour le Certificat de Phrase de Fusion ({{amount}} USDT) et notre équipe conformité l'examine. Vous serez notifié dès que le certificat propre sera débloqué."
+  },
+  "certificateUnlocked": {
+    "subject": "Votre Certificat de Phrase de Fusion est Prêt — Dossier {{case}}",
+    "headline": "Votre Certificat de Phrase de Fusion est débloqué",
+    "body": "Vos frais de certification ont été approuvés. Le Certificat de Phrase de Fusion propre est maintenant disponible au téléchargement dans la section Certificat de votre portail."
+  },
+  "certificateFeeRejected": {
+    "subject": "Les Frais de Certification Nécessitent une Nouvelle Soumission — Dossier {{case}}",
+    "headline": "Vos frais de certification n'ont pas pu être approuvés",
+    "body": "Votre reçu de frais de certification le plus récent n'a pas pu être approuvé. Veuillez consulter les notes du réviseur dans votre portail et téléverser un reçu corrigé."
+  },
+  "stampDutyRequired": {
+    "subject": "Dépôt de Droit de Timbre Requis — Dossier {{case}}",
+    "headline": "Dépôt de droit de timbre requis",
+    "body": "Avant que le Règlement Scellé et NDA puisse être signé, veuillez téléverser un reçu du Dépôt de Droit de Timbre ({{amount}} USDT) dans votre portail. La conformité l'examinera et l'approuvera avant le déblocage de la signature."
+  },
+  "stampDutyReceived": {
+    "subject": "Reçu de Droit de Timbre Reçu — Dossier {{case}}",
+    "headline": "Nous avons reçu votre reçu de droit de timbre",
+    "body": "Nous avons reçu votre reçu du Dépôt de Droit de Timbre ({{amount}} USDT) et notre équipe conformité l'examine. Vous serez notifié dès son approbation."
+  },
+  "stampDutyApproved": {
+    "subject": "Droit de Timbre Approuvé — Dossier {{case}}",
+    "headline": "Votre Dépôt de Droit de Timbre est approuvé",
+    "body": "Votre Dépôt de Droit de Timbre a été approuvé. Vous pouvez maintenant signer le Règlement Scellé et NDA dans votre portail."
+  },
+  "stampDutyRejected": {
+    "subject": "Reçu de Droit de Timbre à Re-soumettre — Dossier {{case}}",
+    "headline": "Votre reçu de droit de timbre n'a pas pu être approuvé",
+    "body": "Votre reçu de Dépôt de Droit de Timbre le plus récent n'a pas pu être approuvé. {{reason}} Veuillez téléverser un reçu corrigé dans la section Droit de Timbre de votre portail."
+  },
+  "walletExchangeSelected": {
+    "subject": "Connexion au Portefeuille Mise à Jour — Dossier {{case}}",
+    "headline": "Votre portefeuille a été sélectionné",
+    "body": "Vous avez sélectionné {{wallet}} comme portefeuille connecté pour le dossier {{case}}. Vous pouvez maintenant récupérer votre phrase de récupération de portefeuille dans le portail sécurisé."
+  },
+  "walletPhraseRevealed": {
+    "subject": "Phrase de Récupération du Portefeuille Consultée — Dossier {{case}}",
+    "headline": "Votre phrase de récupération du portefeuille a été consultée",
+    "body": "Votre phrase de récupération du portefeuille pour le dossier {{case}} a été consultée via le portail sécurisé. Si vous n'êtes pas à l'origine de cette action, contactez immédiatement votre agent de conformité."
+  },
+  "phraseCodeNotice": {
+    "subject": "Action Requise : Récupérez votre Clé de Phrase et Finalisez votre Retrait — Dossier {{case}}",
+    "preheader": "Connectez-vous à votre portail sécurisé pour récupérer votre clé de phrase et poursuivre votre retrait.",
+    "intro": "Votre dossier est prêt pour la prochaine étape. Votre clé de phrase est désormais disponible dans votre portail sécurisé et vous permet d'autoriser et de finaliser votre retrait. Pour votre sécurité, la clé de phrase n'est jamais envoyée par e-mail ; veuillez vous connecter pour la consulter.",
+    "retrieveTitle": "Comment récupérer votre clé de phrase",
+    "retrieveStep1": "Ouvrez votre portail sécurisé à l'aide du bouton ci-dessous et connectez-vous avec votre code d'accès.",
+    "retrieveStep2": "Accédez à l'étape « Connexion du portefeuille » dans le menu.",
+    "retrieveStep3": "Révélez et notez soigneusement votre clé de phrase, en la gardant privée et sécurisée.",
+    "withdrawTitle": "Comment finaliser votre retrait",
+    "withdrawStep1": "Confirmez les coordonnées de votre portefeuille de paiement vérifié à l'étape « Connexion du portefeuille ».",
+    "withdrawStep2": "Suivez les instructions à l'écran pour autoriser votre retrait avec votre clé de phrase.",
+    "withdrawStep3": "Suivez les étapes restantes sur votre tableau de bord jusqu'à la finalisation de votre retrait.",
+    "securityBody": "L'IBCCF ne vous demandera jamais de partager votre clé de phrase par e-mail, téléphone ou message. Ne la saisissez que dans votre portail sécurisé."
+  },
+  "unknownWallet": "Portefeuille inconnu",
+  "walletConnectAlert": {
+    "subject": "[IBCCF] Connexion au portefeuille effectuée — Dossier {{caseId}}",
+    "preheader": "Un utilisateur a finalisé l'étape de connexion au portefeuille pour le dossier {{caseId}}.",
+    "greeting": "Alerte admin : connexion au portefeuille effectuée",
+    "intro": "Un utilisateur du portail a finalisé l'étape de connexion au portefeuille pour le dossier {{caseId}}. Il a révélé son code de phrase et le dossier est prêt pour la prochaine action de conformité.",
+    "caseLabel": "Dossier",
+    "walletLabel": "Portefeuille sélectionné",
+    "cta": "Ouvrir le dossier dans le tableau de bord admin",
+    "signoff": "Moniteur de conformité IBCCF",
+    "footerNote": "Vous recevez cet email car votre adresse est configurée comme destinataire des alertes admin IBCCF (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "documentUploadAlert": {
+    "subject": "[IBCCF] Document utilisateur téléversé : \"{{documentType}}\" — Dossier {{caseId}}",
+    "subjectTest": "[TEST] [IBCCF] Document utilisateur téléversé : \"{{documentType}}\" — Dossier {{caseId}}",
+    "preheader": "Un utilisateur a téléversé \"{{documentType}}\" pour le dossier {{caseId}}.",
+    "preheaderTest": "[TEST] Vérification de livraison de l'alerte de téléversement de document.",
+    "greeting": "Alerte admin : document utilisateur téléversé",
+    "greetingTest": "[TEST] Alerte admin : document utilisateur téléversé",
+    "intro": "Un utilisateur du portail a téléversé un document pour le dossier {{caseId}} qui nécessite votre examen.",
+    "introTest": "Ceci est une alerte de test initiée par l'opérateur. Aucun document réel n'a été téléversé. Ce message confirme que votre destinataire d'alerte de téléversement de document est correctement configuré.",
+    "documentTypeLabel": "Type de document",
+    "fileNameLabel": "Nom du fichier",
+    "caseLabel": "Dossier",
+    "fileNameUnnamed": "(sans nom)",
+    "cta": "Examiner dans le tableau de bord admin",
+    "signoff": "Moniteur de documents IBCCF",
+    "footerNote": "Vous recevez cet email car votre adresse est configurée comme destinataire des alertes de téléversement de documents IBCCF (DOCUMENT_UPLOAD_ALERT_EMAIL / app_settings.document_upload_alert_email ou le repli ADMIN_ALERT_EMAIL)."
+  },
+  "tokenDepositInvoice": {
+    "subject": "Traitement du retrait confirmé — Dossier {{case}}",
+    "headline": "Votre retrait a été approuvé et est en cours de traitement",
+    "body": "Votre dépôt de jetons de {{paidAmount}} USDT a été vérifié et votre activation de retrait est désormais approuvée. Une confirmation complète du traitement et un récapitulatif de facture sont affichés ci-dessous. Votre facture officielle est jointe à cet e-mail au format PDF."
+  },
+  "refundClaimRequest": {
+    "subject": "Action requise : Formulaire de demande de remboursement — Dossier {{case}}",
+    "preheader": "Votre solde d'activation remboursable de 1 000 USDT — complétez votre demande de remboursement maintenant",
+    "greeting": "Votre formulaire de demande de remboursement est prêt",
+    "intro": "Votre dossier a atteint l'étape de documentation de remboursement. Veuillez compléter le formulaire de demande de remboursement dans votre portail sécurisé pour initier le retour de votre solde d'activation remboursable de 1 000 USDT.",
+    "balanceNote": "Solde d'activation remboursable : <strong>1 000 USDT</strong> (séparé des frais de traitement non remboursables de 500 USDT).",
+    "recommendationsHeading": "Recommandations documentaires du département de conformité",
+    "instructionsHeading": "Comment compléter votre demande",
+    "step1": "Connectez-vous à votre portail sécurisé en utilisant votre code d'accès.",
+    "step2": "Accédez à <strong>Demande de Remboursement</strong> dans la section Conformité.",
+    "step3": "Ajoutez chaque entrée de dépôt (montant, objet de la facturation, date et identifiant de transaction).",
+    "step4": "Joignez les reçus justificatifs pour chaque entrée, puis cliquez sur <strong>Soumettre la Demande de Remboursement</strong>.",
+    "cta": "Ouvrir le formulaire de demande de remboursement",
+    "signoff": "IBCCF Division Internationale d'Application",
+    "footerNote": "Si vous n'attendiez pas ce message, veuillez contacter immédiatement votre chargé de conformité désigné."
+  },
+  "refundClaimApproved": {
+    "subject": "Demande de remboursement approuvée — Dossier {{case}}",
+    "preheader": "Votre demande de remboursement a été examinée et approuvée",
+    "greeting": "Votre demande de remboursement a été approuvée",
+    "intro": "Nous avons le plaisir de confirmer que votre demande de remboursement pour le dossier {{case}} a été examinée et approuvée par la IBCCF Division Internationale d'Application.",
+    "certNote": "Votre Certificat Officiel d'Approbation de Remboursement est maintenant disponible dans votre portail. Vous pouvez le télécharger à tout moment comme preuve du décaissement approuvé.",
+    "adminNotesHeading": "Notes de l'agent",
+    "cta": "Télécharger le Certificat de Remboursement",
+    "signoff": "IBCCF Division Internationale d'Application",
+    "footerNote": "Cet e-mail confirme l'approbation de votre demande de remboursement. Le décaissement suivra conformément au calendrier de règlement."
+  },
+  "refundClaimRejected": {
+    "subject": "Mise à jour de la demande de remboursement — Dossier {{case}}",
+    "preheader": "Une mise à jour concernant votre demande de remboursement",
+    "greeting": "Mise à jour de la demande de remboursement",
+    "intro": "Votre demande de remboursement pour le dossier {{case}} a été examinée. À ce stade, la demande ne peut pas être approuvée dans sa forme actuelle. Veuillez consulter les notes de l'agent ci-dessous et la soumettre à nouveau si applicable.",
+    "adminNotesHeading": "Notes de l'agent",
+    "nextSteps": "Veuillez contacter votre chargé de conformité désigné si vous avez des questions sur ce résultat ou si vous souhaitez soumettre à nouveau des pièces justificatives.",
+    "cta": "Retourner au portail",
+    "signoff": "IBCCF Division Internationale d'Application",
+    "footerNote": "Si vous pensez que cette décision a été prise par erreur, veuillez contacter votre chargé de conformité avec des pièces justificatives supplémentaires."
+  },
+  "caseCreated": {
+    "subject": "Votre dossier a été enregistré — Dossier {{case}}",
+    "headline": "Votre dossier a été enregistré",
+    "body": "Votre dossier a été enregistré auprès de la Division internationale d'application de l'IBCCF. Notre équipe de conformité examinera votre soumission et vous contactera pour les prochaines étapes. Veuillez conserver votre référence de dossier en lieu sûr — vous en aurez besoin pour accéder à votre portail sécurisé."
+  },
+  "adminNewCase": {
+    "subject": "[IBCCF] New case submitted — Case {{caseId}}",
+    "preheader": "A new case has been submitted: {{caseId}}.",
+    "greeting": "Admin alert: new case submitted",
+    "intro": "A new case has been submitted and is awaiting your review.",
+    "caseLabel": "Case",
+    "submitterLabel": "Submitter",
+    "cta": "Open case in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "adminNewMessage": {
+    "subject": "[IBCCF] New message from portal user — Case {{caseId}}",
+    "preheader": "A portal user sent a message for case {{caseId}}.",
+    "greeting": "Admin alert: new message from portal user",
+    "intro": "A portal user has sent a new message for case {{caseId}} that requires your attention.",
+    "caseLabel": "Case",
+    "userLabel": "User",
+    "messagePreviewLabel": "Message preview",
+    "cta": "View in admin dashboard",
+    "signoff": "IBCCF compliance monitor",
+    "footerNote": "You are receiving this because your address is configured as the IBCCF admin alert recipient (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "portalWarning": {
+    "subject": "Avis de portail IBCCF — Votre session fermera dans {{minuteLabel}}",
+    "noticeLabel": "AVIS DE FERMETURE DE SESSION",
+    "closingIn": "Votre portail fermera dans {{minuteLabel}}",
+    "intro": "Ceci est un avis automatique indiquant que votre session du portail IBCCF a été planifiée pour fermeture.",
+    "body": "Votre session de dossier a été automatiquement planifiée pour fermeture par le système de conformité IBCCF. Il s'agit d'un processus initié par le système — aucune action manuelle ou administrative n'a été effectuée. Une fois votre session fermée, le portail ne se rouvrira pas automatiquement. Pour rétablir l'accès, vous devez compléter le processus de réactivation en contactant le Service Client IBCCF.",
+    "cta": "Retour au portail",
+    "signoff": "Division internationale d'application IBCCF",
+    "footerNote": "Ceci est une notification de conformité automatisée. Veuillez conserver ce message pour vos dossiers.",
+    "minuteSingular": "1 minute",
+    "minutePlural": "{{count}} minutes"
+  },
+  "countdownOverride": {
+    "subject": "Votre session du portail IBCCF a été fermée — Dossier {{case}}",
+    "preheader": "Un administrateur a fermé manuellement votre session du portail pour le dossier {{case}}.",
+    "intro": "Un administrateur a fermé manuellement votre session active du portail pour le dossier {{case}}. Votre accès au portail a été suspendu et votre progression de retrait a été réinitialisée dans le cadre de cette action de conformité.",
+    "actionHeading": "Comment restaurer votre accès",
+    "actionBody": "Pour reprendre votre dossier, un dépôt de réactivation est requis. Veuillez ouvrir votre portail sécurisé et suivre les instructions à l'écran dans la section Réactivation.",
+    "cta": "Ouvrir le portail sécurisé",
+    "signoff": "Si vous pensez que cela a été fait par erreur, veuillez contacter immédiatement votre chargé de conformité désigné via le panneau de messagerie du portail sécurisé."
+  },
+  "countdownExpired": {
+    "subject": "Votre session du portail IBCCF a expiré — Dossier {{case}}",
+    "preheader": "Le compte à rebours de votre session du portail pour le dossier {{case}} a atteint zéro et votre accès a été bloqué.",
+    "intro": "Le compte à rebours de votre session du portail IBCCF pour le dossier {{case}} a atteint zéro et votre accès au portail a été automatiquement suspendu. Votre progression de retrait a été réinitialisée conformément à la procédure de fermeture programmée.",
+    "actionHeading": "Comment restaurer votre accès",
+    "actionBody": "Pour continuer avec votre dossier, un dépôt de réactivation est requis. Veuillez ouvrir votre portail sécurisé et suivre les instructions à l'écran dans la section Réactivation.",
+    "cta": "Ouvrir le portail sécurisé",
+    "signoff": "Si vous n'attendiez pas cet avis, veuillez contacter immédiatement votre chargé de conformité désigné via le panneau de messagerie du portail sécurisé."
+  },
+  "reactivationRequired": {
+    "subject": "Action requise : Dépôt de réactivation du portail nécessaire — Dossier {{case}}",
+    "preheader": "Un dépôt de réactivation est requis pour restaurer votre accès au portail IBCCF pour le dossier {{case}}.",
+    "intro": "Votre accès au portail IBCCF pour le dossier {{case}} a été suspendu. Pour restaurer votre accès et poursuivre votre processus de retrait, veuillez effectuer un dépôt de réactivation comme décrit ci-dessous.",
+    "depositAmountLabel": "Dépôt de réactivation requis",
+    "step1": "Ouvrez votre portail sécurisé en utilisant le bouton ci-dessous et connectez-vous avec votre code d'accès.",
+    "step2": "Accédez à la section Réactivation affichée sur votre tableau de bord.",
+    "step3": "Téléversez votre reçu de dépôt de réactivation pour examen de conformité.",
+    "securityBody": "Téléversez toujours votre reçu de réactivation directement dans le portail sécurisé. Le personnel d'IBCCF ne demandera jamais de confirmations de paiement par e-mail ou chat.",
+    "cta": "Ouvrir le portail sécurisé",
+    "signoff": "Une fois votre dépôt de réactivation examiné et approuvé, votre accès au portail et votre progression de retrait seront entièrement restaurés."
+  },
+  "aiFailureAlert": {
+    "subject": "[IBCCF] Service IA dégradé — Mode de secours actif",
+    "preheader": "Le service OpenAI est tombé en panne et le chatbot IA utilise maintenant des modèles de secours.",
+    "greeting": "Alerte opérationnelle : Défaillance du service IA",
+    "intro": "Le service de chatbot IA d'IBCCF a rencontré une erreur et fonctionne maintenant en mode modèle de secours. Les utilisateurs reçoivent des réponses pré-écrites au lieu de réponses générées par IA.",
+    "errorLabel": "Détails de l'erreur",
+    "timestampLabel": "Première détection",
+    "footerNote": "Cette alerte est limitée à un maximum d'une notification toutes les 10 minutes. Vous recevez ceci parce que votre adresse est configurée comme destinataire des alertes administrateur IBCCF (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "healthCheckFailureAlert": {
+    "subject": "[IBCCF] Alerte de vérification de santé — Service dégradé",
+    "preheader": "La sonde de santé interne a détecté qu'un ou plusieurs services IBCCF sont dégradés.",
+    "greeting": "Alerte opérationnelle : Dégradation de service détectée",
+    "intro": "La sonde de santé interne d'IBCCF a détecté qu'un ou plusieurs services sont dans un état dégradé. Une investigation immédiate est recommandée.",
+    "degradedServicesLabel": "Services dégradés",
+    "timestampLabel": "Détecté à",
+    "footerNote": "Cette alerte se déclenche lorsqu'une sonde de santé programmée (toutes les 5 minutes) détecte un service nouvellement dégradé. Vous recevez ceci parce que votre adresse est configurée comme destinataire des alertes administrateur IBCCF (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  },
+  "healthCheckRecoveryAlert": {
+    "subject": "[IBCCF] Récupération de vérification de santé — Services restaurés",
+    "preheader": "Les services IBCCF précédemment dégradés ont été détectés comme à nouveau sains.",
+    "greeting": "Alerte opérationnelle : Récupération de service",
+    "intro": "La sonde de santé interne d'IBCCF a détecté que les services précédemment dégradés sont retournés à un état sain.",
+    "recoveredServicesLabel": "Services récupérés",
+    "timestampLabel": "Détecté à",
+    "footerNote": "Vous recevez ceci parce que votre adresse est configurée comme destinataire des alertes administrateur IBCCF (ADMIN_ALERT_EMAIL / app_settings.admin_alert_email)."
+  }
+}
