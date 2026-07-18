@@ -1,6 +1,20 @@
-def main():
-    print("Hello from repl-nix-workspace!")
+from flask import Flask
+import os
 
+app = Flask(__name__)
 
-if __name__ == "__main__":
-    main()
+@app.route('/')
+def hello():
+    return {
+        'message': 'Welcome to IBCCF Portal',
+        'status': 'healthy'
+    }
+
+@app.route('/health')
+def health():
+    return {'status': 'ok'}, 200
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
+
