@@ -118,7 +118,7 @@ const PLAIN_RECEIPT: DepositReceipt = {
 
 function renderDialog(
   receipts: DepositReceipt[],
-  updateReceiptStatus: ReturnType<typeof vi.fn>,
+  updateReceiptStatus: (...args: unknown[]) => unknown,
 ) {
   return render(
     <DepositReceiptsDialog
@@ -133,7 +133,7 @@ function renderDialog(
       pendingReceiptIds={new Set()}
       receiptEmailFlags={{}}
       setReceiptEmailFlags={vi.fn()}
-      updateReceiptStatus={updateReceiptStatus}
+      updateReceiptStatus={updateReceiptStatus as (receiptId: number, status: 'approved' | 'rejected', adminNotes?: string, suppressEmail?: boolean) => void}
     />,
   );
 }

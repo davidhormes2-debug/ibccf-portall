@@ -208,7 +208,7 @@ describe("CommunityManagement — keyword toggle on network error", () => {
     );
 
     const patchCallsAfterFirst = fetchMock.mock.calls.filter(
-      ([url, opts]: [unknown, RequestInit | undefined]) =>
+      ([url, opts]: [unknown, (RequestInit | undefined)?]) =>
         typeof url === "string" &&
         url.includes(`/api/admin/community/keywords/${KEYWORD.id}`) &&
         opts?.method === "PATCH",
@@ -217,7 +217,7 @@ describe("CommunityManagement — keyword toggle on network error", () => {
     await user.click(switchEl);
 
     const patchCallsAfterSecond = fetchMock.mock.calls.filter(
-      ([url, opts]: [unknown, RequestInit | undefined]) =>
+      ([url, opts]: [unknown, (RequestInit | undefined)?]) =>
         typeof url === "string" &&
         url.includes(`/api/admin/community/keywords/${KEYWORD.id}`) &&
         opts?.method === "PATCH",

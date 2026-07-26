@@ -54,7 +54,7 @@ vi.mock("@/lib/tawkto", () => ({
 }));
 
 // ── portalSession ─────────────────────────────────────────────────────────
-const mockGetPortalToken = vi.fn<[], string>();
+const mockGetPortalToken = vi.fn<() => string>();
 vi.mock("@/lib/portalSession", () => ({
   getPortalToken: () => mockGetPortalToken(),
 }));

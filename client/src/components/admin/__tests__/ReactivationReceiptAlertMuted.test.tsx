@@ -275,10 +275,7 @@ describe("AdminDashboard.tsx — reactivation polling useEffect source", () => {
   const block = extractReactivationPollingBlock();
 
   it("contains the reactivation receipt alert sentinel comment", () => {
-    expect(block).not.toBe(
-      "",
-      "Expected to find '// ── Reactivation receipt alert' in AdminDashboard.tsx",
-    );
+    expect(block).not.toBe("");
   });
 
   it("fetches the correct endpoint with category and status query params", () => {

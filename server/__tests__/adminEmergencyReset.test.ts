@@ -52,7 +52,7 @@ vi.mock("../static", () => ({
   serveStaticAssets: vi.fn(),
 }));
 
-const sendAdminEmergencyResetEmail = vi.fn(async () => ({ success: true }));
+const sendAdminEmergencyResetEmail = vi.fn(async (..._args: any[]) => ({ success: true }));
 vi.mock("../services/EmailService", () => ({
   emailService: {
     sendAdminEmergencyResetEmail,

@@ -1429,16 +1429,16 @@ describe("useCrossTabSync – leader interval reset on visibility restore", () =
       });
 
       // The restore must produce exactly one immediate fetch (safety net).
-      expect(fetchFn.mock.calls.length).toBe(1, `cycle ${cycleLabel}: expected 1 immediate fetch on restore`);
+      expect(fetchFn.mock.calls.length).toBe(1);
       fetchFn.mockClear();
 
       // 1 ms before the freshly-anchored interval boundary → 0 scheduled ticks.
       await advanceAndFlush(INTERVAL - 1);
-      expect(fetchFn.mock.calls.length).toBe(0, `cycle ${cycleLabel}: expected 0 ticks before interval boundary`);
+      expect(fetchFn.mock.calls.length).toBe(0);
 
       // Exactly 1 tick at the boundary — a leaked stale interval would produce > 1.
       await advanceAndFlush(1);
-      expect(fetchFn.mock.calls.length).toBe(1, `cycle ${cycleLabel}: expected exactly 1 tick at interval boundary`);
+      expect(fetchFn.mock.calls.length).toBe(1);
       fetchFn.mockClear();
     };
 

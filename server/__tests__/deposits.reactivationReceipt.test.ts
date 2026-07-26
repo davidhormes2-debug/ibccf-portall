@@ -26,10 +26,10 @@ let updatedCasePayload: any = null;
 let getCaseByAccessCodeResponses: (any | undefined)[] = [];
 let getCaseByAccessCodeCallCount = 0;
 
-const sendAccountReactivationNotification = vi.fn(async () => true);
+const sendAccountReactivationNotification = vi.fn(async (..._args: any[]) => true);
 const deleteSessionsByCaseId = vi.fn(async () => {});
 const notifyUser = vi.fn(async () => {});
-const createAdminMessage = vi.fn(async () => {});
+const createAdminMessage = vi.fn(async (..._args: any[]) => {});
 
 // ---- Module mocks --------------------------------------------------------
 

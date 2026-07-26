@@ -24,7 +24,7 @@ const txSetCalls: any[] = [];
 let txUpdateCallCount = 0;
 let txInsertPayload: any = null;
 
-const sendKeyApprovalNotification = vi.fn(async () => true);
+const sendKeyApprovalNotification = vi.fn(async (..._args: any[]) => true);
 const deleteSessionsByCaseId = vi.fn(async () => {});
 
 // ---- Helpers -------------------------------------------------------------

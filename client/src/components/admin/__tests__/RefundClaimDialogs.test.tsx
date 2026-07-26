@@ -7,7 +7,7 @@
 //     approve/reject actions, approved state (cert download), no-claim fallback.
 
 import React from "react";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from "vitest";
 import { render, screen, cleanup, waitFor, act, fireEvent } from "@testing-library/react";
 
 // ---- Mocks (must precede component imports) --------------------------------
@@ -98,7 +98,7 @@ vi.mock("@/components/ui/tabs", () => {
 
 // ---- Fetch stub ------------------------------------------------------------
 
-let fetchMock: vi.Mock;
+let fetchMock: Mock;
 
 beforeEach(() => {
   fetchMock = vi.fn(async () => ({ ok: false, status: 404, json: async () => ({}) }));

@@ -36,7 +36,7 @@ const auditLogs: any[] = [];
 let caseRow: any = null;
 let auditRows: Record<number, any> = {};
 
-const sendPortalWarning = vi.fn(async (_email: string, _name: string, _minutes: number, _msg: string, _locale?: string) => ({ success: true }));
+const sendPortalWarning = vi.fn(async (_email: string, _name: string, _minutes: number, _msg: string, _locale?: string): Promise<{success: boolean; error?: string}> => ({ success: true }));
 
 vi.mock("../storage", () => ({
   storage: createStorageMock({

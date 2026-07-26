@@ -69,7 +69,7 @@ const SUB_ADMIN_ROWS: Record<string, { username: string; isActive: boolean }> = 
 // ── Storage mock ─────────────────────────────────────────────────────────────
 const createAuditLogMock = vi.fn(async () => ({ id: 1 }));
 const createAdminSessionMock = vi.fn(async () => ({ id: 1 }));
-const listAdminUsersMock = vi.fn(async () => []);
+const listAdminUsersMock = vi.fn(async (): Promise<any[]> => []);
 const getAdminUserByIdMock = vi.fn(async () => null);
 const createAdminUserMock = vi.fn(async () => ({
   id: 99,
