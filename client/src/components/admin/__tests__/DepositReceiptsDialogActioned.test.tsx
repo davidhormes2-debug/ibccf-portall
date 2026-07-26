@@ -118,7 +118,7 @@ const PLAIN_RECEIPT: DepositReceipt = {
 
 function renderDialog(
   receipts: DepositReceipt[],
-  updateReceiptStatus: (...args: unknown[]) => unknown,
+  updateReceiptStatus: React.ComponentProps<typeof DepositReceiptsDialog>['updateReceiptStatus'],
 ) {
   return render(
     <DepositReceiptsDialog
@@ -133,7 +133,7 @@ function renderDialog(
       pendingReceiptIds={new Set()}
       receiptEmailFlags={{}}
       setReceiptEmailFlags={vi.fn()}
-      updateReceiptStatus={updateReceiptStatus as (receiptId: number, status: 'approved' | 'rejected', adminNotes?: string, suppressEmail?: boolean) => void}
+      updateReceiptStatus={updateReceiptStatus}
     />,
   );
 }
