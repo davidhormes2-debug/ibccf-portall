@@ -53,7 +53,7 @@ const replitMd = fs.readFileSync(REPLIT_MD, "utf8");
  * Find the line that anchors the i18n namespace list.
  * We look for the characteristic phrase that introduces the "currently" clause.
  */
-const ANCHOR_RE = /namespaces auto-discovered from `en\/`/;
+const ANCHOR_RE = /namespaces auto-discovered from `en\/`.*currently/;
 const anchorLine = replitMd
   .split("\n")
   .find((l) => ANCHOR_RE.test(l));
