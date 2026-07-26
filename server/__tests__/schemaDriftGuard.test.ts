@@ -1214,7 +1214,7 @@ describe("Schema Drift Guard — check-migrate-coverage.ts runtime behavior (moc
     const exitSpy = vi
       .spyOn(process, "exit")
       .mockImplementation((() => undefined) as unknown as (
-        code?: number,
+        code?: string | number | null | undefined,
       ) => never);
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(console, "log").mockImplementation(() => {});
@@ -1256,7 +1256,7 @@ describe("Schema Drift Guard — check-migrate-coverage.ts runtime behavior (moc
     const exitSpy = vi
       .spyOn(process, "exit")
       .mockImplementation((() => undefined) as unknown as (
-        code?: number,
+        code?: string | number | null | undefined,
       ) => never);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     vi.spyOn(console, "error").mockImplementation(() => {});
@@ -1296,7 +1296,7 @@ describe("Schema Drift Guard — check-migrate-coverage.ts runtime behavior (moc
     const exitSpy = vi
       .spyOn(process, "exit")
       .mockImplementation((() => undefined) as unknown as (
-        code?: number,
+        code?: string | number | null | undefined,
       ) => never);
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(console, "log").mockImplementation(() => {});
@@ -1332,7 +1332,7 @@ describe("Schema Drift Guard — check-migrate-coverage.ts runtime behavior (moc
     const exitSpy = vi
       .spyOn(process, "exit")
       .mockImplementation((() => undefined) as unknown as (
-        code?: number,
+        code?: string | number | null | undefined,
       ) => never);
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(console, "log").mockImplementation(() => {});
@@ -1367,7 +1367,7 @@ describe("Schema Drift Guard — check-migrate-coverage.ts runtime behavior (moc
     const exitSpy = vi
       .spyOn(process, "exit")
       .mockImplementation((() => undefined) as unknown as (
-        code?: number,
+        code?: string | number | null | undefined,
       ) => never);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     vi.spyOn(console, "error").mockImplementation(() => {});

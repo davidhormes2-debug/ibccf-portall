@@ -242,7 +242,7 @@ describe("POST /api/cases — no email recipient configured", () => {
     expect(adminAlertEmailCalls).toHaveLength(0);
     // warnOnce() routes to console.warn only when a catch block fires.
     // No warning should be emitted on the silent-skip (empty recipients) path.
-    const emailErrorWarnings = warnSpy.mock.calls.filter((args) =>
+    const emailErrorWarnings = warnSpy.mock.calls.filter((args: unknown[]) =>
       String(args[0]).includes("admin-new-case-alert"),
     );
     expect(emailErrorWarnings).toHaveLength(0);
@@ -283,7 +283,7 @@ describe("POST /api/cases/:id/messages — no email recipient configured", () =>
     expect(adminNewMessageEmailCalls).toHaveLength(0);
     // warnOnce() routes to console.warn only when a catch block fires.
     // No warning should be emitted on the silent-skip (empty recipients) path.
-    const emailErrorWarnings = warnSpy.mock.calls.filter((args) =>
+    const emailErrorWarnings = warnSpy.mock.calls.filter((args: unknown[]) =>
       String(args[0]).includes("admin-new-message-alert"),
     );
     expect(emailErrorWarnings).toHaveLength(0);

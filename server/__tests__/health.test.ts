@@ -16,23 +16,22 @@ import request from "supertest";
 
 // ── Mock the three probe functions and the failure counter ──────────────────
 
-const mockCheckDatabase = vi.fn(async () => ({ status: "ok" as const }));
-const mockCheckSmtp = vi.fn(async () => ({ status: "ok" as const }));
-const mockCheckAi = vi.fn(async () => ({
-  status: "ok" as const,
-  probe: "models" as const,
+const mockCheckDatabase = vi.fn(async (): Promise<{status: string; error?: string}> => ({ status: "ok" }));
+const mockCheckSmtp = vi.fn(async (): Promise<{status: string; error?: string}> => ({ status: "ok" }));
+const mockCheckAi = vi.fn(async (): Promise<{status: string; probe?: string; error?: string}> => ({
+  status: "ok",
+  probe: "models",
 }));
-const mockGetRecentFailureCount = vi.fn(() => 0);
+const mockGetRecentFailureCount = vi.fn((): number => 0);
 
 vi.mock("../services/healthCheck", () => ({
-  checkDatabase: (...args: unknown[]) => mockCheckDatabase(...args),
-  checkSmtp: (...args: unknown[]) => mockCheckSmtp(...args),
-  checkAi: (...args: unknown[]) => mockCheckAi(...args),
+  checkDatabase: () => mockCheckDatabase(),
+  checkSmtp: () => mockCheckSmtp(),
+  checkAi: () => mockCheckAi(),
 }));
 
 vi.mock("../services/emailFailureAlert", () => ({
-  getRecentFailureCount: (...args: unknown[]) =>
-    mockGetRecentFailureCount(...args),
+  getRecentFailureCount: () => mockGetRecentFailureCount(),
   recordEmailFailure: vi.fn(),
   _resetFailureCounter: vi.fn(),
   maybeAlertOnEmailFailure: vi.fn(async () => {}),

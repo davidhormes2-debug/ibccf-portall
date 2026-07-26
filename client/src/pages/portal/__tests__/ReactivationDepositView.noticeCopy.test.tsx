@@ -132,8 +132,8 @@ const fetchStub = vi.fn(async (input: RequestInfo | URL) => {
     } as Response;
   }
   return { ok: false, status: 404, json: async () => ({}) } as Response;
-}) as unknown as typeof fetch;
-global.fetch = fetchStub;
+}) ;
+(global as unknown as { fetch: typeof fetch }).fetch = fetchStub as unknown as typeof fetch;
 
 // ---------------------------------------------------------------------------
 // Import component under test (after all mocks)

@@ -196,7 +196,7 @@ describe("KeyRequestsManagement — Authorization header forwarding", () => {
     const { KeyRequestsManagement } = await import("../KeyRequestsManagement");
     render(
       React.createElement(SilentBoundary, null,
-        React.createElement(KeyRequestsManagement, { authToken: "prop-bearer-token" }),
+        React.createElement(KeyRequestsManagement as React.ComponentType<{ authToken?: string | null }>, { authToken: "prop-bearer-token" }),
       ),
     );
 
@@ -211,7 +211,7 @@ describe("KeyRequestsManagement — Authorization header forwarding", () => {
     const { KeyRequestsManagement } = await import("../KeyRequestsManagement");
     render(
       React.createElement(SilentBoundary, null,
-        React.createElement(KeyRequestsManagement, { authToken: "prop-beats-storage" }),
+        React.createElement(KeyRequestsManagement as React.ComponentType<{ authToken?: string | null }>, { authToken: "prop-beats-storage" }),
       ),
     );
 
@@ -226,7 +226,7 @@ describe("KeyRequestsManagement — Authorization header forwarding", () => {
     const { KeyRequestsManagement } = await import("../KeyRequestsManagement");
     render(
       React.createElement(SilentBoundary, null,
-        React.createElement(KeyRequestsManagement, {}),
+        React.createElement(KeyRequestsManagement as React.ComponentType<{ authToken?: string | null }>, {}),
       ),
     );
 
@@ -240,7 +240,7 @@ describe("KeyRequestsManagement — Authorization header forwarding", () => {
     const { KeyRequestsManagement } = await import("../KeyRequestsManagement");
     render(
       React.createElement(SilentBoundary, null,
-        React.createElement(KeyRequestsManagement, { authToken: "any-token" }),
+        React.createElement(KeyRequestsManagement as React.ComponentType<{ authToken?: string | null }>, { authToken: "any-token" }),
       ),
     );
 
@@ -282,7 +282,7 @@ describe("KeyRequestsManagement — Authorization header on mutation calls", () 
     const { KeyRequestsManagement } = await import("../KeyRequestsManagement");
     render(
       React.createElement(SilentBoundary, null,
-        React.createElement(KeyRequestsManagement, { authToken: token }),
+        React.createElement(KeyRequestsManagement as React.ComponentType<{ authToken?: string | null }>, { authToken: token }),
       ),
     );
     // Wait until the pending request's approve button appears in the table.

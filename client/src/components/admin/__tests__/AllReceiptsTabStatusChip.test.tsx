@@ -192,7 +192,6 @@ describe("AllReceiptsTab status badge — renders correct class per status", () 
       // The badge must carry the expected class (not the fallback "bg-slate-700").
       expect(badge.className).toContain(
         expectedClass.split(" ")[0],
-        `Badge for status "${status}" did not receive the expected CSS class`,
       );
       expect(badge.className).not.toContain("bg-slate-700");
     });

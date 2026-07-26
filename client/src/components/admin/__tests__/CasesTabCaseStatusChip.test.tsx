@@ -242,7 +242,6 @@ describe("CasesTab case-status badge — renders correct class per status", () =
       const expectedClass = CASE_STATUS_CLASSES[status];
       expect(badge.className).toContain(
         expectedClass.split(" ")[0],
-        `Badge for status "${status}" did not receive expected CSS class`,
       );
     });
   }

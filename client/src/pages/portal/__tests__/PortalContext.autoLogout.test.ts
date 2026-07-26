@@ -108,7 +108,7 @@ describe("usePortalAutoLogout", () => {
     const { rerender } = renderHook(
       ({ aw }: { aw: PortalAutoLogoutWarning | null }) =>
         usePortalAutoLogout(aw, onExpire),
-      { initialProps: { aw: warning } },
+      { initialProps: { aw: warning as PortalAutoLogoutWarning | null } },
     );
 
     // Admin cancels the warning before it expires

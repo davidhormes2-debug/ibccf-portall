@@ -2,6 +2,7 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup, fireEvent, act } from "@testing-library/react";
 import { CaseFilterPresets } from "../components/admin/CaseFilterPresets";
+import type { RefundClaimStatusFilter } from "@shared/types";
 
 // ---------------------------------------------------------------------------
 // CaseFilterPresets — pin-limit tooltip regression guard
@@ -86,7 +87,9 @@ const DEFAULT_STATE = {
   localeFilter: "all",
   sealedFilter: "all",
   stampDutyPendingOnly: false as const,
-  refundClaimStatusFilter: "all",
+  refundClaimStatusFilter: "all" as RefundClaimStatusFilter,
+  reactivationPendingOnly: false,
+  legacyAccessCodeOnly: false,
 };
 
 afterEach(() => {

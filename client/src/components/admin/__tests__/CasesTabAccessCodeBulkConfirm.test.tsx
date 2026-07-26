@@ -128,7 +128,7 @@ beforeEach(() => {
     }
     return notFoundResponse();
   });
-  (globalThis as unknown as { fetch: typeof fetch }).fetch = fetchMock;
+  (globalThis as unknown as { fetch: typeof fetch }).fetch = fetchMock as unknown as typeof fetch;
 });
 
 afterEach(() => {

@@ -283,7 +283,7 @@ describe("POST /api/cases/:id/toggle-access — reactivationPageMessage cleared 
     // The toggle-access handler calls getCaseByAccessCode to check for
     // access-code collisions when generating a new code on reactivation.
     // Returning null means no collision, so the first candidate is accepted.
-    vi.mocked(caseService.getCaseByAccessCode).mockResolvedValueOnce(null);
+    vi.mocked(caseService.getCaseByAccessCode).mockResolvedValueOnce(undefined);
 
     const res = await request(app)
       .post("/api/cases/case-rpm-1/toggle-access")

@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "include": [
+    "vitest.setup.ts",
     "client/src/**/*",
     "shared/**/*",
     "server/**/*",

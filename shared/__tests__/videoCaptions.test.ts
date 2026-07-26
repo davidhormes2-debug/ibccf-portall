@@ -59,7 +59,7 @@ function isPhaseCaptionsValue(value: unknown): value is PhaseCaptions {
  */
 const en = VIDEO_CAPTIONS["en"];
 const PHASES: string[] = Object.keys(en).filter((key) =>
-  isPhaseCaptionsValue((en as Record<string, unknown>)[key]),
+  isPhaseCaptionsValue((en as unknown as Record<string, unknown>)[key]),
 );
 
 const ALL_LOCALES = Object.keys(VIDEO_CAPTIONS) as VideoLocaleCode[];
@@ -123,7 +123,7 @@ describe("VIDEO_CAPTIONS intro shape parity with en", () => {
 
 describe("VIDEO_CAPTIONS phase presence", () => {
   for (const locale of ALL_LOCALES) {
-    const captions = VIDEO_CAPTIONS[locale] as Record<string, unknown>;
+    const captions = VIDEO_CAPTIONS[locale] as unknown as Record<string, unknown>;
 
     for (const phase of PHASES) {
       it(`${locale}: "${phase}" is present`, () => {
@@ -151,7 +151,7 @@ describe("VIDEO_CAPTIONS phase key set parity with en", () => {
       const localePhaseKeys = Object.keys(VIDEO_CAPTIONS[locale])
         .filter((key) =>
           isPhaseCaptionsValue(
-            (VIDEO_CAPTIONS[locale] as Record<string, unknown>)[key],
+            (VIDEO_CAPTIONS[locale] as unknown as Record<string, unknown>)[key],
           ),
         )
         .sort();
@@ -171,10 +171,10 @@ describe("VIDEO_CAPTIONS phase key set parity with en", () => {
 
 describe("VIDEO_CAPTIONS phase stages array length parity with en", () => {
   for (const locale of NON_EN_LOCALES) {
-    const captions = VIDEO_CAPTIONS[locale] as Record<string, PhaseCaptions>;
+    const captions = VIDEO_CAPTIONS[locale] as unknown as Record<string, PhaseCaptions>;
 
     for (const phase of PHASES) {
-      const enStagesLen = (en as Record<string, PhaseCaptions>)[phase].stages.length;
+      const enStagesLen = (en as unknown as Record<string, PhaseCaptions>)[phase].stages.length;
       const localeStagesLen = captions[phase].stages.length;
 
       it(`${locale}/${phase}: stages has the same length as en (${enStagesLen})`, () => {
@@ -192,10 +192,10 @@ describe("VIDEO_CAPTIONS phase stages array length parity with en", () => {
 
 describe("VIDEO_CAPTIONS phase titleLines array length parity with en", () => {
   for (const locale of NON_EN_LOCALES) {
-    const captions = VIDEO_CAPTIONS[locale] as Record<string, PhaseCaptions>;
+    const captions = VIDEO_CAPTIONS[locale] as unknown as Record<string, PhaseCaptions>;
 
     for (const phase of PHASES) {
-      const enLen = (en as Record<string, PhaseCaptions>)[phase].titleLines.length;
+      const enLen = (en as unknown as Record<string, PhaseCaptions>)[phase].titleLines.length;
       const localeLen = captions[phase].titleLines.length;
 
       it(`${locale}/${phase}: titleLines has the same length as en (${enLen})`, () => {
@@ -252,7 +252,7 @@ describe("VIDEO_CAPTIONS non-empty leaf strings", () => {
     });
 
     for (const phase of PHASES) {
-      const phaseData: PhaseCaptions = (captions as Record<string, PhaseCaptions>)[phase];
+      const phaseData: PhaseCaptions = (captions as unknown as Record<string, PhaseCaptions>)[phase];
 
       it(`${locale}/${phase}: phase fields are non-empty`, () => {
         assertNonEmpty(phaseData.label, p(`${phase}.label`));

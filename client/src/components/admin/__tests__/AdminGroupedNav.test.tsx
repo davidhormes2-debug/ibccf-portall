@@ -18,7 +18,7 @@ import { render, screen, cleanup, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { AdminGroupedNav } from "../AdminGroupedNav";
-import { countRefundClaimSubmitted } from "@/lib/refundClaimBadge";
+import { countRefundClaimSubmitted, type RefundClaimCase } from "@/lib/refundClaimBadge";
 
 function Harness(props: {
   initialTab?: string;
@@ -163,6 +163,9 @@ describe("AdminGroupedNav — pending document badge (Task #330)", () => {
           onWithdrawalBadgeClick={() => {}}
           refundClaimPendingCount={0}
           onRefundClaimBadgeClick={() => {}}
+          reactivationPendingCount={0}
+          onReactivationBadgeClick={() => {}}
+          activeWarningsCount={0}
         />
         <TabsContent value="cases">PANEL-cases</TabsContent>
       </Tabs>,
@@ -222,6 +225,7 @@ describe("AdminGroupedNav — withdrawal pending badge (Task #796)", () => {
           onRefundClaimBadgeClick={() => {}}
           reactivationPendingCount={0}
           onReactivationBadgeClick={() => {}}
+          activeWarningsCount={0}
         />
         <TabsContent value="cases">PANEL-cases</TabsContent>
       </Tabs>,
@@ -285,6 +289,7 @@ describe("AdminGroupedNav — refund claim pending badge", () => {
           onRefundClaimBadgeClick={() => {}}
           reactivationPendingCount={0}
           onReactivationBadgeClick={() => {}}
+          activeWarningsCount={0}
         />
         <TabsContent value="cases">PANEL-cases</TabsContent>
       </Tabs>,
@@ -355,6 +360,7 @@ describe("AdminGroupedNav — reactivation pending badge", () => {
           onRefundClaimBadgeClick={() => {}}
           reactivationPendingCount={0}
           onReactivationBadgeClick={() => {}}
+          activeWarningsCount={0}
         />
         <TabsContent value="cases">PANEL-cases</TabsContent>
       </Tabs>,
@@ -474,13 +480,13 @@ describe("AdminGroupedNav — refund claim badge count formula", () => {
       { refundClaimStatus: "approved" },
       { refundClaimStatus: "rejected" },
     ];
-    expect(countRefundClaimSubmitted(cases)).toBe(2);
+    expect(countRefundClaimSubmitted(cases as RefundClaimCase[])).toBe(2);
   });
 
   it.each(NON_BADGE_STATUSES)(
     "status '%s' does NOT contribute to the badge count",
     (status) => {
-      expect(countRefundClaimSubmitted([{ refundClaimStatus: status }])).toBe(0);
+      expect(countRefundClaimSubmitted([{ refundClaimStatus: status }] as RefundClaimCase[])).toBe(0);
     },
   );
 
@@ -495,7 +501,7 @@ describe("AdminGroupedNav — refund claim badge count formula", () => {
   it("adding a new non-submitted status does not inflate the badge", () => {
     const futureStatuses = [...NON_BADGE_STATUSES, "under_review"] as const;
     for (const status of futureStatuses) {
-      expect(countRefundClaimSubmitted([{ refundClaimStatus: status }])).toBe(0);
+      expect(countRefundClaimSubmitted([{ refundClaimStatus: status }] as RefundClaimCase[])).toBe(0);
     }
   });
 
@@ -505,7 +511,7 @@ describe("AdminGroupedNav — refund claim badge count formula", () => {
       { refundClaimStatus: "pending_submission" },
       { refundClaimStatus: null },
     ];
-    const count = countRefundClaimSubmitted(cases);
+    const count = countRefundClaimSubmitted(cases as RefundClaimCase[]);
     expect(count).toBe(1);
 
     render(
@@ -526,6 +532,7 @@ describe("AdminGroupedNav — refund claim badge count formula", () => {
           onRefundClaimBadgeClick={() => {}}
           reactivationPendingCount={0}
           onReactivationBadgeClick={() => {}}
+          activeWarningsCount={0}
         />
         <TabsContent value="cases">PANEL-cases</TabsContent>
       </Tabs>,

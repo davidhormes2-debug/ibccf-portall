@@ -7,7 +7,7 @@ const createAuditLog = vi.fn(async () => undefined);
 const notifyAdmin = vi.fn(async () => undefined);
 const sendStaleAlert = vi.fn(async (_arg?: unknown) => ({ success: true }));
 const sendFailureAlert = vi.fn(async (_arg?: unknown) => ({ success: true }));
-let getAllSealedCaseNdas = vi.fn(async () => [] as any[]);
+let getAllSealedCaseNdas = vi.fn(async (..._args: any[]) => [] as any[]);
 
 vi.mock("../storage", () => ({
   storage: createStorageMock({
@@ -19,8 +19,8 @@ vi.mock("../storage", () => ({
       settings.set(key, { value });
     }),
     createAuditLog,
-    getAllSealedCaseNdas: vi.fn(async (...args: any[]) =>
-      getAllSealedCaseNdas(...args),
+    getAllSealedCaseNdas: vi.fn(async () =>
+      getAllSealedCaseNdas(),
     ),
   }),
 }));
