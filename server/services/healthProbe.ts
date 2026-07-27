@@ -6,6 +6,7 @@ import {
   parseAdminAlertRecipients,
   ADMIN_ALERT_EMAIL_SETTING_KEY,
 } from "../nda-integrity-sweep";
+import { warnOnce } from "../lib/warnOnce";
 
 // ---------------------------------------------------------------------------
 // Scheduled internal health probe
@@ -145,7 +146,11 @@ async function loadMinutesSetting(
       }
     }
   } catch (err) {
-    console.error(`[health-probe] failed to read ${settingKey} from DB:`, err);
+    warnOnce(
+      `health-probe:db-fail:${settingKey}`,
+      `[health-probe] failed to read ${settingKey} from DB:`,
+      err,
+    );
   }
   return { minutes: defaultVal, source: "default" };
 }
@@ -184,7 +189,11 @@ async function readTimingSetting(
       updatedBy = row.updatedBy ?? null;
     }
   } catch (err) {
-    console.error(`[health-probe] failed to read ${settingKey} metadata:`, err);
+    warnOnce(
+      `health-probe:db-fail:${settingKey}:meta`,
+      `[health-probe] failed to read ${settingKey} metadata:`,
+      err,
+    );
   }
   return {
     minutes,

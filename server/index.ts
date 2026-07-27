@@ -43,6 +43,8 @@ import { startPortalWarningExpirySweep } from "./portal-warning-expiry-sweep";
 import { startHealthProbe } from "./services/healthProbe";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
+import { isTransientDbError, JobCircuitBreaker } from "./lib/dbResilience";
+import { warnOnce } from "./lib/warnOnce";
 
 const app = express();
 const httpServer = createServer(app);
@@ -337,11 +339,19 @@ app.use((req, res, next) => {
       // Persisted login-rate-limit rows expire on a 15-minute schedule, so a
       // 5-minute sweep keeps the table small without thrashing.
       const LOGIN_ATTEMPT_SWEEP_INTERVAL_MS = 5 * 60 * 1000;
+      const _sweepLoginCb = new JobCircuitBreaker();
       const sweepLoginAttempts = async () => {
+        if (_sweepLoginCb.shouldSkip("sweep-login-attempts")) return;
         try {
           await storage.deleteExpiredAdminLoginAttempts();
+          _sweepLoginCb.onSuccess();
         } catch (err) {
-          console.error("Error sweeping expired login rate-limit rows:", err);
+          if (isTransientDbError(err)) {
+            _sweepLoginCb.onFailure("sweep-login-attempts");
+            warnOnce("index:sweep-login-db-fail", "Error sweeping expired login rate-limit rows:", err);
+          } else {
+            console.error("Error sweeping expired login rate-limit rows:", err);
+          }
         }
       };
       sweepLoginAttempts();

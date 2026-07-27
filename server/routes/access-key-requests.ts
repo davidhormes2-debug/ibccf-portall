@@ -12,6 +12,9 @@ import {
 } from "../middleware/security";
 import { isAuthorizedForCase } from "../services/portal-auth";
 import { warnOnce } from "../lib/warnOnce";
+import { isTransientDbError, JobCircuitBreaker } from "../lib/dbResilience";
+
+const _expirePendingCb = new JobCircuitBreaker();
 
 // Stricter per-IP limiter for unauthenticated status-lookup routes.
 // These endpoints are the only publicly reachable path that touches
@@ -759,6 +762,7 @@ accessKeyRequestsRouter.patch("/mark-read/:requestId", keyRequestStatusLimiter, 
 });
 
 export async function expirePendingRequests() {
+  if (_expirePendingCb.shouldSkip("expire-pending-requests")) return 0;
   try {
     const now = new Date();
     
@@ -789,9 +793,15 @@ export async function expirePendingRequests() {
       }
     }
 
+    _expirePendingCb.onSuccess();
     return expired.length;
   } catch (error) {
-    warnOnce("access-key-requests:expire-fail", "Error expiring pending requests:", error);
+    if (isTransientDbError(error)) {
+      _expirePendingCb.onFailure("expire-pending-requests");
+      warnOnce("access-key-requests:expire-fail", "Error expiring pending requests:", error);
+    } else {
+      warnOnce("access-key-requests:expire-fail", "Error expiring pending requests:", error);
+    }
     return 0;
   }
 }

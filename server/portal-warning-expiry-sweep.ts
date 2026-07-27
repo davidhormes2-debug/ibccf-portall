@@ -4,6 +4,8 @@ import { and, isNotNull, eq, lte, sql } from "drizzle-orm";
 import { disableAndResetPathway } from "./services/pathwayReset";
 import { notificationService } from "./services/NotificationService";
 import { storage } from "./storage";
+import { isTransientDbError, JobCircuitBreaker } from "./lib/dbResilience";
+import { warnOnce } from "./lib/warnOnce";
 
 // Periodic sweep that detects cases whose portal-closure countdown has expired
 // (portalWarningAt + portalWarningMinutes * 60 seconds <= now) but have not
@@ -29,6 +31,7 @@ function log(message: string): void {
 }
 
 let sweepInFlight = false;
+const _sweepCb = new JobCircuitBreaker();
 
 export interface PortalWarningExpirySweepResult {
   processed: number;
@@ -37,6 +40,9 @@ export interface PortalWarningExpirySweepResult {
 }
 
 export async function runPortalWarningExpirySweep(): Promise<PortalWarningExpirySweepResult> {
+  if (_sweepCb.shouldSkip("portal-warning-expiry-sweep")) {
+    return { processed: 0, skipped: true, closedCaseIds: [] };
+  }
   if (sweepInFlight) {
     return { processed: 0, skipped: true, closedCaseIds: [] };
   }
@@ -153,9 +159,15 @@ export async function runPortalWarningExpirySweep(): Promise<PortalWarningExpiry
       );
     }
 
+    _sweepCb.onSuccess();
     return { processed, skipped: false, closedCaseIds };
   } catch (err) {
-    console.error("Error during portal-warning expiry sweep:", err);
+    if (isTransientDbError(err)) {
+      _sweepCb.onFailure("portal-warning-expiry-sweep");
+      warnOnce("portal-warning-sweep:db-fail", "Error during portal-warning expiry sweep:", err);
+    } else {
+      console.error("Error during portal-warning expiry sweep:", err);
+    }
     return { processed: 0, skipped: false, closedCaseIds: [] };
   } finally {
     sweepInFlight = false;
