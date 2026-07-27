@@ -10,6 +10,7 @@ import {
   computeRiskScore,
 } from "../services/visitor-intel";
 import { warnOnce } from "../lib/warnOnce";
+import { isTransientDbError } from "../lib/dbResilience";
 import { issueSatisfactionToken, verifySatisfactionToken } from "../lib/satisfactionToken";
 import { notificationService } from "../services/NotificationService";
 import {
@@ -342,6 +343,21 @@ router.post(
       res.json({ success: true, visitorId, isNew: true, id: newVisitor.id });
     }
   } catch (error) {
+    // When HEARTBEAT_DEGRADED_ON_DB_FAIL=true and the failure looks like a
+    // transient DB connectivity problem, return 202 with a degraded flag
+    // rather than 500 so clients back off gracefully instead of retrying
+    // aggressively on every heartbeat cycle.
+    if (
+      isTransientDbError(error) &&
+      process.env.HEARTBEAT_DEGRADED_ON_DB_FAIL === "true"
+    ) {
+      warnOnce(
+        "visitors:heartbeat-db-degraded",
+        "Heartbeat DB degraded (returning 202):",
+        error,
+      );
+      return res.status(202).json({ success: false, degraded: true });
+    }
     warnOnce("visitors:heartbeat-fail", "Heartbeat error:", error);
     res.status(500).json({ error: "Failed to process heartbeat" });
   }

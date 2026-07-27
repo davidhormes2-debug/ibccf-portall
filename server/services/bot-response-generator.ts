@@ -8,6 +8,10 @@ import {
   departments
 } from "@shared/schema";
 import { eq, and, lte, sql, desc, lt, asc } from "drizzle-orm";
+import { isTransientDbError, JobCircuitBreaker } from "../lib/dbResilience";
+import { warnOnce } from "../lib/warnOnce";
+
+const _pendingResponsesCb = new JobCircuitBreaker();
 
 let _openai: OpenAI | null = null;
 let _openaiKeyMissingWarned = false;
@@ -371,6 +375,7 @@ export async function scheduleResponsesForThread(threadId: number, triggerPostId
 }
 
 export async function processPendingResponses() {
+  if (_pendingResponsesCb.shouldSkip("pending-responses")) return;
   try {
     const pendingResponses = await db
       .select()
@@ -476,8 +481,14 @@ export async function processPendingResponses() {
           .where(eq(pendingBotResponses.id, response.id));
       }
     }
+    _pendingResponsesCb.onSuccess();
   } catch (error) {
-    console.error("Error processing pending responses:", error);
+    if (isTransientDbError(error)) {
+      _pendingResponsesCb.onFailure("pending-responses");
+      warnOnce("bot:pending-responses-db-fail", "Error processing pending responses:", error);
+    } else {
+      console.error("Error processing pending responses:", error);
+    }
   }
 }
 
