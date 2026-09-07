@@ -67,42 +67,31 @@ declare module "http" {
 app.use(securityHeaders());
 app.use(corsMiddleware());
 
-// JSON body parsing is split into two parsers so we don't expose a 12mb
-// attack surface to every endpoint just because deposit receipts need it.
+// JSON body parsing is split so ordinary API calls keep a small attack
+// surface while the handful of endpoints that legitimately carry base64
+// documents can accept their expected payload size.
 //
-// - The global parser (256kb) covers every JSON endpoint in the app —
-//   admin operations, login, messages, declarations, etc. None of those
-//   payloads exceed a few KB in normal use, so 256kb is a generous ceiling
-//   that still bounds the work an unauthenticated client can force the
-//   process to do before our /api rate limiter even sees the request.
-//
-// - The receipt parser (12mb) runs ONLY on POST /api/cases/:id/deposit-
-//   receipts, where the body is a base64-encoded image (2-8mb raw → up to
-//   ~10.7mb after base64). The matching client-side guard in
-//   PortalContext.uploadReceipt rejects files over 8mb raw before any
-//   network call happens, so this server ceiling is the second line of
-//   defence rather than the primary check.
+// A raw 8 MB image/PDF grows to roughly 10.7 MB once base64 encoded, so the
+// upload parser is intentionally 12 MB. Every upload route still performs
+// its own decoded-size and MIME validation after parsing.
 const captureRawBody = (req: import("http").IncomingMessage, _res: unknown, buf: Buffer) => {
   req.rawBody = buf;
 };
 const globalJsonParser = express.json({ limit: "256kb", verify: captureRawBody });
-const receiptJsonParser = express.json({ limit: "12mb", verify: captureRawBody });
+const uploadJsonParser = express.json({ limit: "12mb", verify: captureRawBody });
+
+const isLargeUploadRequest = (req: Request): boolean => {
+  const path = req.path;
+  if (req.method === "POST" && /^\/api\/cases\/[^/]+\/deposit-receipts$/.test(path)) return true;
+  if (req.method === "POST" && /^\/api\/cases\/[^/]+\/stamp-duty\/receipts$/.test(path)) return true;
+  if (req.method === "POST" && /^\/api\/cases\/[^/]+\/user-documents$/.test(path)) return true;
+  if (req.method === "PATCH" && /^\/api\/document-requests\/[^/]+$/.test(path)) return true;
+  return false;
+};
 
 app.use((req, res, next) => {
-  // Route-scoped large-body opt-in. Match the specific POST so a GET on the
-  // same path still uses the small global parser.
-  if (req.method === "POST" && /^\/api\/cases\/[^/]+\/deposit-receipts$/.test(req.path)) {
-    return receiptJsonParser(req, res, next);
-  }
-  // Task #72 — Stamp Duty Deposit receipt uploads use the same base64
-  // image/PDF data URL shape (up to 10 MB raw → ~13.4 MB after base64,
-  // but the route itself rejects anything > 10 MB so 12 MB here is the
-  // matching second line of defence).
-  if (
-    req.method === "POST" &&
-    /^\/api\/cases\/[^/]+\/stamp-duty\/receipts$/.test(req.path)
-  ) {
-    return receiptJsonParser(req, res, next);
+  if (isLargeUploadRequest(req)) {
+    return uploadJsonParser(req, res, next);
   }
   return globalJsonParser(req, res, next);
 });
