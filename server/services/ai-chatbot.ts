@@ -183,6 +183,48 @@ Return exactly 3 suggestions, each on a new line, without numbering or bullets.`
   }
 }
 
+export type AdminReplyRewriteMode = 'professional' | 'concise' | 'empathetic' | 'clear';
+
+export async function rewriteAdminReply(
+  message: string,
+  mode: AdminReplyRewriteMode = 'professional',
+): Promise<string> {
+  const instruction: Record<AdminReplyRewriteMode, string> = {
+    professional: 'polished, professional, calm, and human',
+    concise: 'shorter and more direct while preserving every important fact',
+    empathetic: 'warm and empathetic without sounding dramatic or making promises',
+    clear: 'plain, easy to understand, and logically structured',
+  };
+
+  try {
+    const response = await getOpenAI().chat.completions.create({
+      model: 'gpt-5-mini',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You rewrite drafts for an IBCCF human support administrator. Return only the rewritten message. ' +
+            'Never invent facts, amounts, approvals, guarantees, deadlines, legal conclusions, recovery outcomes, or case status. ' +
+            'Preserve the original meaning and any names, reference numbers, links, and required actions exactly unless grammar requires a harmless adjustment.',
+        },
+        {
+          role: 'user',
+          content: `Rewrite this draft so it is ${instruction[mode]}:\n\n${message}`,
+        },
+      ],
+      max_tokens: 350,
+      temperature: 0.35,
+    });
+
+    const rewritten = response.choices[0]?.message?.content?.trim();
+    return rewritten || message;
+  } catch (error) {
+    console.error('AI admin reply rewrite error:', error);
+    void sendAiFailureAlertIfDue(error);
+    return message;
+  }
+}
+
 export async function classifyMessageIntent(message: string): Promise<{
   intent: string;
   urgency: 'low' | 'medium' | 'high';

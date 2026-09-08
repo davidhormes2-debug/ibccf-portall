@@ -2,7 +2,8 @@ import { Router } from "express";
 import { z } from "zod";
 import { 
   generateChatResponse, 
-  generateSmartReplySuggestions, 
+  generateSmartReplySuggestions,
+  rewriteAdminReply,
   classifyMessageIntent,
   analyzeCaseWithAI,
   generateCaseInsights,
@@ -138,6 +139,25 @@ aiRouter.post("/suggestions", checkAdminAuth, async (req, res) => {
     } else {
       warnOnce("ai:suggestions", "AI suggestions error", error);
       res.status(500).json({ error: "Failed to generate suggestions" });
+    }
+  }
+});
+
+aiRouter.post("/rewrite", checkAdminAuth, async (req, res) => {
+  try {
+    const input = z.object({
+      message: z.string().trim().min(1).max(4000),
+      mode: z.enum(['professional', 'concise', 'empathetic', 'clear']).default('professional'),
+    }).parse(req.body);
+
+    const rewritten = await rewriteAdminReply(input.message, input.mode);
+    res.json({ rewritten });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: "Invalid request" });
+    } else {
+      warnOnce("ai:rewrite", "AI rewrite error", error);
+      res.status(500).json({ error: "Failed to rewrite reply" });
     }
   }
 });
