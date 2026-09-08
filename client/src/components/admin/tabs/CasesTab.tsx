@@ -1546,21 +1546,21 @@ export function CasesTab() {
 
   return (
     <>
-      <div className="flex justify-between items-end mb-6">
+      <div className="mb-4 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-1">Case Management</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-1">Case Management</h2>
           <p className="text-slate-400 text-sm">Manage secure access codes, edit letters, and approve synchronizations.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {(adminRole === 'admin' || adminRole === 'super_admin') && (
-          <Button onClick={() => setIsCreateOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white" data-testid="button-new-case">
+          <Button onClick={() => setIsCreateOpen(true)} size="sm" className="h-9 bg-blue-600 hover:bg-blue-700 text-white" data-testid="button-new-case">
             <Plus className="w-4 h-4 mr-2" /> New Case
           </Button>
           )}
           <Button
             variant="outline"
             size="sm"
-            className="border-slate-700 bg-slate-800 text-slate-300 hover:text-white"
+            className="h-9 border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white"
             onClick={() => {
               const escapeCSV = (val: string | null | undefined): string => {
                 if (val == null) return '""';
@@ -1599,19 +1599,19 @@ export function CasesTab() {
           >
             <FileText className="w-4 h-4 mr-2" /> Export CSV
           </Button>
-          <Button variant="destructive" size="sm" onClick={clearLogs} data-testid="button-clear-logs">
+          <Button variant="outline" size="sm" className="h-9 border-red-500/30 bg-red-950/20 text-red-300 hover:bg-red-950/40 hover:text-red-200" onClick={clearLogs} data-testid="button-clear-logs">
             <Trash2 className="w-4 h-4 mr-2" /> Clear Logs
           </Button>
         </div>
       </div>
 
       {cases.some(c => c.status === 'syncing') && (
-        <div className="mb-6 bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between rounded-lg border border-amber-500/20 bg-amber-500/10 px-3 py-2.5">
           <div className="flex items-center gap-3 text-amber-500">
-            <ShieldAlert className="w-6 h-6 animate-pulse" />
+            <ShieldAlert className="w-5 h-5 animate-pulse" />
             <div>
-              <h3 className="font-bold">Action Required</h3>
-              <p className="text-sm opacity-80">There are users waiting for synchronization approval.</p>
+              <h3 className="text-sm font-semibold">Action Required</h3>
+              <p className="text-xs opacity-80">There are users waiting for synchronization approval.</p>
             </div>
           </div>
         </div>
