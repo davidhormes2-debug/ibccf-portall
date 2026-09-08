@@ -414,6 +414,11 @@ export const cases = pgTable("cases", {
   stageSkipReason: text("stage_skip_reason"),
   stageSkipStatus: text("stage_skip_status"),
 
+  // Admin chat-session state. Archiving hides the conversation from the
+  // default inbox without deleting any messages or case history.
+  chatArchivedAt: timestamp("chat_archived_at"),
+  chatArchivedBy: text("chat_archived_by"),
+
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 }, (t) => ({
@@ -437,6 +442,7 @@ export const cases = pgTable("cases", {
   caseRefUnique: uniqueIndex(
     "cases_case_ref_unique_idx",
   ).on(t.caseRef),
+  chatArchivedAtIdx: index("cases_chat_archived_at_idx").on(t.chatArchivedAt),
 }));
 
 export const insertCaseSchema = createInsertSchema(cases).omit({

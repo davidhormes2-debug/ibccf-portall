@@ -47,6 +47,10 @@ export interface Case {
   isDisabled?: boolean;
   lastLoginAt?: string;
   lastLoginIp?: string;
+  // Conversation archive state. Archived chats remain fully recoverable and
+  // are shown in the Conversations > Archived filter.
+  chatArchivedAt?: string | null;
+  chatArchivedBy?: string | null;
   letterFile?: string;
   letterFileName?: string;
   letterFileType?: string;

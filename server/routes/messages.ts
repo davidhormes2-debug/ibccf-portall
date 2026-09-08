@@ -100,6 +100,61 @@ messagesRouter.post("/:id/read", async (req, res) => {
 });
 
 export function registerCaseMessageRoutes(router: Router) {
+  // Archive is a non-destructive admin-only inbox action. It never deletes
+  // messages or case data; it only moves a session out of the default inbox.
+  router.post("/:id/conversation/archive", checkAdminAuth, requireAdminRole("admin"), async (req, res) => {
+    try {
+      const caseData = await storage.getCaseById(req.params.id);
+      if (!caseData) {
+        res.status(404).json({ error: "Case not found" });
+        return;
+      }
+      const archivedAt = new Date();
+      const archivedBy = req.adminUsername || "Admin";
+      // Keep the mutation explicit so future generic case-patch allowlists do
+      // not accidentally control conversation state.
+      const conversationState = await storage.updateCase(req.params.id, {
+        chatArchivedAt: archivedAt,
+        chatArchivedBy: archivedBy,
+      });
+      await storage.createAuditLog({
+        action: "conversation_archived",
+        adminUsername: archivedBy,
+        targetType: "case",
+        targetId: req.params.id,
+        newValue: `Conversation archived at ${archivedAt.toISOString()}`,
+      }).catch(() => {});
+      res.json(conversationState);
+    } catch (_e) {
+      res.status(500).json({ error: "Failed to archive conversation" });
+    }
+  });
+
+  router.delete("/:id/conversation/archive", checkAdminAuth, requireAdminRole("admin"), async (req, res) => {
+    try {
+      const caseData = await storage.getCaseById(req.params.id);
+      if (!caseData) {
+        res.status(404).json({ error: "Case not found" });
+        return;
+      }
+      const adminUsername = req.adminUsername || "Admin";
+      const updated = await storage.updateCase(req.params.id, {
+        chatArchivedAt: null,
+        chatArchivedBy: null,
+      });
+      await storage.createAuditLog({
+        action: "conversation_unarchived",
+        adminUsername,
+        targetType: "case",
+        targetId: req.params.id,
+        newValue: "Conversation restored to inbox",
+      }).catch(() => {});
+      res.json(updated);
+    } catch (_e) {
+      res.status(500).json({ error: "Failed to restore conversation" });
+    }
+  });
+
   router.get("/:id/messages", requirePortalAccess, async (req, res) => {
     try {
       const messages = await storage.getChatMessagesByCaseId(req.params.id);
@@ -139,6 +194,11 @@ export function registerCaseMessageRoutes(router: Router) {
       
       if (messageInput.sender === 'user') {
         const caseData = await storage.getCaseById(req.params.id);
+        // A fresh user message automatically restores an archived session so
+        // new customer activity can never remain hidden in the archive.
+        if (caseData?.chatArchivedAt) {
+          await storage.updateCase(req.params.id, { chatArchivedAt: null, chatArchivedBy: null });
+        }
         await notificationService.notifyAdmin(
           'new_message',
           `New message from ${caseData?.userName || 'User'}`,
