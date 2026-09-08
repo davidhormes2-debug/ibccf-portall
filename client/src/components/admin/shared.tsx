@@ -47,8 +47,14 @@ export interface Case {
   isDisabled?: boolean;
   lastLoginAt?: string;
   lastLoginIp?: string;
-  // Conversation archive state. Archived chats remain fully recoverable and
-  // are shown in the Conversations > Archived filter.
+  // Conversation workspace state.
+  chatState?: 'inbox' | 'assigned' | 'waiting_user' | 'waiting_admin' | null;
+  chatPinned?: boolean | null;
+  chatTags?: string | null;
+  chatAssignedTo?: string | null;
+  chatMutedUntil?: string | null;
+  chatUrgentRepeat?: boolean | null;
+  chatLastActivityAt?: string | null;
   chatArchivedAt?: string | null;
   chatArchivedBy?: string | null;
   letterFile?: string;
@@ -294,6 +300,9 @@ export interface ChatMessage {
   sender: 'admin' | 'user';
   message: string;
   isRead: string;
+  isInternal?: boolean;
+  deliveredAt?: string | null;
+  readAt?: string | null;
   createdAt: string;
   attachment?: {
     id: number;
@@ -516,10 +525,16 @@ export type SettingsView =
   | 'service-health'
   | 'sub-2fa';
 
-export const playNotificationSound = (
+export const playNotificationSound = async (
   type: import('@/hooks/useNotificationSound').NotificationSoundType = 'alert',
 ): Promise<void> => {
-  return import('@/hooks/useNotificationSound').then(m => m.playNotificationSound(type));
+  const [{ playNotificationSound: play }, { getNotificationPrefs }] = await Promise.all([
+    import('@/hooks/useNotificationSound'),
+    import('@/hooks/useNotificationPrefs'),
+  ]);
+  const prefs = getNotificationPrefs();
+  if (!prefs.enabled) return;
+  return play(type, prefs.volume);
 };
 
 export const AdminTabFallback = ({ label }: { label: string }) => (

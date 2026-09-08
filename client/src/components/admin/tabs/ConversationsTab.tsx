@@ -5,9 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, Mail, Phone, MapPin, Network, Clock3, ShieldCheck, Search, Inbox, MessageSquareText, Archive, ArchiveRestore, MessagesSquare, Sparkles, WandSparkles, Paperclip, FileText, Download, X } from "lucide-react";
+import { MessageCircle, Send, Mail, Phone, MapPin, Network, Clock3, ShieldCheck, Search, Inbox, MessageSquareText, Archive, ArchiveRestore, MessagesSquare, Sparkles, WandSparkles, Paperclip, FileText, Download, X, Star, Tag, BellOff, BellRing, UserCheck, Lock, Check, CheckCheck, Image as ImageIcon, Volume2, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminDashboard } from "../AdminDashboardContext";
+import { useNotificationPrefs } from "@/hooks/useNotificationPrefs";
 
 function decodeMessageText(value: string): string {
   if (!value || typeof document === "undefined") return value;
@@ -16,7 +17,9 @@ function decodeMessageText(value: string): string {
   return textarea.value;
 }
 
-type ConversationFilter = 'inbox' | 'unread' | 'all' | 'archived';
+type ConversationFilter = 'inbox' | 'unread' | 'assigned' | 'waiting_user' | 'waiting_admin' | 'all' | 'archived';
+
+const KNOWN_TAGS = ['Urgent', 'Documents', 'Verification', 'Legal', 'Payment', 'Technical', 'VIP'] as const;
 
 function formatBytes(value: number): string {
   if (!Number.isFinite(value) || value <= 0) return '0 B';
@@ -37,6 +40,77 @@ function attachmentMimeType(file: File): string | null {
   if (file.type && Object.values(ATTACHMENT_MIME_BY_EXTENSION).includes(file.type)) return file.type;
   const extension = file.name.split('.').pop()?.toLowerCase() || '';
   return ATTACHMENT_MIME_BY_EXTENSION[extension] || null;
+}
+
+function parseChatTags(value?: string | null): string[] {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return value.split(',').map((tag) => tag.trim()).filter(Boolean);
+  }
+}
+
+type ConversationSummary = {
+  latestIssue: string;
+  documentsStillRequired: string[];
+  mostRecentUserQuestion: string;
+  unresolvedRequests: string[];
+  lastAdminResponse: string;
+  conversationAge: string;
+};
+
+function ChatAttachmentDisplay(props: {
+  caseId: string;
+  messageId: number;
+  attachment: { id: number; fileName: string; mimeType: string; byteSize: number };
+  authToken: string | null;
+  isAdmin: boolean;
+  onDownload: () => void;
+}) {
+  const { caseId, messageId, attachment, authToken, isAdmin, onDownload } = props;
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const isImage = attachment.mimeType.startsWith('image/');
+  useEffect(() => {
+    if (!isImage || !authToken) return;
+    let revokedUrl: string | null = null;
+    let cancelled = false;
+    void fetch(`/api/cases/${caseId}/messages/${messageId}/attachments/${attachment.id}`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    }).then(async (res) => {
+      if (!res.ok) return;
+      const url = URL.createObjectURL(await res.blob());
+      revokedUrl = url;
+      if (!cancelled) setPreviewUrl(url);
+    }).catch(() => {});
+    return () => { cancelled = true; if (revokedUrl) URL.revokeObjectURL(revokedUrl); };
+  }, [caseId, messageId, attachment.id, authToken, isImage]);
+
+  if (isImage && previewUrl) {
+    return (
+      <button type="button" onClick={onDownload} className="mt-2 block max-w-[320px] overflow-hidden rounded-xl border border-white/10 text-left">
+        <img src={previewUrl} alt={attachment.fileName} className="max-h-56 w-full object-cover" />
+        <span className="flex items-center justify-between gap-2 px-3 py-2 text-[10px]">
+          <span className="truncate">{attachment.fileName}</span><span>{formatBytes(attachment.byteSize)}</span>
+        </span>
+      </button>
+    );
+  }
+
+  return (
+    <button type="button" onClick={onDownload}
+      className={`mt-2 flex w-full min-w-[180px] items-center gap-2 rounded-xl border px-3 py-2 text-left transition-colors ${isAdmin ? 'border-blue-300/20 bg-black/10 hover:bg-black/20' : 'border-slate-700 bg-slate-900/50 hover:bg-slate-900'}`}>
+      <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+        {isImage ? <ImageIcon className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-xs font-medium truncate">{attachment.fileName}</p>
+        <p className={`text-[10px] ${isAdmin ? 'text-blue-200/60' : 'text-slate-500'}`}>{attachment.mimeType === 'application/pdf' ? 'PDF ? ' : ''}{formatBytes(attachment.byteSize)}</p>
+      </div>
+      <Download className="w-3.5 h-3.5 opacity-60 shrink-0" />
+    </button>
+  );
 }
 
 function formatLastSeen(value?: string | null): string {
@@ -66,10 +140,18 @@ export function ConversationsTab() {
   } = useAdminDashboard();
 
   const { toast } = useToast();
+  const { prefs: notificationPrefs, setPrefs: setNotificationPrefs } = useNotificationPrefs();
   const [conversationQuery, setConversationQuery] = useState("");
   const [conversationFilter, setConversationFilter] = useState<ConversationFilter>('inbox');
+  const [contentSearchCaseIds, setContentSearchCaseIds] = useState<Set<string> | null>(null);
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [archiveBusy, setArchiveBusy] = useState(false);
+  const [conversationBusy, setConversationBusy] = useState(false);
   const [aiBusy, setAiBusy] = useState<'suggest' | 'rewrite' | null>(null);
+  const [summary, setSummary] = useState<ConversationSummary | null>(null);
+  const [summaryBusy, setSummaryBusy] = useState(false);
+  const [internalNoteMode, setInternalNoteMode] = useState(false);
+  const [assignmentDraft, setAssignmentDraft] = useState('');
   const [pendingAttachment, setPendingAttachment] = useState<File | null>(null);
   const [attachmentBusy, setAttachmentBusy] = useState(false);
   const [userIsTyping, setUserIsTyping] = useState(false);
@@ -77,10 +159,41 @@ export function ConversationsTab() {
   const activeCaseIdRef = useRef<string | null>(chatCase?.id ?? null);
   activeCaseIdRef.current = chatCase?.id ?? null;
 
+  useEffect(() => {
+    setAssignmentDraft(chatCase?.chatAssignedTo || '');
+    setSummary(null);
+    setInternalNoteMode(false);
+  }, [chatCase?.id]);
+
+  useEffect(() => {
+    if (!authToken || conversationQuery.trim().length < 2) {
+      setContentSearchCaseIds(null);
+      return;
+    }
+    let cancelled = false;
+    const timeout = window.setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/chat/search?q=${encodeURIComponent(conversationQuery.trim())}`, {
+          headers: { Authorization: `Bearer ${authToken}` },
+          cache: 'no-store',
+        });
+        if (!res.ok) return;
+        const data = await res.json() as { caseIds?: string[] };
+        if (!cancelled) setContentSearchCaseIds(new Set(data.caseIds || []));
+      } catch {
+        if (!cancelled) setContentSearchCaseIds(new Set());
+      }
+    }, 250);
+    return () => { cancelled = true; window.clearTimeout(timeout); };
+  }, [conversationQuery, authToken]);
+
   const conversationCases = useMemo(() => cases.filter((c) => c.userName), [cases]);
   const counts = useMemo(() => ({
     inbox: conversationCases.filter((c) => !c.chatArchivedAt).length,
     unread: conversationCases.filter((c) => !c.chatArchivedAt && (unreadCounts[c.id] || 0) > 0).length,
+    assigned: conversationCases.filter((c) => !c.chatArchivedAt && !!c.chatAssignedTo).length,
+    waiting_user: conversationCases.filter((c) => !c.chatArchivedAt && c.chatState === 'waiting_user').length,
+    waiting_admin: conversationCases.filter((c) => !c.chatArchivedAt && c.chatState === 'waiting_admin').length,
     all: conversationCases.length,
     archived: conversationCases.filter((c) => !!c.chatArchivedAt).length,
   }), [conversationCases, unreadCounts]);
@@ -92,21 +205,29 @@ export function ConversationsTab() {
         const archived = !!c.chatArchivedAt;
         if (conversationFilter === 'inbox' && archived) return false;
         if (conversationFilter === 'unread' && (archived || (unreadCounts[c.id] || 0) === 0)) return false;
+        if (conversationFilter === 'assigned' && (archived || !c.chatAssignedTo)) return false;
+        if (conversationFilter === 'waiting_user' && (archived || c.chatState !== 'waiting_user')) return false;
+        if (conversationFilter === 'waiting_admin' && (archived || c.chatState !== 'waiting_admin')) return false;
         if (conversationFilter === 'archived' && !archived) return false;
+        if (tagFilter && !parseChatTags(c.chatTags).includes(tagFilter)) return false;
         if (!query) return true;
-        return [c.userName, c.userEmail, c.userMobile, c.accessCode, c.caseRef]
+        const localMatch = [c.userName, c.userEmail, c.userMobile, c.accessCode, c.caseRef]
           .some((value) => String(value ?? '').toLowerCase().includes(query));
+        return localMatch || !!contentSearchCaseIds?.has(c.id);
       })
       .sort((a, b) => {
+        const pinDelta = Number(!!b.chatPinned) - Number(!!a.chatPinned);
+        if (pinDelta !== 0) return pinDelta;
         const unreadDelta = (unreadCounts[b.id] || 0) - (unreadCounts[a.id] || 0);
         if (unreadDelta !== 0) return unreadDelta;
-        const aSeen = a.lastLoginAt ? new Date(a.lastLoginAt).getTime() : 0;
-        const bSeen = b.lastLoginAt ? new Date(b.lastLoginAt).getTime() : 0;
-        return bSeen - aSeen;
+        const aActivity = a.chatLastActivityAt || a.lastLoginAt;
+        const bActivity = b.chatLastActivityAt || b.lastLoginAt;
+        return (bActivity ? new Date(bActivity).getTime() : 0) - (aActivity ? new Date(aActivity).getTime() : 0);
       });
-  }, [conversationCases, conversationFilter, conversationQuery, unreadCounts]);
+  }, [conversationCases, conversationFilter, conversationQuery, contentSearchCaseIds, tagFilter, unreadCounts]);
 
   const canManageArchive = adminRole === 'admin' || adminRole === 'super_admin';
+  const canManageConversation = canManageArchive;
 
   useEffect(() => {
     if (!chatCase || !authToken) {
@@ -187,9 +308,63 @@ export function ConversationsTab() {
     }
   };
 
+  const updateConversation = async (updates: Record<string, unknown>) => {
+    if (!chatCase || !authToken || !canManageConversation || conversationBusy) return null;
+    setConversationBusy(true);
+    try {
+      const res = await fetch(`/api/cases/${chatCase.id}/conversation`, {
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const updated = await res.json();
+      setChatCase(updated);
+      void loadData(false);
+      return updated;
+    } catch {
+      toast({ variant: 'destructive', title: 'Conversation setting could not be saved' });
+      return null;
+    } finally {
+      setConversationBusy(false);
+    }
+  };
+
+  const togglePin = () => void updateConversation({ pinned: !chatCase?.chatPinned });
+  const toggleUrgentRepeat = () => void updateConversation({ urgentRepeat: !chatCase?.chatUrgentRepeat });
+  const muteForHour = () => void updateConversation({ mutedUntil: new Date(Date.now() + 60 * 60 * 1000).toISOString() });
+  const unmuteConversation = () => void updateConversation({ mutedUntil: null });
+  const saveAssignment = () => void updateConversation({ assignedTo: assignmentDraft.trim() || null, state: assignmentDraft.trim() ? 'assigned' : 'inbox' });
+  const toggleTag = (tag: string) => {
+    if (!chatCase) return;
+    const tags = parseChatTags(chatCase.chatTags);
+    void updateConversation({ tags: tags.includes(tag) ? tags.filter((item) => item !== tag) : [...tags, tag] });
+  };
+
+  const loadConversationSummary = async () => {
+    if (!chatCase || !authToken || summaryBusy) return;
+    setSummaryBusy(true);
+    try {
+      const res = await fetch('/api/ai/conversation-summary', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ caseId: chatCase.id }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setSummary(await res.json() as ConversationSummary);
+    } catch {
+      toast({ variant: 'destructive', title: 'Conversation summary unavailable', description: 'No message was sent and nothing on the case was changed.' });
+    } finally {
+      setSummaryBusy(false);
+    }
+  };
+
   const filterItems: Array<{ key: ConversationFilter; label: string; count: number; icon: typeof Inbox }> = [
     { key: 'inbox', label: 'Inbox', count: counts.inbox, icon: Inbox },
     { key: 'unread', label: 'Unread', count: counts.unread, icon: MessageSquareText },
+    { key: 'assigned', label: 'Assigned', count: counts.assigned, icon: UserCheck },
+    { key: 'waiting_admin', label: 'Waiting on admin', count: counts.waiting_admin, icon: BellRing },
+    { key: 'waiting_user', label: 'Waiting on user', count: counts.waiting_user, icon: Clock },
     { key: 'all', label: 'All chats', count: counts.all, icon: MessagesSquare },
     { key: 'archived', label: 'Archived', count: counts.archived, icon: Archive },
   ];
@@ -292,40 +467,44 @@ export function ConversationsTab() {
   });
 
   const sendCurrentMessage = async () => {
-    if (!pendingAttachment) {
+    if (!chatCase || !authToken || attachmentBusy || isSendingMessage) return;
+    if (!newMessage.trim() && !pendingAttachment) return;
+    if (!pendingAttachment && !internalNoteMode) {
       await sendChatMessage();
       return;
     }
-    if (!chatCase || !authToken || attachmentBusy) return;
+
     const caseId = chatCase.id;
     setAttachmentBusy(true);
     try {
-      const fileData = await readFileAsDataUrl(pendingAttachment);
+      let attachment: { fileName: string; mimeType: string; fileData: string } | undefined;
+      if (pendingAttachment) {
+        attachment = {
+          fileName: pendingAttachment.name,
+          mimeType: attachmentMimeType(pendingAttachment)!,
+          fileData: await readFileAsDataUrl(pendingAttachment),
+        };
+      }
       const res = await fetch(`/api/cases/${caseId}/messages`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
+        headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sender: 'admin',
           message: newMessage.trim(),
-          attachment: {
-            fileName: pendingAttachment.name,
-            mimeType: attachmentMimeType(pendingAttachment)!,
-            fileData,
-          },
+          internalNote: internalNoteMode,
+          ...(attachment ? { attachment } : {}),
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setNewMessage('');
       setPendingAttachment(null);
+      setInternalNoteMode(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
       if (activeCaseIdRef.current === caseId) await loadChatMessages(caseId);
     } catch {
       toast({
         variant: 'destructive',
-        title: 'Attachment could not be sent',
+        title: internalNoteMode ? 'Internal note could not be saved' : 'Message could not be sent',
         description: 'Your draft and selected file are still here. Please try again.',
       });
     } finally {
@@ -412,10 +591,22 @@ export function ConversationsTab() {
                   <Input
                     value={conversationQuery}
                     onChange={(e) => setConversationQuery(e.target.value)}
-                    placeholder="Find name, email, phone or code"
+                    placeholder="Search people, messages, files or code"
                     className="h-9 pl-9 bg-slate-900 border-slate-800 text-white text-xs placeholder:text-slate-600"
                     data-testid="conversation-search"
                   />
+                </div>
+                <div className="flex gap-1.5 overflow-x-auto pb-0.5" aria-label="Conversation tag filters">
+                  {KNOWN_TAGS.map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      onClick={() => setTagFilter((current) => current === tag ? null : tag)}
+                      className={`shrink-0 rounded-full border px-2 py-1 text-[10px] transition-colors ${tagFilter === tag ? 'border-blue-500/50 bg-blue-500/15 text-blue-300' : 'border-slate-800 text-slate-600 hover:text-slate-300'}`}
+                    >
+                      {tag}
+                    </button>
+                  ))}
                 </div>
               </CardHeader>
 
@@ -451,6 +642,7 @@ export function ConversationsTab() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
                               <p className="text-white font-medium text-sm truncate">{c.userName}</p>
+                              {c.chatPinned && <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400 shrink-0" aria-label="Pinned" />}
                               {archived && <Archive className="ml-auto w-3.5 h-3.5 text-slate-600 shrink-0" aria-label="Archived" />}
                               {unread > 0 && (
                                 <Badge className="ml-auto h-5 min-w-5 px-1.5 bg-red-500 text-white border-0 text-[10px] shrink-0">
@@ -459,9 +651,13 @@ export function ConversationsTab() {
                               )}
                             </div>
                             <p className="text-slate-500 text-[11px] truncate mt-0.5">{c.userEmail || c.userMobile || c.accessCode}</p>
+                            <div className="mt-1 flex flex-wrap gap-1">
+                              {c.chatState && c.chatState !== 'inbox' && <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[9px] text-slate-400">{c.chatState.replace('_', ' ')}</span>}
+                              {parseChatTags(c.chatTags).slice(0, 2).map((tag) => <span key={tag} className="rounded bg-blue-500/10 px-1.5 py-0.5 text-[9px] text-blue-400">{tag}</span>)}
+                            </div>
                             <div className="flex items-center justify-between gap-2 mt-1">
-                              <span className="text-[10px] font-mono text-slate-600 truncate">{c.accessCode}</span>
-                              {c.lastLoginAt && <span className="text-[10px] text-slate-700 shrink-0">{new Date(c.lastLoginAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>}
+                              <span className="text-[10px] font-mono text-slate-600 truncate">{c.chatAssignedTo ? `@${c.chatAssignedTo}` : c.accessCode}</span>
+                              {(c.chatLastActivityAt || c.lastLoginAt) && <span className="text-[10px] text-slate-700 shrink-0">{new Date(c.chatLastActivityAt || c.lastLoginAt!).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>}
                             </div>
                           </div>
                         </div>
@@ -499,28 +695,70 @@ export function ConversationsTab() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    {chatCase.chatArchivedAt && (
-                      <Badge variant="outline" className="border-slate-700 text-slate-400 text-[10px]">Archived</Badge>
+                    {chatCase.chatArchivedAt && <Badge variant="outline" className="border-slate-700 text-slate-400 text-[10px]">Archived</Badge>}
+                    <Badge variant="outline" className="text-slate-300 border-slate-700 font-mono text-[11px] shrink-0">{chatCase.accessCode}</Badge>
+                    {canManageConversation && (
+                      <>
+                        <Button type="button" variant="outline" size="sm" onClick={togglePin} disabled={conversationBusy}
+                          className={`h-8 w-8 p-0 border-slate-700 bg-slate-900 ${chatCase.chatPinned ? 'text-amber-400' : 'text-slate-400'} hover:text-amber-300`} title={chatCase.chatPinned ? 'Unpin conversation' : 'Pin conversation'}>
+                          <Star className={`w-4 h-4 ${chatCase.chatPinned ? 'fill-current' : ''}`} />
+                        </Button>
+                        <Button type="button" variant="outline" size="sm"
+                          onClick={() => chatCase.chatMutedUntil && new Date(chatCase.chatMutedUntil).getTime() > Date.now() ? unmuteConversation() : muteForHour()}
+                          disabled={conversationBusy} className="h-8 w-8 p-0 border-slate-700 bg-slate-900 text-slate-400 hover:text-white"
+                          title={chatCase.chatMutedUntil && new Date(chatCase.chatMutedUntil).getTime() > Date.now() ? 'Unmute conversation' : 'Mute conversation for 1 hour'}>
+                          {chatCase.chatMutedUntil && new Date(chatCase.chatMutedUntil).getTime() > Date.now() ? <BellOff className="w-4 h-4" /> : <BellRing className="w-4 h-4" />}
+                        </Button>
+                        <Button type="button" variant="outline" size="sm" onClick={toggleUrgentRepeat} disabled={conversationBusy}
+                          className={`h-8 w-8 p-0 border-slate-700 bg-slate-900 ${chatCase.chatUrgentRepeat ? 'text-red-400' : 'text-slate-400'}`}
+                          title="Repeat alert every 12 seconds until urgent unread messages are opened">
+                          <BellRing className="w-4 h-4" />
+                        </Button>
+                      </>
                     )}
-                    <Badge variant="outline" className="text-slate-300 border-slate-700 font-mono text-[11px] shrink-0">
-                      {chatCase.accessCode}
-                    </Badge>
                     {canManageArchive && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={toggleArchive}
-                        disabled={archiveBusy}
+                      <Button type="button" variant="outline" size="sm" onClick={toggleArchive} disabled={archiveBusy}
                         className="h-8 w-8 p-0 border-slate-700 bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800"
-                        title={chatCase.chatArchivedAt ? 'Restore conversation to inbox' : 'Archive conversation'}
-                        aria-label={chatCase.chatArchivedAt ? 'Restore conversation to inbox' : 'Archive conversation'}
-                        data-testid="button-toggle-chat-archive"
-                      >
+                        title={chatCase.chatArchivedAt ? 'Restore conversation to inbox' : 'Archive conversation'} aria-label={chatCase.chatArchivedAt ? 'Restore conversation to inbox' : 'Archive conversation'} data-testid="button-toggle-chat-archive">
                         {chatCase.chatArchivedAt ? <ArchiveRestore className="w-4 h-4" /> : <Archive className="w-4 h-4" />}
                       </Button>
                     )}
                   </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/35 p-2">
+                  <select
+                    value={chatCase.chatState || 'inbox'}
+                    onChange={(event) => void updateConversation({ state: event.target.value })}
+                    disabled={!canManageConversation || conversationBusy}
+                    className="h-8 rounded-lg border border-slate-700 bg-slate-950 px-2 text-[11px] text-slate-300 outline-none"
+                    aria-label="Conversation state"
+                  >
+                    <option value="inbox">Inbox</option>
+                    <option value="assigned">Assigned</option>
+                    <option value="waiting_admin">Waiting on admin</option>
+                    <option value="waiting_user">Waiting on user</option>
+                  </select>
+                  <div className="flex items-center gap-1">
+                    <Input value={assignmentDraft} onChange={(event) => setAssignmentDraft(event.target.value)} disabled={!canManageConversation}
+                      placeholder="Assign admin" className="h-8 w-32 border-slate-700 bg-slate-950 text-[11px]" />
+                    <Button type="button" variant="outline" size="sm" onClick={saveAssignment} disabled={!canManageConversation || conversationBusy}
+                      className="h-8 border-slate-700 bg-slate-950 px-2 text-[10px] text-slate-400">Assign</Button>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {KNOWN_TAGS.map((tag) => {
+                      const active = parseChatTags(chatCase.chatTags).includes(tag);
+                      return <button key={tag} type="button" onClick={() => toggleTag(tag)} disabled={!canManageConversation || conversationBusy}
+                        className={`rounded-full border px-2 py-1 text-[9px] ${active ? 'border-blue-500/40 bg-blue-500/15 text-blue-300' : 'border-slate-800 text-slate-600 hover:text-slate-300'}`}>{tag}</button>;
+                    })}
+                  </div>
+                  <label className="ml-auto flex items-center gap-2 text-[10px] text-slate-500" title="Message notification volume">
+                    <Volume2 className="h-3.5 w-3.5" />
+                    <input type="range" min="0" max="100" value={Math.round(notificationPrefs.volume * 100)}
+                      onChange={(event) => setNotificationPrefs({ ...notificationPrefs, volume: Number(event.target.value) / 100 })}
+                      className="w-20 accent-blue-500" />
+                    {Math.round(notificationPrefs.volume * 100)}%
+                  </label>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 text-xs">
@@ -549,6 +787,27 @@ export function ConversationsTab() {
                     <div className="text-slate-200 break-words capitalize">{chatCase.status}{chatCase.vipStatus ? ` · ${chatCase.vipStatus}` : ''}</div>
                   </div>
                 </div>
+                <div className="xl:ml-auto xl:w-[380px] rounded-xl border border-slate-800 bg-slate-900/45 p-3 text-xs">
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 font-medium text-slate-200"><Sparkles className="h-3.5 w-3.5 text-violet-400" /> Conversation summary</div>
+                    <Button type="button" variant="outline" size="sm" onClick={() => void loadConversationSummary()} disabled={summaryBusy}
+                      className="h-7 border-slate-700 bg-slate-950 px-2 text-[10px] text-slate-400">
+                      {summaryBusy ? 'Summarizing...' : summary ? 'Refresh' : 'Summarize'}
+                    </Button>
+                  </div>
+                  {summary ? (
+                    <div className="space-y-2 text-[11px]">
+                      <div><span className="text-slate-500">Latest issue</span><p className="mt-0.5 text-slate-300">{summary.latestIssue}</p></div>
+                      <div><span className="text-slate-500">Most recent question</span><p className="mt-0.5 text-slate-300">{summary.mostRecentUserQuestion}</p></div>
+                      <div><span className="text-slate-500">Documents still required</span><p className="mt-0.5 text-slate-300">{summary.documentsStillRequired.length ? summary.documentsStillRequired.join(', ') : 'None listed'}</p></div>
+                      <div><span className="text-slate-500">Unresolved requests</span><p className="mt-0.5 text-slate-300">{summary.unresolvedRequests.length ? summary.unresolvedRequests.join(' ? ') : 'None identified'}</p></div>
+                      <div><span className="text-slate-500">Last admin response</span><p className="mt-0.5 text-slate-300">{summary.lastAdminResponse}</p></div>
+                      <div className="flex items-center gap-1.5 text-slate-500"><Clock3 className="h-3 w-3" /> Conversation age: <span className="text-slate-300">{summary.conversationAge}</span></div>
+                    </div>
+                  ) : (
+                    <p className="text-[11px] leading-relaxed text-slate-500">AI only summarizes. It never sends, changes the case, or makes a decision.</p>
+                  )}
+                </div>
               </CardHeader>
 
               <div
@@ -568,12 +827,15 @@ export function ConversationsTab() {
                 ) : (
                   chatMessages.map((msg) => {
                     const isAdmin = msg.sender === 'admin';
+                    const isInternal = !!msg.isInternal;
                     const renderedMessage = decodeMessageText(msg.message);
+                    const deliveryLabel = isInternal ? 'Internal note' : isAdmin ? (msg.readAt ? 'Read' : msg.deliveredAt ? 'Delivered' : 'Sent') : '';
                     return (
-                      <div key={msg.id} className={`flex ${isAdmin ? 'justify-end' : 'justify-start'}`}>
+                      <div key={msg.id} className={`flex ${isInternal ? 'justify-center' : isAdmin ? 'justify-end' : 'justify-start'}`}>
+
                         <div
-                          className={`max-w-[88%] sm:max-w-[78%] px-4 py-2.5 rounded-2xl ${isAdmin ? 'rounded-br-md text-white' : 'rounded-bl-md text-slate-100'}`}
-                          style={isAdmin ? {
+                          className={`max-w-[88%] sm:max-w-[78%] px-4 py-2.5 rounded-2xl ${isInternal ? 'border border-amber-500/30 bg-amber-500/10 text-amber-100' : isAdmin ? 'rounded-br-md text-white' : 'rounded-bl-md text-slate-100'}`}
+                          style={isInternal ? undefined : isAdmin ? {
                             background: 'linear-gradient(135deg, #004182 0%, #0a3a8c 100%)',
                             boxShadow: '0 4px 12px rgba(0,65,130,0.35), inset 0 1px 0 rgba(255,255,255,0.12)',
                           } : {
@@ -583,29 +845,24 @@ export function ConversationsTab() {
                             backdropFilter: 'blur(8px)',
                           }}
                         >
+                          {isInternal && <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-amber-400"><Lock className="h-3 w-3" /> Internal note — user cannot see this</div>}
                           {renderedMessage && (
                             <p className="text-sm whitespace-pre-wrap break-words [overflow-wrap:anywhere] leading-relaxed select-text">{renderedMessage}</p>
                           )}
                           {msg.attachment && (
-                            <button
-                              type="button"
-                              onClick={() => downloadAttachment(msg.id, msg.attachment!)}
-                              className={`mt-2 flex w-full min-w-[180px] items-center gap-2 rounded-xl border px-3 py-2 text-left transition-colors ${isAdmin ? 'border-blue-300/20 bg-black/10 hover:bg-black/20' : 'border-slate-700 bg-slate-900/50 hover:bg-slate-900'}`}
-                              title={`Download ${msg.attachment.fileName}`}
-                            >
-                              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                                {msg.attachment.mimeType.startsWith('image/') ? <Paperclip className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-xs font-medium truncate">{msg.attachment.fileName}</p>
-                                <p className={`text-[10px] ${isAdmin ? 'text-blue-200/60' : 'text-slate-500'}`}>{formatBytes(msg.attachment.byteSize)}</p>
-                              </div>
-                              <Download className="w-3.5 h-3.5 opacity-60 shrink-0" />
-                            </button>
+                            <ChatAttachmentDisplay
+                              caseId={chatCase.id}
+                              messageId={msg.id}
+                              attachment={msg.attachment}
+                              authToken={authToken}
+                              isAdmin={isAdmin || isInternal}
+                              onDownload={() => downloadAttachment(msg.id, msg.attachment!)}
+                            />
                           )}
-                          <p className={`text-[10px] mt-1.5 font-medium ${isAdmin ? 'text-blue-200/80' : 'text-slate-500'}`}>
-                            {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </p>
+                          <div className={`mt-1.5 flex items-center gap-1.5 text-[10px] font-medium ${isInternal ? 'text-amber-400/80' : isAdmin ? 'text-blue-200/80' : 'text-slate-500'}`}>
+                            <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            {deliveryLabel && <span className="inline-flex items-center gap-1">? {msg.readAt ? <CheckCheck className="h-3 w-3" /> : <Check className="h-3 w-3" />}{deliveryLabel}</span>}
+                          </div>
                         </div>
                       </div>
                     );
@@ -651,6 +908,16 @@ export function ConversationsTab() {
                     </div>
                   )}
                   <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setInternalNoteMode((value) => !value)}
+                      className={`h-7 shrink-0 ${internalNoteMode ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-slate-700 bg-slate-900 text-slate-400'}`}
+                      data-testid="button-internal-note-mode"
+                    >
+                      <Lock className="w-3.5 h-3.5 mr-1.5" /> Internal note
+                    </Button>
                     <Button
                       type="button"
                       variant="outline"
@@ -702,7 +969,7 @@ export function ConversationsTab() {
                     <Paperclip className="w-4 h-4" />
                   </Button>
                   <Textarea
-                    placeholder="Type your message..."
+                    placeholder={internalNoteMode ? "Write an internal note (user cannot see this)..." : "Type your message..."}
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyDown={(e) => {
@@ -713,7 +980,7 @@ export function ConversationsTab() {
                     }}
                     disabled={isSendingMessage}
                     rows={1}
-                    className="flex-1 min-h-10 max-h-32 resize-none bg-slate-900 border-slate-700 text-white focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/30 transition-all"
+                    className={`flex-1 min-h-10 max-h-32 resize-none bg-slate-900 text-white transition-all ${internalNoteMode ? 'border-amber-500/40 focus:border-amber-400/60 focus:ring-1 focus:ring-amber-400/20' : 'border-slate-700 focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/30'}`}
                     data-testid="input-admin-chat"
                   />
                   <Button

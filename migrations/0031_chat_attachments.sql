@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "chat_attachments" (
   "file_name" text NOT NULL,
   "mime_type" text NOT NULL,
   "byte_size" integer NOT NULL,
-  "file_data" text NOT NULL,
+  "storage_key" text NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT now()
 );
 

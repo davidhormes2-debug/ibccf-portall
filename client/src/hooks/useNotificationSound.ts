@@ -125,9 +125,15 @@ export async function playNotificationSound(
       // MESSAGE — two-note ascending chime (existing feel, louder).
       // ──────────────────────────────────────────────
       case 'message': {
-        scheduleBeep(ctx, compressor,  880, t,           DUR,   G, 'sine');
-        scheduleBeep(ctx, compressor, 1047, t + DUR + GAP, DUR * 1.4, G, 'sine');
-        totalDuration = DUR + GAP + DUR * 1.4;
+        // Distinctive longer support-chat chime: two bright notes, a short
+        // pause, then a resolving third note. Long enough to notice from
+        // across the room without sounding like the receipt/visitor alarms.
+        const M = 0.24;
+        const MG = 0.09;
+        scheduleBeep(ctx, compressor,  784, t,                    M,       G * 0.95, 'sine');
+        scheduleBeep(ctx, compressor, 1047, t + M + MG,           M * 1.2, G,        'sine');
+        scheduleBeep(ctx, compressor, 1319, t + (M + MG) * 2.15, M * 2.0, G * 1.05, 'triangle');
+        totalDuration = (M + MG) * 2.15 + M * 2.0;
         break;
       }
 

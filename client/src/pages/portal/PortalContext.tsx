@@ -285,6 +285,9 @@ export interface ChatMessage {
   sender: 'admin' | 'user';
   message: string;
   isRead: string;
+  isInternal?: boolean;
+  deliveredAt?: string | null;
+  readAt?: string | null;
   createdAt: string;
   attachment?: {
     id: number;

@@ -76,7 +76,7 @@ function extractBearer(authHeader: string | undefined): string | null {
  * Legacy single-admin installs are unaffected: the env-var admin always
  * resolves to super_admin regardless of admin_users table content.
  */
-async function getValidAdminSession(
+export async function getValidAdminSession(
   authHeader: string | undefined,
 ): Promise<AdminSession | null> {
   const token = extractBearer(authHeader);

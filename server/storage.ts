@@ -139,12 +139,16 @@ export interface IStorage {
   
   // Chat message operations
   createChatMessage(data: InsertChatMessage, executor?: DbExecutor): Promise<ChatMessage>;
-  getChatMessagesByCaseId(caseId: string): Promise<ChatMessage[]>;
+  getChatMessagesByCaseId(caseId: string, options?: { includeInternal?: boolean }): Promise<ChatMessage[]>;
+  getChatMessageById(id: number): Promise<ChatMessage | undefined>;
   createChatAttachment(data: InsertChatAttachment, executor?: DbExecutor): Promise<ChatAttachment>;
   getChatAttachmentsByMessageIds(messageIds: number[]): Promise<ChatAttachment[]>;
   getChatAttachmentById(id: number): Promise<ChatAttachment | undefined>;
+  markMessagesAsDelivered(caseId: string, sender: string): Promise<void>;
   markMessagesAsRead(caseId: string, sender: string): Promise<void>;
   getUnreadCount(caseId: string, sender: string): Promise<number>;
+  getUnreadCountsBySender(sender: string): Promise<Record<string, number>>;
+  searchChatCaseIds(query: string): Promise<string[]>;
   
   // Admin message operations
   createAdminMessage(data: InsertAdminMessage): Promise<AdminMessage>;
@@ -907,12 +911,24 @@ export class DatabaseStorage implements IStorage {
     return message;
   }
 
-  async getChatMessagesByCaseId(caseId: string): Promise<ChatMessage[]> {
+  async getChatMessagesByCaseId(caseId: string, options?: { includeInternal?: boolean }): Promise<ChatMessage[]> {
+    const condition = options?.includeInternal
+      ? eq(chatMessages.caseId, caseId)
+      : and(eq(chatMessages.caseId, caseId), eq(chatMessages.isInternal, false));
     return await db
       .select()
       .from(chatMessages)
-      .where(eq(chatMessages.caseId, caseId))
+      .where(condition)
       .orderBy(chatMessages.createdAt);
+  }
+
+  async getChatMessageById(id: number): Promise<ChatMessage | undefined> {
+    const [message] = await db
+      .select()
+      .from(chatMessages)
+      .where(eq(chatMessages.id, id))
+      .limit(1);
+    return message;
   }
 
   async createChatAttachment(data: InsertChatAttachment, executor: DbExecutor = db): Promise<ChatAttachment> {
@@ -938,11 +954,19 @@ export class DatabaseStorage implements IStorage {
     return attachment;
   }
 
-  async markMessagesAsRead(caseId: string, sender: string): Promise<void> {
+  async markMessagesAsDelivered(caseId: string, sender: string): Promise<void> {
     await db
       .update(chatMessages)
-      .set({ isRead: 'true' })
-      .where(and(eq(chatMessages.caseId, caseId), eq(chatMessages.sender, sender)));
+      .set({ deliveredAt: new Date() })
+      .where(and(eq(chatMessages.caseId, caseId), eq(chatMessages.sender, sender), eq(chatMessages.isInternal, false), isNull(chatMessages.deliveredAt)));
+  }
+
+  async markMessagesAsRead(caseId: string, sender: string): Promise<void> {
+    const now = new Date();
+    await db
+      .update(chatMessages)
+      .set({ isRead: 'true', deliveredAt: now, readAt: now })
+      .where(and(eq(chatMessages.caseId, caseId), eq(chatMessages.sender, sender), eq(chatMessages.isInternal, false)));
   }
 
   async getUnreadCount(caseId: string, sender: string): Promise<number> {
@@ -955,6 +979,30 @@ export class DatabaseStorage implements IStorage {
         eq(chatMessages.isRead, 'false')
       ));
     return messages.length;
+  }
+
+  async getUnreadCountsBySender(sender: string): Promise<Record<string, number>> {
+    const rows = await db
+      .select({ caseId: chatMessages.caseId, total: count() })
+      .from(chatMessages)
+      .where(and(eq(chatMessages.sender, sender), eq(chatMessages.isRead, 'false'), eq(chatMessages.isInternal, false)))
+      .groupBy(chatMessages.caseId);
+    return Object.fromEntries(rows.map((row) => [row.caseId, Number(row.total)]));
+  }
+
+  async searchChatCaseIds(query: string): Promise<string[]> {
+    const pattern = `%${query}%`;
+    const [messageRows, attachmentRows] = await Promise.all([
+      db.selectDistinct({ caseId: chatMessages.caseId })
+        .from(chatMessages)
+        .where(and(eq(chatMessages.isInternal, false), ilike(chatMessages.message, pattern)))
+        .limit(200),
+      db.selectDistinct({ caseId: chatAttachments.caseId })
+        .from(chatAttachments)
+        .where(ilike(chatAttachments.fileName, pattern))
+        .limit(200),
+    ]);
+    return Array.from(new Set([...messageRows, ...attachmentRows].map((row) => row.caseId)));
   }
 
   // Admin message operations

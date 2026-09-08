@@ -414,8 +414,14 @@ export const cases = pgTable("cases", {
   stageSkipReason: text("stage_skip_reason"),
   stageSkipStatus: text("stage_skip_status"),
 
-  // Admin chat-session state. Archiving hides the conversation from the
-  // default inbox without deleting any messages or case history.
+  // Admin chat-session state. These fields drive the support-style inbox.
+  chatState: text("chat_state").notNull().default('inbox'),
+  chatPinned: boolean("chat_pinned").notNull().default(false),
+  chatTags: text("chat_tags").notNull().default('[]'),
+  chatAssignedTo: text("chat_assigned_to"),
+  chatMutedUntil: timestamp("chat_muted_until"),
+  chatUrgentRepeat: boolean("chat_urgent_repeat").notNull().default(false),
+  chatLastActivityAt: timestamp("chat_last_activity_at"),
   chatArchivedAt: timestamp("chat_archived_at"),
   chatArchivedBy: text("chat_archived_by"),
 
@@ -443,6 +449,8 @@ export const cases = pgTable("cases", {
     "cases_case_ref_unique_idx",
   ).on(t.caseRef),
   chatArchivedAtIdx: index("cases_chat_archived_at_idx").on(t.chatArchivedAt),
+  chatStateIdx: index("cases_chat_state_idx").on(t.chatState),
+  chatPinnedIdx: index("cases_chat_pinned_idx").on(t.chatPinned),
 }));
 
 export const insertCaseSchema = createInsertSchema(cases).omit({
@@ -753,6 +761,9 @@ export const chatMessages = pgTable("chat_messages", {
   sender: text("sender").notNull(), // 'admin' or 'user'
   message: text("message").notNull(),
   isRead: text("is_read").default('false'),
+  isInternal: boolean("is_internal").notNull().default(false),
+  deliveredAt: timestamp("delivered_at"),
+  readAt: timestamp("read_at"),
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
 });
 
@@ -773,7 +784,7 @@ export const chatAttachments = pgTable("chat_attachments", {
   fileName: text("file_name").notNull(),
   mimeType: text("mime_type").notNull(),
   byteSize: integer("byte_size").notNull(),
-  fileData: text("file_data").notNull(),
+  storageKey: text("storage_key").notNull(),
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
 }, (t) => ({
   messageIdx: index("chat_attachments_message_id_idx").on(t.messageId),

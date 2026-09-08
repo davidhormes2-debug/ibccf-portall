@@ -1,11 +1,12 @@
-import { Router } from "express";
+import { Router, type Request } from "express";
 import { storage } from "../storage";
 import { z } from "zod";
-import { checkAdminAuth, isValidAdminToken } from "./middleware";
+import { checkAdminAuth, getValidAdminSession, isValidAdminToken } from "./middleware";
 import { requirePortalAccess, requireUnsealed, validatePortalSession } from "../services/portal-auth";
 import { notificationService } from "../services/NotificationService";
 import { warnOnce } from "../lib/warnOnce";
-import { requireAdminRole } from "./adminPermissions";
+import { requireAdminRole, resolveAdminRoleFromUsername, roleAtLeast } from "./adminPermissions";
+import { deleteChatAttachment, persistChatAttachment, readChatAttachment } from "../services/chatAttachmentStore";
 
 export const messagesRouter = Router();
 
@@ -25,7 +26,7 @@ const CHAT_ATTACHMENT_MIME_TYPES = new Set([
 
 type ChatAttachmentInput = { fileName: string; mimeType: string; fileData: string };
 
-function validateChatAttachment(input: ChatAttachmentInput): { base64: string; byteSize: number } {
+function validateChatAttachment(input: ChatAttachmentInput): { bytes: Buffer; byteSize: number } {
   const mimeType = input.mimeType.toLowerCase();
   if (!CHAT_ATTACHMENT_MIME_TYPES.has(mimeType)) {
     throw new Error('Unsupported attachment type');
@@ -39,7 +40,7 @@ function validateChatAttachment(input: ChatAttachmentInput): { base64: string; b
   if (buffer.length === 0 || buffer.length > CHAT_ATTACHMENT_MAX_BYTES) {
     throw new Error('Attachment size invalid');
   }
-  return { base64, byteSize: buffer.length };
+  return { bytes: buffer, byteSize: buffer.length };
 }
 
 function attachmentMetadata(attachment: { id: number; fileName: string; mimeType: string; byteSize: number }) {
@@ -55,19 +56,29 @@ const TYPING_TTL_MS = 4500;
 const typingPresence = new Map<string, number>();
 const typingKey = (caseId: string, sender: 'admin' | 'user') => `${caseId}:${sender}`;
 
-messagesRouter.get("/unread/all", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
+async function resolveAdminActor(req: Request) {
+  const session = await getValidAdminSession(req.headers.authorization);
+  if (!session) return null;
+  return {
+    username: session.adminUsername,
+    role: await resolveAdminRoleFromUsername(session.adminUsername),
+  };
+}
+
+messagesRouter.get("/search", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
-    const cases = await storage.getAllCases();
-    const unreadCounts: Record<string, number> = {};
-    
-    for (const caseItem of cases) {
-      const count = await storage.getUnreadCount(caseItem.id, 'admin');
-      if (count > 0) {
-        unreadCounts[caseItem.id] = count;
-      }
-    }
-    
-    res.json(unreadCounts);
+    const query = z.string().trim().min(2).max(120).parse(req.query.q);
+    const caseIds = await storage.searchChatCaseIds(query);
+    res.json({ caseIds });
+  } catch (error) {
+    if (error instanceof z.ZodError) res.status(400).json({ error: "Search query must be at least 2 characters" });
+    else res.status(500).json({ error: "Failed to search conversations" });
+  }
+});
+
+messagesRouter.get("/unread/all", checkAdminAuth, requireAdminRole("agent"), async (_req, res) => {
+  try {
+    res.json(await storage.getUnreadCountsBySender('user'));
   } catch (_e) {
     res.status(500).json({ error: "Failed to get unread counts" });
   }
@@ -113,7 +124,12 @@ messagesRouter.post("/:id/read", async (req, res) => {
       return;
     }
 
-    if (await isValidAdminToken(req.headers.authorization)) {
+    const adminActor = await resolveAdminActor(req);
+    if (adminActor) {
+      if (!roleAtLeast(adminActor.role, 'agent')) {
+        res.status(403).json({ error: "Read-only case officers cannot change message state" });
+        return;
+      }
       await storage.markAdminMessageAsRead(messageId);
       res.json({ success: true });
       return;
@@ -146,6 +162,39 @@ messagesRouter.post("/:id/read", async (req, res) => {
 });
 
 export function registerCaseMessageRoutes(router: Router) {
+  router.patch("/:id/conversation", checkAdminAuth, requireAdminRole("admin"), async (req, res) => {
+    try {
+      const input = z.object({
+        state: z.enum(['inbox', 'assigned', 'waiting_user', 'waiting_admin']).optional(),
+        pinned: z.boolean().optional(),
+        tags: z.array(z.string().trim().min(1).max(32)).max(12).optional(),
+        assignedTo: z.string().trim().max(120).nullable().optional(),
+        mutedUntil: z.string().datetime().nullable().optional(),
+        urgentRepeat: z.boolean().optional(),
+      }).parse(req.body);
+      const updates: Record<string, unknown> = {};
+      if (input.state !== undefined) updates.chatState = input.state;
+      if (input.pinned !== undefined) updates.chatPinned = input.pinned;
+      if (input.tags !== undefined) updates.chatTags = JSON.stringify(Array.from(new Set(input.tags)));
+      if (input.assignedTo !== undefined) updates.chatAssignedTo = input.assignedTo || null;
+      if (input.mutedUntil !== undefined) updates.chatMutedUntil = input.mutedUntil ? new Date(input.mutedUntil) : null;
+      if (input.urgentRepeat !== undefined) updates.chatUrgentRepeat = input.urgentRepeat;
+      const updated = await storage.updateCase(req.params.id, updates);
+      if (!updated) return res.status(404).json({ error: "Case not found" });
+      await storage.createAuditLog({
+        action: "conversation_settings_updated",
+        adminUsername: req.adminUsername || "Admin",
+        targetType: "case",
+        targetId: req.params.id,
+        newValue: JSON.stringify(input),
+      }).catch(() => {});
+      res.json(updated);
+    } catch (error) {
+      if (error instanceof z.ZodError) res.status(400).json({ error: "Invalid conversation settings" });
+      else res.status(500).json({ error: "Failed to update conversation" });
+    }
+  });
+
   // Archive is a non-destructive admin-only inbox action. It never deletes
   // messages or case data; it only moves a session out of the default inbox.
   router.post("/:id/conversation/archive", checkAdminAuth, requireAdminRole("admin"), async (req, res) => {
@@ -207,7 +256,12 @@ export function registerCaseMessageRoutes(router: Router) {
         sender: z.enum(['admin', 'user']),
         isTyping: z.boolean(),
       }).parse(req.body);
-      const callerIsAdmin = await isValidAdminToken(req.headers.authorization);
+      const adminActor = await resolveAdminActor(req);
+      const callerIsAdmin = !!adminActor;
+      if (callerIsAdmin && !roleAtLeast(adminActor.role, 'agent')) {
+        res.status(403).json({ error: "Read-only case officers cannot publish typing state" });
+        return;
+      }
       if (callerIsAdmin !== (input.sender === 'admin')) {
         res.status(403).json({ error: "Typing sender does not match authenticated actor" });
         return;
@@ -235,7 +289,15 @@ export function registerCaseMessageRoutes(router: Router) {
 
   router.get("/:id/messages", requirePortalAccess, async (req, res) => {
     try {
-      const messages = await storage.getChatMessagesByCaseId(req.params.id);
+      const adminActor = await resolveAdminActor(req);
+      const callerIsAdmin = !!adminActor;
+      const writableAdmin = !!adminActor && roleAtLeast(adminActor.role, 'agent');
+      // A read-only case officer may inspect the conversation, but viewing it
+      // must not mutate delivery state or expose admin-only internal notes.
+      if (!callerIsAdmin || writableAdmin) {
+        await storage.markMessagesAsDelivered(req.params.id, callerIsAdmin ? 'user' : 'admin');
+      }
+      const messages = await storage.getChatMessagesByCaseId(req.params.id, { includeInternal: writableAdmin });
       const attachments = await storage.getChatAttachmentsByMessageIds(messages.map((message) => message.id));
       const attachmentByMessageId = new Map(attachments.map((attachment) => [attachment.messageId, attachment]));
       res.json(messages.map((message) => {
@@ -255,6 +317,7 @@ export function registerCaseMessageRoutes(router: Router) {
       const messageInput = z.object({
         sender: z.enum(['admin', 'user']),
         message: z.string().max(4000).optional().default(''),
+        internalNote: z.boolean().optional().default(false),
         attachment: z.object({
           fileName: z.string().trim().min(1).max(255),
           mimeType: z.string().trim().min(1).max(150),
@@ -264,7 +327,12 @@ export function registerCaseMessageRoutes(router: Router) {
         message: 'Message or attachment required',
       }).parse(req.body);
 
-      const callerIsAdmin = await isValidAdminToken(req.headers.authorization);
+      const adminActor = await resolveAdminActor(req);
+      const callerIsAdmin = !!adminActor;
+      if (callerIsAdmin && !roleAtLeast(adminActor.role, 'agent')) {
+        res.status(403).json({ error: "Read-only case officers cannot send messages or internal notes" });
+        return;
+      }
 
       // Admin tokens must use sender:'admin'; they cannot forge user-originated messages.
       if (callerIsAdmin && messageInput.sender === 'user') {
@@ -278,38 +346,73 @@ export function registerCaseMessageRoutes(router: Router) {
         return;
       }
 
+      if (messageInput.internalNote && !callerIsAdmin) {
+        res.status(403).json({ error: "Internal notes are admin-only" });
+        return;
+      }
+
       const parsedAttachment = messageInput.attachment
         ? validateChatAttachment(messageInput.attachment)
         : null;
 
-      const created = await storage.runInTransaction(async (tx) => {
-        const message = await storage.createChatMessage({
+      let storageKey: string | null = null;
+      if (messageInput.attachment && parsedAttachment) {
+        storageKey = await persistChatAttachment({
           caseId: req.params.id,
-          sender: messageInput.sender,
-          message: messageInput.message.trim(),
-          isRead: 'false',
-        }, tx);
-        const attachment = messageInput.attachment && parsedAttachment
-          ? await storage.createChatAttachment({
-              messageId: message.id,
-              caseId: req.params.id,
-              fileName: messageInput.attachment.fileName,
-              mimeType: messageInput.attachment.mimeType.toLowerCase(),
-              byteSize: parsedAttachment.byteSize,
-              fileData: parsedAttachment.base64,
-            }, tx)
-          : null;
-        return { message, attachment };
-      });
+          fileName: messageInput.attachment.fileName,
+          bytes: parsedAttachment.bytes,
+        });
+      }
+
+      let created: { message: Awaited<ReturnType<typeof storage.createChatMessage>>; attachment: Awaited<ReturnType<typeof storage.createChatAttachment>> | null };
+      try {
+        created = await storage.runInTransaction(async (tx) => {
+          const message = await storage.createChatMessage({
+            caseId: req.params.id,
+            sender: messageInput.sender,
+            message: messageInput.message.trim(),
+            isRead: messageInput.internalNote ? 'true' : 'false',
+            isInternal: messageInput.internalNote,
+            readAt: messageInput.internalNote ? new Date() : null,
+            deliveredAt: messageInput.internalNote ? new Date() : null,
+          }, tx);
+          const attachment = messageInput.attachment && parsedAttachment && storageKey
+            ? await storage.createChatAttachment({
+                messageId: message.id,
+                caseId: req.params.id,
+                fileName: messageInput.attachment.fileName,
+                mimeType: messageInput.attachment.mimeType.toLowerCase(),
+                byteSize: parsedAttachment.byteSize,
+                storageKey,
+              }, tx)
+            : null;
+          return { message, attachment };
+        });
+      } catch (error) {
+        if (storageKey) await deleteChatAttachment(storageKey);
+        throw error;
+      }
       const message = created.message;
+
+      if (!messageInput.internalNote) {
+        const now = new Date();
+        if (messageInput.sender === 'user') {
+          await storage.updateCase(req.params.id, {
+            chatState: 'waiting_admin',
+            chatLastActivityAt: now,
+            chatArchivedAt: null,
+            chatArchivedBy: null,
+          });
+        } else {
+          await storage.updateCase(req.params.id, {
+            chatState: 'waiting_user',
+            chatLastActivityAt: now,
+          });
+        }
+      }
       
       if (messageInput.sender === 'user') {
         const caseData = await storage.getCaseById(req.params.id);
-        // A fresh user message automatically restores an archived session so
-        // new customer activity can never remain hidden in the archive.
-        if (caseData?.chatArchivedAt) {
-          await storage.updateCase(req.params.id, { chatArchivedAt: null, chatArchivedBy: null });
-        }
         await notificationService.notifyAdmin(
           'new_message',
           `New message from ${caseData?.userName || 'User'}`,
@@ -385,17 +488,32 @@ export function registerCaseMessageRoutes(router: Router) {
         res.status(400).json({ error: "Invalid attachment id" });
         return;
       }
-      const attachment = await storage.getChatAttachmentById(attachmentId);
-      if (!attachment || attachment.caseId !== req.params.id || attachment.messageId !== messageId) {
+      const [attachment, message, adminActor] = await Promise.all([
+        storage.getChatAttachmentById(attachmentId),
+        storage.getChatMessageById(messageId),
+        resolveAdminActor(req),
+      ]);
+      if (
+        !attachment || !message ||
+        attachment.caseId !== req.params.id || attachment.messageId !== messageId ||
+        message.caseId !== req.params.id
+      ) {
+        res.status(404).json({ error: "Attachment not found" });
+        return;
+      }
+      if (message.isInternal && (!adminActor || !roleAtLeast(adminActor.role, 'agent'))) {
+        // Hide the existence of internal-note attachments from portal users
+        // and read-only case officers, even if an attachment id is guessed.
         res.status(404).json({ error: "Attachment not found" });
         return;
       }
       const safeName = attachment.fileName.replace(/[\r\n"]/g, '_');
+      const bytes = await readChatAttachment(attachment.storageKey);
       res.setHeader('Content-Type', attachment.mimeType);
-      res.setHeader('Content-Length', String(attachment.byteSize));
+      res.setHeader('Content-Length', String(bytes.length));
       res.setHeader('Content-Disposition', `inline; filename="${safeName}"`);
       res.setHeader('Cache-Control', 'private, no-store');
-      res.send(Buffer.from(attachment.fileData, 'base64'));
+      res.send(bytes);
     } catch (_e) {
       res.status(500).json({ error: "Failed to download attachment" });
     }
@@ -406,6 +524,20 @@ export function registerCaseMessageRoutes(router: Router) {
       const { sender } = req.body;
       if (!sender || !['admin', 'user'].includes(sender)) {
         res.status(400).json({ error: "Invalid sender" });
+        return;
+      }
+      const adminActor = await resolveAdminActor(req);
+      const callerIsAdmin = !!adminActor;
+      if (callerIsAdmin && !roleAtLeast(adminActor.role, 'agent')) {
+        res.status(403).json({ error: "Read-only case officers cannot change read state" });
+        return;
+      }
+      if (callerIsAdmin && sender !== 'user') {
+        res.status(403).json({ error: "Admin may only mark user messages as read" });
+        return;
+      }
+      if (!callerIsAdmin && sender !== 'admin') {
+        res.status(403).json({ error: "Portal user may only mark admin messages as read" });
         return;
       }
       await storage.markMessagesAsRead(req.params.id, sender);

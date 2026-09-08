@@ -4,6 +4,7 @@ import {
   generateChatResponse, 
   generateSmartReplySuggestions,
   rewriteAdminReply,
+  generateConversationSummary,
   classifyMessageIntent,
   analyzeCaseWithAI,
   generateCaseInsights,
@@ -139,6 +140,34 @@ aiRouter.post("/suggestions", checkAdminAuth, async (req, res) => {
     } else {
       warnOnce("ai:suggestions", "AI suggestions error", error);
       res.status(500).json({ error: "Failed to generate suggestions" });
+    }
+  }
+});
+
+aiRouter.post("/conversation-summary", checkAdminAuth, async (req, res) => {
+  try {
+    const { caseId } = z.object({ caseId: z.string().min(1) }).parse(req.body);
+    const caseData = await storage.getCaseById(caseId);
+    if (!caseData) return res.status(404).json({ error: "Case not found" });
+    const [messages, documentRequests] = await Promise.all([
+      storage.getChatMessagesByCaseId(caseId, { includeInternal: true }),
+      storage.getDocumentRequestsByCaseId(caseId),
+    ]);
+    const pendingDocuments = documentRequests
+      .filter((request) => ['pending', 'requested'].includes(String(request.status)))
+      .map((request) => request.documentType);
+    const summary = await generateConversationSummary({
+      caseStatus: caseData.status,
+      createdAt: caseData.createdAt,
+      messages,
+      pendingDocuments,
+    });
+    res.json(summary);
+  } catch (error) {
+    if (error instanceof z.ZodError) res.status(400).json({ error: "Invalid request" });
+    else {
+      warnOnce("ai:conversation-summary", "AI conversation summary error", error);
+      res.status(500).json({ error: "Failed to summarize conversation" });
     }
   }
 });

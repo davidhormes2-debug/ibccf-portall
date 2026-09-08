@@ -387,6 +387,7 @@ export default function AdminDashboard() {
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const lastMessageCountRef = useRef<Record<string, number>>({});
   const isInitialLoadRef = useRef(true);
+  const chatLoadSeqRef = useRef(0);
   
   // Track last known counts for notifications
   const lastRegisteredCountRef = useRef(0);
@@ -3866,96 +3867,90 @@ export default function AdminDashboard() {
     }
   };
 
-  // Poll for chat messages from all cases
+  // Batch-poll unread counts for all conversations. One request replaces the
+  // previous per-case N+1 loop and respects per-conversation mute settings.
   useEffect(() => {
-    if (!isLoggedIn || cases.length === 0) return;
+    if (!isLoggedIn || !authToken) return;
+    let cancelled = false;
 
-    const pollAllMessages = async () => {
-      const registeredCases = cases.filter(c => c.status !== 'created');
-      const counts: Record<string, number> = {};
-      let total = 0;
+    const pollUnread = async () => {
+      try {
+        const res = await fetch('/api/chat/unread/all', {
+          headers: { Authorization: `Bearer ${authToken}` },
+          cache: 'no-store',
+        });
+        if (!res.ok) return;
+        const counts = await res.json() as Record<string, number>;
+        if (cancelled) return;
+        const total = Object.values(counts).reduce((sum, value) => sum + Number(value || 0), 0);
 
-      for (const c of registeredCases) {
-        try {
-          const res = await fetch(`/api/cases/${c.id}/messages/unread?sender=user`, {
-            headers: { 'Authorization': `Bearer ${authToken}` }
-          });
-          if (res.ok) {
-            const data = await res.json();
-            counts[c.id] = data.count;
-            total += data.count;
-            
-            // Only show notifications after initial load
-            if (!isInitialLoadRef.current && data.count > (lastMessageCountRef.current[c.id] || 0)) {
+        if (!isInitialLoadRef.current) {
+          for (const c of cases) {
+            const next = counts[c.id] || 0;
+            const prev = lastMessageCountRef.current[c.id] || 0;
+            const mutedUntil = c.chatMutedUntil ? new Date(c.chatMutedUntil).getTime() : 0;
+            if (next > prev && mutedUntil <= Date.now()) {
               void playNotificationSound('message');
               toast({ title: t("toasts.newMessageNotify.title"), description: t("toasts.newMessageNotify.description", { name: c.userName || "User" }) });
             }
-            lastMessageCountRef.current[c.id] = data.count;
           }
-        } catch (error) {
-          console.error('Failed to poll messages:', error);
         }
-      }
-      
-      setUnreadCounts(counts);
-      setTotalUnread(total);
-      
-      // Mark initial load complete after first poll
-      if (isInitialLoadRef.current) {
+
+        lastMessageCountRef.current = { ...counts };
+        setUnreadCounts(counts);
+        setTotalUnread(total);
         isInitialLoadRef.current = false;
+      } catch (error) {
+        console.error('Failed to poll unread messages:', error);
       }
     };
 
-    pollAllMessages();
-    const interval = setInterval(pollAllMessages, 5000);
-    return () => clearInterval(interval);
-  }, [isLoggedIn, cases, toast]);
+    void pollUnread();
+    const interval = window.setInterval(pollUnread, 5000);
+    return () => { cancelled = true; window.clearInterval(interval); };
+  }, [isLoggedIn, authToken, cases, toast, t]);
 
-  // Poll messages for open chat (both popup and conversations tab)
+  // Urgent conversations can repeat the message alert until the unread item
+  // is opened. Muted conversations never participate in the repeat loop.
   useEffect(() => {
-    if (!chatCase) return;
-    if (!isChatOpen) return; // Only poll when chatCase is selected
+    if (!isLoggedIn) return;
+    const repeat = () => {
+      const shouldRepeat = cases.some((c) => {
+        const mutedUntil = c.chatMutedUntil ? new Date(c.chatMutedUntil).getTime() : 0;
+        return !!c.chatUrgentRepeat && (unreadCounts[c.id] || 0) > 0 && mutedUntil <= Date.now();
+      });
+      if (shouldRepeat) void playNotificationSound('message');
+    };
+    const interval = window.setInterval(repeat, 12000);
+    return () => window.clearInterval(interval);
+  }, [isLoggedIn, cases, unreadCounts]);
+
+  // One selected-chat poller for both the popup and Conversations workspace.
+  // The cancellation guard prevents an older request from overwriting a newly
+  // selected customer's conversation.
+  useEffect(() => {
+    if (!chatCase || !authToken) return;
+    const caseId = chatCase.id;
+    let cancelled = false;
 
     const pollChatMessages = async () => {
       try {
-        const res = await fetch(`/api/cases/${chatCase.id}/messages`, {
-          headers: { 'Authorization': `Bearer ${authToken}` }
+        const res = await fetch(`/api/cases/${caseId}/messages`, {
+          headers: { Authorization: `Bearer ${authToken}` },
+          cache: 'no-store',
         });
-        if (res.ok) {
-          const messages = await res.json();
-          setChatMessages(messages);
-        }
+        if (!res.ok) return;
+        const messages = await res.json();
+        if (!cancelled) setChatMessages(messages);
       } catch (error) {
-        console.error('Failed to poll chat messages:', error);
+        if (!cancelled) console.error('Failed to poll chat messages:', error);
       }
     };
 
-    pollChatMessages();
-    const interval = setInterval(pollChatMessages, 2000);
-    return () => clearInterval(interval);
-  }, [isChatOpen, chatCase, authToken]);
-
-  // Poll messages for conversations tab (when chatCase is set but popup is not open)
-  useEffect(() => {
-    if (!chatCase || isChatOpen) return;
-
-    const pollConversationMessages = async () => {
-      try {
-        const res = await fetch(`/api/cases/${chatCase.id}/messages`, {
-          headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        if (res.ok) {
-          const messages = await res.json();
-          setChatMessages(messages);
-        }
-      } catch (error) {
-        console.error('Failed to poll conversation messages:', error);
-      }
-    };
-
-    const interval = setInterval(pollConversationMessages, 2000);
-    return () => clearInterval(interval);
-  }, [chatCase, isChatOpen]);
+    void pollChatMessages();
+    const interval = window.setInterval(pollChatMessages, 5000);
+    return () => { cancelled = true; window.clearInterval(interval); };
+  }, [chatCase?.id, authToken]);
 
   // Sticky-bottom auto-scroll: only follow new messages when the user
   // is already near the bottom. If they've scrolled up to read history,
@@ -4009,26 +4004,28 @@ export default function AdminDashboard() {
 
   // Load chat messages for conversations tab
   const loadChatMessages = async (caseId: string) => {
+    const requestSeq = ++chatLoadSeqRef.current;
     try {
       const res = await fetch(`/api/cases/${caseId}/messages`, {
-        headers: { 'Authorization': `Bearer ${authToken}` }
+        headers: { 'Authorization': `Bearer ${authToken}` },
+        cache: 'no-store',
       });
       if (res.ok) {
         const messages = await res.json();
+        if (requestSeq !== chatLoadSeqRef.current) return;
         setChatMessages(messages);
-        // Mark messages as read
         fetch(`/api/cases/${caseId}/messages/read`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
           body: JSON.stringify({ sender: 'user' })
-        }).then(() => {
-          setUnreadCounts(prev => ({ ...prev, [caseId]: 0 }));
-        });
+        }).then(() => setUnreadCounts(prev => ({ ...prev, [caseId]: 0 })));
       } else {
         toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.loadMessagesFailed.description") });
       }
     } catch (_e) {
-      toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.loadMessagesFailed.description") });
+      if (requestSeq === chatLoadSeqRef.current) {
+        toast({ variant: "destructive", title: t("toasts.errorTitle"), description: t("toasts.loadMessagesFailed.description") });
+      }
     }
   };
 

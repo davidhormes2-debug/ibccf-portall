@@ -95,6 +95,44 @@ function formatChatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function PortalChatAttachment(props: {
+  caseId: string;
+  messageId: number;
+  attachment: { id: number; fileName: string; mimeType: string; byteSize: number };
+  onDownload: () => void;
+}) {
+  const { caseId, messageId, attachment, onDownload } = props;
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const isImage = attachment.mimeType.startsWith('image/');
+  useEffect(() => {
+    if (!isImage) return;
+    const token = getPortalToken();
+    let objectUrl: string | null = null;
+    let cancelled = false;
+    void fetch(`/api/cases/${caseId}/messages/${messageId}/attachments/${attachment.id}`, {
+      headers: token ? { 'x-portal-session-token': token } : {},
+    }).then(async (res) => {
+      if (!res.ok) return;
+      objectUrl = URL.createObjectURL(await res.blob());
+      if (!cancelled) setPreviewUrl(objectUrl);
+    }).catch(() => {});
+    return () => { cancelled = true; if (objectUrl) URL.revokeObjectURL(objectUrl); };
+  }, [caseId, messageId, attachment.id, isImage]);
+
+  if (isImage && previewUrl) {
+    return <button type="button" onClick={onDownload} className="mt-2 block max-w-full overflow-hidden rounded-xl border border-white/10 text-left">
+      <img src={previewUrl} alt={attachment.fileName} className="max-h-48 w-full object-cover" />
+      <span className="flex items-center justify-between gap-2 px-2.5 py-2 text-[10px]"><span className="truncate">{attachment.fileName}</span><span>{formatChatBytes(attachment.byteSize)}</span></span>
+    </button>;
+  }
+
+  return <button type="button" onClick={onDownload} className="mt-2 flex w-full min-w-[160px] items-center gap-2 rounded-xl border border-white/10 bg-black/10 px-2.5 py-2 text-left hover:bg-black/20">
+    <FileText className="w-4 h-4 shrink-0" />
+    <div className="min-w-0 flex-1"><p className="text-xs font-medium truncate">{attachment.fileName}</p><p className="text-[10px] opacity-60">{attachment.mimeType === 'application/pdf' ? 'PDF ? ' : ''}{formatChatBytes(attachment.byteSize)}</p></div>
+    <Download className="w-3.5 h-3.5 opacity-60 shrink-0" />
+  </button>;
+}
+
 const cardConfigs: CardConfig[] = [
   {
     id: "messages",
@@ -850,18 +888,15 @@ export function DashboardView() {
                     <div className={`max-w-[76%] px-3 py-2 rounded-2xl text-sm ${msg.sender === "user" ? "bg-[#004182] text-white rounded-br-md" : "bg-slate-800 text-slate-200 border border-slate-700 rounded-bl-md"}`}>
                       {msg.message && <p className="whitespace-pre-wrap leading-relaxed">{msg.message}</p>}
                       {msg.attachment && (
-                        <button
-                          type="button"
-                          onClick={() => void downloadChatAttachment(msg.id, msg.attachment!)}
-                          className="mt-2 flex w-full min-w-[160px] items-center gap-2 rounded-xl border border-white/10 bg-black/10 px-2.5 py-2 text-left hover:bg-black/20"
-                        >
-                          <Paperclip className="w-4 h-4 shrink-0" />
-                          <div className="min-w-0 flex-1">
-                            <p className="text-xs font-medium truncate">{msg.attachment.fileName}</p>
-                            <p className="text-[10px] opacity-60">{formatChatBytes(msg.attachment.byteSize)}</p>
-                          </div>
-                          <Download className="w-3.5 h-3.5 opacity-60 shrink-0" />
-                        </button>
+                        <PortalChatAttachment
+                          caseId={currentCase.id}
+                          messageId={msg.id}
+                          attachment={msg.attachment}
+                          onDownload={() => void downloadChatAttachment(msg.id, msg.attachment!)}
+                        />
+                      )}
+                      {msg.sender === 'user' && (
+                        <p className="mt-1 text-right text-[9px] text-blue-200/70">{msg.readAt ? 'Read' : msg.deliveredAt ? 'Delivered' : 'Sent'}</p>
                       )}
                     </div>
                   </div>

@@ -528,3 +528,67 @@ function getDefaultAutoResponse(
   };
   return defaults[messageType] || defaults.welcome;
 }
+
+export interface ConversationSummary {
+  latestIssue: string;
+  documentsStillRequired: string[];
+  mostRecentUserQuestion: string;
+  unresolvedRequests: string[];
+  lastAdminResponse: string;
+  conversationAge: string;
+}
+
+export async function generateConversationSummary(input: {
+  caseStatus?: string | null;
+  createdAt?: Date | string | null;
+  messages: Array<{ sender: string; message: string; isInternal?: boolean | null; createdAt?: Date | string | null }>;
+  pendingDocuments: string[];
+}): Promise<ConversationSummary> {
+  const publicMessages = input.messages.filter((message) => !message.isInternal);
+  const latestUser = [...publicMessages].reverse().find((message) => message.sender === 'user')?.message || 'No user message yet.';
+  const latestAdmin = [...publicMessages].reverse().find((message) => message.sender === 'admin')?.message || 'No admin reply yet.';
+  const ageDays = input.createdAt ? Math.max(0, Math.floor((Date.now() - new Date(input.createdAt).getTime()) / 86400000)) : 0;
+  const fallback: ConversationSummary = {
+    latestIssue: latestUser.slice(0, 240),
+    documentsStillRequired: input.pendingDocuments,
+    mostRecentUserQuestion: latestUser.slice(0, 240),
+    unresolvedRequests: input.pendingDocuments.length ? [`${input.pendingDocuments.length} document request(s) still open`] : [],
+    lastAdminResponse: latestAdmin.slice(0, 240),
+    conversationAge: `${ageDays} day${ageDays === 1 ? '' : 's'}`,
+  };
+  try {
+    const transcript = input.messages.slice(-30).map((message) =>
+      `${message.isInternal ? '[INTERNAL NOTE] ' : ''}${message.sender.toUpperCase()}: ${message.message}`,
+    ).join('\n');
+    const response = await getOpenAI().chat.completions.create({
+      model: "gpt-5-mini",
+      messages: [
+        {
+          role: "system",
+          content: "Summarize an IBCCF support conversation for an admin. Do not decide the case, promise outcomes, invent facts, or send anything to the user. Return valid JSON only.",
+        },
+        {
+          role: "user",
+          content: `Case status: ${input.caseStatus || 'Unknown'}\nPending documents: ${input.pendingDocuments.join(', ') || 'None'}\nConversation:\n${transcript}\n\nReturn JSON with keys latestIssue, documentsStillRequired (array), mostRecentUserQuestion, unresolvedRequests (array), lastAdminResponse, conversationAge.`,
+        },
+      ],
+      max_tokens: 500,
+      temperature: 0.2,
+    });
+    const content = response.choices[0]?.message?.content || '';
+    const match = content.match(/\{[\s\S]*\}/);
+    if (!match) return fallback;
+    const parsed = JSON.parse(match[0]) as Partial<ConversationSummary>;
+    return {
+      latestIssue: String(parsed.latestIssue || fallback.latestIssue),
+      documentsStillRequired: Array.isArray(parsed.documentsStillRequired) ? parsed.documentsStillRequired.map(String) : fallback.documentsStillRequired,
+      mostRecentUserQuestion: String(parsed.mostRecentUserQuestion || fallback.mostRecentUserQuestion),
+      unresolvedRequests: Array.isArray(parsed.unresolvedRequests) ? parsed.unresolvedRequests.map(String) : fallback.unresolvedRequests,
+      lastAdminResponse: String(parsed.lastAdminResponse || fallback.lastAdminResponse),
+      conversationAge: String(parsed.conversationAge || fallback.conversationAge),
+    };
+  } catch (error) {
+    console.error("AI conversation summary error:", error);
+    return fallback;
+  }
+}
