@@ -3501,7 +3501,7 @@ export function CasesTab() {
                       })()}
                     </TableCell>
                     <TableCell>
-                      <div className="flex justify-center gap-2">
+                      <div className="flex flex-wrap justify-end gap-1 [&_button]:h-7 [&_button]:px-2 [&_button]:text-[11px]">
                         {c.status === 'syncing' && (
                           <Button
                             size="sm"
