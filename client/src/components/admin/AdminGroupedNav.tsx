@@ -22,6 +22,8 @@ import {
   Wallet,
   RotateCcw,
   LockOpen,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 
 type NavItem = {
@@ -87,7 +89,15 @@ export function AdminGroupedNav(props: {
   } = props;
 
   const LAST_ITEM_KEY = "ibccf.admin.groupedNav.lastItemPerGroup";
+  const COLLAPSED_KEY = "ibccf.admin.groupedNav.collapsed";
   const lastItemPerGroup = useRef<Record<string, string>>({});
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(COLLAPSED_KEY) === "true";
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
     try {
@@ -235,6 +245,14 @@ export function AdminGroupedNav(props: {
     return () => document.removeEventListener("keydown", focusSearch);
   }, [focusSearch]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(COLLAPSED_KEY, String(collapsed));
+    } catch {
+      /* ignore */
+    }
+  }, [collapsed]);
+
   // Computed each render (not memoized) so live badge counts in `groups`
   // stay fresh — the array is tiny so the cost is negligible.
   const filteredGroups = !normalizedQuery
@@ -261,7 +279,7 @@ export function AdminGroupedNav(props: {
 
   return (
     <aside
-      className="lg:sticky lg:top-0 lg:w-56 w-full flex-shrink-0 flex flex-col lg:overflow-y-auto"
+      className={`lg:sticky lg:top-0 ${collapsed ? "lg:w-[68px]" : "lg:w-56"} w-full flex-shrink-0 flex flex-col lg:overflow-y-auto transition-[width] duration-200`}
       aria-label="Admin sections"
       style={{
         background: "#0d3050",
@@ -272,13 +290,25 @@ export function AdminGroupedNav(props: {
       {/* Search box — filters every admin function live so each one stays
           accessible and searchable. Fills the previously-empty top area. */}
       <div className="px-3 pt-3 pb-2 flex-shrink-0">
-        <p
-          className="text-[11px] uppercase tracking-[0.18em] font-semibold mb-2 px-1"
+        <div className="mb-2 flex items-center justify-between gap-2 px-1">
+          <p
+          className={`${collapsed ? "lg:hidden" : ""} text-[11px] uppercase tracking-[0.18em] font-semibold`}
           style={{ color: "rgba(255,255,255,0.38)" }}
         >
           Menu
-        </p>
-        <div className="relative">
+          </p>
+          <button
+            type="button"
+            onClick={() => setCollapsed((value) => !value)}
+            className="ml-auto hidden h-7 w-7 items-center justify-center rounded-md border border-white/10 text-white/50 hover:bg-white/10 hover:text-white lg:flex"
+            title={collapsed ? "Expand admin navigation" : "Collapse admin navigation"}
+            aria-label={collapsed ? "Expand admin navigation" : "Collapse admin navigation"}
+            data-testid="admin-nav-collapse-toggle"
+          >
+            {collapsed ? <PanelLeftOpen className="h-3.5 w-3.5" /> : <PanelLeftClose className="h-3.5 w-3.5" />}
+          </button>
+        </div>
+        <div className={`relative ${collapsed ? "lg:hidden" : ""}`}>
           <Search
             className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none"
             style={{ color: "rgba(255,255,255,0.4)" }}
@@ -352,7 +382,7 @@ export function AdminGroupedNav(props: {
             <button
               type="button"
               onClick={() => onGroupHeaderClick(group)}
-              className="px-3 py-1 text-left focus:outline-none"
+              className={`${collapsed ? "lg:hidden" : ""} px-3 py-1 text-left focus:outline-none`}
               style={{
                 fontSize: "10px",
                 textTransform: "uppercase",
@@ -375,7 +405,7 @@ export function AdminGroupedNav(props: {
                 <div key={item.id} className="relative inline-flex w-full">
                   <TabsTrigger
                     value={item.id}
-                    className="w-full justify-start gap-2.5 px-3 py-2 text-sm rounded-md transition-all text-left border-0 outline-none shadow-none"
+                    className={`w-full ${collapsed ? "lg:justify-center lg:px-2" : "justify-start px-3"} gap-2.5 py-2 text-sm rounded-md transition-all text-left border-0 outline-none shadow-none`}
                     style={{
                       background: isActive ? "#1a5f8a" : "transparent",
                       color: isActive ? "#ffffff" : "rgba(255,255,255,0.62)",
@@ -389,7 +419,7 @@ export function AdminGroupedNav(props: {
                   >
                     {/* Small checkbox-style prefix square */}
                     <span
-                      className="w-3.5 h-3.5 flex-shrink-0 rounded-sm border flex items-center justify-center"
+                      className={`${collapsed ? "lg:hidden" : ""} w-3.5 h-3.5 flex-shrink-0 rounded-sm border flex items-center justify-center`}
                       style={{
                         borderColor: isActive
                           ? "rgba(255,255,255,0.55)"
@@ -410,11 +440,11 @@ export function AdminGroupedNav(props: {
                       className="w-3.5 h-3.5 flex-shrink-0"
                       style={{ opacity: isActive ? 0.9 : 0.55 }}
                     />
-                    <span className="flex-1 text-left truncate">
+                    <span className={`${collapsed ? "lg:hidden" : ""} flex-1 text-left truncate`}>
                       {item.label}
                     </span>
                     {item.badge && item.badge.kind === "alert" && (
-                      <span className="ml-auto inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-[0_0_8px_rgba(239,68,68,0.5)]">
+                      <span className={`${collapsed ? "lg:absolute lg:right-0 lg:top-0 lg:h-4 lg:min-w-4 lg:px-1 lg:text-[9px]" : "ml-auto"} inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-[0_0_8px_rgba(239,68,68,0.5)]`}>
                         {item.badge.count}
                       </span>
                     )}
@@ -446,7 +476,7 @@ export function AdminGroupedNav(props: {
                   </TabsTrigger>
 
                   {(item.badge?.kind === "warn" || item.withdrawalBadge || item.refundClaimBadge || item.reactivationBadge) && (
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 z-10">
+                    <div className={`${collapsed ? "lg:hidden" : ""} absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 z-10`}>
                       {item.reactivationBadge && (
                         <button
                           type="button"
