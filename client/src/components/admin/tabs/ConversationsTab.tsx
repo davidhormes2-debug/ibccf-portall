@@ -965,8 +965,8 @@ export function ConversationsTab() {
                       }
                     }}
                     disabled={isSendingMessage}
-                    rows={1}
-                    className={`flex-1 min-h-10 max-h-32 resize-none bg-slate-900 text-white transition-all ${internalNoteMode ? 'border-amber-500/40 focus:border-amber-400/60 focus:ring-1 focus:ring-amber-400/20' : 'border-slate-700 focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/30'}`}
+                    rows={3}
+                    className={`flex-1 min-h-[88px] max-h-48 resize-y bg-slate-900 text-white transition-all ${internalNoteMode ? 'border-amber-500/40 focus:border-amber-400/60 focus:ring-1 focus:ring-amber-400/20' : 'border-slate-700 focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/30'}`}
                     data-testid="input-admin-chat"
                   />
                   <Button
