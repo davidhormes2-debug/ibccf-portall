@@ -9,7 +9,7 @@ import { requireAdminRole } from "./adminPermissions";
 
 export const messagesRouter = Router();
 
-const CHAT_ATTACHMENT_MAX_BYTES = 6 * 1024 * 1024;
+const CHAT_ATTACHMENT_MAX_BYTES = 20 * 1024 * 1024;
 const CHAT_ATTACHMENT_MIME_TYPES = new Set([
   'image/jpeg',
   'image/png',

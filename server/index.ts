@@ -71,20 +71,21 @@ app.use(corsMiddleware());
 // surface while the handful of endpoints that legitimately carry base64
 // documents can accept their expected payload size.
 //
-// A raw 8 MB image/PDF grows to roughly 10.7 MB once base64 encoded, so the
-// upload parser is intentionally 12 MB. Every upload route still performs
-// its own decoded-size and MIME validation after parsing.
+// Large document uploads are capped by their route-specific decoded-size validators.
+// Chat attachments may be up to 20 MB raw (~26.7 MB after base64), so the
+// large-upload JSON parser allows 30 MB while individual routes enforce tighter limits.
 const captureRawBody = (req: import("http").IncomingMessage, _res: unknown, buf: Buffer) => {
   req.rawBody = buf;
 };
 const globalJsonParser = express.json({ limit: "256kb", verify: captureRawBody });
-const uploadJsonParser = express.json({ limit: "12mb", verify: captureRawBody });
+const uploadJsonParser = express.json({ limit: "30mb", verify: captureRawBody });
 
 const isLargeUploadRequest = (req: Request): boolean => {
   const path = req.path;
   if (req.method === "POST" && /^\/api\/cases\/[^/]+\/deposit-receipts$/.test(path)) return true;
   if (req.method === "POST" && /^\/api\/cases\/[^/]+\/stamp-duty\/receipts$/.test(path)) return true;
   if (req.method === "POST" && /^\/api\/cases\/[^/]+\/user-documents$/.test(path)) return true;
+  if (req.method === "POST" && /^\/api\/cases\/[^/]+\/messages$/.test(path)) return true;
   if (req.method === "PATCH" && /^\/api\/document-requests\/[^/]+$/.test(path)) return true;
   return false;
 };

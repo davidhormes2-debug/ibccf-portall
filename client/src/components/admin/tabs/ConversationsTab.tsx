@@ -272,11 +272,11 @@ export function ConversationsTab() {
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
-    if (file.size > 6 * 1024 * 1024) {
+    if (file.size > 20 * 1024 * 1024) {
       toast({
         variant: 'destructive',
         title: 'Attachment is too large',
-        description: 'Chat attachments are limited to 6 MB.',
+        description: 'Chat attachments are limited to 20 MB.',
       });
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;

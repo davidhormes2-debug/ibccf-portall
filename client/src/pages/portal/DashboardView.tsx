@@ -264,8 +264,8 @@ export function DashboardView() {
       if (chatFileInputRef.current) chatFileInputRef.current.value = '';
       return;
     }
-    if (file.size > 6 * 1024 * 1024) {
-      toast({ variant: 'destructive', title: 'Attachment is too large', description: 'Chat attachments are limited to 6 MB.' });
+    if (file.size > 20 * 1024 * 1024) {
+      toast({ variant: 'destructive', title: 'Attachment is too large', description: 'Chat attachments are limited to 20 MB.' });
       if (chatFileInputRef.current) chatFileInputRef.current.value = '';
       return;
     }
@@ -302,7 +302,7 @@ export function DashboardView() {
       if (pendingChatAttachment) {
         const mimeType = chatAttachmentMimeType(pendingChatAttachment);
         if (!mimeType) throw new Error('Unsupported attachment type');
-        if (pendingChatAttachment.size > 6 * 1024 * 1024) throw new Error('Attachment too large');
+        if (pendingChatAttachment.size > 20 * 1024 * 1024) throw new Error('Attachment too large');
         const fileData = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => typeof reader.result === 'string' ? resolve(reader.result) : reject(new Error('Invalid attachment'));
