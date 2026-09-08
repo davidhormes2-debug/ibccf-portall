@@ -540,8 +540,8 @@ export function ConversationsTab() {
         <p className="text-slate-400 text-sm">Full-fidelity live chat with visitor context and complete message rendering.</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="bg-slate-950 border-slate-800 lg:col-span-1 overflow-hidden">
+      <div className="grid min-w-0 grid-cols-1 gap-4 overflow-x-hidden xl:grid-cols-[minmax(240px,280px)_minmax(0,1fr)]">
+        <Card className="min-w-0 overflow-hidden bg-slate-950 border-slate-800">
           <div className="flex h-[360px] lg:h-[620px] min-h-0">
             <div className="w-14 shrink-0 border-r border-slate-800 bg-slate-950/90 py-3 flex flex-col items-center gap-2">
               {filterItems.map((item) => {
@@ -596,7 +596,7 @@ export function ConversationsTab() {
                     data-testid="conversation-search"
                   />
                 </div>
-                <div className="flex gap-1.5 overflow-x-auto pb-0.5" aria-label="Conversation tag filters">
+                <div className="flex flex-wrap gap-1.5" aria-label="Conversation tag filters">
                   {KNOWN_TAGS.map((tag) => (
                     <button
                       key={tag}
@@ -676,7 +676,7 @@ export function ConversationsTab() {
           </div>
         </Card>
 
-        <Card className="bg-slate-950 border-slate-800 lg:col-span-2 overflow-hidden flex flex-col min-h-[620px]">
+        <Card className="min-w-0 overflow-hidden bg-slate-950 border-slate-800 flex flex-col min-h-[620px]">
           {chatCase ? (
             <>
               <CardHeader className="border-b border-slate-800 py-3 space-y-3">
@@ -726,7 +726,7 @@ export function ConversationsTab() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/35 p-2">
+                <div className="grid min-w-0 grid-cols-1 gap-2 rounded-xl border border-slate-800 bg-slate-900/35 p-2 sm:grid-cols-2 2xl:grid-cols-[auto_auto_minmax(0,1fr)_auto] 2xl:items-center">
                   <select
                     value={chatCase.chatState || 'inbox'}
                     onChange={(event) => void updateConversation({ state: event.target.value })}
@@ -739,20 +739,20 @@ export function ConversationsTab() {
                     <option value="waiting_admin">Waiting on admin</option>
                     <option value="waiting_user">Waiting on user</option>
                   </select>
-                  <div className="flex items-center gap-1">
+                  <div className="flex min-w-0 items-center gap-1">
                     <Input value={assignmentDraft} onChange={(event) => setAssignmentDraft(event.target.value)} disabled={!canManageConversation}
-                      placeholder="Assign admin" className="h-8 w-32 border-slate-700 bg-slate-950 text-[11px]" />
+                      placeholder="Assign admin" className="h-8 min-w-0 flex-1 border-slate-700 bg-slate-950 text-[11px] sm:w-28" />
                     <Button type="button" variant="outline" size="sm" onClick={saveAssignment} disabled={!canManageConversation || conversationBusy}
                       className="h-8 border-slate-700 bg-slate-950 px-2 text-[10px] text-slate-400">Assign</Button>
                   </div>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex min-w-0 flex-wrap gap-1">
                     {KNOWN_TAGS.map((tag) => {
                       const active = parseChatTags(chatCase.chatTags).includes(tag);
                       return <button key={tag} type="button" onClick={() => toggleTag(tag)} disabled={!canManageConversation || conversationBusy}
                         className={`rounded-full border px-2 py-1 text-[9px] ${active ? 'border-blue-500/40 bg-blue-500/15 text-blue-300' : 'border-slate-800 text-slate-600 hover:text-slate-300'}`}>{tag}</button>;
                     })}
                   </div>
-                  <label className="ml-auto flex items-center gap-2 text-[10px] text-slate-500" title="Message notification volume">
+                  <label className="flex min-w-0 items-center gap-2 text-[10px] text-slate-500 2xl:ml-auto" title="Message notification volume">
                     <Volume2 className="h-3.5 w-3.5" />
                     <input type="range" min="0" max="100" value={Math.round(notificationPrefs.volume * 100)}
                       onChange={(event) => setNotificationPrefs({ ...notificationPrefs, volume: Number(event.target.value) / 100 })}
@@ -907,7 +907,7 @@ export function ConversationsTab() {
                       </button>
                     </div>
                   )}
-                  <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
+                  <div className="flex flex-wrap items-center gap-2">
                     <Button
                       type="button"
                       variant="outline"
@@ -947,7 +947,7 @@ export function ConversationsTab() {
                         key={reply}
                         type="button"
                         onClick={() => setNewMessage(reply)}
-                        className="h-7 max-w-[220px] shrink-0 truncate rounded-full border border-slate-800 bg-slate-900 px-3 text-[11px] text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                        className="h-7 max-w-full truncate rounded-full border border-slate-800 bg-slate-900 px-3 text-[11px] text-slate-400 hover:border-slate-700 hover:text-slate-200 sm:max-w-[220px]"
                         title={reply}
                         data-testid={`quick-reply-${index + 1}`}
                       >
