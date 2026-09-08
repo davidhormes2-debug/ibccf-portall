@@ -155,6 +155,7 @@ export function ConversationsTab() {
   const [pendingAttachment, setPendingAttachment] = useState<File | null>(null);
   const [attachmentBusy, setAttachmentBusy] = useState(false);
   const [userIsTyping, setUserIsTyping] = useState(false);
+  const [showAllQuickReplies, setShowAllQuickReplies] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const activeCaseIdRef = useRef<string | null>(chatCase?.id ?? null);
   activeCaseIdRef.current = chatCase?.id ?? null;
@@ -726,39 +727,41 @@ export function ConversationsTab() {
                   </div>
                 </div>
 
-                <div className="grid min-w-0 grid-cols-1 gap-2 rounded-xl border border-slate-800 bg-slate-900/35 p-2 sm:grid-cols-2 2xl:grid-cols-[auto_auto_minmax(0,1fr)_auto] 2xl:items-center">
-                  <select
-                    value={chatCase.chatState || 'inbox'}
-                    onChange={(event) => void updateConversation({ state: event.target.value })}
-                    disabled={!canManageConversation || conversationBusy}
-                    className="h-8 rounded-lg border border-slate-700 bg-slate-950 px-2 text-[11px] text-slate-300 outline-none"
-                    aria-label="Conversation state"
-                  >
-                    <option value="inbox">Inbox</option>
-                    <option value="assigned">Assigned</option>
-                    <option value="waiting_admin">Waiting on admin</option>
-                    <option value="waiting_user">Waiting on user</option>
-                  </select>
-                  <div className="flex min-w-0 items-center gap-1">
-                    <Input value={assignmentDraft} onChange={(event) => setAssignmentDraft(event.target.value)} disabled={!canManageConversation}
-                      placeholder="Assign admin" className="h-8 min-w-0 flex-1 border-slate-700 bg-slate-950 text-[11px] sm:w-28" />
-                    <Button type="button" variant="outline" size="sm" onClick={saveAssignment} disabled={!canManageConversation || conversationBusy}
-                      className="h-8 border-slate-700 bg-slate-950 px-2 text-[10px] text-slate-400">Assign</Button>
+                <div className="space-y-2 rounded-xl border border-slate-800 bg-slate-900/35 p-2.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <select
+                      value={chatCase.chatState || 'inbox'}
+                      onChange={(event) => void updateConversation({ state: event.target.value })}
+                      disabled={!canManageConversation || conversationBusy}
+                      className="h-8 min-w-[132px] rounded-lg border border-slate-700 bg-slate-950 px-2 text-[11px] text-slate-300 outline-none"
+                      aria-label="Conversation state"
+                    >
+                      <option value="inbox">Inbox</option>
+                      <option value="assigned">Assigned</option>
+                      <option value="waiting_admin">Waiting on admin</option>
+                      <option value="waiting_user">Waiting on user</option>
+                    </select>
+                    <div className="flex min-w-[210px] flex-1 items-center gap-1 sm:max-w-[300px]">
+                      <Input value={assignmentDraft} onChange={(event) => setAssignmentDraft(event.target.value)} disabled={!canManageConversation}
+                        placeholder="Assign admin" className="h-8 min-w-0 flex-1 border-slate-700 bg-slate-950 text-[11px]" />
+                      <Button type="button" variant="outline" size="sm" onClick={saveAssignment} disabled={!canManageConversation || conversationBusy}
+                        className="h-8 border-slate-700 bg-slate-950 px-2.5 text-[10px] text-slate-400">Assign</Button>
+                    </div>
+                    <label className="ml-auto flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-950/70 px-2 py-1.5 text-[10px] text-slate-500" title="Message notification volume">
+                      <Volume2 className="h-3.5 w-3.5" />
+                      <input type="range" min="0" max="100" value={Math.round(notificationPrefs.volume * 100)}
+                        onChange={(event) => setNotificationPrefs({ ...notificationPrefs, volume: Number(event.target.value) / 100 })}
+                        className="w-16 accent-blue-500" />
+                      <span className="w-7 text-right">{Math.round(notificationPrefs.volume * 100)}%</span>
+                    </label>
                   </div>
-                  <div className="flex min-w-0 flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1 border-t border-slate-800/80 pt-2">
                     {KNOWN_TAGS.map((tag) => {
                       const active = parseChatTags(chatCase.chatTags).includes(tag);
                       return <button key={tag} type="button" onClick={() => toggleTag(tag)} disabled={!canManageConversation || conversationBusy}
                         className={`rounded-full border px-2 py-1 text-[9px] ${active ? 'border-blue-500/40 bg-blue-500/15 text-blue-300' : 'border-slate-800 text-slate-600 hover:text-slate-300'}`}>{tag}</button>;
                     })}
                   </div>
-                  <label className="flex min-w-0 items-center gap-2 text-[10px] text-slate-500 2xl:ml-auto" title="Message notification volume">
-                    <Volume2 className="h-3.5 w-3.5" />
-                    <input type="range" min="0" max="100" value={Math.round(notificationPrefs.volume * 100)}
-                      onChange={(event) => setNotificationPrefs({ ...notificationPrefs, volume: Number(event.target.value) / 100 })}
-                      className="w-20 accent-blue-500" />
-                    {Math.round(notificationPrefs.volume * 100)}%
-                  </label>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 text-xs">
@@ -907,53 +910,36 @@ export function ConversationsTab() {
                       </button>
                     </div>
                   )}
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setInternalNoteMode((value) => !value)}
-                      className={`h-7 shrink-0 ${internalNoteMode ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-slate-700 bg-slate-900 text-slate-400'}`}
-                      data-testid="button-internal-note-mode"
-                    >
-                      <Lock className="w-3.5 h-3.5 mr-1.5" /> Internal note
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={suggestReply}
-                      disabled={!!aiBusy || chatMessages.length === 0}
-                      className="h-7 shrink-0 border-blue-500/30 bg-blue-500/10 text-blue-300 hover:bg-blue-500/20"
-                      data-testid="button-ai-suggest-reply"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-                      {aiBusy === 'suggest' ? 'Thinking...' : 'Suggest reply'}
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={rewriteReply}
-                      disabled={!!aiBusy || !newMessage.trim()}
-                      className="h-7 shrink-0 border-violet-500/30 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20"
-                      data-testid="button-ai-rewrite-reply"
-                    >
-                      <WandSparkles className="w-3.5 h-3.5 mr-1.5" />
-                      {aiBusy === 'rewrite' ? 'Rephrasing...' : 'Rephrase'}
-                    </Button>
-                    {quickReplies.map((reply, index) => (
-                      <button
-                        key={reply}
-                        type="button"
-                        onClick={() => setNewMessage(reply)}
-                        className="h-7 max-w-full truncate rounded-full border border-slate-800 bg-slate-900 px-3 text-[11px] text-slate-400 hover:border-slate-700 hover:text-slate-200 sm:max-w-[220px]"
-                        title={reply}
-                        data-testid={`quick-reply-${index + 1}`}
-                      >
-                        {reply}
-                      </button>
-                    ))}
+                  <div className="space-y-2">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <Button type="button" variant="outline" size="sm" onClick={() => setInternalNoteMode((value) => !value)}
+                        className={`h-7 ${internalNoteMode ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-slate-700 bg-slate-900 text-slate-400'}`} data-testid="button-internal-note-mode">
+                        <Lock className="w-3.5 h-3.5 mr-1.5" /> Internal note
+                      </Button>
+                      <Button type="button" variant="outline" size="sm" onClick={suggestReply} disabled={!!aiBusy || chatMessages.length === 0}
+                        className="h-7 border-blue-500/30 bg-blue-500/10 text-blue-300 hover:bg-blue-500/20" data-testid="button-ai-suggest-reply">
+                        <Sparkles className="w-3.5 h-3.5 mr-1.5" />{aiBusy === 'suggest' ? 'Thinking...' : 'Suggest reply'}
+                      </Button>
+                      <Button type="button" variant="outline" size="sm" onClick={rewriteReply} disabled={!!aiBusy || !newMessage.trim()}
+                        className="h-7 border-violet-500/30 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20" data-testid="button-ai-rewrite-reply">
+                        <WandSparkles className="w-3.5 h-3.5 mr-1.5" />{aiBusy === 'rewrite' ? 'Rephrasing...' : 'Rephrase'}
+                      </Button>
+                      <span className="ml-1 text-[10px] uppercase tracking-wide text-slate-600">Reply tools</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {(showAllQuickReplies ? quickReplies : quickReplies.slice(0, 2)).map((reply, index) => (
+                        <button key={reply} type="button" onClick={() => setNewMessage(reply)}
+                          className="h-7 max-w-[210px] truncate rounded-full border border-slate-800 bg-slate-900 px-3 text-[11px] text-slate-400 hover:border-slate-700 hover:text-slate-200" title={reply} data-testid={`quick-reply-${index + 1}`}>
+                          {reply}
+                        </button>
+                      ))}
+                      {quickReplies.length > 2 && (
+                        <button type="button" onClick={() => setShowAllQuickReplies((value) => !value)}
+                          className="h-7 rounded-full border border-slate-700 bg-slate-950 px-3 text-[11px] font-medium text-slate-300 hover:bg-slate-900">
+                          {showAllQuickReplies ? 'Fewer shortcuts' : `More shortcuts (${quickReplies.length - 2})`}
+                        </button>
+                      )}
+                    </div>
                   </div>
                   <div className="flex gap-2 w-full items-end">
                   <Button
