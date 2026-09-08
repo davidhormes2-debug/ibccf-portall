@@ -120,12 +120,16 @@ function PortalContent() {
   // stuck client-side state from a previous session), never show the
   // reactivation error/deposit panel to a working account — send the user
   // back to their dashboard instead.
+  const verificationRestricted = Boolean(currentCase?.identityVerificationStatus && currentCase.identityVerificationStatus !== "verified");
+  const limitedViews = ["documents", "messages", "settings"];
   const effectiveViewState =
     currentCase?.isDisabled && !AUTH_VIEWS.includes(viewState)
       ? "reactivationDeposit"
       : currentCase && !currentCase.isDisabled && viewState === "reactivationDeposit"
-        ? "dashboard"
-        : viewState;
+        ? (verificationRestricted ? "documents" : "dashboard")
+        : currentCase && verificationRestricted && !AUTH_VIEWS.includes(viewState) && !limitedViews.includes(viewState)
+          ? "documents"
+          : viewState;
 
   const isAuthView = AUTH_VIEWS.includes(effectiveViewState) || !currentCase;
 

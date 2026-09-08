@@ -374,7 +374,9 @@ export function PortalShell({ children }: PortalShellProps) {
   const declarationBadgeColor =
     declarationStatus === "pending" ? "bg-amber-500" : "bg-blue-500";
 
-  const navItems: NavItem[] = [
+  const isVerificationRestricted = Boolean(currentCase?.identityVerificationStatus && currentCase.identityVerificationStatus !== "verified");
+
+  const allNavItems: NavItem[] = [
     { id: "dashboard", label: t("navItems.dashboard"), icon: LayoutDashboard, viewState: "dashboard", group: "overview" },
     { id: "timeline", label: t("navItems.timeline"), icon: Clock, viewState: "timeline", group: "overview" },
     { id: "letter", label: t("navItems.letter"), icon: FileText, viewState: "letter", group: "withdrawal" },
@@ -459,12 +461,20 @@ export function PortalShell({ children }: PortalShellProps) {
     { id: "withdrawalGuide", label: t("navItems.withdrawalGuide"), icon: BookOpen, href: "/withdrawal-guide", newTab: true, group: "account" },
   ];
 
+  // Before identity verification, keep the portal useful but intentionally limited:
+  // verification documents, support messages, and basic profile/settings only.
+  const navItems: NavItem[] = isVerificationRestricted
+    ? allNavItems.filter((item) => ["documents", "messages", "settings"].includes(item.id))
+    : allNavItems;
+
   // Mobile bottom nav: 4–5 most-used entries; everything else lives in the
   // "More" sheet so the bar never gets crowded on small screens. Documents
   // is promoted into the primary row whenever there is at least one
   // pending document request, so the user never has to dig for an
   // outstanding compliance task.
-  const baseMobileIds: string[] = ["dashboard", "letter", "deposit", "messages"];
+  const baseMobileIds: string[] = isVerificationRestricted
+    ? ["documents", "messages", "settings"]
+    : ["dashboard", "letter", "deposit", "messages"];
   const mobilePrimaryIds: string[] =
     pendingDocumentCount > 0 && documentRequests.length > 0
       ? [...baseMobileIds, "documents"]

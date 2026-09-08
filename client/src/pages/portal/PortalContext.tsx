@@ -20,6 +20,9 @@ export interface Case {
   userName?: string;
   userEmail?: string;
   userMobile?: string;
+  identityVerificationStatus?: "verification_required" | "in_review" | "action_required" | "verified" | null;
+  identityVerifiedAt?: string | null;
+  identityVerifiedBy?: string | null;
   vipStatus?: string;
   username?: string;
   userBalance?: string;

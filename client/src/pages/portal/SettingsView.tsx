@@ -17,6 +17,7 @@ export function SettingsView() {
   const { t } = useTranslation("portal");
   const { currentCase } = usePortal();
   const { formatNumber } = useFormat();
+  const isVerificationRestricted = Boolean(currentCase?.identityVerificationStatus && currentCase.identityVerificationStatus !== "verified");
   const formatUsdt = (n: number) =>
     formatNumber(n, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 
@@ -109,8 +110,17 @@ export function SettingsView() {
         </div>
       </div>
 
+      {isVerificationRestricted && (
+        <div className="rounded-2xl border border-blue-400/20 bg-blue-500/5 p-4 text-sm text-blue-100/80">
+          <div className="flex items-start gap-3">
+            <Shield className="w-4 h-4 text-blue-300 mt-0.5 shrink-0" />
+            <div><p className="font-semibold text-white">Limited account access</p><p className="mt-1 text-slate-300">You can manage your basic profile, complete identity verification, and contact support. Case and financial tools unlock after verification.</p></div>
+          </div>
+        </div>
+      )}
+
       {/* Balance preview card */}
-      <div className="rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500/10 via-slate-900/60 to-slate-950/70 backdrop-blur-xl p-5 shadow-2xl">
+      {!isVerificationRestricted && <div className="rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500/10 via-slate-900/60 to-slate-950/70 backdrop-blur-xl p-5 shadow-2xl">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Wallet className="w-4 h-4 text-emerald-300" />
@@ -202,7 +212,7 @@ export function SettingsView() {
         <p className="text-[11px] text-slate-400/80 mt-4 leading-relaxed">
           {t("settings.balance.footnote")}
         </p>
-      </div>
+      </div>}
     </motion.div>
   );
 }
