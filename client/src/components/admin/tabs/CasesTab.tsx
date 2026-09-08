@@ -1162,7 +1162,7 @@ export function CasesTab() {
     | "block"
     | "flags";
   type TargetMode = "selected" | "filter";
-  const SIDEBAR_STORAGE_KEY = "ibccf.admin.functionsSidebar";
+  const SIDEBAR_STORAGE_KEY = "ibccf.admin.functionsSidebar.v2";
 
   const [activeFunction, setActiveFunction] = useState<SidebarFunctionId | null>(() => {
     try {
@@ -1186,11 +1186,11 @@ export function CasesTab() {
       const raw = typeof localStorage !== "undefined"
         ? localStorage.getItem(SIDEBAR_STORAGE_KEY)
         : null;
-      if (!raw) return false;
+      if (!raw) return true;
       const parsed = JSON.parse(raw) as { collapsed?: boolean };
-      return parsed.collapsed === true;
+      return parsed.collapsed !== false;
     } catch {
-      return false;
+      return true;
     }
   });
   const [targetMode, setTargetMode] = useState<TargetMode>("selected");
@@ -2589,25 +2589,28 @@ export function CasesTab() {
           setLegacyAccessCodeOnly(s.legacyAccessCodeOnly);
         }}
       />
-      <Card className="bg-slate-950 border-slate-800 overflow-hidden">
-        <CardHeader className="border-b border-slate-800 bg-slate-900/50 py-4">
-           <div className="flex flex-col gap-4">
-             <div className="flex justify-between items-center">
-               <CardTitle className="text-base font-medium text-white">Active Cases</CardTitle>
-               <Button variant="outline" size="sm" className="border-slate-700 bg-slate-800 text-slate-300" onClick={() => loadData(true)} data-testid="button-refresh">
-                 <RefreshCw className="w-4 h-4 mr-2" /> Refresh
+      <Card className="bg-slate-950 border-slate-800 overflow-hidden shadow-[0_16px_50px_-28px_rgba(15,23,42,0.9)]">
+        <CardHeader className="border-b border-slate-800 bg-slate-950/95 px-4 py-3.5">
+           <div className="flex flex-col gap-3">
+             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+               <div>
+                 <CardTitle className="text-base font-semibold text-white">Case workspace</CardTitle>
+                 <p className="mt-0.5 text-xs text-slate-500">Search, triage and open a case without losing your place.</p>
+               </div>
+               <Button variant="outline" size="sm" className="h-8 border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800" onClick={() => loadData(true)} data-testid="button-refresh">
+                 <RefreshCw className="w-3.5 h-3.5 mr-1.5" /> Refresh
                </Button>
              </div>
 
-             {/* Search and Filter Row */}
-             <div className="flex flex-col sm:flex-row gap-3">
+             {/* Search and primary filters */}
+             <div className="grid grid-cols-1 gap-2 lg:grid-cols-[minmax(260px,1fr)_150px_145px_175px_160px]">
                <div className="relative flex-1">
                  <input
                    type="text"
                    placeholder="Search by code, name, or email..."
                    value={searchQuery}
                    onChange={(e) => setSearchQuery(e.target.value)}
-                   className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 pl-10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500"
+                   className="h-9 w-full bg-slate-900 border border-slate-700 rounded-lg px-4 pl-10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
                    data-testid="input-search-cases"
                  />
                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2624,7 +2627,7 @@ export function CasesTab() {
                </div>
 
                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                 <SelectTrigger className="w-full sm:w-[180px] bg-slate-900 border-slate-700 text-white" data-testid="select-status-filter">
+                 <SelectTrigger className="w-full h-9 bg-slate-900 border-slate-700 text-white" data-testid="select-status-filter">
                    <SelectValue placeholder="Filter by status" />
                  </SelectTrigger>
                  <SelectContent className="bg-slate-900 border-slate-700">
@@ -2637,7 +2640,7 @@ export function CasesTab() {
                </Select>
 
                <Select value={sealedFilter} onValueChange={(v) => setSealedFilter(v as "all" | "sealed" | "open")}>
-                 <SelectTrigger className="w-full sm:w-[160px] bg-slate-900 border-slate-700 text-white" data-testid="select-sealed-filter">
+                 <SelectTrigger className="w-full h-9 bg-slate-900 border-slate-700 text-white" data-testid="select-sealed-filter">
                    <SelectValue placeholder="Filter by seal" />
                  </SelectTrigger>
                  <SelectContent className="bg-slate-900 border-slate-700">
@@ -2651,7 +2654,7 @@ export function CasesTab() {
                  value={refundClaimStatusFilter}
                  onValueChange={(v) => setRefundClaimStatusFilter(v as RefundClaimStatusFilter)}
                >
-                 <SelectTrigger className="w-full sm:w-[200px] bg-slate-900 border-slate-700 text-white" data-testid="select-refund-claim-filter">
+                 <SelectTrigger className="w-full h-9 bg-slate-900 border-slate-700 text-white" data-testid="select-refund-claim-filter">
                    <SelectValue placeholder="Filter by refund claim" />
                  </SelectTrigger>
                  <SelectContent className="bg-slate-900 border-slate-700">
@@ -2664,7 +2667,7 @@ export function CasesTab() {
                </Select>
 
                <Select value={localeFilter} onValueChange={setLocaleFilter}>
-                 <SelectTrigger className="w-full sm:w-[180px] bg-slate-900 border-slate-700 text-white" data-testid="select-locale-filter">
+                 <SelectTrigger className="w-full h-9 bg-slate-900 border-slate-700 text-white" data-testid="select-locale-filter">
                    <SelectValue placeholder="Filter by email language" />
                  </SelectTrigger>
                  <SelectContent className="bg-slate-900 border-slate-700">
@@ -2679,6 +2682,7 @@ export function CasesTab() {
                </Select>
              </div>
 
+             <div className="flex flex-wrap items-center gap-2">
              {/* Quick-triage pill — visible only when at least one case is
                  currently awaiting stamp-duty review, so the chrome stays
                  quiet during normal operations. */}
@@ -2806,10 +2810,12 @@ export function CasesTab() {
                </div>
              )}
 
+             </div>
+
              {/* Results count. In server-paging mode the total comes from the
                  DB's COUNT(*) rather than the length of a fully-fetched
                  client array. */}
-             <div className="text-xs text-slate-500">
+             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-800/70 pt-2 text-xs text-slate-500">
                {(() => {
                  const totalMatching = serverPagingActive ? serverTotal : displayedCases.length;
                  return (

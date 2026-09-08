@@ -235,75 +235,64 @@ export function CasesKpiStrip({ cases, documentRequestsPending, userDocPendingTo
       : []),
   ];
 
-  const extraTiles =
-    (refundClaimPendingCount > 0 ? 1 : 0) +
-    ((pendingReactivation ?? 0) > 0 ? 1 : 0) +
-    (legacyAccessCodeCount > 0 ? 1 : 0);
-  const colCount = 7 + extraTiles;
-
   return (
-    <div
-      className={`grid grid-cols-2 sm:grid-cols-3 ${colCount >= 8 ? "lg:grid-cols-4 xl:grid-cols-8" : "lg:grid-cols-7"} gap-4 mb-6`}
-      data-testid="cases-kpi-strip"
-    >
-      {kpis.map((k) => {
-        const Icon = k.icon;
-        const clickable = !!onFilter;
-        return (
-          <button
-            key={k.label}
-            type="button"
-            onClick={() => clickable && onFilter?.(k.key)}
-            disabled={!clickable}
-            className={`rounded-lg overflow-hidden flex flex-col text-left transition-transform border ${
-              clickable ? "hover:scale-[1.02] cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/20" : "cursor-default"
-            } ${
-              k.key === "failed_emails"
-                ? (failedEmails24h ?? 0) > 0
-                  ? "border-rose-500/30"
-                  : "border-blue-500/30"
-                : "border-white/5"
-            }`}
-            style={{ background: "#0d3050" }}
-            data-testid={`kpi-${k.key}`}
-            aria-label={`Filter cases: ${k.label}`}
-          >
-            {/* Top section — icon + number + label */}
-            <div className="p-4 flex-1 flex flex-col gap-1">
-              <div className="flex items-start justify-between mb-1">
+    <section className="mb-4" aria-label="Case workload overview">
+      <div
+        className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-7 gap-2.5"
+        data-testid="cases-kpi-strip"
+      >
+        {kpis.map((k) => {
+          const Icon = k.icon;
+          const clickable = !!onFilter;
+          const isAttention =
+            (k.key === "awaiting_admin" ||
+              k.key === "pending_receipts" ||
+              k.key === "pending_reactivation" ||
+              k.key === "pending_documents" ||
+              k.key === "pending_uploads" ||
+              k.key === "pending_withdrawals" ||
+              k.key === "pending_refund_claims" ||
+              k.key === "failed_emails") &&
+            Number(k.value) > 0;
+
+          return (
+            <button
+              key={k.label}
+              type="button"
+              onClick={() => clickable && onFilter?.(k.key)}
+              disabled={!clickable}
+              className={`group min-h-[92px] rounded-xl border bg-slate-950/80 px-3.5 py-3 text-left transition-all ${
+                clickable
+                  ? "hover:-translate-y-0.5 hover:border-slate-600 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-400/30 cursor-pointer"
+                  : "cursor-default"
+              } ${isAttention ? "border-amber-500/25" : "border-slate-800"}`}
+              data-testid={`kpi-${k.key}`}
+              aria-label={`Filter cases: ${k.label}`}
+            >
+              <div className="flex items-start gap-3">
                 <div
-                  className="w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0"
-                  style={{ background: k.accent }}
+                  className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+                  style={{ background: `${k.accent}26`, border: `1px solid ${k.accent}55` }}
                 >
-                  <Icon className="w-4 h-4 text-white" />
+                  <Icon className="h-4 w-4" style={{ color: k.accent }} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-2xl font-semibold leading-none tracking-tight text-white">
+                      {k.value}
+                    </span>
+                    {isAttention && (
+                      <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.55)]" aria-hidden />
+                    )}
+                  </div>
+                  <p className="mt-1.5 truncate text-xs font-semibold text-slate-200">{k.label}</p>
+                  <p className="mt-0.5 truncate text-[10px] leading-4 text-slate-500">{k.description}</p>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white leading-none">
-                {k.value}
-              </div>
-              <div
-                className="text-sm font-semibold"
-                style={{ color: "rgba(255,255,255,0.75)" }}
-              >
-                {k.label}
-              </div>
-            </div>
-
-            {/* Bottom description bar */}
-            <div
-              className="px-4 py-2"
-              style={{ background: "rgba(0,0,0,0.28)", borderTop: "1px solid rgba(255,255,255,0.06)" }}
-            >
-              <div
-                className="text-xs truncate"
-                style={{ color: "rgba(255,255,255,0.45)" }}
-              >
-                {k.description}
-              </div>
-            </div>
-          </button>
-        );
-      })}
-    </div>
+            </button>
+          );
+        })}
+      </div>
+    </section>
   );
 }
