@@ -7092,7 +7092,7 @@ export default function AdminDashboard() {
               }}
               activeWarningsCount={activeWarningsCount}
             />
-            <div className="flex-1 min-w-0 w-full p-6">
+            <div className="flex-1 min-w-0 w-full p-4 lg:p-5 2xl:p-6">
           <Suspense fallback={<AdminTabLoading label="panel" />}>
 
           <TabsContent value="cases">
