@@ -6593,7 +6593,7 @@ export default function AdminDashboard() {
       {/* z-index ladder: z-10 banners/strip/main, z-20 security-banners (pre-header), z-30 <header>.
           Bell dropdown: createPortal+fixed → escapes stacking contexts. No new siblings with z>20. */}
       <header
-        className="relative z-30 px-6 py-3 flex justify-between items-center"
+        className="relative z-30 px-4 sm:px-5 py-2.5 flex justify-between items-center gap-3"
         style={{
           background: '#0d3050',
           borderBottom: '1px solid rgba(255,255,255,0.08)',
@@ -6619,10 +6619,10 @@ export default function AdminDashboard() {
              </div>
            </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex min-w-0 items-center gap-2">
           {buildInfo && (
             <div
-              className="hidden md:flex flex-col items-end leading-tight text-right border border-slate-700/70 rounded-md px-2 py-1 bg-slate-900/40"
+              className="hidden 2xl:flex flex-col items-end leading-tight text-right border border-slate-700/70 rounded-md px-2 py-1 bg-slate-900/40"
               title={`Build ${buildInfo.buildStamp}\nBooted ${new Date(buildInfo.bootTime).toLocaleString()}\nEnv: ${buildInfo.nodeEnv}`}
               data-testid="admin-build-info"
             >
@@ -6635,14 +6635,14 @@ export default function AdminDashboard() {
               </span>
             </div>
           )}
-          <div className="text-right hidden md:block">
+          <div className="text-right hidden xl:block">
             <p className="text-xs text-slate-400">{t("header.sessionLabel")}</p>
             <p className="text-sm font-bold text-white">{t("header.sessionRole")}</p>
           </div>
           <Button
             variant="ghost"
             size="sm"
-            className="text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500"
+            className="h-8 w-8 p-0 text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500"
             onClick={toggleTheme}
             data-testid="button-theme-toggle-admin"
           >
@@ -6653,7 +6653,7 @@ export default function AdminDashboard() {
             <Button
               variant="ghost"
               size="sm"
-              className="text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 relative"
+              className="h-8 w-8 p-0 text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 relative"
               onClick={() => { setIsNotificationsOpen(!isNotificationsOpen); loadNotifications(); }}
               data-testid="button-notifications"
             >
@@ -6704,20 +6704,22 @@ export default function AdminDashboard() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="border-slate-700 bg-slate-800 text-slate-300 hover:text-white"
+              className="h-8 border-slate-700 bg-slate-800 px-2 text-slate-300 hover:text-white"
+              title={t("header.userPortal")}
               data-testid="button-user-portal"
             >
-              <ExternalLink className="w-4 h-4 mr-2" /> {t("header.userPortal")}
+              <ExternalLink className="w-4 h-4 xl:mr-1.5" /> <span className="hidden xl:inline">{t("header.userPortal")}</span>
             </Button>
           </a>
           <Button 
             variant="ghost" 
             size="sm" 
-            className="text-slate-400 hover:text-white"
+            className="h-8 px-2 text-slate-400 hover:text-white"
+            title={t("header.logout")}
             onClick={handleLogout}
             data-testid="button-logout"
           >
-            <LogOut className="w-4 h-4 mr-2" /> {t("header.logout")}
+            <LogOut className="w-4 h-4 xl:mr-1.5" /> <span className="hidden xl:inline">{t("header.logout")}</span>
           </Button>
         </div>
       </header>
