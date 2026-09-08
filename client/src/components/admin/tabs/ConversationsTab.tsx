@@ -696,6 +696,9 @@ export function ConversationsTab() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
+                    <Button type="button" variant="outline" size="sm" onClick={() => { setChatCase(null); setNewMessage(""); setPendingAttachment(null); setSummary(null); setInternalNoteMode(false); }} className="h-8 border-slate-700 bg-slate-900 px-2.5 text-slate-300 hover:bg-slate-800 hover:text-white" title="Back to inbox" aria-label="Back to inbox" data-testid="button-back-to-chat-inbox">
+                      <Inbox className="w-4 h-4 sm:mr-1.5" /><span className="hidden sm:inline">Inbox</span>
+                    </Button>
                     {chatCase.chatArchivedAt && <Badge variant="outline" className="border-slate-700 text-slate-400 text-[10px]">Archived</Badge>}
                     <Badge variant="outline" className="text-slate-300 border-slate-700 font-mono text-[11px] shrink-0">{chatCase.accessCode}</Badge>
                     {canManageConversation && (

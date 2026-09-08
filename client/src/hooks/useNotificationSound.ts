@@ -85,11 +85,9 @@ export async function playNotificationSound(
       // long sustain so it's clearly audible across the room.
       // ──────────────────────────────────────────────
       case 'visitor': {
-        const BELL = 0.20;
-        const BELL_G = G * 1.1;
-        scheduleBeep(ctx, compressor, 1047, t,            BELL * 2.5, BELL_G, 'sine'); // DING  C6
-        scheduleBeep(ctx, compressor,  784, t + BELL + GAP * 1.5, BELL * 3.5, BELL_G * 0.9, 'sine'); // DONG  G5
-        totalDuration = BELL + GAP * 1.5 + BELL * 3.5;
+        const BELL_G = G * 1.05;
+        for (const offset of [0,3,6,9,12]) { scheduleBeep(ctx, compressor, 1047, t+offset, 0.62, BELL_G, 'sine'); scheduleBeep(ctx, compressor, 784, t+offset+0.78, 0.90, BELL_G*0.9, 'sine'); }
+        totalDuration = 15.0;
         break;
       }
 
@@ -98,15 +96,8 @@ export async function playNotificationSound(
       // like a cash-register / urgent alarm. Hard to ignore.
       // ──────────────────────────────────────────────
       case 'receipt': {
-        const step = DUR + GAP * 0.8;
-        scheduleBeep(ctx, compressor,  880, t,          DUR * 0.9, G * 1.2, 'square');
-        scheduleBeep(ctx, compressor, 1047, t + step,   DUR * 0.9, G * 1.2, 'square');
-        scheduleBeep(ctx, compressor, 1319, t + step*2, DUR * 1.3, G * 1.2, 'square');
-        // second burst after a short pause for extra urgency
-        const burst2 = step * 3 + GAP * 2;
-        scheduleBeep(ctx, compressor, 1319, t + burst2, DUR * 0.9, G,       'square');
-        scheduleBeep(ctx, compressor, 1047, t + burst2 + step, DUR * 0.9, G, 'square');
-        totalDuration = burst2 + step + DUR;
+        for (const offset of [0,2,4,6,8]) { scheduleBeep(ctx, compressor, 880, t+offset, 0.22, G*1.15, 'square'); scheduleBeep(ctx, compressor, 1047, t+offset+0.32, 0.22, G*1.15, 'square'); scheduleBeep(ctx, compressor, 1319, t+offset+0.64, 0.36, G*1.15, 'square'); }
+        totalDuration = 10.0;
         break;
       }
 
@@ -114,10 +105,8 @@ export async function playNotificationSound(
       // ALERT — general admin alert: three rising triangle beeps.
       // ──────────────────────────────────────────────
       case 'alert': {
-        scheduleBeep(ctx, compressor,  880, t,                    DUR,       G, 'triangle');
-        scheduleBeep(ctx, compressor, 1047, t + DUR + GAP,        DUR,       G, 'triangle');
-        scheduleBeep(ctx, compressor, 1319, t + (DUR + GAP) * 2,  DUR * 1.6, G, 'triangle');
-        totalDuration = (DUR + GAP) * 2 + DUR * 1.6;
+        for (const offset of [0,2,4,6,8]) { scheduleBeep(ctx, compressor, 880, t+offset, 0.26, G, 'triangle'); scheduleBeep(ctx, compressor, 1047, t+offset+0.36, 0.26, G, 'triangle'); scheduleBeep(ctx, compressor, 1319, t+offset+0.72, 0.44, G, 'triangle'); }
+        totalDuration = 10.0;
         break;
       }
 
@@ -125,15 +114,9 @@ export async function playNotificationSound(
       // MESSAGE — two-note ascending chime (existing feel, louder).
       // ──────────────────────────────────────────────
       case 'message': {
-        // Distinctive longer support-chat chime: two bright notes, a short
-        // pause, then a resolving third note. Long enough to notice from
-        // across the room without sounding like the receipt/visitor alarms.
-        const M = 0.24;
-        const MG = 0.09;
-        scheduleBeep(ctx, compressor,  784, t,                    M,       G * 0.95, 'sine');
-        scheduleBeep(ctx, compressor, 1047, t + M + MG,           M * 1.2, G,        'sine');
-        scheduleBeep(ctx, compressor, 1319, t + (M + MG) * 2.15, M * 2.0, G * 1.05, 'triangle');
-        totalDuration = (M + MG) * 2.15 + M * 2.0;
+        const M = G * 0.92;
+        for (const offset of [0,5,10,15,20,25]) { scheduleBeep(ctx, compressor, 659, t+offset, 0.60, M, 'sine'); scheduleBeep(ctx, compressor, 880, t+offset+0.8, 0.72, M*1.05, 'sine'); scheduleBeep(ctx, compressor, 1047, t+offset+1.8, 0.84, M, 'triangle'); scheduleBeep(ctx, compressor, 880, t+offset+3.0, 1.10, M*0.9, 'sine'); }
+        totalDuration = 30.0;
         break;
       }
 
@@ -142,13 +125,8 @@ export async function playNotificationSound(
       // Portal users hear this when admin approves something on their case.
       // ──────────────────────────────────────────────
       case 'approval': {
-        const S = DUR * 0.9;
-        const GS = GAP * 0.7;
-        scheduleBeep(ctx, compressor,  523, t,               S,       G, 'sine'); // C5
-        scheduleBeep(ctx, compressor,  659, t + S + GS,      S,       G, 'sine'); // E5
-        scheduleBeep(ctx, compressor,  784, t + (S+GS)*2,    S,       G, 'sine'); // G5
-        scheduleBeep(ctx, compressor, 1047, t + (S+GS)*3,    S * 2.2, G * 1.1, 'sine'); // C6
-        totalDuration = (S + GS) * 3 + S * 2.2;
+        for (const offset of [0,3.2,6.4]) { scheduleBeep(ctx, compressor, 523, t+offset, 0.30, G, 'sine'); scheduleBeep(ctx, compressor, 659, t+offset+0.42, 0.30, G, 'sine'); scheduleBeep(ctx, compressor, 784, t+offset+0.84, 0.30, G, 'sine'); scheduleBeep(ctx, compressor, 1047, t+offset+1.26, 0.72, G*1.05, 'sine'); }
+        totalDuration = 10.0;
         break;
       }
 
@@ -156,9 +134,8 @@ export async function playNotificationSound(
       // SUCCESS — quick two-note rise.
       // ──────────────────────────────────────────────
       case 'success': {
-        scheduleBeep(ctx, compressor, 1047, t,           DUR,       G, 'sine');
-        scheduleBeep(ctx, compressor, 1319, t + DUR + GAP, DUR * 1.6, G, 'sine');
-        totalDuration = DUR + GAP + DUR * 1.6;
+        for (const offset of [0,2,4,6,8]) { scheduleBeep(ctx, compressor, 1047, t+offset, 0.34, G, 'sine'); scheduleBeep(ctx, compressor, 1319, t+offset+0.48, 0.62, G*1.05, 'sine'); }
+        totalDuration = 10.0;
         break;
       }
 
@@ -166,9 +143,8 @@ export async function playNotificationSound(
       // ERROR — low descending square tone.
       // ──────────────────────────────────────────────
       default: {
-        scheduleBeep(ctx, compressor, 440, t,       0.25, G, 'square');
-        scheduleBeep(ctx, compressor, 330, t + 0.28, 0.3, G, 'square');
-        totalDuration = 0.58;
+        for (const offset of [0,2,4,6,8]) { scheduleBeep(ctx, compressor, 440, t+offset, 0.34, G, 'square'); scheduleBeep(ctx, compressor, 330, t+offset+0.46, 0.52, G, 'square'); }
+        totalDuration = 10.0;
         break;
       }
     }
