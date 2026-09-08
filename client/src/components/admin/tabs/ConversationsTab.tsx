@@ -113,6 +113,16 @@ function ChatAttachmentDisplay(props: {
   );
 }
 
+function formatMessageTimestamp(value?: string | null): string {
+  if (!value) return 'Not yet';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'Unavailable';
+  return date.toLocaleString([], {
+    year: 'numeric', month: 'short', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+  });
+}
+
 function formatLastSeen(value?: string | null): string {
   if (!value) return "Not available";
   const date = new Date(value);
@@ -156,6 +166,7 @@ export function ConversationsTab() {
   const [attachmentBusy, setAttachmentBusy] = useState(false);
   const [userIsTyping, setUserIsTyping] = useState(false);
   const [showAllQuickReplies, setShowAllQuickReplies] = useState(false);
+  const [expandedTimeLogId, setExpandedTimeLogId] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const activeCaseIdRef = useRef<string | null>(chatCase?.id ?? null);
   activeCaseIdRef.current = chatCase?.id ?? null;
@@ -865,10 +876,21 @@ export function ConversationsTab() {
                               onDownload={() => downloadAttachment(msg.id, msg.attachment!)}
                             />
                           )}
-                          <div className={`mt-1.5 flex items-center gap-1.5 text-[10px] font-medium ${isInternal ? 'text-amber-400/80' : isAdmin ? 'text-blue-200/80' : 'text-slate-500'}`}>
-                            <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                            {deliveryLabel && <span className="inline-flex items-center gap-1">? {msg.readAt ? <CheckCheck className="h-3 w-3" /> : <Check className="h-3 w-3" />}{deliveryLabel}</span>}
+                          <div className={`mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[10px] font-medium ${isInternal ? 'text-amber-400/80' : isAdmin ? 'text-blue-200/80' : 'text-slate-500'}`}>
+                            <span>{new Date(msg.createdAt).toLocaleString([], { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
+                            {deliveryLabel && <span className="inline-flex items-center gap-1">· {msg.readAt ? <CheckCheck className="h-3 w-3" /> : <Check className="h-3 w-3" />}{deliveryLabel}</span>}
+                            <button type="button" onClick={() => setExpandedTimeLogId((current) => current === msg.id ? null : msg.id)} className="inline-flex items-center gap-1 underline decoration-dotted underline-offset-2 hover:text-white" title="Show exact message time log">
+                              <Clock3 className="h-3 w-3" /> Time log
+                            </button>
                           </div>
+                          {expandedTimeLogId === msg.id && (
+                            <div className={`mt-2 rounded-lg border p-2 text-[10px] leading-relaxed ${isInternal ? 'border-amber-400/20 bg-amber-950/20 text-amber-100/80' : isAdmin ? 'border-blue-300/20 bg-blue-950/20 text-blue-100/85' : 'border-slate-700 bg-slate-950/50 text-slate-300'}`} data-testid={`message-time-log-${msg.id}`}>
+                              <div><span className="font-semibold">{isInternal ? 'Created' : isAdmin ? 'Sent' : 'Received'}:</span> {formatMessageTimestamp(msg.createdAt)}</div>
+                              {!isInternal && isAdmin && <div><span className="font-semibold">Delivered:</span> {formatMessageTimestamp(msg.deliveredAt)}</div>}
+                              {!isInternal && isAdmin && <div><span className="font-semibold">Read:</span> {formatMessageTimestamp(msg.readAt)}</div>}
+                              {!isInternal && !isAdmin && msg.readAt && <div><span className="font-semibold">Read by admin:</span> {formatMessageTimestamp(msg.readAt)}</div>}
+                            </div>
+                          )}
                         </div>
                       </div>
                     );
