@@ -5,6 +5,7 @@ import {
   type CaseLetter, type UpdateCaseLetter, caseLetters,
   type CaseSubmission, type InsertCaseSubmission, caseSubmissions,
   type ChatMessage, type InsertChatMessage, chatMessages,
+  type ChatAttachment, type InsertChatAttachment, chatAttachments,
   type AdminMessage, type InsertAdminMessage, adminMessages,
   type DepositReceipt, type InsertDepositReceipt, depositReceipts,
   type LetterReissue, type InsertLetterReissue, letterReissues,
@@ -137,8 +138,11 @@ export interface IStorage {
   updateCaseEmailStatus(id: number, status: string, errorMessage?: string): Promise<CaseEmail | undefined>;
   
   // Chat message operations
-  createChatMessage(data: InsertChatMessage): Promise<ChatMessage>;
+  createChatMessage(data: InsertChatMessage, executor?: DbExecutor): Promise<ChatMessage>;
   getChatMessagesByCaseId(caseId: string): Promise<ChatMessage[]>;
+  createChatAttachment(data: InsertChatAttachment, executor?: DbExecutor): Promise<ChatAttachment>;
+  getChatAttachmentsByMessageIds(messageIds: number[]): Promise<ChatAttachment[]>;
+  getChatAttachmentById(id: number): Promise<ChatAttachment | undefined>;
   markMessagesAsRead(caseId: string, sender: string): Promise<void>;
   getUnreadCount(caseId: string, sender: string): Promise<number>;
   
@@ -898,8 +902,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Chat message operations
-  async createChatMessage(data: InsertChatMessage): Promise<ChatMessage> {
-    const [message] = await db.insert(chatMessages).values(data).returning();
+  async createChatMessage(data: InsertChatMessage, executor: DbExecutor = db): Promise<ChatMessage> {
+    const [message] = await executor.insert(chatMessages).values(data).returning();
     return message;
   }
 
@@ -909,6 +913,29 @@ export class DatabaseStorage implements IStorage {
       .from(chatMessages)
       .where(eq(chatMessages.caseId, caseId))
       .orderBy(chatMessages.createdAt);
+  }
+
+  async createChatAttachment(data: InsertChatAttachment, executor: DbExecutor = db): Promise<ChatAttachment> {
+    const [attachment] = await executor.insert(chatAttachments).values(data).returning();
+    return attachment;
+  }
+
+  async getChatAttachmentsByMessageIds(messageIds: number[]): Promise<ChatAttachment[]> {
+    if (messageIds.length === 0) return [];
+    return await db
+      .select()
+      .from(chatAttachments)
+      .where(inArray(chatAttachments.messageId, messageIds))
+      .orderBy(chatAttachments.createdAt);
+  }
+
+  async getChatAttachmentById(id: number): Promise<ChatAttachment | undefined> {
+    const [attachment] = await db
+      .select()
+      .from(chatAttachments)
+      .where(eq(chatAttachments.id, id))
+      .limit(1);
+    return attachment;
   }
 
   async markMessagesAsRead(caseId: string, sender: string): Promise<void> {

@@ -295,6 +295,12 @@ export interface ChatMessage {
   message: string;
   isRead: string;
   createdAt: string;
+  attachment?: {
+    id: number;
+    fileName: string;
+    mimeType: string;
+    byteSize: number;
+  } | null;
 }
 
 export interface ChatTemplate {

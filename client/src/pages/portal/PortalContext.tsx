@@ -286,6 +286,12 @@ export interface ChatMessage {
   message: string;
   isRead: string;
   createdAt: string;
+  attachment?: {
+    id: number;
+    fileName: string;
+    mimeType: string;
+    byteSize: number;
+  } | null;
 }
 
 export interface AdminMessage {
@@ -377,7 +383,7 @@ interface PortalContextValue {
   setIsChatOpen: (open: boolean) => void;
   loadAllData: () => Promise<void>;
   logout: () => void;
-  sendMessage: (message: string) => Promise<void>;
+  sendMessage: (message: string, attachment?: { fileName: string; mimeType: string; fileData: string }) => Promise<void>;
   uploadReceipt: (
     file: File,
     notes: string,
@@ -1323,8 +1329,8 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
     logout();
   }, [logout, toast]);
 
-  const sendMessage = useCallback(async (message: string) => {
-    if (!message.trim() || !currentCase) return;
+  const sendMessage = useCallback(async (message: string, attachment?: { fileName: string; mimeType: string; fileData: string }) => {
+    if ((!message.trim() && !attachment) || !currentCase) return;
     
     try {
       const portalToken = getPortalToken();
@@ -1334,7 +1340,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
           'Content-Type': 'application/json',
           ...(portalToken ? { 'x-portal-session-token': portalToken } : {}),
         },
-        body: JSON.stringify({ sender: 'user', message: message.trim() })
+        body: JSON.stringify({ sender: 'user', message: message.trim(), ...(attachment ? { attachment } : {}) })
       });
       
       if (res.ok) {

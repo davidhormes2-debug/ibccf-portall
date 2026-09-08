@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, Mail, Phone, MapPin, Network, Clock3, ShieldCheck, Search, Inbox, MessageSquareText, Archive, ArchiveRestore, MessagesSquare } from "lucide-react";
+import { MessageCircle, Send, Mail, Phone, MapPin, Network, Clock3, ShieldCheck, Search, Inbox, MessageSquareText, Archive, ArchiveRestore, MessagesSquare, Sparkles, WandSparkles, Paperclip, FileText, Download, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminDashboard } from "../AdminDashboardContext";
 
@@ -17,6 +17,27 @@ function decodeMessageText(value: string): string {
 }
 
 type ConversationFilter = 'inbox' | 'unread' | 'all' | 'archived';
+
+function formatBytes(value: number): string {
+  if (!Number.isFinite(value) || value <= 0) return '0 B';
+  if (value < 1024) return `${value} B`;
+  if (value < 1024 * 1024) return `${(value / 1024).toFixed(1)} KB`;
+  return `${(value / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+const ATTACHMENT_MIME_BY_EXTENSION: Record<string, string> = {
+  jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif',
+  pdf: 'application/pdf', txt: 'text/plain', doc: 'application/msword',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  xls: 'application/vnd.ms-excel',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};
+
+function attachmentMimeType(file: File): string | null {
+  if (file.type && Object.values(ATTACHMENT_MIME_BY_EXTENSION).includes(file.type)) return file.type;
+  const extension = file.name.split('.').pop()?.toLowerCase() || '';
+  return ATTACHMENT_MIME_BY_EXTENSION[extension] || null;
+}
 
 function formatLastSeen(value?: string | null): string {
   if (!value) return "Not available";
@@ -48,6 +69,13 @@ export function ConversationsTab() {
   const [conversationQuery, setConversationQuery] = useState("");
   const [conversationFilter, setConversationFilter] = useState<ConversationFilter>('inbox');
   const [archiveBusy, setArchiveBusy] = useState(false);
+  const [aiBusy, setAiBusy] = useState<'suggest' | 'rewrite' | null>(null);
+  const [pendingAttachment, setPendingAttachment] = useState<File | null>(null);
+  const [attachmentBusy, setAttachmentBusy] = useState(false);
+  const [userIsTyping, setUserIsTyping] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const activeCaseIdRef = useRef<string | null>(chatCase?.id ?? null);
+  activeCaseIdRef.current = chatCase?.id ?? null;
 
   const conversationCases = useMemo(() => cases.filter((c) => c.userName), [cases]);
   const counts = useMemo(() => ({
@@ -79,6 +107,54 @@ export function ConversationsTab() {
   }, [conversationCases, conversationFilter, conversationQuery, unreadCounts]);
 
   const canManageArchive = adminRole === 'admin' || adminRole === 'super_admin';
+
+  useEffect(() => {
+    if (!chatCase || !authToken) {
+      setUserIsTyping(false);
+      return;
+    }
+    const caseId = chatCase.id;
+    let cancelled = false;
+    const loadTyping = async () => {
+      try {
+        const res = await fetch(`/api/cases/${caseId}/typing`, {
+          headers: { Authorization: `Bearer ${authToken}` },
+          cache: 'no-store',
+        });
+        if (!res.ok) return;
+        const data = await res.json() as { user?: boolean };
+        if (!cancelled) setUserIsTyping(!!data.user);
+      } catch {
+        if (!cancelled) setUserIsTyping(false);
+      }
+    };
+    void loadTyping();
+    const intervalId = window.setInterval(loadTyping, 1200);
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, [chatCase?.id, authToken]);
+
+  useEffect(() => {
+    if (!chatCase || !authToken) return;
+    const caseId = chatCase.id;
+    const isTyping = newMessage.trim().length > 0;
+    void fetch(`/api/cases/${caseId}/typing`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sender: 'admin', isTyping }),
+    }).catch(() => {});
+    if (!isTyping) return;
+    const timeoutId = window.setTimeout(() => {
+      void fetch(`/api/cases/${caseId}/typing`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: 'admin', isTyping: false }),
+      }).catch(() => {});
+    }, 1800);
+    return () => window.clearTimeout(timeoutId);
+  }, [chatCase?.id, authToken, newMessage]);
 
   const toggleArchive = async () => {
     if (!chatCase || !authToken || archiveBusy || !canManageArchive) return;
@@ -117,6 +193,166 @@ export function ConversationsTab() {
     { key: 'all', label: 'All chats', count: counts.all, icon: MessagesSquare },
     { key: 'archived', label: 'Archived', count: counts.archived, icon: Archive },
   ];
+
+  const quickReplies = [
+    'Thank you for the update. We are reviewing this now.',
+    'Please upload the supporting document so we can continue the review.',
+    'Your message has been received. We will update you once the review is complete.',
+    'I understand. Let me verify the case details and get back to you here.',
+  ];
+
+  const suggestReply = async () => {
+    if (!chatCase || !authToken || aiBusy) return;
+    const latestUserMessage = [...chatMessages].reverse().find((message) => message.sender === 'user')?.message;
+    if (!latestUserMessage) {
+      toast({ title: 'No customer message to answer', description: 'Select a conversation with a customer message first.' });
+      return;
+    }
+    setAiBusy('suggest');
+    try {
+      const res = await fetch('/api/ai/suggestions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: latestUserMessage, caseId: chatCase.id }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json() as { suggestions?: string[] };
+      const suggestion = data.suggestions?.find((value) => value.trim().length > 0);
+      if (!suggestion) throw new Error('No suggestion returned');
+      setNewMessage(suggestion);
+    } catch {
+      toast({
+        variant: 'destructive',
+        title: 'AI suggestion unavailable',
+        description: 'You can still use the saved quick replies or type a response manually.',
+      });
+    } finally {
+      setAiBusy(null);
+    }
+  };
+
+  const rewriteReply = async () => {
+    if (!authToken || !newMessage.trim() || aiBusy) return;
+    setAiBusy('rewrite');
+    try {
+      const res = await fetch('/api/ai/rewrite', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: newMessage.trim(), mode: 'professional' }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json() as { rewritten?: string };
+      if (!data.rewritten?.trim()) throw new Error('No rewrite returned');
+      setNewMessage(data.rewritten.trim());
+    } catch {
+      toast({
+        variant: 'destructive',
+        title: 'AI rephrase unavailable',
+        description: 'Your original draft has not been changed.',
+      });
+    } finally {
+      setAiBusy(null);
+    }
+  };
+
+  const selectAttachment = (file: File | null) => {
+    if (!file) return;
+    if (!attachmentMimeType(file)) {
+      toast({
+        variant: 'destructive',
+        title: 'Unsupported attachment type',
+        description: 'Use an image, PDF, text, Word or Excel file.',
+      });
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    if (file.size > 6 * 1024 * 1024) {
+      toast({
+        variant: 'destructive',
+        title: 'Attachment is too large',
+        description: 'Chat attachments are limited to 6 MB.',
+      });
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    setPendingAttachment(file);
+  };
+
+  const readFileAsDataUrl = (file: File) => new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => typeof reader.result === 'string' ? resolve(reader.result) : reject(new Error('Invalid file data'));
+    reader.onerror = () => reject(reader.error || new Error('Could not read attachment'));
+    reader.readAsDataURL(file);
+  });
+
+  const sendCurrentMessage = async () => {
+    if (!pendingAttachment) {
+      await sendChatMessage();
+      return;
+    }
+    if (!chatCase || !authToken || attachmentBusy) return;
+    const caseId = chatCase.id;
+    setAttachmentBusy(true);
+    try {
+      const fileData = await readFileAsDataUrl(pendingAttachment);
+      const res = await fetch(`/api/cases/${caseId}/messages`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sender: 'admin',
+          message: newMessage.trim(),
+          attachment: {
+            fileName: pendingAttachment.name,
+            mimeType: attachmentMimeType(pendingAttachment)!,
+            fileData,
+          },
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setNewMessage('');
+      setPendingAttachment(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      if (activeCaseIdRef.current === caseId) await loadChatMessages(caseId);
+    } catch {
+      toast({
+        variant: 'destructive',
+        title: 'Attachment could not be sent',
+        description: 'Your draft and selected file are still here. Please try again.',
+      });
+    } finally {
+      setAttachmentBusy(false);
+    }
+  };
+
+  const downloadAttachment = async (messageId: number, attachment: { id: number; fileName: string }) => {
+    if (!chatCase || !authToken) return;
+    try {
+      const res = await fetch(`/api/cases/${chatCase.id}/messages/${messageId}/attachments/${attachment.id}`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = attachment.fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      toast({ variant: 'destructive', title: 'Could not download attachment' });
+    }
+  };
 
   return (
     <>
@@ -347,7 +583,26 @@ export function ConversationsTab() {
                             backdropFilter: 'blur(8px)',
                           }}
                         >
-                          <p className="text-sm whitespace-pre-wrap break-words [overflow-wrap:anywhere] leading-relaxed select-text">{renderedMessage}</p>
+                          {renderedMessage && (
+                            <p className="text-sm whitespace-pre-wrap break-words [overflow-wrap:anywhere] leading-relaxed select-text">{renderedMessage}</p>
+                          )}
+                          {msg.attachment && (
+                            <button
+                              type="button"
+                              onClick={() => downloadAttachment(msg.id, msg.attachment!)}
+                              className={`mt-2 flex w-full min-w-[180px] items-center gap-2 rounded-xl border px-3 py-2 text-left transition-colors ${isAdmin ? 'border-blue-300/20 bg-black/10 hover:bg-black/20' : 'border-slate-700 bg-slate-900/50 hover:bg-slate-900'}`}
+                              title={`Download ${msg.attachment.fileName}`}
+                            >
+                              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                                {msg.attachment.mimeType.startsWith('image/') ? <Paperclip className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs font-medium truncate">{msg.attachment.fileName}</p>
+                                <p className={`text-[10px] ${isAdmin ? 'text-blue-200/60' : 'text-slate-500'}`}>{formatBytes(msg.attachment.byteSize)}</p>
+                              </div>
+                              <Download className="w-3.5 h-3.5 opacity-60 shrink-0" />
+                            </button>
+                          )}
                           <p className={`text-[10px] mt-1.5 font-medium ${isAdmin ? 'text-blue-200/80' : 'text-slate-500'}`}>
                             {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </p>
@@ -356,10 +611,96 @@ export function ConversationsTab() {
                     );
                   })
                 )}
+                {userIsTyping && (
+                  <div className="flex justify-start" data-testid="user-typing-indicator">
+                    <div className="rounded-2xl rounded-bl-md border border-slate-800 bg-slate-900/80 px-3 py-2 text-xs text-slate-400">
+                      <span className="inline-flex items-center gap-1.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+                        {chatCase.userName || 'User'} is typing...
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <CardFooter className="border-t border-slate-800 p-3 bg-slate-950/95 sticky bottom-0">
-                <div className="flex gap-2 w-full items-end">
+                <div className="w-full space-y-2.5">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    className="hidden"
+                    accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.txt,.doc,.docx,.xls,.xlsx"
+                    onChange={(event) => selectAttachment(event.target.files?.[0] || null)}
+                    data-testid="input-chat-attachment"
+                  />
+                  {pendingAttachment && (
+                    <div className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/70 px-3 py-2">
+                      <Paperclip className="w-4 h-4 text-blue-400 shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs text-slate-200 truncate">{pendingAttachment.name}</p>
+                        <p className="text-[10px] text-slate-500">{formatBytes(pendingAttachment.size)}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => { setPendingAttachment(null); if (fileInputRef.current) fileInputRef.current.value = ''; }}
+                        className="p-1 rounded-md text-slate-500 hover:text-white hover:bg-slate-800"
+                        aria-label="Remove selected attachment"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={suggestReply}
+                      disabled={!!aiBusy || chatMessages.length === 0}
+                      className="h-7 shrink-0 border-blue-500/30 bg-blue-500/10 text-blue-300 hover:bg-blue-500/20"
+                      data-testid="button-ai-suggest-reply"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+                      {aiBusy === 'suggest' ? 'Thinking...' : 'Suggest reply'}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={rewriteReply}
+                      disabled={!!aiBusy || !newMessage.trim()}
+                      className="h-7 shrink-0 border-violet-500/30 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20"
+                      data-testid="button-ai-rewrite-reply"
+                    >
+                      <WandSparkles className="w-3.5 h-3.5 mr-1.5" />
+                      {aiBusy === 'rewrite' ? 'Rephrasing...' : 'Rephrase'}
+                    </Button>
+                    {quickReplies.map((reply, index) => (
+                      <button
+                        key={reply}
+                        type="button"
+                        onClick={() => setNewMessage(reply)}
+                        className="h-7 max-w-[220px] shrink-0 truncate rounded-full border border-slate-800 bg-slate-900 px-3 text-[11px] text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                        title={reply}
+                        data-testid={`quick-reply-${index + 1}`}
+                      >
+                        {reply}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex gap-2 w-full items-end">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={attachmentBusy}
+                    className="h-10 w-10 p-0 shrink-0 border-slate-700 bg-slate-900 text-slate-400 hover:text-white"
+                    title="Attach a file"
+                    aria-label="Attach a file"
+                    data-testid="button-attach-chat-file"
+                  >
+                    <Paperclip className="w-4 h-4" />
+                  </Button>
                   <Textarea
                     placeholder="Type your message..."
                     value={newMessage}
@@ -367,7 +708,7 @@ export function ConversationsTab() {
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
-                        sendChatMessage();
+                        void sendCurrentMessage();
                       }
                     }}
                     disabled={isSendingMessage}
@@ -376,8 +717,8 @@ export function ConversationsTab() {
                     data-testid="input-admin-chat"
                   />
                   <Button
-                    onClick={sendChatMessage}
-                    disabled={!newMessage.trim() || isSendingMessage}
+                    onClick={() => void sendCurrentMessage()}
+                    disabled={(!newMessage.trim() && !pendingAttachment) || isSendingMessage || attachmentBusy}
                     className="text-white border-0 transition-all hover:brightness-110 active:scale-[0.98] shrink-0"
                     style={{
                       background: 'linear-gradient(135deg, #004182 0%, #0a3a8c 100%)',
@@ -387,6 +728,7 @@ export function ConversationsTab() {
                   >
                     <Send className="h-4 w-4" />
                   </Button>
+                  </div>
                 </div>
               </CardFooter>
             </>

@@ -9,6 +9,52 @@ import { requireAdminRole } from "./adminPermissions";
 
 export const messagesRouter = Router();
 
+const CHAT_ATTACHMENT_MAX_BYTES = 6 * 1024 * 1024;
+const CHAT_ATTACHMENT_MIME_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/gif',
+  'application/pdf',
+  'text/plain',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+]);
+
+type ChatAttachmentInput = { fileName: string; mimeType: string; fileData: string };
+
+function validateChatAttachment(input: ChatAttachmentInput): { base64: string; byteSize: number } {
+  const mimeType = input.mimeType.toLowerCase();
+  if (!CHAT_ATTACHMENT_MIME_TYPES.has(mimeType)) {
+    throw new Error('Unsupported attachment type');
+  }
+  const match = input.fileData.match(/^data:([^;,]+);base64,(.+)$/s);
+  const base64 = match ? match[2] : input.fileData;
+  if (match && match[1].toLowerCase() !== mimeType) {
+    throw new Error('Attachment MIME type mismatch');
+  }
+  const buffer = Buffer.from(base64, 'base64');
+  if (buffer.length === 0 || buffer.length > CHAT_ATTACHMENT_MAX_BYTES) {
+    throw new Error('Attachment size invalid');
+  }
+  return { base64, byteSize: buffer.length };
+}
+
+function attachmentMetadata(attachment: { id: number; fileName: string; mimeType: string; byteSize: number }) {
+  return {
+    id: attachment.id,
+    fileName: attachment.fileName,
+    mimeType: attachment.mimeType,
+    byteSize: attachment.byteSize,
+  };
+}
+
+const TYPING_TTL_MS = 4500;
+const typingPresence = new Map<string, number>();
+const typingKey = (caseId: string, sender: 'admin' | 'user') => `${caseId}:${sender}`;
+
 messagesRouter.get("/unread/all", checkAdminAuth, requireAdminRole("agent"), async (req, res) => {
   try {
     const cases = await storage.getAllCases();
@@ -155,10 +201,50 @@ export function registerCaseMessageRoutes(router: Router) {
     }
   });
 
+  router.post("/:id/typing", requirePortalAccess, async (req, res) => {
+    try {
+      const input = z.object({
+        sender: z.enum(['admin', 'user']),
+        isTyping: z.boolean(),
+      }).parse(req.body);
+      const callerIsAdmin = await isValidAdminToken(req.headers.authorization);
+      if (callerIsAdmin !== (input.sender === 'admin')) {
+        res.status(403).json({ error: "Typing sender does not match authenticated actor" });
+        return;
+      }
+      const key = typingKey(req.params.id, input.sender);
+      if (input.isTyping) typingPresence.set(key, Date.now() + TYPING_TTL_MS);
+      else typingPresence.delete(key);
+      res.json({ success: true });
+    } catch (error) {
+      if (error instanceof z.ZodError) res.status(400).json({ error: "Invalid request" });
+      else res.status(500).json({ error: "Failed to update typing state" });
+    }
+  });
+
+  router.get("/:id/typing", requirePortalAccess, async (req, res) => {
+    const now = Date.now();
+    const adminKey = typingKey(req.params.id, 'admin');
+    const userKey = typingKey(req.params.id, 'user');
+    const adminUntil = typingPresence.get(adminKey) ?? 0;
+    const userUntil = typingPresence.get(userKey) ?? 0;
+    if (adminUntil <= now) typingPresence.delete(adminKey);
+    if (userUntil <= now) typingPresence.delete(userKey);
+    res.json({ admin: adminUntil > now, user: userUntil > now });
+  });
+
   router.get("/:id/messages", requirePortalAccess, async (req, res) => {
     try {
       const messages = await storage.getChatMessagesByCaseId(req.params.id);
-      res.json(messages);
+      const attachments = await storage.getChatAttachmentsByMessageIds(messages.map((message) => message.id));
+      const attachmentByMessageId = new Map(attachments.map((attachment) => [attachment.messageId, attachment]));
+      res.json(messages.map((message) => {
+        const attachment = attachmentByMessageId.get(message.id);
+        return {
+          ...message,
+          attachment: attachment ? attachmentMetadata(attachment) : null,
+        };
+      }));
     } catch (_e) {
       res.status(500).json({ error: "Failed to fetch messages" });
     }
@@ -168,7 +254,14 @@ export function registerCaseMessageRoutes(router: Router) {
     try {
       const messageInput = z.object({
         sender: z.enum(['admin', 'user']),
-        message: z.string().min(1)
+        message: z.string().max(4000).optional().default(''),
+        attachment: z.object({
+          fileName: z.string().trim().min(1).max(255),
+          mimeType: z.string().trim().min(1).max(150),
+          fileData: z.string().min(1),
+        }).optional(),
+      }).refine((value) => value.message.trim().length > 0 || !!value.attachment, {
+        message: 'Message or attachment required',
       }).parse(req.body);
 
       const callerIsAdmin = await isValidAdminToken(req.headers.authorization);
@@ -185,12 +278,30 @@ export function registerCaseMessageRoutes(router: Router) {
         return;
       }
 
-      const message = await storage.createChatMessage({
-        caseId: req.params.id,
-        sender: messageInput.sender,
-        message: messageInput.message,
-        isRead: 'false'
+      const parsedAttachment = messageInput.attachment
+        ? validateChatAttachment(messageInput.attachment)
+        : null;
+
+      const created = await storage.runInTransaction(async (tx) => {
+        const message = await storage.createChatMessage({
+          caseId: req.params.id,
+          sender: messageInput.sender,
+          message: messageInput.message.trim(),
+          isRead: 'false',
+        }, tx);
+        const attachment = messageInput.attachment && parsedAttachment
+          ? await storage.createChatAttachment({
+              messageId: message.id,
+              caseId: req.params.id,
+              fileName: messageInput.attachment.fileName,
+              mimeType: messageInput.attachment.mimeType.toLowerCase(),
+              byteSize: parsedAttachment.byteSize,
+              fileData: parsedAttachment.base64,
+            }, tx)
+          : null;
+        return { message, attachment };
       });
+      const message = created.message;
       
       if (messageInput.sender === 'user') {
         const caseData = await storage.getCaseById(req.params.id);
@@ -202,7 +313,7 @@ export function registerCaseMessageRoutes(router: Router) {
         await notificationService.notifyAdmin(
           'new_message',
           `New message from ${caseData?.userName || 'User'}`,
-          messageInput.message.substring(0, 80),
+          (messageInput.message.trim() || `Attachment: ${messageInput.attachment?.fileName || 'file'}`).substring(0, 80),
           `/admin`
         );
 
@@ -217,7 +328,7 @@ export function registerCaseMessageRoutes(router: Router) {
 
             const dashboardUrl = `${process.env.APP_BASE_URL?.replace(/\/+$/, '') || 'https://ibccf.site'}/admin`;
             const userName = caseData?.userName || 'User';
-            const preview = messageInput.message.substring(0, 200);
+            const preview = (messageInput.message.trim() || `Attachment: ${messageInput.attachment?.fileName || 'file'}`).substring(0, 200);
 
             const result = await emailService.sendAdminNewMessageAlert({
               to: recipients,
@@ -253,13 +364,40 @@ export function registerCaseMessageRoutes(router: Router) {
         })();
       }
       
-      res.json(message);
+      res.json({
+        ...message,
+        attachment: created.attachment ? attachmentMetadata(created.attachment) : null,
+      });
     } catch (error) {
       if (error instanceof z.ZodError) {
         res.status(400).json({ error: "Invalid request" });
       } else {
         res.status(500).json({ error: "Failed to send message" });
       }
+    }
+  });
+
+  router.get("/:id/messages/:messageId/attachments/:attachmentId", requirePortalAccess, async (req, res) => {
+    try {
+      const messageId = Number(req.params.messageId);
+      const attachmentId = Number(req.params.attachmentId);
+      if (!Number.isInteger(messageId) || !Number.isInteger(attachmentId)) {
+        res.status(400).json({ error: "Invalid attachment id" });
+        return;
+      }
+      const attachment = await storage.getChatAttachmentById(attachmentId);
+      if (!attachment || attachment.caseId !== req.params.id || attachment.messageId !== messageId) {
+        res.status(404).json({ error: "Attachment not found" });
+        return;
+      }
+      const safeName = attachment.fileName.replace(/[\r\n"]/g, '_');
+      res.setHeader('Content-Type', attachment.mimeType);
+      res.setHeader('Content-Length', String(attachment.byteSize));
+      res.setHeader('Content-Disposition', `inline; filename="${safeName}"`);
+      res.setHeader('Cache-Control', 'private, no-store');
+      res.send(Buffer.from(attachment.fileData, 'base64'));
+    } catch (_e) {
+      res.status(500).json({ error: "Failed to download attachment" });
     }
   });
 

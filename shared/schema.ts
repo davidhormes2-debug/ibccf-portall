@@ -764,6 +764,29 @@ export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
 export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
 export type ChatMessage = typeof chatMessages.$inferSelect;
 
+// Binary chat attachments are stored separately from chat_messages so the
+// normal 5-second message poll never re-downloads large base64 payloads.
+export const chatAttachments = pgTable("chat_attachments", {
+  id: serial("id").primaryKey(),
+  messageId: integer("message_id").notNull().references(() => chatMessages.id, { onDelete: 'cascade' }),
+  caseId: varchar("case_id").notNull().references(() => cases.id, { onDelete: 'cascade' }),
+  fileName: text("file_name").notNull(),
+  mimeType: text("mime_type").notNull(),
+  byteSize: integer("byte_size").notNull(),
+  fileData: text("file_data").notNull(),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+}, (t) => ({
+  messageIdx: index("chat_attachments_message_id_idx").on(t.messageId),
+  caseIdx: index("chat_attachments_case_id_idx").on(t.caseId),
+}));
+
+export const insertChatAttachmentSchema = createInsertSchema(chatAttachments).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertChatAttachment = z.infer<typeof insertChatAttachmentSchema>;
+export type ChatAttachment = typeof chatAttachments.$inferSelect;
+
 // Admin messages with categories (Urgent/Processing/Resolved)
 export const adminMessages = pgTable("admin_messages", {
   id: serial("id").primaryKey(),

@@ -12,7 +12,7 @@ import { PortalSkeleton } from "@/components/portal/PortalSkeleton";
 import {
   Shield, ShieldCheck, CheckCircle, AlertTriangle, Clock,
   Bell, FileText, MessageCircle, Send, X, Wallet, ExternalLink, User, History,
-  TrendingUp, Key, Star, Sparkles, PartyPopper, ArrowRight, Hourglass, Cog, UserCheck, Stamp, Copy
+  TrendingUp, Key, Star, Sparkles, PartyPopper, ArrowRight, Hourglass, Cog, UserCheck, Stamp, Copy, Paperclip, Download
 } from "lucide-react";
 import { WithdrawalGuideBanner } from "@/components/portal/WithdrawalGuideBanner";
 import { WithdrawalTutorialButton } from "@/components/portal/withdrawal-video/WithdrawalTutorialButton";
@@ -73,6 +73,26 @@ interface CardConfig {
   glow: string;
   viewState: ViewState | null;
   testId: string;
+}
+
+const CHAT_ATTACHMENT_MIME_BY_EXTENSION: Record<string, string> = {
+  jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif',
+  pdf: 'application/pdf', txt: 'text/plain', doc: 'application/msword',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  xls: 'application/vnd.ms-excel',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};
+
+function chatAttachmentMimeType(file: File): string | null {
+  if (file.type && Object.values(CHAT_ATTACHMENT_MIME_BY_EXTENSION).includes(file.type)) return file.type;
+  const ext = file.name.split('.').pop()?.toLowerCase() || '';
+  return CHAT_ATTACHMENT_MIME_BY_EXTENSION[ext] || null;
+}
+
+function formatChatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 const cardConfigs: CardConfig[] = [
@@ -154,6 +174,8 @@ export function DashboardView() {
 
   const [newMessage, setNewMessage] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [pendingChatAttachment, setPendingChatAttachment] = useState<File | null>(null);
+  const [adminIsTyping, setAdminIsTyping] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [feedbackRating, setFeedbackRating] = useState(0);
   const [feedbackComment, setFeedbackComment] = useState("");
@@ -161,6 +183,7 @@ export function DashboardView() {
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
 
   const chatScrollRef = useRef<HTMLDivElement>(null);
+  const chatFileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const urgentMessages = adminMessages.filter(m => m.category === "urgent");
@@ -187,12 +210,116 @@ export function DashboardView() {
     }
   }, [isChatOpen, currentCase, unreadCount]);
 
+  useEffect(() => {
+    if (!isChatOpen || !currentCase) {
+      setAdminIsTyping(false);
+      return;
+    }
+    const caseId = currentCase.id;
+    let cancelled = false;
+    const loadTyping = async () => {
+      try {
+        const portalToken = getPortalToken();
+        const res = await fetch(`/api/cases/${caseId}/typing`, {
+          headers: portalToken ? { 'x-portal-session-token': portalToken } : {},
+          cache: 'no-store',
+        });
+        if (!res.ok) return;
+        const data = await res.json() as { admin?: boolean };
+        if (!cancelled) setAdminIsTyping(!!data.admin);
+      } catch {
+        if (!cancelled) setAdminIsTyping(false);
+      }
+    };
+    void loadTyping();
+    const intervalId = window.setInterval(loadTyping, 1200);
+    return () => { cancelled = true; window.clearInterval(intervalId); };
+  }, [isChatOpen, currentCase?.id]);
+
+  useEffect(() => {
+    if (!isChatOpen || !currentCase) return;
+    const portalToken = getPortalToken();
+    const caseId = currentCase.id;
+    const isTyping = newMessage.trim().length > 0;
+    void fetch(`/api/cases/${caseId}/typing`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(portalToken ? { 'x-portal-session-token': portalToken } : {}) },
+      body: JSON.stringify({ sender: 'user', isTyping }),
+    }).catch(() => {});
+    if (!isTyping) return;
+    const timeoutId = window.setTimeout(() => {
+      void fetch(`/api/cases/${caseId}/typing`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(portalToken ? { 'x-portal-session-token': portalToken } : {}) },
+        body: JSON.stringify({ sender: 'user', isTyping: false }),
+      }).catch(() => {});
+    }, 1800);
+    return () => window.clearTimeout(timeoutId);
+  }, [isChatOpen, currentCase?.id, newMessage]);
+
+  const selectChatAttachment = (file: File | null) => {
+    if (!file) return;
+    if (!chatAttachmentMimeType(file)) {
+      toast({ variant: 'destructive', title: 'Unsupported attachment', description: 'Use an image, PDF, text, Word or Excel file.' });
+      if (chatFileInputRef.current) chatFileInputRef.current.value = '';
+      return;
+    }
+    if (file.size > 6 * 1024 * 1024) {
+      toast({ variant: 'destructive', title: 'Attachment is too large', description: 'Chat attachments are limited to 6 MB.' });
+      if (chatFileInputRef.current) chatFileInputRef.current.value = '';
+      return;
+    }
+    setPendingChatAttachment(file);
+  };
+
+  const downloadChatAttachment = async (messageId: number, attachment: { id: number; fileName: string }) => {
+    if (!currentCase) return;
+    try {
+      const portalToken = getPortalToken();
+      const res = await fetch(`/api/cases/${currentCase.id}/messages/${messageId}/attachments/${attachment.id}`, {
+        headers: portalToken ? { 'x-portal-session-token': portalToken } : {},
+      });
+      if (!res.ok) throw new Error('Download failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = attachment.fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      toast({ variant: 'destructive', title: 'Could not download attachment' });
+    }
+  };
+
   const handleSendMessage = async () => {
-    if (!newMessage.trim() || isSendingMessage) return;
+    if ((!newMessage.trim() && !pendingChatAttachment) || isSendingMessage) return;
     setIsSendingMessage(true);
-    await sendMessage(newMessage.trim());
-    setNewMessage("");
-    setIsSendingMessage(false);
+    try {
+      let attachment: { fileName: string; mimeType: string; fileData: string } | undefined;
+      if (pendingChatAttachment) {
+        const mimeType = chatAttachmentMimeType(pendingChatAttachment);
+        if (!mimeType) throw new Error('Unsupported attachment type');
+        if (pendingChatAttachment.size > 6 * 1024 * 1024) throw new Error('Attachment too large');
+        const fileData = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => typeof reader.result === 'string' ? resolve(reader.result) : reject(new Error('Invalid attachment'));
+          reader.onerror = () => reject(reader.error || new Error('Attachment read failed'));
+          reader.readAsDataURL(pendingChatAttachment);
+        });
+        attachment = { fileName: pendingChatAttachment.name, mimeType, fileData };
+      }
+      await sendMessage(newMessage.trim(), attachment);
+      setNewMessage("");
+      setPendingChatAttachment(null);
+      if (chatFileInputRef.current) chatFileInputRef.current.value = '';
+    } catch (error) {
+      toast({ variant: 'destructive', title: 'Could not send attachment', description: error instanceof Error ? error.message : 'Please try again.' });
+    } finally {
+      setIsSendingMessage(false);
+    }
   };
 
   const submitFeedback = async () => {
@@ -721,27 +848,76 @@ export function DashboardView() {
                       </div>
                     )}
                     <div className={`max-w-[76%] px-3 py-2 rounded-2xl text-sm ${msg.sender === "user" ? "bg-[#004182] text-white rounded-br-md" : "bg-slate-800 text-slate-200 border border-slate-700 rounded-bl-md"}`}>
-                      <p className="whitespace-pre-wrap leading-relaxed">{msg.message}</p>
+                      {msg.message && <p className="whitespace-pre-wrap leading-relaxed">{msg.message}</p>}
+                      {msg.attachment && (
+                        <button
+                          type="button"
+                          onClick={() => void downloadChatAttachment(msg.id, msg.attachment!)}
+                          className="mt-2 flex w-full min-w-[160px] items-center gap-2 rounded-xl border border-white/10 bg-black/10 px-2.5 py-2 text-left hover:bg-black/20"
+                        >
+                          <Paperclip className="w-4 h-4 shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <p className="text-xs font-medium truncate">{msg.attachment.fileName}</p>
+                            <p className="text-[10px] opacity-60">{formatChatBytes(msg.attachment.byteSize)}</p>
+                          </div>
+                          <Download className="w-3.5 h-3.5 opacity-60 shrink-0" />
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))
               )}
+              {adminIsTyping && (
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+                  Support is typing...
+                </div>
+              )}
             </div>
 
             <div className="p-3 border-t border-white/10" style={{ background: "rgba(15,23,42,0.98)" }}>
+              <input
+                ref={chatFileInputRef}
+                type="file"
+                className="hidden"
+                accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.txt,.doc,.docx,.xls,.xlsx"
+                onChange={(event) => selectChatAttachment(event.target.files?.[0] || null)}
+              />
+              {pendingChatAttachment && (
+                <div className="mb-2 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-3 py-2">
+                  <Paperclip className="w-4 h-4 text-blue-400 shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs text-slate-200 truncate">{pendingChatAttachment.name}</p>
+                    <p className="text-[10px] text-slate-500">{formatChatBytes(pendingChatAttachment.size)}</p>
+                  </div>
+                  <button type="button" onClick={() => { setPendingChatAttachment(null); if (chatFileInputRef.current) chatFileInputRef.current.value = ''; }} className="p-1 text-slate-500 hover:text-white" aria-label="Remove attachment">
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
               <div className="flex gap-2 items-end">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => chatFileInputRef.current?.click()}
+                  disabled={isSendingMessage}
+                  className="h-10 w-10 p-0 shrink-0 border-slate-700 bg-slate-800 text-slate-400 hover:text-white"
+                  aria-label="Attach file"
+                >
+                  <Paperclip className="w-4 h-4" />
+                </Button>
                 <Input
                   placeholder={t("dashboard.chat.placeholder")}
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendMessage()}
+                  onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && void handleSendMessage()}
                   disabled={isSendingMessage}
                   className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500"
                   data-testid="input-chat-message"
                 />
                 <Button
-                  onClick={handleSendMessage}
-                  disabled={!newMessage.trim() || isSendingMessage}
+                  onClick={() => void handleSendMessage()}
+                  disabled={(!newMessage.trim() && !pendingChatAttachment) || isSendingMessage}
                   size="sm"
                   className="h-10 w-10 p-0 bg-[#004182] hover:bg-[#003366] rounded-full shrink-0"
                   style={{ boxShadow: "0 2px 8px rgba(0,65,130,0.4)" }}
