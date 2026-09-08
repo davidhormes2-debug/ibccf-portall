@@ -261,7 +261,7 @@ export function AdminGroupedNav(props: {
 
   return (
     <aside
-      className="lg:sticky lg:top-0 lg:w-60 w-full flex-shrink-0 flex flex-col lg:overflow-y-auto"
+      className="lg:sticky lg:top-0 lg:w-56 w-full flex-shrink-0 flex flex-col lg:overflow-y-auto"
       aria-label="Admin sections"
       style={{
         background: "#0d3050",
@@ -271,7 +271,7 @@ export function AdminGroupedNav(props: {
     >
       {/* Search box — filters every admin function live so each one stays
           accessible and searchable. Fills the previously-empty top area. */}
-      <div className="px-3 pt-4 pb-3 flex-shrink-0">
+      <div className="px-3 pt-3 pb-2 flex-shrink-0">
         <p
           className="text-[11px] uppercase tracking-[0.18em] font-semibold mb-2 px-1"
           style={{ color: "rgba(255,255,255,0.38)" }}
@@ -346,7 +346,7 @@ export function AdminGroupedNav(props: {
         {filteredGroups.map((group, gi) => (
           <div
             key={group.id}
-            className={`flex flex-col gap-0 w-full ${gi > 0 ? "mt-4" : "mt-1"}`}
+            className={`flex flex-col gap-0 w-full ${gi > 0 ? "mt-2.5" : "mt-1"}`}
           >
             {/* Group label — clickable to restore last item */}
             <button
@@ -375,7 +375,7 @@ export function AdminGroupedNav(props: {
                 <div key={item.id} className="relative inline-flex w-full">
                   <TabsTrigger
                     value={item.id}
-                    className="w-full justify-start gap-2.5 px-3 py-2.5 text-sm rounded-md transition-all text-left border-0 outline-none shadow-none"
+                    className="w-full justify-start gap-2.5 px-3 py-2 text-sm rounded-md transition-all text-left border-0 outline-none shadow-none"
                     style={{
                       background: isActive ? "#1a5f8a" : "transparent",
                       color: isActive ? "#ffffff" : "rgba(255,255,255,0.62)",
