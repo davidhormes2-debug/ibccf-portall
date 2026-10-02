@@ -579,62 +579,44 @@
       "stageOf": "Stage {{stage}}",
       "stages": {
         "1": {
-          "label": "Phrase Key Deposit Received",
-          "description": "Phrase key deposit successfully confirmed on ledger"
+          "label": "Signup",
+          "description": "Account created and case identity established."
         },
         "2": {
-          "label": "Generating Secure Phrase Key",
-          "description": "Phrase key creation underway"
+          "label": "Questionnaire",
+          "description": "Case intake information submitted for review."
         },
         "3": {
-          "label": "Phrase Key Approved & Available",
-          "description": "Phrase key approved and delivered to Secure Message Center"
+          "label": "Agreement",
+          "description": "Required case agreement reviewed and accepted."
         },
         "4": {
-          "label": "Withdrawal Process Initiated",
-          "description": "Withdrawal flow activated"
+          "label": "Restricted Portal",
+          "description": "Secure case workspace activated."
         },
         "5": {
-          "label": "Initial Deposit Verification",
-          "description": "Deposit verification in progress"
+          "label": "KYC",
+          "description": "Identity and verification documents reviewed."
         },
         "6": {
-          "label": "Phrase Key Verification",
-          "description": "Phrase key validation in progress"
+          "label": "Declaration of Funds",
+          "description": "Declaration and supporting compliance information reviewed."
         },
         "7": {
-          "label": "Phrase Key Merge Deposit Required",
-          "descriptionWithAmount": "Required: {{amount}} (30% merge deposit)",
-          "descriptionAwaiting": "Awaiting merge deposit calculation"
+          "label": "Wallet Linking & Calibration",
+          "description": "Approved payout method linked and calibrated."
         },
         "8": {
-          "label": "Financial Department Verification",
-          "description": "Compliance and financial review"
+          "label": "Tracking & Recovery",
+          "description": "Case tracking and recovery activity in progress."
         },
         "9": {
-          "label": "Mining Withdrawal for Final Clearance",
-          "description": "Blockchain confirmation and internal clearance"
+          "label": "Crypto Escrow Wallet Creation",
+          "description": "Escrow wallet and final clearance controls prepared."
         },
         "10": {
-          "label": "Blockchain Activity Verification",
-          "descriptionWithAmount": "Required: {{amount}} balance in receiving wallet",
-          "descriptionAwaiting": "Wallet activity verification in progress"
-        },
-        "11": {
-          "label": "IRS / International AML Verification",
-          "description": "Regulatory compliance checks in progress"
-        },
-        "12": {
-          "label": "Final Withdrawal Processing",
-          "description": "Preparing funds for release"
-        },
-        "13": {
-          "label": "Withdrawal Successfully Released",
-          "description": "Funds released to designated wallet"
-        },
-        "14": {
-          "label": "Time-Stamp Deposit for Final Delivery",
-          "description": "Final delivery confirmation"
+          "label": "Sequence Recovery",
+          "description": "Final recovery sequence and case completion."
         }
       },
       "stage7Notice": {
@@ -1312,60 +1294,44 @@
   },
   "stageCta": {
     "1": {
-      "label": "View Compliance Updates",
-      "headline": "Deposit confirmed — case is now active"
+      "label": "View Account",
+      "headline": "Signup complete — your case account is active"
     },
     "2": {
-      "label": "Open Secure Messages",
-      "headline": "Compliance is generating your Phrase Key"
+      "label": "Review Questionnaire",
+      "headline": "Complete and review your case questionnaire"
     },
     "3": {
-      "label": "View Phrase Key",
-      "headline": "Your Phrase Key is ready in Secure Messages"
+      "label": "Review Agreement",
+      "headline": "Review and accept the required case agreement"
     },
     "4": {
-      "label": "Select Withdrawal Option",
-      "headline": "Choose Option A or B in your Withdrawal Letter"
+      "label": "Open Secure Portal",
+      "headline": "Your restricted case workspace is being activated"
     },
     "5": {
-      "label": "Review Submissions",
-      "headline": "Compliance is verifying your initial deposit"
+      "label": "Open Documents",
+      "headline": "Complete KYC identity verification"
     },
     "6": {
-      "label": "Open Secure Messages",
-      "headline": "Phrase Key cross-validation in progress"
+      "label": "Open Declaration",
+      "headline": "Complete the Declaration of Funds and supporting compliance review"
     },
     "7": {
-      "label": "Pay Merge Deposit",
-      "headline": "Phrase Key Merge Deposit required to continue"
+      "label": "Link Wallet",
+      "headline": "Link and calibrate your approved payout wallet"
     },
     "8": {
-      "label": "Review Receipts",
-      "headline": "Financial Department is reviewing your file"
+      "label": "View Progress",
+      "headline": "Tracking and recovery activity is in progress"
     },
     "9": {
-      "label": "View Progress",
-      "headline": "Mining clearance desk preparing your settlement"
+      "label": "Open Secure Messages",
+      "headline": "Crypto escrow wallet preparation and final clearance are in review"
     },
     "10": {
-      "label": "Verify Wallet Balance",
-      "headline": "Activity wallet balance required for verification"
-    },
-    "11": {
-      "label": "Sign Declaration",
-      "headline": "Sign the Declaration of Compliance to advance"
-    },
-    "12": {
-      "label": "Open Secure Messages",
-      "headline": "Final processing window — settlement queued"
-    },
-    "13": {
-      "label": "Confirm Receipt",
-      "headline": "Funds released — confirm receipt to close your case"
-    },
-    "14": {
-      "label": "Open Withdrawal Activation",
-      "headline": "Complete Withdrawal Activation to release funds"
+      "label": "Open Withdrawal",
+      "headline": "Sequence recovery and case completion are in progress"
     }
   },
   "withdrawalActivation": {
