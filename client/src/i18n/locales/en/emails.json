@@ -205,10 +205,10 @@
     "signoff": "This is an automated notification. Please do not reply directly to this email."
   },
   "stageInstructions": {
-    "subjectTemplate": "Stage {{stage}} of 14: {{title}} — Case {{case}}",
-    "preheader": "Stage {{stage}} of 14: {{title}} — instructions for case {{case}}.",
+    "subjectTemplate": "Step {{stage}} of 10: {{title}} — Case {{case}}",
+    "preheader": "Step {{stage}} of 10: {{title}} — instructions for case {{case}}.",
     "intro": "Below is a detailed update for your case {{case}}. Please review the stage instructions carefully and complete any required actions inside your secure portal.",
-    "stageOf": "Stage {{stage}} of 14",
+    "stageOf": "Step {{stage}} of 10",
     "regulatoryNote": "References are provided for transparency. Specific applicability depends on your jurisdiction of residency and the asset class involved.",
     "securityBody": "Always perform deposits and confirmations from inside your secure portal. IBCCF will never ask for your access key, PIN or Phrase Key by email or chat.",
     "signoff": "For any questions, please use the secure messaging panel inside your portal so the team has full case context."
