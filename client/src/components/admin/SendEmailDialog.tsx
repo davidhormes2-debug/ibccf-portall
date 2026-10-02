@@ -53,7 +53,7 @@ export function SendEmailDialog({
     const tpl = QUICK_SEND_TEMPLATES.find((t) => t.id === templateId);
     if (!tpl) return;
     const name = selectedCase?.userName ?? "";
-    const sName = stageName ?? "your current stage";
+    const sName = stageName ?? "your current workflow step";
     setEmailSubject(tpl.getSubject(sName));
     setEmailBody(tpl.getBody(name, sName, stageNum));
   };
@@ -95,7 +95,7 @@ export function SendEmailDialog({
                 {stageLabel ? (
                   <div className="rounded-md border border-slate-700/50 bg-slate-800/40 px-3 py-2 space-y-0.5">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                      Current stage
+                      Current workflow step
                     </p>
                     <p className="text-sm text-slate-200 font-medium">{stageLabel}</p>
                     {stageInstruction?.summary && (
