@@ -606,10 +606,10 @@ export function CasesTab() {
     runBulk("Advance stage", async (id) => {
       const c = cases.find((x) => x.id === id);
       if (!c) return false;
-      // withdrawalStage is stored as text ('1'..'14') — parse defensively.
+      // withdrawalStage is stored as text ('1'..'10') — parse defensively.
       const raw = c.withdrawalStage;
       const current = raw && /^[0-9]+$/.test(raw) ? parseInt(raw, 10) : 0;
-      if (current >= 14) return true; // already at terminal stage — no-op success
+      if (current >= 10) return true; // already at terminal stage — no-op success
       return (await patchCase(id, { withdrawalStage: String(current + 1) })).ok;
     }, ids);
 
@@ -1209,7 +1209,7 @@ export function CasesTab() {
   // Picker-filter inputs — distinct from the table-level filters above
   // so the operator can build a target set without disturbing what's
   // visible on screen.
-  const [pickerStage, setPickerStage] = useState<string>("any");        // "any" | "none" | "1".."14"
+  const [pickerStage, setPickerStage] = useState<string>("any");        // "any" | "none" | "1".."10"
   const [pickerPriority, setPickerPriority] = useState<string>("any");  // "any" | "high" | "medium" | "low" | "none"
   const [pickerStatus, setPickerStatus] = useState<string>("any");      // "any" | created | registered | syncing | active | completed
   const [pickerAssignee, setPickerAssignee] = useState<string>("");     // substring (case-insensitive); "" = any
@@ -2531,7 +2531,7 @@ export function CasesTab() {
             return;
           }
           if (key === "pending_uploads") {
-            setActiveTab("supporting-docs");
+            setActiveTab("documents");
             return;
           }
           if (key === "pending_withdrawals") {
