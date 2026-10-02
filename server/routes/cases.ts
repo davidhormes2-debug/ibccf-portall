@@ -804,7 +804,7 @@ casesRouter.get("/access/:code", async (req, res) => {
       // user's typed signature has been captured.
       sealedAt: caseData.sealedAt,
       sealedBy: caseData.sealedBy,
-      // Withdrawal Activation (Task #66) — surfaced after stage 14 so the
+      // Withdrawal Activation (Task #66) — surfaced at the final canonical step so the
       // portal can render the congratulations + bind-wallet + deposit flow
       // and gate the in-flight banner copy on the admin's approval.
       withdrawalActivationMinUsdt: caseData.withdrawalActivationMinUsdt,
@@ -3705,9 +3705,9 @@ casesRouter.post("/:id/send-stage-email", checkAdminAuth, async (req, res) => {
       return;
     }
 
-    const { getStageInstruction } = await import('../../shared/stageInstructions');
-    const stageNumber = parseInt(caseData.withdrawalStage || '1', 10);
-    const stage = getStageInstruction(stageNumber);
+    const { getCanonicalWorkflowEmailDetail, toCanonicalCaseStage } = await import('../../shared/canonicalWorkflow');
+    const stageNumber = toCanonicalCaseStage(caseData.withdrawalStage);
+    const stage = getCanonicalWorkflowEmailDetail(stageNumber);
 
     const userName = (caseData.userName ?? '').trim() || caseData.userEmail;
     const caseReference = caseData.id;
@@ -3731,7 +3731,7 @@ casesRouter.post("/:id/send-stage-email", checkAdminAuth, async (req, res) => {
 
     const { emailService } = await import('../services/EmailService');
 
-    const subject = (overrides?.subject?.trim()) || `Stage ${stage.stage} of 14: ${stage.title} — Case ${caseReference}`;
+    const subject = (overrides?.subject?.trim()) || `Step ${stage.stage} of 10: ${stage.title} — Case ${caseReference}`;
     const finalSummary = overrides?.summary ?? stage.summary;
     const finalDetailed = overrides?.detailedExplanation ?? stage.detailedExplanation;
     const finalWhy = overrides?.whyItMatters ?? stage.whyItMatters;
@@ -3740,7 +3740,7 @@ casesRouter.post("/:id/send-stage-email", checkAdminAuth, async (req, res) => {
     const finalRegBasis = (overrides?.regulatoryBasis && overrides.regulatoryBasis.length > 0) ? overrides.regulatoryBasis : stage.regulatoryBasis;
 
     const bodyPreview = [
-      `Stage ${stage.stage} of 14 — ${stage.title}`,
+      `Step ${stage.stage} of 10 — ${stage.title}`,
       '',
       `Summary: ${finalSummary}`,
       '',
@@ -4166,10 +4166,10 @@ casesRouter.post(
 
       const adminUser = await resolveAdminUsernameFromReq(req);
       const stageMatch = original.subject.match(
-        /^Stage\s+(\d+)\s+of\s+14\b/i,
+        /^(?:Step\s+(\d+)\s+of\s+10|Stage\s+(\d+)\s+of\s+14)\b/i,
       );
       const isStageEmail = Boolean(stageMatch);
-      const stageNumber = stageMatch ? parseInt(stageMatch[1], 10) : null;
+      const stageNumber = stageMatch ? parseInt(stageMatch[1] ?? stageMatch[2], 10) : null;
       const auditTag = isStageEmail ? "stage_instructions" : "custom";
 
       const retryRow = await storage.createCaseEmail({
@@ -5350,7 +5350,7 @@ casesRouter.get("/:id/nda", requirePortalSessionOnly, async (req, res) => {
       return;
     }
     const stage = parseInt(caseData.withdrawalStage || "1", 10);
-    if (!Number.isFinite(stage) || stage < 14) {
+    if (!Number.isFinite(stage) || stage < 10) {
       res.status(409).json({
         error:
           "The Sealed Settlement & NDA only becomes available once the case reaches the final stage.",
@@ -5496,7 +5496,7 @@ casesRouter.post("/:id/nda/sign", requirePortalSessionOnly, async (req, res) => 
       return;
     }
     const stage = parseInt(caseData.withdrawalStage || "1", 10);
-    if (!Number.isFinite(stage) || stage < 14) {
+    if (!Number.isFinite(stage) || stage < 10) {
       res.status(409).json({
         error:
           "The Sealed Settlement & NDA only becomes available once the case reaches the final stage.",
@@ -5938,7 +5938,7 @@ casesRouter.get("/:id/nda/pdf", async (req, res) => {
       return;
     }
     const stage = parseInt(caseData.withdrawalStage || "1", 10);
-    if (!Number.isFinite(stage) || stage < 14) {
+    if (!Number.isFinite(stage) || stage < 10) {
       res.status(409).json({ error: "NDA not available yet for this case." });
       return;
     }
@@ -7733,7 +7733,7 @@ casesRouter.post(
     try {
       const adminUser = (req as any).adminUsername ?? "Admin";
       const bodySchema = z.object({
-        targetStage: z.string().regex(/^([1-9]|1[0-4])$/, "targetStage must be a number between 1 and 14"),
+        targetStage: z.string().regex(/^([1-9]|10)$/, "targetStage must be a number between 1 and 10"),
         reason: z.string().min(1, "A reason is required"),
       });
       let parsed: z.infer<typeof bodySchema>;
