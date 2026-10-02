@@ -163,8 +163,9 @@ function caseEmailToRow(row: CaseEmail): DeliveryRow {
   // Custom and stage-instructions both insert into case_emails. The
   // backend doesn't store a tag on the row, but we can recover it from
   // the subject prefix written by /send-stage-email
-  // ("Stage N of 14: ..."). Anything else is treated as a custom email.
-  const tag = /^Stage\s+\d+\s+of\s+14\b/i.test(row.subject)
+  // New messages use "Step N of 10". Keep the old "Stage N of 14" pattern
+  // solely so historical mail remains classified correctly in the audit view.
+  const tag = /^(?:Step\s+\d+\s+of\s+10|Stage\s+\d+\s+of\s+14)\b/i.test(row.subject)
     ? "stage_instructions"
     : "custom";
   const status: DeliveryStatus =
