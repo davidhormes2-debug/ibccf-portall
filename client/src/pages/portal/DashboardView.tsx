@@ -26,8 +26,7 @@ import {
   StageBlocker,
 } from "./stageCta";
 import {
-  getStageInstructionLocalized,
-  getRecommendedDocumentsForStage,
+   getRecommendedDocumentsForStage,
   DOCUMENT_CATEGORY_LABELS,
 } from "@shared/stageInstructions";
 import { formatTokenDepositRequired } from "@shared/tokenDeposit";
@@ -437,7 +436,7 @@ export function DashboardView() {
         <StageCtaCard currentCase={currentCase} />
       )}
 
-      {/* 14-Stage Progress Tracker — placed directly below CTA */}
+      {/* Canonical 10-step workflow tracker — placed directly below CTA */}
       {currentCase && (
         <WithdrawalProgressTracker currentCase={currentCase} />
       )}
@@ -2030,45 +2029,16 @@ function StampDutyReminderCard({ currentCase }: { currentCase: Case }) {
 }
 
 function StageCtaCard({ currentCase }: { currentCase: Case }) {
-  const { t: tStages } = useTranslation("stages");
   const { t } = useTranslation("portal");
   const { setViewState } = usePortal();
   const isWithdrawalMode = getIsWithdrawalMode(currentCase);
-  const parsed = parseInt(currentCase.withdrawalStage || "1", 10);
-  const stage = Number.isFinite(parsed) ? Math.min(Math.max(parsed, 1), 14) : 1;
+  const stage = toCanonicalCaseStage(currentCase.withdrawalStage);
   const cta = getStageCta(stage);
   const colors = blockerColors(cta.blocker);
   const title = getStageTitle(stage);
   const whatsNext = getStageWhatsNext(stage);
-  const instruction = getStageInstructionLocalized(stage, (_ns, key) => tStages(key));
-
-  // Stage 7 and Stage 10 carry case-specific amounts that the user must
-  // actually act on. Surface them directly inside the CTA card so the user
-  // never has to scroll down to the tracker notices to find the number.
-  const dynamicAmount: { label: string; value: string; amount: string } | null = (() => {
-    const asset = currentCase.depositAsset?.trim() || "USDT";
-    if (stage === 7 && currentCase.phraseKeyMergeDeposit) {
-      return {
-        label: t("dashboard.stageCta.stage7AmountLabel"),
-        value: `${currentCase.phraseKeyMergeDeposit} ${asset}`,
-        amount: currentCase.phraseKeyMergeDeposit,
-      };
-    }
-    if (stage === 10 && currentCase.activityWalletRequirement) {
-      return {
-        label: t("dashboard.stageCta.stage10AmountLabel"),
-        value: `${currentCase.activityWalletRequirement} ${asset}`,
-        amount: currentCase.activityWalletRequirement,
-      };
-    }
-    return null;
-  })();
-  const dynamicHeadline =
-    stage === 7 && currentCase.phraseKeyMergeDeposit
-      ? t("dashboard.stageCta.stage7Headline", { amount: currentCase.phraseKeyMergeDeposit, asset: currentCase.depositAsset?.trim() || "USDT" })
-      : stage === 10 && currentCase.activityWalletRequirement
-        ? t("dashboard.stageCta.stage10Headline", { amount: currentCase.activityWalletRequirement, asset: currentCase.depositAsset?.trim() || "USDT" })
-        : t(cta.shortHeadlineKey);
+  const instruction = CANONICAL_CASE_WORKFLOW[stage - 1];
+  const dynamicHeadline = t(cta.shortHeadlineKey);
   const blockerIcon = (b: StageBlocker) => {
     if (b === "user_action") return <UserCheck className="w-5 h-5 text-white" />;
     if (b === "admin_action") return <Hourglass className="w-5 h-5 text-white" />;
@@ -2282,20 +2252,6 @@ function StageCtaCard({ currentCase }: { currentCase: Case }) {
                 <p className="text-slate-300/85 text-sm mt-0.5" data-testid="stage-cta-headline">
                   {dynamicHeadline}
                 </p>
-                {dynamicAmount && (
-                  <div
-                    className={`mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${colors.badgeBg} ${colors.ring} border`}
-                    data-testid="stage-cta-amount"
-                  >
-                    <span className={`text-[10px] uppercase tracking-widest font-semibold ${colors.badgeText}`}>
-                      {dynamicAmount.label}
-                    </span>
-                    <span className="text-white font-bold text-sm">
-                      {dynamicAmount.value}
-                      <LocalizedAmount value={dynamicAmount.amount} estimateClassName="text-xs font-normal text-white/70 ml-1" estimateOnly={true} />
-                    </span>
-                  </div>
-                )}
                 <p className="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
                   {whatsNext}
                 </p>
