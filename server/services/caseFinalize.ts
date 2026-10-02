@@ -9,7 +9,7 @@ import { storage } from "../storage";
  * side effects (email, audit, stage flip).
  *
  * On first run we:
- *   • flip the case to stage 14, status='completed'
+ *   • flip the case to step 10, status='completed'
  *   • stamp `autoFinalizedAt` / `autoFinalizedBy`
  *   • write an audit row
  *   • send the localized "case finalized" email (best-effort)
@@ -21,7 +21,7 @@ export async function finalizeCaseAfterNda(caseId: string, actor: string): Promi
 
   const now = new Date();
   await caseService.updateCase(caseId, {
-    withdrawalStage: "14",
+    withdrawalStage: "10",
     status: "completed",
     autoFinalizedAt: now,
     autoFinalizedBy: actor,
@@ -34,7 +34,7 @@ export async function finalizeCaseAfterNda(caseId: string, actor: string): Promi
       targetType: "case",
       targetId: caseId,
       adminUsername: actor,
-      newValue: `Case auto-finalized (stage 14, status completed) after NDA signing at ${now.toISOString()}`,
+      newValue: `Case auto-finalized (step 10, status completed) after NDA signing at ${now.toISOString()}`,
     });
   } catch (err) {
     console.error("audit log for case_auto_finalized_after_nda failed:", err);
