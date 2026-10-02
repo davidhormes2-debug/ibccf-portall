@@ -67,6 +67,7 @@ import { getIsWithdrawalMode } from "@/lib/withdrawalMode";
 import {
   CANONICAL_CASE_WORKFLOW,
   CANONICAL_CASE_STAGE_COUNT,
+  getCanonicalWorkflowEmailDetail,
   toCanonicalCaseStage,
 } from "@shared/canonicalWorkflow";
 
@@ -2037,7 +2038,7 @@ function StageCtaCard({ currentCase }: { currentCase: Case }) {
   const colors = blockerColors(cta.blocker);
   const title = getStageTitle(stage);
   const whatsNext = getStageWhatsNext(stage);
-  const instruction = CANONICAL_CASE_WORKFLOW[stage - 1];
+  const instruction = getCanonicalWorkflowEmailDetail(stage);
   const dynamicHeadline = t(cta.shortHeadlineKey);
   const blockerIcon = (b: StageBlocker) => {
     if (b === "user_action") return <UserCheck className="w-5 h-5 text-white" />;
