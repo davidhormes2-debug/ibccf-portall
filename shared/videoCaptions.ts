@@ -1,28 +1,11 @@
 import { createContext, useContext } from "react";
 
-/**
- * Localised caption strings for the withdrawal tutorial video.
- *
- * The video is a live React/Framer-Motion animation (not a pre-rendered
- * MP4), so "localising the video" means driving every on-screen string from
- * this single, locale-keyed table. The scene components keep their structural
- * data (stage numbers, who-acts colour/icon mapping) in code and read only the
- * human-facing copy from here, so all six locales share one scene structure.
- *
- * Terminology (Phrase Key / Merge Deposit / Time-Stamp Deposit / IRS·AML) is
- * kept consistent with the portal's `stages.json` translations.
- */
-
 export type VideoLocaleCode = "en" | "es" | "fr" | "de" | "pt" | "zh";
 
 export interface PhaseCaptions {
-  /** Eyebrow label, e.g. "Phase 1". */
   label: string;
-  /** Heading rendered as stacked lines (each becomes its own block). */
   titleLines: string[];
-  /** Supporting paragraph under the heading. */
   description: string;
-  /** Stage titles in render order; indices map to the scene's stage array. */
   stages: string[];
 }
 
@@ -32,7 +15,6 @@ export interface VideoCaptions {
     titleLines: string[];
     subtitleLines: string[];
   };
-  /** Role labels shown on each stage card. */
   roles: {
     user: string;
     admin: string;
@@ -48,395 +30,204 @@ export interface VideoCaptions {
 const en: VideoCaptions = {
   intro: {
     badge: "IBCCF Portal Guide",
-    titleLines: ["The Withdrawal", "Journey Demystified"],
+    titleLines: ["Your Case", "Workflow Explained"],
     subtitleLines: [
-      "14 stages. 4 key phases.",
-      "Understand exactly what happens, when, and who handles it.",
+      "10 steps. 4 clear phases.",
+      "See what happens next and where each action belongs.",
     ],
   },
   roles: {
     user: "Action Required",
-    admin: "Compliance Review",
+    admin: "Case Review",
     system: "System Processing",
     complete: "Complete",
   },
   phase1: {
     label: "Phase 1",
-    titleLines: ["Deposit &", "Key Generation"],
-    description:
-      "Your case is opened on the ledger. Our compliance system securely generates your Phrase Key using multi-party computation.",
-    stages: [
-      "Phrase Key Deposit Received",
-      "Generating Secure Phrase Key",
-      "Phrase Key Approved",
-    ],
+    titleLines: ["Account &", "Intake"],
+    description: "Create the case record, complete the intake questionnaire, and review the required agreement.",
+    stages: ["Signup", "Questionnaire", "Agreement"],
   },
   phase2: {
     label: "Phase 2",
-    titleLines: ["Initiation &", "Verification"],
-    description:
-      "You select your release speed. Our compliance team verifies your initial deposit and cross-validates your Phrase Key.",
-    stages: [
-      "Withdrawal Process Initiated",
-      "Initial Deposit Verification",
-      "Phrase Key Verification",
-      "Merge Deposit Required",
-    ],
+    titleLines: ["Secure", "Review"],
+    description: "Enter the restricted workspace, complete identity verification, and submit the Declaration of Funds.",
+    stages: ["Restricted Portal", "KYC", "Declaration of Funds"],
   },
   phase3: {
     label: "Phase 3",
-    titleLines: ["Clearance &", "Compliance"],
-    description:
-      "Financial review ensures integrity. You submit the required Declaration of Compliance for international tax and AML standards.",
-    stages: [
-      "Financial Dept Verification",
-      "Mining Clearance",
-      "Activity Verification",
-      "IRS / Int'l AML Check",
-    ],
+    titleLines: ["Recovery", "Operations"],
+    description: "Link the approved payout method and follow the case through tracking and recovery activity.",
+    stages: ["Wallet Linking & Calibration", "Tracking & Recovery"],
   },
   phase4: {
     label: "Phase 4",
-    titleLines: ["Final", "Release"],
-    description:
-      "Your withdrawal is cleared. A final time-stamp locks your block-window, and the funds are irrevocably released to your wallet.",
-    stages: ["Final Processing", "Time-Stamp Deposit", "Successfully Released"],
+    titleLines: ["Final", "Completion"],
+    description: "Complete escrow-wallet preparation and the final sequence-recovery step.",
+    stages: ["Crypto Escrow Wallet Creation", "Sequence Recovery"],
   },
 };
 
 const es: VideoCaptions = {
   intro: {
     badge: "Guía del Portal IBCCF",
-    titleLines: ["El proceso de retiro", "explicado al detalle"],
-    subtitleLines: [
-      "14 etapas. 4 fases clave.",
-      "Comprenda exactamente qué ocurre, cuándo y quién lo gestiona.",
-    ],
+    titleLines: ["Flujo de su caso", "explicado"],
+    subtitleLines: ["10 pasos. 4 fases claras.", "Vea qué ocurre a continuación y dónde corresponde cada acción."],
   },
-  roles: {
-    user: "Acción requerida",
-    admin: "Revisión de cumplimiento",
-    system: "Procesamiento del sistema",
-    complete: "Completado",
-  },
+  roles: { user: "Acción requerida", admin: "Revisión del caso", system: "Procesamiento del sistema", complete: "Completado" },
   phase1: {
-    label: "Fase 1",
-    titleLines: ["Depósito y", "generación de clave"],
-    description:
-      "Su caso se abre en el libro mayor. Nuestro sistema de cumplimiento genera de forma segura su Clave Frase mediante computación multiparte.",
-    stages: [
-      "Depósito de Clave Frase recibido",
-      "Generando Clave Frase segura",
-      "Clave Frase aprobada",
-    ],
+    label: "Fase 1", titleLines: ["Cuenta e", "inicio"],
+    description: "Cree el registro del caso, complete el cuestionario inicial y revise el acuerdo requerido.",
+    stages: ["Registro", "Cuestionario", "Acuerdo"],
   },
   phase2: {
-    label: "Fase 2",
-    titleLines: ["Inicio y", "verificación"],
-    description:
-      "Usted elige la velocidad de liberación. Nuestro equipo de cumplimiento verifica su depósito inicial y valida su Clave Frase.",
-    stages: [
-      "Proceso de retiro iniciado",
-      "Verificación del depósito inicial",
-      "Verificación de la Clave Frase",
-      "Depósito de fusión requerido",
-    ],
+    label: "Fase 2", titleLines: ["Revisión", "segura"],
+    description: "Acceda al espacio restringido, complete la verificación de identidad y presente la Declaración de Fondos.",
+    stages: ["Portal restringido", "KYC", "Declaración de Fondos"],
   },
   phase3: {
-    label: "Fase 3",
-    titleLines: ["Habilitación y", "cumplimiento"],
-    description:
-      "La revisión financiera garantiza la integridad. Usted firma la Declaración de Cumplimiento exigida por las normas fiscales y de prevención de blanqueo internacionales.",
-    stages: [
-      "Verificación del Dpto. Financiero",
-      "Autorización de minería",
-      "Verificación de actividad",
-      "Verificación IRS / AML int'l",
-    ],
+    label: "Fase 3", titleLines: ["Operaciones de", "recuperación"],
+    description: "Vincule el método de pago aprobado y siga las actividades de seguimiento y recuperación.",
+    stages: ["Vinculación y calibración de cartera", "Seguimiento y recuperación"],
   },
   phase4: {
-    label: "Fase 4",
-    titleLines: ["Liberación", "final"],
-    description:
-      "Su retiro está habilitado. Una marca de tiempo final bloquea su ventana de bloque y los fondos se liberan de forma irrevocable a su monedero.",
-    stages: [
-      "Procesamiento final",
-      "Depósito de marca de tiempo",
-      "Retiro liberado con éxito",
-    ],
+    label: "Fase 4", titleLines: ["Finalización", "del caso"],
+    description: "Complete la preparación de la cartera de custodia y la recuperación final de secuencia.",
+    stages: ["Creación de cartera de custodia cripto", "Recuperación de secuencia"],
   },
 };
 
 const fr: VideoCaptions = {
   intro: {
     badge: "Guide du portail IBCCF",
-    titleLines: ["Le parcours de retrait", "enfin clarifié"],
-    subtitleLines: [
-      "14 étapes. 4 phases clés.",
-      "Comprenez exactement ce qui se passe, quand et qui s'en charge.",
-    ],
+    titleLines: ["Le parcours du dossier", "expliqué"],
+    subtitleLines: ["10 étapes. 4 phases claires.", "Voyez la prochaine action et l'endroit où elle doit être effectuée."],
   },
-  roles: {
-    user: "Action requise",
-    admin: "Examen de conformité",
-    system: "Traitement système",
-    complete: "Terminé",
-  },
+  roles: { user: "Action requise", admin: "Examen du dossier", system: "Traitement système", complete: "Terminé" },
   phase1: {
-    label: "Phase 1",
-    titleLines: ["Dépôt et", "génération de clé"],
-    description:
-      "Votre dossier est ouvert dans le registre. Notre système de conformité génère votre Phrase Clé en toute sécurité par calcul multipartite.",
-    stages: [
-      "Dépôt de la Phrase Clé reçu",
-      "Génération de la Phrase Clé sécurisée",
-      "Phrase Clé approuvée",
-    ],
+    label: "Phase 1", titleLines: ["Compte et", "collecte"],
+    description: "Créez le dossier, remplissez le questionnaire initial et examinez l'accord requis.",
+    stages: ["Inscription", "Questionnaire", "Accord"],
   },
   phase2: {
-    label: "Phase 2",
-    titleLines: ["Lancement et", "vérification"],
-    description:
-      "Vous choisissez votre vitesse de libération. Notre équipe de conformité vérifie votre dépôt initial et valide votre Phrase Clé.",
-    stages: [
-      "Processus de retrait lancé",
-      "Vérification du dépôt initial",
-      "Vérification de la Phrase Clé",
-      "Dépôt de fusion requis",
-    ],
+    label: "Phase 2", titleLines: ["Examen", "sécurisé"],
+    description: "Accédez à l'espace restreint, effectuez la vérification d'identité et soumettez la Déclaration de fonds.",
+    stages: ["Portail restreint", "KYC", "Déclaration de fonds"],
   },
   phase3: {
-    label: "Phase 3",
-    titleLines: ["Validation et", "conformité"],
-    description:
-      "L'examen financier garantit l'intégrité. Vous signez la Déclaration de conformité requise pour les normes fiscales et anti-blanchiment internationales.",
-    stages: [
-      "Vérification du service financier",
-      "Clearance du minage",
-      "Vérification d'activité",
-      "Vérification IRS / AML int'l",
-    ],
+    label: "Phase 3", titleLines: ["Opérations de", "récupération"],
+    description: "Liez le mode de versement approuvé et suivez les activités de suivi et de récupération.",
+    stages: ["Liaison et calibrage du portefeuille", "Suivi et récupération"],
   },
   phase4: {
-    label: "Phase 4",
-    titleLines: ["Libération", "finale"],
-    description:
-      "Votre retrait est validé. Un horodatage final verrouille votre fenêtre de bloc et les fonds sont libérés de façon irrévocable vers votre portefeuille.",
-    stages: [
-      "Traitement final",
-      "Dépôt d'horodatage",
-      "Retrait libéré avec succès",
-    ],
+    label: "Phase 4", titleLines: ["Finalisation", "du dossier"],
+    description: "Finalisez la préparation du portefeuille séquestre et la récupération finale de séquence.",
+    stages: ["Création du portefeuille séquestre crypto", "Récupération de séquence"],
   },
 };
 
 const de: VideoCaptions = {
   intro: {
     badge: "IBCCF-Portal-Leitfaden",
-    titleLines: ["Der Auszahlungsweg", "verständlich erklärt"],
-    subtitleLines: [
-      "14 Stufen. 4 zentrale Phasen.",
-      "Verstehen Sie genau, was wann passiert und wer es bearbeitet.",
-    ],
+    titleLines: ["Ihr Fallablauf", "verständlich erklärt"],
+    subtitleLines: ["10 Schritte. 4 klare Phasen.", "Sehen Sie, was als Nächstes passiert und wo jede Aktion hingehört."],
   },
-  roles: {
-    user: "Aktion erforderlich",
-    admin: "Compliance-Prüfung",
-    system: "Systemverarbeitung",
-    complete: "Abgeschlossen",
-  },
+  roles: { user: "Aktion erforderlich", admin: "Fallprüfung", system: "Systemverarbeitung", complete: "Abgeschlossen" },
   phase1: {
-    label: "Phase 1",
-    titleLines: ["Einzahlung &", "Schlüsselerzeugung"],
-    description:
-      "Ihr Fall wird im Ledger eröffnet. Unser Compliance-System erzeugt Ihren Phrase Key sicher mittels Multi-Party-Computation.",
-    stages: [
-      "Phrase-Key-Einzahlung erhalten",
-      "Sicheren Phrase Key erzeugen",
-      "Phrase Key genehmigt",
-    ],
+    label: "Phase 1", titleLines: ["Konto &", "Aufnahme"],
+    description: "Erstellen Sie den Falldatensatz, füllen Sie den Fragebogen aus und prüfen Sie die erforderliche Vereinbarung.",
+    stages: ["Registrierung", "Fragebogen", "Vereinbarung"],
   },
   phase2: {
-    label: "Phase 2",
-    titleLines: ["Einleitung &", "Verifizierung"],
-    description:
-      "Sie wählen Ihre Freigabegeschwindigkeit. Unser Compliance-Team prüft Ihre Ersteinzahlung und validiert Ihren Phrase Key.",
-    stages: [
-      "Auszahlungsprozess eingeleitet",
-      "Prüfung der Ersteinzahlung",
-      "Phrase-Key-Verifizierung",
-      "Merge-Einzahlung erforderlich",
-    ],
+    label: "Phase 2", titleLines: ["Sichere", "Prüfung"],
+    description: "Öffnen Sie den geschützten Bereich, schließen Sie die Identitätsprüfung ab und reichen Sie die Gelderklärung ein.",
+    stages: ["Geschütztes Portal", "KYC", "Gelderklärung"],
   },
   phase3: {
-    label: "Phase 3",
-    titleLines: ["Freigabe &", "Compliance"],
-    description:
-      "Die Finanzprüfung sichert die Integrität. Sie unterzeichnen die erforderliche Compliance-Erklärung für internationale Steuer- und AML-Standards.",
-    stages: [
-      "Prüfung der Finanzabteilung",
-      "Mining-Freigabe",
-      "Aktivitätsprüfung",
-      "IRS- / Int'l-AML-Prüfung",
-    ],
+    label: "Phase 3", titleLines: ["Recovery-", "Vorgänge"],
+    description: "Verknüpfen Sie die genehmigte Auszahlungsmethode und verfolgen Sie Tracking- und Recovery-Aktivitäten.",
+    stages: ["Wallet-Verknüpfung & Kalibrierung", "Tracking & Recovery"],
   },
   phase4: {
-    label: "Phase 4",
-    titleLines: ["Endgültige", "Freigabe"],
-    description:
-      "Ihre Auszahlung ist freigegeben. Ein finaler Zeitstempel sperrt Ihr Block-Fenster und die Mittel werden unwiderruflich an Ihr Wallet freigegeben.",
-    stages: [
-      "Endbearbeitung",
-      "Zeitstempel-Einzahlung",
-      "Erfolgreich freigegeben",
-    ],
+    label: "Phase 4", titleLines: ["Finaler", "Abschluss"],
+    description: "Schließen Sie die Escrow-Wallet-Vorbereitung und die abschließende Sequenz-Wiederherstellung ab.",
+    stages: ["Krypto-Escrow-Wallet erstellen", "Sequenz-Wiederherstellung"],
   },
 };
 
 const pt: VideoCaptions = {
   intro: {
     badge: "Guia do Portal IBCCF",
-    titleLines: ["A jornada de saque", "descomplicada"],
-    subtitleLines: [
-      "14 etapas. 4 fases principais.",
-      "Entenda exatamente o que acontece, quando e quem cuida disso.",
-    ],
+    titleLines: ["Fluxo do seu caso", "explicado"],
+    subtitleLines: ["10 etapas. 4 fases claras.", "Veja o que acontece em seguida e onde cada ação deve ser concluída."],
   },
-  roles: {
-    user: "Ação necessária",
-    admin: "Revisão de conformidade",
-    system: "Processamento do sistema",
-    complete: "Concluído",
-  },
+  roles: { user: "Ação necessária", admin: "Revisão do caso", system: "Processamento do sistema", complete: "Concluído" },
   phase1: {
-    label: "Fase 1",
-    titleLines: ["Depósito e", "geração da chave"],
-    description:
-      "Seu caso é aberto no livro-razão. Nosso sistema de conformidade gera sua Chave Frase com segurança usando computação multipartes.",
-    stages: [
-      "Depósito da Chave Frase recebido",
-      "Gerando Chave Frase segura",
-      "Chave Frase aprovada",
-    ],
+    label: "Fase 1", titleLines: ["Conta e", "cadastro"],
+    description: "Crie o registro do caso, complete o questionário inicial e revise o acordo necessário.",
+    stages: ["Cadastro", "Questionário", "Acordo"],
   },
   phase2: {
-    label: "Fase 2",
-    titleLines: ["Início e", "verificação"],
-    description:
-      "Você escolhe a velocidade de liberação. Nossa equipe de conformidade verifica seu depósito inicial e valida sua Chave Frase.",
-    stages: [
-      "Processo de saque iniciado",
-      "Verificação do depósito inicial",
-      "Verificação da Chave Frase",
-      "Depósito de mesclagem necessário",
-    ],
+    label: "Fase 2", titleLines: ["Revisão", "segura"],
+    description: "Acesse o espaço restrito, conclua a verificação de identidade e envie a Declaração de Fundos.",
+    stages: ["Portal restrito", "KYC", "Declaração de Fundos"],
   },
   phase3: {
-    label: "Fase 3",
-    titleLines: ["Liberação e", "conformidade"],
-    description:
-      "A revisão financeira garante a integridade. Você assina a Declaração de Conformidade exigida pelas normas fiscais e de prevenção à lavagem internacionais.",
-    stages: [
-      "Verificação do Depto. Financeiro",
-      "Liberação de mineração",
-      "Verificação de atividade",
-      "Verificação IRS / AML int'l",
-    ],
+    label: "Fase 3", titleLines: ["Operações de", "recuperação"],
+    description: "Vincule o método de pagamento aprovado e acompanhe as atividades de rastreamento e recuperação.",
+    stages: ["Vinculação e calibração da carteira", "Rastreamento e recuperação"],
   },
   phase4: {
-    label: "Fase 4",
-    titleLines: ["Liberação", "final"],
-    description:
-      "Seu saque está liberado. Um carimbo de data/hora final bloqueia sua janela de bloco e os fundos são liberados irrevogavelmente para sua carteira.",
-    stages: [
-      "Processamento final",
-      "Depósito de timestamp",
-      "Liberado com sucesso",
-    ],
+    label: "Fase 4", titleLines: ["Conclusão", "final"],
+    description: "Conclua a preparação da carteira de custódia e a recuperação final da sequência.",
+    stages: ["Criação de carteira de custódia cripto", "Recuperação de sequência"],
   },
 };
 
 const zh: VideoCaptions = {
   intro: {
     badge: "IBCCF 门户指南",
-    titleLines: ["提现流程", "全程详解"],
-    subtitleLines: [
-      "14 个阶段，4 个关键环节。",
-      "清晰了解每一步何时发生、由谁处理。",
-    ],
+    titleLines: ["案件流程", "清晰说明"],
+    subtitleLines: ["10 个步骤，4 个清晰阶段。", "了解下一步操作以及每项操作应在何处完成。"],
   },
-  roles: {
-    user: "需要操作",
-    admin: "合规审查",
-    system: "系统处理",
-    complete: "已完成",
-  },
+  roles: { user: "需要操作", admin: "案件审核", system: "系统处理中", complete: "已完成" },
   phase1: {
-    label: "第一阶段",
-    titleLines: ["存入与", "密钥生成"],
-    description:
-      "您的案件已在账本中开立。我们的合规系统通过多方计算安全生成您的短语密钥。",
-    stages: ["已收到短语密钥存款", "正在生成安全短语密钥", "短语密钥已批准"],
+    label: "第一阶段", titleLines: ["账户与", "资料收集"],
+    description: "建立案件记录，完成初始问卷，并审阅所需协议。",
+    stages: ["注册", "问卷", "协议"],
   },
   phase2: {
-    label: "第二阶段",
-    titleLines: ["发起与", "验证"],
-    description:
-      "您选择放款速度。我们的合规团队核验您的初始存款并交叉验证您的短语密钥。",
-    stages: ["提现流程已发起", "初始存款验证", "短语密钥验证", "需要合并存款"],
+    label: "第二阶段", titleLines: ["安全", "审核"],
+    description: "进入受限工作区，完成身份验证，并提交资金声明。",
+    stages: ["受限门户", "KYC", "资金声明"],
   },
   phase3: {
-    label: "第三阶段",
-    titleLines: ["放行与", "合规"],
-    description:
-      "财务审查确保资金完整。您需签署国际税务与反洗钱标准所要求的合规声明。",
-    stages: ["财务部门验证", "挖矿清算", "活动验证", "IRS / 国际反洗钱核查"],
+    label: "第三阶段", titleLines: ["追踪与", "恢复"],
+    description: "关联已批准的收款方式，并跟踪案件的追踪与恢复活动。",
+    stages: ["钱包关联与校准", "追踪与恢复"],
   },
   phase4: {
-    label: "第四阶段",
-    titleLines: ["最终", "放款"],
-    description:
-      "您的提现已通过。最终时间戳锁定您的区块窗口，资金将不可撤销地放款至您的钱包。",
-    stages: ["最终处理", "时间戳存款", "成功释放"],
+    label: "第四阶段", titleLines: ["最终", "完成"],
+    description: "完成加密托管钱包准备和最终序列恢复。",
+    stages: ["创建加密托管钱包", "序列恢复"],
   },
 };
 
 export const VIDEO_CAPTIONS: Record<VideoLocaleCode, VideoCaptions> = {
-  en,
-  es,
-  fr,
-  de,
-  pt,
-  zh,
+  en, es, fr, de, pt, zh,
 };
 
 export const DEFAULT_VIDEO_LOCALE: VideoLocaleCode = "en";
 
-/**
- * Resolve any locale string (e.g. "pt-BR", "ZH", undefined) to a supported
- * locale code, stripping region tags and falling back to English. This is the
- * code used to pick the matching narration audio track.
- */
 export function resolveVideoLocaleCode(locale?: string | null): VideoLocaleCode {
-  const base = (locale ?? DEFAULT_VIDEO_LOCALE)
-    .toLowerCase()
-    .split("-")[0] as VideoLocaleCode;
+  const base = (locale ?? DEFAULT_VIDEO_LOCALE).toLowerCase().split("-")[0] as VideoLocaleCode;
   return base in VIDEO_CAPTIONS ? base : DEFAULT_VIDEO_LOCALE;
 }
 
-/**
- * Resolve any locale string (e.g. "pt-BR", "ZH", undefined) to a supported
- * caption set, stripping region tags and falling back to English.
- */
 export function resolveVideoCaptions(locale?: string | null): VideoCaptions {
   return VIDEO_CAPTIONS[resolveVideoLocaleCode(locale)];
 }
 
-/**
- * Scene keys in render order. Indices map 1:1 to `SCENE_DURATIONS` in
- * `VideoTemplate` and to the per-scene narration audio files served from
- * `/withdrawal-video/narration/<locale>/<sceneKey>.mp3`.
- */
 export const NARRATION_SCENE_KEYS = [
   "intro",
   "phase1",
@@ -447,12 +238,6 @@ export const NARRATION_SCENE_KEYS = [
 
 export type NarrationSceneKey = (typeof NARRATION_SCENE_KEYS)[number];
 
-/**
- * Compose the spoken narration script for each scene from the existing,
- * already-localised caption strings. This keeps the voiceover wording in
- * lockstep with the on-screen copy and is the single source of truth used to
- * (re)generate the per-locale TTS audio tracks.
- */
 export function buildNarrationScript(
   captions: VideoCaptions,
 ): Record<NarrationSceneKey, string> {
@@ -468,10 +253,6 @@ export function buildNarrationScript(
   };
 }
 
-/**
- * Scenes read their copy from this context so the active locale is resolved
- * once (in `VideoTemplate`) rather than re-derived per scene.
- */
 export const VideoCaptionsContext = createContext<VideoCaptions>(en);
 
 export function useVideoCaptions(): VideoCaptions {
