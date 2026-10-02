@@ -3,56 +3,16 @@ import type { Case, InsertCase, CaseLetter, UpdateCaseLetter } from "@shared/sch
 import type { DbExecutor } from "../db";
 
 const STAGE_MESSAGES: Record<string, { category: 'urgent' | 'processing' | 'resolved'; title: string; body: string }> = {
-  '1': {
-    category: 'processing',
-    title: 'Phrase Key Deposit Received',
-    body: 'Your phrase key deposit has been successfully received and confirmed on the blockchain ledger. Your account is now queued for phrase key generation. Please allow 24-48 hours for the secure encryption process to complete.'
-  },
-  '3': {
-    category: 'resolved',
-    title: 'Phrase Key Certificate Approved',
-    body: 'Your Phrase Key has been successfully verified and approved. Your unique encryption certificate has been generated and is now active for withdrawal processing.'
-  },
-  '4': {
-    category: 'processing',
-    title: 'Withdrawal Process Initiated',
-    body: 'Your withdrawal request has been officially initiated. Our compliance team is now processing your request through our secure verification protocols.'
-  },
-  '7': {
-    category: 'urgent',
-    title: 'Phrase Key Merge Deposit Required',
-    body: 'A 30% merge deposit is required to complete the phrase key verification process. Please deposit the required amount to proceed with your withdrawal.'
-  },
-  '8': {
-    category: 'processing',
-    title: 'Financial Department Verification',
-    body: 'Your withdrawal request has advanced to the Financial Department for compliance verification.'
-  },
-  '10': {
-    category: 'urgent',
-    title: 'Blockchain Activity Verification Required',
-    body: 'Blockchain activity verification is now required. Please ensure your receiving wallet maintains the required USDT balance for verification purposes.'
-  },
-  '11': {
-    category: 'processing',
-    title: 'Miners Department Processing',
-    body: 'Your withdrawal is now being processed by the Miners Department for blockchain transaction preparation and optimization.'
-  },
-  '12': {
-    category: 'processing',
-    title: 'Money Laundry Funds Check',
-    body: 'Your withdrawal is undergoing mandatory anti-money laundering verification as required by international financial regulations.'
-  },
-  '13': {
-    category: 'processing',
-    title: 'Final Withdrawal Processing',
-    body: 'Your withdrawal has entered the final processing stage. All verifications have been completed and funds are being prepared for release.'
-  },
-  '14': {
-    category: 'resolved',
-    title: 'Withdrawal Now Released',
-    body: 'Congratulations! Your withdrawal has been successfully released and is now being transferred to your designated wallet address.'
-  }
+  '1': { category: 'resolved', title: 'Signup Complete', body: 'Your case account has been created and your secure case record is active.' },
+  '2': { category: 'urgent', title: 'Questionnaire Required', body: 'Please complete the case questionnaire and submit any requested supporting information.' },
+  '3': { category: 'urgent', title: 'Agreement Review', body: 'Your case agreement is ready for review. Confirm the details before accepting or signing.' },
+  '4': { category: 'resolved', title: 'Restricted Portal Active', body: 'Your restricted case workspace is active. Use the secure portal for case documents, messages and status updates.' },
+  '5': { category: 'urgent', title: 'KYC Verification Required', body: 'Identity verification is required. Upload the requested KYC documents through the secure document workspace.' },
+  '6': { category: 'urgent', title: 'Declaration of Funds Required', body: 'Complete the Declaration of Funds and provide the supporting documents requested for your case.' },
+  '7': { category: 'urgent', title: 'Wallet Linking & Calibration', body: 'Confirm the approved payout method and complete wallet linking and calibration through the secure portal.' },
+  '8': { category: 'processing', title: 'Tracking & Recovery', body: 'Case tracking and recovery activity is in progress. Monitor the portal for verified updates or required actions.' },
+  '9': { category: 'processing', title: 'Crypto Escrow Wallet Creation', body: 'Escrow wallet preparation and final clearance controls are under review.' },
+  '10': { category: 'resolved', title: 'Sequence Recovery', body: 'Your case has reached the final workflow step. Review the completion summary and any remaining action in the secure portal.' },
 };
 
 // STAGE_TRANSITION_ERROR_BLOCK_START
@@ -112,6 +72,16 @@ export class CaseService {
     const previousStage = currentCase?.withdrawalStage;
     const newStage = data.withdrawalStage;
 
+    if (newStage) {
+      const parsedStage = Number.parseInt(newStage, 10);
+      if (!Number.isFinite(parsedStage) || parsedStage < 1 || parsedStage > 10) {
+        throw new StageTransitionError(
+          'Workflow steps must be between 1 and 10.',
+          400,
+        );
+      }
+    }
+
     // STAGE_SEQUENCE_GUARD_START
     // Enforce sequential stage transitions. Only current_stage + 1 is allowed
     // as a normal admin transition. A super_admin may bypass with
@@ -161,19 +131,15 @@ export class CaseService {
     }
     // STAGE_SEQUENCE_GUARD_END
 
-    if (newStage === '3' && !currentCase?.phraseKeyCertificateSent) {
-      data.phraseKeyCertificateSent = true;
-    }
-
-    // MAX_STAGE_ADVANCE_BLOCK_START
+        // MAX_STAGE_ADVANCE_BLOCK_START
     // Auto-advance maxStageReached whenever withdrawalStage moves forward.
     // Never decremented — ensures the portal keeps content unlocked even if
     // an admin rolls the live stage back later.
     //
     // NULL semantics: a null maxStageReached means "never explicitly tracked"
     // and is treated as the current live withdrawalStage, NOT zero. This
-    // prevents a rollback from stage 14→10 on an untracked row from writing
-    // maxStageReached=10 instead of preserving 14.
+    // preserves the highest historical value on legacy rows while new workflow
+    // transitions are restricted to canonical steps 1–10.
     if (newStage) {
       const newStageNum = parseInt(newStage, 10);
       const prevMax =
@@ -188,18 +154,14 @@ export class CaseService {
     if (!updated) return undefined;
 
     if (newStage && previousStage !== newStage && STAGE_MESSAGES[newStage]) {
-      if (newStage === '3' && currentCase?.phraseKeyCertificateSent) {
-        // already sent — skip duplicate message
-      } else {
-        const msg = STAGE_MESSAGES[newStage];
-        await messageRepository.createAdminMessage({
-          caseId: id,
-          category: msg.category,
-          title: msg.title,
-          body: msg.body,
-          isRead: false
-        }, executor);
-      }
+      const msg = STAGE_MESSAGES[newStage];
+      await messageRepository.createAdminMessage({
+        caseId: id,
+        category: msg.category,
+        title: msg.title,
+        body: msg.body,
+        isRead: false
+      }, executor);
     }
 
     // Fire a localized stage-change email whenever the stage actually
