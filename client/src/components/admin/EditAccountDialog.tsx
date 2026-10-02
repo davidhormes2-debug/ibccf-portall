@@ -365,7 +365,7 @@ export function EditAccountDialog({
               {[
                 { key: 'withdrawalAmount', label: 'Withdrawal Amount' },
                 { key: 'withdrawalBatches', label: 'Withdrawal Batches' },
-                { key: 'withdrawalStage', label: 'Withdrawal Stage (1-14)' },
+                { key: 'withdrawalStage', label: 'Workflow Step (1-10)' },
                 { key: 'completionPercentage', label: 'Completion %' },
                 { key: 'submissionUrl', label: 'Submission URL' },
                 { key: 'profileRedirectUrl', label: 'Profile Redirect URL' },
