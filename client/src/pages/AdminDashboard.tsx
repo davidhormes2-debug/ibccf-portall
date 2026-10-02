@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback, lazy, Suspense } from "react";
 import type { RefundClaimStatusFilter } from "@shared/types";
+import {
+  CANONICAL_CASE_WORKFLOW,
+  CANONICAL_CASE_STAGE_COUNT,
+  getCanonicalWorkflowEmailDetail,
+  toCanonicalCaseStage,
+} from "@shared/canonicalWorkflow";
 import { createPortal } from "react-dom";
 
 import { Button } from "@/components/ui/button";
@@ -4394,7 +4400,7 @@ export default function AdminDashboard() {
     setShowWithdrawalProgressEdit(caseData.showWithdrawalProgress || false);
     setWithdrawalGuideVisibleEdit(caseData.withdrawalGuideVisible || false);
     setWithdrawalGuideBodyEdit(caseData.withdrawalGuideBody || "");
-    setWithdrawalStageEdit(caseData.withdrawalStage || "1");
+    setWithdrawalStageEdit(String(toCanonicalCaseStage(caseData.withdrawalStage)));
     setActivityDepositAmountEdit(caseData.activityDepositAmount || "");
     setPhraseKeyDepositAmountEdit(caseData.phraseKeyDepositAmount || "");
     setActivityWalletRequirementEdit(caseData.activityWalletRequirement || "");
@@ -5783,8 +5789,8 @@ export default function AdminDashboard() {
       return;
     }
     
-    const currentStage = parseInt(selectedCase.withdrawalStage || '1');
-    if (currentStage >= 14) {
+    const currentStage = toCanonicalCaseStage(selectedCase.withdrawalStage);
+    if (currentStage >= CANONICAL_CASE_STAGE_COUNT) {
       toast({ title: t("toasts.finalStage.title"), description: t("toasts.finalStage.description") });
       return;
     }
@@ -5832,14 +5838,13 @@ export default function AdminDashboard() {
       toast({ variant: "destructive", title: t("toasts.noEmailOnFile.title"), description: t("toasts.noEmailOnFile.description") });
       return;
     }
-    const { getStageInstruction } = await import("@shared/stageInstructions");
-    const stageNumber = parseInt(selectedCase.withdrawalStage || "1", 10) || 1;
-    const stage = getStageInstruction(stageNumber);
+    const stageNumber = toCanonicalCaseStage(selectedCase.withdrawalStage);
+    const stage = getCanonicalWorkflowEmailDetail(stageNumber);
     const caseRef = selectedCase.id;
     setStageEmailDraft({
       stageNumber: stage.stage,
       stageTitle: stage.title,
-      subject: `Stage ${stage.stage} of 14: ${stage.title} — Case ${caseRef}`,
+      subject: `Step ${stage.stage} of 10: ${stage.title} — Case ${caseRef}`,
       summary: stage.summary,
       detailedExplanation: stage.detailedExplanation,
       whyItMatters: stage.whyItMatters,
@@ -5852,13 +5857,12 @@ export default function AdminDashboard() {
 
   const resetStageEmailDraftToDefault = async () => {
     if (!selectedCase) return;
-    const { getStageInstruction } = await import("@shared/stageInstructions");
-    const stage = getStageInstruction(stageEmailDraft.stageNumber);
+    const stage = getCanonicalWorkflowEmailDetail(stageEmailDraft.stageNumber);
     const caseRef = selectedCase.id;
     setStageEmailDraft({
       stageNumber: stage.stage,
       stageTitle: stage.title,
-      subject: `Stage ${stage.stage} of 14: ${stage.title} — Case ${caseRef}`,
+      subject: `Step ${stage.stage} of 10: ${stage.title} — Case ${caseRef}`,
       summary: stage.summary,
       detailedExplanation: stage.detailedExplanation,
       whyItMatters: stage.whyItMatters,
@@ -6645,8 +6649,10 @@ export default function AdminDashboard() {
             className="text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500"
             onClick={toggleTheme}
             data-testid="button-theme-toggle-admin"
+            title={`Current theme: ${theme}. Click to cycle light, dark and black.`}
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+            <span className="sr-only">Current theme: {theme}. Switch theme.</span>
           </Button>
           
           <div className="relative" ref={notificationBellRef}>
@@ -8893,32 +8899,20 @@ export default function AdminDashboard() {
                   />
                 </div>
                 
-                {/* Stage selector - 14 Stages */}
+                {/* Canonical 10-step workflow selector */}
                 {/* STAGE_SEQUENCE_SELECT_BLOCK_START */}
                 <div className="space-y-2 mb-4">
-                  <Label className="text-slate-300 text-xs font-medium">Current Stage (1-14)</Label>
+                  <Label className="text-slate-300 text-xs font-medium">Current Workflow Step (1-10)</Label>
                   {currentAdminRole !== 'super_admin' && (
                     <p className="text-xs text-amber-400/80">Only the next sequential stage is available for your role.</p>
                   )}
                   {(() => {
                     const currentStageNum = parseInt(selectedCase?.withdrawalStage || '0', 10);
                     const nextStageNum = currentStageNum + 1;
-                    const allStages = [
-                      { value: "1", label: "💰 Stage 1: Phrase Key Deposit Received" },
-                      { value: "2", label: "⚙️ Stage 2: Generating Secure Phrase Key" },
-                      { value: "3", label: "🔐 Stage 3: Phrase Key Approved & Available" },
-                      { value: "4", label: "🚀 Stage 4: Withdrawal Process Initiated" },
-                      { value: "5", label: "✅ Stage 5: Initial Deposit Verification" },
-                      { value: "6", label: "🔑 Stage 6: Phrase Key Verification" },
-                      { value: "7", label: "📊 Stage 7: Phrase Key Merge Deposit Required" },
-                      { value: "8", label: "🏦 Stage 8: Financial Department Verification" },
-                      { value: "9", label: "⛏️ Stage 9: Mining Withdrawal for Final Clearance" },
-                      { value: "10", label: "🔗 Stage 10: Blockchain Activity Verification" },
-                      { value: "11", label: "🏛️ Stage 11: IRS / International AML Verification" },
-                      { value: "12", label: "📋 Stage 12: Final Withdrawal Processing" },
-                      { value: "13", label: "🎉 Stage 13: Withdrawal Successfully Released" },
-                      { value: "14", label: "⏰ Stage 14: Time-Stamp Deposit for Final Delivery" },
-                    ];
+                    const allStages = CANONICAL_CASE_WORKFLOW.map((step) => ({
+                      value: String(step.id),
+                      label: `${step.icon} Step ${step.id}: ${step.label}`,
+                    }));
                     return (
                       <Select
                         value={withdrawalStageEdit}
@@ -8982,7 +8976,7 @@ export default function AdminDashboard() {
                           </div>
                         )}
                         <p className="text-[10px] text-amber-400/70">
-                          Non-sequential transition: Stage {selectedCase.withdrawalStage} → {withdrawalStageEdit}. This override is audit-logged with your identity.
+                          Non-sequential transition: Step {selectedCase.withdrawalStage} → {withdrawalStageEdit}. This override is audit-logged with your identity.
                         </p>
                       </div>
                     );
@@ -9005,99 +8999,31 @@ export default function AdminDashboard() {
                 </div>
                 {/* STAGE_SEQUENCE_SELECT_BLOCK_END */}
 
-                {/* Phrase Key Deposit Amount */}
-                <div className="space-y-2 mb-4">
-                  <Label className="text-slate-300 text-xs font-medium">Phrase Key Deposit Amount</Label>
-                  <p className="text-xs text-slate-500">Set the phrase key deposit amount. 30% merge deposit will be auto-calculated.</p>
-                  <Input
-                    value={phraseKeyDepositAmountEdit}
-                    onChange={(e) => { setPhraseKeyDepositAmountEdit(e.target.value); setSaveProgressError(null); }}
-                    placeholder="e.g., 100,000 USDT"
-                    className="bg-slate-800/70 border-slate-700"
-                    data-testid="input-phrase-key-deposit"
-                  />
-                  {phraseKeyDepositAmountEdit && (
-                    <p className="text-xs text-emerald-400">
-                      30% Merge Deposit: {(() => {
-                        const numericMatch = phraseKeyDepositAmountEdit.match(/[\d,.]+/);
-                        const currencyMatch = phraseKeyDepositAmountEdit.match(/[A-Za-z]+$/);
-                        const currencySuffix = currencyMatch ? ' ' + currencyMatch[0] : '';
-                        if (numericMatch) {
-                          const amount = parseFloat(numericMatch[0].replace(/,/g, ''));
-                          if (!isNaN(amount)) {
-                            return (amount * 0.30).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + currencySuffix;
-                          }
-                        }
-                        return '—';
-                      })()}
-                    </p>
-                  )}
-                  {selectedCase?.phraseKeyMergeDeposit && (
-                    <p className="text-xs text-blue-400">
-                      Saved Merge Deposit: {selectedCase.phraseKeyMergeDeposit}
-                    </p>
-                  )}
-                </div>
-                
-                {/* Phrase Key Certificate Status */}
-                {selectedCase?.phraseKeyCertificateSent && (
-                  <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20 mb-4">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-400" />
-                      <span className="text-xs text-green-400 font-medium">Phrase Key Certificate Sent</span>
-                    </div>
-                    <p className="text-xs text-slate-500 mt-1">Auto-generated secure message was sent to user when stage 3 was reached.</p>
-                  </div>
-                )}
+                {/* Legacy phrase-key and stage-specific deposit controls were removed
+                    from this workflow panel. Historical values remain on the case record. */}
 
-                {/* Activity Wallet Requirement */}
-                <div className="space-y-2 mb-4">
-                  <Label className="text-slate-300 text-xs font-medium">Activity Wallet Requirement</Label>
-                  <p className="text-xs text-slate-500">USDT amount user must maintain in wallet for blockchain activity verification (Stage 10)</p>
-                  <Input
-                    value={activityWalletRequirementEdit}
-                    onChange={(e) => { setActivityWalletRequirementEdit(e.target.value); setSaveProgressError(null); }}
-                    placeholder="e.g., 50,000 USDT"
-                    className="bg-slate-800/70 border-slate-700"
-                    data-testid="input-activity-wallet"
-                  />
-                </div>
-                
-                {/* Activity deposit amount (legacy) */}
-                <div className="space-y-2 mb-4">
-                  <Label className="text-slate-300 text-xs font-medium">Activity Deposit Amount (Display)</Label>
-                  <p className="text-xs text-slate-500">General activity deposit amount shown to user</p>
-                  <Input
-                    value={activityDepositAmountEdit}
-                    onChange={(e) => { setActivityDepositAmountEdit(e.target.value); setSaveProgressError(null); }}
-                    placeholder="e.g., 50,000 USDT"
-                    className="bg-slate-800/70 border-slate-700"
-                    data-testid="input-activity-deposit"
-                  />
-                </div>
-                
-                {/* Quick Stage Approval */}
+                {/* Workflow Progress */}
                 <div className="p-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl border border-blue-500/30 mb-4">
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <h4 className="text-sm font-bold text-blue-400">Quick Stage Approval</h4>
-                      <p className="text-xs text-slate-500">Current: Stage {selectedCase?.withdrawalStage || '1'} of 14</p>
+                      <h4 className="text-sm font-bold text-blue-400">Workflow Progress</h4>
+                      <p className="text-xs text-slate-500">Current: Step {toCanonicalCaseStage(selectedCase?.withdrawalStage)} of {CANONICAL_CASE_STAGE_COUNT}</p>
                     </div>
                     <div className="text-right">
-                      <span className="text-2xl font-bold text-blue-400">{selectedCase?.withdrawalStage || '1'}</span>
-                      <span className="text-slate-500 text-sm">/14</span>
+                      <span className="text-2xl font-bold text-blue-400">{toCanonicalCaseStage(selectedCase?.withdrawalStage)}</span>
+                      <span className="text-slate-500 text-sm">/{CANONICAL_CASE_STAGE_COUNT}</span>
                     </div>
                   </div>
                   <Button 
                     onClick={approveNextStage}
-                    disabled={parseInt(selectedCase?.withdrawalStage || '1') >= 14}
+                    disabled={toCanonicalCaseStage(selectedCase?.withdrawalStage) >= CANONICAL_CASE_STAGE_COUNT}
                     className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600"
                     data-testid="button-approve-next-stage"
                   >
                     <CheckCircle className="h-4 w-4 mr-2" /> 
-                    {parseInt(selectedCase?.withdrawalStage || '1') >= 14 
-                      ? 'Final Stage Reached' 
-                      : `Approve → Stage ${parseInt(selectedCase?.withdrawalStage || '1') + 1}`
+                    {toCanonicalCaseStage(selectedCase?.withdrawalStage) >= CANONICAL_CASE_STAGE_COUNT
+                      ? 'Final Step Reached'
+                      : `Approve → Step ${toCanonicalCaseStage(selectedCase?.withdrawalStage) + 1}`
                     }
                   </Button>
                   <Button
@@ -9106,10 +9032,10 @@ export default function AdminDashboard() {
                     variant="outline"
                     className="w-full mt-2 border-amber-500/40 bg-amber-500/10 text-amber-200 hover:bg-amber-500/20 hover:text-amber-100 disabled:opacity-60"
                     data-testid="button-open-stage-email"
-                    title={!selectedCase?.userEmail ? "User has no email address on file" : `Preview & email Stage ${selectedCase?.withdrawalStage || '1'} instructions to ${selectedCase?.userEmail}`}
+                    title={!selectedCase?.userEmail ? "User has no email address on file" : `Preview & email Step ${toCanonicalCaseStage(selectedCase?.withdrawalStage)} instructions to ${selectedCase?.userEmail}`}
                   >
                     <Mail className="h-4 w-4 mr-2" />
-                    {`Preview & Email Stage ${selectedCase?.withdrawalStage || '1'} Instructions…`}
+                    {`Preview & Email Step ${toCanonicalCaseStage(selectedCase?.withdrawalStage)} Instructions…`}
                   </Button>
                   {!selectedCase?.userEmail && (
                     <p className="text-[11px] text-amber-300/70 mt-1.5 text-center">
@@ -10024,7 +9950,7 @@ export default function AdminDashboard() {
               </TabsContent>
 
               <TabsContent value="paid" className="space-y-6 mt-0">
-                {selectedCase && Number(selectedCase.withdrawalStage ?? 0) >= 14 ? (
+                {selectedCase && toCanonicalCaseStage(selectedCase.withdrawalStage) >= CANONICAL_CASE_STAGE_COUNT ? (
                   <TokenDepositPaidTab
                     selectedCase={selectedCase}
                     authToken={authToken}
@@ -10041,7 +9967,7 @@ export default function AdminDashboard() {
                   />
                 ) : (
                   <div className="text-center py-10 text-slate-500 text-sm">
-                    The Paid tab is only available for cases at stage 14.
+                    The Paid tab is only available at the final workflow step.
                   </div>
                 )}
               </TabsContent>
