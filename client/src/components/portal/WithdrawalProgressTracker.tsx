@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import { TrendingUp, CheckCircle, Key, Wallet } from "lucide-react";
+import { TrendingUp, CheckCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   CANONICAL_CASE_WORKFLOW,
   toCanonicalCaseStage,
 } from "@shared/canonicalWorkflow";
 
-interface WithdrawalStage {
+interface WithdrawalStep {
   id: number;
   label: string;
   icon: string;
@@ -34,21 +34,9 @@ export function WithdrawalProgressTracker({
   stages = DEFAULT_STAGES,
 }: WithdrawalProgressTrackerProps) {
   const totalStages = stages.length;
-  const safeCurrentStage = toCanonicalCaseStage(currentStage);
-  const completedStages = Math.max(0, safeCurrentStage - 1);
-  const progressPercent = Math.round((completedStages / totalStages) * 100);
-
-  const stagesWithDynamicDescriptions = stages.map(stage => {
-    if (stage.id === 7 && phraseKeyMergeDeposit) {
-      return { ...stage, description: `Required: ${phraseKeyMergeDeposit} (30% merge deposit)` };
-    }
-    if (stage.id === 10 && activityWalletRequirement) {
-      return { ...stage, description: `Required: ${activityWalletRequirement} balance in receiving wallet` };
-    }
-    return stage;
-  });
-
-  const currentStageData = stagesWithDynamicDescriptions.find(s => s.id === safeCurrentStage);
+  const safeCurrentStep = toCanonicalCaseStage(currentStage);
+  const progressPercent = Math.round((safeCurrentStep / totalStages) * 100);
+  const currentStageData = stages.find(s => s.id === safeCurrentStage);
 
   return (
     <motion.div 
@@ -63,8 +51,8 @@ export function WithdrawalProgressTracker({
               <TrendingUp className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-lg font-bold">Withdrawal Progress</span>
-              <p className="text-blue-200 text-sm font-normal">Real-time status of your withdrawal request</p>
+              <span className="text-lg font-bold">Case Workflow</span>
+              <p className="text-blue-200 text-sm font-normal">Real-time status of your case</p>
             </div>
           </CardTitle>
         </CardHeader>
@@ -72,17 +60,11 @@ export function WithdrawalProgressTracker({
           <div className="space-y-6">
             <ProgressBar progressPercent={progressPercent} />
             <StagesStepper 
-              stages={stagesWithDynamicDescriptions} 
+              stages={stages} 
               currentStage={safeCurrentStage} 
             />
             {currentStageData && (
               <CurrentStageCard stage={currentStageData} />
-            )}
-            {currentStage === 7 && phraseKeyMergeDeposit && (
-              <MergeDepositNotice amount={phraseKeyMergeDeposit} />
-            )}
-            {currentStage === 10 && activityWalletRequirement && (
-              <ActivityVerificationNotice amount={activityWalletRequirement} />
             )}
           </div>
         </CardContent>
@@ -117,7 +99,7 @@ function ProgressBar({ progressPercent }: { progressPercent: number }) {
   );
 }
 
-function StagesStepper({ stages, currentStage }: { stages: WithdrawalStage[]; currentStage: number }) {
+function StagesStepper({ stages, currentStep }: { stages: WithdrawalStage[]; currentStage: number }) {
   const arrowDepth = 10;
   
   const getClipPath = (isFirst: boolean, isLast: boolean) => {
@@ -127,11 +109,11 @@ function StagesStepper({ stages, currentStage }: { stages: WithdrawalStage[]; cu
   };
 
   return (
-    <div className="px-4 sm:px-6" role="region" aria-label="Withdrawal stages">
-      <div className="flex items-stretch w-full" role="list" aria-label={`Withdrawal progress: Step ${currentStage} of ${stages.length}`}>
+    <div className="px-4 sm:px-6" role="region" aria-label="Case workflow steps">
+      <div className="flex items-stretch w-full" role="list" aria-label={`Case workflow progress: Step ${currentStage} of ${stages.length}`}>
         {stages.filter(s => s.id <= currentStage).map((stage, index, filteredStages) => {
-          const isCompleted = currentStage > stage.id;
-          const isCurrent = currentStage === stage.id;
+          const isCompleted = currentStep > stage.id;
+          const isCurrent = currentStep === stage.id;
           const isFirst = index === 0;
           const isLast = index === filteredStages.length - 1;
           
@@ -152,7 +134,7 @@ function StagesStepper({ stages, currentStage }: { stages: WithdrawalStage[]; cu
               }}
               data-testid={`stage-${stage.id}`}
               role="listitem"
-              aria-label={`Stage ${stage.id}: ${stage.label}${isCompleted ? ' (completed)' : isCurrent ? ' (in progress)' : ''}`}
+              aria-label={`Step ${stage.id}: ${stage.label}${isCompleted ? ' (completed)' : isCurrent ? ' (in progress)' : ''}`}
               aria-current={isCurrent ? 'step' : undefined}
             >
               <div 
@@ -186,12 +168,12 @@ function StagesStepper({ stages, currentStage }: { stages: WithdrawalStage[]; cu
           );
         })}
       </div>
-      <p className="text-xs text-slate-500 mt-4 text-center">Your withdrawal is being processed</p>
+      <p className="text-xs text-slate-500 mt-4 text-center">Your case workflow is in progress</p>
     </div>
   );
 }
 
-function CurrentStageCard({ stage }: { stage: WithdrawalStage }) {
+function CurrentStageCard({ stage }: { stage: WithdrawalStep }) {
   return (
     <div className="px-6">
       <motion.div
@@ -201,7 +183,7 @@ function CurrentStageCard({ stage }: { stage: WithdrawalStage }) {
         data-testid="current-stage-card"
         role="status"
         aria-live="polite"
-        aria-label={`Current stage: ${stage.label}`}
+        aria-label={`Current step: ${stage.label}`}
       >
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-2xl animate-pulse" aria-hidden="true">
@@ -211,64 +193,6 @@ function CurrentStageCard({ stage }: { stage: WithdrawalStage }) {
             <p className="text-xs text-blue-600 font-medium">Currently Processing</p>
             <h4 className="font-bold text-blue-800 text-lg">{stage.label}</h4>
             <p className="text-blue-600 text-sm mt-0.5">{stage.description}</p>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-function MergeDepositNotice({ amount }: { amount: string }) {
-  return (
-    <div className="px-6">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="p-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 rounded-xl"
-        data-testid="merge-deposit-notice"
-      >
-        <div className="flex items-start gap-3">
-          <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-            <Key className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h4 className="font-bold text-purple-800 text-lg">Phrase Key Merge Deposit Required</h4>
-            <p className="text-purple-700 text-sm mt-1">
-              A 30% merge deposit is required to complete the phrase key verification process.
-            </p>
-            <div className="mt-3 p-3 bg-white rounded-lg border border-purple-200">
-              <p className="text-sm text-slate-600">Required Amount:</p>
-              <p className="text-2xl font-bold text-purple-600">{amount} USDT</p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-function ActivityVerificationNotice({ amount }: { amount: string }) {
-  return (
-    <div className="px-6">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-xl"
-        data-testid="activity-verification-notice"
-      >
-        <div className="flex items-start gap-3">
-          <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
-            <Wallet className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h4 className="font-bold text-amber-800 text-lg">Blockchain Activity Verification</h4>
-            <p className="text-amber-700 text-sm mt-1">
-              Please maintain the required USDT balance in your receiving wallet address for activity verification.
-            </p>
-            <div className="mt-3 p-3 bg-white rounded-lg border border-amber-200">
-              <p className="text-sm text-slate-600">Required Wallet Balance:</p>
-              <p className="text-2xl font-bold text-amber-600">{amount} USDT</p>
-            </div>
           </div>
         </div>
       </motion.div>
