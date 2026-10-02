@@ -21,10 +21,9 @@ export function Scene3() {
   }, []);
 
   const stages = [
-    { num: 4, by: "user", icon: <User className="w-[1.5vw] h-[1.5vw]" /> },
+    { num: 4, by: "system", icon: <ShieldCheck className="w-[1.5vw] h-[1.5vw]" /> },
     { num: 5, by: "admin", icon: <ShieldCheck className="w-[1.5vw] h-[1.5vw]" /> },
-    { num: 6, by: "admin", icon: <ShieldCheck className="w-[1.5vw] h-[1.5vw]" /> },
-    { num: 7, by: "user", icon: <User className="w-[1.5vw] h-[1.5vw]" /> }
+    { num: 6, by: "user", icon: <User className="w-[1.5vw] h-[1.5vw]" /> }
   ].map((stage, idx) => ({ ...stage, title: phase2.stages[idx] }));
 
   return (
