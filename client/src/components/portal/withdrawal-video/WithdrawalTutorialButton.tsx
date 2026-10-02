@@ -24,7 +24,7 @@ export function WithdrawalTutorialButton() {
   const title = t("dashboard.tutorialVideo.title", "How withdrawals work");
   const subtitle = t(
     "dashboard.tutorialVideo.subtitle",
-    "A one-minute animated walkthrough of all 14 withdrawal stages.",
+    "A one-minute animated walkthrough of the 10-step case workflow.",
   );
   const cta = t("dashboard.tutorialVideo.watch", "Watch the tutorial");
   const downloadLabel = t(
