@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 import { TrendingUp, CheckCircle, Key, Wallet } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  CANONICAL_CASE_WORKFLOW,
+  toCanonicalCaseStage,
+} from "@shared/canonicalWorkflow";
 
 interface WithdrawalStage {
   id: number;
@@ -9,22 +13,12 @@ interface WithdrawalStage {
   description: string;
 }
 
-const DEFAULT_STAGES: WithdrawalStage[] = [
-  { id: 1, label: "Phrase Key Deposit Received", icon: "💰", description: "Phrase key deposit successfully confirmed on ledger" },
-  { id: 2, label: "Generating Secure Phrase Key", icon: "⚙️", description: "Phrase key creation underway" },
-  { id: 3, label: "Phrase Key Approved & Available", icon: "🔐", description: "Phrase key approved and delivered to Secure Message Center" },
-  { id: 4, label: "Withdrawal Process Initiated", icon: "🚀", description: "Withdrawal flow activated" },
-  { id: 5, label: "Initial Deposit Verification", icon: "✅", description: "Deposit verification in progress" },
-  { id: 6, label: "Phrase Key Verification", icon: "🔑", description: "Phrase key validation in progress" },
-  { id: 7, label: "Phrase Key Merge Deposit Required", icon: "📊", description: "Awaiting merge deposit calculation" },
-  { id: 8, label: "Financial Department Verification", icon: "🏦", description: "Compliance and financial review" },
-  { id: 9, label: "Mining Withdrawal for Final Clearance", icon: "⛏️", description: "Blockchain confirmation and internal clearance" },
-  { id: 10, label: "Blockchain Activity Verification", icon: "🔗", description: "Wallet activity verification in progress" },
-  { id: 11, label: "IRS / International AML Verification", icon: "🏛️", description: "Regulatory compliance checks in progress" },
-  { id: 12, label: "Final Withdrawal Processing", icon: "📋", description: "Preparing funds for release" },
-  { id: 13, label: "Withdrawal Successfully Released", icon: "🎉", description: "Funds released to designated wallet" },
-  { id: 14, label: "Time-Stamp Deposit for Final Delivery", icon: "⏰", description: "Final delivery confirmation" },
-];
+const DEFAULT_STAGES: WithdrawalStage[] = CANONICAL_CASE_WORKFLOW.map((step) => ({
+  id: step.id,
+  label: step.label,
+  icon: step.icon,
+  description: step.description,
+}));
 
 interface WithdrawalProgressTrackerProps {
   currentStage: number;
@@ -40,7 +34,8 @@ export function WithdrawalProgressTracker({
   stages = DEFAULT_STAGES,
 }: WithdrawalProgressTrackerProps) {
   const totalStages = stages.length;
-  const completedStages = Math.max(0, currentStage - 1);
+  const safeCurrentStage = toCanonicalCaseStage(currentStage);
+  const completedStages = Math.max(0, safeCurrentStage - 1);
   const progressPercent = Math.round((completedStages / totalStages) * 100);
 
   const stagesWithDynamicDescriptions = stages.map(stage => {
@@ -53,7 +48,7 @@ export function WithdrawalProgressTracker({
     return stage;
   });
 
-  const currentStageData = stagesWithDynamicDescriptions.find(s => s.id === currentStage);
+  const currentStageData = stagesWithDynamicDescriptions.find(s => s.id === safeCurrentStage);
 
   return (
     <motion.div 
@@ -78,7 +73,7 @@ export function WithdrawalProgressTracker({
             <ProgressBar progressPercent={progressPercent} />
             <StagesStepper 
               stages={stagesWithDynamicDescriptions} 
-              currentStage={currentStage} 
+              currentStage={safeCurrentStage} 
             />
             {currentStageData && (
               <CurrentStageCard stage={currentStageData} />
