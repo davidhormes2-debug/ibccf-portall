@@ -562,7 +562,7 @@
       "title": "Withdrawal Progress",
       "subtitle": "Real-time status of your withdrawal request",
       "progress": "Progress",
-      "ariaLabel": "Withdrawal progress: stage {{stage}} of 14",
+      "ariaLabel": "Case workflow progress: step {{stage}} of 10",
       "stageLabel": "Stage {{stage}}: {{label}} — {{state}}",
       "stageTooltip": "Stage {{stage}}: {{label}}\n{{state}}",
       "states": {
@@ -576,7 +576,7 @@
         "adminAction": "Waiting on compliance team",
         "system": "System processing"
       },
-      "stageOf": "Stage {{stage}}",
+      "stageOf": "Step {{stage}} of 10",
       "stages": {
         "1": {
           "label": "Signup",
@@ -741,7 +741,7 @@
       "title": "How withdrawals work",
       "watch": "Watch the tutorial",
       "download": "Download this video",
-      "subtitle": "A one-minute animated walkthrough of all 14 withdrawal stages.",
+      "subtitle": "A one-minute animated walkthrough of the 10-step case workflow.",
       "muteNarration": "Mute narration",
       "unmuteNarration": "Unmute narration"
     }
