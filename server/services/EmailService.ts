@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { getStageInstruction } from '../../shared/stageInstructions';
+import { getCanonicalWorkflowEmailDetail } from '../../shared/canonicalWorkflow';
 import { tFor, type ServerLocale } from './i18n';
 import { getPublicBaseUrl } from '../lib/publicBaseUrl';
 
@@ -624,7 +624,7 @@ class EmailService {
     locale?: LocaleInput,
   ): Promise<{ success: boolean; error?: string; subject?: string }> {
     const t = tFor(locale ?? 'en');
-    const baseStage = getStageInstruction(stageNumber);
+    const baseStage = getCanonicalWorkflowEmailDetail(stageNumber);
     const stage = {
       ...baseStage,
       summary: overrides?.summary ?? baseStage.summary,
