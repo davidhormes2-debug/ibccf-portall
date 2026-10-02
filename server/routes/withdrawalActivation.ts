@@ -284,7 +284,7 @@ export function registerCaseWithdrawalActivationRoutes(router: Router): void {
           return;
         }
         const stage = parseInt(caseRow.withdrawalStage || '0', 10);
-        if (!Number.isFinite(stage) || stage < 14) {
+        if (!Number.isFinite(stage) || stage < 10) {
           res.status(403).json({
             error: "Withdrawal activation is only available at the final stage.",
           });
@@ -629,7 +629,7 @@ export function registerCaseWithdrawalActivationRoutes(router: Router): void {
   // Portal: upload activation receipt directly (sealed-safe)
   // ------------------------------------------------------------------
   // The standard /:id/deposit-receipts endpoint is guarded by
-  // requireUnsealed — but the activation flow is gated to stage 14
+  // requireUnsealed — but the activation flow is gated to step 10
   // (i.e. after the case may already be sealed). This endpoint accepts
   // the receipt directly so a sealed case can still complete activation.
   // Reuses the same constraints expected of the standard uploader:
@@ -827,7 +827,7 @@ export function registerCaseWithdrawalActivationRoutes(router: Router): void {
           return;
         }
         // Sealed cases CAN be reviewed for activation — the activation
-        // flow is gated to stage 14 (post-sealing) by design, so blocking
+        // flow is gated to step 10 (post-sealing) by design, so blocking
         // on sealedAt here would create an irrecoverable dead-end.
         let body: z.infer<typeof adminReviewBody>;
         try {
