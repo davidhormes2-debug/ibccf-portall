@@ -1,44 +1,31 @@
 import { motion } from "framer-motion";
 import { TrendingUp, ChevronRight } from "lucide-react";
 import { usePortal } from "@/pages/portal/PortalContext";
+import {
+  CANONICAL_CASE_WORKFLOW,
+  CANONICAL_CASE_STAGE_COUNT,
+  toCanonicalCaseStage,
+} from "@shared/canonicalWorkflow";
 
-const WITHDRAWAL_STAGE_LABELS: { id: number; label: string; icon: string }[] = [
-  { id: 1, label: "Phrase Key Deposit Received", icon: "💰" },
-  { id: 2, label: "Generating Secure Phrase Key", icon: "⚙️" },
-  { id: 3, label: "Phrase Key Approved & Available", icon: "🔐" },
-  { id: 4, label: "Withdrawal Process Initiated", icon: "🚀" },
-  { id: 5, label: "Initial Deposit Verification", icon: "✅" },
-  { id: 6, label: "Phrase Key Verification", icon: "🔑" },
-  { id: 7, label: "Phrase Key Merge Deposit Required", icon: "📊" },
-  { id: 8, label: "Financial Department Verification", icon: "🏦" },
-  { id: 9, label: "Mining Withdrawal for Final Clearance", icon: "⛏️" },
-  { id: 10, label: "Blockchain Activity Verification", icon: "🔗" },
-  { id: 11, label: "IRS / International AML Verification", icon: "🏛️" },
-  { id: 12, label: "Final Withdrawal Processing", icon: "📋" },
-  { id: 13, label: "Withdrawal Successfully Released", icon: "🎉" },
-  { id: 14, label: "Time-Stamp Deposit for Final Delivery", icon: "⏰" },
-];
+const WORKFLOW_STAGES = CANONICAL_CASE_WORKFLOW;
 
-const TOTAL_STAGES = WITHDRAWAL_STAGE_LABELS.length;
+
+const TOTAL_STAGES = CANONICAL_CASE_STAGE_COUNT;
 
 export function PortalProgressStrip() {
   const { currentCase, viewState, setViewState } = usePortal();
 
   if (!currentCase) return null;
 
-  const rawStage = currentCase.withdrawalStage ?? "1";
-  const parsed = parseInt(rawStage, 10);
-  const currentStage = Number.isFinite(parsed)
-    ? Math.min(Math.max(parsed, 1), TOTAL_STAGES)
-    : 1;
+  const currentStage = toCanonicalCaseStage(currentCase.withdrawalStage);
 
   const progressPercent = Math.min(
     100,
     Math.round((currentStage / TOTAL_STAGES) * 100),
   );
   const stageData =
-    WITHDRAWAL_STAGE_LABELS.find((s) => s.id === currentStage) ??
-    WITHDRAWAL_STAGE_LABELS[0];
+    WORKFLOW_STAGES.find((s) => s.id === currentStage) ??
+    WORKFLOW_STAGES[0];
   const isOnDashboard = viewState === "dashboard";
   const isComplete = currentStage >= TOTAL_STAGES;
 
