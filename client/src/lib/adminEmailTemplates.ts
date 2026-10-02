@@ -1,7 +1,10 @@
-import { STAGE_INSTRUCTIONS, getStageInstruction } from "@shared/stageInstructions";
+import {
+  CANONICAL_CASE_WORKFLOW,
+  getCanonicalWorkflowEmailDetail,
+} from "@shared/canonicalWorkflow";
 
 export const STAGE_SHORT_LABELS: Record<number, string> = Object.fromEntries(
-  STAGE_INSTRUCTIONS.map((s) => [s.stage, s.title]),
+  CANONICAL_CASE_WORKFLOW.map((s) => [s.id, s.label]),
 ) as Record<number, string>;
 
 export interface QuickSendTemplate {
@@ -16,15 +19,15 @@ function buildStageInstructionsBody(userName: string, stageName: string, stageNu
   if (!stageNum) {
     return `Dear ${name},\n\nPlease log in to your secure portal to review the instructions for your current step in the withdrawal process.\n\nIf you have any questions, please contact us via the secure messaging feature in your portal.\n\nWarm regards,\nIBCCF Compliance Management Team`;
   }
-  const instruction = getStageInstruction(stageNum);
+  const instruction = getCanonicalWorkflowEmailDetail(stageNum);
   const whatToDo = instruction.whatToDo.map((item, i) => `${i + 1}. ${item}`).join("\n");
-  return `Dear ${name},\n\nPlease review the instructions for your current withdrawal stage:\n\n${instruction.icon} Stage ${stageNum} — ${instruction.title}\n\n${instruction.summary}\n\nWHAT TO DO\n\n${whatToDo}\n\nWHAT TO EXPECT\n\n${instruction.whatToExpect}\n\nPlease log in to your secure portal to review your full stage details and complete any required actions.\n\nIf you have any questions, please contact us via the secure messaging feature in your portal.\n\nWarm regards,\nIBCCF Compliance Management Team`;
+  return `Dear ${name},\n\nPlease review the instructions for your current case workflow step:\n\n${instruction.icon} Step ${stageNum} — ${instruction.title}\n\n${instruction.summary}\n\nWHAT TO DO\n\n${whatToDo}\n\nWHAT TO EXPECT\n\n${instruction.whatToExpect}\n\nPlease log in to your secure portal to review your full workflow details and complete any required actions.\n\nIf you have any questions, please contact us via the secure messaging feature in your portal.\n\nWarm regards,\nIBCCF Compliance Management Team`;
 }
 
 export const QUICK_SEND_TEMPLATES: QuickSendTemplate[] = [
   {
     id: "stage_instructions",
-    label: "Send Stage Instructions",
+    label: "Send Workflow Instructions",
     getSubject: (stageName) => `Your Case Update — ${stageName}`,
     getBody: (userName, stageName, stageNum) =>
       buildStageInstructionsBody(userName, stageName, stageNum),
@@ -41,7 +44,7 @@ export const QUICK_SEND_TEMPLATES: QuickSendTemplate[] = [
     label: "Deposit Received",
     getSubject: (_stageName) => `Deposit Received — Your Case Is Being Reviewed`,
     getBody: (userName, _stageName, _stageNum) =>
-      `Dear ${userName || "Valued Client"},\n\nWe have received your deposit and your case is currently being reviewed by our compliance team.\n\nNo further action is required from you at this time. You will be notified as soon as your case advances to the next stage.\n\nThank you for your prompt action.\n\nWarm regards,\nIBCCF Compliance Management Team`,
+      `Dear ${userName || "Valued Client"},\n\nWe have received your deposit and your case is currently being reviewed by our compliance team.\n\nNo further action is required from you at this time. You will be notified as soon as your case advances to the next workflow step.\n\nThank you for your prompt action.\n\nWarm regards,\nIBCCF Compliance Management Team`,
   },
   {
     id: "processing_update",
