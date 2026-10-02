@@ -86,6 +86,7 @@ export function AdminGroupedNav(props: {
     activeWarningsCount,
   } = props;
 
+  const combinedDocumentPendingCount = pendingDocCount + supportingDocPendingCount;
   const LAST_ITEM_KEY = "ibccf.admin.groupedNav.lastItemPerGroup";
   const lastItemPerGroup = useRef<Record<string, string>>({});
 
@@ -166,24 +167,14 @@ export function AdminGroupedNav(props: {
         { id: "declarations", label: "Declarations", icon: Scale },
         {
           id: "documents",
-          label: "Documents",
+          label: "Document Center",
           icon: FolderLock,
-          badge: pendingDocCount > 0
-            ? { count: pendingDocCount, kind: "alert" as const }
+          badge: combinedDocumentPendingCount > 0
+            ? { count: combinedDocumentPendingCount, kind: "alert" as const }
             : null,
           badgeAction: onPendingDocBadgeClick,
-          badgeTitle: `${pendingDocCount} supporting document${pendingDocCount === 1 ? "" : "s"} awaiting review`,
-        },
-        {
-          id: "supporting-docs",
-          label: "Supporting Docs",
-          icon: Upload,
-          badge: supportingDocPendingCount > 0
-            ? { count: supportingDocPendingCount, kind: "alert" as const }
-            : null,
-          badgeAction: onSupportingDocBadgeClick,
-          badgeTitle: `${supportingDocPendingCount} supporting doc${supportingDocPendingCount === 1 ? "" : "s"} awaiting review`,
-        },
+          badgeTitle: `${combinedDocumentPendingCount} document${combinedDocumentPendingCount === 1 ? "" : "s"} awaiting review`,
+        }
         { id: "receipts", label: "All Receipts", icon: ImageIcon },
       ],
     },
@@ -264,7 +255,7 @@ export function AdminGroupedNav(props: {
       className="lg:sticky lg:top-0 lg:w-60 w-full flex-shrink-0 flex flex-col lg:overflow-y-auto"
       aria-label="Admin sections"
       style={{
-        background: "#0d3050",
+        background: "#071827",
         minHeight: "100%",
         borderRight: "1px solid rgba(255,255,255,0.06)",
       }}
@@ -377,35 +368,16 @@ export function AdminGroupedNav(props: {
                     value={item.id}
                     className="w-full justify-start gap-2.5 px-3 py-2.5 text-sm rounded-md transition-all text-left border-0 outline-none shadow-none"
                     style={{
-                      background: isActive ? "#1a5f8a" : "transparent",
-                      color: isActive ? "#ffffff" : "rgba(255,255,255,0.62)",
+                      background: isActive ? "rgba(37,99,235,0.18)" : "transparent",
+                      color: isActive ? "#ffffff" : "rgba(226,232,240,0.72)",
                       fontWeight: isActive ? 600 : 400,
                       boxShadow: isActive
-                        ? "0 2px 8px rgba(0,0,0,0.3)"
+                        ? "inset 3px 0 0 #60a5fa"
                         : "none",
                       borderRadius: "0.375rem",
                     }}
                     data-testid={`tab-${item.id}`}
                   >
-                    {/* Small checkbox-style prefix square */}
-                    <span
-                      className="w-3.5 h-3.5 flex-shrink-0 rounded-sm border flex items-center justify-center"
-                      style={{
-                        borderColor: isActive
-                          ? "rgba(255,255,255,0.55)"
-                          : "rgba(255,255,255,0.28)",
-                        background: isActive
-                          ? "rgba(255,255,255,0.12)"
-                          : "transparent",
-                      }}
-                    >
-                      {isActive && (
-                        <span
-                          className="w-1.5 h-1.5 rounded-[1px]"
-                          style={{ background: "#fff" }}
-                        />
-                      )}
-                    </span>
                     <Icon
                       className="w-3.5 h-3.5 flex-shrink-0"
                       style={{ opacity: isActive ? 0.9 : 0.55 }}
