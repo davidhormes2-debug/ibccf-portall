@@ -6,6 +6,10 @@ import {
   Clock, Shield, Zap, LightbulbIcon
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import {
+  CANONICAL_CASE_STAGE_COUNT,
+  toCanonicalCaseStage,
+} from "@shared/canonicalWorkflow";
 
 interface AIInsight {
   type: 'progress' | 'action' | 'tip' | 'alert';
@@ -33,7 +37,7 @@ export function AIInsightsCard({
 
   const generateInsights = (): AIInsight[] => {
     const insights: AIInsight[] = [];
-    const stage = parseInt(withdrawalStage || '1');
+    const stage = toCanonicalCaseStage(withdrawalStage);
 
     if (hasRequirements) {
       insights.push({
@@ -48,7 +52,7 @@ export function AIInsightsCard({
       insights.push({
         type: 'progress',
         title: 'Good Progress',
-        description: `Your case is at stage ${stage} of 14. You're making great progress toward resolution.`,
+        description: `Your case is at stage ${stage} of ${CANONICAL_CASE_STAGE_COUNT}. You're making great progress toward resolution.`,
         priority: 'medium'
       });
     }
@@ -219,7 +223,8 @@ export function QuickStatsCard({
   submissionsCount: number;
   receiptsCount: number;
 }) {
-  const progressPercent = Math.round((Math.max(0, stage - 1) / 14) * 100);
+  const safeStage = toCanonicalCaseStage(stage);
+  const progressPercent = Math.round((Math.max(0, safeStage - 1) / CANONICAL_CASE_STAGE_COUNT) * 100);
   
   return (
     <motion.div 
@@ -250,7 +255,7 @@ export function QuickStatsCard({
   );
 }
 
-export function CaseProgressRing({ stage, totalStages = 14 }: { stage: number; totalStages?: number }) {
+export function CaseProgressRing({ stage, totalStages = CANONICAL_CASE_STAGE_COUNT }: { stage: number; totalStages?: number }) {
   const progressPercent = Math.round(((stage - 1) / totalStages) * 100);
   const circumference = 2 * Math.PI * 45;
   const strokeDashoffset = circumference - (progressPercent / 100) * circumference;
