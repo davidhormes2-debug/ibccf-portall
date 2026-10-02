@@ -406,7 +406,7 @@ export function PortalShell({ children }: PortalShellProps) {
         currentCase?.maxStageReached ?? 0,
       );
       const isSealed = !!currentCase?.sealedAt;
-      const eligible = stage >= 14 || isSealed;
+      const eligible = stage >= 10 || isSealed;
       if (!eligible) return [] as NavItem[];
       return [{
         id: "sealed",
@@ -429,7 +429,7 @@ export function PortalShell({ children }: PortalShellProps) {
         parseInt(currentCase?.withdrawalStage || "0", 10),
         currentCase?.maxStageReached ?? 0,
       );
-      if (!Number.isFinite(stage) || stage < 14) return [] as NavItem[];
+      if (!Number.isFinite(stage) || stage < 10) return [] as NavItem[];
       const activationStatus = currentCase?.withdrawalActivationStatus;
       const isApproved = activationStatus === 'approved';
       const isAwaitingAdmin = activationStatus === 'awaiting_admin_approval';
