@@ -44,7 +44,7 @@ prunePayoutWalletHistory();
 // localStorage so the invariant holds on every fresh page load.
 pruneStageHistory();
 
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark' | 'black';
 
 interface ThemeContextType {
   theme: Theme;
@@ -65,16 +65,22 @@ export function useTheme() {
 function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('theme') as Theme;
-      if (stored) return stored;
+      const stored = localStorage.getItem('theme');
+      if (stored === 'light' || stored === 'dark' || stored === 'black') return stored;
     }
     return 'light';
   });
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
+    root.classList.remove('light', 'dark', 'black');
+    // Black mode also carries the dark class so every existing dark: utility
+    // remains readable while the CSS variables switch to true-black surfaces.
+    if (theme === 'black') {
+      root.classList.add('dark', 'black');
+    } else {
+      root.classList.add(theme);
+    }
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -83,7 +89,7 @@ function ThemeProvider({ children }: { children: ReactNode }) {
   };
 
   const toggleTheme = () => {
-    setThemeState(prev => prev === 'dark' ? 'light' : 'dark');
+    setThemeState(prev => prev === 'light' ? 'dark' : prev === 'dark' ? 'black' : 'light');
   };
 
   return (
