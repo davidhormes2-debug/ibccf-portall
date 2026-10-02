@@ -617,7 +617,7 @@ export default function AdminDashboard() {
   const VALID_ADMIN_SECTIONS = new Set<string>([
     "cases", "submissions", "key-requests", "visitors",
     "conversations", "communications", "content", "community",
-    "documents", "supporting-documents", "receipts", "analytics", "settings",
+    "documents", "receipts", "analytics", "settings",
   ]);
   const [activeTab, setActiveTab] = useState<string>(() => {
     try {
@@ -7074,7 +7074,7 @@ export default function AdminDashboard() {
               pendingDocCount={pendingDocCount}
               onPendingDocBadgeClick={() => setActiveTab("documents")}
               supportingDocPendingCount={supportingDocPendingCount}
-              onSupportingDocBadgeClick={() => setActiveTab("supporting-docs")}
+              onSupportingDocBadgeClick={() => setActiveTab("documents")}
               withdrawalPendingCount={withdrawalPendingCount}
               onWithdrawalBadgeClick={() => {
                 setWithdrawalPendingOnly(true);
@@ -7167,15 +7167,30 @@ export default function AdminDashboard() {
             </ErrorBoundary>
           </TabsContent>
 
-          <TabsContent value="documents">
-            <ErrorBoundary fallback={<AdminTabFallback label="Documents" />}>
-              <DocumentsTab />
-            </ErrorBoundary>
-          </TabsContent>
+          <TabsContent value="documents" className="space-y-6">
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5 sm:p-6">
+              <div className="mb-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-400">Compliance workspace</p>
+                <h2 className="mt-1 text-xl font-semibold text-white">Document Center</h2>
+                <p className="mt-1 text-sm text-slate-400">
+                  Requests, submitted case documents and supporting uploads are reviewed from one place.
+                </p>
+              </div>
+              <ErrorBoundary fallback={<AdminTabFallback label="Document Requests" />}>
+                <DocumentsTab />
+              </ErrorBoundary>
+            </div>
 
-          <TabsContent value="supporting-docs">
-            <ErrorBoundary fallback={<AdminTabFallback label="Supporting Documents" />}>
-              <SupportingDocumentsTab
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5 sm:p-6">
+              <div className="mb-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-400">User uploads</p>
+                <h3 className="mt-1 text-lg font-semibold text-white">Supporting Documents</h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  Review new files, approve or reject them, and open the related case without leaving the Document Center.
+                </p>
+              </div>
+              <ErrorBoundary fallback={<AdminTabFallback label="Supporting Documents" />}>
+                <SupportingDocumentsTab
                 onOpenCase={async (caseId) => {
                   const cached = cases.find((c) => c.id === caseId || c.accessCode === caseId);
                   if (cached) {
@@ -7198,8 +7213,10 @@ export default function AdminDashboard() {
                   }
                 }}
               />
-            </ErrorBoundary>
+              </ErrorBoundary>
+            </div>
           </TabsContent>
+
 
           <TabsContent value="receipts">
             <ErrorBoundary fallback={<AdminTabFallback label="All Receipts" />}>
