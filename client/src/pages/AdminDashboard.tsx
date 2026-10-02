@@ -7080,7 +7080,6 @@ export default function AdminDashboard() {
               pendingDocCount={pendingDocCount}
               onPendingDocBadgeClick={() => setActiveTab("documents")}
               supportingDocPendingCount={supportingDocPendingCount}
-              onSupportingDocBadgeClick={() => setActiveTab("documents")}
               withdrawalPendingCount={withdrawalPendingCount}
               onWithdrawalBadgeClick={() => {
                 setWithdrawalPendingOnly(true);
