@@ -20,9 +20,8 @@ export function Scene5() {
   }, []);
 
   const stages = [
-    { num: 12, by: "admin", icon: <ShieldCheck className="w-[1.5vw] h-[1.5vw]" /> },
-    { num: 14, by: "user", icon: <User className="w-[1.5vw] h-[1.5vw]" /> },
-    { num: 13, by: "user", icon: <CheckCircle2 className="w-[1.5vw] h-[1.5vw]" /> }
+    { num: 9, by: "admin", icon: <ShieldCheck className="w-[1.5vw] h-[1.5vw]" /> },
+    { num: 10, by: "complete", icon: <CheckCircle2 className="w-[1.5vw] h-[1.5vw]" /> }
   ].map((stage, idx) => ({ ...stage, title: phase4.stages[idx] }));
 
   return (
@@ -73,34 +72,34 @@ export function Scene5() {
               animate={phase >= 3 + idx ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               className={`glass-panel p-5 rounded-2xl flex items-center gap-6 relative overflow-hidden ${
-                stage.num === 13 ? 'border-brand-gold bg-brand-gold/10' : ''
+                stage.num === 10 ? 'border-brand-gold bg-brand-gold/10' : ''
               }`}
             >
               <div className={`absolute left-0 top-0 bottom-0 w-2 ${
-                stage.num === 13 ? 'bg-brand-gold' :
+                stage.num === 10 ? 'bg-brand-gold' :
                 stage.by === 'user' ? 'bg-user-action' :
                 stage.by === 'admin' ? 'bg-admin-action' : 'bg-system'
               }`} />
               
               <div className={`w-[3vw] h-[3vw] flex items-center justify-center rounded-full font-mono text-[1.2vw] ${
-                stage.num === 13 ? 'bg-brand-gold text-bg-darker' : 'bg-white/5 text-text-muted'
+                stage.num === 10 ? 'bg-brand-gold text-bg-darker' : 'bg-white/5 text-text-muted'
               }`}>
                 {stage.num}
               </div>
               
               <div className="flex-1">
-                <h3 className={`text-[1.4vw] font-semibold ${stage.num === 13 ? 'text-brand-gold' : ''}`}>
+                <h3 className={`text-[1.4vw] font-semibold ${stage.num === 10 ? 'text-brand-gold' : ''}`}>
                   {stage.title}
                 </h3>
                 <div className={`flex items-center gap-2 mt-1 text-[1vw] uppercase tracking-wider font-bold ${
-                  stage.num === 13 ? 'text-brand-gold' :
+                  stage.num === 10 ? 'text-brand-gold' :
                   stage.by === 'user' ? 'text-user-action' :
                   stage.by === 'admin' ? 'text-admin-action' : 'text-system'
                 }`}>
                   {stage.icon}
-                  {stage.num === 13 ? roles.complete :
+                  {stage.num === 10 ? roles.complete :
                    stage.by === 'user' ? roles.user :
-                   stage.by === 'admin' ? roles.admin : roles.system}
+                   stage.by === 'admin' ? roles.admin : stage.by === 'complete' ? roles.complete : roles.system}
                 </div>
               </div>
             </motion.div>
