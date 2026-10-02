@@ -282,7 +282,7 @@ export function registerCaseWithdrawalRoutes(router: Router): void {
           });
           return;
         }
-        // Final-stage Withdrawal Activation gate: ONLY at stage 14 (the
+        // Final-step Withdrawal Activation gate: only at canonical step 10 (the
         // final stage where the activation flow is exposed). For earlier
         // stages the activation status is irrelevant — it defaults to
         // `pending_address` and would otherwise block every legitimate
@@ -290,7 +290,7 @@ export function registerCaseWithdrawalRoutes(router: Router): void {
         const stageNum = Number(caseRow.withdrawalStage ?? 0);
         if (
           Number.isFinite(stageNum) &&
-          stageNum >= 14 &&
+          stageNum >= 10 &&
           caseRow.withdrawalActivationStatus !== 'approved'
         ) {
           res.status(403).json({
@@ -358,12 +358,12 @@ export function registerCaseWithdrawalRoutes(router: Router): void {
         // Task #775 — auto-advance the withdrawal stage by one on submit.
         // Only fires for a valid in-flight stage (1–13): a null/0 stage is
         // left untouched (we never invent a stage where there wasn't one),
-        // and an already-final stage (14) is the cap and never moves. The
+        // and an already-final step (10) is the cap and never moves. The
         // stage is stored as text (`cases.withdrawal_stage`, constrained to
-        // 1–14 or NULL) so we round-trip through Number/String.
+        // 1–10 or legacy value) so we round-trip through Number/String.
         const curStage = parseInt(caseRow.withdrawalStage ?? '', 10);
         const nextStage =
-          Number.isFinite(curStage) && curStage >= 1 && curStage < 14
+          Number.isFinite(curStage) && curStage >= 1 && curStage < 10
             ? curStage + 1
             : null;
 
