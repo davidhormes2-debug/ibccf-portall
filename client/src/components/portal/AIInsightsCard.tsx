@@ -52,7 +52,7 @@ export function AIInsightsCard({
       insights.push({
         type: 'progress',
         title: 'Good Progress',
-        description: `Your case is at stage ${stage} of ${CANONICAL_CASE_STAGE_COUNT}. You're making great progress toward resolution.`,
+        description: `Your case is at step ${stage} of ${CANONICAL_CASE_STAGE_COUNT}. Review the portal for the next required action.`,
         priority: 'medium'
       });
     }
@@ -61,7 +61,7 @@ export function AIInsightsCard({
       insights.push({
         type: 'action',
         title: 'Complete Your Submission',
-        description: 'Review and submit your withdrawal letter to proceed with your case.',
+        description: 'Review your case workspace and complete any outstanding submission requested for your current step.',
         priority: 'medium'
       });
     }
@@ -72,15 +72,6 @@ export function AIInsightsCard({
       description: 'Keep your documents organized and respond promptly to requests for faster processing.',
       priority: 'low'
     });
-
-    if (stage >= 5) {
-      insights.push({
-        type: 'progress',
-        title: 'Nearing Completion',
-        description: 'Your case is in advanced stages. Most cases at this point are resolved within 2 weeks.',
-        priority: 'medium'
-      });
-    }
 
     return insights;
   };
@@ -224,7 +215,7 @@ export function QuickStatsCard({
   receiptsCount: number;
 }) {
   const safeStage = toCanonicalCaseStage(stage);
-  const progressPercent = Math.round((Math.max(0, safeStage - 1) / CANONICAL_CASE_STAGE_COUNT) * 100);
+  const progressPercent = Math.round((safeStage / CANONICAL_CASE_STAGE_COUNT) * 100);
   
   return (
     <motion.div 
@@ -256,7 +247,7 @@ export function QuickStatsCard({
 }
 
 export function CaseProgressRing({ stage, totalStages = CANONICAL_CASE_STAGE_COUNT }: { stage: number; totalStages?: number }) {
-  const progressPercent = Math.round(((stage - 1) / totalStages) * 100);
+  const progressPercent = Math.round((toCanonicalCaseStage(stage) / totalStages) * 100);
   const circumference = 2 * Math.PI * 45;
   const strokeDashoffset = circumference - (progressPercent / 100) * circumference;
 
