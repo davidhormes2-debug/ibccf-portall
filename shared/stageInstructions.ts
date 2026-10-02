@@ -347,11 +347,11 @@ export function getStageInstruction(stageNumber: number): StageInstruction {
 // other stages return an empty array (the card hides itself when empty).
 // =============================================================================
 export const STAGE_RECOMMENDED_DOCUMENTS: Record<number, string[]> = {
-  1: ["kyc_id", "proof_of_income"],
-  3: ["source_of_funds", "bank_statement"],
-  6: ["fatca_crs", "tax_return"],
+  2: ["proof_of_income", "source_of_funds"],
+  5: ["kyc_id"],
+  6: ["source_of_funds", "bank_statement", "fatca_crs", "tax_return"],
+  7: ["wallet_ownership_proof"],
   9: ["aml_screening", "beneficial_ownership"],
-  12: ["wallet_ownership_proof"],
 };
 
 export function getRecommendedDocumentsForStage(stage: number): string[] {
