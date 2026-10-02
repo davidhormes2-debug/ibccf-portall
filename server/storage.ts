@@ -1656,7 +1656,7 @@ export class DatabaseStorage implements IStorage {
       );
     for (const r of ceRows) {
       if (!r.caseId) continue;
-      const tag = /^Stage\s+\d+\s+of\s+14\b/i.test(r.subject ?? "")
+      const tag = /^(?:Step\s+\d+\s+of\s+10|Stage\s+\d+\s+of\s+14)\b/i.test(r.subject ?? "")
         ? "stage_instructions"
         : "custom";
       const at = (r.sentAt ?? r.createdAt) ?? new Date();
