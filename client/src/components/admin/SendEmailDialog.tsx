@@ -8,7 +8,10 @@ import { Label } from "@/components/ui/label";
 import { RefreshCw, Send, ChevronDown, ChevronRight, Zap } from "lucide-react";
 import type { Case } from "@/components/admin/shared";
 import { QUICK_SEND_TEMPLATES, STAGE_SHORT_LABELS } from "@/lib/adminEmailTemplates";
-import { getStageInstruction } from "@shared/stageInstructions";
+import {
+  getCanonicalWorkflowEmailDetail,
+  toCanonicalCaseStage,
+} from "@shared/canonicalWorkflow";
 
 interface SendEmailDialogProps {
   open: boolean;
@@ -37,14 +40,14 @@ export function SendEmailDialog({
   const [templatesExpanded, setTemplatesExpanded] = useState(true);
 
   const stageNum = selectedCase?.withdrawalStage
-    ? parseInt(selectedCase.withdrawalStage, 10)
+    ? toCanonicalCaseStage(selectedCase.withdrawalStage)
     : null;
   const stageName =
     stageNum && !isNaN(stageNum) && STAGE_SHORT_LABELS[stageNum]
       ? STAGE_SHORT_LABELS[stageNum]
       : null;
-  const stageLabel = stageNum && stageName ? `Stage ${stageNum} — ${stageName}` : null;
-  const stageInstruction = stageNum && !isNaN(stageNum) ? getStageInstruction(stageNum) : null;
+  const stageLabel = stageNum && stageName ? `Step ${stageNum} — ${stageName}` : null;
+  const stageInstruction = stageNum ? getCanonicalWorkflowEmailDetail(stageNum) : null;
 
   const applyTemplate = (templateId: string) => {
     const tpl = QUICK_SEND_TEMPLATES.find((t) => t.id === templateId);
@@ -88,7 +91,7 @@ export function SendEmailDialog({
             </button>
             {templatesExpanded && (
               <div className="px-3 pb-3 pt-1 space-y-2.5">
-                {/* Current stage context */}
+                {/* Current workflow step context */}
                 {stageLabel ? (
                   <div className="rounded-md border border-slate-700/50 bg-slate-800/40 px-3 py-2 space-y-0.5">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
@@ -103,7 +106,7 @@ export function SendEmailDialog({
                   </div>
                 ) : (
                   <p className="text-[11px] text-slate-500">
-                    No withdrawal stage set — templates will use a generic stage reference.
+                    No workflow step is set — templates will use a generic case reference.
                   </p>
                 )}
                 <p className="text-[11px] text-slate-500">
