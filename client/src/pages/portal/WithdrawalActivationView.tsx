@@ -205,7 +205,7 @@ export function WithdrawalActivationView() {
   }
 
   const stage = parseInt(currentCase.withdrawalStage || '0', 10);
-  if (!Number.isFinite(stage) || stage < 14) {
+  if (!Number.isFinite(stage) || stage < 10) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center text-blue-200">
         <ShieldCheck className="w-12 h-12 mx-auto mb-4 opacity-60" />
@@ -367,7 +367,7 @@ export function WithdrawalActivationView() {
         r.readAsDataURL(file);
       });
       // Sealed-safe activation receipt endpoint — bypasses the requireUnsealed
-      // guard on /:id/deposit-receipts so stage-14 sealed cases can still
+      // guard on /:id/deposit-receipts so step-10 sealed cases can still
       // complete activation.
       const { res: linkRes, body: linkBody } = await authedJson(
         `/api/cases/${caseId}/withdrawal-activation/receipt-upload`,
