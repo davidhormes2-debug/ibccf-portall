@@ -77,7 +77,7 @@ export default function WithdrawalGuidePage() {
             Withdrawal Guide
           </h1>
           <p className="mx-auto max-w-xl text-base text-slate-400 leading-relaxed">
-            A step-by-step animated walkthrough of all&nbsp;14 withdrawal stages. Watch
+            A step-by-step animated walkthrough of the 10-step case workflow. Watch
             online or download for offline reference — available in your language.
           </p>
         </div>
@@ -226,8 +226,8 @@ export default function WithdrawalGuidePage() {
         <div className="mt-12 grid gap-4 sm:grid-cols-3">
           {[
             {
-              title: "14 Stages",
-              body: "Every phase of the withdrawal process is explained clearly, from case submission to final settlement.",
+              title: "10 Steps",
+              body: "Every phase of the case workflow is explained clearly, from signup through sequence recovery.",
             },
             {
               title: "Localized",
