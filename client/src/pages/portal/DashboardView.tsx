@@ -65,6 +65,11 @@ import {
   markWithdrawalRequestBannerSeen,
 } from "@/lib/withdrawalRequestHistory";
 import { getIsWithdrawalMode } from "@/lib/withdrawalMode";
+import {
+  CANONICAL_CASE_WORKFLOW,
+  CANONICAL_CASE_STAGE_COUNT,
+  toCanonicalCaseStage,
+} from "@shared/canonicalWorkflow";
 
 interface CardConfig {
   id: string;
@@ -360,8 +365,12 @@ export function DashboardView() {
                   <span className="text-sky-300 font-medium">{t("dashboard.header.fullyRegulated")}</span>
                 </span>
               ) : (
-                <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" /> {t("dashboard.header.verified")}
+                <span
+                  className="inline-flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-2.5 py-1 text-sky-200 font-semibold"
+                  data-testid="badge-verified"
+                >
+                  <ShieldCheck className="w-4 h-4 text-sky-400" />
+                  {t("dashboard.header.verified")}
                 </span>
               )}
               <span className="font-mono text-xs">IBCCF-{currentCase?.accessCode}</span>
@@ -967,29 +976,10 @@ function ReactivationWelcomeBanner({ currentCase }: { currentCase: Case }) {
 
 function WithdrawalProgressTracker({ currentCase }: { currentCase: Case }) {
   const { t } = useTranslation("portal");
-  const stages = [
-    { id: 1, label: t("dashboard.tracker.stages.1.label"), icon: "💰", description: t("dashboard.tracker.stages.1.description") },
-    { id: 2, label: t("dashboard.tracker.stages.2.label"), icon: "⚙️", description: t("dashboard.tracker.stages.2.description") },
-    { id: 3, label: t("dashboard.tracker.stages.3.label"), icon: "🔐", description: t("dashboard.tracker.stages.3.description") },
-    { id: 4, label: t("dashboard.tracker.stages.4.label"), icon: "🚀", description: t("dashboard.tracker.stages.4.description") },
-    { id: 5, label: t("dashboard.tracker.stages.5.label"), icon: "✅", description: t("dashboard.tracker.stages.5.description") },
-    { id: 6, label: t("dashboard.tracker.stages.6.label"), icon: "🔑", description: t("dashboard.tracker.stages.6.description") },
-    { id: 7, label: t("dashboard.tracker.stages.7.label"), icon: "📊", description: currentCase?.phraseKeyMergeDeposit ? t("dashboard.tracker.stages.7.descriptionWithAmount", { amount: currentCase.phraseKeyMergeDeposit }) : t("dashboard.tracker.stages.7.descriptionAwaiting") },
-    { id: 8, label: t("dashboard.tracker.stages.8.label"), icon: "🏦", description: t("dashboard.tracker.stages.8.description") },
-    { id: 9, label: t("dashboard.tracker.stages.9.label"), icon: "⛏️", description: t("dashboard.tracker.stages.9.description") },
-    { id: 10, label: t("dashboard.tracker.stages.10.label"), icon: "🔗", description: currentCase?.activityWalletRequirement ? t("dashboard.tracker.stages.10.descriptionWithAmount", { amount: currentCase.activityWalletRequirement }) : t("dashboard.tracker.stages.10.descriptionAwaiting") },
-    { id: 11, label: t("dashboard.tracker.stages.11.label"), icon: "🏛️", description: t("dashboard.tracker.stages.11.description") },
-    { id: 12, label: t("dashboard.tracker.stages.12.label"), icon: "📋", description: t("dashboard.tracker.stages.12.description") },
-    { id: 13, label: t("dashboard.tracker.stages.13.label"), icon: "🎉", description: t("dashboard.tracker.stages.13.description") },
-    { id: 14, label: t("dashboard.tracker.stages.14.label"), icon: "⏰", description: t("dashboard.tracker.stages.14.description") },
-  ];
-
+  const stages = CANONICAL_CASE_WORKFLOW;
   const isWithdrawalMode = getIsWithdrawalMode(currentCase);
-  const TOTAL_STAGES = stages.length;
-  const parsedStage = parseInt(currentCase?.withdrawalStage || "1", 10);
-  const currentStage = Number.isFinite(parsedStage)
-    ? Math.min(Math.max(parsedStage, 1), TOTAL_STAGES)
-    : 1;
+  const TOTAL_STAGES = CANONICAL_CASE_STAGE_COUNT;
+  const currentStage = toCanonicalCaseStage(currentCase?.withdrawalStage);
   const progressPercent = isWithdrawalMode
     ? 100
     : Math.min(100, Math.round((currentStage / TOTAL_STAGES) * 100));
@@ -1029,13 +1019,10 @@ function WithdrawalProgressTracker({ currentCase }: { currentCase: Case }) {
             </div>
           </div>
 
-          {/* Per-stage step row — every one of the 14 stages renders with a
-              visual state: completed (emerald check), current (classification
-              colour matching whether the stage is blocked on the user, the
-              compliance team, or system processing), or upcoming (muted). */}
+          {/* Canonical case workflow — one source of truth, ten steps only. */}
           <div
             className="grid gap-1.5"
-            style={{ gridTemplateColumns: "repeat(14, minmax(0, 1fr))" }}
+            style={{ gridTemplateColumns: `repeat(${TOTAL_STAGES}, minmax(0, 1fr))` }}
             role="list"
             aria-label={t("dashboard.tracker.ariaLabel", { stage: currentStage })}
             data-testid="stages-stepper"
@@ -1225,63 +1212,11 @@ function WithdrawalProgressTracker({ currentCase }: { currentCase: Case }) {
             );
           })()}
 
-          {!isWithdrawalMode && currentStage === 7 && currentCase?.phraseKeyMergeDeposit && (
-            <div className="p-4 rounded-xl flex items-start gap-3" style={{ background: "rgba(168,85,247,0.12)", border: "1px solid rgba(168,85,247,0.3)" }}>
-              <div className="w-12 h-12 bg-purple-600/30 rounded-full flex items-center justify-center shrink-0"><Key className="w-6 h-6 text-purple-400" /></div>
-              <div>
-                <h4 className="font-bold text-purple-300">{t("dashboard.tracker.stage7Notice.title")}</h4>
-                <p className="text-purple-400/80 text-sm mt-1">{t("dashboard.tracker.stage7Notice.body")}</p>
-                <p className="text-2xl font-bold text-purple-300 mt-2">
-                  {currentCase.phraseKeyMergeDeposit} <span className="text-base font-normal">{currentCase.depositAsset?.trim() || "USDT"}</span>
-                  <LocalizedAmount value={currentCase.phraseKeyMergeDeposit} estimateClassName="text-sm font-normal text-purple-200/80 ml-2" showEstimate={true} estimateOnly={true} />
-                </p>
-              </div>
-            </div>
-          )}
+          
 
-          {!isWithdrawalMode && currentStage === 12 && (
-            <div
-              className="p-4 rounded-xl flex items-start gap-3"
-              style={{ background: "rgba(16,185,129,0.10)", border: "1px solid rgba(16,185,129,0.35)" }}
-              data-testid="stage-12-payout-wallet-confirmation"
-            >
-              <div className="w-12 h-12 bg-emerald-600/25 rounded-full flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-6 h-6 text-emerald-300" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-emerald-200">{t("dashboard.tracker.stage12Notice.title")}</h4>
-                <p className="text-emerald-100/80 text-sm mt-1">
-                  {t("dashboard.tracker.stage12Notice.body")}
-                </p>
-                {(currentCase?.payoutWalletAddress || "").trim() ? (
-                  <code
-                    className="mt-2 block text-emerald-200 text-xs font-mono break-all"
-                    data-testid="stage-12-payout-wallet-address"
-                  >
-                    {currentCase.payoutWalletAddress}
-                  </code>
-                ) : (
-                  <p className="mt-2 text-amber-300 text-xs font-semibold">
-                    {t("dashboard.tracker.stage12Notice.awaiting")}
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
+          
 
-          {!isWithdrawalMode && currentStage === 10 && currentCase?.activityWalletRequirement && (
-            <div className="p-4 rounded-xl flex items-start gap-3" style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.3)" }}>
-              <div className="w-12 h-12 bg-amber-600/30 rounded-full flex items-center justify-center shrink-0"><Wallet className="w-6 h-6 text-amber-400" /></div>
-              <div>
-                <h4 className="font-bold text-amber-300">{t("dashboard.tracker.stage10Notice.title")}</h4>
-                <p className="text-amber-400/80 text-sm mt-1">{t("dashboard.tracker.stage10Notice.body", { asset: currentCase.depositAsset?.trim() || "USDT" })}</p>
-                <p className="text-2xl font-bold text-amber-300 mt-2">
-                  {currentCase.activityWalletRequirement} <span className="text-base font-normal">{currentCase.depositAsset?.trim() || "USDT"}</span>
-                  <LocalizedAmount value={currentCase.activityWalletRequirement} estimateClassName="text-sm font-normal text-amber-200/80 ml-2" showEstimate={true} estimateOnly={true} />
-                </p>
-              </div>
-            </div>
-          )}
+          
         </div>
       </div>
     </motion.div>
