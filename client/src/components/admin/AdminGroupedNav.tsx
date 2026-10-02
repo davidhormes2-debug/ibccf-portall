@@ -16,7 +16,6 @@ import {
   Stamp,
   Scale,
   CreditCard,
-  Upload,
   Search,
   X,
   Wallet,
@@ -58,7 +57,6 @@ export function AdminGroupedNav(props: {
   pendingDocCount: number;
   onPendingDocBadgeClick: () => void;
   supportingDocPendingCount: number;
-  onSupportingDocBadgeClick: () => void;
   withdrawalPendingCount: number;
   onWithdrawalBadgeClick: () => void;
   refundClaimPendingCount: number;
@@ -76,8 +74,7 @@ export function AdminGroupedNav(props: {
     pendingDocCount,
     onPendingDocBadgeClick,
     supportingDocPendingCount,
-    onSupportingDocBadgeClick,
-    withdrawalPendingCount,
+      withdrawalPendingCount,
     onWithdrawalBadgeClick,
     refundClaimPendingCount,
     onRefundClaimBadgeClick,
